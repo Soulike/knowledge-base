@@ -51,6 +51,8 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
+  .github/scripts/plugin-version: {}
+
   .github/scripts/smoke-plugin-install: {}
 
 packages:

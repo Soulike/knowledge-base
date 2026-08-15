@@ -17,20 +17,46 @@ jobs:
     name: Tooling
     uses: ./.github/workflows/tooling-checks.yml
 
+  plugin-version:
+    name: Plugin version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out pull request head
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: Set up latest Node.js LTS
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+          check-latest: true
+
+      - name: Check primary plugin version
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node .github/scripts/plugin-version/check.ts "$BASE_SHA" "$HEAD_SHA"
+
   required:
     name: CI
     if: ${{ always() }}
     needs:
       - plugin-install
+      - plugin-version
       - tooling
     runs-on: ubuntu-latest
     steps:
       - name: Verify required workflows succeeded
         env:
           PLUGIN_INSTALL_RESULT: ${{ needs.plugin-install.result }}
+          PLUGIN_VERSION_RESULT: ${{ needs.plugin-version.result }}
           TOOLING_RESULT: ${{ needs.tooling.result }}
         run: |
           printf 'Plugin installation: %s\n' "$PLUGIN_INSTALL_RESULT"
+          printf 'Plugin version: %s\n' "$PLUGIN_VERSION_RESULT"
           printf 'Tooling: %s\n' "$TOOLING_RESULT"
           test "$PLUGIN_INSTALL_RESULT" = success
+          test "$PLUGIN_VERSION_RESULT" = success
           test "$TOOLING_RESULT" = success

@@ -29,12 +29,17 @@ Classify the material before choosing its destination.
    workflow.
 6. For mixed material, finish the Knowledge branch first so the Skill can
    reference the final canonical paths.
-7. Review the combined result and report the classification, changed paths,
-   and validation performed.
+7. When the final diff changes root `knowledge/**` or `skills/**`, follow
+   [`references/update-plugin-version.md`](references/update-plugin-version.md)
+   after the content stabilizes.
+8. Review the combined result and report the classification, changed paths,
+   generated primary-plugin version when applicable, and validation performed.
 
 ## Completion criteria
 
 Finish only when every part of the input has been classified, every accepted
 part has one authoritative home, the root Knowledge index and all references
 resolve, every user-facing part preserves downstream-project independence, and
-the resulting diff preserves the Knowledge-versus-Skill boundary.
+the resulting diff preserves the Knowledge-versus-Skill boundary. When root
+Knowledge or usage Skills changed, also require the PR-scoped primary-plugin
+version and its validation to be current.

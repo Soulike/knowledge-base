@@ -13,6 +13,7 @@
     "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts knowledge",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
+    "plugin-version:update": "node .github/scripts/plugin-version/update.ts",
     "prepare": "husky",
     "test": "pnpm --recursive --if-present test",
     "typecheck": "pnpm --recursive --if-present typecheck"

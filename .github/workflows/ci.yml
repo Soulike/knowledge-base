@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-install:
+    name: Plugin installation
+    uses: ./.github/workflows/plugin-install-smoke.yml
+
+  tooling:
+    name: Tooling
+    uses: ./.github/workflows/tooling-checks.yml
+
+  required:
+    name: CI
+    if: ${{ always() }}
+    needs:
+      - plugin-install
+      - tooling
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required workflows succeeded
+        env:
+          PLUGIN_INSTALL_RESULT: ${{ needs.plugin-install.result }}
+          TOOLING_RESULT: ${{ needs.tooling.result }}
+        run: |
+          printf 'Plugin installation: %s\n' "$PLUGIN_INSTALL_RESULT"
+          printf 'Tooling: %s\n' "$TOOLING_RESULT"
+          test "$PLUGIN_INSTALL_RESULT" = success
+          test "$TOOLING_RESULT" = success

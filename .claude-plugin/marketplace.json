@@ -6,8 +6,12 @@
   },
   "metadata": {
     "description": "Personal AI knowledge base.",
-    "version": "0.1.0",
-    "pluginRoot": "./plugins"
+    "version": "0.1.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "knowledge-base",
+      "source": "./"
+    }
+  ]
 }

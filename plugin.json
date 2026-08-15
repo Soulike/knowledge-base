@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "knowledge-base",
+  "version": "0.1.0",
+  "description": "A personal knowledge base with reusable Agent workflows."
+}

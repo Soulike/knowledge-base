@@ -1,0 +1,4 @@
+interface:
+  display_name: "Retry via Local Proxy"
+  short_description: "Retry failed fetches through local proxies"
+  default_prompt: "Use $retry-via-local-proxy to retry this failed read-only network fetch through a detected local proxy."

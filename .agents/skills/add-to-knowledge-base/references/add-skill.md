@@ -7,7 +7,13 @@
      after the `knowledge-base` plugin is installed.
    - Put an independent plugin's usage workflows inside that plugin's own
      `skills/` directory.
-2. Before adding or changing a repository-authoring or primary-plugin Skill,
+2. Test every usage workflow against an unknown downstream project. Discover
+   project paths, layouts, domain rules, organization policies, and
+   infrastructure from the Agent's active working directory rather than
+   hard-coding a particular project. Product, platform, protocol, and
+   engineering-domain specificity are valid. Return workflows that cannot be
+   made independent of their source project to the parent as neither.
+3. Before adding or changing a repository-authoring or primary-plugin Skill,
    read [`knowledge/index.md`](../../../../knowledge/index.md). Compare the
    workflow's decisions and required inputs with every `When to Read`
    condition, read every matching leaf document, and search `knowledge/` for
@@ -15,19 +21,19 @@
    Knowledge rather than reproducing it. If required reusable Knowledge is
    missing, return that material to the parent workflow as mixed and complete
    the Knowledge branch first.
-3. Search the selected Skill scope for an existing workflow with the same
+4. Search the selected Skill scope for an existing workflow with the same
    responsibility. Extend the existing Skill when it already owns the task.
-4. For a new Skill, use a lowercase hyphenated, verb-led directory name that
+5. For a new Skill, use a lowercase hyphenated, verb-led directory name that
    matches its frontmatter `name`. Write a `description` that states both the
    capability and the concrete trigger branches.
-5. Keep the body procedural and imperative. Move branch-specific detail into
+6. Keep the body procedural and imperative. Move branch-specific detail into
    `references/` when progressive disclosure keeps the main workflow focused.
-6. For every usage Skill that applies Knowledge, encode working-directory
+7. For every usage Skill that applies Knowledge, encode working-directory
    precedence: treat shared Knowledge as supplemental guidance and follow
    instructions, Skills, requirements, and project-specific information from
    the Agent's active working directory when they conflict with shared
    Knowledge.
-7. Keep ordinary usage Skills valid after installation: reference only files
+8. Keep ordinary usage Skills valid after installation: reference only files
    inside their plugin package and avoid dependencies on `.agents/`, repository
    tooling, or Skill-to-Skill invocation. A contribution Skill may use the
    primary manifest's canonical repository URL to create an isolated source
@@ -35,6 +41,7 @@
    checkout; it must not treat the installed plugin's `.agents/` or files as
    the authoring target. Keep independent plugins fully self-contained and do
    not reference root Knowledge.
-8. Validate the Skill frontmatter, referenced paths, repository formatting,
+9. Validate the Skill frontmatter, referenced paths, repository formatting,
    and relevant tests. Confirm that the Skill is in the scope selected in step
-   1 and has no duplicated source of truth.
+   1, preserves downstream-project independence when user-facing, and has no
+   duplicated source of truth.

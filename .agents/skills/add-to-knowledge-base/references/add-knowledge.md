@@ -5,19 +5,25 @@
    document Scopes and `When to Read` conditions for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
-3. Update an existing document when it already owns the concept. Create a new
+3. Confirm that each Knowledge part remains correct without access to its
+   source project. Remove dependencies on named downstream repositories, fixed
+   project paths or layouts, project domain models, organization policies, and
+   private infrastructure. Product, platform, protocol, and engineering-domain
+   specificity are valid. Return material whose meaning depends on its source
+   project to the parent workflow as neither.
+4. Update an existing document when it already owns the concept. Create a new
    document only for a distinct responsibility, placing it in a clear domain
    under `knowledge/` with the smallest useful document structure.
-4. Give every Markdown document under `knowledge/`, including the root index,
+5. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-5. Keep `knowledge/index.md` as the only index. Organize leaf documents in
+6. Keep `knowledge/index.md` as the only index. Organize leaf documents in
    domain directories, but list every leaf directly in the root index and do
    not create nested `index.md` files.
-6. Add or update exactly one root-index row for every affected leaf document
+7. Add or update exactly one root-index row for every affected leaf document
    using the fields below.
-7. Verify that every leaf document is listed exactly once, every changed
+8. Verify that every leaf document is listed exactly once, every changed
    relative link resolves, and each concept has one canonical owner.
-8. Run `pnpm knowledge:check` from the repository root.
+9. Run `pnpm knowledge:check` from the repository root.
 
 ## Knowledge document preface
 

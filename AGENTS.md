@@ -13,6 +13,15 @@ the static content under `knowledge/`, and **Skill** means an Agent workflow.
   this repository.
 - `skills/` contains workflows used after installing the primary plugin.
 
+Knowledge and installed usage Skills must preserve **downstream-project
+independence**. They may target a product, platform, protocol, or engineering
+domain, but must not require a particular downstream repository, path layout,
+domain model, organization policy, or private infrastructure. Generalize
+material extracted from a project only when it remains correct without that
+project; otherwise leave it in the source project. Repository-authoring Skills
+are outside this user-facing boundary; the narrow contribution exception is
+described below.
+
 ## Skill scopes
 
 Choose a Skill's location by its audience and lifecycle, not by its subject.

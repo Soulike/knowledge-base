@@ -9,6 +9,8 @@ Install the primary `knowledge-base` plugin and work normally. Its catalog Skill
 - **Knowledge** records reusable facts, concepts, principles, constraints, explanations, and references. [`knowledge/index.md`](knowledge/index.md) is its only routing catalog.
 - **Skills** tell an Agent when and how to perform a task. They may read canonical Knowledge instead of duplicating it.
 
+User-facing Knowledge and Skills are independent of any particular downstream project. They may target a general product, platform, protocol, or engineering domain, while discovering project-specific structure and requirements from the Agent's active working directory.
+
 The repository root is the primary plugin. Its Knowledge lives in `knowledge/`, and its portable Agent workflows live in `skills/`. Independent, self-contained plugins may also be added under `plugins/`.
 
 See [Knowledge and Skills](knowledge/agents/knowledge-and-skills.md) for the complete distinction.

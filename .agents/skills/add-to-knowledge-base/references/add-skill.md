@@ -16,10 +16,13 @@
    selected during classification instead of copying it into the Skill. Move
    branch-specific detail into `references/` when progressive disclosure keeps
    the main workflow focused.
-5. Keep usage Skills valid after installation: reference only files inside
-   their plugin package and avoid dependencies on `.agents/`, repository
-   tooling, or Skill-to-Skill invocation. Keep independent plugins fully
-   self-contained.
+5. Keep ordinary usage Skills valid after installation: reference only files
+   inside their plugin package and avoid dependencies on `.agents/`, repository
+   tooling, or Skill-to-Skill invocation. A contribution Skill may use the
+   primary manifest's canonical repository URL to create an isolated source
+   checkout and read authoring instructions from `.agents/` inside that
+   checkout; it must not treat the installed plugin's `.agents/` or files as
+   the authoring target. Keep independent plugins fully self-contained.
 6. Validate the Skill frontmatter, referenced paths, repository formatting,
    and relevant tests. Confirm that the Skill is in the scope selected in step
    1 and has no duplicated source of truth.

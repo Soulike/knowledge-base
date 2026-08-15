@@ -34,8 +34,14 @@ authoring workflow.
 
 Put primary-plugin usage Skills in `skills/<skill-name>/`. They are portable
 Agent-facing entry points that retrieve Knowledge or orchestrate tasks for a
-user of the installed plugin. They must remain useful without a source
-checkout, Git state, `.agents/`, or repository development tooling.
+user of the installed plugin. Ordinary usage Skills must remain useful without
+a source checkout, Git state, `.agents/`, or repository development tooling.
+
+A contribution Skill may read the primary manifest's `repository` field,
+create an isolated checkout of that canonical source repository, and then read
+the authoring instructions under `.agents/` in the checkout. Treat the
+installed plugin as a read-only runtime artifact; use the cloned repository as
+the only authoring target.
 
 Resolve usage-Skill file references relative to the Skill's `SKILL.md`. A root
 usage Skill can therefore read the shared index through a path such as
@@ -68,6 +74,8 @@ Use this layout:
 │   └── agents/
 │       └── knowledge-and-skills.md
 ├── skills/
+│   ├── contribute-to-knowledge-base/
+│   │   └── SKILL.md
 │   └── load-knowledge-catalog/
 │       └── SKILL.md
 ├── plugins/
@@ -116,7 +124,8 @@ Root `plugin.json`:
 ```json
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "knowledge-base"
+  "name": "knowledge-base",
+  "repository": "https://github.com/Soulike/knowledge-base"
 }
 ```
 

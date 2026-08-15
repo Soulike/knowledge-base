@@ -2,8 +2,8 @@
 
 1. Read [`knowledge/index.md`](../../../../knowledge/index.md), then search the
    existing `knowledge/` tree for overlapping concepts.
-2. Extract the reusable facts, principles, explanations, and references from
-   the input. Keep execution steps and Agent behavior in the Skill branch.
+2. Work only from the Knowledge parts identified during classification; return
+   the remaining material to the parent workflow.
 3. Update an existing document when it already owns the concept. Otherwise,
    choose a clear domain under `knowledge/` and create the smallest useful
    document structure.

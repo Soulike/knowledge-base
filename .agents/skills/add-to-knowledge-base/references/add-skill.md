@@ -12,10 +12,10 @@
 3. For a new Skill, use a lowercase hyphenated, verb-led directory name that
    matches its frontmatter `name`. Write a `description` that states both the
    capability and the concrete trigger branches.
-4. Keep the body procedural and imperative. Put shared static content in
-   `knowledge/` and reference it by relative path instead of copying it into
-   the Skill. Move branch-specific detail into `references/` when progressive
-   disclosure keeps the main workflow focused.
+4. Keep the body procedural and imperative. Reference the canonical Knowledge
+   selected during classification instead of copying it into the Skill. Move
+   branch-specific detail into `references/` when progressive disclosure keeps
+   the main workflow focused.
 5. Keep usage Skills valid after installation: reference only files inside
    their plugin package and avoid dependencies on `.agents/`, repository
    tooling, or Skill-to-Skill invocation. Keep independent plugins fully

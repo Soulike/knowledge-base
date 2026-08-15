@@ -11,15 +11,11 @@ Classify the material before choosing its destination.
 
 1. Resolve repository paths relative to this `SKILL.md`; the repository root is
    `../../..`.
-2. Classify every distinct part of the material:
-   - **Knowledge** captures reusable facts, principles, explanations, and
-     references.
-   - **Skill** captures triggers, decisions, execution steps, tool use, and
-     completion criteria.
-   - **Mixed** material contains both; split it into canonical Knowledge and a
-     Skill that reads that Knowledge.
-   - Material matching neither category stays outside the knowledge base;
-     report why it was not integrated.
+2. Read
+   [`knowledge/agents/knowledge-and-skills.md`](../../../knowledge/agents/knowledge-and-skills.md),
+   then classify every distinct part of the material as Knowledge, Skill,
+   mixed, or neither using that model. Report why material in the last category
+   was not integrated.
 3. For each Knowledge part, read
    [`references/add-knowledge.md`](references/add-knowledge.md) and complete
    that workflow.

@@ -10,6 +10,6 @@ Update this index when a top-level knowledge domain is added, removed, renamed, 
 
 ## Domains
 
-| File Path | When to Read                       |
-| --------- | ---------------------------------- |
-| —         | No knowledge has been indexed yet. |
+| File Path                                                                  | When to Read                                                                                                        |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| [knowledge/agents/knowledge-and-skills.md](agents/knowledge-and-skills.md) | Read when deciding whether reusable Agent material should be represented as Knowledge, a Skill, or a split of both. |

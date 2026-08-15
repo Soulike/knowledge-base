@@ -1,0 +1,40 @@
+name: Plugin installation smoke test
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    name: ${{ matrix.client }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - client: codex
+            package: "@openai/codex@latest"
+          - client: copilot
+            package: "@github/copilot@latest"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up latest Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          check-latest: true
+
+      - name: Test smoke installer
+        run: node --test .github/scripts/smoke-plugin-install/*.test.mts
+
+      - name: Install ${{ matrix.client }} CLI
+        run: npm install --global "${{ matrix.package }}"
+
+      - name: Install every plugin with ${{ matrix.client }}
+        run: node .github/scripts/smoke-plugin-install/index.mts "${{ matrix.client }}"

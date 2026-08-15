@@ -36,5 +36,11 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
+      - name: Check internal Markdown links
+        run: pnpm exec remark "${{ github.workspace }}" --frail --quiet --use remark-validate-links
+
+      - name: Check knowledge document format
+        run: pnpm --dir .github/scripts/check-knowledge-format check "${{ github.workspace }}/knowledge"
+
       - name: Test
         run: pnpm test

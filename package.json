@@ -7,9 +7,10 @@
     "node": ">=24"
   },
   "scripts": {
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knowledge:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts knowledge",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",
@@ -30,6 +31,8 @@
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
     "prettier": "^3.9.6",
+    "remark-cli": "^12.0.1",
+    "remark-validate-links": "^13.1.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.67.0"
   }

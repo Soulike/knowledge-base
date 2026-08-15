@@ -10,6 +10,7 @@ Update this index when a leaf Knowledge document is added, removed, renamed, or 
 
 ## Documents
 
-| File Path                                                                  | When to Read                                                                                                        |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| [knowledge/agents/knowledge-and-skills.md](agents/knowledge-and-skills.md) | Read when deciding whether reusable Agent material should be represented as Knowledge, a Skill, or a split of both. |
+| File Path                                                                            | When to Read                                                                                                                      |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| [knowledge/agents/knowledge-and-skills.md](agents/knowledge-and-skills.md)           | Read when deciding whether reusable Agent material should be represented as Knowledge, a Skill, or a split of both.               |
+| [knowledge/github-actions/version-selection.md](github-actions/version-selection.md) | Read when creating, editing, or reviewing a GitHub Actions workflow that declares a third-party action, runtime, or tool version. |

@@ -5,4 +5,6 @@ This is the canonical entry point for knowledge stored in the primary
 
 ## Domains
 
-No domain knowledge has been registered yet.
+| File Path | When to Read                       |
+| --------- | ---------------------------------- |
+| —         | No knowledge has been indexed yet. |

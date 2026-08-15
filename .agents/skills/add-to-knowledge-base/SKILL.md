@@ -30,5 +30,5 @@ Classify the material before choosing its destination.
 ## Completion criteria
 
 Finish only when every part of the input has been classified, every accepted
-part has one authoritative home, all affected indexes and references resolve,
-and the resulting diff preserves the Knowledge-versus-Skill boundary.
+part has one authoritative home, the root Knowledge index and all references
+resolve, and the resulting diff preserves the Knowledge-versus-Skill boundary.

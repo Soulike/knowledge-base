@@ -46,12 +46,23 @@ export async function checkKnowledgeDirectory(
 
   for (const filePath of markdownFiles) {
     const markdown = await readFile(filePath, "utf8");
-    const displayPath = toPortablePath(
-      join(
-        basename(knowledgeDirectory),
-        relative(knowledgeDirectory, filePath),
-      ),
+    const relativeFilePath = toPortablePath(
+      relative(knowledgeDirectory, filePath),
     );
+    const displayPath = toPortablePath(
+      join(basename(knowledgeDirectory), relativeFilePath),
+    );
+
+    if (
+      relativeFilePath !== "index.md" &&
+      relativeFilePath.endsWith("/index.md")
+    ) {
+      diagnostics.push({
+        filePath: displayPath,
+        message:
+          "Nested knowledge indexes are not allowed; list leaf documents directly in 'knowledge/index.md'.",
+      });
+    }
 
     for (const message of validateKnowledgeDocument(markdown)) {
       diagnostics.push({ filePath: displayPath, message });

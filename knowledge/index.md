@@ -2,13 +2,13 @@
 
 ## Scope
 
-This index is the canonical entry point and domain-level routing catalog for knowledge stored in the primary `knowledge-base` plugin; detailed subject matter belongs in the linked domain documents rather than here.
+This index is the only routing catalog for Knowledge stored in the primary `knowledge-base` plugin and lists every leaf document directly; subdirectories organize files by domain, while detailed subject matter belongs in the linked documents rather than here.
 
 ## When to update
 
-Update this index when a top-level knowledge domain is added, removed, renamed, or assigned a different canonical entry document or read trigger.
+Update this index when a leaf Knowledge document is added, removed, renamed, or assigned a different canonical responsibility or `When to Read` condition.
 
-## Domains
+## Documents
 
 | File Path                                                                  | When to Read                                                                                                        |
 | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |

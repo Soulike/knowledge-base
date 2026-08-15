@@ -82,3 +82,31 @@ test("exits nonzero with file-relative diagnostics", async (t) => {
     /knowledge\/security\/authentication\.md: The first section after the title must be '## Scope'\./,
   );
 });
+
+test("rejects nested knowledge indexes", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const knowledgeDirectory = join(temporaryRoot, "knowledge");
+  const nestedDirectory = join(knowledgeDirectory, "security");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await mkdir(nestedDirectory, { recursive: true });
+  await Promise.all([
+    writeFile(join(knowledgeDirectory, "index.md"), validDocument),
+    writeFile(join(nestedDirectory, "index.md"), validDocument),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, knowledgeDirectory],
+    {
+      encoding: "utf8",
+    },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.match(
+    result.stderr,
+    /knowledge\/security\/index\.md: Nested knowledge indexes are not allowed; list leaf documents directly in 'knowledge\/index\.md'\./,
+  );
+});

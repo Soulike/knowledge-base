@@ -6,7 +6,7 @@ This document defines the roles, boundary, and dependency relationship of reusab
 
 ## When to update
 
-Update this document when changes in Agent capabilities alter the role of Knowledge or Skills, or when a real classification case exposes an ambiguity in the boundary, mixed-content split, or dependency rules described here.
+Update this document when changes in Agent capabilities alter the role of Knowledge or Skills, or when a real classification case exposes an ambiguity in the boundary, canonical ownership, mixed-content split, or dependency rules described here.
 
 ## Roles
 
@@ -28,6 +28,10 @@ Classify content by responsibility, not by its Markdown form or writing style. A
 | Does it stand alone?                     | It remains useful outside a particular workflow.      | It is invoked in response to a task or trigger.                           |
 | What behavior does it own?               | It informs decisions without orchestrating execution. | It orchestrates decisions, tools, steps, and completion.                  |
 | How should other artifacts depend on it? | Multiple Skills and direct readers may use it.        | It reads canonical Knowledge instead of becoming another source of truth. |
+
+## Canonical ownership
+
+Assign each reusable concept and responsibility to one canonical Knowledge document. Make document Scopes and routing conditions such as `When to Read` expose distinct ownership. Multiple documents may match the same compound task when each contributes different Knowledge; when two documents would answer the same question with the same responsibility, merge them or redraw their boundaries instead of maintaining parallel sources of truth.
 
 ## Classifying material
 

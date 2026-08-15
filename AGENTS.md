@@ -7,8 +7,8 @@ The repository root is the primary `knowledge-base` plugin. In this repository,
 the static content under `knowledge/`, and **Skill** means an Agent workflow.
 
 - `knowledge/` contains canonical, static knowledge organized by domain. Keep
-  `knowledge/index.md` as the top-level catalog and use domain-level indexes
-  where useful.
+  `knowledge/index.md` as the only index and list every leaf Knowledge document
+  there directly. Use subdirectories for organization, not nested indexes.
 - `.agents/skills/` contains workflows used while authoring and maintaining
   this repository.
 - `skills/` contains workflows used after installing the primary plugin.
@@ -40,8 +40,8 @@ checkout, Git state, `.agents/`, or repository development tooling.
 Resolve usage-Skill file references relative to the Skill's `SKILL.md`. A root
 usage Skill can therefore read the shared index through a path such as
 `../../knowledge/index.md`. Prefer progressive disclosure: read the root index,
-then only the relevant domain indexes and documents. Read shared files
-directly; do not rely on Skill-to-Skill invocation as a portable contract.
+then only the matching documents. Read shared files directly; do not rely on
+Skill-to-Skill invocation as a portable contract.
 
 An independent plugin's `skills/` also contains usage Skills, but those Skills
 belong solely to that plugin and follow its package boundary.
@@ -64,7 +64,9 @@ Use this layout:
 │               ├── add-knowledge.md
 │               └── add-skill.md
 ├── knowledge/
-│   └── index.md
+│   ├── index.md
+│   └── agents/
+│       └── knowledge-and-skills.md
 ├── skills/
 │   └── find-knowledge/
 │       └── SKILL.md

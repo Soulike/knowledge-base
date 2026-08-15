@@ -14,12 +14,12 @@
 
 ## 为什么是这个组合
 
-| 层次 | 推荐格式 | Codex | GitHub Copilot | 兼容性质 |
-| --- | --- | --- | --- | --- |
-| Marketplace 目录 | `.claude-plugin/marketplace.json` | OpenAI 文档明确列为 `legacy-compatible marketplace` | Copilot CLI 文档明确列为可搜索位置 | 两端产品兼容，不属于 Agent Plugins 标准 |
-| 插件清单 | `<plugin>/plugin.json` + Agent Plugins v1 `$schema` | Agent Plugins 兼容客户端列表包含 ChatGPT & Codex；Codex 实现识别该 schema | Copilot 文档明确支持 Open Plugin Spec / Agent Plugins v1 | 正式的可移植包契约 |
-| Skill | `skills/<name>/SKILL.md` | 支持 | 支持 | Agent Skills 标准 |
-| MCP | `<plugin>/mcp.json` | `stdio`、`streamable-http` | `stdio`、`streamable-http`、`sse` | 两端交集为 `stdio` 与 `streamable-http` |
+| 层次             | 推荐格式                                            | Codex                                                                     | GitHub Copilot                                           | 兼容性质                                |
+| ---------------- | --------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------- | --------------------------------------- |
+| Marketplace 目录 | `.claude-plugin/marketplace.json`                   | OpenAI 文档明确列为 `legacy-compatible marketplace`                       | Copilot CLI 文档明确列为可搜索位置                       | 两端产品兼容，不属于 Agent Plugins 标准 |
+| 插件清单         | `<plugin>/plugin.json` + Agent Plugins v1 `$schema` | Agent Plugins 兼容客户端列表包含 ChatGPT & Codex；Codex 实现识别该 schema | Copilot 文档明确支持 Open Plugin Spec / Agent Plugins v1 | 正式的可移植包契约                      |
+| Skill            | `skills/<name>/SKILL.md`                            | 支持                                                                      | 支持                                                     | Agent Skills 标准                       |
+| MCP              | `<plugin>/mcp.json`                                 | `stdio`、`streamable-http`                                                | `stdio`、`streamable-http`、`sse`                        | 两端交集为 `stdio` 与 `streamable-http` |
 
 目录层的依据：OpenAI 的插件文档明确说明 ChatGPT/Codex 可读取仓库中的 [`.claude-plugin/marketplace.json`](https://developers.openai.com/plugins/build/plugins#how-local-marketplaces-work)，并把它称为 legacy-compatible；Copilot CLI 也明确说明会在 [`.claude-plugin/` 中查找 `marketplace.json`](https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-plugin-reference#marketplacejson)。
 

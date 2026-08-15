@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   check:
-    name: Typecheck and test
+    name: Tooling checks
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -31,6 +31,12 @@ jobs:
 
       - name: Typecheck
         run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Check formatting
+        run: pnpm format:check
 
       - name: Test
         run: pnpm test

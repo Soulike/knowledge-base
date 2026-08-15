@@ -1,37 +1,51 @@
-# ai-marketplace
+# knowledge-base
 
-Personal AI plugin marketplace for Claude Code.
+Personal AI knowledge base for reusable skills, workflows, and tools.
 
-## Usage
+The repository uses the Claude Code plugin marketplace format so each knowledge
+module can be maintained and installed independently.
 
-### Add this marketplace
+## Structure
 
-```
-/plugin marketplace add Soulike/ai-marketplace
-```
-
-### Install a plugin
-
-```
-/plugin install hello-world@ai-marketplace
-```
-
-### Update plugins
-
-```
-/plugin marketplace update ai-marketplace
+```text
+.
+├── .claude-plugin/
+│   └── marketplace.json
+└── plugins/
+    └── <plugin>/
+        ├── .claude-plugin/
+        │   └── plugin.json
+        └── skills/
+            └── <skill>/
+                └── SKILL.md
 ```
 
-## Adding Plugins
+## Use the marketplace
 
-To add a new plugin to this marketplace:
+Add the marketplace in Claude Code:
 
-1. Create a directory under `plugins/` with your plugin files
-2. Add a `plugin.json` manifest in your plugin directory
-3. Add an entry to `.claude-plugin/marketplace.json`
+```text
+/plugin marketplace add Soulike/knowledge-base
+```
 
-See the [Plugin Marketplaces docs](https://code.claude.com/docs/en/plugin-marketplaces) for the full specification.
+Install a published plugin:
+
+```text
+/plugin install <plugin>@knowledge-base
+```
+
+Refresh the catalogue:
+
+```text
+/plugin marketplace update knowledge-base
+```
+
+## Add knowledge
+
+1. Create a plugin under `plugins/` with its manifest and skills.
+2. Register it in `.claude-plugin/marketplace.json`.
+3. Keep each plugin focused enough to install and evolve independently.
 
 ## License
 
-MIT
+[MIT](LICENSE)

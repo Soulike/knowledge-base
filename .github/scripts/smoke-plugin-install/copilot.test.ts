@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { installWithCopilot } from "./copilot.mts";
-import type { Marketplace, RunCommand } from "./shared.mts";
+import { installWithCopilot } from "./copilot.ts";
+import type { Marketplace, RunCommand } from "./shared.ts";
 
 const repository = "/workspace/repository";
 const marketplace = (plugins: string[]): Marketplace => ({

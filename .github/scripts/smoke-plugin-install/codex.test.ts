@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { installWithCodex } from "./codex.mts";
-import type { Marketplace, RunCommand } from "./shared.mts";
+import { installWithCodex } from "./codex.ts";
+import type { Marketplace, RunCommand } from "./shared.ts";
 
 const repository = "/workspace/repository";
 const marketplace = (plugins: string[]): Marketplace => ({

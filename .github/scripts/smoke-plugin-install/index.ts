@@ -1,8 +1,8 @@
 import { realpathSync } from "node:fs";
 
-import { installWithCodex } from "./codex.mts";
-import { installWithCopilot } from "./copilot.mts";
-import { CommandError, readMarketplace } from "./shared.mts";
+import { installWithCodex } from "./codex.ts";
+import { installWithCopilot } from "./copilot.ts";
+import { CommandError, readMarketplace } from "./shared.ts";
 
 function main(): void {
   const client = process.argv[2];

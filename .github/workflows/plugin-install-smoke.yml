@@ -22,19 +22,16 @@ jobs:
             package: "@github/copilot@latest"
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up latest Node.js LTS
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "lts/*"
           check-latest: true
-
-      - name: Test smoke installer
-        run: node --test .github/scripts/smoke-plugin-install/*.test.mts
 
       - name: Install ${{ matrix.client }} CLI
         run: npm install --global "${{ matrix.package }}"
 
       - name: Install every plugin with ${{ matrix.client }}
-        run: node .github/scripts/smoke-plugin-install/index.mts "${{ matrix.client }}"
+        run: node .github/scripts/smoke-plugin-install/index.ts "${{ matrix.client }}"

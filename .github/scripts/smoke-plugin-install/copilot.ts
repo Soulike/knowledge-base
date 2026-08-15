@@ -1,4 +1,4 @@
-import { runCommand, type Marketplace, type RunCommand } from "./shared.mts";
+import { runCommand, type Marketplace, type RunCommand } from "./shared.ts";
 
 export function installWithCopilot(
   repository: string,

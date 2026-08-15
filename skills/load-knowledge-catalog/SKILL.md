@@ -12,5 +12,9 @@ description: Load the catalog of curated Knowledge. Use at the beginning of ever
 5. Continue silently when nothing matches, unless the user explicitly asks
    what Knowledge is available.
 6. Recheck the loaded catalog whenever the task scope changes.
-7. Apply matching Knowledge while distinguishing documented guidance from
+7. Treat matching Knowledge as supplemental guidance. When it conflicts with
+   instructions, Skills, requirements, or project-specific information in the
+   Agent's active working directory, follow the source in the active working
+   directory.
+8. Apply matching Knowledge while distinguishing documented guidance from
    inference.

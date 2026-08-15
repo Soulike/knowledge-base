@@ -1,37 +1,27 @@
-# ai-marketplace
+# knowledge-base
 
-Personal AI plugin marketplace for Claude Code.
+A personal collection of reusable AI skills and tools, distributed as plugins
+for Codex and GitHub Copilot CLI.
 
-## Usage
+## Install with Codex
 
-### Add this marketplace
+Add the marketplace, then install the plugin you want:
 
-```
-/plugin marketplace add Soulike/ai-marketplace
-```
-
-### Install a plugin
-
-```
-/plugin install hello-world@ai-marketplace
+```bash
+codex plugin marketplace add Soulike/knowledge-base
+codex plugin add <plugin>@knowledge-base
 ```
 
-### Update plugins
+## Install with GitHub Copilot CLI
 
+Add the marketplace, browse its plugins, then install one:
+
+```bash
+copilot plugin marketplace add Soulike/knowledge-base
+copilot plugin marketplace browse knowledge-base
+copilot plugin install <plugin>@knowledge-base
 ```
-/plugin marketplace update ai-marketplace
-```
-
-## Adding Plugins
-
-To add a new plugin to this marketplace:
-
-1. Create a directory under `plugins/` with your plugin files
-2. Add a `plugin.json` manifest in your plugin directory
-3. Add an entry to `.claude-plugin/marketplace.json`
-
-See the [Plugin Marketplaces docs](https://code.claude.com/docs/en/plugin-marketplaces) for the full specification.
 
 ## License
 
-MIT
+[MIT](LICENSE)

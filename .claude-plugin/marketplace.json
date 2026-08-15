@@ -1,36 +1,13 @@
 {
-  "name": "ai-marketplace",
+  "name": "knowledge-base",
   "owner": {
     "name": "Soulike",
     "email": "soulike@qq.com"
   },
   "metadata": {
-    "description": "Personal AI plugin marketplace for Claude Code",
+    "description": "Personal AI knowledge base.",
     "version": "0.1.0",
     "pluginRoot": "./plugins"
   },
-  "plugins": [
-    {
-      "name": "github-workflow",
-      "source": "./plugins/github-workflow",
-      "description": "GitHub workflow automation — Actions, PRs, issues, and more",
-      "version": "0.1.0",
-      "author": {
-        "name": "Soulike"
-      },
-      "category": "developer-tools",
-      "tags": ["github", "workflow", "automation"]
-    },
-    {
-      "name": "toolbox",
-      "source": "./plugins/toolbox",
-      "description": "General-purpose utility skills — web search, fetching, and more",
-      "version": "0.1.0",
-      "author": {
-        "name": "Soulike"
-      },
-      "category": "utilities",
-      "tags": ["web", "search", "fetch", "utilities"]
-    }
-  ]
+  "plugins": []
 }

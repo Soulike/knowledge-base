@@ -36,5 +36,8 @@ jobs:
       - name: Check formatting
         run: pnpm format:check
 
+      - name: Check knowledge document format
+        run: pnpm --dir .github/scripts/check-knowledge-format check "${{ github.workspace }}/knowledge"
+
       - name: Test
         run: pnpm test

@@ -7,12 +7,44 @@
 3. Update an existing document when it already owns the concept. Otherwise,
    choose a clear domain under `knowledge/` and create the smallest useful
    document structure.
-4. Keep the root index as the domain catalog. Use a domain `index.md` to route
+4. Give every Markdown document under `knowledge/`, including indexes, the
+   required preface described below.
+5. Keep the root index as the domain catalog. Use a domain `index.md` to route
    to documents when the domain contains multiple files.
-5. Add or update a row in every affected index using the fields below.
-6. Verify that each added document is reachable from
+6. Add or update a row in every affected index using the fields below.
+7. Verify that each added document is reachable from
    `knowledge/index.md`, every changed relative link resolves, and no second
    source of truth was introduced.
+8. Run `pnpm knowledge:check` from the repository root.
+
+## Knowledge document preface
+
+Begin every `knowledge/**/*.md` file with this structure:
+
+```markdown
+# Descriptive title
+
+## Scope
+
+One cohesive prose paragraph.
+
+## When to update
+
+One cohesive prose paragraph.
+```
+
+**Scope.** Define the document's ownership boundary and purpose, including its
+intended level of detail. When neighboring documents could plausibly own the
+same material, state what this document excludes. Write one cohesive paragraph
+that explains the boundary; do not enumerate headings, topics, or table-of-
+contents entries.
+
+**When to update.** Name observable changes that would make the document stale
+or incomplete, such as changes to its source material, supported behavior,
+policy, or coverage boundary. These are maintenance triggers, distinct from the
+tasks and decisions that cause an Agent to read the document. Write one
+cohesive paragraph; avoid vague phrases such as “update as needed” and avoid
+lists of editing steps.
 
 ## Index fields
 

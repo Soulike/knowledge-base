@@ -7,9 +7,10 @@
     "node": ">=24"
   },
   "scripts": {
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm test && pnpm knowledge:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts knowledge",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "prepare": "husky",

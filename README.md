@@ -24,12 +24,10 @@ codex plugin marketplace add Soulike/knowledge-base
 codex plugin add knowledge-base@knowledge-base
 ```
 
-To update an existing installation, refresh the marketplace snapshot and reinstall the plugin:
+To update an existing installation, refresh the marketplace snapshot:
 
 ```bash
 codex plugin marketplace upgrade knowledge-base
-codex plugin remove knowledge-base@knowledge-base
-codex plugin add knowledge-base@knowledge-base
 ```
 
 ## Install with GitHub Copilot CLI

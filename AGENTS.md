@@ -68,7 +68,7 @@ Use this layout:
 │   └── agents/
 │       └── knowledge-and-skills.md
 ├── skills/
-│   └── find-knowledge/
+│   └── load-knowledge-catalog/
 │       └── SKILL.md
 ├── plugins/
 │   └── example-plugin/

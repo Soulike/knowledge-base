@@ -1,50 +1,26 @@
 # knowledge-base
 
-Personal AI knowledge base for reusable skills, workflows, and tools.
+A personal collection of reusable AI skills and tools, distributed as plugins
+for Codex and GitHub Copilot CLI.
 
-The repository uses the Claude Code plugin marketplace format so each knowledge
-module can be maintained and installed independently.
+## Install with Codex
 
-## Structure
+Add the marketplace, then install the plugin you want:
 
-```text
-.
-├── .claude-plugin/
-│   └── marketplace.json
-└── plugins/
-    └── <plugin>/
-        ├── .claude-plugin/
-        │   └── plugin.json
-        └── skills/
-            └── <skill>/
-                └── SKILL.md
+```bash
+codex plugin marketplace add Soulike/knowledge-base
+codex plugin add <plugin>@knowledge-base
 ```
 
-## Use the marketplace
+## Install with GitHub Copilot CLI
 
-Add the marketplace in Claude Code:
+Add the marketplace, browse its plugins, then install one:
 
-```text
-/plugin marketplace add Soulike/knowledge-base
+```bash
+copilot plugin marketplace add Soulike/knowledge-base
+copilot plugin marketplace browse knowledge-base
+copilot plugin install <plugin>@knowledge-base
 ```
-
-Install a published plugin:
-
-```text
-/plugin install <plugin>@knowledge-base
-```
-
-Refresh the catalogue:
-
-```text
-/plugin marketplace update knowledge-base
-```
-
-## Add knowledge
-
-1. Create a plugin under `plugins/` with its manifest and skills.
-2. Register it in `.claude-plugin/marketplace.json`.
-3. Keep each plugin focused enough to install and evolve independently.
 
 ## License
 

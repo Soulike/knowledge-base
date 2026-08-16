@@ -27,12 +27,12 @@
    domain directories, but list every leaf directly in the root index and do
    not create nested `index.md` files.
 9. Add or update exactly one root-index row for every affected leaf document
-   using the fields below.
-10. Verify that every leaf document is listed exactly once, every changed
-    relative link resolves, and each concept has one canonical owner.
-    Compare every changed Scope and routing trigger with its pre-edit form;
-    keep additions that express the same responsibility and route independent
-    responsibilities separately.
+   using the fields below, including its Knowledge Type.
+10. Verify that every leaf document is listed exactly once with one valid
+    Knowledge Type, every changed relative link resolves, and each concept has
+    one canonical owner. Compare every changed Scope and routing trigger with
+    its pre-edit form; keep additions that express the same responsibility and
+    route independent responsibilities separately.
 11. Run `pnpm knowledge:check` from the repository root.
 
 ## Ownership and generalization
@@ -78,6 +78,25 @@ lists of editing steps.
 relative Markdown link from `knowledge/index.md` as its target. Point directly
 to a leaf Knowledge document, list it exactly once, and confirm that the target
 exists.
+
+**Knowledge Type.** Classify each leaf document as `time-sensitive` or
+`evergreen` according to the correctness of its substantive claims within its
+declared Scope:
+
+- **Time-sensitive Knowledge** depends on external state that is expected to
+  evolve, so changes outside the document can make its substantive claims no
+  longer correct. External state includes implementations, rules, policies,
+  standards, data, capabilities, environments, and professional consensus.
+- **Evergreen Knowledge** remains correct across ordinary changes to external
+  state within its declared Scope. It may still require revision when its
+  underlying principles, mechanisms, evidence, or Scope change.
+
+Ask: while the declared Scope stays fixed, could ordinary evolution of the
+external state make the document's substantive claims no longer correct even
+if the document itself does not change? Classify `time-sensitive` when the
+answer is yes and `evergreen` when the answer is no. Classify the claims the
+document makes, not the subject it discusses: a method for finding a current
+version can be evergreen even though version availability changes frequently.
 
 **When to Read.** Write a compact trigger beginning with `Read when` and name
 the concrete tasks, decisions, or artifacts that require this material. Cover

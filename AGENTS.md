@@ -5,10 +5,13 @@
 The repository root is the primary `knowledge-base` plugin. In this repository,
 **knowledge base** means the complete repository and plugin, **Knowledge** means
 the static content under `knowledge/`, and **Skill** means an Agent workflow.
+Here, static distinguishes content that provides understanding from a workflow
+that controls execution; it does not mean that the content cannot become stale.
 
 - `knowledge/` contains canonical, static knowledge organized by domain. Keep
   `knowledge/index.md` as the only index and list every leaf Knowledge document
-  there directly. Use subdirectories for organization, not nested indexes.
+  there directly with its `time-sensitive` or `evergreen` Knowledge Type. Use
+  subdirectories for organization, not nested indexes.
 - `.agents/skills/` contains workflows used while authoring and maintaining
   this repository.
 - `skills/` contains workflows used after installing the primary plugin.
@@ -21,6 +24,13 @@ material extracted from a project only when it remains correct without that
 project; otherwise leave it in the source project. Repository-authoring Skills
 are outside this user-facing boundary; the narrow contribution exception is
 described below.
+
+## Markdown tests
+
+Tests that inspect Markdown documents must use the repository's existing
+Markdown parser and assert against the parsed structure. Treat Markdown source
+text only as parser input; do not infer Markdown structure by matching,
+splitting, or replacing raw text.
 
 ## Skill scopes
 

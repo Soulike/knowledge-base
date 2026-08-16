@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Security"
+  short_description: "Trace security boundaries and verify findings"
+  default_prompt: "Use $review-security to review this change for security vulnerabilities and evidence-backed findings."

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "knowledge-base",
-  "version": "2026.8.16-1",
+  "version": "2026.8.16-2",
   "description": "A personal knowledge base with reusable Agent workflows.",
   "repository": "https://github.com/Soulike/knowledge-base"
 }

@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines reusable design principles for collecting and transporting operational measurements without retaining unnecessary user content or raw identities. It owns capture minimization, pseudonymous correlation, bounded and strict records, explicit missing coverage, relay validation, single-writer authority, and rolling compatibility; organization-specific consent, retention, analytics infrastructure, security-event semantics, and product measurement definitions are outside its scope.
+This document defines reusable design principles for collecting and transporting operational measurements without retaining unnecessary user content or raw identities, including capture minimization, pseudonymous correlation, bounded and strict records, explicit missing coverage, relay validation, single-writer authority, and rolling compatibility.
 
 ## When to update
 
@@ -39,8 +39,3 @@ The absence of a capability advertisement means unknown coverage, not zero. Dedu
 Advertise capture and field capabilities explicitly between peers. Send a new optional dimension only when the receiver declares support, or when the base schema guarantees unknown fields are safely ignored. A newer sender should omit unsupported additions rather than sacrificing an otherwise valid batch.
 
 Keep compatibility decisions close to the transport boundary and validate again at the durable writer. Historical rows and older peers should remain meaningful with the documented absence semantics for optional fields.
-
-## Related Knowledge
-
-- [Security event logging](../security/security-event-logging.md) owns events whose primary purpose is security detection and investigation.
-- [Security boundaries and trust transitions](../security/security-boundaries.md) owns trust decisions around collectors, relays, and durable sinks.

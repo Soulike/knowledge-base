@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines implementation-independent evidence and exception principles for concerns reported by security scanners, audits, generated reviews, or manual investigation. It owns lead-versus-finding status, disposition categories, evidence thresholds, suppression, accepted risk, and exception maintenance; code-boundary tracing, dependency-graph evidence, remediation workflows, and organization-specific risk authority belong elsewhere.
+This document defines implementation-independent evidence and exception principles for concerns reported by security scanners, audits, generated reviews, or manual investigation, including lead-versus-finding status, disposition categories, evidence thresholds, suppression, accepted risk, and exception maintenance.
 
 ## When to update
 
@@ -28,8 +28,3 @@ Fix a valid finding at the boundary that owns the failed control. Do not tune de
 Suppress only a demonstrated false positive or a risk explicitly accepted by the active project's authorized decision-maker. Bind the exception to the smallest rule, location, input, version, or deployment scope supported by its evidence. Record the durable reason beside the configuration that enforces the exception so later reviewers can distinguish intent from accidental silence.
 
 Keep accepted risk with its threat model, attacker preconditions, impact, compensating controls, owner, and reevaluation condition. A suppression records a detection decision; it does not itself reduce the underlying risk. Revisit the disposition when the protected boundary, deployment, detector, dependency, or supporting evidence changes.
-
-## Related Knowledge
-
-- [Security boundaries and trust transitions](security-boundaries.md) owns the control and side effect under review.
-- [Dependency and supply-chain security](dependency-supply-chain-security.md) owns resolved-graph and package-specific evidence.

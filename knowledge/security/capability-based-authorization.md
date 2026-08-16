@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines reusable security principles for a host or broker that grants an extension, agent tool, service, subprocess, or other less-trusted subject authority to perform privileged operations. It owns capability requests versus grants, layered policy, human confirmation, exact binding, grant lifecycle, local-process assumptions, and replay limits; product-specific permission catalogs, user interfaces, transport schemas, and cryptographic formats are outside its scope.
+This document defines reusable security principles for a host or broker that grants an extension, agent tool, service, subprocess, or other less-trusted subject authority to perform privileged operations, including request and grant separation, layered policy, human confirmation, exact binding, grant lifecycle, local-process assumptions, and replay limits.
 
 ## When to update
 
@@ -49,8 +49,3 @@ Use per-process or per-session credentials when local peers need authentication,
 Encryption and authentication can protect a stored grant's confidentiality and integrity without preventing replay of an older, once-valid state. Rollback resistance requires an external monotonic generation, append-only authority, or another freshness mechanism outside the replayable record. Expiry checked against a trusted clock can bound the replay window but does not make state monotonic.
 
 A generation number carried by a lease is not fencing unless the resource owner compares it at every privileged effect. A grant authorizes its bound operation; it is not a process sandbox, general delegation channel, or proof that unrelated behavior is safe.
-
-## Related Knowledge
-
-- [Security boundaries and trust transitions](security-boundaries.md) owns canonicalization and sink enforcement.
-- [Security event logging](security-event-logging.md) owns evidence about grants, denials, and privileged effects.

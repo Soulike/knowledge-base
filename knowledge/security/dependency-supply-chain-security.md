@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines package-ecosystem-independent principles for evaluating third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings. It owns dependency admission, manifest intent, resolved-graph evidence, provenance and integrity, install-time execution, release-policy evidence, consumer compatibility, package-specific finding evidence, and remediation choices; general security-finding disposition, ecosystem commands, registry configuration, organizational approval policy, and application trust boundaries are outside its scope.
+This document defines package-ecosystem-independent principles for evaluating third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings, including dependency admission, manifest intent, resolved-graph evidence, provenance and integrity, install-time execution, release-policy evidence, consumer compatibility, package-specific finding evidence, and remediation choices.
 
 ## When to update
 
@@ -43,9 +43,3 @@ Apply [Security finding disposition](security-finding-disposition.md) to scanner
 Remove an unused dependency chain when its top-level parent and every consumer are proven unnecessary. Otherwise prefer a supported direct or parent upgrade that moves every affected occurrence outside the vulnerable range. Use containment when the vulnerable behavior can be excluded at an owned boundary and no compatible update exists; make the residual risk explicit.
 
 After remediation, prove the selected nodes are absent or outside the affected range, compare security-audit output with the prior baseline, and validate all affected consumers. Unrelated findings remain visible but should not silently expand or obscure the selected remediation scope.
-
-## Related Knowledge
-
-- [Security boundaries and trust transitions](security-boundaries.md) owns reachability and enforcement at application boundaries.
-- [Security finding disposition](security-finding-disposition.md) owns general scanner evidence, suppression, and accepted-risk rules.
-- [Test effectiveness](../software-testing/test-effectiveness.md) owns evidence that a compatibility or security regression test can catch its named fault.

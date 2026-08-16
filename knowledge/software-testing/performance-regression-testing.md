@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document explains how to turn a performance expectation into stable regression evidence and how to interpret test-suite cost without weakening functional coverage. It owns mechanism-based complexity guards, structural performance invariants, wall-clock fallbacks, noise-aware measurement, and suite-cost decomposition; general test value, asynchronous synchronization, and integration-environment fidelity are outside its scope.
+This document explains how to turn a performance expectation into stable regression evidence and how to interpret test-suite cost without weakening functional coverage, including mechanism-based complexity guards, structural performance invariants, wall-clock fallbacks, noise-aware measurement, and suite-cost decomposition.
 
 ## When to update
 
@@ -51,8 +51,3 @@ Compare historical implementations from isolated clean revisions or immutable ex
 Optimize how the precondition is reached, not what the test proves. Replace clock guesses with conditions or controlled time, keep real components that define the contract, and share only immutable fixture construction while preserving private mutable state.
 
 Delete or merge a slow test only when the marginal-coverage and mutation criteria in [Test effectiveness](test-effectiveness.md) establish that it has no unique protection or no live contract. Slowness does not create an additional mutation prerequisite or justify weaker evidence. After synchronization, fixture, environment, or concurrency changes, repeat the affected tests with retries disabled and under representative load. A faster green run is insufficient when the changed test can no longer fail for its named defect.
-
-## Related Knowledge
-
-- [Test effectiveness](test-effectiveness.md) owns marginal coverage and mutation criteria for retaining or deleting tests.
-- [Reliable test execution](test-execution-reliability.md) owns waits, controlled clocks, fixture isolation, retries, and concurrency reliability.

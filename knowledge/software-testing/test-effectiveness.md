@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines project- and framework-independent criteria for deciding whether a behavior needs an automated test and whether an existing test earns its maintenance cost. It owns marginal protection, fault-oriented coverage, independent oracles, behavioral focus, layer selection, use of real implementations and test doubles, test-structure design signals, transitional coverage, and mutation checks; reliable execution, performance-regression measurement, and integration-harness architecture belong to their dedicated documents.
+This document defines project- and framework-independent criteria for deciding whether a behavior needs an automated test and whether an existing test earns its maintenance cost, including marginal protection, fault-oriented coverage, independent oracles, behavioral focus, layer selection, use of real implementations and test doubles, test-structure design signals, transitional coverage, and mutation checks.
 
 ## When to update
 
@@ -74,9 +74,3 @@ Keep the test when reintroduction remains a standing operational risk. The decid
 Mutation analysis asks whether coverage turns red when the implementation acquires a plausible defect. Representative mutations include a wrong argument or constant, the wrong branch handler, a missing state change or side effect, an empty or default return, and omitted validation for boundary or unauthorized input.
 
 A controlled temporary mutation provides stronger evidence than a mental exercise when it is safe, reversible, and required by the active workflow or needed to resolve uncertainty. A deletion whose redundancy is directly established by copied production logic, the same branch and observable, declaration restatement, or another explicit marginal-coverage rule does not acquire a universal mutation prerequisite. When the claim is instead that retained coverage catches the same fault, a realistic mutation can prove it; when no live production path or contract remains, prove that absence rather than inventing a fault for dead scaffolding. To validate new coverage, confirm the intended test fails for the fault and passes again after the implementation is restored. A surviving mutation identifies either an unprotected behavior or an assertion without teeth.
-
-## Related Knowledge
-
-- [Reliable test execution](test-execution-reliability.md) owns discovery, synchronization, clocks, isolation, retries, and platform assumptions.
-- [Performance regression testing](performance-regression-testing.md) owns deterministic complexity guards and measurement fallbacks.
-- [Integration test harnesses](integration-test-harnesses.md) owns fidelity, topology, resource ownership, and validation tiers for real-component environments.

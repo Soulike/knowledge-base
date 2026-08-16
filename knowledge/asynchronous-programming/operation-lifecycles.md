@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines implementation-independent invariants for asynchronous work whose result can outlive the view, request, refresh, batch, or owner that started it. It owns lifecycle identity, currentness, replacement, cancellation scope, sibling isolation, and bounded-queue capacity release; framework APIs, general retry policy, test synchronization, and performance measurement belong elsewhere.
+This document defines implementation-independent invariants for asynchronous work whose result can outlive the view, request, refresh, batch, or owner that started it, including lifecycle identity, currentness, replacement, cancellation scope, sibling isolation, and bounded-queue capacity release.
 
 ## When to update
 
@@ -23,8 +23,3 @@ Overlapping refreshes and submissions need an explicit ordering rule. When the n
 A local item failure should remain local unless the contract defines the group as atomic. Retiring a shared lifecycle or cancelling sibling work because one file, page, or item failed converts an isolated error into unrelated data loss. Conversely, teardown of the owning lifecycle should cancel or retire all of its descendants.
 
 Bound concurrent work explicitly and release capacity on every terminal path, including rejection, cancellation, and stale completion. A failed item that retains its slot can stall otherwise independent work even when error reporting is correct.
-
-## Related Knowledge
-
-- [Reliable test execution](../software-testing/test-execution-reliability.md) owns evidence-based synchronization when testing these lifecycles.
-- [Performance regression testing](../software-testing/performance-regression-testing.md) owns structural guards for concurrency caps and capacity release.

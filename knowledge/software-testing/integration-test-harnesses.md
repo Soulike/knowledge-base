@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines reusable architecture principles for integration and end-to-end harnesses that run multiple real components or processes. It owns fidelity and claim boundaries, deterministic external seams, state and resource ownership, readiness, teardown, and validation tiers; component-specific topology, operator commands, ordinary unit-test design, and performance measurement belong elsewhere.
+This document defines reusable architecture principles for integration and end-to-end harnesses that run multiple real components or processes, including fidelity and claim boundaries, deterministic external seams, state and resource ownership, readiness, teardown, and validation tiers.
 
 ## When to update
 
@@ -45,11 +45,3 @@ Keep the required suite narrow enough to be reliable while protecting the minimu
 Each tier should state the behavior it uniquely proves, the topology it needs, and the gaps it leaves. Do not collapse a high-fidelity advisory scenario into a cheaper mocked suite and retain the original claim. Conversely, do not make every topology merge-blocking merely because it is realistic.
 
 Executable configuration should remain the authority for actual suite membership and gate status. Architecture guidance owns why the tiers exist and what their results mean, not a duplicated inventory of current jobs.
-
-## Related Knowledge
-
-- [Test effectiveness](test-effectiveness.md) owns whether each scenario adds unique protection.
-- [Reliable test execution](test-execution-reliability.md) owns synchronization, clocks, retries, platform assumptions, and single-test fixture isolation.
-- [Performance regression testing](performance-regression-testing.md) owns load and performance evidence.
-- [Security boundaries and trust transitions](../security/security-boundaries.md) owns secret and sensitive-data exposure and storage.
-- [Capability-based authorization](../security/capability-based-authorization.md) owns credentials and grants that authenticate local peers.

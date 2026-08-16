@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines implementation-independent principles for choosing, shaping, protecting, and retaining security events. It owns the boundary between preventive controls and detection evidence, event taxonomy and fields, instrumentation decisions, sensitive-content handling, pipeline access, and logging-failure semantics; vendor infrastructure, organization-specific compliance mandates, query syntax, and general telemetry analytics are outside its scope.
+This document defines implementation-independent principles for choosing, shaping, protecting, and retaining security events, including the boundary between preventive controls and detection evidence, event taxonomy and fields, instrumentation decisions, sensitive-content handling, pipeline access, and logging-failure semantics.
 
 ## When to update
 
@@ -33,9 +33,3 @@ Scrub or transform sensitive fields before the first durable write, not only bef
 Security events may share storage or transport machinery with operational telemetry, but they need an independently enforceable route, access policy, retention decision, and query audience. Restrict who can read or alter the evidence, preserve ordering and source identity when they matter, and prevent failed uploads from causing unbounded local growth.
 
 Define what happens when emission or transport fails. If an operation is permitted only when an audit record is durable, couple the two outcomes transactionally. Otherwise surface the logging failure and preserve bounded retry evidence without claiming that the event was recorded. Do not let a best-effort logger become an accidental authorization oracle or an unbounded availability risk.
-
-## Related Knowledge
-
-- [Security boundaries and trust transitions](security-boundaries.md) owns the preventive control that produces a security decision.
-- [Capability-based authorization](capability-based-authorization.md) owns the grant and denial semantics an event may describe.
-- [Privacy-preserving telemetry](../privacy/privacy-preserving-telemetry.md) owns data minimization, pseudonymous identifiers, and bounded transport records.

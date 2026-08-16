@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines framework-independent principles for making automated test results reproducible and honest: complete discovery, fail-safe conditional selection, evidence-based synchronization, controlled clocks, isolated fixtures, explicit platform assumptions, and visible nondeterminism. It does not decide whether a behavior deserves coverage, prescribe performance-regression measurement, or define the fidelity of a multi-component integration harness.
+This document defines framework-independent principles for making automated test results reproducible and honest: complete discovery, fail-safe conditional selection, evidence-based synchronization, controlled clocks, isolated fixtures, explicit platform assumptions, and visible nondeterminism.
 
 ## When to update
 
@@ -71,9 +71,3 @@ Retries can reduce transient CI disruption, but they do not make a nondeterminis
 Do not respond to an ordering or shared-state race by increasing an unrelated timeout. Correlate responses by identity or type, isolate mutable state, and establish the missing happens-before relationship. Varying failure locations across repeated runs often indicate leaked global state or an over-broad fixture rather than several independent product defects.
 
 Runner concurrency is an environmental input, not a universal constant. Choose it from measured resource constraints and the target execution environment. A formula that has opposite effects on developer and CI machines is not self-justifying; verify its actual result on both.
-
-## Related Knowledge
-
-- [Test effectiveness](test-effectiveness.md) owns the protection a test must provide.
-- [Performance regression testing](performance-regression-testing.md) owns measurement of algorithmic and wall-clock properties.
-- [Integration test harnesses](integration-test-harnesses.md) owns isolation and lifecycle at multi-process or multi-component scale.

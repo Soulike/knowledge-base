@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines technology-independent principles for moving untrusted data or requests across a security boundary into a privileged side effect. It owns contextual trust, boundary ownership, canonical representations, authentication and authorization separation, sink-specific safety, final-target validation, closed failure, and secret and sensitive-data lifecycle constraints; dependency supply chains, capability-grant lifecycle, security-event design, telemetry privacy, and filesystem-specific race mechanics belong to their dedicated documents.
+This document defines technology-independent principles for moving untrusted data or requests across a security boundary into a privileged side effect, including contextual trust, boundary ownership, canonical representations, authentication and authorization separation, sink-specific safety, final-target validation, closed failure, and secret and sensitive-data lifecycle constraints.
 
 ## When to update
 
@@ -61,9 +61,3 @@ For secrets, choose storage from the host threat model rather than from a univer
 Continuing with an ephemeral secret after persistence fails trades availability against stable identity and recovery. Make that behavior explicit and observable rather than silently treating it as equivalent storage.
 
 Security logging can reveal abuse and failed controls, but it does not replace prevention. Apply [Security event logging](security-event-logging.md) when deciding what evidence the boundary should emit.
-
-## Related Knowledge
-
-- [Dependency and supply-chain security](dependency-supply-chain-security.md) owns third-party graph, provenance, installation, and vulnerability decisions.
-- [Capability-based authorization](capability-based-authorization.md) owns requested privileges, grants, confirmation, binding, consumption, and revocation.
-- [Privacy-preserving telemetry](../privacy/privacy-preserving-telemetry.md) owns minimization and validation of operational measurements.

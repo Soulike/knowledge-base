@@ -21,15 +21,9 @@ description: Design and review automated tests. Use when deciding whether a beha
    behavior, clocks, retries, concurrency, fixtures, external processes, or
    supported platforms.
 4. Read
-   [Performance regression testing](../../knowledge/software-testing/performance-regression-testing.md)
-   for a performance guard, benchmark gate, or test-cost decision. Read
-   [Integration test harnesses](../../knowledge/software-testing/integration-test-harnesses.md)
-   when the subject is a multi-component or multi-process harness. When that
-   harness creates, stores, or transports credentials or authenticates local
-   peers, also read
    [Security boundaries and trust transitions](../../knowledge/security/security-boundaries.md)
-   and
-   [Capability-based authorization](../../knowledge/security/capability-based-authorization.md).
+   when a test harness creates, stores, or transports credentials or
+   authenticates local peers.
 5. Discover the subject revision's test locations, runner and conditional-
    selection configuration, package or build entrypoints, and static gates.
    Apply local test conventions from the governing revision; in a change review,

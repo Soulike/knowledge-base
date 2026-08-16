@@ -24,22 +24,10 @@ description: Review code, configuration, dependencies, and security fixes for vu
    the scope. Do not borrow trust assumptions from another project.
 4. Resolve paths relative to this `SKILL.md`, then read
    [Security boundaries and trust transitions](../../knowledge/security/security-boundaries.md).
-5. Read
-   [Security finding disposition](../../knowledge/security/security-finding-disposition.md)
-   for scanner, audit, generated-review, or suspected-vulnerability concerns.
-6. Read the applicable specialized Knowledge:
+5. Read the applicable specialized Knowledge:
    - [Dependency and supply-chain security](../../knowledge/security/dependency-supply-chain-security.md)
      for dependency introduction, updates, installation, audit, or scanner
      findings.
-   - [Capability-based authorization](../../knowledge/security/capability-based-authorization.md)
-     for permissions, confirmations, allowlists, extensions, agent tools,
-     enrollment, services, subprocesses, or delegated grants.
-   - [Security event logging](../../knowledge/security/security-event-logging.md)
-     when the behavior emits, suppresses, transports, or depends on security
-     evidence.
-   - [Privacy-preserving telemetry](../../knowledge/privacy/privacy-preserving-telemetry.md)
-     when operational records can contain user content, identifiers, or
-     measurements from another trust domain.
    - [Pathnames and filesystem resource identity](../../knowledge/filesystems/pathnames-and-resource-identity.md)
      when a pathname is validated, authorized, read, mutated, or cleaned up
      across more than one filesystem operation.
@@ -97,7 +85,7 @@ Treat scanner, audit, and generated-review output as leads. A clean result is
 supporting evidence rather than proof, and an existing exception does not
 dispose of a new finding.
 
-Apply Security finding disposition and classify each concern as:
+Classify each concern as:
 
 - a confirmed finding with a reachable control failure and concrete impact;
 - not a finding, with evidence that reachability, the unsafe effect, or another
@@ -134,10 +122,8 @@ upstream library owns a contract, test the local transformation, invocation,
 side effects, failure propagation, and security-boundary wiring rather than
 repeating the library's full suite.
 
-For a multi-component security path, read
-[Integration test harnesses](../../knowledge/software-testing/integration-test-harnesses.md)
-and keep the real authentication, authorization, transport, or process boundary
-that the claim depends on.
+For a multi-component security path, keep the real authentication,
+authorization, transport, or process boundary that the claim depends on.
 
 Run the narrowest project-declared checks that establish collection and the
 owned security behavior, then the broader checks required by the changed scope.

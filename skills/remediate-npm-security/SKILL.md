@@ -11,9 +11,7 @@ description: Remediate npm dependency-security findings through supported upgrad
    dependency policy from the active working directory when they conflict with
    this plugin's shared Knowledge.
 2. Resolve paths relative to this `SKILL.md`, then read
-   [Dependency and supply-chain security](../../knowledge/security/dependency-supply-chain-security.md)
-   and
-   [Security finding disposition](../../knowledge/security/security-finding-disposition.md).
+   [Dependency and supply-chain security](../../knowledge/security/dependency-supply-chain-security.md).
    Remediate only through a dependency update, a narrow compatible override,
    or removal of a proven-unused dependency chain. Keep containment,
    suppression, risk acceptance, and remote alert disposition outside this
@@ -39,11 +37,10 @@ scope are explicit. Make no dependency changes before then.
 
 Within every selected unit:
 
-1. Apply Security finding disposition and establish the package-specific
-   evidence required by Dependency and supply-chain security: affected resolved
-   nodes, vulnerable behavior, reachability, attacker preconditions, impact,
-   existing controls, and the advisory or release evidence for the affected
-   range.
+1. Establish the package-specific evidence required by Dependency and
+   supply-chain security: affected resolved nodes, vulnerable behavior,
+   reachability, attacker preconditions, impact, existing controls, and the
+   advisory or release evidence for the affected range.
 2. Trace every affected resolved occurrence through its top-level parent to
    each runtime, build, test, or release consumer.
 3. Assign every concern one canonical disposition. Only confirmed concerns

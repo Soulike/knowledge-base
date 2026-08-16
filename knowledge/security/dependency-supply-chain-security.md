@@ -36,7 +36,7 @@ For an update, inspect advisories, behavior changes, runtime and toolchain requi
 
 ## Establish package-specific finding evidence
 
-Apply [Security finding disposition](security-finding-disposition.md) to scanner, audit, and advisory concerns. For a dependency concern, additionally confirm every affected resolved node, the vulnerable behavior, reachability, attacker preconditions, impact, existing controls, and the advisory or release evidence that defines the affected range. Preserve enough graph and consumer detail to reevaluate a disposition when the package or deployment changes.
+Treat scanner, audit, and advisory concerns as leads until package-specific evidence establishes them. Confirm every affected resolved node, the vulnerable behavior, reachability, attacker preconditions, impact, existing controls, and the advisory or release evidence that defines the affected range. Preserve enough graph and consumer detail to reevaluate a disposition when the package or deployment changes.
 
 ## Prefer structural remediation
 

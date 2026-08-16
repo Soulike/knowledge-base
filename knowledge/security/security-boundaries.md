@@ -60,4 +60,4 @@ For secrets, choose storage from the host threat model rather than from a univer
 
 Continuing with an ephemeral secret after persistence fails trades availability against stable identity and recovery. Make that behavior explicit and observable rather than silently treating it as equivalent storage.
 
-Security logging can reveal abuse and failed controls, but it does not replace prevention. Apply [Security event logging](security-event-logging.md) when deciding what evidence the boundary should emit.
+Security logging can reveal abuse and failed controls, but it does not replace prevention.

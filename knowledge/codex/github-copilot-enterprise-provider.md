@@ -2,11 +2,11 @@
 
 ## Scope
 
-This document records a verified Codex custom-provider configuration for using models made available through a GitHub Copilot Enterprise subscription. It covers the provider endpoint and protocol, command-backed GitHub authentication, model selection boundaries, secret handling, and failure classification; GitHub enterprise provisioning, model recommendations, and unrelated transport, retry, timeout, or WebSocket tuning are outside its scope.
+This document records a verified Codex custom-provider configuration for using models made available through a GitHub Copilot Enterprise subscription. It covers the provider endpoint and protocol, optional Copilot CLI request identification, command-backed GitHub authentication, model selection boundaries, secret handling, and failure classification; GitHub enterprise provisioning, model recommendations, and unrelated transport, retry, timeout, or WebSocket tuning are outside its scope.
 
 ## When to update
 
-Update this document when Codex changes its custom-provider or command-backed authentication schema, GitHub changes the Copilot Enterprise endpoint or its Responses API compatibility, the GitHub CLI changes how credentials are obtained, or observed model discovery, access, or error behavior no longer matches the guidance here.
+Update this document when Codex changes its custom-provider or command-backed authentication schema, GitHub changes the Copilot Enterprise endpoint, its Responses API compatibility, or the Copilot CLI integration headers, the GitHub CLI changes how credentials are obtained, or observed model discovery, access, or error behavior no longer matches the guidance here.
 
 ## Preconditions
 
@@ -33,6 +33,20 @@ args = ["auth", "token", "-h", "github.com"]
 ```
 
 The top-level `model_provider` selects the custom provider. `wire_api = "responses"` makes Codex use the Responses protocol expected by this endpoint. The nested `auth` table makes Codex obtain the credential from the GitHub CLI instead of storing a token in the configuration file.
+
+## Identify requests as Copilot CLI
+
+To identify requests sent through this provider as Copilot CLI, add `http_headers` to the existing provider table:
+
+```toml
+[model_providers.github-copilot-enterprise]
+name = "GitHub Copilot Enterprise"
+base_url = "https://api.enterprise.githubcopilot.com"
+wire_api = "responses"
+http_headers = { "Copilot-Integration-Id" = "copilot-developer-cli", "Editor-Version" = "CopilotCLI/1.0" }
+```
+
+Use this block in place of the provider block in the main example rather than declaring `[model_providers.github-copilot-enterprise]` twice. These headers identify the integration but do not authenticate the request or change entitlement, model availability, endpoint, or protocol requirements; keep the command-backed `auth` table and the other provider settings unchanged. Omit `http_headers` when Copilot CLI identification is not intended.
 
 ## Select a model from current availability
 

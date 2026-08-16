@@ -50,7 +50,7 @@ Compare historical implementations from isolated clean revisions or immutable ex
 
 Optimize how the precondition is reached, not what the test proves. Replace clock guesses with conditions or controlled time, keep real components that define the contract, and share only immutable fixture construction while preserving private mutable state.
 
-Delete a slow test only after a realistic mutation shows that it has no unique protection or no production path to protect. After synchronization, fixture, environment, or concurrency changes, repeat the affected tests with retries disabled and under representative load. A faster green run is insufficient when the changed test can no longer fail for its named defect.
+Delete or merge a slow test only when the marginal-coverage and mutation criteria in [Test effectiveness](test-effectiveness.md) establish that it has no unique protection or no live contract. Slowness does not create an additional mutation prerequisite or justify weaker evidence. After synchronization, fixture, environment, or concurrency changes, repeat the affected tests with retries disabled and under representative load. A faster green run is insufficient when the changed test can no longer fail for its named defect.
 
 ## Related Knowledge
 

@@ -20,7 +20,7 @@ A definition, routing pointer, or minimal example may support an admitted block 
 
 Treat a rule together with only the rationale or example needed to apply it as one semantic block. “No documentation change” is the correct outcome when existing authoritative sources already make the meaning reliable.
 
-An authoritative source directly defines or owns a meaning. A hand-maintained restatement is a cache of another source, not a second authority, and must justify its drift risk by making an otherwise expensive or unreliable lookup usable.
+An authoritative source directly defines or owns a meaning. A hand-maintained restatement is not a second authority and creates a cache that can drift. Satisfy an admitted need by improving or directly exposing the authoritative source, generating a reference from it, or adding a routing pointer, definition, or minimal example that supports the authoritative meaning. A merely expensive lookup does not justify a hand-maintained summary.
 
 ## Match authority to purpose
 
@@ -43,11 +43,11 @@ Transient records may explain why a durable decision was made, but the surviving
 
 Put guidance beside the implementation or domain that can keep it correct. Cross-file guidance within one owner can live in that owner’s local documentation; stable consumer orientation can live at a package or module entry point. Broader documentation is appropriate when a meaning crosses independent owners or no narrower location can own it without duplication.
 
-Narrowness alone is insufficient: a location that is routinely renamed, regenerated, or bypassed is not a stable owner. Each hand-maintained document should state a content boundary precise enough to accept or reject a proposed block and a maintenance condition that identifies changes capable of making it stale. Extend an existing owner when its boundary already covers the meaning; create a new owner only for a distinct responsibility.
+Narrowness alone is insufficient: a location that is routinely renamed, regenerated, or bypassed is not a stable owner. Each hand-maintained engineering-guidance document must place, before its substantive body, a content boundary precise enough to accept or reject a proposed block and a maintenance condition that identifies changes capable of making it stale. Extend an existing owner when its boundary already covers the meaning; create a new owner only for a distinct responsibility.
 
 ## Route without restating
 
-Keep each meaning in one authoritative home and link to it when routing is useful. A reading trigger should be evaluable before opening its target: name the task, decision, changed artifact, or failure condition and the stable boundary that makes the target relevant. A list of the target’s contents belongs in its scope, not in the trigger.
+Keep each meaning in one authoritative home and link to it when routing is useful. A broad routing map may point to a narrower map when that keeps each mapping boundary focused; each map owns only its need-to-destination edges, while destination facts remain at their authoritative sources. A reading trigger should be evaluable before opening its target: name the task, decision, changed artifact, or failure condition and the stable boundary that makes the target relevant. A list of the target’s contents belongs in its scope, not in the trigger.
 
 Always-loaded Agent instruction files benefit from the same discipline. Keep them to mandatory rules and stable task-based triggers, disclose conditional detail behind pointers, and repeat only a minimal safety imperative when the cost of missing it justifies duplication. The project’s active instruction hierarchy determines whether narrower instructions may override, refine, or only strengthen broader policy.
 
@@ -58,3 +58,5 @@ A changing inventory belongs in hand-maintained guidance only when completeness 
 Documentation impact follows changed meaning rather than file categories. A change can affect instructions, Skills, examples, pointers, comments, or user guidance even when none appears in the proposed diff. Conversely, a code change may require no prose update when the authoritative contract and existing routes remain complete.
 
 When a meaning changes, every secondary representation must either remain correct, move with its authority, become a pointer, or be removed. Updating the authoritative home while leaving stale names, paths, headings, examples, or summaries preserves two competing versions of the meaning. Prefer pruning obsolete guidance to accumulating qualifications around it.
+
+When documented guidance claims that the system enforces an invariant, treat the invariant, its enforcement mechanism, and the evidence that demonstrates it as one consistency set. A change to any member requires reassessing the others: evolve them together, or surface explicitly that the enforcement or evidence no longer establishes the documented claim.

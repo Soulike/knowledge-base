@@ -2,11 +2,17 @@
 
 ## Scope
 
-This document defines package-ecosystem-independent principles for evaluating third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings. It owns manifest intent, resolved-graph evidence, provenance and integrity, install-time execution, release-policy evidence, consumer compatibility, scanner interpretation, and remediation choices; ecosystem commands, registry configuration, organizational approval policy, and general application trust boundaries are outside its scope.
+This document defines package-ecosystem-independent principles for evaluating third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings. It owns dependency admission, manifest intent, resolved-graph evidence, provenance and integrity, install-time execution, release-policy evidence, consumer compatibility, package-specific finding evidence, and remediation choices; general security-finding disposition, ecosystem commands, registry configuration, organizational approval policy, and application trust boundaries are outside its scope.
 
 ## When to update
 
 Update this document when package-manager behavior, a supply-chain incident, a dependency remediation, or vulnerability-triage evidence changes how manifest intent, resolved occurrences, artifact provenance, installation effects, compatibility, reachability, or exceptions must be established.
+
+## Admit only a necessary dependency
+
+Add a dependency only when its capability is needed and its ownership and maintenance are credible enough for the boundary it will enter. First check whether an existing dependency or a reasonably small local implementation can provide the capability without weakening security, provenance, compatibility, or maintenance guarantees.
+
+Evaluate the privilege the dependency and its installation receive, the sensitivity of data it processes, its release and incident history, and the cost of removing or replacing it. A convenient API is not by itself evidence that the new supply-chain and update surface is justified.
 
 ## Separate intent from the resolved graph
 
@@ -20,7 +26,7 @@ An override changes the graph without changing each consumer's stated intent. Ke
 
 Package names, versions, registry responses, manifests, archives, signatures, integrity fields, and generated lockfile content all cross a trust boundary. Accept artifacts only through the configured source, provenance, and integrity controls. An installation failure is not a reason to widen a registry or integrity exception.
 
-Install-time code is a privileged effect. Disable automatic lifecycle execution where the workflow permits and require an explicit, reviewed decision for native builds, generators, or other package-supplied code. Review what executes, under which identity, with which network, filesystem, credential, and environment access.
+Install-time code is a privileged effect. Keep automatic lifecycle execution disabled by default and permit native builds, generators, or other package-supplied code only through a narrow reviewed allowlist or equivalently enforceable policy. Review what executes, under which identity, with which network, filesystem, credential, and environment access.
 
 ## Establish freshness and compatibility independently
 
@@ -28,11 +34,9 @@ A clean installation proves that a graph can currently be fetched and installed;
 
 For an update, inspect advisories, behavior changes, runtime and toolchain requirements, and every consumer of the resolved version. Forcing a secure-looking transitive release that violates a parent's supported range or runtime contract can replace a reported vulnerability with an untested incompatibility.
 
-## Treat scanner output as a lead
+## Establish package-specific finding evidence
 
-A scanner maps observed metadata to known rules and advisories. Confirm the affected resolved nodes, vulnerable behavior, reachability, attacker preconditions, impact, and existing controls before deciding disposition. Review each new finding independently; a nearby exception does not establish safety. A clean scan is supporting evidence, not proof that the graph or its install behavior is secure.
-
-Suppress only a demonstrated false positive or an explicitly accepted risk. Keep the exception as narrow as the evidence, state the durable reason beside the enforcing configuration, and preserve enough graph and reachability detail to reevaluate it when the dependency or deployment changes.
+Apply [Security finding disposition](security-finding-disposition.md) to scanner, audit, and advisory concerns. For a dependency concern, additionally confirm every affected resolved node, the vulnerable behavior, reachability, attacker preconditions, impact, existing controls, and the advisory or release evidence that defines the affected range. Preserve enough graph and consumer detail to reevaluate a disposition when the package or deployment changes.
 
 ## Prefer structural remediation
 
@@ -43,4 +47,5 @@ After remediation, prove the selected nodes are absent or outside the affected r
 ## Related Knowledge
 
 - [Security boundaries and trust transitions](security-boundaries.md) owns reachability and enforcement at application boundaries.
+- [Security finding disposition](security-finding-disposition.md) owns general scanner evidence, suppression, and accepted-risk rules.
 - [Test effectiveness](../software-testing/test-effectiveness.md) owns evidence that a compatibility or security regression test can catch its named fault.

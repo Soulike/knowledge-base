@@ -1,0 +1,4 @@
+interface:
+  display_name: "Remediate npm Security"
+  short_description: "Safely remediate npm dependency findings"
+  default_prompt: "Use $remediate-npm-security to remediate this npm dependency-security finding."

@@ -26,7 +26,7 @@ Expose controls that create meaningful states rather than timing races: hold or 
 
 Return a single harness handle that owns every process, listener, temporary root, credential, log, and child fixture it creates. Give each run a unique contained state root and endpoints scoped to the topology, using ephemeral local endpoints when cross-host behavior is outside the claim. Redirect application data, configuration, caches, and temporary paths before importing components that cache those locations.
 
-Avoid ambient developer state and global services. When network access is outside the claim, synthetic repositories and packages should have no remote capable of accidental access. Give credentials the same scoped channel the production path expects, never place them in command lines or logs, and constrain any inherited environment to the owned child. Verify containment and storage permissions independently from the code that writes them when those are part of the claim.
+Avoid ambient developer state and global services. When network access is outside the claim, synthetic repositories and packages should have no remote capable of accidental access. When the topology uses credentials, apply [Security boundaries and trust transitions](../security/security-boundaries.md) and, for authenticated local peers, [Capability-based authorization](../security/capability-based-authorization.md). The harness-specific responsibility is to bind each credential to the owned run and peer through the production channel, constrain inherited authority to the owned child, include credential-bearing artifacts in lifecycle ownership, and verify any claimed containment independently.
 
 When a runtime has process-global module state, enforce one harness per process or isolate it in a new process. Failing a second start is safer than silently sharing state between supposedly independent topologies.
 
@@ -51,3 +51,5 @@ Executable configuration should remain the authority for actual suite membership
 - [Test effectiveness](test-effectiveness.md) owns whether each scenario adds unique protection.
 - [Reliable test execution](test-execution-reliability.md) owns synchronization, clocks, retries, platform assumptions, and single-test fixture isolation.
 - [Performance regression testing](performance-regression-testing.md) owns load and performance evidence.
+- [Security boundaries and trust transitions](../security/security-boundaries.md) owns secret and sensitive-data exposure and storage.
+- [Capability-based authorization](../security/capability-based-authorization.md) owns credentials and grants that authenticate local peers.

@@ -30,9 +30,11 @@ Session and persistent grants need explicit scope, storage ownership, revocation
 
 ## Bind delegated grants before use
 
-Create a delegated grant for an exact eligible subject and operation. Bind the subject, action, resource, destination, parent or issuer, and expiry before returning usable authority. Discovery information and routing addresses are not bearer credentials.
+Create a delegated grant for an exact eligible subject and operation. Bind the subject, action, resource, destination, parent or issuer, and expiry before returning usable authority. Keep its lifetime no longer than the operation requires, and consume or revoke it earlier when its purpose ends. Discovery information and routing addresses are not bearer credentials.
 
 Keep short-lived enrollment authority separate from the persistent identity used after enrollment. Bind identity at the authenticated transport boundary instead of accepting a later self-reported name as the source of truth.
+
+A destructive lifecycle transition requires an exact authenticated decision from the authority that owns it. A disconnect, timeout, authentication failure, or generic policy rejection can end current access, but it does not by itself authorize self-removal, data deletion, or another irreversible cleanup action. Preserve the resource or enter a recoverable denied state until the explicit removal or revocation signal is established.
 
 When creation of a child operation and binding of its grant must agree, perform them in one atomic transition. A later check should verify the existing binding rather than choose or rebind the subject. Consume a single-use grant through an authenticated compare-and-swap transition, and apply the same ownership discipline to revocation and expiry.
 

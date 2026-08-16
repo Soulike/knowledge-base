@@ -47,3 +47,8 @@
    and relevant tests. Confirm that the Skill is in the scope selected in step
    1, preserves downstream-project independence when user-facing, and has no
    duplicated source of truth.
+10. When static checks cannot establish a changed Skill's decision behavior,
+    forward-test its representative trigger branches. Give the evaluator the
+    raw task and artifacts with only the context needed to perform it; do not
+    disclose the intended answer, suspected defect, proposed fix, or author's
+    conclusions unless the evaluation specifically requires them.

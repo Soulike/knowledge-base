@@ -1,0 +1,4 @@
+interface:
+  display_name: "Curate Documentation"
+  short_description: "Refine existing documentation in separate passes"
+  default_prompt: "Use $curate-documentation to assess and refine this existing document one decision pass at a time."

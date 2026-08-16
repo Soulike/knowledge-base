@@ -18,21 +18,27 @@ Classify the material before choosing its destination.
    project.
 3. Read
    [`knowledge/agents/knowledge-and-skills.md`](../../../knowledge/agents/knowledge-and-skills.md),
-   then classify every distinct part of the material as Knowledge, Skill,
-   mixed, or neither using that model. Report why material in the last category
-   was not integrated.
-4. For each Knowledge part, read
+   then identify every distinct part's intended consumers, maintenance
+   lifecycle, and concrete direct-reading task or decision. A Knowledge
+   candidate must support a root-index `When to Read` condition for an
+   installed-plugin task that exists independently of this repository's
+   authoring workflow.
+4. Classify every part as Knowledge, Skill, mixed, or neither using that model.
+   Keep explanation whose consumers and lifecycle belong only to an authoring
+   workflow in that Skill or its references, even when the prose sounds
+   general. Report why material in the last category was not integrated.
+5. For each Knowledge part, read
    [`references/add-knowledge.md`](references/add-knowledge.md) and complete
    that workflow.
-5. For each Skill part, read
+6. For each Skill part, read
    [`references/add-skill.md`](references/add-skill.md) and complete that
    workflow.
-6. For mixed material, finish the Knowledge branch first so the Skill can
+7. For mixed material, finish the Knowledge branch first so the Skill can
    reference the final canonical paths.
-7. When the final diff changes root `knowledge/**` or `skills/**`, follow
+8. When the final diff changes root `knowledge/**` or `skills/**`, follow
    [`references/update-plugin-version.md`](references/update-plugin-version.md)
    after the content stabilizes.
-8. Review the combined result and report the classification, changed paths,
+9. Review the combined result and report the classification, changed paths,
    generated primary-plugin version when applicable, and validation performed.
 
 ## Completion criteria
@@ -40,6 +46,7 @@ Classify the material before choosing its destination.
 Finish only when every part of the input has been classified, every accepted
 part has one authoritative home, the root Knowledge index and all references
 resolve, every user-facing part preserves downstream-project independence, and
-the resulting diff preserves the Knowledge-versus-Skill boundary. When root
-Knowledge or usage Skills changed, also require the PR-scoped primary-plugin
-version and its validation to be current.
+every Knowledge part has an independent installed-use reading responsibility.
+The resulting diff must preserve the Knowledge-versus-Skill boundary. When
+root Knowledge or usage Skills changed, also require the PR-scoped
+primary-plugin version and its validation to be current.

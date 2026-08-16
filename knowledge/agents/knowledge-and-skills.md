@@ -22,12 +22,15 @@ An Agent Skill is task-facing behavior that tells an Agent when and how to accom
 
 Classify content by responsibility, not by its Markdown form or writing style. A Knowledge document may contain examples, algorithms, criteria, or domain procedures when they explain the subject. Content belongs in a Skill when its responsibility is to control how an Agent recognizes, performs, and completes a task.
 
-| Question                                 | Knowledge                                             | Skill                                                                     |
-| ---------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------- |
-| What is its primary purpose?             | Preserve reusable understanding.                      | Produce a task outcome.                                                   |
-| Does it stand alone?                     | It remains useful outside a particular workflow.      | It is invoked in response to a task or trigger.                           |
-| What behavior does it own?               | It informs decisions without orchestrating execution. | It orchestrates decisions, tools, steps, and completion.                  |
-| How should other artifacts depend on it? | Multiple Skills and direct readers may use it.        | It reads canonical Knowledge instead of becoming another source of truth. |
+Explanatory prose does not become Knowledge merely because it states a reusable-looking principle. Keep material as a Skill's in-file or disclosed reference when its only consumer is that workflow, it changes with that workflow, and no independent task or decision would cause a reader to retrieve it. An independent direct-reading responsibility is the deciding signal for Knowledge; use by multiple Skills or readers is strong evidence for that responsibility, but is not required.
+
+| Question                                 | Knowledge                                                    | Skill                                                                     |
+| ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| What is its primary purpose?             | Preserve reusable understanding.                             | Produce a task outcome.                                                   |
+| Does it stand alone?                     | It has an independent direct-reading task or decision.       | It is invoked in response to a task or trigger.                           |
+| What controls its lifecycle?             | Changes in the subject it explains.                          | Changes in the workflow it implements or supports.                        |
+| What behavior does it own?               | It informs decisions without orchestrating execution.        | It orchestrates decisions, tools, steps, and completion.                  |
+| How should other artifacts depend on it? | Skills and direct readers reference its canonical ownership. | It reads canonical Knowledge instead of becoming another source of truth. |
 
 ## Canonical ownership
 
@@ -36,10 +39,11 @@ Assign each reusable concept and responsibility to one canonical Knowledge docum
 ## Classifying material
 
 1. Separate the source into parts with distinct responsibilities instead of assigning one category to the whole source.
-2. Classify material that preserves reusable understanding as Knowledge.
-3. Classify material that controls an Agent's task execution as a Skill.
-4. Treat material containing both responsibilities as mixed: extract the canonical Knowledge first, then make the Skill reference and apply it.
-5. Keep material matching neither responsibility in the artifact type that actually owns it rather than forcing it into Knowledge or a Skill.
+2. For each part, identify its consumers, what changes would make it stale, and whether a concrete task or decision would cause it to be read outside a particular workflow.
+3. Classify material with an independent direct-reading responsibility that preserves reusable understanding as Knowledge.
+4. Classify material that controls an Agent's task execution, plus supporting explanation local to that workflow, as a Skill or Skill reference.
+5. Treat material containing both responsibilities as mixed: extract the canonical Knowledge first, then make the Skill reference and apply it.
+6. Keep material matching neither responsibility in the artifact type that actually owns it rather than forcing it into Knowledge or a Skill.
 
 ## Examples
 

@@ -18,9 +18,11 @@
    workflow's decisions and required inputs with every `When to Read`
    condition, read every matching leaf document, and search `knowledge/` for
    concepts the Skill would otherwise explain. Reference applicable canonical
-   Knowledge rather than reproducing it. If required reusable Knowledge is
-   missing, return that material to the parent workflow as mixed and complete
-   the Knowledge branch first.
+   Knowledge rather than reproducing it. Keep explanation whose only consumer
+   and maintenance lifecycle are this workflow in the Skill body or its
+   `references/`. Return missing material to the parent workflow as mixed only
+   when it has an independent direct-reading responsibility outside the
+   workflow, then complete the Knowledge branch first.
 4. Search the selected Skill scope for an existing workflow with the same
    responsibility. Extend the existing Skill when it already owns the task.
 5. For a new Skill, use a lowercase hyphenated, verb-led directory name that

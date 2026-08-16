@@ -19,6 +19,24 @@ This document defines the authentication guarantees shared by every client.
 Update this document when an authentication guarantee or supported client changes.
 `;
 
+function validIndex(rows: string): string {
+  return `# Knowledge index
+
+## Scope
+
+This index lists Knowledge.
+
+## When to update
+
+Update this index when Knowledge changes.
+
+## Documents
+
+| File Path | Knowledge Type | When to Read |
+| --- | --- | --- |
+${rows}`;
+}
+
 test("requires the knowledge directory as a CLI argument", () => {
   const result = spawnSync(process.execPath, [checkerPath], {
     encoding: "utf8",
@@ -37,7 +55,12 @@ test("recursively checks Markdown files through the CLI", async (t) => {
 
   await mkdir(nestedDirectory, { recursive: true });
   await Promise.all([
-    writeFile(join(knowledgeDirectory, "index.md"), validDocument),
+    writeFile(
+      join(knowledgeDirectory, "index.md"),
+      validIndex(
+        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n",
+      ),
+    ),
     writeFile(join(nestedDirectory, "authentication.md"), validDocument),
     writeFile(join(nestedDirectory, "notes.txt"), "Not Markdown."),
   ]);
@@ -91,7 +114,7 @@ test("rejects nested knowledge indexes", async (t) => {
 
   await mkdir(nestedDirectory, { recursive: true });
   await Promise.all([
-    writeFile(join(knowledgeDirectory, "index.md"), validDocument),
+    writeFile(join(knowledgeDirectory, "index.md"), validIndex("")),
     writeFile(join(nestedDirectory, "index.md"), validDocument),
   ]);
 

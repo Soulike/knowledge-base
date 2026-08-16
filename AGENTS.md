@@ -5,10 +5,13 @@
 The repository root is the primary `knowledge-base` plugin. In this repository,
 **knowledge base** means the complete repository and plugin, **Knowledge** means
 the static content under `knowledge/`, and **Skill** means an Agent workflow.
+Here, static distinguishes content that provides understanding from a workflow
+that controls execution; it does not mean that the content cannot become stale.
 
 - `knowledge/` contains canonical, static knowledge organized by domain. Keep
   `knowledge/index.md` as the only index and list every leaf Knowledge document
-  there directly. Use subdirectories for organization, not nested indexes.
+  there directly with its `time-sensitive` or `evergreen` Knowledge Type. Use
+  subdirectories for organization, not nested indexes.
 - `.agents/skills/` contains workflows used while authoring and maintaining
   this repository.
 - `skills/` contains workflows used after installing the primary plugin.

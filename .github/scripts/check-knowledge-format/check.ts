@@ -2,6 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { basename, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { inspectKnowledgeIndex } from "./knowledge-index.ts";
 import { validateKnowledgeDocument } from "./validate.ts";
 
 export interface KnowledgeFormatDiagnostic {
@@ -43,15 +44,26 @@ export async function checkKnowledgeDirectory(
   const knowledgeDirectory = resolve(directory);
   const markdownFiles = await findMarkdownFiles(knowledgeDirectory);
   const diagnostics: KnowledgeFormatDiagnostic[] = [];
+  const relativeMarkdownFiles = markdownFiles.map((filePath) =>
+    toPortablePath(relative(knowledgeDirectory, filePath)),
+  );
+  let indexMarkdown: string | undefined;
 
-  for (const filePath of markdownFiles) {
+  for (const [index, filePath] of markdownFiles.entries()) {
     const markdown = await readFile(filePath, "utf8");
-    const relativeFilePath = toPortablePath(
-      relative(knowledgeDirectory, filePath),
-    );
+    const relativeFilePath = relativeMarkdownFiles[index];
+
+    if (relativeFilePath === undefined) {
+      continue;
+    }
+
     const displayPath = toPortablePath(
       join(basename(knowledgeDirectory), relativeFilePath),
     );
+
+    if (relativeFilePath === "index.md") {
+      indexMarkdown = markdown;
+    }
 
     if (
       relativeFilePath !== "index.md" &&
@@ -66,6 +78,26 @@ export async function checkKnowledgeDirectory(
 
     for (const message of validateKnowledgeDocument(markdown)) {
       diagnostics.push({ filePath: displayPath, message });
+    }
+  }
+
+  const indexDisplayPath = toPortablePath(
+    join(basename(knowledgeDirectory), "index.md"),
+  );
+
+  if (indexMarkdown === undefined) {
+    diagnostics.push({
+      filePath: indexDisplayPath,
+      message: "The root Knowledge index is required.",
+    });
+  } else {
+    const leafFilePaths = relativeMarkdownFiles.filter(
+      (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
+    );
+    const inspection = inspectKnowledgeIndex(indexMarkdown, leafFilePaths);
+
+    for (const message of inspection.diagnostics) {
+      diagnostics.push({ filePath: indexDisplayPath, message });
     }
   }
 

@@ -1,6 +1,6 @@
 ---
 name: retry-via-local-proxy
-description: Retry read-only network fetches through a detected local HTTP or SOCKS5 proxy on 127.0.0.1 ports 1087 and 1080. Use after direct web, documentation, API, package metadata, clone, or download requests fail with connection, DNS, timeout, TLS, or HTTP 403 errors.
+description: Retry read-only network retrievals through a detected local HTTP or SOCKS5 proxy on 127.0.0.1 ports 1087 and 1080. Use when direct web, documentation, API, package metadata, or download requests fail with connection, DNS, timeout, TLS, or HTTP 403 errors, or when cloning an HTTP(S) Git repository times out.
 ---
 
 # Retry Via Local Proxy
@@ -11,10 +11,13 @@ persistent network setting.
 ## Workflow
 
 1. Record the direct failure and confirm that replay is safe. Retry `GET`,
-   `HEAD`, list, clone, and download operations automatically. Ask before
-   replaying `POST`, `PUT`, `PATCH`, `DELETE`, uploads, or commands with side
-   effects. Preserve the target, request semantics, headers, and credentials;
-   keep secrets out of logs.
+   `HEAD`, list, and download operations automatically. Also retry a timed-out
+   `git clone` automatically when its remote uses `http://` or `https://` and
+   its destination is absent or is an empty directory created by the failed
+   attempt. Preserve any other destination and ask before deleting or replacing
+   it. Ask before replaying `POST`, `PUT`, `PATCH`, `DELETE`, uploads, or other
+   commands with side effects. Preserve the target, request semantics, headers,
+   and credentials; keep secrets out of logs.
 
 2. Probe these candidates once each with short timeouts:
 
@@ -52,9 +55,23 @@ persistent network setting.
    honored the proxy. If the current network tool has no proxy support, use a
    proxy-capable local client for an equivalent read-only fetch.
 
+   Before replaying a timed-out HTTP(S) clone, verify repository access with a
+   lightweight Git request through the same candidate, then preserve the
+   original clone arguments for the full retry:
+
+   ```bash
+   git -c http.proxy="$proxy" ls-remote "$repo_url" HEAD
+   git -c http.proxy="$proxy" clone <original clone arguments>
+   ```
+
+   A successful curl probe proves proxy transport, while `ls-remote` proves
+   that Git can reach the repository. Run the full clone only after both pass.
+
 4. Keep the fallback bounded. Never write proxy settings to shell profiles,
    system settings, global Git config, or persistent package-manager config.
    If every proxy attempt fails, report the direct error and the candidates
-   tested. If `403` remains after the proxy pass, treat it as an authentication
-   or access-policy result; stop rather than rotating identities or attempting
-   to bypass the restriction.
+   tested. For a clone timeout, distinguish a proxy-transport failure, a
+   repository-access failure, and a bulk-transfer failure, and preserve any
+   partial destination. If `403` remains after the proxy pass, treat it as an
+   authentication or access-policy result; stop rather than rotating identities
+   or attempting to bypass the restriction.

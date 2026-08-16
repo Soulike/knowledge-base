@@ -11,23 +11,37 @@
    private infrastructure. Product, platform, protocol, and engineering-domain
    specificity are valid. Return material whose meaning depends on its source
    project to the parent workflow as neither.
-4. Apply
-   [Generalizing source material into reusable Knowledge](../../../../knowledge/agents/generalizing-source-material.md)
-   before choosing a destination. Use the resulting claim scopes and document
-   boundaries throughout the remaining steps.
-5. Update an existing document when it already owns the concept. Create a new
+4. Apply the ownership and generalization rules below before choosing a
+   destination. Use the resulting claim scopes and document boundaries
+   throughout the remaining steps.
+5. Compare the candidate material with each existing candidate document's
+   pre-edit Scope, root-index `When to Read` condition, and `When to update`
+   trigger. Select that document only when all three describe the same
+   responsibility; otherwise select a separate owner.
+6. Update an existing document when it already owns the concept. Create a new
    document only for a distinct responsibility, placing it in a clear domain
    under `knowledge/` with the smallest useful document structure.
-6. Give every Markdown document under `knowledge/`, including the root index,
+7. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-7. Keep `knowledge/index.md` as the only index. Organize leaf documents in
+8. Keep `knowledge/index.md` as the only index. Organize leaf documents in
    domain directories, but list every leaf directly in the root index and do
    not create nested `index.md` files.
-8. Add or update exactly one root-index row for every affected leaf document
+9. Add or update exactly one root-index row for every affected leaf document
    using the fields below.
-9. Verify that every leaf document is listed exactly once, every changed
-   relative link resolves, and each concept has one canonical owner.
-10. Run `pnpm knowledge:check` from the repository root.
+10. Verify that every leaf document is listed exactly once, every changed
+    relative link resolves, and each concept has one canonical owner.
+    Compare every changed Scope and routing trigger with its pre-edit form;
+    keep additions that express the same responsibility and route independent
+    responsibilities separately.
+11. Run `pnpm knowledge:check` from the repository root.
+
+## Ownership and generalization
+
+Generalize source material to the narrowest stable abstraction supported by the evidence. Separate direct observations from the invariant that explains them and the conditions it requires. Remove source-project details only when they do not affect that invariant, and retain product, platform, protocol, runtime, or environmental qualifiers that the evidence has not displaced. Authoritative contracts, documented semantics, mechanism-level reasoning, and representative observations can support a broader claim; analogy alone supports only a hypothesis.
+
+Test ownership against the pre-edit boundary. Topical overlap makes a document a candidate, while canonical ownership requires the same responsibility. Using a newly widened Scope or routing condition as proof of fit is circular. Revise a boundary when it states the same pre-edit responsibility more accurately; select a separate owner when the material introduces an independent responsibility, read trigger, or maintenance trigger. Compare the old and new routing conditions after drafting to catch a boundary widened to admit the material.
+
+Split a general principle from a product- or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed API choices, runtime behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
 
 ## Knowledge document preface
 

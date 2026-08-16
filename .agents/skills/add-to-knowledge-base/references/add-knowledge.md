@@ -11,19 +11,23 @@
    private infrastructure. Product, platform, protocol, and engineering-domain
    specificity are valid. Return material whose meaning depends on its source
    project to the parent workflow as neither.
-4. Update an existing document when it already owns the concept. Create a new
+4. Apply
+   [Generalizing source material into reusable Knowledge](../../../../knowledge/agents/generalizing-source-material.md)
+   before choosing a destination. Use the resulting claim scopes and document
+   boundaries throughout the remaining steps.
+5. Update an existing document when it already owns the concept. Create a new
    document only for a distinct responsibility, placing it in a clear domain
    under `knowledge/` with the smallest useful document structure.
-5. Give every Markdown document under `knowledge/`, including the root index,
+6. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-6. Keep `knowledge/index.md` as the only index. Organize leaf documents in
+7. Keep `knowledge/index.md` as the only index. Organize leaf documents in
    domain directories, but list every leaf directly in the root index and do
    not create nested `index.md` files.
-7. Add or update exactly one root-index row for every affected leaf document
+8. Add or update exactly one root-index row for every affected leaf document
    using the fields below.
-8. Verify that every leaf document is listed exactly once, every changed
+9. Verify that every leaf document is listed exactly once, every changed
    relative link resolves, and each concept has one canonical owner.
-9. Run `pnpm knowledge:check` from the repository root.
+10. Run `pnpm knowledge:check` from the repository root.
 
 ## Knowledge document preface
 

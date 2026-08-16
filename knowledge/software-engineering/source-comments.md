@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines the project-independent authority, content, drift, and evidence principles for explanatory prose embedded in source code. It covers comments and docstrings attached to an implementation, but not language-specific formatting, generated API references, or the broader placement and routing decisions owned by [Authoritative engineering guidance](../documentation/authoritative-guidance.md).
+This document defines project-independent authority, content, drift, and evidence principles for comments and docstrings attached to an implementation.
 
 ## When to update
 

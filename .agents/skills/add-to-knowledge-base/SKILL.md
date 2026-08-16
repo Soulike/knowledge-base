@@ -47,7 +47,9 @@ Finish only when every part of the input has been classified, every accepted
 part has one authoritative home, the root Knowledge index and all references
 resolve, every user-facing part preserves downstream-project independence, and
 every Knowledge part has an independent installed-use reading responsibility
-and a valid Knowledge Type. The resulting diff must preserve the
-Knowledge-versus-Skill boundary. When root Knowledge or usage Skills changed,
-also require the PR-scoped primary-plugin version and its validation to be
-current.
+and a valid Knowledge Type. Each Knowledge leaf must serve that responsibility
+without requiring another leaf as a prerequisite, and the root index must
+remain the only Knowledge routing catalog. The resulting diff must preserve
+the Knowledge-versus-Skill boundary. When root Knowledge or usage Skills
+changed, also require the PR-scoped primary-plugin version and its validation
+to be current.

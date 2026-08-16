@@ -85,7 +85,9 @@ set and apply its routing standards before proposing each owner.
    implicitly.
 2. Repair affected scope statements, maintenance conditions, indexes, links,
    paths, headings, pointers, and prompts after deleting, moving, or splitting
-   content.
+   content. Rewrite affected semantic blocks in place so each final document
+   presents one coherent current model rather than preserving its revision
+   history as layers of exceptions or qualifications.
 3. Search for stale terminology, broken routes, and secondary copies.
 4. Check the final documents and factual pointers against their authoritative
    sources. Run the applicable formatter, targeted link and anchor checks, Skill
@@ -123,6 +125,7 @@ content or ownership authority. Repeat the comparison with a fresh or isolated
 reviewer after every fix.
 
 Finish when the approved pass is implemented, every affected route is repaired,
-every required check has passed, and an independent final comparison accounts
-for every semantic change across every affected artifact and finds no
-unexplained semantic loss or distortion.
+each final document presents one coherent current model, every required check
+has passed, and an independent final comparison accounts for every semantic
+change across every affected artifact and finds no unexplained semantic loss or
+distortion.

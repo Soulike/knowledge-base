@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document explains project-independent principles for deciding when durable engineering guidance is warranted, assigning each meaning to an authoritative artifact and stable owner, routing readers to it, and keeping it current. It does not orchestrate a documentation change, prescribe prose style, or duplicate the specific boundaries owned by [Knowledge and Skills](../agents/knowledge-and-skills.md) and [Source comments and docstrings](../software-engineering/source-comments.md).
+This document explains project-independent principles for deciding when durable engineering guidance is warranted, assigning each meaning to an authoritative artifact and stable owner, routing readers to it, and keeping it current.
 
 ## When to update
 
@@ -47,7 +47,7 @@ Narrowness alone is insufficient: a location that is routinely renamed, regenera
 
 ## Route without restating
 
-Keep each meaning in one authoritative home and link to it when routing is useful. A broad routing map may point to a narrower map when that keeps each mapping boundary focused; each map owns only its need-to-destination edges, while destination facts remain at their authoritative sources. A reading trigger should be evaluable before opening its target: name the task, decision, changed artifact, or failure condition and the stable boundary that makes the target relevant. A list of the target’s contents belongs in its scope, not in the trigger.
+Keep each meaning in one authoritative home and link to it when routing is useful. A broad routing map may point to a narrower map when that keeps each mapping boundary focused; each map owns only its need-to-destination edges, while destination facts remain at their authoritative sources. A reading trigger should be evaluable before opening its target: name the task, decision, changed artifact, or failure condition and the stable boundary that makes the target relevant. A scope states the target's responsibility and level of detail; neither a scope nor a reading trigger should become a contents inventory.
 
 Always-loaded Agent instruction files benefit from the same discipline. Keep them to mandatory rules and stable task-based triggers, disclose conditional detail behind pointers, and repeat only a minimal safety imperative when the cost of missing it justifies duplication. The project’s active instruction hierarchy determines whether narrower instructions may override, refine, or only strengthen broader policy.
 
@@ -57,6 +57,6 @@ A changing inventory belongs in hand-maintained guidance only when completeness 
 
 Documentation impact follows changed meaning rather than file categories. A change can affect instructions, Skills, examples, pointers, comments, or user guidance even when none appears in the proposed diff. Conversely, a code change may require no prose update when the authoritative contract and existing routes remain complete.
 
-When a meaning changes, every secondary representation must either remain correct, move with its authority, become a pointer, or be removed. Updating the authoritative home while leaving stale names, paths, headings, examples, or summaries preserves two competing versions of the meaning. Prefer pruning obsolete guidance to accumulating qualifications around it.
+When a meaning changes, rewrite the affected semantic block in place and remove the wording it supersedes. The final artifact should present one coherent current model rather than preserve its revision history as layers of exceptions or qualifications. Every secondary representation must either remain correct, move with its authority, become a pointer, or be removed; leaving stale names, paths, headings, examples, or summaries preserves competing versions of the meaning.
 
 When documented guidance claims that the system enforces an invariant, treat the invariant, its enforcement mechanism, and the evidence that demonstrates it as one consistency set. A change to any member requires reassessing the others: evolve them together, or surface explicitly that the enforcement or evidence no longer establishes the documented claim.

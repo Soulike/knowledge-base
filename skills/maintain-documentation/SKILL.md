@@ -66,16 +66,18 @@ blocks.
 
 1. Choose the artifact and narrowest stable owner by purpose, applying any
    stricter project-specific contract.
-2. Add or revise the meaning in one authoritative home. Use pointers when
-   another audience needs a route to it instead of reproducing the detail.
+2. Add or revise the meaning in one authoritative home. Rewrite affected
+   semantic blocks in place, remove superseded wording, and leave one coherent
+   current model rather than a revision history expressed as layers of
+   exceptions or qualifications. Use pointers when another audience needs a
+   route to it instead of reproducing the detail.
 3. Put a clear content boundary and maintenance condition before the substantive
    body of every hand-maintained engineering-guidance document, applying any
    stricter local standard.
 4. Write task-evaluable reading triggers and keep changing inventories at their
    live source unless completeness is mechanically maintained.
 5. Update, redirect, or remove every secondary representation invalidated by
-   the change. Prefer pruning obsolete prose to layering qualifications around
-   it.
+   the change.
 6. Evolve a recorded invariant, its enforcement, and its evidence together. If
    the authorized scope cannot resolve a mismatch, report it as an incomplete
    condition rather than claiming the documentation task is complete.
@@ -91,8 +93,10 @@ blocks.
    enforcement and evidence.
 4. Confirm that new reading triggers can be evaluated before opening their
    targets.
-5. Search for stale paths, headings, names, examples, and competing copies.
-6. Run the applicable formatter, targeted link or anchor checks, and other
+5. Read each final document as a whole and confirm that it presents one
+   coherent current model without superseded prose or revision sediment.
+6. Search for stale paths, headings, names, examples, and competing copies.
+7. Run the applicable formatter, targeted link or anchor checks, and other
    checks required by the active project and artifact.
 
 Finish when every reviewed file is dispositioned, each changed meaning has one

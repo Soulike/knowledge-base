@@ -11,7 +11,13 @@ that controls execution; it does not mean that the content cannot become stale.
 - `knowledge/` contains canonical, static knowledge organized by domain. Keep
   `knowledge/index.md` as the only index and list every leaf Knowledge document
   there directly with its `time-sensitive` or `evergreen` Knowledge Type. Use
-  subdirectories for organization, not nested indexes.
+  subdirectories for organization, not nested indexes. Each leaf must provide
+  enough context to serve its root-index `When to Read` condition without
+  requiring another leaf as a prerequisite. Keep Knowledge routing in the root
+  index rather than adding `Related Knowledge`, `See also`, or similar routing
+  appendices to leaves. When a claim genuinely depends on another leaf, link it
+  inline at the point where the dependency is applied and state the necessary
+  context there.
 - `.agents/skills/` contains workflows used while authoring and maintaining
   this repository.
 - `skills/` contains workflows used after installing the primary plugin.

@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines the roles, boundary, and dependency relationship of reusable Knowledge and Agent Skills in Agent systems, including how to classify and split source material; repository layouts, plugin packaging, and project-specific authoring workflows are outside its scope.
+This document defines the roles, boundaries, canonical ownership, and dependency relationship of reusable Knowledge and Agent Skills in Agent systems, including how to classify and split source material.
 
 ## When to update
 
@@ -12,7 +12,7 @@ Update this document when changes in Agent capabilities alter the role of Knowle
 
 ### Knowledge
 
-Knowledge is reusable, relatively static content that records facts, concepts, principles, constraints, explanations, and references. “Static” means that the content provides understanding rather than controlling an Agent's execution; it can still be revised as its subject changes. Knowledge should remain useful when read directly and may support multiple Skills.
+Knowledge is reusable, relatively static content that records facts, concepts, principles, constraints, explanations, and references. “Static” means that the content provides understanding rather than controlling an Agent's execution; it can still be revised as its subject changes. Each Knowledge document should provide enough context to serve its direct-reading responsibility without requiring another Knowledge document as a prerequisite, and it may support multiple Skills.
 
 ### Skill
 
@@ -35,6 +35,8 @@ Explanatory prose does not become Knowledge merely because it states a reusable-
 ## Canonical ownership
 
 Assign each reusable concept and responsibility to one canonical Knowledge document. Make document Scopes and routing conditions such as `When to Read` expose distinct ownership. Multiple documents may match the same compound task when each contributes different Knowledge; when two documents would answer the same question with the same responsibility, merge them or redraw their boundaries instead of maintaining parallel sources of truth.
+
+A catalog owns routing among Knowledge documents. When one document genuinely depends on another, place the link in the explanation that applies the dependency and state the local context needed to use it. A detached list of neighboring documents is routing rather than part of a leaf document's subject.
 
 ## Classifying material
 

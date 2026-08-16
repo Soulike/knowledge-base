@@ -2,21 +2,21 @@
 
 ## Scope
 
-This document defines the roles, boundaries, canonical ownership, and dependency relationship of reusable Knowledge and Agent Skills in Agent systems, including how to classify and split source material.
+This document defines how to distinguish reusable Knowledge from Agent Skills and classify source material as Knowledge, Skill, mixed, or neither.
 
 ## When to update
 
-Update this document when changes in Agent capabilities alter the role of Knowledge or Skills, or when a real classification case exposes an ambiguity in the boundary, canonical ownership, mixed-content split, or dependency rules described here.
+Update this document when changes in Agent capabilities or a real classification case expose an ambiguity in the distinction between reusable understanding and task-facing behavior or in handling mixed or neither material.
 
 ## Roles
 
 ### Knowledge
 
-Knowledge is reusable, relatively static content that records facts, concepts, principles, constraints, explanations, and references. “Static” means that the content provides understanding rather than controlling an Agent's execution; it can still be revised as its subject changes. Each Knowledge document should provide enough context to serve its direct-reading responsibility without requiring another Knowledge document as a prerequisite, and it may support multiple Skills.
+Knowledge is reusable, relatively static content whose responsibility is to preserve understanding through facts, concepts, principles, constraints, explanations, and references. “Static” means that the content informs rather than controls execution; it can still be revised as its subject changes.
 
 ### Skill
 
-An Agent Skill is task-facing behavior that tells an Agent when and how to accomplish a particular outcome. It owns invocation triggers, decisions, execution steps, tool use, and completion criteria. A Skill may retrieve and apply Knowledge, but should reference the canonical Knowledge rather than reproduce it.
+An Agent Skill is task-facing behavior whose responsibility is to produce an outcome. It owns invocation triggers, decisions, execution steps, tool use, and completion criteria.
 
 ## Boundary
 
@@ -24,19 +24,12 @@ Classify content by responsibility, not by its Markdown form or writing style. A
 
 Explanatory prose does not become Knowledge merely because it states a reusable-looking principle. Keep material as a Skill's in-file or disclosed reference when its only consumer is that workflow, it changes with that workflow, and no independent task or decision would cause a reader to retrieve it. An independent direct-reading responsibility is the deciding signal for Knowledge; use by multiple Skills or readers is strong evidence for that responsibility, but is not required.
 
-| Question                                 | Knowledge                                                    | Skill                                                                     |
-| ---------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| What is its primary purpose?             | Preserve reusable understanding.                             | Produce a task outcome.                                                   |
-| Does it stand alone?                     | It has an independent direct-reading task or decision.       | It is invoked in response to a task or trigger.                           |
-| What controls its lifecycle?             | Changes in the subject it explains.                          | Changes in the workflow it implements or supports.                        |
-| What behavior does it own?               | It informs decisions without orchestrating execution.        | It orchestrates decisions, tools, steps, and completion.                  |
-| How should other artifacts depend on it? | Skills and direct readers reference its canonical ownership. | It reads canonical Knowledge instead of becoming another source of truth. |
-
-## Canonical ownership
-
-Assign each reusable concept and responsibility to one canonical Knowledge document. Make document Scopes and routing conditions such as `When to Read` expose distinct ownership. Multiple documents may match the same compound task when each contributes different Knowledge; when two documents would answer the same question with the same responsibility, merge them or redraw their boundaries instead of maintaining parallel sources of truth.
-
-A catalog owns routing among Knowledge documents. When one document genuinely depends on another, place the link in the explanation that applies the dependency and state the local context needed to use it. A detached list of neighboring documents is routing rather than part of a leaf document's subject.
+| Question                     | Knowledge                                         | Skill                                                        |
+| ---------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| What is its primary purpose? | Preserve reusable understanding.                  | Produce a task outcome.                                      |
+| What selects it?             | An independent direct-reading task or decision.   | A task or trigger that asks the Agent to produce an outcome. |
+| What controls its lifecycle? | Changes in the subject it explains.               | Changes in the workflow it implements or supports.           |
+| What behavior does it own?   | Inform decisions without orchestrating execution. | Orchestrate decisions, tools, steps, and completion.         |
 
 ## Classifying material
 
@@ -44,7 +37,7 @@ A catalog owns routing among Knowledge documents. When one document genuinely de
 2. For each part, identify its consumers, what changes would make it stale, and whether a concrete task or decision would cause it to be read outside a particular workflow.
 3. Classify material with an independent direct-reading responsibility that preserves reusable understanding as Knowledge.
 4. Classify material that controls an Agent's task execution, plus supporting explanation local to that workflow, as a Skill or Skill reference.
-5. Treat material containing both responsibilities as mixed: extract the canonical Knowledge first, then make the Skill reference and apply it.
+5. Treat material containing both responsibilities as mixed: separate reusable understanding into Knowledge and task execution into a Skill that applies it.
 6. Keep material matching neither responsibility in the artifact type that actually owns it rather than forcing it into Knowledge or a Skill.
 
 ## Examples

@@ -5,36 +5,40 @@
    document Scopes and `When to Read` conditions for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
-3. Confirm that each Knowledge part remains correct without access to its
-   source project. Remove dependencies on named downstream repositories, fixed
-   project paths or layouts, project domain models, organization policies, and
-   private infrastructure. Product, platform, protocol, and engineering-domain
-   specificity are valid. Return material whose meaning depends on its source
-   project to the parent workflow as neither.
-4. Apply the ownership and generalization rules below before choosing a
+3. Reapply every boundary test in
+   [Classifying Knowledge and Skill material](../../../../references/agents/knowledge-and-skills.md)
+   before editing `knowledge/`. Return material that does not qualify as
+   Knowledge to the parent as Skill or Skill-reference content.
+4. Confirm that each remaining Knowledge part remains correct without access
+   to its source project. Remove dependencies on named downstream repositories,
+   fixed project paths or layouts, project domain models, organization policies,
+   and private infrastructure. Product, platform, protocol, and engineering-
+   domain specificity are valid. Return material whose meaning depends on its
+   source project to the parent workflow as neither.
+5. Apply the ownership and generalization rules below before choosing a
    destination. Use the resulting claim scopes and document boundaries
    throughout the remaining steps.
-5. Compare the candidate material with each existing candidate document's
+6. Compare the candidate material with each existing candidate document's
    pre-edit Scope, root-index `When to Read` condition, and `When to update`
    trigger. Select that document only when all three describe the same
    responsibility; otherwise select a separate owner.
-6. Update an existing document when it already owns the concept. Rewrite the
+7. Update an existing document when it already owns the concept. Rewrite the
    affected semantic block in place, remove superseded wording, and leave one
    coherent current model rather than layering new qualifications onto the old
    one. Create a new document only for a distinct responsibility, placing it in
    a clear domain under `knowledge/` with the smallest useful document
    structure.
-7. Give every Markdown document under `knowledge/`, including the root index,
+8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-8. Keep `knowledge/index.md` as the only routing catalog. Organize leaf
+9. Keep `knowledge/index.md` as the only routing catalog. Organize leaf
    documents in domain directories, but list every leaf directly in the root
    index and do not create nested indexes or leaf-level `Related Knowledge`,
    `See also`, or similar routing appendices. When one leaf genuinely depends
    on another, link it inline where the dependency is applied and include the
    local context needed to use the current document.
-9. Add or update exactly one root-index row for every affected leaf document
-   using the fields below, including its Knowledge Type.
-10. Verify that every leaf document is listed exactly once with one valid
+10. Add or update exactly one root-index row for every affected leaf document
+    using the fields below, including its Knowledge Type.
+11. Verify that every leaf document is listed exactly once with one valid
     Knowledge Type, serves its `When to Read` condition without requiring
     another leaf as a prerequisite, contains no routing appendix, and resolves
     every changed relative link. Confirm that each concept has one canonical
@@ -42,7 +46,7 @@
     Compare every changed Scope and routing trigger with its pre-edit form;
     keep additions that express the same responsibility and route independent
     responsibilities separately.
-11. Run `pnpm knowledge:check` from the repository root.
+12. Run `pnpm knowledge:check` from the repository root.
 
 ## Ownership and generalization
 

@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines the information-need test for deciding whether a recurring engineering task requires durable documentation or whether current authoritative sources and routes already make the required meaning reliable.
+This reference supports workflow steps that decide whether a recurring engineering task requires durable documentation or whether current authoritative sources and routes already make the required meaning reliable.
 
 ## When to update
 

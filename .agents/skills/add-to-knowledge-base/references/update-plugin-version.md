@@ -3,10 +3,10 @@
 Treat one pull request as one primary-plugin release. Changes within the pull
 request do not create additional releases.
 
-Apply this workflow when the final diff changes root `knowledge/**` or
-`skills/**`. Independent content under `plugins/**`, repository-authoring
-Skills under `.agents/**`, and repository documentation do not belong to the
-primary plugin version.
+Apply this workflow when the final diff changes root `knowledge/**`,
+`references/**`, or `skills/**`. Independent content under `plugins/**`,
+repository-authoring Skills and references under `.agents/**`, and repository
+documentation do not belong to the primary plugin version.
 
 1. Stabilize the pull request's intended content and integrate the latest PR
    base before generating the version.

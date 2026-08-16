@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines project-independent principles for writing and reviewing reusable Agent Skills that are portable, reliably invoked, focused, and behaviorally correct.
+This reference supports workflow steps for writing and reviewing reusable Agent Skills that are portable, reliably invoked, focused, and behaviorally correct.
 
 ## When to update
 

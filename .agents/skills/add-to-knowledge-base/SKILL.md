@@ -1,6 +1,6 @@
 ---
 name: add-to-knowledge-base
-description: Add material to this knowledge-base repository. Use when new material must be classified and integrated as static knowledge, an Agent workflow, or both.
+description: Add material to this knowledge-base repository. Use when new material must be classified and integrated as Knowledge, an Agent workflow or Skill reference, or both.
 ---
 
 # Add to knowledge base
@@ -17,16 +17,17 @@ Classify the material before choosing its destination.
    project; classify non-generalizable parts as neither and leave them in that
    project.
 3. Read
-   [`knowledge/agents/knowledge-and-skills.md`](../../../knowledge/agents/knowledge-and-skills.md),
+   [`references/agents/knowledge-and-skills.md`](../../../references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance
-   lifecycle, and concrete direct-reading task or decision. A Knowledge
-   candidate must support a root-index `When to Read` condition for an
-   installed-plugin task that exists independently of this repository's
-   authoring workflow.
-4. Classify every part as Knowledge, Skill, mixed, or neither using that model.
-   Keep explanation whose consumers and lifecycle belong only to an authoring
-   workflow in that Skill or its references, even when the prose sounds
-   general. Report why material in the last category was not integrated.
+   lifecycle, and retrieval source. Apply its retrieval-origin, workflow-
+   removal, routing-order, and lifecycle tests. A Knowledge candidate must
+   support a root-index `When to Read` condition that is observable from an
+   installed-plugin task, subject, or artifact before any workflow is selected.
+4. Classify every part as Knowledge, Skill or Skill reference, mixed, or
+   neither using that model. Keep explanation selected only by a workflow step
+   in that Skill or an appropriately scoped reference even when the prose
+   sounds general or several Skills use it. Report why material in the last
+   category was not integrated.
 5. For each Knowledge part, read
    [`references/add-knowledge.md`](references/add-knowledge.md) and complete
    that workflow.
@@ -35,7 +36,8 @@ Classify the material before choosing its destination.
    workflow.
 7. For mixed material, finish the Knowledge branch first so the Skill can
    reference the final canonical paths.
-8. When the final diff changes root `knowledge/**` or `skills/**`, follow
+8. When the final diff changes root `knowledge/**`, `references/**`, or
+   `skills/**`, follow
    [`references/update-plugin-version.md`](references/update-plugin-version.md)
    after the content stabilizes.
 9. Review the combined result and report the classification, changed paths,
@@ -47,9 +49,12 @@ Finish only when every part of the input has been classified, every accepted
 part has one authoritative home, the root Knowledge index and all references
 resolve, every user-facing part preserves downstream-project independence, and
 every Knowledge part has an independent installed-use reading responsibility
-and a valid Knowledge Type. Each Knowledge leaf must serve that responsibility
-without requiring another leaf as a prerequisite, and the root index must
-remain the only Knowledge routing catalog. The resulting diff must preserve
-the Knowledge-versus-Skill boundary. When root Knowledge or usage Skills
+that survives removal of every consuming Skill, precedes workflow selection,
+and has a valid Knowledge Type. Each Knowledge leaf must serve that
+responsibility without requiring another leaf as a prerequisite, and the root
+index must remain the only Knowledge routing catalog. Every Skill reference
+must be routed only by its consuming workflow steps and live at the smallest
+common package boundary. The resulting diff must preserve the Knowledge-versus-
+workflow boundary. When root Knowledge, Skill references, or usage Skills
 changed, also require the PR-scoped primary-plugin version and its validation
 to be current.

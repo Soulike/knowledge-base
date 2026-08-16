@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines package-ecosystem-independent principles for evaluating third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings, including dependency admission, manifest intent, resolved-graph evidence, provenance and integrity, install-time execution, release-policy evidence, consumer compatibility, package-specific finding evidence, and remediation choices.
+This reference supports workflow steps that evaluate third-party dependency introduction, resolution, installation, update, removal, and vulnerability findings across package ecosystems.
 
 ## When to update
 

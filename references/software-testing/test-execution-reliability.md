@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines framework-independent principles for making automated test results reproducible and honest: complete discovery, fail-safe conditional selection, evidence-based synchronization, controlled clocks, isolated fixtures, explicit platform assumptions, and visible nondeterminism.
+This reference supports workflow steps that make automated test results reproducible and honest across frameworks.
 
 ## When to update
 
@@ -62,7 +62,7 @@ Run-level state is not worker-local state. Derive mutable worker-local paths and
 
 Treat supported platforms as separate environments. Keep fixtures and assertions independent of accidental path spelling, separators, shell rules, permissions, process trees, timestamp resolution, and case sensitivity. When a platform-specific behavior is intentional, isolate it behind an explicit condition and exercise it on that platform rather than weakening all assertions.
 
-For filesystem namespace races, apply the forced-interleaving techniques in [Pathnames and filesystem resource identity](../filesystems/pathnames-and-resource-identity.md) instead of relying on probabilistic concurrency.
+For filesystem namespace races, apply the forced-interleaving techniques in [Pathnames and filesystem resource identity](../../knowledge/filesystems/pathnames-and-resource-identity.md) instead of relying on probabilistic concurrency.
 
 ## Keep nondeterminism visible
 

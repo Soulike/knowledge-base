@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines documentation impact as the set of instructions, Skills, comments, examples, pointers, and other representations whose correctness depends on a changed engineering meaning.
+This reference supports workflow steps that derive documentation impact from the instructions, Skills, comments, examples, pointers, and other representations whose correctness depends on a changed engineering meaning.
 
 ## When to update
 

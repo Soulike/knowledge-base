@@ -9,9 +9,9 @@ description: Remediate npm dependency-security findings through supported upgrad
 
 1. Follow instructions, requirements, and project-specific security and
    dependency policy from the active working directory when they conflict with
-   this plugin's shared Knowledge.
+   this plugin's packaged Knowledge or workflow references.
 2. Resolve paths relative to this `SKILL.md`, then read
-   [Dependency and supply-chain security](../../knowledge/security/dependency-supply-chain-security.md).
+   [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md).
    Remediate only through a dependency update, a narrow compatible override,
    or removal of a proven-unused dependency chain. Keep containment,
    suppression, risk acceptance, and remote alert disposition outside this
@@ -92,7 +92,7 @@ limit compatibility edits to the approved units.
 Inspect the resulting manifests, resolved graph, lifecycle behavior, and diff
 before validation. If the remediation changes application behavior or needs a
 security regression test, read
-[Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
+[Test effectiveness](../../references/software-testing/test-effectiveness.md)
 and follow the active project's testing workflow.
 
 ## Validate the local remediation

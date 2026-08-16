@@ -25,7 +25,11 @@ export interface CheckPluginVersionResult {
 }
 
 function isVersionedContent(path: string): boolean {
-  return path.startsWith("knowledge/") || path.startsWith("skills/");
+  return (
+    path.startsWith("knowledge/") ||
+    path.startsWith("references/") ||
+    path.startsWith("skills/")
+  );
 }
 
 export function checkPluginVersion({
@@ -65,7 +69,7 @@ export function checkPluginVersion({
     parsePluginVersion(baseVersion) !== undefined
   ) {
     throw new Error(
-      "The primary plugin version changed, but root Knowledge and usage Skills did not.",
+      "The primary plugin version changed, but root Knowledge, Skill references, and usage Skills did not.",
     );
   }
 

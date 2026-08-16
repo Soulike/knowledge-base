@@ -9,17 +9,17 @@ description: Maintain documentation for a known engineering meaning or informati
 
 1. Follow instructions, Skills, requirements, and project-specific information
    from the active working directory when they conflict with this plugin's
-   shared Knowledge.
+   packaged Knowledge or workflow references.
 2. Resolve linked paths relative to this `SKILL.md`, then read
-   [Documentation impact of semantic changes](../../knowledge/documentation/documentation-change-impact.md).
+   [Documentation impact of semantic changes](../../references/documentation/documentation-change-impact.md).
 3. Read
-   [Source comments and docstrings](../../knowledge/software-engineering/source-comments.md)
+   [Source comments and docstrings](../../references/software-engineering/source-comments.md)
    when source prose is being changed, reviewed, or potentially invalidated.
    Read
-   [Knowledge and Skills](../../knowledge/agents/knowledge-and-skills.md) when
+   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md) when
    deciding between those artifact types. When a Skill is being added,
    changed, moved, deleted, or reviewed, also read
-   [Agent Skill authoring](../../knowledge/agents/skill-authoring.md).
+   [Agent Skill authoring](../../references/agents/skill-authoring.md).
 4. Read the active project's instruction hierarchy, artifact-specific
    standards, changed implementation or proposal, and current authoritative
    sources. Discover its structure rather than assuming fixed paths or naming
@@ -50,11 +50,11 @@ diff is not a disposition.
 ## Decide whether documentation is owed
 
 1. Read
-   [When documentation is needed](../../knowledge/documentation/when-documentation-is-needed.md).
+   [When documentation is needed](../../references/documentation/when-documentation-is-needed.md).
 2. Apply its information-need test to each proposed semantic block and accept
    “no documentation change” when the test does not admit one.
 3. For every admitted block, read
-   [Engineering information ownership](../../knowledge/documentation/information-ownership.md)
+   [Engineering information ownership](../../references/documentation/information-ownership.md)
    and select a fitting artifact type.
 4. Choose the quality action needed to make each admitted block complete and
    correct under the loaded standards. Resolve its concrete target only from
@@ -62,7 +62,7 @@ diff is not a disposition.
    user direction. When these sources do not determine the target, report the
    unresolved placement decision instead of inventing one.
 5. Before reporting or editing a resolved target, load every matching project
-   standard and shared Knowledge for that artifact.
+   standard and applicable packaged guidance for that artifact.
 6. When asked only to assess or review, report each decision, recommended
    artifact type, proposed quality action, and resolved target or unresolved
    placement question without editing. When edits are authorized, continue
@@ -71,8 +71,8 @@ diff is not a disposition.
 ## Update the selected artifacts
 
 1. Update each resolved target under its loaded standards. Whenever the
-   affected set expands, load every matching project standard and shared
-   Knowledge before proposing or editing the newly affected artifact.
+   affected set expands, load every matching project standard and applicable
+   packaged guidance before proposing or editing the newly affected artifact.
 2. Apply Documentation impact of semantic changes to reconcile every dependent
    representation and every recorded-invariant consistency set.
 3. Repair existing routes and add any route resolved by the active project's
@@ -92,7 +92,7 @@ diff is not a disposition.
 3. Confirm that every recorded invariant remains aligned with its enforcement
    and evidence.
 4. Confirm that every affected artifact was handled under its matching project
-   standards and shared Knowledge and that every changed route follows the
+   standards and applicable packaged guidance and that every changed route follows the
    active project's conventions. Confirm that every changed reading condition
    can be evaluated before opening its target.
 5. Read each final artifact as a whole and search for stale paths, headings,

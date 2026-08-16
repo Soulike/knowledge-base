@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines project- and framework-independent criteria for deciding whether a behavior needs an automated test and whether an existing test earns its maintenance cost, including marginal protection, fault-oriented coverage, independent oracles, behavioral focus, layer selection, use of real implementations and test doubles, test-structure design signals, transitional coverage, and mutation checks.
+This reference supports workflow steps that decide whether a behavior needs an automated test and whether an existing test earns its maintenance cost across projects and frameworks.
 
 ## When to update
 

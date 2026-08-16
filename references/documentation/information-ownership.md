@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines project-independent artifact-fit principles for matching engineering information to the kind of artifact that can keep it correct. It recommends artifact roles while leaving concrete files, directories, modules, and routing structures to the active project.
+This reference supports workflow steps that match engineering information to an artifact type capable of keeping it correct. It recommends artifact roles while leaving concrete files, directories, modules, and routing structures to the active project.
 
 ## When to update
 

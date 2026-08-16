@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines technology-independent principles for moving untrusted data or requests across a security boundary into a privileged side effect, including contextual trust, boundary ownership, canonical representations, authentication and authorization separation, sink-specific safety, final-target validation, closed failure, and secret and sensitive-data lifecycle constraints.
+This reference supports workflow steps that trace untrusted data or requests across a security boundary into a privileged side effect.
 
 ## When to update
 
@@ -42,7 +42,7 @@ Existing controls matter only at the boundary they actually protect. Establish w
 
 Prefer APIs whose structure preserves the boundary decision: parameterized database operations, argument-vector process execution, context-specific output encoding, explicit network-destination policy, and filesystem operations bound to a canonical root or opened resource.
 
-Redirects, aliases, symbolic links, rebinding, and concurrent state changes can replace an authorized destination. Recheck or bind the final object immediately before the side effect, using an atomic or handle-bound primitive when a separate check would race. Apply [Pathnames and filesystem resource identity](../filesystems/pathnames-and-resource-identity.md) when a filesystem name can change between decision and use.
+Redirects, aliases, symbolic links, rebinding, and concurrent state changes can replace an authorized destination. Recheck or bind the final object immediately before the side effect, using an atomic or handle-bound primitive when a separate check would race. Apply [Pathnames and filesystem resource identity](../../knowledge/filesystems/pathnames-and-resource-identity.md) when a filesystem name can change between decision and use.
 
 ## Fail closed without partial privilege
 

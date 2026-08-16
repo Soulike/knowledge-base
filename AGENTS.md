@@ -25,6 +25,13 @@ project; otherwise leave it in the source project. Repository-authoring Skills
 are outside this user-facing boundary; the narrow contribution exception is
 described below.
 
+## Markdown tests
+
+Tests that inspect Markdown documents must use the repository's existing
+Markdown parser and assert against the parsed structure. Treat Markdown source
+text only as parser input; do not infer Markdown structure by matching,
+splitting, or replacing raw text.
+
 ## Skill scopes
 
 Choose a Skill's location by its audience and lifecycle, not by its subject.

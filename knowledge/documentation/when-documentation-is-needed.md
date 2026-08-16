@@ -10,7 +10,7 @@ Update this document when evidence changes the conditions under which an enginee
 
 ## Start from the reader's task
 
-A request for a file is not evidence that documentation is needed. Identify the exact meaning a reader must recover, the audience that needs it, and the recurring task that depends on it. The [authoritative owner](information-ownership.md#give-authority-to-the-defining-artifact) is the artifact responsible for keeping that meaning correct; documentation is warranted only when relying on the available owner and routes leaves a consequential information gap.
+A request for a file is not evidence that documentation is needed. Identify the exact meaning a reader must recover, the audience that needs it, and the recurring task that depends on it. Documentation is warranted only when the active project's authoritative sources and existing routes leave a consequential information gap. Use [Engineering information ownership](information-ownership.md#match-information-to-an-artifact-role) to test whether maintained documentation is a fitting artifact type without treating that recommendation as a project-specific location decision.
 
 ## Apply the information-need test
 
@@ -20,11 +20,11 @@ A durable semantic block earns a place only when all three conditions hold:
 2. The audience cannot recover the information reliably from authoritative sources or existing routes.
 3. The gap can cause a concrete mistake, unsafe outcome, or blocked task.
 
-A [routing map](information-ownership.md#let-non-owners-route) is the narrow exception to this test. It may be worthwhile when its need-to-destination edges materially reduce repeated discovery work even though every destination remains independently discoverable.
+A routing map is the narrow exception to this test. It may be worthwhile when its need-to-destination edges materially reduce repeated discovery work even though every destination remains independently discoverable.
 
 A definition, pointer, or minimal example may support an admitted block without requiring a separate justification. Treat a rule together with only the rationale or example needed to apply it as one block.
 
-Satisfy an admitted need by improving or directly exposing the authoritative source, generating a reference from it, or adding only the definition, pointer, or example needed to make its meaning recoverable. Durable prose is one possible response to an information need, not the default response.
+Satisfy an admitted need by improving or directly exposing a project-defined authoritative source, generating a reference from it, or adding only the definition, pointer, or example needed to make its meaning recoverable. Durable prose is one possible response to an information need, not the default response.
 
 “No documentation change” is the correct outcome when authoritative sources and existing routes already make the meaning reliable.
 

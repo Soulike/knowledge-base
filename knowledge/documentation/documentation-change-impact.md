@@ -10,7 +10,7 @@ Update this document when evidence changes how semantic dependencies propagate a
 
 ## Follow meaning rather than file categories
 
-Documentation impact follows changed meaning, not the kinds of files present in a diff. A behavior, contract, name, path, or invariant can invalidate prose even when no documentation file was edited. Conversely, a code change needs no prose update when the authoritative contract and every route to it remain complete and correct.
+Documentation impact follows changed meaning, not the kinds of files present in a diff. A behavior, contract, name, path, or invariant can invalidate prose even when no documentation file was edited. Conversely, a code change needs no prose update when the authoritative contract and every project-defined route to it remain complete and correct.
 
 Assess each changed meaning against every audience and recurring task that depends on it. Include representations outside the proposed change rather than treating the diff as the dependency boundary.
 
@@ -18,7 +18,7 @@ Assess each changed meaning against every audience and recurring task that depen
 
 Rewrite an affected semantic block in place and remove the wording it supersedes. The final artifact should present one coherent current model rather than preserve its revision history as layers of exceptions or qualifications.
 
-Every dependent representation must remain correct, move with its [authoritative owner](information-ownership.md#give-authority-to-the-defining-artifact), become a pointer to that owner, or be removed. Here the owner is the artifact responsible for keeping the meaning correct. Stale names, paths, headings, examples, summaries, and prompts preserve competing versions of the meaning even when the primary documentation was updated correctly.
+Every dependent representation must be reconciled so that it remains correct and no longer competes with the current meaning. Choose the quality action needed to keep, rewrite, remove, or replace it with a pointer. When that action requires a concrete destination or route, resolve it only from the active project's standards or explicit user requirements; record any destination or route those sources do not determine as an unresolved project decision. Stale names, paths, headings, examples, summaries, and prompts preserve competing versions of the meaning even when the primary documentation was updated correctly.
 
 ## Treat recorded invariants as consistency sets
 

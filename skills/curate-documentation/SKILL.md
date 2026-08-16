@@ -1,6 +1,6 @@
 ---
 name: curate-documentation
-description: Curate an existing engineering document, Agent instruction file, source comment or docstring, or Skill through separate necessity, correctness, and placement passes. Use when the artifact itself is the subject of an open-ended audit, cleanup, streamlining, or reorganization; when deciding what to delete, correct, move, split, or replace with a pointer; or when applying an approved curation pass. Work driven by a known change or information gap belongs to maintenance.
+description: Curate an existing engineering document, Agent instruction file, source comment or docstring, or Skill through separate necessity, correctness, and artifact-fit passes. Use when the artifact itself is the subject of an open-ended audit, cleanup, streamlining, or reorganization; when deciding what to delete, correct, split, or represent in a better-suited artifact type; or when applying an approved curation pass. Work driven by a known change or information gap belongs to maintenance.
 ---
 
 # Curate existing documentation
@@ -24,10 +24,11 @@ description: Curate an existing engineering document, Agent instruction file, so
    [Source comments and docstrings](../../knowledge/software-engineering/source-comments.md)
    for a source comment or docstring, read
    [Knowledge and Skills](../../knowledge/agents/knowledge-and-skills.md) before
-   considering Knowledge or a Skill as an owner, and read
+   considering Knowledge or a Skill as an artifact type, and read
    [Agent Skill authoring](../../knowledge/agents/skill-authoring.md) whenever a
-   Skill is a target, candidate owner, or impacted artifact. Repeat this
-   routing whenever a pass, move, or split expands the affected set.
+   Skill is a target, recommended artifact type, or impacted artifact. Repeat
+   this routing whenever a pass or approved artifact-type change expands the
+   affected set.
 6. Divide the target into semantic blocks. Keep a rule together with only the
    rationale or example needed to apply it.
 7. Run only the pass the user requested or approved. When no pass is named,
@@ -40,7 +41,7 @@ description: Curate an existing engineering document, Agent instruction file, so
 Read
 [When documentation is needed](../../knowledge/documentation/when-documentation-is-needed.md),
 then apply its information-need test to each block. Defer a block when its
-necessity cannot be decided without first checking correctness or placement.
+necessity cannot be decided without first checking correctness or artifact fit.
 Use **Keep**, **Delete**, or **Defer** as the finding.
 
 | Block | Finding | Information need or reason no need | Evidence |
@@ -67,29 +68,38 @@ rewriting it. Keep pointers, moves, and document splitting out of this pass.
 | Block | Finding | Authoritative evidence | Proposed correction or reason |
 | ----- | ------- | ---------------------- | ----------------------------- |
 
-## Pass 3: Choose placement
+## Pass 3: Check artifact fit
 
 Read
 [Engineering information ownership](../../knowledge/documentation/information-ownership.md),
-then apply its ownership model to every corrected, surviving block. Split
-mixed content block by block instead of moving a whole document as one unit.
-Update the affected-artifact set and apply its standards before proposing an
-owner. Verify that every proposed pointer resolves to the intended owner.
+then apply its artifact-fit model to every corrected, surviving block. Decide
+whether the current artifact type can keep the meaning useful and current for
+its audience. Recommend another artifact type only when the information's
+audience, change lifecycle, or coupling makes the current type unsuitable.
 
-| Block | Proposed owner | Action | Why this owner is authoritative | Routing changes |
-| ----- | -------------- | ------ | ------------------------------- | --------------- |
+Propose the quality action needed to make each block fit its recommended
+artifact type. Resolve an exact target and any routing change only from the
+active project's explicit instructions and standards or from explicit user
+direction. Otherwise record the unresolved project decision instead of
+inventing a file, directory, module, or routing structure. Before proposing or
+editing a resolved target, update the affected-artifact set and apply its
+standards.
+
+| Block | Current artifact fit | Recommended artifact type | Proposed quality action | Project-resolved target and routing or unresolved decision | Reason |
+| ----- | -------------------- | ------------------------- | ----------------------- | ---------------------------------------------------------- | ------ |
 
 ## Apply an approved pass
 
 1. Preserve the approved decision table as the scope of the edit. Surface any
-   newly discovered meaning or ownership decision instead of deciding it
-   implicitly.
+   newly discovered meaning, artifact-type mismatch, or project placement
+   decision instead of deciding it implicitly.
 2. Read
    [Documentation impact of semantic changes](../../knowledge/documentation/documentation-change-impact.md)
    and apply it to the approved semantic changes.
 3. Repair affected scopes, maintenance conditions, indexes, links, paths,
-   headings, pointers, and prompts. Search for stale terminology, broken
-   routes, and secondary copies.
+   headings, pointers, and prompts required by the approved table and active
+   project's conventions. Search for stale terminology, broken routes, and
+   secondary copies.
 4. Check final artifacts and factual pointers against their authoritative
    sources. Run the applicable formatter, targeted link and anchor checks,
    Skill checks, and every other check required by the active project or
@@ -117,16 +127,16 @@ Report:
 - meaning added, removed, or changed without approval;
 - retained meaning whose scope, strength, conditions, rationale, or exceptions
   changed; and
-- approved moves or pointers that no longer preserve access to the original
-  meaning.
+- approved artifact-type changes or project-selected moves and pointers that
+  no longer preserve access to the original meaning.
 
 Treat approved deletions, corrections, and moves as intentional. Resolve
 objective regressions and request a decision when resolution requires new
-content or ownership authority. Repeat the comparison with a fresh or isolated
-reviewer after every fix.
+content or a project placement choice. Repeat the comparison with a fresh or
+isolated reviewer after every fix.
 
-Finish when the approved pass is implemented, every affected route is repaired,
-each final document presents one coherent current model, every required check
-has passed, and an independent final comparison accounts for every semantic
-change across every affected artifact and finds no unexplained semantic loss or
-distortion.
+Finish when the approved pass is implemented, every project-required route is
+repaired, each final document presents one coherent current model, every
+required check has passed, and an independent final comparison accounts for
+every semantic change across every affected artifact and finds no unexplained
+semantic loss or distortion.

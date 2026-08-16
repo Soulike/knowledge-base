@@ -1,6 +1,6 @@
 ---
 name: maintain-documentation
-description: Maintain documentation for a known engineering meaning or information gap. Use when assessing the documentation impact of a changed implementation, contract, or proposal; creating documentation for an identified recurring need; updating an artifact required by a known change; or reconciling stale secondary representations. Open-ended audits whose purpose is to discover deletions, corrections, or placement changes belong to a separate curation workflow.
+description: Maintain documentation for a known engineering meaning or information gap. Use when assessing the documentation impact of a changed implementation, contract, or proposal; creating documentation for an identified recurring need; updating an artifact required by a known change; or reconciling stale secondary representations. Open-ended audits whose purpose is to discover deletions, corrections, or artifact-type mismatches belong to a separate curation workflow.
 ---
 
 # Maintain documentation for a known need
@@ -55,42 +55,52 @@ diff is not a disposition.
    “no documentation change” when the test does not admit one.
 3. For every admitted block, read
    [Engineering information ownership](../../knowledge/documentation/information-ownership.md)
-   and select its candidate owner.
-4. Before reporting or editing a candidate owner, load every matching project
+   and select a fitting artifact type.
+4. Choose the quality action needed to make each admitted block complete and
+   correct under the loaded standards. Resolve its concrete target only from
+   the active project's explicit instructions and standards or from explicit
+   user direction. When these sources do not determine the target, report the
+   unresolved placement decision instead of inventing one.
+5. Before reporting or editing a resolved target, load every matching project
    standard and shared Knowledge for that artifact.
-5. When asked only to assess or review, report each decision and proposed owner
-   without editing. When edits are authorized, continue with only the admitted
-   blocks.
+6. When asked only to assess or review, report each decision, recommended
+   artifact type, proposed quality action, and resolved target or unresolved
+   placement question without editing. When edits are authorized, continue
+   with only the admitted blocks whose targets are resolved.
 
-## Update the owner
+## Update the selected artifacts
 
-1. Apply Engineering information ownership to define the routes needed by
-   audiences outside each selected owner.
-2. Update each owner under its loaded standards. Whenever the affected set
-   expands, load every matching project standard and shared Knowledge before
-   proposing or editing the newly affected artifact.
-3. Apply Documentation impact of semantic changes to reconcile every dependent
+1. Update each resolved target under its loaded standards. Whenever the
+   affected set expands, load every matching project standard and shared
+   Knowledge before proposing or editing the newly affected artifact.
+2. Apply Documentation impact of semantic changes to reconcile every dependent
    representation and every recorded-invariant consistency set.
-4. Surface an unresolved ownership or consistency decision when the authorized
-   scope cannot settle it.
+3. Repair existing routes and add any route resolved by the active project's
+   explicit conventions or user direction. Treat a new routing hierarchy or
+   other unresolved placement choice as a project decision rather than
+   inventing it.
+4. Surface an unresolved artifact-fit, placement, or consistency decision when
+   the authorized scope cannot settle it.
 
 ## Review the final state
 
 1. Account for every changed file, changed meaning, identified information gap,
    and impacted artifact.
-2. Confirm that each admitted meaning has one owner and every route resolves to
-   it without an unexplained competing copy.
+2. Confirm that each admitted meaning uses a fitting artifact type, every
+   concrete target came from the active project or user, and no unexplained
+   competing copy remains.
 3. Confirm that every recorded invariant remains aligned with its enforcement
    and evidence.
 4. Confirm that every affected artifact was handled under its matching project
-   standards and shared Knowledge and that every new reading condition can be
-   evaluated before opening its target.
+   standards and shared Knowledge and that every changed route follows the
+   active project's conventions. Confirm that every changed reading condition
+   can be evaluated before opening its target.
 5. Read each final artifact as a whole and search for stale paths, headings,
    names, examples, prompts, and superseded prose.
 6. Run the applicable formatter, targeted link or anchor checks, and other
    checks required by the active project or artifact.
 
 Finish when every change and impact is dispositioned, every required update is
-complete, all affected routes remain usable, no unexplained stale
+complete, all project-required routes remain usable, no unexplained stale
 representation remains, and every required check has passed. Report an
 unavailable or failed required check as an incomplete condition.

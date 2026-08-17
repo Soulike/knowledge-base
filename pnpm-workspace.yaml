@@ -1,2 +1,4 @@
 packages:
   - ".github/scripts/*"
+
+minimumReleaseAge: 20160

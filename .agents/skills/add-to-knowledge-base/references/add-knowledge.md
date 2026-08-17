@@ -113,11 +113,14 @@ document makes, not the subject it discusses: a method for finding a current
 version can be evergreen even though version availability changes frequently.
 
 **When to Read.** Write a compact trigger beginning with `Read when` and name
-the concrete tasks, decisions, or artifacts that require this material. Cover
-each distinct trigger branch while avoiding topic summaries or vague phrases
-such as “when relevant.” Make a single-responsibility request select one
-canonical document, and compare the condition with every other row. Multiple
-conditions may match a compound task only when their documents contribute
-distinct, non-duplicated Knowledge. If two conditions route the same
-responsibility, merge the documents or redraw their Scopes and conditions
-before indexing them.
+the concrete tasks, decisions, or artifacts that require this material. Base
+the trigger on facts observable before retrieval. When the document helps
+determine whether a risk, diagnosis, exception, or other condition applies,
+route on the preceding task or artifact and let the document make that
+determination after loading. Cover each distinct trigger branch while avoiding
+topic summaries or vague phrases such as “when relevant.” Make a
+single-responsibility request select one canonical document, and compare the
+condition with every other row. Multiple conditions may match a compound task
+only when their documents contribute distinct, non-duplicated Knowledge. If
+two conditions route the same responsibility, merge the documents or redraw
+their Scopes and conditions before indexing them.

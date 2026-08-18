@@ -6,7 +6,7 @@ This document explains Chromium's iOS UI architecture for day-to-day feature dev
 
 ## When to update
 
-Update this document when Chromium changes the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer or mutator protocols, the shared layer layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
+Update this document when Chromium changes the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer or mutator protocols, the legacy or current feature layouts, the shared-library layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
 
 ## Design principles
 
@@ -113,16 +113,45 @@ The UI architecture sits within Chromium iOS's application object model:
 
 This context determines dependency lifetime. Process-wide behavior belongs under `ApplicationContext`; profile behavior belongs in profile-keyed services; per-browser UI state follows `Browser`; tab state follows `WebState`. A feature should request the narrowest object whose lifetime and responsibility match the work.
 
-## Source layout and dependency boundaries
+## Legacy feature architecture
 
-Current shared code under `ios/chrome/browser/shared/` is divided by architectural audience:
+The conventional legacy skeleton under `ios/chrome/browser/<feature>/` centers on two coarse responsibility buckets. The table describes that architectural convention, not an exhaustive inventory of every directory found in an existing feature. Current Chromium changes explicitly describe `ui_bundled/` as legacy.
 
-- `model/` is shared model code;
-- `ui/` is shared UI code;
-- `coordinator/` is code shared by coordinators and mediators;
-- `public/` is API used across layers, including command protocols.
+| Directory     | Responsibility                                                                                                                                                                                                                                       |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model/`      | Non-UI feature state, services, factories, persistence, rules, and model-facing utilities. Unit tests normally remain beside the implementation they cover.                                                                                          |
+| `ui_bundled/` | The feature's aggregate UI and integration code. A legacy directory can contain coordinators, mediators, view controllers, views, UI-facing protocols, resources, and tests together rather than expressing those responsibilities in its top level. |
 
-Place code according to who may depend on it, not merely who first needs it. A helper used only by coordinators does not become general public API; a command protocol is public because other layers need the UI capability without depending on its implementation. Chromium's `DEPS` rules make these boundaries enforceable, so a dependency violation is usually an architectural signal rather than a path inconvenience.
+The coarse directory boundary does not collapse the architectural roles described above. A view controller in `ui_bundled/` still should not fetch model services, and a coordinator or mediator that happens to share the directory with it retains its own composition or adaptation responsibility. Treat the layout as the organization of existing code, not as a reason to add new coupling.
+
+Features can contain additional feature-specific directories, and local `BUILD.gn` and `DEPS` files remain the executable source of truth for permitted dependencies. When changing a legacy feature, follow its current structure unless the task includes a deliberate migration; do not mix an unrelated behavior change with a partial directory reorganization.
+
+## Current feature architecture
+
+Current Chromium refactors replace the aggregate `ui_bundled/` directory with directories that expose architectural ownership at the feature root:
+
+| Directory      | Responsibility                                                                                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `model/`       | Non-UI feature state, services, factories, persistence, rules, and model-facing utilities.                                                                                                                                  |
+| `coordinator/` | Coordinators, mediators, and their private protocols or bridges. This directory owns feature composition, presentation lifecycle, model observation, and adaptation between model and UI semantics.                         |
+| `ui/`          | View controllers, views, cells, other UIKit elements, and UI-facing protocols such as consumers and mutators. Its interfaces use UI-ready values rather than exposing model objects.                                        |
+| `public/`      | The deliberately exposed feature API needed outside a private implementation directory or across a feature boundary. Keep this surface narrow; implementation convenience alone does not make a declaration public.         |
+| `test/`        | Integration or end-to-end tests and test-only support that should not form part of a production API. Unit tests may remain beside the implementation they cover, and some features retain a separate `eg_tests/` directory. |
+
+This split makes the model, composition, and UI boundaries visible in the source tree, but the directory names do not define one global dependency graph. Apply the architectural responsibilities in this document and use each feature's `BUILD.gn` and `DEPS` files for its actual target boundaries. Existing features are at different migration stages, so inspect the local feature before placing or moving code.
+
+### Cross-feature shared code
+
+`ios/chrome/browser/shared/` is a library boundary orthogonal to both feature layouts. Its upstream README reserves it for code shared by several features and classifies that reusable code by its consumers:
+
+| Directory             | Responsibility                                                                                                                        |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `shared/model/`       | Code shared only by model objects.                                                                                                    |
+| `shared/coordinator/` | Code shared only by coordinators or mediators.                                                                                        |
+| `shared/ui/`          | Code shared by UI elements; UI-related code also used by coordinators or mediators belongs here rather than in `shared/coordinator/`. |
+| `shared/public/`      | API shared across all architectural audiences.                                                                                        |
+
+These names classify reusable library code; they are not a template for a feature's business-code directories. Keep a helper in its owning feature until several features genuinely need the same abstraction, and do not move code into `shared/public/` merely to bypass a dependency boundary.
 
 ## Daily design decisions
 
@@ -156,12 +185,14 @@ These are not merely style issues. Each one collapses a dependency, lifetime, or
 
 ## Sources
 
-The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document, so current behavior was verified against Chromium `main` at commit [`23403358`](https://chromium.googlesource.com/chromium/src/+/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2):
+The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document, so current behavior was verified against Chromium `main` at commit [`1b33fac5`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d):
 
-- [iOS application objects](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/docs/ios/objects.md)
-- [`Browser` and its UI context](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/shared/model/browser/browser.h) and the current weak-tracking [`BrowserList`](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/shared/model/browser/browser_list.h)
-- [shared layer layout](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/shared/README.md)
-- [`ChromeCoordinator`](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/shared/coordinator/chrome_coordinator/chrome_coordinator.h)
-- [`CommandDispatcher`](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/shared/public/commands/command_dispatcher.h)
-- [`ChromeBroadcaster`](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/broadcaster/ui_bundled/chrome_broadcaster.h)
-- [Omnibox coordinator wiring](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/omnibox/coordinator/omnibox_coordinator.mm) and its [consumer](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/omnibox/ui/omnibox_consumer.h) and [mutator](https://chromium.googlesource.com/chromium/src/+show/23403358d6d8ecc3dcd3d4b20f080e00415a2ac2/ios/chrome/browser/omnibox/ui/omnibox_mutator.h) protocols
+- [iOS application objects](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/docs/ios/objects.md)
+- [`Browser` and its UI context](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser.h) and the current weak-tracking [`BrowserList`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser_list.h)
+- [shared-library layout](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/README.md)
+- [`ChromeCoordinator`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/coordinator/chrome_coordinator/chrome_coordinator.h)
+- [`CommandDispatcher`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/public/commands/command_dispatcher.h)
+- [`ChromeBroadcaster`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/broadcaster/ui_bundled/chrome_broadcaster.h)
+- [legacy Bookmarks `model/`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/bookmarks/model/) and [`ui_bundled/`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/bookmarks/ui_bundled/) directories
+- [current Manual Fill feature layout](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/autofill/manual_fill/) and its one-step migration from legacy `ui_bundled/` to the [`coordinator/model/public/test/ui` layout](https://chromium.googlesource.com/chromium/src/+/aae8da9d99eeddc95c6d560d3dde0824f98dd05b)
+- [Omnibox coordinator wiring](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/coordinator/omnibox_coordinator.mm), its [consumer](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/ui/omnibox_consumer.h) and [mutator](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/ui/omnibox_mutator.h) protocols, and its earlier phased moves of [coordinator and mediator](https://chromium.googlesource.com/chromium/src/+/d8c2d322ddbd), [public](https://chromium.googlesource.com/chromium/src/+/5138f6aa23cd), and [`eg_tests`](https://chromium.googlesource.com/chromium/src/+/1fb2c48b1889) code before the final [`ui_bundled/` to `ui/` rename](https://chromium.googlesource.com/chromium/src/+/446193f4287a)

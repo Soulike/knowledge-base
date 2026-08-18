@@ -1,4 +1,0 @@
-interface:
-  display_name: "Maintain Documentation"
-  short_description: "Maintain docs for a known change or information need"
-  default_prompt: "Use $maintain-documentation to assess this change's documentation impact and update every affected representation."

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Curate Documentation"
-  short_description: "Audit necessity, correctness, and artifact fit"
-  default_prompt: "Use $curate-documentation to audit this existing documentation artifact through one approved quality pass."

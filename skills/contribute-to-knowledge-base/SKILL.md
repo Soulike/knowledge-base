@@ -1,18 +1,19 @@
 ---
 name: contribute-to-knowledge-base
-description: Contribute changes to the canonical knowledge base. Use when the user wants to add, correct, reorganize, or remove Knowledge or Skills.
+description: Contribute changes to the canonical knowledge base from outside its source checkout. Use when the user wants to add, correct, reorganize, or remove Knowledge or Skills through the installed plugin.
 ---
 
 # Contribute to knowledge base
 
-Work in an isolated source checkout and treat installed plugin files as
-read-only runtime artifacts.
+When this Skill proceeds past the source-checkout guard, work in an isolated
+source checkout and treat installed plugin files as read-only runtime artifacts.
 
 ## Workflow
 
 1. Resolve paths relative to this `SKILL.md`. Read
    [`../../plugin.json`](../../plugin.json) and use its `repository` field as
-   the canonical upstream repository.
+   the canonical upstream repository. If the active workspace is already
+   within a source checkout of that repository, stop this Skill.
 2. Create a uniquely named temporary directory and clone the upstream default
    branch into it. Use this fresh checkout unless the user explicitly requests
    an existing source checkout.
@@ -34,6 +35,7 @@ read-only runtime artifacts.
 
 ## Completion criteria
 
-Finish only when the requested change follows the cloned repository's
-authoring rules, validation has been run, and a draft pull request exists or a
-publishing blocker has been reported with a recoverable checkout path.
+When this Skill proceeds past the source-checkout guard, finish only when the
+requested change follows the cloned repository's authoring rules, validation
+has been run, and a draft pull request exists or a publishing blocker has been
+reported with a recoverable checkout path.

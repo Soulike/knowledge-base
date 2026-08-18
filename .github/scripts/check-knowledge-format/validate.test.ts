@@ -110,3 +110,26 @@ Knowledge content.
     "The '## When to update' section must contain exactly one prose paragraph.",
   ]);
 });
+
+for (const heading of ["Related Knowledge", "See also"]) {
+  test(`rejects a ${heading} routing appendix`, () => {
+    const markdown = `# Authentication
+
+## Scope
+
+This document defines the authentication guarantees shared by every client.
+
+## When to update
+
+Update this document when an authentication guarantee or supported client changes.
+
+## ${heading}
+
+- [Authorization](authorization.md)
+`;
+
+    assert.deepEqual(validateKnowledgeDocument(markdown), [
+      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; keep routing in 'knowledge/index.md' and necessary links inline.",
+    ]);
+  });
+}

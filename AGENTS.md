@@ -4,17 +4,39 @@
 
 The repository root is the primary `knowledge-base` plugin. In this repository,
 **knowledge base** means the complete repository and plugin, **Knowledge** means
-the static content under `knowledge/`, and **Skill** means an Agent workflow.
-Here, static distinguishes content that provides understanding from a workflow
-that controls execution; it does not mean that the content cannot become stale.
+independently retrievable content under `knowledge/`, **Skill** means an Agent
+workflow, and **Skill reference** means supporting content selected by a step in
+one or more Skills.
 
-- `knowledge/` contains canonical, static knowledge organized by domain. Keep
+- `knowledge/` contains canonical Knowledge organized by domain. A Knowledge
+  leaf must have a concrete reading trigger that follows from the user's task,
+  technical subject, or current engineering artifact before an Agent selects
+  or enters a workflow. Removing every Skill that uses the leaf must not remove
+  that reason to read it. Keep
   `knowledge/index.md` as the only index and list every leaf Knowledge document
   there directly with its `time-sensitive` or `evergreen` Knowledge Type. Use
-  subdirectories for organization, not nested indexes.
+  subdirectories for organization, not nested indexes. Each leaf must provide
+  enough context to serve its root-index `When to Read` condition without
+  requiring another leaf as a prerequisite. Keep Knowledge routing in the root
+  index rather than adding `Related Knowledge`, `See also`, or similar routing
+  appendices to leaves. When a claim genuinely depends on another leaf, link it
+  inline at the point where the dependency is applied and state the necessary
+  context there.
+- `references/` contains non-indexed Skill references shared by multiple root
+  plugin Skills, or by root plugin Skills and repository-authoring Skills.
 - `.agents/skills/` contains workflows used while authoring and maintaining
-  this repository.
-- `skills/` contains workflows used after installing the primary plugin.
+  this repository. `.agents/references/` contains references shared only by
+  multiple repository-authoring Skills.
+- `skills/` contains workflows used after installing the primary plugin. Keep a
+  reference used by only one Skill in that Skill's `references/` directory.
+
+A Skill reference is retrieved because an executing workflow reaches the step
+that needs it. Reuse by several Skills does not turn it into Knowledge, and a
+workflow step rewritten as a `When to Read` condition does not create an
+independent reading responsibility. Put a genuinely shared reference at the
+smallest common package boundary under `references/<domain>/`; keep routing in
+the consuming Skills, link the file directly at the steps that need it, and do
+not create a reference index.
 
 Knowledge and installed usage Skills must preserve **downstream-project
 independence**. They may target a product, platform, protocol, or engineering
@@ -46,8 +68,8 @@ instructions, not capabilities exposed by the installed primary plugin.
 
 Use `.agents/skills/add-to-knowledge-base/SKILL.md` whenever new material must
 be integrated into this repository. It first classifies the material as
-Knowledge, Skill, mixed, or out of scope, then loads only the applicable
-authoring workflow.
+Knowledge, Skill or Skill reference, mixed, or out of scope, then loads only
+the applicable authoring workflow.
 
 ### Plugin usage Skills
 
@@ -73,8 +95,10 @@ belong solely to that plugin and follow its package boundary.
 
 Optional independent plugins may live under `plugins/<plugin-name>/`. Each is
 a self-contained package: it must not reference the root `knowledge/`, root
-`skills/`, or a sibling plugin. Put every file it needs within its own plugin
-directory.
+`references/`, root `skills/`, or a sibling plugin. Put shared Skill references
+for that plugin under its own `references/` directory. A proposed reference
+shared across package boundaries requires reconsidering package ownership
+rather than introducing a repository-global route.
 
 Use this layout:
 
@@ -82,6 +106,7 @@ Use this layout:
 .
 ├── plugin.json
 ├── .agents/
+│   ├── references/
 │   └── skills/
 │       └── add-to-knowledge-base/
 │           ├── SKILL.md
@@ -90,6 +115,9 @@ Use this layout:
 │               └── add-skill.md
 ├── knowledge/
 │   ├── index.md
+│   └── chromium/
+│       └── ios-ui-architecture.md
+├── references/
 │   └── agents/
 │       └── knowledge-and-skills.md
 ├── skills/
@@ -100,6 +128,7 @@ Use this layout:
 ├── plugins/
 │   └── example-plugin/
 │       ├── plugin.json
+│       ├── references/
 │       └── skills/
 │           └── example-skill/
 │               └── SKILL.md

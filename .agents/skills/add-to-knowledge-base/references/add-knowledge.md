@@ -5,35 +5,48 @@
    document Scopes and `When to Read` conditions for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
-3. Confirm that each Knowledge part remains correct without access to its
-   source project. Remove dependencies on named downstream repositories, fixed
-   project paths or layouts, project domain models, organization policies, and
-   private infrastructure. Product, platform, protocol, and engineering-domain
-   specificity are valid. Return material whose meaning depends on its source
-   project to the parent workflow as neither.
-4. Apply the ownership and generalization rules below before choosing a
+3. Reapply every boundary test in
+   [Classifying Knowledge and Skill material](../../../../references/agents/knowledge-and-skills.md)
+   before editing `knowledge/`. Return material that does not qualify as
+   Knowledge to the parent as Skill or Skill-reference content.
+4. Confirm that each remaining Knowledge part remains correct without access
+   to its source project. Remove dependencies on named downstream repositories,
+   fixed project paths or layouts, project domain models, organization policies,
+   and private infrastructure. Product, platform, protocol, and engineering-
+   domain specificity are valid. Return material whose meaning depends on its
+   source project to the parent workflow as neither.
+5. Apply the ownership and generalization rules below before choosing a
    destination. Use the resulting claim scopes and document boundaries
    throughout the remaining steps.
-5. Compare the candidate material with each existing candidate document's
+6. Compare the candidate material with each existing candidate document's
    pre-edit Scope, root-index `When to Read` condition, and `When to update`
    trigger. Select that document only when all three describe the same
    responsibility; otherwise select a separate owner.
-6. Update an existing document when it already owns the concept. Create a new
-   document only for a distinct responsibility, placing it in a clear domain
-   under `knowledge/` with the smallest useful document structure.
-7. Give every Markdown document under `knowledge/`, including the root index,
+7. Update an existing document when it already owns the concept. Rewrite the
+   affected semantic block in place, remove superseded wording, and leave one
+   coherent current model rather than layering new qualifications onto the old
+   one. Create a new document only for a distinct responsibility, placing it in
+   a clear domain under `knowledge/` with the smallest useful document
+   structure.
+8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-8. Keep `knowledge/index.md` as the only index. Organize leaf documents in
-   domain directories, but list every leaf directly in the root index and do
-   not create nested `index.md` files.
-9. Add or update exactly one root-index row for every affected leaf document
-   using the fields below, including its Knowledge Type.
-10. Verify that every leaf document is listed exactly once with one valid
-    Knowledge Type, every changed relative link resolves, and each concept has
-    one canonical owner. Compare every changed Scope and routing trigger with
-    its pre-edit form; keep additions that express the same responsibility and
-    route independent responsibilities separately.
-11. Run `pnpm knowledge:check` from the repository root.
+9. Keep `knowledge/index.md` as the only routing catalog. Organize leaf
+   documents in domain directories, but list every leaf directly in the root
+   index and do not create nested indexes or leaf-level `Related Knowledge`,
+   `See also`, or similar routing appendices. When one leaf genuinely depends
+   on another, link it inline where the dependency is applied and include the
+   local context needed to use the current document.
+10. Add or update exactly one root-index row for every affected leaf document
+    using the fields below, including its Knowledge Type.
+11. Verify that every leaf document is listed exactly once with one valid
+    Knowledge Type, serves its `When to Read` condition without requiring
+    another leaf as a prerequisite, contains no routing appendix, and resolves
+    every changed relative link. Confirm that each concept has one canonical
+    owner and each revised document presents one coherent current model.
+    Compare every changed Scope and routing trigger with its pre-edit form;
+    keep additions that express the same responsibility and route independent
+    responsibilities separately.
+12. Run `pnpm knowledge:check` from the repository root.
 
 ## Ownership and generalization
 
@@ -59,11 +72,12 @@ One cohesive prose paragraph.
 One cohesive prose paragraph.
 ```
 
-**Scope.** Define the document's ownership boundary and purpose, including its
-intended level of detail. When neighboring documents could plausibly own the
-same material, state what this document excludes. Write one cohesive paragraph
-that explains the boundary; do not enumerate headings, topics, or table-of-
-contents entries.
+**Scope.** Define the document's ownership boundary, purpose, and intended
+level of detail through a positive statement of the responsibility it owns.
+Add only the smallest qualification needed to resolve a real ownership
+ambiguity that the positive boundary cannot resolve. Write one cohesive
+paragraph; do not inventory neighboring documents, headings, topics, or
+table-of-contents entries.
 
 **When to update.** Name observable changes that would make the document stale
 or incomplete, such as changes to its source material, supported behavior,
@@ -99,11 +113,14 @@ document makes, not the subject it discusses: a method for finding a current
 version can be evergreen even though version availability changes frequently.
 
 **When to Read.** Write a compact trigger beginning with `Read when` and name
-the concrete tasks, decisions, or artifacts that require this material. Cover
-each distinct trigger branch while avoiding topic summaries or vague phrases
-such as “when relevant.” Make a single-responsibility request select one
-canonical document, and compare the condition with every other row. Multiple
-conditions may match a compound task only when their documents contribute
-distinct, non-duplicated Knowledge. If two conditions route the same
-responsibility, merge the documents or redraw their Scopes and conditions
-before indexing them.
+the concrete tasks, decisions, or artifacts that require this material. Base
+the trigger on facts observable before retrieval. When the document helps
+determine whether a risk, diagnosis, exception, or other condition applies,
+route on the preceding task or artifact and let the document make that
+determination after loading. Cover each distinct trigger branch while avoiding
+topic summaries or vague phrases such as “when relevant.” Make a
+single-responsibility request select one canonical document, and compare the
+condition with every other row. Multiple conditions may match a compound task
+only when their documents contribute distinct, non-duplicated Knowledge. If
+two conditions route the same responsibility, merge the documents or redraw
+their Scopes and conditions before indexing them.

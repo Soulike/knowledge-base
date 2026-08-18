@@ -2,11 +2,11 @@
 
 ## Scope
 
-This document defines language- and runtime-independent invariants for operations that locate a filesystem object by pathname and then inspect, read, mutate, place, remove, or undo it while another actor can change the filesystem namespace. It owns the distinction between names and resource identity, handle-bound operations, namespace mutation, coordination, rollback, and race-focused testing; runtime API mappings, filesystem-specific atomicity guarantees, general asynchronous programming, and application storage policy are outside its scope.
+This document defines language- and runtime-independent invariants for filesystem operations that resolve a pathname and then validate the resolved object, check access to it, inspect or read it, mutate its contents or metadata, create, move, or remove directory entries, or roll back a prior effect while another actor can change the filesystem namespace. It owns the distinction between names and resource identity, handle-bound operations, access checks at the point of use, namespace mutation, coordination, rollback, and race-focused testing; runtime API mappings, filesystem-specific atomicity guarantees, general asynchronous programming, and application storage policy are outside its scope.
 
 ## When to update
 
-Update this document when broadly available filesystem primitives change the identity or namespace guarantees an application can rely on, or when a real failure exposes an unhandled check/use race, coordination boundary, rollback hazard, or testing technique within this scope.
+Update this document when broadly available filesystem primitives change the identity or namespace guarantees an application can rely on, or when a real failure exposes an unhandled check/use race, stale path authorization, coordination boundary, rollback hazard, or testing technique within this scope.
 
 ## A pathname is a lookup, not an identity
 
@@ -23,6 +23,14 @@ When correctness requires several observations or effects to concern the same ob
 This rule also belongs at API seams. Return an opened handle together with facts measured from that handle rather than returning a pathname and metadata that invite the caller to open the name again. Assign explicit ownership of the handle so exactly one component is responsible for closing or transferring it.
 
 An opened handle usually pins object identity, not an immutable content snapshot. Another writer that already has access may still change the bytes or length. A strict content or size invariant can additionally require immutability, locking, a snapshot, or a bounded streaming read. The initial open also still resolves a pathname; use directory-relative resolution or platform-specific containment primitives when the parent path is part of the trust boundary.
+
+## Check access at the point of use
+
+A pathname returned by an earlier list, search, metadata, or preview response is still untrusted when a later request asks to read or mutate it. The client can alter the request, and the namespace or server-side resource set can change between responses. An earlier response proves what was visible then; it is not a reusable authorization grant.
+
+Resolve the current comparison base, root, tenant, or other owning context through one server-side authority, compute the permitted resource set for that context, resolve the requested pathname under the same contract, and check whether the caller may perform the requested operation on the resolved object immediately before the content operation. List and per-resource operations must agree on this resolution contract rather than reconstructing it independently in different routes or clients.
+
+Containment, file type, size, count, and content-classification limits belong at the boundary that performs the read or mutation. A caller may apply the same checks for earlier feedback, but those checks are defense in depth and cannot replace enforcement at the sink.
 
 ## Treat namespace mutation as a separate class of operation
 

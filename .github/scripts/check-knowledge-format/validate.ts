@@ -55,5 +55,19 @@ export function validateKnowledgeDocument(markdown: string): string[] {
     ];
   }
 
+  const routingAppendix = document.children.find(
+    (node) =>
+      node.type === "heading" &&
+      ["related knowledge", "see also"].includes(
+        toString(node).trim().toLowerCase(),
+      ),
+  );
+
+  if (routingAppendix) {
+    return [
+      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; keep routing in 'knowledge/index.md' and necessary links inline.",
+    ];
+  }
+
   return [];
 }

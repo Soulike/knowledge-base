@@ -119,6 +119,34 @@ test("requires a bump when root Knowledge changes", async (t) => {
   );
 });
 
+test("requires a bump when a root Skill reference changes", async (t) => {
+  const repository = await createRepository(t, "2026.8.15-1");
+  const base = git(repository, ["rev-parse", "HEAD"]);
+  const referenceDirectory = join(repository, "references", "testing");
+  await mkdir(referenceDirectory, { recursive: true });
+  await writeFile(
+    join(referenceDirectory, "effectiveness.md"),
+    "# Test effectiveness\n",
+  );
+  const head = commit(
+    repository,
+    "add shared Skill reference",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+
+  const result = spawnSync(process.execPath, [checkerPath, base, head], {
+    cwd: repository,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 1);
+  assert.match(
+    result.stderr,
+    /Expected primary plugin version '2026\.8\.15-2'/u,
+  );
+});
+
 test("does not version an independent plugin change", async (t) => {
   const repository = await createRepository(t, "2026.8.15-1");
   const base = git(repository, ["rev-parse", "HEAD"]);
@@ -163,7 +191,7 @@ test("rejects a version-only release after date versions are established", async
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /version changed, but root Knowledge and usage Skills did not/u,
+    /version changed, but root Knowledge, Skill references, and usage Skills did not/u,
   );
 });
 

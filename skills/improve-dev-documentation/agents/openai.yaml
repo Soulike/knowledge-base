@@ -1,0 +1,4 @@
+interface:
+  display_name: "Improve Dev Documentation"
+  short_description: "Audit and improve development documentation"
+  default_prompt: "Use $improve-dev-documentation to audit and improve this software development documentation."

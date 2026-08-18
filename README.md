@@ -6,14 +6,13 @@ Install the primary `knowledge-base` plugin and work normally. Its catalog Skill
 
 ## How it works
 
-- **Knowledge** records reusable facts, concepts, principles, constraints, explanations, and references. [`knowledge/index.md`](knowledge/index.md) is its only routing catalog.
-- **Skills** tell an Agent when and how to perform a task. They may read canonical Knowledge instead of duplicating it.
+- **Knowledge** records understanding with a reading reason independent of any workflow. [`knowledge/index.md`](knowledge/index.md) is its only routing catalog.
+- **Skills** tell an Agent when and how to perform a task.
+- **Skill references** support particular workflow steps. Shared references live in a package-level `references/` directory and are routed directly by their consuming Skills rather than by the Knowledge catalog.
 
 User-facing Knowledge and Skills are independent of any particular downstream project. They may target a general product, platform, protocol, or engineering domain, while discovering project-specific structure and requirements from the Agent's active working directory.
 
-The repository root is the primary plugin. Its Knowledge lives in `knowledge/`, and its portable Agent workflows live in `skills/`. Independent, self-contained plugins may also be added under `plugins/`.
-
-See [Knowledge and Skills](knowledge/agents/knowledge-and-skills.md) for the complete distinction.
+The repository root is the primary plugin. Its Knowledge lives in `knowledge/`, shared workflow references in `references/`, and portable Agent workflows in `skills/`. Independent, self-contained plugins may also be added under `plugins/`.
 
 ## Install with Codex
 
@@ -77,7 +76,7 @@ pnpm install --frozen-lockfile
 pnpm check
 ```
 
-Run `pnpm check` before opening a pull request. Repository conventions for Agent-assisted changes live in [`AGENTS.md`](AGENTS.md), while the reusable content boundary is defined in [Knowledge and Skills](knowledge/agents/knowledge-and-skills.md).
+Run `pnpm check` before opening a pull request. Repository conventions for Agent-assisted changes and the Knowledge-versus-workflow boundary live in [`AGENTS.md`](AGENTS.md); the authoring workflow applies the detailed classification tests.
 
 ## Compatibility
 

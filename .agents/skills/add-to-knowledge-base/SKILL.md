@@ -28,20 +28,23 @@ Classify the material before choosing its destination.
    in that Skill or an appropriately scoped reference even when the prose
    sounds general or several Skills use it. Report why material in the last
    category was not integrated.
-5. For each Knowledge part, read
+5. If any accepted part is maintained explanatory or instructional text, read
+   [Good development documentation](../../../references/documentation/good-development-documentation.md)
+   and apply it throughout the applicable authoring workflow.
+6. For each Knowledge part, read
    [`references/add-knowledge.md`](references/add-knowledge.md) and complete
    that workflow.
-6. For each Skill part, read
+7. For each Skill part, read
    [`references/add-skill.md`](references/add-skill.md) and complete that
    workflow.
-7. For mixed material, finish the Knowledge branch first so the Skill can
+8. For mixed material, finish the Knowledge branch first so the Skill can
    reference the final canonical paths.
-8. When the final diff changes root `knowledge/**`, `references/**`, or
+9. When the final diff changes root `knowledge/**`, `references/**`, or
    `skills/**`, follow
    [`references/update-plugin-version.md`](references/update-plugin-version.md)
    after the content stabilizes.
-9. Review the combined result and report the classification, changed paths,
-   generated primary-plugin version when applicable, and validation performed.
+10. Review the combined result and report the classification, changed paths,
+    generated primary-plugin version when applicable, and validation performed.
 
 ## Completion criteria
 

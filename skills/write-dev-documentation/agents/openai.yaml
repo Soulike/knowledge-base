@@ -1,4 +1,4 @@
 interface:
   display_name: "Write Dev Documentation"
   short_description: "Write clear software development documentation"
-  default_prompt: "Use $write-dev-documentation to document this engineering change clearly and reliably."
+  default_prompt: "Use $write-dev-documentation to assess and address this software development documentation need."

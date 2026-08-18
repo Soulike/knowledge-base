@@ -1,4 +1,4 @@
 interface:
   display_name: "Improve Dev Documentation"
-  short_description: "Repair unclear or unreliable development docs"
-  default_prompt: "Use $improve-dev-documentation to make this development document clear, correct, and coherent."
+  short_description: "Audit and improve development documentation"
+  default_prompt: "Use $improve-dev-documentation to audit and improve this software development documentation."

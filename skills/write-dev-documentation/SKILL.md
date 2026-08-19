@@ -1,6 +1,6 @@
 ---
 name: write-dev-documentation
-description: Write or update maintained explanatory or instructional text for people or Agents working on software. Use when the task starts from a known information need or an engineering change whose effects on such text must be assessed and addressed.
+description: Write or update maintained software-development documentation, including standalone documents, source comments and docstrings, examples, prompts, Agent instructions, and Skills. Use when the task starts from a known need for one of these artifacts or an engineering change whose documentation impact must be assessed and addressed.
 ---
 
 # Write development documentation

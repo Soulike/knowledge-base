@@ -1,6 +1,6 @@
 ---
 name: improve-dev-documentation
-description: Audit and improve maintained explanatory or instructional text for people or Agents working on software. Use when the task starts from an open-ended concern about existing text or an agreed quality improvement to it.
+description: Audit and improve maintained software-development documentation, including standalone documents, source comments and docstrings, examples, prompts, Agent instructions, and Skills. Use when the task starts from an open-ended concern about one or more existing artifacts or an agreed quality improvement.
 ---
 
 # Improve development documentation

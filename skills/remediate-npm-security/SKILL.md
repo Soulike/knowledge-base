@@ -37,24 +37,19 @@ scope are explicit. Make no dependency changes before then.
 
 Within every selected unit:
 
-1. Establish the package-specific evidence required by Dependency and
-   supply-chain security: affected resolved nodes, vulnerable behavior,
-   reachability, attacker preconditions, impact, existing controls, and the
-   advisory or release evidence for the affected range.
-2. Trace every affected resolved occurrence through its top-level parent to
-   each runtime, build, test, or release consumer.
-3. Assign every concern one canonical disposition. Only confirmed concerns
+1. Apply the package-specific finding, resolved-graph, provenance, reachability,
+   compatibility, and consumer evidence requirements in Dependency and
+   supply-chain security.
+2. Assign every concern one canonical disposition. Only confirmed concerns
    enter remediation. For “not a finding,” a demonstrated false positive, or a
    hypothesis, report the decisive or missing evidence and remove that concern
    from the remediation unit; stop the unit without claiming a fix when none
    remain confirmed.
-4. Record the current audit baseline so unrelated findings remain visible
+3. Record the current audit baseline so unrelated findings remain visible
    without expanding the selected scope.
-5. Identify the lowest compatible release that clears the vulnerable range and
+4. Identify the lowest compatible release that clears the vulnerable range and
    verify that exact artifact is available through the project's configured
    source with its required provenance and integrity evidence.
-6. Review behavior changes, runtime and toolchain requirements, lifecycle
-   scripts, and compatibility with every affected consumer.
 
 Finish this step only when every selected concern has an evidence-backed
 disposition and each confirmed finding has complete package, graph, advisory,
@@ -62,17 +57,14 @@ availability, and compatibility evidence or a stated blocker.
 
 ## Choose the remediation
 
-Use this order:
+Apply the structural-remediation order and evidence in Dependency and
+supply-chain security within this Skill's narrower action boundary: removal of
+a proven-unused chain, a supported direct or parent update, or a narrow
+compatible override.
 
-1. Remove an unused chain only after proving its direct dependency or top-level
-   parent is unused across code, configuration, scripts, manifests, and all
-   affected consumers. Never remove a transitive occurrence by editing an
-   individual lockfile entry.
-2. For a needed dependency, prefer a normal direct or parent upgrade to the
-   lowest compatible secure release available from the configured source.
-3. Before a breaking or major upgrade, identify required consumer changes and
+1. Before a breaking or major upgrade, identify required consumer changes and
    obtain the user's approval for that expanded scope.
-4. Use an override only after proving that removal and supported parent or
+2. Use an override only after proving that removal and supported parent or
    direct upgrades cannot express a secure graph, every affected consumer is
    compatible, and the user explicitly approves the compatibility and ongoing
    maintenance tradeoff. The override must resolve the confirmed finding; this
@@ -99,14 +91,11 @@ and follow the active project's testing workflow.
 
 For every changed unit:
 
-1. Prove independently that every selected resolved occurrence is outside the
-   affected range or that the proven-unused chain is absent.
-2. Run the project's security audit and compare it with the recorded baseline.
-   Require the selected graph proof to pass even when unrelated audit findings
-   remain.
-3. Run the dependency, consumer, static, and behavioral checks required by the
+1. Apply the post-remediation graph proof and audit-baseline requirements in
+   Dependency and supply-chain security.
+2. Run the dependency, consumer, static, and behavioral checks required by the
    affected scope.
-4. Inspect the final diff for unintended manifest, lockfile, lifecycle, or
+3. Inspect the final diff for unintended manifest, lockfile, lifecycle, or
    consumer changes.
 
 Report unavailable or environmental checks without converting them into
@@ -114,12 +103,9 @@ passing evidence.
 
 ## Report completion
 
-Report each selected concern's disposition and decisive evidence. For every
-confirmed finding, include the vulnerable behavior, affected graph paths and
-consumers, reachability, attacker preconditions, impact, existing controls, and
-advisory evidence; then report the upgrade or removal performed, compatibility
-or maintenance approvals for breaking changes or overrides, graph proof, audit
-comparison, project validation, blockers, and unrelated findings that remain.
+Report each selected concern's disposition and the evidence assembled above,
+then report the graph change, approvals, graph proof, audit comparison, project
+validation, blockers, and unrelated findings that remain.
 
 Claim only that the selected local dependency graph is remediated when all
 required evidence passes. Stop after reporting the local result. Leave commits,

@@ -46,7 +46,7 @@ copilot plugin marketplace update knowledge-base
 copilot plugin update knowledge-base@knowledge-base
 ```
 
-Start a new Agent session after installing or updating so the client can discover the current Skills.
+If the current Agent session does not discover newly installed or updated Skills, start a new session.
 
 ## Use the knowledge base
 
@@ -60,10 +60,7 @@ You can also ask explicitly when you want to inspect or control that process:
 
 ## Browse the contents
 
-- [Knowledge catalog](knowledge/index.md): the canonical list of Knowledge and its read conditions.
-- [`load-knowledge-catalog`](skills/load-knowledge-catalog/SKILL.md): discovers and loads relevant Knowledge.
-- [`contribute-to-knowledge-base`](skills/contribute-to-knowledge-base/SKILL.md): adds, corrects, reorganizes, or removes canonical Knowledge and Skills.
-- [`retry-via-local-proxy`](skills/retry-via-local-proxy/SKILL.md): retries failed read-only network retrieval through a detected local proxy.
+Browse the [Knowledge catalog](knowledge/index.md) or the complete [Skills directory](skills/).
 
 ## Contribute
 

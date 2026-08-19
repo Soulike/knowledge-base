@@ -1,4 +1,4 @@
 interface:
   display_name: "Retry via Local Proxy"
-  short_description: "Retry failed fetches and HTTP(S) Git clones"
-  default_prompt: "Use $retry-via-local-proxy to retry this failed read-only fetch or timed-out HTTP(S) Git clone through a detected local proxy."
+  short_description: "Retry failed requests through a local proxy"
+  default_prompt: "Use $retry-via-local-proxy to retry this failed network request through a detected local proxy with replay-safety checks."

@@ -39,22 +39,11 @@ and Knowledge are explicit and every item in scope has an owning component.
 
 For each changed, reported, or security-sensitive behavior:
 
-1. Identify every attacker-controlled source and trust transition.
-2. Trace `source → boundary → canonical value → sink → side effect` through
-   success, failure, retry, redirect, reconnect, cancellation, and asynchronous
-   paths that can change the result.
-3. Confirm that the value validated and authorized at the boundary is the value
-   used at the sink. Check the canonical subject, action, resource, destination,
-   and current policy independently from authentication.
-4. Establish concrete attacker preconditions and reachability under the active
-   deployment model. Distinguish remote, same-host, same-account, authenticated,
-   authorized, and already-privileged actors.
-5. Locate existing controls at their authoritative owner. Test whether another
-   path bypasses them, whether mutable state invalidates their decision, and
-   whether unavailable or malformed policy fails closed.
-6. When data-flow vocabulary does not fit, trace the equivalent control path
-   from request through policy decision and lifecycle transition to the final
-   effect.
+1. Apply the trust, ownership, complete-side-effect, sink, and failure criteria
+   in Security boundaries and trust transitions.
+2. Produce an explicit source-to-effect trace, or the equivalent control trace,
+   for the active deployment model. Record attacker preconditions,
+   reachability, authoritative controls, and any missing evidence.
 
 Finish this step when every suspected issue has either a complete reachable
 trace, a concrete missing link to investigate, or evidence that the privileged
@@ -64,16 +53,9 @@ effect cannot be reached.
 
 For each dependency-security concern:
 
-1. Record manifest intent and every affected resolved occurrence.
-2. Trace each occurrence through its top-level parent to every runtime, build,
-   test, or release consumer.
-3. Verify the advisory range, artifact provenance and integrity, release-policy
-   evidence, and install-time behavior.
-4. Check whether the vulnerable behavior is reachable and whether existing
-   application containment excludes it.
-5. Evaluate compatible removal, direct or parent upgrades, and only then a
-   narrow override. Account for runtime, toolchain, and consumer behavior
-   changes before calling a version secure for this project.
+Apply the finding, resolved-graph, provenance, install-effect, reachability,
+compatibility, and remediation criteria in Dependency and supply-chain security.
+Record the resulting evidence for each concern.
 
 Skip this section when the review has no dependency or supply-chain branch.
 Finish it only when affected nodes, consumers, reachability, and compatibility
@@ -101,12 +83,9 @@ Keep a suppression or accepted-risk exception as narrow as its evidence and
 record its durable reason, owner, threat model, compensating controls, and
 reevaluation condition beside the enforcing configuration.
 
-A code finding must identify the source, trust boundary, canonical value, sink,
-side effect or impact, reachability, and existing mitigations checked. A
-dependency finding must identify manifest intent, affected resolved nodes,
-provenance and integrity evidence, freshness, install behavior, consumers, and
-compatibility or advisory evidence. Do not promote a concern that lacks this
-evidence from hypothesis to finding.
+Use the evidence produced by the loaded references and trace steps for each
+disposition. Do not promote a concern whose required evidence is incomplete
+from hypothesis to finding.
 
 ## Validate the remediation
 
@@ -116,14 +95,9 @@ authorized, fix the failed control at its owning boundary and preserve
 unrelated work; do not tune a scanner around reachable vulnerable behavior.
 
 Read [Test effectiveness](../../references/software-testing/test-effectiveness.md)
-before designing or judging security regression coverage. Protect the intended
-path, a representative attack or bypass, and the secure failure path. When an
-upstream library owns a contract, test the local transformation, invocation,
-side effects, failure propagation, and security-boundary wiring rather than
-repeating the library's full suite.
-
-For a multi-component security path, keep the real authentication,
-authorization, transport, or process boundary that the claim depends on.
+before designing or judging security regression coverage, and apply its
+ownership, oracle, test-double, and security-boundary criteria to the failed
+control.
 
 Run the narrowest project-declared checks that establish collection and the
 owned security behavior, then the broader checks required by the changed scope.

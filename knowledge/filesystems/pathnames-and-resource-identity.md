@@ -22,7 +22,7 @@ When correctness requires several observations or effects to concern the same ob
 
 This rule also belongs at API seams. Return an opened handle together with facts measured from that handle rather than returning a pathname and metadata that invite the caller to open the name again. Assign explicit ownership of the handle so exactly one component is responsible for closing or transferring it.
 
-An opened handle usually pins object identity, not an immutable content snapshot. Another writer that already has access may still change the bytes or length. A strict content or size invariant can additionally require immutability, locking, a snapshot, or a bounded streaming read. The initial open also still resolves a pathname; use directory-relative resolution or platform-specific containment primitives when the parent path is part of the trust boundary.
+An opened handle usually pins object identity, not an immutable content snapshot. Another writer that already has access may still change the bytes or length. A strict content or size invariant can additionally require immutability, locking, a snapshot, or a bounded streaming read. The initial open also still resolves a pathname. A directory-handle-relative operation can anchor that lookup to an opened parent; when the parent is a containment boundary, separately require a platform primitive that prevents escape.
 
 ## Check access at the point of use
 
@@ -36,7 +36,7 @@ Containment, file type, size, count, and content-classification limits belong at
 
 Some effects intentionally operate on a directory entry rather than on the opened object. Creating a name, removing a name, and moving a name cannot in general be replaced with an operation on the file's handle.
 
-Prefer directory-handle-relative APIs such as the POSIX `*at` family when available, because they resolve a relative name beneath an already-open directory. Otherwise use a single kernel operation with the required atomic property, revalidate the parent as close to the mutation as possible, and record any race that remains. A check followed by a pathname mutation is not made atomic merely by shortening the interval between them.
+Prefer directory-handle-relative APIs such as the POSIX `*at` family when available, because a relative pathname starts from an already-open directory without resolving that directory's former name again. Ordinary `*at` calls are not containment boundaries: an absolute pathname ignores the directory handle, while `..` components or symbolic links can escape it. When resolution must remain beneath a root, use a platform facility that enforces that property, such as Linux [`openat2()`](https://man7.org/linux/man-pages/man2/openat2.2.html) with `RESOLVE_BENEATH` or `RESOLVE_IN_ROOT`. Otherwise use a single kernel operation with the required atomic property, revalidate the parent as close to the mutation as possible, and record any race that remains. A check followed by a pathname mutation is not made atomic merely by shortening the interval between them.
 
 Atomicity is operation-, platform-, and filesystem-specific. Exclusive creation, no-replace renames, and hard-link placement have different availability and cross-filesystem behavior. Verify the exact primitive on every supported local or network filesystem instead of transferring a guarantee from another environment.
 
@@ -70,4 +70,5 @@ Assert the safety property at the public seam: the replacement or out-of-scope o
 
 - [MITRE CWE-367: Time-of-check Time-of-use Race Condition](https://cwe.mitre.org/data/definitions/367.html)
 - [Linux `open(2)` and `openat(2)`](https://man7.org/linux/man-pages/man2/open.2.html)
+- [Linux `openat2(2)`](https://man7.org/linux/man-pages/man2/openat2.2.html)
 - [Linux `unlink(2)` and `unlinkat(2)`](https://man7.org/linux/man-pages/man2/unlink.2.html)

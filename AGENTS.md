@@ -140,10 +140,14 @@ Use this layout:
 
 Target Codex and GitHub Copilot. Claude Code compatibility is out of scope.
 
-Keep the single canonical marketplace at `.claude-plugin/marketplace.json`;
-both target clients discover this path. Package the root plugin and every
-independent plugin as Agent Plugins v1.0.0 directories with a root
-`plugin.json`. Put portable behavior in `skills/` and, when needed, a root
+Keep this repository's single shared marketplace at
+`.claude-plugin/marketplace.json`. OpenAI documents this path as
+legacy-compatible, and GitHub Copilot CLI includes it among its marketplace
+lookup locations. This repository uses it as a compatibility bridge so both
+target clients consume one marketplace definition; it is neither client's
+native marketplace format and is not part of Agent Plugins v1. Package the root
+plugin and every independent plugin as Agent Plugins v1.0.0 directories with a
+root `plugin.json`. Put portable behavior in `skills/` and, when needed, a root
 `mcp.json`. Keep client-specific components outside the portable core.
 
 `.claude-plugin/marketplace.json`:

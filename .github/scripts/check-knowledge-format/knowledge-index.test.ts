@@ -88,3 +88,21 @@ test("requires the canonical Documents table columns", () => {
     "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
   ]);
 });
+
+test("requires a task-facing When to Read condition", () => {
+  const markdown =
+    indexWithRows(`| [knowledge/empty.md](empty.md) | evergreen | |
+| [knowledge/wrong-prefix.md](wrong-prefix.md) | evergreen | Use when reviewing a document. |
+`);
+
+  assert.deepEqual(
+    inspectKnowledgeIndex(markdown, ["empty.md", "wrong-prefix.md"]),
+    {
+      entries: [],
+      diagnostics: [
+        "When to Read for 'knowledge/empty.md' must not be empty.",
+        "When to Read for 'knowledge/wrong-prefix.md' must begin with 'Read when'.",
+      ],
+    },
+  );
+});

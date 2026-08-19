@@ -7,8 +7,9 @@ documented, which form can keep that information current, and how clearly and
 reliably the document explains it.
 
 In this reference, development documentation means maintained explanatory or
-instructional text for people or Agents working on software. It includes text
-inside and outside source files. Its purpose, rather than its file extension or
+instructional material for people or Agents working on software. It can appear
+in standalone documents, source comments and docstrings, examples, prompts,
+Agent instructions, and Skills. Its purpose, rather than its file extension or
 location, determines whether this guidance applies.
 
 ## Contents
@@ -78,12 +79,6 @@ assigned to it.
 | Stable project rules and routes that must affect matching Agent tasks                 | Agent instruction                                             | It keeps mandatory rules in the instruction hierarchy and routes conditional detail to its sources. |
 | Decisions, tools, and completion criteria for a recurring Agent task                  | Agent Skill                                                   | The information controls execution rather than merely explaining a subject.                         |
 
-A comment is a good home for an invariant coupled to one implementation; it
-is a poor home for an architectural rule used across several modules. A
-separate explanation has the opposite trade-off. A project may make a docstring
-part of a public API contract, in which case that contract gives the docstring
-stronger authority.
-
 Use a live or generated source for a changing inventory. A hand-maintained
 inventory fits only when completeness affects an outcome and generation or
 mechanical validation keeps it complete.
@@ -94,8 +89,8 @@ project decision.
 
 Make each document's responsibility and maintenance boundary apparent. A
 reader should be able to tell which question the document answers and which
-changes require it to be reviewed. Surrounding code may supply that boundary
-for a local comment; a standalone document usually states it explicitly.
+changes require it to be reviewed. Immediate context may supply that boundary
+for a local artifact; a standalone document usually states it explicitly.
 
 ## Write so the reader can trust the explanation
 
@@ -106,16 +101,31 @@ the document against current evidence, state the conditions under which it
 holds, and distinguish required rules from observations and examples. Replace
 a claim owned elsewhere with a direct link to its source.
 
-Treat a factual comment or docstring as an assertion about the implementation.
-Check it against both the code and the source that owns the relevant contract,
-and sweep existing source prose when a code change can make it false. Prefer
-claims that survive incidental file names, symbol names, or counts. A claim of
-precedent such as “matches another implementation” should identify evidence
-actually inspected.
-
 When documentation says the system enforces an invariant, check the documented
 rule, its enforcement mechanism, and the evidence that demonstrates it as one
 claim. A change to any member requires reassessing the other two.
+
+### Write source comments and docstrings at the implementation boundary
+
+Use a source comment or docstring for non-obvious intent, rationale, invariant,
+or failure mode local to one implementation. Place it beside the smallest code
+boundary that supplies its context and can make it stale. Use a separate
+explanation for architecture, boundaries, or rationale shared across
+implementation sites. When a docstring forms part of a public API contract,
+follow that contract and the project's language and documentation tooling.
+
+State the reason, condition, or consequence that changes how a maintainer
+should understand or modify the code. Leave mechanics already apparent from
+the implementation to the implementation. Prefer claims that survive
+incidental file names, symbol names, or counts. A claim of precedent such as
+“matches another implementation” should identify evidence actually inspected.
+
+Treat a factual comment or docstring as an assertion about the implementation.
+Check it against both the code and the source that owns the relevant contract.
+Update it in the same change when its assertion changes, and delete it when the
+implementation makes its information clear or the information no longer serves
+a recurring need. Sweep existing source prose whenever a code change can make
+it false.
 
 ### Describe the current state as one coherent account
 

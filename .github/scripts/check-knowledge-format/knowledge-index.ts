@@ -156,10 +156,26 @@ export function inspectKnowledgeIndex(
       continue;
     }
 
+    const whenToRead = toString(whenToReadCell).trim();
+
+    if (whenToRead.length === 0) {
+      diagnostics.push(
+        `When to Read for 'knowledge/${targetPath}' must not be empty.`,
+      );
+      continue;
+    }
+
+    if (!whenToRead.startsWith("Read when ")) {
+      diagnostics.push(
+        `When to Read for 'knowledge/${targetPath}' must begin with 'Read when'.`,
+      );
+      continue;
+    }
+
     entries.push({
       filePath: targetPath,
       knowledgeType,
-      whenToRead: toString(whenToReadCell),
+      whenToRead,
     });
   }
 

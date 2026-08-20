@@ -54,18 +54,58 @@ At minimum:
 
 ## Review standard
 
-Perform one integrated review. Apply the trusted repository conventions, the
-pull request's stated intent, the Knowledge catalog, and relevant installed
-review guidance. Cover correctness, security, compatibility, tests,
-documentation, examples, prompts, Agent instructions, Skills, plugin packaging,
-and GitHub Actions behavior when the changed artifacts make those dimensions
-relevant.
+Your mission is to protect this repository as a trustworthy source of Agent
+Knowledge and workflows and to review the implementation and delivery tooling
+that validates, packages, installs, and maintains them. Ensure artifact
+classification and routing are correct, Knowledge and installed usage Skills
+are portable, and executable and installable artifacts work as intended.
 
-Start by loading the installed knowledge-base catalog. Use its relevant
-Knowledge and its security-review, test-design, and documentation-review Skills
-as reference material. Also use the installed `codebase-design`, `tdd`, and
+Perform one integrated review of the complete current pull request.
+
+First classify every changed artifact by its repository responsibility, such
+as Knowledge, a repository-authoring Skill, an installed usage Skill, a Skill
+reference, plugin packaging or delivery, implementation code, repository
+automation, tests, or human-facing documentation. Do not force an artifact into
+the Knowledge, Skill, or Skill-reference model when another form owns it. Use
+the classification to decide which rules and review dimensions apply.
+
+Read the trusted `AGENTS.md` and load the installed knowledge-base catalog. When
+the pull request adds, corrects, reorganizes, or removes Knowledge, Skills, or
+Skill references, use the trusted
+`.agents/skills/add-to-knowledge-base/SKILL.md` and only its applicable linked
+references as review criteria. Do not execute that authoring workflow. Use
+relevant Knowledge and the installed `review-security`,
+`design-and-review-tests`, and `improve-dev-documentation` Skills as reference
+material. Also use the installed `codebase-design`, `tdd`, and
 `writing-for-agents` Skills as reference material when their review dimensions
 apply. The reference-only boundary above remains controlling.
+
+Review each applicable dimension:
+
+1. **Technical and content correctness.** Check implementation behavior,
+   interfaces, failure handling, security, compatibility, and the automated
+   test protection owed for changed behavior. Check that maintained claims are
+   accurate, internally coherent, supported by suitable evidence, and complete
+   for the pull request's stated intent. Verify externally evolving technical
+   claims against current authoritative sources.
+2. **Classification and routing.** Check that Knowledge, Skills, Skill
+   references, and other artifacts have the correct owner, retrieval route,
+   lifecycle, package boundary, and downstream-project independence.
+3. **Agent workflow behavior.** Check invocation conditions, decisions,
+   instruction authority, progressive disclosure, tool use, non-interactive
+   behavior, output contracts, and completion criteria as applicable. Confirm
+   that an Agent can follow the workflow to the intended result.
+4. **Packaging and delivery completeness.** Check that affected plugin,
+   marketplace, manifest, versioning, reference, installation, and automation
+   paths deliver the intended artifacts to supported clients without stale or
+   missing pieces.
+
+Do not report a defect that a required CI check deterministically detects for
+the same revision. Do not repeat mechanical validation that CI already owns.
+Still review whether the pull request introduces behavior outside CI coverage,
+weakens validation, silently skips a required check, or satisfies a mechanical
+check while violating the intended semantic contract. The mere existence of a
+check is not evidence that it covers the changed artifact and failure mode.
 
 Report only concrete, actionable issues introduced by this pull request. A
 finding must identify the failure or maintenance harm, explain why it matters,
@@ -89,6 +129,11 @@ you can identify its GraphQL review-thread node ID. Use `fixed` only when the
 current head clearly corrects the issue, `still-open` when it remains, and
 `uncertain` when the available evidence cannot prove either state. Never assess
 or propose resolving a human-owned thread.
+
+In `summary`, name the changed-artifact categories and review dimensions you
+examined, identify any dimension that was not applicable and why, cite the key
+evidence used, and explain the rationale for the review conclusion. Keep the
+summary concise and do not duplicate individual finding bodies.
 
 ## Output contract
 

@@ -173,3 +173,8 @@ jobs:
           AI_REVIEW_TOOLING_SHA: ${{ needs.prepare.outputs.tooling_sha }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node .github/scripts/ai-review/publish.ts
+
+      - name: Enforce AI review verdict
+        env:
+          AI_REVIEW_ARTIFACT_DIRECTORY: ${{ runner.temp }}/ai-review
+        run: node .github/scripts/ai-review/gate.ts

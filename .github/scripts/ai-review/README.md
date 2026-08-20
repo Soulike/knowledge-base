@@ -73,16 +73,20 @@ inspect the locally fetched repository history and retrieve all pages of review
 history itself. Copilot returns JSON only; malformed output fails the run
 without an automatic retry or partial publication.
 
-The publisher submits one `COMMENT` review for each successful workflow run.
-Every `nit`, `low`, `medium`, and `high` finding becomes an inline thread, and
-the repository's thread-resolution rule therefore blocks merging until each is
-resolved. Only active `medium` and `high` findings select `AI Need Change`;
-otherwise the publisher selects `AI Approved`. The publisher may resolve only
-its own marked threads that Copilot explicitly verifies as fixed, and it posts
-the model's evidence as a reply before resolving the thread. Human-owned threads
-are never resolved by this workflow.
+The publisher submits one `COMMENT` review for each successfully published
+review request. Every `nit`, `low`, `medium`, and `high` finding becomes an
+inline thread, and the repository's thread-resolution rule therefore blocks
+merging until each is resolved. Only active `medium` and `high` findings select
+`AI Need Change`; otherwise the publisher selects `AI Approved`. The publisher
+may resolve only its own marked threads that Copilot explicitly verifies as
+fixed, and it posts the model's evidence as a reply before resolving the thread.
+Human-owned threads are never resolved by this workflow.
 
-The run removes both verdict labels before analysis. A failed, canceled, or
-stale run leaves neither verdict label. Re-running the same workflow run is
-idempotent after publication, while removing and adding `Ready for Review`
-creates a new auditable review request.
+The run removes both verdict labels before analysis. The publisher records a
+verdict only after it has completed the review and label updates and confirmed
+that the pull-request head is still current. A final gate passes `AI Approved`
+and fails the workflow for `AI Need Change`; the failed check preserves the
+published review and `AI Need Change` label. A missing or invalid verdict also
+fails closed. Re-running the same workflow run is idempotent after publication,
+while removing and adding `Ready for Review` creates a new auditable review
+request.

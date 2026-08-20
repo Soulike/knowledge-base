@@ -6,6 +6,7 @@ import { readReviewConfig, type ReviewConfig } from "./config.ts";
 import { fetchPullRequestRevisions, validateFindingLines } from "./diff.ts";
 import { GitHubClient } from "./github.ts";
 import { parseReviewOutput, severities } from "./review-output.ts";
+import { writeReviewVerdict } from "./review-verdict.ts";
 import {
   AI_REVIEW_AUTHOR,
   findingComment,
@@ -262,6 +263,7 @@ async function main(): Promise<void> {
     await removeVerdictLabels(client, config.prNumber);
     throw error;
   }
+  await writeReviewVerdict(artifactDirectory, plan.verdict);
 }
 
 await main();

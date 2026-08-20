@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 
 import type { Finding, ReviewOutput, Severity } from "./review-output.ts";
+import type { ReviewVerdict } from "./review-verdict.ts";
 
 export const labels = {
   approved: "AI Approved",
@@ -79,7 +80,7 @@ export type PublicationPlan = {
   fixedThreads: FixedThread[];
   newFindings: Finding[];
   openCarriedFindings: FindingMarker[];
-  verdict: "approved" | "needs-change";
+  verdict: ReviewVerdict;
 };
 
 export function planPublication(

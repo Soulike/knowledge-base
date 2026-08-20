@@ -1,0 +1,10 @@
+{
+  "name": "@knowledge-base/ai-review",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test *.test.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

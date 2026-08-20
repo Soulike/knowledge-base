@@ -38,6 +38,8 @@ importers:
         specifier: ^8.65.0
         version: 8.65.0(eslint@10.8.0(supports-color@9.0.0))(supports-color@9.0.0)(typescript@6.0.3)
 
+  .github/scripts/ai-review: {}
+
   .github/scripts/check-knowledge-format:
     dependencies:
       mdast-util-from-markdown:

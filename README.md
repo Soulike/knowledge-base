@@ -75,6 +75,8 @@ pnpm check
 
 Run `pnpm check` before opening a pull request. Repository conventions for Agent-assisted changes and the Knowledge-versus-workflow boundary live in [`AGENTS.md`](AGENTS.md); the authoring workflow applies the detailed classification tests.
 
+Maintainers can request the repository's [Copilot CLI pull-request review](.github/scripts/ai-review/README.md) by applying its one-shot `Ready for Review` label.
+
 ## Compatibility
 
 The repository targets Codex and GitHub Copilot CLI and packages plugins using the Agent Plugins v1 format. Claude Code compatibility is outside its scope.

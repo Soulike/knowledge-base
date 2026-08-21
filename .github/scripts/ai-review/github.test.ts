@@ -11,63 +11,77 @@ function mockFetch(t: test.TestContext, implementation: typeof fetch): void {
   });
 }
 
-test("parses review-thread ownership and REST comment identity", async (t) => {
-  mockFetch(t, async () => {
-    return new Response(
-      JSON.stringify({
-        data: {
-          repository: {
-            pullRequest: {
-              reviewThreads: {
-                nodes: [
-                  {
-                    comments: {
-                      nodes: [
-                        {
-                          author: { login: "github-actions[bot]" },
-                          body: "AI finding",
-                          databaseId: 321,
-                        },
-                      ],
-                    },
-                    id: "PRRT_example",
-                    isResolved: false,
-                  },
-                ],
-                pageInfo: { endCursor: null, hasNextPage: false },
-              },
-            },
-          },
-        },
-      }),
+function jsonResponse(value: unknown, init: ResponseInit = {}): Response {
+  const headers = new Headers(init.headers);
+  headers.set("Content-Type", "application/json");
+  return new Response(JSON.stringify(value), { ...init, headers });
+}
+
+test("maps pull-request identity through the Octokit REST endpoint", async (t) => {
+  let capturedUrl = "";
+  mockFetch(t, async (input) => {
+    capturedUrl = String(input);
+    return jsonResponse(
+      {
+        base: { sha: "a".repeat(40) },
+        head: { sha: "b".repeat(40) },
+        html_url: "https://github.com/owner/repository/pull/42",
+        number: 42,
+        state: "open",
+      },
       { status: 200 },
     );
   });
   const client = new GitHubClient("token", "owner/repository");
 
-  const threads = await client.listReviewThreads(42);
+  const pullRequest = await client.getPullRequest(42);
 
-  assert.deepEqual(threads, [
-    {
-      comments: [
-        {
-          authorLogin: "github-actions[bot]",
-          body: "AI finding",
-          databaseId: 321,
-        },
-      ],
-      id: "PRRT_example",
-      isResolved: false,
-    },
-  ]);
+  assert.equal(
+    capturedUrl,
+    "https://api.github.com/repos/owner/repository/pulls/42",
+  );
+  assert.deepEqual(pullRequest, {
+    baseSha: "a".repeat(40),
+    headSha: "b".repeat(40),
+    htmlUrl: "https://github.com/owner/repository/pull/42",
+    number: 42,
+    state: "open",
+  });
 });
 
-test("accepts submitted reviews with an empty body", async (t) => {
+test("uses Octokit pagination and preserves submitted review identity", async (t) => {
+  let requestCount = 0;
   mockFetch(t, async () => {
-    return new Response(
-      JSON.stringify([
-        { body: "", id: 11, user: { login: "github-actions[bot]" } },
-      ]),
+    requestCount += 1;
+    if (requestCount === 1) {
+      return jsonResponse(
+        [
+          {
+            body: "",
+            commit_id: "b".repeat(40),
+            id: 11,
+            state: "COMMENTED",
+            user: { login: "github-actions[bot]" },
+          },
+        ],
+        {
+          headers: {
+            Link: '<https://api.github.com/repositories/1/pulls/42/reviews?page=2>; rel="next"',
+          },
+          status: 200,
+        },
+      );
+    }
+    return jsonResponse(
+      [
+        {
+          body: null,
+          commit_id: "c".repeat(40),
+          id: 12,
+          state: "DISMISSED",
+          user: null,
+        },
+      ],
       { status: 200 },
     );
   });
@@ -75,27 +89,52 @@ test("accepts submitted reviews with an empty body", async (t) => {
 
   const reviews = await client.listReviews(42);
 
-  assert.equal(reviews[0]?.body, "");
+  assert.equal(requestCount, 2);
+  assert.deepEqual(reviews, [
+    {
+      authorLogin: "github-actions[bot]",
+      body: "",
+      commitSha: "b".repeat(40),
+      id: 11,
+      state: "COMMENTED",
+    },
+    {
+      authorLogin: null,
+      body: null,
+      commitSha: "c".repeat(40),
+      id: 12,
+      state: "DISMISSED",
+    },
+  ]);
 });
 
-test("replies to the original review comment through the pull-request API", async (t) => {
-  let capturedUrl = "";
+test("adds a verdict label with the issues endpoint", async (t) => {
   let capturedRequest: RequestInit | undefined;
+  let capturedUrl = "";
   mockFetch(t, async (input, request) => {
     capturedUrl = String(input);
     capturedRequest = request;
-    return new Response(JSON.stringify({ id: 99 }), { status: 201 });
+    return jsonResponse([], { status: 200 });
   });
   const client = new GitHubClient("token", "owner/repository");
 
-  await client.replyToReviewComment(42, 321, "Verified fixed.");
+  await client.addLabel(42, "AI Approved");
 
   assert.equal(
     capturedUrl,
-    "https://api.github.com/repos/owner/repository/pulls/42/comments/321/replies",
+    "https://api.github.com/repos/owner/repository/issues/42/labels",
   );
   assert.equal(capturedRequest?.method, "POST");
   assert.deepEqual(JSON.parse(String(capturedRequest?.body)), {
-    body: "Verified fixed.",
+    labels: ["AI Approved"],
   });
+});
+
+test("treats a missing verdict label as already removed", async (t) => {
+  mockFetch(t, async () => {
+    return jsonResponse({ message: "Label does not exist" }, { status: 404 });
+  });
+  const client = new GitHubClient("token", "owner/repository");
+
+  await assert.doesNotReject(client.removeLabel(42, "AI Need Change"));
 });

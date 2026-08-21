@@ -90,3 +90,10 @@ published review and `AI Need Change` label. A missing or invalid verdict also
 fails closed. Re-running the same workflow run is idempotent after publication,
 while removing and adding `Ready for Review` creates a new auditable review
 request.
+
+Configure `AI review gate` as the required status check for pull requests. It
+runs after the prepare, review, and publish jobs and succeeds only when all
+three succeed. Each new pull-request head therefore remains blocked until a
+`Ready for Review` run succeeds. The workflow uses a different check name for
+unrelated label events because GitHub reports skipped jobs as successful; those
+events cannot satisfy the required AI review check.

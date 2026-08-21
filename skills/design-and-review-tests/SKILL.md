@@ -1,6 +1,6 @@
 ---
 name: design-and-review-tests
-description: Design and review automated tests. Use when deciding whether a behavior change requires a test; adding or modifying tests; reviewing test content or coverage; assessing redundant or ineffective tests; or changing test discovery, conditional validation selection, or runner configuration.
+description: Decide whether automated tests should be added and, when justified, design and review effective test plans and coverage. Use whenever planning to add or modify tests; deciding whether a change requires a test; reviewing test content or coverage; assessing redundant or ineffective tests; or changing test discovery, conditional validation selection, or runner configuration.
 ---
 
 # Design and review tests
@@ -39,37 +39,47 @@ Finish this step when the behavior under review, applicable local rules, and
 the commands that can establish evidence are known and, for a change review,
 the two-way review inventory is complete.
 
-## Decide what protection is owed
+## Decide whether to add a test
 
-1. Apply the loaded Test effectiveness criteria to each changed behavior and
-   review concern. Inspect production code as well as changed tests when
-   reviewing coverage.
-2. Record the named contract, realistic fault, existing evidence path, and any
-   uncovered boundary. State the reference-backed rationale when no new test is
-   owed.
-3. Identify migration-only scaffolding separately from permanent protection.
+1. Treat every plan or request to add or modify a test as a proposal to
+   evaluate before implementation, not as evidence that a test is owed.
+2. Apply the loaded Test effectiveness criteria, including its local behavior
+   boundary, to each changed behavior and review concern. Inspect production
+   code as well as changed tests when reviewing coverage.
+3. Record the named local behavior, realistic fault, existing evidence path,
+   and any uncovered boundary. Classify the result as no test owed, existing
+   coverage sufficient, or a new or modified test required. State the
+   reference-backed rationale when no new test is owed.
+4. Identify migration-only scaffolding separately from permanent protection.
 
-Finish this step when every changed behavior or review concern has one evidence
-path or a concrete, supportable coverage gap.
+Finish this step when every changed behavior, proposed test, or review concern
+has a supported disposition. Do not design or implement a test until this step
+identifies a concrete coverage gap in local executable behavior.
 
-## Choose the owning test
+## Validate the test plan
 
-1. Use the ownership, oracle, test-structure, and test-double criteria in Test
-   effectiveness to select the narrowest test that can detect the named fault.
-2. Apply Reliable test execution to fixtures, ambient state, cleanup,
+1. For each required test, use the ownership, oracle, test-structure, and
+   test-double criteria in Test effectiveness to select the narrowest test that
+   can detect the named fault.
+2. Name the owning seam, independent oracle, observable failure, fixture, and
+   project-declared command that will execute the test.
+3. Apply Reliable test execution to fixtures, ambient state, cleanup,
    concurrency, clocks, retries, and supported-platform behavior whenever those
    concerns are present.
-3. Fit the test to the active project's conventions and available seams without
+4. Fit the test to the active project's conventions and available seams without
    weakening the contract identified above.
 
 Finish this step when each proposed or reviewed test can fail for its named
-fault without relying on unrelated behavior or ambient state.
+fault, pass for the intended behavior, and do both without merely restating the
+source under test or relying on unrelated behavior or ambient state.
 
 ## Implement or report
 
-When edits are authorized, implement the smallest coverage change that closes
-the identified gap and preserve unrelated user work. When the request is only
-to assess or review, report findings and proposed tests without editing.
+When edits are authorized, implement the smallest validated coverage change
+that closes the identified gap and preserve unrelated user work. When no test
+is owed, do not create one; perform the applicable non-test validation. When
+the request is only to assess or review, report findings and proposed tests
+without editing.
 
 For runner, discovery, or conditional-validation work, apply the corresponding
 Reliable test execution criteria. Isolate mechanical changes from intentional

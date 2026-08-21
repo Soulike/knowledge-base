@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
       issues: write
-      pull-requests: read
+      pull-requests: write
     outputs:
       base_sha: ${{ steps.prepare.outputs.base_sha }}
       head_sha: ${{ steps.prepare.outputs.head_sha }}
@@ -178,3 +178,29 @@ jobs:
         env:
           AI_REVIEW_ARTIFACT_DIRECTORY: ${{ runner.temp }}/ai-review
         run: node .github/scripts/ai-review/gate.ts
+
+  gate:
+    name: ${{ github.event.label.name == 'Ready for Review' && 'AI review gate' || 'Ignore unrelated label' }}
+    if: ${{ always() && github.event.label.name == 'Ready for Review' }}
+    needs:
+      - prepare
+      - review
+      - publish
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Require every AI review job to succeed
+        env:
+          PREPARE_RESULT: ${{ needs.prepare.result }}
+          PUBLISH_RESULT: ${{ needs.publish.result }}
+          REVIEW_RESULT: ${{ needs.review.result }}
+        run: |
+          printf 'Prepare: %s\nReview: %s\nPublish: %s\n' \
+            "$PREPARE_RESULT" "$REVIEW_RESULT" "$PUBLISH_RESULT"
+
+          if [[ "$PREPARE_RESULT" != "success" ||
+                "$REVIEW_RESULT" != "success" ||
+                "$PUBLISH_RESULT" != "success" ]]; then
+            printf 'Every AI review job must succeed.\n' >&2
+            exit 1
+          fi

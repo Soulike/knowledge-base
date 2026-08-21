@@ -94,8 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
-      pull-requests: read
+      pull-requests: write
     steps:
       - name: Check out trusted gate
         uses: actions/checkout@v7

@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: read
       issues: write
-      pull-requests: read
+      pull-requests: write
     outputs:
       base_sha: ${{ steps.prepare.outputs.base_sha }}
       head_sha: ${{ steps.prepare.outputs.head_sha }}

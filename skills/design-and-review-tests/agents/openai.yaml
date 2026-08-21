@@ -1,4 +1,4 @@
 interface:
   display_name: "Design and Review Tests"
   short_description: "Design focused tests and review coverage"
-  default_prompt: "Use $design-and-review-tests to decide what this change must test and review the resulting coverage."
+  default_prompt: "Use $design-and-review-tests to decide whether this change needs automated tests and, if so, validate the test plan and coverage."

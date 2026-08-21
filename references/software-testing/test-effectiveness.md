@@ -21,6 +21,14 @@ A change in externally observable behavior normally needs coverage for the new c
 
 Static guarantees stop at their actual boundary. A compiler can prove properties of code it checks, but a type annotation on data from a network, database, file, or deserializer is not runtime validation. Parsing, normalization, compatibility handling, and rejection at those seams are behavior and can require tests.
 
+## Establish the local behavior boundary
+
+A project test must exercise behavior owned by code that the project's declared test environment can execute and must observe that behavior's effect. File type does not decide this boundary: configuration interpreted by a local executable can participate in local behavior, while source code whose relevant effect occurs only inside an unavailable external system does not provide a local test seam.
+
+Treat a declaration or configuration value consumed only by an external platform as input to that platform, not as local behavior merely because changing the value changes the remote outcome. Use the platform's applicable syntax or schema validation, and verify the effect through the real integration when that is practical and proportionate. Parsing the file locally and asserting that it contains the selected value restates the source; it does not exercise the external behavior or supply an independent oracle.
+
+When local code interprets, transforms, validates, or transmits that input, test the owned effect through that code's interface rather than asserting the input literal. If no such local path exists, record that no local automated test is owed and identify the non-test validation that applies.
+
 ## Find marginal coverage
 
 Several common test shapes add little or no independent protection:

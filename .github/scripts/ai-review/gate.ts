@@ -1,6 +1,6 @@
-import { join, resolve } from "node:path";
-
-import { readReviewVerdict } from "./review-verdict.ts";
+import { readReviewConfig, readReviewEvent } from "./config.ts";
+import { GitHubClient } from "./github.ts";
+import { enforceReviewGate } from "./review-gate.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();
@@ -10,20 +10,13 @@ function required(name: string): string {
   return value;
 }
 
-const artifactDirectory = resolve(required("AI_REVIEW_ARTIFACT_DIRECTORY"));
-const expectedArtifactDirectory = join(
-  resolve(required("RUNNER_TEMP")),
-  "ai-review",
-);
-if (artifactDirectory !== expectedArtifactDirectory) {
-  throw new Error(
-    "AI_REVIEW_ARTIFACT_DIRECTORY must be the ai-review directory under RUNNER_TEMP.",
-  );
-}
+const config = readReviewConfig();
+const event = readReviewEvent();
+const client = new GitHubClient(required("GITHUB_TOKEN"), config.repository);
+const result = await enforceReviewGate(client, { ...config, ...event });
 
-const verdict = await readReviewVerdict(artifactDirectory);
-if (verdict === "needs-change") {
-  throw new Error("AI review requires changes.");
+if (result === "not-applicable") {
+  console.log("AI review is not applicable to a draft or closed pull request.");
+} else {
+  console.log("AI review approved.");
 }
-
-process.stdout.write("AI review approved.\n");

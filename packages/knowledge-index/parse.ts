@@ -4,6 +4,7 @@ import { toString } from "mdast-util-to-string";
 import { gfmTable } from "micromark-extension-gfm-table";
 import type { Heading, Link, RootContent, Table, TableCell } from "mdast";
 
+import { KnowledgeIndexError } from "./error.ts";
 import type { KnowledgeIndexEntry, KnowledgeType } from "./types.ts";
 
 const expectedColumns = [
@@ -15,17 +16,6 @@ const knowledgeTypes: readonly KnowledgeType[] = [
   "time-sensitive",
   "evergreen",
 ];
-
-export class KnowledgeIndexParseError extends Error {
-  readonly diagnostics: readonly string[];
-
-  constructor(diagnostics: readonly string[]) {
-    const copiedDiagnostics = [...diagnostics];
-    super(`Knowledge index is invalid:\n${copiedDiagnostics.join("\n")}`);
-    this.name = "KnowledgeIndexParseError";
-    this.diagnostics = copiedDiagnostics;
-  }
-}
 
 function isHeading(
   node: RootContent | undefined,
@@ -55,7 +45,7 @@ function isKnowledgeType(value: string): value is KnowledgeType {
 }
 
 function fail(diagnostics: readonly string[]): never {
-  throw new KnowledgeIndexParseError(diagnostics);
+  throw new KnowledgeIndexError(diagnostics);
 }
 
 export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {

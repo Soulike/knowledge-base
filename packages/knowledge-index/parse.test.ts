@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { KnowledgeIndexParseError, parseKnowledgeIndex } from "./index.ts";
+import { KnowledgeIndexError, parseKnowledgeIndex } from "./index.ts";
 
 function indexWithRows(rows: string): string {
   return `# Knowledge index
@@ -28,7 +28,7 @@ function assertParseDiagnostics(
   assert.throws(
     () => parseKnowledgeIndex(markdown),
     (error: unknown) => {
-      assert.ok(error instanceof KnowledgeIndexParseError);
+      assert.ok(error instanceof KnowledgeIndexError);
       assert.deepEqual(error.diagnostics, expectedDiagnostics);
       return true;
     },

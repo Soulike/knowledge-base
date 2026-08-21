@@ -3,9 +3,9 @@ import { basename, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  KnowledgeIndexParseError,
+  KnowledgeIndexError,
   parseKnowledgeIndex,
-  type KnowledgeIndexEntry,
+  validateKnowledgeIndex,
 } from "@knowledge-base/knowledge-index";
 import { validateKnowledgeDocument } from "./validate.ts";
 
@@ -40,33 +40,6 @@ async function findMarkdownFiles(directory: string): Promise<string[]> {
 
 function toPortablePath(filePath: string): string {
   return filePath.split(sep).join("/");
-}
-
-function validateIndexCoverage(
-  entries: KnowledgeIndexEntry[],
-  leafFilePaths: string[],
-): string[] {
-  const diagnostics: string[] = [];
-  const leafPathSet = new Set(leafFilePaths);
-  const indexedPathSet = new Set(entries.map((entry) => entry.filePath));
-
-  for (const entry of entries) {
-    if (!leafPathSet.has(entry.filePath)) {
-      diagnostics.push(
-        `The index lists 'knowledge/${entry.filePath}', but that leaf document does not exist.`,
-      );
-    }
-  }
-
-  for (const leafFilePath of leafFilePaths) {
-    if (!indexedPathSet.has(leafFilePath)) {
-      diagnostics.push(
-        `Knowledge leaf 'knowledge/${leafFilePath}' must be listed exactly once in the index.`,
-      );
-    }
-  }
-
-  return diagnostics;
 }
 
 export async function checkKnowledgeDirectory(
@@ -127,11 +100,9 @@ export async function checkKnowledgeDirectory(
     );
     try {
       const entries = parseKnowledgeIndex(indexMarkdown);
-      for (const message of validateIndexCoverage(entries, leafFilePaths)) {
-        diagnostics.push({ filePath: indexDisplayPath, message });
-      }
+      validateKnowledgeIndex(entries, leafFilePaths);
     } catch (error) {
-      if (!(error instanceof KnowledgeIndexParseError)) {
+      if (!(error instanceof KnowledgeIndexError)) {
         throw error;
       }
       for (const message of error.diagnostics) {

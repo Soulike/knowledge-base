@@ -92,9 +92,9 @@ describe("discoverVerificationTargets", () => {
           index,
         ),
       new Error(
-        "Cannot select Knowledge because the index does not match tracked Knowledge:\n" +
-          "The index lists 'knowledge/b.md', but that tracked leaf document does not exist.\n" +
-          "Tracked Knowledge leaf 'knowledge/c.md' must be listed exactly once in the index.",
+        "Cannot select Knowledge from an invalid index:\n" +
+          "The index lists 'knowledge/b.md', but that leaf document does not exist.\n" +
+          "Knowledge leaf 'knowledge/c.md' must be listed exactly once in the index.",
       ),
     );
   });

@@ -1,10 +1,11 @@
 import { posix } from "node:path";
 
 import {
-  KnowledgeIndexParseError,
+  KnowledgeIndexError,
   parseKnowledgeIndex,
   type KnowledgeIndexEntry,
   type KnowledgeType,
+  validateKnowledgeIndex,
 } from "@knowledge-base/knowledge-index";
 
 export const verificationScopes = [
@@ -85,35 +86,14 @@ function knowledgeTargets(
   let entries: KnowledgeIndexEntry[];
   try {
     entries = parseKnowledgeIndex(indexMarkdown);
+    validateKnowledgeIndex(entries, leafFilePaths);
   } catch (error) {
-    if (!(error instanceof KnowledgeIndexParseError)) {
+    if (!(error instanceof KnowledgeIndexError)) {
       throw error;
     }
     throw new Error(
       `Cannot select Knowledge from an invalid index:\n${error.diagnostics.join("\n")}`,
       { cause: error },
-    );
-  }
-
-  const leafPathSet = new Set(leafFilePaths);
-  const indexedPathSet = new Set(entries.map((entry) => entry.filePath));
-  const coverageDiagnostics = [
-    ...entries
-      .filter((entry) => !leafPathSet.has(entry.filePath))
-      .map(
-        (entry) =>
-          `The index lists 'knowledge/${entry.filePath}', but that tracked leaf document does not exist.`,
-      ),
-    ...leafFilePaths
-      .filter((filePath) => !indexedPathSet.has(filePath))
-      .map(
-        (filePath) =>
-          `Tracked Knowledge leaf 'knowledge/${filePath}' must be listed exactly once in the index.`,
-      ),
-  ];
-  if (coverageDiagnostics.length > 0) {
-    throw new Error(
-      `Cannot select Knowledge because the index does not match tracked Knowledge:\n${coverageDiagnostics.join("\n")}`,
     );
   }
 

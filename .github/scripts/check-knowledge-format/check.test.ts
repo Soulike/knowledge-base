@@ -133,3 +133,35 @@ test("rejects nested knowledge indexes", async (t) => {
     /knowledge\/security\/index\.md: Nested knowledge indexes are not allowed; list leaf documents directly in 'knowledge\/index\.md'\./,
   );
 });
+
+test("reports Knowledge inventory mismatches in both directions", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const knowledgeDirectory = join(temporaryRoot, "knowledge");
+  const nestedDirectory = join(knowledgeDirectory, "security");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await mkdir(nestedDirectory, { recursive: true });
+  await Promise.all([
+    writeFile(
+      join(knowledgeDirectory, "index.md"),
+      validIndex(
+        "| [knowledge/missing.md](missing.md) | evergreen | Read when checking missing Knowledge. |\n",
+      ),
+    ),
+    writeFile(join(nestedDirectory, "authentication.md"), validDocument),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, knowledgeDirectory],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "knowledge/index.md: The index lists 'knowledge/missing.md', but that leaf document does not exist.\n" +
+      "knowledge/index.md: Knowledge leaf 'knowledge/security/authentication.md' must be listed exactly once in the index.\n",
+  );
+});

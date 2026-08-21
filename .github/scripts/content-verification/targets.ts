@@ -1,7 +1,9 @@
 import { posix } from "node:path";
 
 import {
-  inspectKnowledgeIndex,
+  KnowledgeIndexParseError,
+  parseKnowledgeIndex,
+  type KnowledgeIndexEntry,
   type KnowledgeType,
 } from "@knowledge-base/knowledge-index";
 
@@ -80,14 +82,42 @@ function knowledgeTargets(
         !filePath.endsWith("/index.md"),
     )
     .map((filePath) => filePath.slice("knowledge/".length));
-  const inspection = inspectKnowledgeIndex(indexMarkdown, leafFilePaths);
-  if (inspection.diagnostics.length > 0) {
+  let entries: KnowledgeIndexEntry[];
+  try {
+    entries = parseKnowledgeIndex(indexMarkdown);
+  } catch (error) {
+    if (!(error instanceof KnowledgeIndexParseError)) {
+      throw error;
+    }
     throw new Error(
-      `Cannot select Knowledge from an invalid index:\n${inspection.diagnostics.join("\n")}`,
+      `Cannot select Knowledge from an invalid index:\n${error.diagnostics.join("\n")}`,
+      { cause: error },
     );
   }
 
-  return inspection.entries
+  const leafPathSet = new Set(leafFilePaths);
+  const indexedPathSet = new Set(entries.map((entry) => entry.filePath));
+  const coverageDiagnostics = [
+    ...entries
+      .filter((entry) => !leafPathSet.has(entry.filePath))
+      .map(
+        (entry) =>
+          `The index lists 'knowledge/${entry.filePath}', but that tracked leaf document does not exist.`,
+      ),
+    ...leafFilePaths
+      .filter((filePath) => !indexedPathSet.has(filePath))
+      .map(
+        (filePath) =>
+          `Tracked Knowledge leaf 'knowledge/${filePath}' must be listed exactly once in the index.`,
+      ),
+  ];
+  if (coverageDiagnostics.length > 0) {
+    throw new Error(
+      `Cannot select Knowledge because the index does not match tracked Knowledge:\n${coverageDiagnostics.join("\n")}`,
+    );
+  }
+
+  return entries
     .filter((entry) => entry.knowledgeType === knowledgeType(scope))
     .map<VerificationTarget>((entry) => {
       const filePath = `knowledge/${entry.filePath}`;

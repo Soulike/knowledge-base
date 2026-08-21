@@ -3,7 +3,7 @@ import { posix } from "node:path";
 import {
   inspectKnowledgeIndex,
   type KnowledgeType,
-} from "../check-knowledge-format/knowledge-index.ts";
+} from "@knowledge-base/knowledge-index";
 
 export const verificationScopes = [
   "time-sensitive-knowledge",

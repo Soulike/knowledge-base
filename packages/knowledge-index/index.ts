@@ -4,7 +4,11 @@ import { toString } from "mdast-util-to-string";
 import { gfmTable } from "micromark-extension-gfm-table";
 import type { Heading, Link, RootContent, Table, TableCell } from "mdast";
 
-const expectedColumns = ["File Path", "Knowledge Type", "When to Read"];
+const expectedColumns = [
+  "File Path",
+  "Knowledge Type",
+  "When to Read",
+] as const;
 const knowledgeTypes = ["time-sensitive", "evergreen"] as const;
 
 export type KnowledgeType = (typeof knowledgeTypes)[number];

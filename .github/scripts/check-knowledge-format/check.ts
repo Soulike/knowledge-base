@@ -2,7 +2,7 @@ import { readdir, readFile } from "node:fs/promises";
 import { basename, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { inspectKnowledgeIndex } from "./knowledge-index.ts";
+import { inspectKnowledgeIndex } from "@knowledge-base/knowledge-index";
 import { validateKnowledgeDocument } from "./validate.ts";
 
 export interface KnowledgeFormatDiagnostic {

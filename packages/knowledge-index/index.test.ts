@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { inspectKnowledgeIndex } from "./knowledge-index.ts";
+import { inspectKnowledgeIndex } from "./index.ts";
 
 function indexWithRows(rows: string): string {
   return `# Knowledge index

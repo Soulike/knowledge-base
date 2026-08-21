@@ -1,0 +1,139 @@
+name: Verify Skills and references
+
+on:
+  schedule:
+    - cron: "11 4 15 1,4,7,10 *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: content-verification-skills-and-references
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify current content
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      copilot-requests: write
+      issues: read
+    outputs:
+      revision: ${{ steps.revision.outputs.sha }}
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Record verified revision
+        id: revision
+        run: printf 'sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: latest
+
+      - name: Set up latest Node.js LTS
+        uses: actions/setup-node@v7
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version: "lts/*"
+
+      - name: Install repository dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Install latest Copilot CLI and Skills CLI
+        run: npm install --global "@github/copilot@latest" "skills@latest"
+
+      - name: Install review reference Skills
+        run: >-
+          skills add mattpocock/skills
+          --global
+          --agent github-copilot
+          --skill codebase-design tdd writing-for-agents
+          --copy
+          --yes
+          --full-depth
+
+      - name: Verify Skills and references
+        env:
+          CONTENT_VERIFICATION_MODEL: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
+          CONTENT_VERIFICATION_OUTPUT_DIRECTORY: ${{ runner.temp }}/content-verification
+          CONTENT_VERIFICATION_REASONING_EFFORT: ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT || 'auto' }}
+          CONTENT_VERIFICATION_REPOSITORY: ${{ github.repository }}
+          CONTENT_VERIFICATION_REVISION: ${{ steps.revision.outputs.sha }}
+          CONTENT_VERIFICATION_RUN_ATTEMPT: ${{ github.run_attempt }}
+          CONTENT_VERIFICATION_RUN_ID: ${{ github.run_id }}
+          CONTENT_VERIFICATION_SCOPE: skills-and-references
+          COPILOT_GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/content-verification/run.ts
+
+      - name: Upload verification result
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          if-no-files-found: warn
+          name: content-verification-skills-and-references-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/content-verification
+          retention-days: 14
+
+  publish:
+    name: Publish verification issues
+    if: ${{ always() }}
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Check out verified revision
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ needs.verify.outputs.revision || github.event.repository.default_branch }}
+
+      - name: Record publisher revision
+        id: revision
+        run: printf 'sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: latest
+
+      - name: Set up latest Node.js LTS
+        uses: actions/setup-node@v7
+        with:
+          cache: pnpm
+          check-latest: true
+          node-version: "lts/*"
+
+      - name: Install repository dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Download verification result
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: content-verification-skills-and-references-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/content-verification
+
+      - name: Publish issues
+        env:
+          CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification
+          CONTENT_VERIFICATION_ASSIGNEE: Soulike
+          CONTENT_VERIFICATION_REPOSITORY: ${{ github.repository }}
+          CONTENT_VERIFICATION_REVISION: ${{ steps.revision.outputs.sha }}
+          CONTENT_VERIFICATION_RUN_ATTEMPT: ${{ github.run_attempt }}
+          CONTENT_VERIFICATION_RUN_ID: ${{ github.run_id }}
+          CONTENT_VERIFICATION_SCOPE: skills-and-references
+          CONTENT_VERIFICATION_VERIFY_RESULT: ${{ needs.verify.result }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/content-verification/publish.ts

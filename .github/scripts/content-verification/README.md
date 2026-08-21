@@ -1,0 +1,38 @@
+# Scheduled content verification
+
+Three workflows verify the default branch without editing it:
+
+| Workflow                              | Scope                                     | Schedule                       |
+| ------------------------------------- | ----------------------------------------- | ------------------------------ |
+| `verify-time-sensitive-knowledge.yml` | Knowledge indexed as `time-sensitive`     | Monthly, day 1 at 03:17 UTC    |
+| `verify-evergreen-knowledge.yml`      | Knowledge indexed as `evergreen`          | Quarterly, day 8 at 03:43 UTC  |
+| `verify-skills.yml`                   | Skill bundles and shared Skill references | Quarterly, day 15 at 04:11 UTC |
+
+Each workflow also supports manual dispatch. A Skill bundle contains its
+`SKILL.md` and tracked files below the same directory. References inside a Skill
+belong to that bundle. Each tracked reference under a package-level
+`references/` directory is verified once as its own unit.
+
+The verifier installs `codebase-design`, `tdd`, and `writing-for-agents` as
+review-only guidance. It receives read permissions for repository contents and
+open issues, and must return one validated result for every discovered unit.
+It does not install the knowledge-base plugin because that plugin is the review
+subject. The publisher runs as a separate job with issue-write permission and
+revalidates the result before changing GitHub state.
+
+Results use these statuses:
+
+- `current`: no issue is created or updated.
+- `modification-required`: comment on the matching open issue selected by the
+  verifier, or create an assigned `modification-required` issue.
+- `verification-failed`: comment on the matching open issue selected by the
+  verifier, or create an assigned `verification-failed` issue, then fail the
+  workflow.
+
+Operational failures also create or update an open failure issue and fail the
+workflow. The automation never reads closed issues or closes issues. New issues
+are assigned to `Soulike` and receive the `automated-verification` label.
+
+The optional repository variables `CONTENT_VERIFICATION_MODEL` and
+`CONTENT_VERIFICATION_REASONING_EFFORT` select the Copilot model and reasoning
+effort. Both default to `auto`.

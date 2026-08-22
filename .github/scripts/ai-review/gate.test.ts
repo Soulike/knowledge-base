@@ -34,7 +34,8 @@ function review(
 ) {
   return {
     authorLogin: "github-actions[bot]",
-    body: `- **Verdict:** \`${verdict}\`
+    body: `- **Model:** \`gpt-5.6-sol\`
+- **Verdict:** \`${verdict}\`
 
 <!-- knowledge-base-ai-review verdict=${verdict} head=${headSha} run-id=1234 run-attempt=2 -->`,
     commitSha: headSha,

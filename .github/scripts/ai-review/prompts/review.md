@@ -148,6 +148,7 @@ verdict and accurate severity counts:
 Concise summary of the changed-artifact categories, review dimensions, key
 evidence, and conclusion.
 
+- **Model:** `<the short model name or identifier you believe you are running as>`
 - **Verdict:** `approved`
 - **Findings:** high: 0, medium: 0, low: 0, nit: 0
 - **Reviewed head:** `{{EXPECTED_HEAD_SHA}}`
@@ -156,7 +157,9 @@ evidence, and conclusion.
 ```
 
 Substitute `needs-change` consistently in both verdict locations when that is
-the result. Keep the marker byte-for-byte exact. Submit this endpoint once. An
-error or ambiguous response ends the run without a retry. After a successful
-response, print the submitted review ID and stop; the trusted gate will verify
-the review and apply the verdict label.
+the result. Replace the `Model` placeholder with your short model name or
+identifier; this is informational and does not require an extra tool call. Keep
+the marker byte-for-byte exact. Submit this endpoint once. An error or ambiguous
+response ends the run without a retry. After a successful response, print the
+submitted review ID and stop; the trusted gate will verify the review and apply
+the verdict label.

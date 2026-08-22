@@ -19,6 +19,7 @@ const reviewRunMarkerPattern =
   /<!-- knowledge-base-ai-review verdict=(approved|needs-change) head=([0-9a-f]{40}) run-id=([1-9][0-9]*) run-attempt=([1-9][0-9]*) -->/gu;
 const visibleVerdictPattern =
   /^- \*\*Verdict:\*\* `(approved|needs-change)`$/gmu;
+const visibleModelPattern = /^- \*\*Model:\*\* `([^`\r\n]{1,100})`$/gmu;
 
 export function reviewRunMarker(
   verdict: ReviewVerdict,
@@ -37,7 +38,12 @@ export function parseReviewRunMarker(
   }
   const matches = [...body.matchAll(reviewRunMarkerPattern)];
   const visibleVerdicts = [...body.matchAll(visibleVerdictPattern)];
-  if (matches.length !== 1 || visibleVerdicts.length !== 1) {
+  const visibleModels = [...body.matchAll(visibleModelPattern)];
+  if (
+    matches.length !== 1 ||
+    visibleVerdicts.length !== 1 ||
+    visibleModels.length !== 1
+  ) {
     return null;
   }
   const match = matches[0];

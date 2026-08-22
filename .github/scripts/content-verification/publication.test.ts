@@ -191,6 +191,38 @@ describe("publishVerification", () => {
     assert.deepEqual(result.created, [101]);
     assert.equal(result.requiresFailure, true);
   });
+
+  it("publishes one execution failure before any actionable body exceeds GitHub's limit", async () => {
+    const publisher = new FakePublisher();
+    const oversized = output("modification-required");
+    const unit = oversized.units[0];
+    assert.ok(unit);
+    unit.summary = "S".repeat(20_000);
+    unit.evidence = Array.from({ length: 5 }, (_, index) => ({
+      description: "E".repeat(10_000),
+      source: `source-${index}`,
+    }));
+    unit.requiredChanges = ["R".repeat(10_000)];
+    unit.acceptanceCriteria = ["A".repeat(10_000)];
+
+    const result = await publishVerification(oversized, context, publisher);
+
+    assert.deepEqual(result, {
+      created: [101],
+      requiresFailure: true,
+      updated: [],
+    });
+    assert.equal(publisher.created.length, 1);
+    const created = publisher.created[0];
+    assert.ok(created);
+    assert.deepEqual(created.labels, [
+      "automated-verification",
+      "verification-failed",
+    ]);
+    assert.match(created.title, /^Content verification workflow failed:/u);
+    assert.ok(created.body.length <= 65_536);
+    assert.doesNotMatch(created.body, /## Required modifications/u);
+  });
 });
 
 describe("publishExecutionFailure", () => {
@@ -213,5 +245,19 @@ describe("publishExecutionFailure", () => {
 
     assert.deepEqual(result.updated, [8]);
     assert.equal(publisher.created.length, 0);
+  });
+
+  it("bounds rendered operational-failure bodies after Markdown escaping", async () => {
+    const publisher = new FakePublisher();
+
+    await publishExecutionFailure("&".repeat(20_000), context, publisher);
+
+    const created = publisher.created[0];
+    assert.ok(created);
+    assert.ok(created.body.length <= 65_536);
+    assert.match(
+      created.body,
+      /This report was truncated because GitHub limits/u,
+    );
   });
 });

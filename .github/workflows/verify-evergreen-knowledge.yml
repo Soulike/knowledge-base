@@ -21,6 +21,7 @@ jobs:
       copilot-requests: write
       issues: read
     outputs:
+      artifact-name: ${{ steps.artifact.outputs.name }}
       revision: ${{ steps.revision.outputs.sha }}
     steps:
       - name: Check out the default branch
@@ -32,6 +33,10 @@ jobs:
       - name: Record verified revision
         id: revision
         run: printf 'sha=%s\n' "$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Record verification artifact name
+        id: artifact
+        run: printf 'name=content-verification-evergreen-knowledge-%s-%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -79,7 +84,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           if-no-files-found: warn
-          name: content-verification-evergreen-knowledge-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ steps.artifact.outputs.name }}
           path: ${{ runner.temp }}/content-verification
           retention-days: 14
 
@@ -122,7 +127,7 @@ jobs:
         continue-on-error: true
         uses: actions/download-artifact@v8
         with:
-          name: content-verification-evergreen-knowledge-${{ github.run_id }}-${{ github.run_attempt }}
+          name: ${{ needs.verify.outputs['artifact-name'] }}
           path: ${{ runner.temp }}/content-verification
 
       - name: Publish issues

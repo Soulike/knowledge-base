@@ -2,6 +2,10 @@ import type { GitHubIssue, IssuePublisher, NewIssue } from "./github.ts";
 import type { VerificationOutput, VerificationUnitResult } from "./output.ts";
 import type { VerificationScope } from "./targets.ts";
 
+const GITHUB_BODY_MAXIMUM_LENGTH = 65_536;
+const BODY_TRUNCATION_SUFFIX =
+  "\n\n---\n\nThis report was truncated because GitHub limits issue and comment bodies to 65,536 characters.\n";
+
 const labels = {
   automation: {
     color: "5319E7",
@@ -68,6 +72,15 @@ function evidence(unit: VerificationUnitResult): string {
     .join("\n");
 }
 
+function boundedBody(body: string): string {
+  if (body.length <= GITHUB_BODY_MAXIMUM_LENGTH) {
+    return body;
+  }
+  const prefixLength =
+    GITHUB_BODY_MAXIMUM_LENGTH - BODY_TRUNCATION_SUFFIX.length;
+  return `${body.slice(0, prefixLength)}${BODY_TRUNCATION_SUFFIX}`;
+}
+
 function bodyFor(
   unit: VerificationUnitResult,
   context: PublicationContext,
@@ -115,10 +128,10 @@ async function ensureLabels(publisher: IssuePublisher): Promise<void> {
 
 async function publishUnit(
   unit: VerificationUnitResult,
+  body: string,
   context: PublicationContext,
   publisher: IssuePublisher,
 ): Promise<{ created?: number; updated?: number }> {
-  const body = bodyFor(unit, context);
   if (unit.matchingIssueNumber !== null) {
     const existing = await publisher.get(unit.matchingIssueNumber);
     if (
@@ -162,9 +175,25 @@ export async function publishVerification(
     return result;
   }
 
+  const rendered = actionable.map((unit) => ({
+    body: bodyFor(unit, context),
+    unit,
+  }));
+  const oversized = rendered.find(
+    ({ body }) => body.length > GITHUB_BODY_MAXIMUM_LENGTH,
+  );
+  if (oversized !== undefined) {
+    const unitId = oversized.unit.id.slice(0, 200);
+    return await publishExecutionFailure(
+      `The rendered publication body for unit ${JSON.stringify(unitId)} contains ${oversized.body.length} characters, exceeding GitHub's ${GITHUB_BODY_MAXIMUM_LENGTH}-character limit. No actionable results were published.`,
+      context,
+      publisher,
+    );
+  }
+
   await ensureLabels(publisher);
-  for (const unit of actionable) {
-    const published = await publishUnit(unit, context, publisher);
+  for (const { body, unit } of rendered) {
+    const published = await publishUnit(unit, body, context, publisher);
     if (published.created !== undefined) {
       result.created.push(published.created);
     }
@@ -186,11 +215,13 @@ export async function publishExecutionFailure(
     0,
     256,
   );
-  const body = [
-    `The \`${safeMarkdown(context.scope)}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
-    `## Failure\n\n${safeMarkdown(message)}`,
-    `[Open workflow run](${runUrl(context)})`,
-  ].join("\n\n");
+  const body = boundedBody(
+    `${[
+      `The \`${safeMarkdown(context.scope)}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
+      `## Failure\n\n${safeMarkdown(message)}`,
+      `[Open workflow run](${runUrl(context)})`,
+    ].join("\n\n")}\n`,
+  );
   const existing = await publisher.findOpenByExactTitle(title);
   if (existing !== undefined) {
     await publisher.comment(existing.number, body);
@@ -198,7 +229,7 @@ export async function publishExecutionFailure(
   }
   const issueNumber = await publisher.create({
     assignee: context.assignee,
-    body: `${body}\n`,
+    body,
     labels: [labels.automation.name, labels.failure.name],
     title,
   });

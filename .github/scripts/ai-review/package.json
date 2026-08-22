@@ -6,5 +6,8 @@
   "scripts": {
     "test": "node --test *.test.ts",
     "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@octokit/rest": "^22.0.1"
   }
 }

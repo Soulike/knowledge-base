@@ -29,6 +29,28 @@ export type ReviewConfig = {
   workspace: string;
 };
 
+export const reviewEventActions = [
+  "closed",
+  "converted_to_draft",
+  "opened",
+  "ready_for_review",
+  "reopened",
+  "synchronize",
+] as const;
+
+export const trustedAuthorAssociations = [
+  "OWNER",
+  "MEMBER",
+  "COLLABORATOR",
+] as const;
+
+export type ReviewEventContext = {
+  action: (typeof reviewEventActions)[number];
+  authorAssociation: string;
+  isDraft: boolean;
+  reviewJobResult: "cancelled" | "failure" | "skipped" | "success";
+};
+
 function required(environment: NodeJS.ProcessEnv, name: string): string {
   const value = environment[name]?.trim();
   if (!value) {
@@ -139,4 +161,39 @@ export function readReviewConfig(
 
 export function copilotEffortArguments(effort: ReasoningEffort): string[] {
   return effort === "auto" ? [] : ["--reasoning-effort", effort];
+}
+
+export function readReviewEvent(
+  environment: NodeJS.ProcessEnv = process.env,
+): ReviewEventContext {
+  const action = required(environment, "AI_REVIEW_EVENT_ACTION");
+  if (!reviewEventActions.includes(action as ReviewEventContext["action"])) {
+    throw new Error(
+      `AI_REVIEW_EVENT_ACTION must be one of: ${reviewEventActions.join(", ")}.`,
+    );
+  }
+  const draft = required(environment, "AI_REVIEW_PR_DRAFT");
+  if (draft !== "true" && draft !== "false") {
+    throw new Error("AI_REVIEW_PR_DRAFT must be true or false.");
+  }
+  const reviewJobResult = required(environment, "AI_REVIEW_JOB_RESULT");
+  if (
+    !["cancelled", "failure", "skipped", "success"].includes(reviewJobResult)
+  ) {
+    throw new Error(
+      "AI_REVIEW_JOB_RESULT must be cancelled, failure, skipped, or success.",
+    );
+  }
+  return {
+    action: action as ReviewEventContext["action"],
+    authorAssociation: required(environment, "AI_REVIEW_AUTHOR_ASSOCIATION"),
+    isDraft: draft === "true",
+    reviewJobResult: reviewJobResult as ReviewEventContext["reviewJobResult"],
+  };
+}
+
+export function isTrustedAuthorAssociation(value: string): boolean {
+  return trustedAuthorAssociations.includes(
+    value as (typeof trustedAuthorAssociations)[number],
+  );
 }

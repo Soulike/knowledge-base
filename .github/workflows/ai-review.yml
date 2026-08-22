@@ -3,7 +3,12 @@ name: AI review
 on:
   pull_request_target:
     types:
-      - labeled
+      - opened
+      - reopened
+      - ready_for_review
+      - synchronize
+      - converted_to_draft
+      - closed
 
 permissions: {}
 
@@ -12,62 +17,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare:
-    name: Prepare AI review
-    if: ${{ github.event.label.name == 'Ready for Review' }}
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: read
-    outputs:
-      base_sha: ${{ steps.prepare.outputs.base_sha }}
-      head_sha: ${{ steps.prepare.outputs.head_sha }}
-      pr_number: ${{ steps.prepare.outputs.pr_number }}
-      pr_url: ${{ steps.prepare.outputs.pr_url }}
-      repository: ${{ steps.prepare.outputs.repository }}
-      tooling_sha: ${{ steps.prepare.outputs.tooling_sha }}
-    steps:
-      - name: Check out trusted main branch
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 1
-          persist-credentials: false
-          ref: main
-
-      - name: Set up latest Node.js LTS
-        uses: actions/setup-node@v7
-        with:
-          check-latest: true
-          node-version: "lts/*"
-
-      - name: Consume request label and capture pull request
-        id: prepare
-        env:
-          AI_REVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
-          AI_REVIEW_TRIGGER_LABEL: ${{ github.event.label.name }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node .github/scripts/ai-review/prepare.ts
-
   review:
     name: Review with Copilot CLI
-    needs: prepare
+    if: >-
+      ${{
+        !github.event.pull_request.draft &&
+        github.event.action != 'closed' &&
+        github.event.action != 'converted_to_draft' &&
+        contains(
+          fromJSON('["OWNER","MEMBER","COLLABORATOR"]'),
+          github.event.pull_request.author_association
+        )
+      }}
     runs-on: ubuntu-latest
-    outputs:
-      artifact_name: ${{ steps.artifact.outputs.name }}
-      run_attempt: ${{ steps.artifact.outputs.run_attempt }}
     permissions:
       contents: read
       copilot-requests: write
       issues: read
-      pull-requests: read
+      pull-requests: write
     steps:
       - name: Check out trusted review tooling
         uses: actions/checkout@v7
         with:
           fetch-depth: 0
           persist-credentials: false
-          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          ref: ${{ github.event.pull_request.base.sha }}
 
       - name: Set up latest Node.js LTS
         uses: actions/setup-node@v7
@@ -96,85 +70,69 @@ jobs:
           --yes
           --full-depth
 
-      - name: Run one integrated review
+      - name: Run and publish one integrated review
         env:
-          AI_REVIEW_BASE_SHA: ${{ needs.prepare.outputs.base_sha }}
-          AI_REVIEW_HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
+          AI_REVIEW_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          AI_REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           AI_REVIEW_MODEL: ${{ vars.AI_REVIEW_MODEL || 'auto' }}
-          AI_REVIEW_OUTPUT_DIRECTORY: ${{ runner.temp }}/ai-review
-          AI_REVIEW_PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
-          AI_REVIEW_PR_URL: ${{ needs.prepare.outputs.pr_url }}
+          AI_REVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
+          AI_REVIEW_PR_URL: ${{ github.event.pull_request.html_url }}
           AI_REVIEW_REASONING_EFFORT: ${{ vars.AI_REVIEW_REASONING_EFFORT || 'auto' }}
-          AI_REVIEW_REPOSITORY: ${{ needs.prepare.outputs.repository }}
+          AI_REVIEW_REPOSITORY: ${{ github.repository }}
           AI_REVIEW_RUN_ATTEMPT: ${{ github.run_attempt }}
           AI_REVIEW_RUN_ID: ${{ github.run_id }}
-          AI_REVIEW_TOOLING_SHA: ${{ needs.prepare.outputs.tooling_sha }}
+          AI_REVIEW_TOOLING_SHA: ${{ github.event.pull_request.base.sha }}
           COPILOT_GITHUB_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: node .github/scripts/ai-review/run-review.ts
 
-      - name: Name review artifact
-        id: artifact
-        env:
-          REVIEW_HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
-        run: |
-          printf 'name=ai-review-%s-%s\n' "$REVIEW_HEAD_SHA" "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
-          printf 'run_attempt=%s\n' "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
-
-      - name: Upload review result
-        uses: actions/upload-artifact@v7
-        with:
-          if-no-files-found: error
-          name: ${{ steps.artifact.outputs.name }}
-          path: ${{ runner.temp }}/ai-review
-          retention-days: 7
-
-  publish:
-    name: Publish AI review
+  gate:
+    name: AI review gate
+    if: ${{ always() }}
     needs:
-      - prepare
       - review
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
       pull-requests: write
     steps:
-      - name: Check out trusted publisher
+      - name: Check out trusted gate
         uses: actions/checkout@v7
         with:
-          fetch-depth: 0
+          fetch-depth: 1
           persist-credentials: false
-          ref: ${{ needs.prepare.outputs.tooling_sha }}
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: latest
 
       - name: Set up latest Node.js LTS
         uses: actions/setup-node@v7
         with:
+          cache: pnpm
           check-latest: true
           node-version: "lts/*"
 
-      - name: Download review result
-        uses: actions/download-artifact@v8
-        with:
-          name: ${{ needs.review.outputs.artifact_name }}
-          path: ${{ runner.temp }}/ai-review
+      - name: Install trusted gate dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Validate and publish review
+      - name: Verify review, update verdict label, and enforce verdict
         env:
-          AI_REVIEW_ARTIFACT_DIRECTORY: ${{ runner.temp }}/ai-review
-          AI_REVIEW_BASE_SHA: ${{ needs.prepare.outputs.base_sha }}
-          AI_REVIEW_HEAD_SHA: ${{ needs.prepare.outputs.head_sha }}
+          AI_REVIEW_AUTHOR_ASSOCIATION: ${{ github.event.pull_request.author_association }}
+          AI_REVIEW_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          AI_REVIEW_EVENT_ACTION: ${{ github.event.action }}
+          AI_REVIEW_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          AI_REVIEW_JOB_RESULT: ${{ needs.review.result }}
           AI_REVIEW_MODEL: ${{ vars.AI_REVIEW_MODEL || 'auto' }}
-          AI_REVIEW_PR_NUMBER: ${{ needs.prepare.outputs.pr_number }}
-          AI_REVIEW_PR_URL: ${{ needs.prepare.outputs.pr_url }}
+          AI_REVIEW_PR_DRAFT: ${{ github.event.pull_request.draft }}
+          AI_REVIEW_PR_NUMBER: ${{ github.event.pull_request.number }}
+          AI_REVIEW_PR_URL: ${{ github.event.pull_request.html_url }}
           AI_REVIEW_REASONING_EFFORT: ${{ vars.AI_REVIEW_REASONING_EFFORT || 'auto' }}
-          AI_REVIEW_REPOSITORY: ${{ needs.prepare.outputs.repository }}
-          AI_REVIEW_RUN_ATTEMPT: ${{ needs.review.outputs.run_attempt }}
+          AI_REVIEW_REPOSITORY: ${{ github.repository }}
+          AI_REVIEW_RUN_ATTEMPT: ${{ github.run_attempt }}
           AI_REVIEW_RUN_ID: ${{ github.run_id }}
-          AI_REVIEW_TOOLING_SHA: ${{ needs.prepare.outputs.tooling_sha }}
+          AI_REVIEW_TOOLING_SHA: ${{ github.event.pull_request.base.sha }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: node .github/scripts/ai-review/publish.ts
-
-      - name: Enforce AI review verdict
-        env:
-          AI_REVIEW_ARTIFACT_DIRECTORY: ${{ runner.temp }}/ai-review
         run: node .github/scripts/ai-review/gate.ts

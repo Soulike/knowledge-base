@@ -77,8 +77,11 @@ inline comment on a changed line. Current `medium` or `high` findings select
 `COMMENT` review in both cases, so the automation never changes GitHub's review
 approval state.
 
-The summary records the reviewed head SHA, visible verdict, severity counts,
-and this run marker:
+The summary records the short model name or identifier reported by Copilot,
+reviewed head SHA, visible verdict, severity counts, and this run marker. The
+model field is informational rather than an authenticated statement from the
+model backend; the gate requires exactly one well-formed field but does not
+verify its value.
 
 ```html
 <!-- knowledge-base-ai-review verdict=approved head=<sha> run-id=<id> run-attempt=<n> -->

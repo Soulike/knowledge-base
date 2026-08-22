@@ -7,6 +7,7 @@ import { parseVerificationOutput } from "./output.ts";
 import {
   publishExecutionFailure,
   publishVerification,
+  renderStepSummary,
   type PublicationContext,
   type PublicationResult,
 } from "./publication.ts";
@@ -163,19 +164,7 @@ async function writeSummary(
   if (!summaryPath) {
     return;
   }
-  await appendFile(
-    summaryPath,
-    [
-      "## Content verification",
-      "",
-      outputSummary,
-      "",
-      `Created issues: ${publication.created.length}`,
-      `Updated issues: ${publication.updated.length}`,
-      `Verification failed: ${publication.requiresFailure ? "yes" : "no"}`,
-      "",
-    ].join("\n"),
-  );
+  await appendFile(summaryPath, renderStepSummary(outputSummary, publication));
 }
 
 async function main(): Promise<void> {

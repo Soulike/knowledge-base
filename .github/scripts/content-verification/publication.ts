@@ -56,12 +56,12 @@ type PublicationPlan =
       units: VerificationUnitResult[];
     };
 
-function safeMarkdown(value: string): string {
+function renderPlaintext(value: string): string {
   return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll("@", "@\u200b");
+    .replace(/\r\n?/gu, "\n")
+    .split("\n")
+    .map((line) => `    ${line}`)
+    .join("\n");
 }
 
 function titleFor(unit: VerificationUnitResult): string {
@@ -77,16 +77,18 @@ function runUrl(context: PublicationContext): string {
 }
 
 function list(items: string[]): string {
-  return items.map((item) => `- ${safeMarkdown(item)}`).join("\n");
+  return items
+    .map((item, index) => `### Item ${index + 1}\n\n${renderPlaintext(item)}`)
+    .join("\n\n");
 }
 
 function evidence(unit: VerificationUnitResult): string {
   return unit.evidence
     .map(
-      (item) =>
-        `- **${safeMarkdown(item.source)}** — ${safeMarkdown(item.description)}`,
+      (item, index) =>
+        `### Evidence ${index + 1}\n\nSource:\n\n${renderPlaintext(item.source)}\n\nDescription:\n\n${renderPlaintext(item.description)}`,
     )
-    .join("\n");
+    .join("\n\n");
 }
 
 function subjectHash(subject: string): string {
@@ -115,8 +117,8 @@ function bodyFor(
 ): string {
   const sections = [
     publicationMarker(`unit:${unit.id}`, context),
-    `Automated \`${safeMarkdown(context.scope)}\` verification found an actionable result for \`${safeMarkdown(unit.id)}\` at revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
-    `## Summary\n\n${safeMarkdown(unit.summary)}`,
+    `Automated \`${context.scope}\` verification found an actionable result for \`${unit.id}\` at revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
+    `## Summary\n\n${renderPlaintext(unit.summary)}`,
     `## Evidence\n\n${evidence(unit)}`,
   ];
   if (unit.status === "modification-required") {
@@ -126,7 +128,7 @@ function bodyFor(
     );
   } else {
     sections.push(
-      `## Verification failure\n\n${safeMarkdown(unit.failure ?? "Unknown failure.")}`,
+      `## Verification failure\n\n${renderPlaintext(unit.failure ?? "Unknown failure.")}`,
     );
   }
   sections.push(`[Open workflow run](${runUrl(context)})`);
@@ -301,6 +303,22 @@ export async function publishVerification(
   return result;
 }
 
+export function renderStepSummary(
+  outputSummary: string,
+  publication: PublicationResult,
+): string {
+  return [
+    "## Content verification",
+    "",
+    renderPlaintext(outputSummary),
+    "",
+    `Created issues: ${publication.created.length}`,
+    `Updated issues: ${publication.updated.length}`,
+    `Verification failed: ${publication.requiresFailure ? "yes" : "no"}`,
+    "",
+  ].join("\n");
+}
+
 export async function publishExecutionFailure(
   message: string,
   context: PublicationContext,
@@ -315,8 +333,8 @@ export async function publishExecutionFailure(
   const body = boundedBody(
     `${[
       marker,
-      `The \`${safeMarkdown(context.scope)}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
-      `## Failure\n\n${safeMarkdown(message)}`,
+      `The \`${context.scope}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
+      `## Failure\n\n${renderPlaintext(message)}`,
       `[Open workflow run](${runUrl(context)})`,
     ].join("\n\n")}\n`,
   );

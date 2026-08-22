@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import { fromMarkdown } from "mdast-util-from-markdown";
+
 import type {
   GitHubIssue,
   GitHubIssueComment,
@@ -11,8 +13,27 @@ import type { VerificationOutput, VerificationUnitResult } from "./output.ts";
 import {
   publishExecutionFailure,
   publishVerification,
+  renderStepSummary,
   type PublicationContext,
 } from "./publication.ts";
+
+type MarkdownNode = {
+  children?: MarkdownNode[];
+  type: string;
+  url?: string;
+  value?: string;
+};
+
+function markdownNodes(markdown: string): MarkdownNode[] {
+  const root = fromMarkdown(markdown) as unknown as MarkdownNode;
+  const nodes: MarkdownNode[] = [];
+  const visit = (node: MarkdownNode): void => {
+    nodes.push(node);
+    node.children?.forEach(visit);
+  };
+  visit(root);
+  return nodes;
+}
 
 class FakePublisher implements IssuePublisher {
   comments: Array<{ body: string; issueNumber: number }> = [];
@@ -156,6 +177,58 @@ describe("publishVerification", () => {
       "automated-verification",
       "modification-required",
     ]);
+  });
+
+  it("renders every model-controlled issue field as inert plaintext", async () => {
+    const publisher = new FakePublisher();
+    const injected =
+      "# Spoofed heading\n\n[model link](https://untrusted.example)\n\n![model image](https://untrusted.example/image.png)\n\n<script>alert(1)</script>\n\n@Soulike";
+    const modification = unit(
+      "knowledge/modification.md",
+      "modification-required",
+    );
+    modification.summary = injected;
+    modification.evidence = [{ description: injected, source: injected }];
+    modification.requiredChanges = [injected];
+    modification.acceptanceCriteria = [injected];
+    const failure = unit("knowledge/failure.md", "verification-failed");
+    failure.summary = injected;
+    failure.evidence = [{ description: injected, source: injected }];
+    failure.failure = injected;
+
+    await publishVerification(
+      outputWithUnits([modification, failure]),
+      context,
+      publisher,
+    );
+
+    const nodes = publisher.created.flatMap((issue) =>
+      markdownNodes(issue.body),
+    );
+    assert.deepEqual(
+      nodes.filter((node) => node.type === "code").map((node) => node.value),
+      Array<string>(9).fill(injected),
+    );
+    assert.deepEqual(
+      nodes.filter((node) => node.type === "link").map((node) => node.url),
+      [
+        `https://github.com/${context.repository}/commit/${context.revision}`,
+        `https://github.com/${context.repository}/actions/runs/${context.runId}/attempts/${context.runAttempt}`,
+        `https://github.com/${context.repository}/commit/${context.revision}`,
+        `https://github.com/${context.repository}/actions/runs/${context.runId}/attempts/${context.runAttempt}`,
+      ],
+    );
+    assert.equal(
+      nodes.some((node) => node.type === "image"),
+      false,
+    );
+    assert.equal(
+      nodes.some(
+        (node) =>
+          node.type === "html" && node.value?.includes("<script>") === true,
+      ),
+      false,
+    );
   });
 
   it("comments on the open issue selected by the reviewer", async () => {
@@ -385,6 +458,33 @@ describe("publishVerification", () => {
 });
 
 describe("publishExecutionFailure", () => {
+  it("renders failure details as inert plaintext", async () => {
+    const publisher = new FakePublisher();
+    const injected =
+      "# Spoofed heading\n\n[model link](https://untrusted.example)\n\n![model image](https://untrusted.example/image.png)";
+
+    await publishExecutionFailure(injected, context, publisher);
+
+    const body = publisher.created[0]?.body;
+    assert.ok(body);
+    const nodes = markdownNodes(body);
+    assert.deepEqual(
+      nodes.filter((node) => node.type === "code").map((node) => node.value),
+      [injected],
+    );
+    assert.deepEqual(
+      nodes.filter((node) => node.type === "link").map((node) => node.url),
+      [
+        `https://github.com/${context.repository}/commit/${context.revision}`,
+        `https://github.com/${context.repository}/actions/runs/${context.runId}/attempts/${context.runAttempt}`,
+      ],
+    );
+    assert.equal(
+      nodes.some((node) => node.type === "image"),
+      false,
+    );
+  });
+
   it("updates an open issue with the exact operational-failure title once", async () => {
     const publisher = new FakePublisher();
     publisher.issues.set(
@@ -412,10 +512,14 @@ describe("publishExecutionFailure", () => {
     assert.equal(publisher.comments.length, 1);
   });
 
-  it("bounds rendered operational-failure bodies after Markdown escaping", async () => {
+  it("bounds rendered operational-failure bodies after plaintext rendering", async () => {
     const publisher = new FakePublisher();
 
-    await publishExecutionFailure("&".repeat(20_000), context, publisher);
+    await publishExecutionFailure(
+      "# heading\n".repeat(20_000),
+      context,
+      publisher,
+    );
 
     const created = publisher.created[0];
     assert.ok(created);
@@ -423,6 +527,38 @@ describe("publishExecutionFailure", () => {
     assert.match(
       created.body,
       /This report was truncated because GitHub limits/u,
+    );
+  });
+});
+
+describe("renderStepSummary", () => {
+  it("renders the model summary as inert plaintext", () => {
+    const injected =
+      "# Spoofed heading\n\n[model link](https://untrusted.example)\n\n![model image](https://untrusted.example/image.png)";
+
+    const nodes = markdownNodes(
+      renderStepSummary(injected, {
+        created: [1],
+        requiresFailure: false,
+        updated: [2],
+      }),
+    );
+
+    assert.deepEqual(
+      nodes.filter((node) => node.type === "code").map((node) => node.value),
+      [injected],
+    );
+    assert.equal(
+      nodes.some((node) => node.type === "link"),
+      false,
+    );
+    assert.equal(
+      nodes.some((node) => node.type === "image"),
+      false,
+    );
+    assert.equal(
+      nodes.some((node) => node.type === "html"),
+      false,
     );
   });
 });

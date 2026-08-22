@@ -26,18 +26,24 @@ constraints are explicit.
 
 Complete this investigation before implementing the reusable mechanism:
 
-1. Inspect the active project's dependency manifests, resolved dependencies,
-   and imports for an installed mature package that provides the capability.
-   Evaluate each credible installed candidate against the evidence and fit
-   criteria below before broadening the search. When one fits, select its
-   supported interface and skip the broader search.
+1. Inspect the active project's dependency manifests and imports for a mature
+   package that the consuming package or application declares directly and
+   that provides the capability. Use resolved dependency metadata to establish
+   the installed version of a directly declared candidate, not to promote a
+   transitive-only package into this fast path. Evaluate each credible directly
+   declared candidate against the evidence and fit criteria below before
+   broadening the search. When one fits, select its supported interface and
+   skip the broader search.
 2. Treat existing custom implementations and adapters as migration and
    integration context. Use them to discover requirements and consumers, not
    as evidence that continued custom implementation is the right choice.
 3. When no installed mature package fits, check the language standard library,
    platform APIs, and official SDKs, then search the current ecosystem for
    mature third-party packages that fit the required behavior and supported
-   environment.
+   environment. A package present only as a transitive dependency is a new
+   dependency candidate: take it through this broader comparison and the
+   applicable dependency-admission process, then declare it directly before
+   using it.
 4. For each credible candidate, inspect its current
    authoritative upstream sources before comparing or recommending it.
    Establish the installed or proposed version and the latest stable version

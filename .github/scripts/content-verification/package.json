@@ -10,5 +10,8 @@
   "dependencies": {
     "@knowledge-base/knowledge-index": "workspace:*",
     "@octokit/rest": "^22.0.1"
+  },
+  "devDependencies": {
+    "mdast-util-from-markdown": "^2.0.3"
   }
 }

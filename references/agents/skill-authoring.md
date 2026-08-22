@@ -18,6 +18,11 @@ Resolve bundled resources relative to the current Skill. Discover project files 
 
 Put every distinct trigger branch in the frontmatter description. State the capability and task conditions there, and keep execution details in the body.
 
+Define each trigger branch by the general task condition that makes the Skill
+applicable. Add examples only when they distinguish an otherwise ambiguous
+boundary, and introduce them after the complete condition so they cannot stand
+in for it.
+
 Write task-facing instructions in imperative form. Keep the primary workflow and completion criteria in the main file. Load branch-specific references only from the decisions that require them, and keep one authoritative copy of each rule.
 
 ## Verify behavior, not only structure

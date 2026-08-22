@@ -23,6 +23,38 @@ type VerificationMetadata = {
   skillsVersion: string;
 };
 
+const COPILOT_REVIEW_TOOLS = [
+  "bash",
+  "glob",
+  "grep",
+  "github-mcp-server-issue_read",
+  "github-mcp-server-search_issues",
+  "skill",
+  "view",
+  "web_fetch",
+  "web_search",
+] as const;
+
+const COPILOT_READ_ONLY_GIT_COMMANDS = [
+  "git blame",
+  "git cat-file",
+  "git describe",
+  "git diff",
+  "git diff-tree",
+  "git for-each-ref",
+  "git grep",
+  "git log",
+  "git ls-files",
+  "git ls-tree",
+  "git merge-base",
+  "git name-rev",
+  "git rev-list",
+  "git rev-parse",
+  "git shortlog",
+  "git show",
+  "git status",
+] as const;
+
 async function command(
   commandName: string,
   arguments_: string[],
@@ -158,8 +190,19 @@ async function verify(): Promise<void> {
     "--no-auto-update",
     "--no-remote",
     "--no-remote-export",
-    "--allow-all",
-    "--enable-all-github-mcp-tools",
+    "--disallow-temp-dir",
+    `--available-tools=${COPILOT_REVIEW_TOOLS.join(",")}`,
+    ...COPILOT_READ_ONLY_GIT_COMMANDS.map(
+      (commandName) => `--allow-tool=shell(${commandName})`,
+    ),
+    "--allow-tool=github-mcp-server(issue_read)",
+    "--allow-tool=github-mcp-server(search_issues)",
+    "--allow-all-urls",
+    "--add-github-mcp-tool",
+    "issue_read",
+    "--add-github-mcp-tool",
+    "search_issues",
+    "--secret-env-vars=COPILOT_GITHUB_TOKEN",
     "--context",
     "long_context",
     "--model",

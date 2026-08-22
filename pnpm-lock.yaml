@@ -46,6 +46,39 @@ importers:
 
   .github/scripts/check-knowledge-format:
     dependencies:
+      "@knowledge-base/knowledge-index":
+        specifier: workspace:*
+        version: link:../../../packages/knowledge-index
+      mdast-util-from-markdown:
+        specifier: ^2.0.3
+        version: 2.0.3(supports-color@9.0.0)
+      mdast-util-to-string:
+        specifier: ^4.0.0
+        version: 4.0.0
+    devDependencies:
+      "@types/mdast":
+        specifier: ^4.0.4
+        version: 4.0.4
+
+  .github/scripts/content-verification:
+    dependencies:
+      "@knowledge-base/knowledge-index":
+        specifier: workspace:*
+        version: link:../../../packages/knowledge-index
+      "@octokit/rest":
+        specifier: ^22.0.1
+        version: 22.0.1
+    devDependencies:
+      mdast-util-from-markdown:
+        specifier: ^2.0.3
+        version: 2.0.3(supports-color@9.0.0)
+
+  .github/scripts/plugin-version: {}
+
+  .github/scripts/smoke-plugin-install: {}
+
+  packages/knowledge-index:
+    dependencies:
       mdast-util-from-markdown:
         specifier: ^2.0.3
         version: 2.0.3(supports-color@9.0.0)
@@ -62,10 +95,6 @@ importers:
       "@types/mdast":
         specifier: ^4.0.4
         version: 4.0.4
-
-  .github/scripts/plugin-version: {}
-
-  .github/scripts/smoke-plugin-install: {}
 
 packages:
   "@babel/code-frame@7.29.7":

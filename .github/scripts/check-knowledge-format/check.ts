@@ -2,7 +2,10 @@ import { readdir, readFile } from "node:fs/promises";
 import { basename, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { inspectKnowledgeIndex } from "./knowledge-index.ts";
+import {
+  KnowledgeIndexError,
+  validateKnowledgeIndex,
+} from "@knowledge-base/knowledge-index";
 import { validateKnowledgeDocument } from "./validate.ts";
 
 export interface KnowledgeFormatDiagnostic {
@@ -94,10 +97,15 @@ export async function checkKnowledgeDirectory(
     const leafFilePaths = relativeMarkdownFiles.filter(
       (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
     );
-    const inspection = inspectKnowledgeIndex(indexMarkdown, leafFilePaths);
-
-    for (const message of inspection.diagnostics) {
-      diagnostics.push({ filePath: indexDisplayPath, message });
+    try {
+      validateKnowledgeIndex(indexMarkdown, leafFilePaths);
+    } catch (error) {
+      if (!(error instanceof KnowledgeIndexError)) {
+        throw error;
+      }
+      for (const message of error.diagnostics) {
+        diagnostics.push({ filePath: indexDisplayPath, message });
+      }
     }
   }
 

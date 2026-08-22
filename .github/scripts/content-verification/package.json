@@ -1,19 +1,17 @@
 {
-  "name": "@knowledge-base/check-knowledge-format",
+  "name": "@knowledge-base/content-verification",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "node check.ts",
     "test": "node --test *.test.ts",
     "typecheck": "tsc --noEmit"
   },
-  "devDependencies": {
-    "@types/mdast": "^4.0.4"
-  },
   "dependencies": {
     "@knowledge-base/knowledge-index": "workspace:*",
-    "mdast-util-from-markdown": "^2.0.3",
-    "mdast-util-to-string": "^4.0.0"
+    "@octokit/rest": "^22.0.1"
+  },
+  "devDependencies": {
+    "mdast-util-from-markdown": "^2.0.3"
   }
 }

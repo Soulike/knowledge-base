@@ -4,21 +4,23 @@ import { toString } from "mdast-util-to-string";
 import { gfmTable } from "micromark-extension-gfm-table";
 import type { Heading, Link, RootContent, Table, TableCell } from "mdast";
 
-const expectedColumns = ["File Path", "Knowledge Type", "When to Read"];
-const knowledgeTypes = ["time-sensitive", "evergreen"] as const;
+import type { KnowledgeIndexEntry, KnowledgeType } from "./types.ts";
 
-export type KnowledgeType = (typeof knowledgeTypes)[number];
-
-export interface KnowledgeIndexEntry {
-  filePath: string;
-  knowledgeType: KnowledgeType;
-  whenToRead: string;
-}
-
-export interface KnowledgeIndexInspection {
-  entries: KnowledgeIndexEntry[];
+export interface ParsedKnowledgeIndex {
   diagnostics: string[];
+  entries: KnowledgeIndexEntry[];
+  indexedFilePaths: string[] | null;
 }
+
+const expectedColumns = [
+  "File Path",
+  "Knowledge Type",
+  "When to Read",
+] as const;
+const knowledgeTypes: readonly KnowledgeType[] = [
+  "time-sensitive",
+  "evergreen",
+];
 
 function isHeading(
   node: RootContent | undefined,
@@ -47,10 +49,11 @@ function isKnowledgeType(value: string): value is KnowledgeType {
   return knowledgeTypes.some((knowledgeType) => knowledgeType === value);
 }
 
-export function inspectKnowledgeIndex(
-  markdown: string,
-  leafFilePaths: string[],
-): KnowledgeIndexInspection {
+function structuralFailure(diagnostic: string): ParsedKnowledgeIndex {
+  return { diagnostics: [diagnostic], entries: [], indexedFilePaths: null };
+}
+
+export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
   const document = fromMarkdown(markdown, {
     extensions: [gfmTable()],
     mdastExtensions: [gfmTableFromMarkdown()],
@@ -58,25 +61,19 @@ export function inspectKnowledgeIndex(
   const documentsHeadingIndex = document.children.findIndex((node) =>
     isHeading(node, 2, "Documents"),
   );
-  const diagnostics: string[] = [];
-  const entries: KnowledgeIndexEntry[] = [];
 
   if (documentsHeadingIndex === -1) {
-    return {
-      entries,
-      diagnostics: ["The index must contain a '## Documents' section."],
-    };
+    return structuralFailure(
+      "The index must contain a '## Documents' section.",
+    );
   }
 
   const table = document.children[documentsHeadingIndex + 1];
 
   if (!isTable(table)) {
-    return {
-      entries,
-      diagnostics: [
-        "The Documents section must contain a GFM table immediately after its heading.",
-      ],
-    };
+    return structuralFailure(
+      "The Documents section must contain a GFM table immediately after its heading.",
+    );
   }
 
   const header = table.children[0];
@@ -87,15 +84,14 @@ export function inspectKnowledgeIndex(
     headerCells.length !== expectedColumns.length ||
     headerCells.some((column, index) => column !== expectedColumns[index])
   ) {
-    return {
-      entries,
-      diagnostics: [
-        "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
-      ],
-    };
+    return structuralFailure(
+      "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
+    );
   }
 
-  const indexedPathCounts = new Map<string, number>();
+  const diagnostics: string[] = [];
+  const entries: KnowledgeIndexEntry[] = [];
+  const indexedFilePaths: string[] = [];
 
   for (const row of table.children.slice(1)) {
     const cells = row.children;
@@ -142,10 +138,7 @@ export function inspectKnowledgeIndex(
       continue;
     }
 
-    indexedPathCounts.set(
-      targetPath,
-      (indexedPathCounts.get(targetPath) ?? 0) + 1,
-    );
+    indexedFilePaths.push(targetPath);
 
     const knowledgeType = toString(knowledgeTypeCell);
 
@@ -172,36 +165,8 @@ export function inspectKnowledgeIndex(
       continue;
     }
 
-    entries.push({
-      filePath: targetPath,
-      knowledgeType,
-      whenToRead,
-    });
+    entries.push({ filePath: targetPath, knowledgeType, whenToRead });
   }
 
-  const leafPathSet = new Set(leafFilePaths);
-
-  for (const [filePath, count] of indexedPathCounts) {
-    if (count > 1) {
-      diagnostics.push(
-        `Knowledge document 'knowledge/${filePath}' must be listed exactly once, but it appears ${count} times.`,
-      );
-    }
-
-    if (!leafPathSet.has(filePath)) {
-      diagnostics.push(
-        `The index lists 'knowledge/${filePath}', but that leaf document does not exist.`,
-      );
-    }
-  }
-
-  for (const leafFilePath of leafFilePaths) {
-    if (!indexedPathCounts.has(leafFilePath)) {
-      diagnostics.push(
-        `Knowledge leaf 'knowledge/${leafFilePath}' must be listed exactly once in the index.`,
-      );
-    }
-  }
-
-  return { entries, diagnostics };
+  return { diagnostics, entries, indexedFilePaths };
 }

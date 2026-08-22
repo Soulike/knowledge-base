@@ -10,7 +10,7 @@ Update this document when package-manager behavior, a supply-chain incident, a d
 
 ## Admit only a necessary dependency
 
-Add a dependency only when its capability is needed and its ownership and maintenance are credible enough for the boundary it will enter. First check whether an existing dependency or a reasonably small local implementation can provide the capability without weakening security, provenance, compatibility, or maintenance guarantees.
+Add a dependency only when its capability is needed and its ownership and maintenance are credible enough for the boundary it will enter. When comparing a new dependency with a local implementation, weigh the dependency's supply-chain, compatibility, and exit costs against the correctness, edge-case coverage, and ongoing maintenance burden of custom code. A small local implementation is not automatically safer or cheaper.
 
 Evaluate the privilege the dependency and its installation receive, the sensitivity of data it processes, its release and incident history, and the cost of removing or replacing it. A convenient API is not by itself evidence that the new supply-chain and update surface is justified.
 

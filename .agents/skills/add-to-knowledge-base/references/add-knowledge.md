@@ -112,6 +112,11 @@ answer is yes and `evergreen` when the answer is no. Classify the claims the
 document makes, not the subject it discusses: a method for finding a current
 version can be evergreen even though version availability changes frequently.
 
+For a source index, treat each question-to-source mapping, including its link,
+as a substantive claim. Classify the index as `time-sensitive` when ordinary
+external changes can move, replace, or invalidate those sources, even if the
+method of consulting current authoritative sources is durable.
+
 **When to Read.** Write a compact trigger beginning with `Read when` and name
 the concrete tasks, decisions, or artifacts that require this material. Base
 the trigger on facts observable before retrieval. When the document helps

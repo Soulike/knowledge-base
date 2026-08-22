@@ -73,9 +73,14 @@ Read the trusted `AGENTS.md` and load the installed knowledge-base catalog. For
 changes to Knowledge, Skills, or Skill references, use the trusted
 `.agents/skills/add-to-knowledge-base/SKILL.md` and only its applicable linked
 references as review criteria. Use relevant Knowledge and the installed
-`review-security`, `design-and-review-tests`, and `improve-dev-documentation`
-Skills as reference material. Also use `codebase-design`, `tdd`, and
-`writing-for-agents` when their review dimensions apply.
+`review-security` and `improve-dev-documentation` Skills as reference material.
+Select test reference Skills by the changed responsibility:
+`design-effective-tests` for coverage owed to a defined production behavior or
+change, `improve-test-effectiveness` for existing-suite effectiveness or test
+cleanup, `ensure-reliable-test-execution` for discovery, flakiness, or runner
+semantics, and `reduce-test-execution-cost` for reproducible test-performance
+work. Also use `codebase-design`, `tdd`, and `writing-for-agents` when their
+review dimensions apply.
 
 Review every applicable dimension:
 

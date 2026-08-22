@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reduce Test Execution Cost"
+  short_description: "Reduce test runtime and resource cost"
+  default_prompt: "Use $reduce-test-execution-cost to diagnose this test execution bottleneck and reduce its measured cost without weakening coverage."

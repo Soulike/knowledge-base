@@ -1,4 +1,0 @@
-interface:
-  display_name: "Optimize Test Suite"
-  short_description: "Reduce test cost without weakening coverage"
-  default_prompt: "Use $optimize-test-suite to diagnose this test suite and reduce runtime without weakening coverage."

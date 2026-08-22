@@ -6,8 +6,10 @@ the pull request opens, reopens, becomes ready for review, or receives a new
 push. A per-pull-request concurrency group cancels the older run when another
 push arrives.
 
-Draft and closed events skip Copilot and remove the AI verdict labels. A draft
-pull request starts its first review when it becomes ready for review.
+Draft and closed events skip Copilot and remove the AI verdict labels. The gate
+fails while a pull request is a draft, then the pull request starts its first
+review when it becomes ready for review. A closed pull request is not
+applicable to the gate.
 
 ## Trust and permission boundary
 
@@ -77,8 +79,11 @@ inline comment on a changed line. Current `medium` or `high` findings select
 `COMMENT` review in both cases, so the automation never changes GitHub's review
 approval state.
 
-The summary records the reviewed head SHA, visible verdict, severity counts,
-and this run marker:
+The summary records the short model name or identifier reported by Copilot,
+reviewed head SHA, visible verdict, severity counts, and this run marker. The
+model field is informational rather than an authenticated statement from the
+model backend; the gate requires exactly one well-formed field but does not
+verify its value.
 
 ```html
 <!-- knowledge-base-ai-review verdict=approved head=<sha> run-id=<id> run-attempt=<n> -->

@@ -34,7 +34,8 @@ function review(
 ) {
   return {
     authorLogin: "github-actions[bot]",
-    body: `- **Verdict:** \`${verdict}\`
+    body: `- **Model:** \`gpt-5.6-sol\`
+- **Verdict:** \`${verdict}\`
 
 <!-- knowledge-base-ai-review verdict=${verdict} head=${headSha} run-id=1234 run-attempt=2 -->`,
     commitSha: headSha,
@@ -205,12 +206,31 @@ test("clears verdict labels when the review job fails", async () => {
   assert.equal(client.pullRequestReads, 0);
 });
 
-test("clears verdict labels without requiring a review for a draft", async () => {
+test("clears verdict labels and fails the gate for a draft", async (t) => {
+  for (const context of [
+    { action: "opened" as const, isDraft: true },
+    { action: "converted_to_draft" as const, isDraft: true },
+  ]) {
+    await t.test(context.action, async () => {
+      const client = new FakeGitHubClient([], []);
+
+      await assert.rejects(
+        enforceReviewGate(client, gateContext(context)),
+        /draft pull request/u,
+      );
+
+      assert.deepEqual([...client.labels], []);
+      assert.equal(client.pullRequestReads, 0);
+    });
+  }
+});
+
+test("clears verdict labels without requiring a review after close", async () => {
   const client = new FakeGitHubClient([], []);
 
   const result = await enforceReviewGate(
     client,
-    gateContext({ action: "converted_to_draft" as const, isDraft: true }),
+    gateContext({ action: "closed" as const }),
   );
 
   assert.equal(result, "not-applicable");

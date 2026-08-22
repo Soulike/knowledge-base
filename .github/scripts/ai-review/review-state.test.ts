@@ -11,6 +11,7 @@ function reviewBody(
 ): string {
   return `## AI review
 
+- **Model:** \`gpt-5.6-sol\`
 - **Verdict:** \`${visibleVerdict}\`
 
 ${reviewRunMarker(markerVerdict, headSha, 1234, 2)}`;
@@ -40,6 +41,25 @@ test("rejects missing or duplicate verdict fields", () => {
   assert.equal(
     parseReviewRunMarker(
       `${reviewBody("approved")}\n- **Verdict:** \`approved\``,
+    ),
+    null,
+  );
+});
+
+test("rejects missing, empty, or duplicate model fields", () => {
+  assert.equal(
+    parseReviewRunMarker(
+      reviewBody("approved").replace("- **Model:** `gpt-5.6-sol`\n", ""),
+    ),
+    null,
+  );
+  assert.equal(
+    parseReviewRunMarker(reviewBody("approved").replace("gpt-5.6-sol", "")),
+    null,
+  );
+  assert.equal(
+    parseReviewRunMarker(
+      `${reviewBody("approved")}\n- **Model:** \`gpt-5.6-luna\``,
     ),
     null,
   );

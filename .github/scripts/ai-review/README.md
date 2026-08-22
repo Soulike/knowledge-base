@@ -6,8 +6,10 @@ the pull request opens, reopens, becomes ready for review, or receives a new
 push. A per-pull-request concurrency group cancels the older run when another
 push arrives.
 
-Draft and closed events skip Copilot and remove the AI verdict labels. A draft
-pull request starts its first review when it becomes ready for review.
+Draft and closed events skip Copilot and remove the AI verdict labels. The gate
+fails while a pull request is a draft, then the pull request starts its first
+review when it becomes ready for review. A closed pull request is not
+applicable to the gate.
 
 ## Trust and permission boundary
 

@@ -101,13 +101,14 @@ export async function enforceReviewGate(
   client: ReviewGateClient,
   context: ReviewGateContext,
 ): Promise<"approved" | "not-applicable"> {
-  if (
-    context.action === "closed" ||
-    context.action === "converted_to_draft" ||
-    context.isDraft
-  ) {
+  if (context.action === "closed") {
     await clearVerdictLabels(client, context.prNumber);
     return "not-applicable";
+  }
+
+  if (context.action === "converted_to_draft" || context.isDraft) {
+    await clearVerdictLabels(client, context.prNumber);
+    throw new Error("AI review cannot pass for a draft pull request.");
   }
 
   if (!isTrustedAuthorAssociation(context.authorAssociation)) {

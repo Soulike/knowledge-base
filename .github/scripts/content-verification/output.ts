@@ -230,15 +230,6 @@ export function parseVerificationOutput(
     );
   }
 
-  const issueNumbers = units
-    .map((unit) => unit.matchingIssueNumber)
-    .filter((number): number is number => number !== null);
-  if (new Set(issueNumbers).size !== issueNumbers.length) {
-    throw new Error(
-      "A matching open issue may be assigned to only one review unit.",
-    );
-  }
-
   return {
     revision: output.revision,
     scope: expectedScope,

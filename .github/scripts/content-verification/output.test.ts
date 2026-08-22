@@ -89,19 +89,20 @@ describe("parseVerificationOutput", () => {
     );
   });
 
-  it("rejects one matching issue reused for two units", () => {
-    assert.throws(
-      () =>
-        parseVerificationOutput(
-          output([
-            unit("knowledge/a.md", "modification-required"),
-            unit("knowledge/b.md", "modification-required"),
-          ]),
-          revision,
-          "evergreen-knowledge",
-          targets,
-        ),
-      /only one review unit/u,
+  it("accepts one matching issue shared by two units", () => {
+    const parsed = parseVerificationOutput(
+      output([
+        unit("knowledge/a.md", "modification-required"),
+        unit("knowledge/b.md", "modification-required"),
+      ]),
+      revision,
+      "evergreen-knowledge",
+      targets,
+    );
+
+    assert.deepEqual(
+      parsed.units.map((result) => result.matchingIssueNumber),
+      [12, 12],
     );
   });
 });

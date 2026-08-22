@@ -1,7 +1,10 @@
+import { createHash } from "node:crypto";
+
 import type { GitHubIssue, IssuePublisher, NewIssue } from "./github.ts";
 import type { VerificationOutput, VerificationUnitResult } from "./output.ts";
 import type { VerificationScope } from "./targets.ts";
 
+const AUTOMATION_AUTHOR = "github-actions[bot]";
 const GITHUB_BODY_MAXIMUM_LENGTH = 65_536;
 const BODY_TRUNCATION_SUFFIX =
   "\n\n---\n\nThis report was truncated because GitHub limits issue and comment bodies to 65,536 characters.\n";
@@ -39,6 +42,20 @@ export type PublicationResult = {
   updated: number[];
 };
 
+type PublicationPlan =
+  | {
+      body: string;
+      issue: NewIssue;
+      kind: "create";
+      units: VerificationUnitResult[];
+    }
+  | {
+      body: string;
+      issueNumber: number;
+      kind: "comment";
+      units: VerificationUnitResult[];
+    };
+
 function safeMarkdown(value: string): string {
   return value
     .replaceAll("&", "&amp;")
@@ -72,6 +89,17 @@ function evidence(unit: VerificationUnitResult): string {
     .join("\n");
 }
 
+function subjectHash(subject: string): string {
+  return createHash("sha256").update(subject).digest("hex");
+}
+
+function publicationMarker(
+  subject: string,
+  context: PublicationContext,
+): string {
+  return `<!-- content-verification:v1 run=${context.runId} scope=${context.scope} revision=${context.revision} subject=${subjectHash(subject)} -->`;
+}
+
 function boundedBody(body: string): string {
   if (body.length <= GITHUB_BODY_MAXIMUM_LENGTH) {
     return body;
@@ -86,6 +114,7 @@ function bodyFor(
   context: PublicationContext,
 ): string {
   const sections = [
+    publicationMarker(`unit:${unit.id}`, context),
     `Automated \`${safeMarkdown(context.scope)}\` verification found an actionable result for \`${safeMarkdown(unit.id)}\` at revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
     `## Summary\n\n${safeMarkdown(unit.summary)}`,
     `## Evidence\n\n${evidence(unit)}`,
@@ -104,8 +133,25 @@ function bodyFor(
   return `${sections.join("\n\n")}\n`;
 }
 
+function bodyForUnits(
+  units: VerificationUnitResult[],
+  context: PublicationContext,
+): string {
+  return units.map((unit) => bodyFor(unit, context)).join("\n---\n\n");
+}
+
 function namesUnit(issue: GitHubIssue, unitId: string): boolean {
   return issue.title.includes(unitId) || issue.body.includes(unitId);
+}
+
+function containsTrustedMarker(
+  entries: Array<{ author: string | null; body: string }>,
+  marker: string,
+): boolean {
+  return entries.some(
+    (entry) =>
+      entry.author === AUTOMATION_AUTHOR && entry.body.includes(marker),
+  );
 }
 
 async function ensureLabels(publisher: IssuePublisher): Promise<void> {
@@ -126,36 +172,86 @@ async function ensureLabels(publisher: IssuePublisher): Promise<void> {
   );
 }
 
-async function publishUnit(
-  unit: VerificationUnitResult,
-  body: string,
+async function preparePublicationPlans(
+  actionable: VerificationUnitResult[],
   context: PublicationContext,
   publisher: IssuePublisher,
-): Promise<{ created?: number; updated?: number }> {
-  if (unit.matchingIssueNumber !== null) {
-    const existing = await publisher.get(unit.matchingIssueNumber);
+): Promise<PublicationPlan[]> {
+  const openIssues = await publisher.listOpenIssues();
+  const unpublished = actionable.filter(
+    (unit) =>
+      !containsTrustedMarker(
+        openIssues.filter((issue) => issue.open && !issue.pullRequest),
+        publicationMarker(`unit:${unit.id}`, context),
+      ),
+  );
+  const commentGroups = new Map<number, VerificationUnitResult[]>();
+  const createUnits: VerificationUnitResult[] = [];
+  const issueCache = new Map<number, GitHubIssue | undefined>();
+
+  for (const unit of unpublished) {
+    if (unit.matchingIssueNumber === null) {
+      createUnits.push(unit);
+      continue;
+    }
+    let existing = issueCache.get(unit.matchingIssueNumber);
+    if (!issueCache.has(unit.matchingIssueNumber)) {
+      existing = await publisher.get(unit.matchingIssueNumber);
+      issueCache.set(unit.matchingIssueNumber, existing);
+    }
     if (
       existing?.open === true &&
       !existing.pullRequest &&
       namesUnit(existing, unit.id)
     ) {
-      await publisher.comment(existing.number, body);
-      return { updated: existing.number };
+      const group = commentGroups.get(existing.number) ?? [];
+      group.push(unit);
+      commentGroups.set(existing.number, group);
+    } else {
+      createUnits.push(unit);
     }
   }
 
-  const issue: NewIssue = {
-    assignee: context.assignee,
-    body,
-    labels: [
-      labels.automation.name,
-      unit.status === "modification-required"
-        ? labels.modification.name
-        : labels.failure.name,
-    ],
-    title: titleFor(unit),
-  };
-  return { created: await publisher.create(issue) };
+  const plans: PublicationPlan[] = [];
+  for (const [issueNumber, units] of commentGroups) {
+    const comments = await publisher.listIssueComments(issueNumber);
+    const remaining = units.filter(
+      (unit) =>
+        !containsTrustedMarker(
+          comments,
+          publicationMarker(`unit:${unit.id}`, context),
+        ),
+    );
+    if (remaining.length > 0) {
+      plans.push({
+        body: bodyForUnits(remaining, context),
+        issueNumber,
+        kind: "comment",
+        units: remaining,
+      });
+    }
+  }
+
+  for (const unit of createUnits) {
+    const body = bodyFor(unit, context);
+    plans.push({
+      body,
+      issue: {
+        assignee: context.assignee,
+        body,
+        labels: [
+          labels.automation.name,
+          unit.status === "modification-required"
+            ? labels.modification.name
+            : labels.failure.name,
+        ],
+        title: titleFor(unit),
+      },
+      kind: "create",
+      units: [unit],
+    });
+  }
+  return plans;
 }
 
 export async function publishVerification(
@@ -175,30 +271,31 @@ export async function publishVerification(
     return result;
   }
 
-  const rendered = actionable.map((unit) => ({
-    body: bodyFor(unit, context),
-    unit,
-  }));
-  const oversized = rendered.find(
+  const plans = await preparePublicationPlans(actionable, context, publisher);
+  const oversized = plans.find(
     ({ body }) => body.length > GITHUB_BODY_MAXIMUM_LENGTH,
   );
   if (oversized !== undefined) {
-    const unitId = oversized.unit.id.slice(0, 200);
+    const unitIds = oversized.units
+      .map((unit) => JSON.stringify(unit.id.slice(0, 200)))
+      .join(", ");
     return await publishExecutionFailure(
-      `The rendered publication body for unit ${JSON.stringify(unitId)} contains ${oversized.body.length} characters, exceeding GitHub's ${GITHUB_BODY_MAXIMUM_LENGTH}-character limit. No actionable results were published.`,
+      `The rendered publication body for ${oversized.units.length === 1 ? "unit" : "units"} ${unitIds} contains ${oversized.body.length} characters, exceeding GitHub's ${GITHUB_BODY_MAXIMUM_LENGTH}-character limit. No actionable results were published.`,
       context,
       publisher,
     );
   }
+  if (plans.length === 0) {
+    return result;
+  }
 
   await ensureLabels(publisher);
-  for (const { body, unit } of rendered) {
-    const published = await publishUnit(unit, body, context, publisher);
-    if (published.created !== undefined) {
-      result.created.push(published.created);
-    }
-    if (published.updated !== undefined) {
-      result.updated.push(published.updated);
+  for (const plan of plans) {
+    if (plan.kind === "comment") {
+      await publisher.comment(plan.issueNumber, plan.body);
+      result.updated.push(plan.issueNumber);
+    } else {
+      result.created.push(await publisher.create(plan.issue));
     }
   }
   return result;
@@ -209,24 +306,44 @@ export async function publishExecutionFailure(
   context: PublicationContext,
   publisher: IssuePublisher,
 ): Promise<PublicationResult> {
-  await ensureLabels(publisher);
   const titlePrefix = `Content verification workflow failed: ${context.scope}: `;
   const title = `${titlePrefix}${message.replace(/\s+/gu, " ").trim()}`.slice(
     0,
     256,
   );
+  const marker = publicationMarker(`execution-failure:${title}`, context);
   const body = boundedBody(
     `${[
+      marker,
       `The \`${safeMarkdown(context.scope)}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
       `## Failure\n\n${safeMarkdown(message)}`,
       `[Open workflow run](${runUrl(context)})`,
     ].join("\n\n")}\n`,
   );
-  const existing = await publisher.findOpenByExactTitle(title);
+  const openIssues = await publisher.listOpenIssues();
+  if (
+    containsTrustedMarker(
+      openIssues.filter((issue) => issue.open && !issue.pullRequest),
+      marker,
+    )
+  ) {
+    return { created: [], requiresFailure: true, updated: [] };
+  }
+
+  const existing = openIssues.find(
+    (issue) => issue.open && !issue.pullRequest && issue.title === title,
+  );
   if (existing !== undefined) {
+    const comments = await publisher.listIssueComments(existing.number);
+    if (containsTrustedMarker(comments, marker)) {
+      return { created: [], requiresFailure: true, updated: [] };
+    }
+    await ensureLabels(publisher);
     await publisher.comment(existing.number, body);
     return { created: [], requiresFailure: true, updated: [existing.number] };
   }
+
+  await ensureLabels(publisher);
   const issueNumber = await publisher.create({
     assignee: context.assignee,
     body,

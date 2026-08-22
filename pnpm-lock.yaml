@@ -65,6 +65,9 @@ importers:
       "@knowledge-base/knowledge-index":
         specifier: workspace:*
         version: link:../../../packages/knowledge-index
+      "@octokit/rest":
+        specifier: ^22.0.1
+        version: 22.0.1
 
   .github/scripts/plugin-version: {}
 

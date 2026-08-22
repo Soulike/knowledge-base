@@ -1,9 +1,20 @@
+import { Octokit } from "@octokit/rest";
+
+const apiVersion = "2022-11-28";
+const noOp = (): void => undefined;
+
 export type GitHubIssue = {
+  author: string | null;
   body: string;
   number: number;
   open: boolean;
   pullRequest: boolean;
   title: string;
+};
+
+export type GitHubIssueComment = {
+  author: string | null;
+  body: string;
 };
 
 export type NewIssue = {
@@ -17,68 +28,67 @@ export interface IssuePublisher {
   comment(issueNumber: number, body: string): Promise<void>;
   create(issue: NewIssue): Promise<number>;
   ensureLabel(name: string, color: string, description: string): Promise<void>;
-  findOpenByExactTitle(title: string): Promise<GitHubIssue | undefined>;
   get(issueNumber: number): Promise<GitHubIssue | undefined>;
+  listIssueComments(issueNumber: number): Promise<GitHubIssueComment[]>;
+  listOpenIssues(): Promise<GitHubIssue[]>;
 }
 
-function object(value: unknown, path: string): Record<string, unknown> {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    throw new Error(`${path} must be an object.`);
-  }
-  return value as Record<string, unknown>;
+function hasStatus(error: unknown, status: number): boolean {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    error.status === status
+  );
 }
 
-function issue(value: unknown): GitHubIssue {
-  const item = object(value, "GitHub issue");
-  if (!Number.isSafeInteger(item.number) || (item.number as number) < 1) {
-    throw new Error("GitHub issue number is invalid.");
-  }
-  if (typeof item.title !== "string" || item.title.length === 0) {
-    throw new Error("GitHub issue title is invalid.");
-  }
-  if (item.body !== null && typeof item.body !== "string") {
-    throw new Error("GitHub issue body is invalid.");
-  }
-  if (item.state !== "open" && item.state !== "closed") {
-    throw new Error("GitHub issue state is invalid.");
-  }
+function issue(data: {
+  body?: string | null;
+  number: number;
+  pull_request?: unknown;
+  state: string;
+  title: string;
+  user?: { login: string } | null;
+}): GitHubIssue {
   return {
-    body: item.body ?? "",
-    number: item.number as number,
-    open: item.state === "open",
-    pullRequest: item.pull_request !== undefined,
-    title: item.title,
+    author: data.user?.login ?? null,
+    body: data.body ?? "",
+    number: data.number,
+    open: data.state === "open",
+    pullRequest: data.pull_request !== undefined,
+    title: data.title,
   };
 }
 
 export class GitHubIssuePublisher implements IssuePublisher {
-  readonly #repository: string;
-  readonly #token: string;
+  readonly #name: string;
+  readonly #octokit: Octokit;
+  readonly #owner: string;
 
   constructor(repository: string, token: string) {
-    this.#repository = repository;
-    this.#token = token;
-  }
-
-  async #request(path: string, init: RequestInit = {}): Promise<Response> {
-    const response = await fetch(`https://api.github.com${path}`, {
-      ...init,
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${this.#token}`,
-        "Content-Type": "application/json",
-        "User-Agent": "knowledge-base-content-verification",
-        "X-GitHub-Api-Version": "2022-11-28",
-        ...init.headers,
-      },
-    });
-    if (!response.ok) {
-      const body = await response.text();
-      throw new Error(
-        `GitHub API ${init.method ?? "GET"} ${path} failed with ${response.status}: ${body.slice(0, 1000)}`,
-      );
+    if (!token) {
+      throw new Error("A GitHub token is required.");
     }
-    return response;
+    const parts = repository.split("/");
+    if (parts.length !== 2 || !parts[0] || !parts[1]) {
+      throw new Error("Repository must use the owner/name form.");
+    }
+    [this.#owner, this.#name] = parts;
+    this.#octokit = new Octokit({
+      auth: token,
+      log: {
+        debug: noOp,
+        error: noOp,
+        info: noOp,
+        warn: noOp,
+      },
+      request: {
+        headers: {
+          "X-GitHub-Api-Version": apiVersion,
+        },
+      },
+      userAgent: "knowledge-base-content-verification",
+    });
   }
 
   async ensureLabel(
@@ -86,117 +96,106 @@ export class GitHubIssuePublisher implements IssuePublisher {
     color: string,
     description: string,
   ): Promise<void> {
-    const path = `/repos/${this.#repository}/labels/${encodeURIComponent(name)}`;
-    const existing = await fetch(`https://api.github.com${path}`, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${this.#token}`,
-        "User-Agent": "knowledge-base-content-verification",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
-    });
-    if (existing.ok) {
-      return;
-    }
-    if (existing.status !== 404) {
-      throw new Error(
-        `GitHub API GET ${path} failed with ${existing.status}: ${(await existing.text()).slice(0, 1000)}`,
-      );
-    }
-    const creation = await fetch(
-      `https://api.github.com/repos/${this.#repository}/labels`,
-      {
-        body: JSON.stringify({ color, description, name }),
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${this.#token}`,
-          "Content-Type": "application/json",
-          "User-Agent": "knowledge-base-content-verification",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-        method: "POST",
-      },
-    );
-    if (creation.ok) {
-      return;
-    }
-    if (creation.status === 422) {
-      const raced = await fetch(`https://api.github.com${path}`, {
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${this.#token}`,
-          "User-Agent": "knowledge-base-content-verification",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
+    try {
+      await this.#octokit.rest.issues.getLabel({
+        name,
+        owner: this.#owner,
+        repo: this.#name,
       });
-      if (raced.ok) {
-        return;
+      return;
+    } catch (error) {
+      if (!hasStatus(error, 404)) {
+        throw error;
       }
     }
-    throw new Error(
-      `GitHub API POST /repos/${this.#repository}/labels failed with ${creation.status}: ${(await creation.text()).slice(0, 1000)}`,
-    );
+
+    try {
+      await this.#octokit.rest.issues.createLabel({
+        color,
+        description,
+        name,
+        owner: this.#owner,
+        repo: this.#name,
+      });
+    } catch (error) {
+      if (!hasStatus(error, 422)) {
+        throw error;
+      }
+      try {
+        await this.#octokit.rest.issues.getLabel({
+          name,
+          owner: this.#owner,
+          repo: this.#name,
+        });
+      } catch {
+        throw error;
+      }
+    }
   }
 
   async get(issueNumber: number): Promise<GitHubIssue | undefined> {
-    const response = await fetch(
-      `https://api.github.com/repos/${this.#repository}/issues/${issueNumber}`,
-      {
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${this.#token}`,
-          "User-Agent": "knowledge-base-content-verification",
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      },
-    );
-    if (response.status === 404) {
-      return undefined;
+    try {
+      const { data } = await this.#octokit.rest.issues.get({
+        issue_number: issueNumber,
+        owner: this.#owner,
+        repo: this.#name,
+      });
+      return issue(data);
+    } catch (error) {
+      if (hasStatus(error, 404)) {
+        return undefined;
+      }
+      throw error;
     }
-    if (!response.ok) {
-      throw new Error(
-        `GitHub API GET issue ${issueNumber} failed with ${response.status}: ${(await response.text()).slice(0, 1000)}`,
-      );
-    }
-    return issue(await response.json());
   }
 
-  async findOpenByExactTitle(title: string): Promise<GitHubIssue | undefined> {
-    for (let page = 1; ; page += 1) {
-      const response = await this.#request(
-        `/repos/${this.#repository}/issues?state=open&per_page=100&page=${page}`,
-      );
-      const value = (await response.json()) as unknown;
-      if (!Array.isArray(value)) {
-        throw new Error("GitHub open issues response must be an array.");
-      }
-      const issues = value.map(issue);
-      const match = issues.find(
-        (candidate) => !candidate.pullRequest && candidate.title === title,
-      );
-      if (match !== undefined || issues.length < 100) {
-        return match;
-      }
-    }
+  async listOpenIssues(): Promise<GitHubIssue[]> {
+    const issues = await this.#octokit.paginate(
+      this.#octokit.rest.issues.listForRepo,
+      {
+        owner: this.#owner,
+        per_page: 100,
+        repo: this.#name,
+        state: "open",
+      },
+    );
+    return issues.map(issue);
+  }
+
+  async listIssueComments(issueNumber: number): Promise<GitHubIssueComment[]> {
+    const comments = await this.#octokit.paginate(
+      this.#octokit.rest.issues.listComments,
+      {
+        issue_number: issueNumber,
+        owner: this.#owner,
+        per_page: 100,
+        repo: this.#name,
+      },
+    );
+    return comments.map((comment) => ({
+      author: comment.user?.login ?? null,
+      body: comment.body ?? "",
+    }));
   }
 
   async create(newIssue: NewIssue): Promise<number> {
-    const response = await this.#request(`/repos/${this.#repository}/issues`, {
-      body: JSON.stringify({
-        assignees: [newIssue.assignee],
-        body: newIssue.body,
-        labels: newIssue.labels,
-        title: newIssue.title,
-      }),
-      method: "POST",
+    const { data } = await this.#octokit.rest.issues.create({
+      assignees: [newIssue.assignee],
+      body: newIssue.body,
+      labels: newIssue.labels,
+      owner: this.#owner,
+      repo: this.#name,
+      title: newIssue.title,
     });
-    return issue(await response.json()).number;
+    return data.number;
   }
 
   async comment(issueNumber: number, body: string): Promise<void> {
-    await this.#request(
-      `/repos/${this.#repository}/issues/${issueNumber}/comments`,
-      { body: JSON.stringify({ body }), method: "POST" },
-    );
+    await this.#octokit.rest.issues.createComment({
+      body,
+      issue_number: issueNumber,
+      owner: this.#owner,
+      repo: this.#name,
+    });
   }
 }

@@ -32,15 +32,22 @@ Results use these statuses:
   verifier, or create an assigned `verification-failed` issue, then fail the
   workflow.
 
-The publisher trusts the verifier's semantic match. Before commenting, it only
-confirms that the selected issue remains open, is not a pull request, and names
-the reviewed unit ID in its title or body. Otherwise, it creates a new issue.
+One open issue may match several review units. The publisher groups those units
+into one comment after confirming that the issue remains open, is not a pull
+request, and names each reviewed unit ID in its title or body. A unit that
+fails this check receives a new issue instead.
 
 Operational failures also create or update an open failure issue and fail the
 workflow. Verification searches only open issues. If a selected issue closes
 before publication, the publisher creates a new issue. The automation never
 closes issues. New issues are assigned to `Soulike` and receive the
 `automated-verification` label.
+
+Every created issue and comment carries a stable marker for its workflow run
+and review unit. On a retry, the publisher accepts only markers authored by
+`github-actions[bot]`, skips results already published to open issues, and
+continues with the remaining results. The run attempt is deliberately excluded
+from marker identity.
 
 The optional repository variables `CONTENT_VERIFICATION_MODEL` and
 `CONTENT_VERIFICATION_REASONING_EFFORT` select the Copilot model and reasoning

@@ -30,7 +30,9 @@ A prompt that requires unavailable evidence makes a complete result impossible. 
 
 Make the result identify its subject and scope, then compare both with the run contract. Require exactly one result for every target and reject missing, duplicate, or unknown targets. Define the allowed fields for each result state so that a success, required change, inconclusive review, and execution failure cannot be mistaken for one another.
 
-Parse and validate the result once before later code uses it. Downstream consumers should receive the validated representation rather than reinterpret raw model text or apply a second, weaker version of the contract. A syntactically valid object is still not a valid run result when it names the wrong subject, covers the wrong targets, or combines fields from incompatible states.
+Use one canonical validator whenever model output or a transferred artifact is deserialized. Recheck the subject, scope, complete target coverage, exact shape, and state invariants rather than transferring trust from an earlier process. Within one validation boundary, downstream consumers should receive the validated representation instead of reinterpreting raw model text or applying a second, weaker version of the contract.
+
+These checks establish only that the result satisfies those properties. Before causing a side effect, the component that owns it must independently authorize both the operation and its destination at that sink.
 
 ## Carry producer-selected state across jobs
 

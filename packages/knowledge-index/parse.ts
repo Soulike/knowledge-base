@@ -4,8 +4,13 @@ import { toString } from "mdast-util-to-string";
 import { gfmTable } from "micromark-extension-gfm-table";
 import type { Heading, Link, RootContent, Table, TableCell } from "mdast";
 
-import { KnowledgeIndexError } from "./error.ts";
 import type { KnowledgeIndexEntry, KnowledgeType } from "./types.ts";
+
+export interface ParsedKnowledgeIndex {
+  diagnostics: string[];
+  entries: KnowledgeIndexEntry[];
+  indexedFilePaths: string[] | null;
+}
 
 const expectedColumns = [
   "File Path",
@@ -44,11 +49,11 @@ function isKnowledgeType(value: string): value is KnowledgeType {
   return knowledgeTypes.some((knowledgeType) => knowledgeType === value);
 }
 
-function fail(diagnostics: readonly string[]): never {
-  throw new KnowledgeIndexError(diagnostics);
+function structuralFailure(diagnostic: string): ParsedKnowledgeIndex {
+  return { diagnostics: [diagnostic], entries: [], indexedFilePaths: null };
 }
 
-export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {
+export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
   const document = fromMarkdown(markdown, {
     extensions: [gfmTable()],
     mdastExtensions: [gfmTableFromMarkdown()],
@@ -58,15 +63,17 @@ export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {
   );
 
   if (documentsHeadingIndex === -1) {
-    fail(["The index must contain a '## Documents' section."]);
+    return structuralFailure(
+      "The index must contain a '## Documents' section.",
+    );
   }
 
   const table = document.children[documentsHeadingIndex + 1];
 
   if (!isTable(table)) {
-    fail([
+    return structuralFailure(
       "The Documents section must contain a GFM table immediately after its heading.",
-    ]);
+    );
   }
 
   const header = table.children[0];
@@ -77,14 +84,14 @@ export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {
     headerCells.length !== expectedColumns.length ||
     headerCells.some((column, index) => column !== expectedColumns[index])
   ) {
-    fail([
+    return structuralFailure(
       "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
-    ]);
+    );
   }
 
   const diagnostics: string[] = [];
   const entries: KnowledgeIndexEntry[] = [];
-  const indexedPathCounts = new Map<string, number>();
+  const indexedFilePaths: string[] = [];
 
   for (const row of table.children.slice(1)) {
     const cells = row.children;
@@ -131,10 +138,7 @@ export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {
       continue;
     }
 
-    indexedPathCounts.set(
-      targetPath,
-      (indexedPathCounts.get(targetPath) ?? 0) + 1,
-    );
+    indexedFilePaths.push(targetPath);
 
     const knowledgeType = toString(knowledgeTypeCell);
 
@@ -164,17 +168,5 @@ export function parseKnowledgeIndex(markdown: string): KnowledgeIndexEntry[] {
     entries.push({ filePath: targetPath, knowledgeType, whenToRead });
   }
 
-  for (const [filePath, count] of indexedPathCounts) {
-    if (count > 1) {
-      diagnostics.push(
-        `Knowledge document 'knowledge/${filePath}' must be listed exactly once, but it appears ${count} times.`,
-      );
-    }
-  }
-
-  if (diagnostics.length > 0) {
-    fail(diagnostics);
-  }
-
-  return entries;
+  return { diagnostics, entries, indexedFilePaths };
 }

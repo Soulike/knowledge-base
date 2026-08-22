@@ -2,7 +2,6 @@ import { posix } from "node:path";
 
 import {
   KnowledgeIndexError,
-  parseKnowledgeIndex,
   type KnowledgeIndexEntry,
   type KnowledgeType,
   validateKnowledgeIndex,
@@ -85,8 +84,7 @@ function knowledgeTargets(
     .map((filePath) => filePath.slice("knowledge/".length));
   let entries: KnowledgeIndexEntry[];
   try {
-    entries = parseKnowledgeIndex(indexMarkdown);
-    validateKnowledgeIndex(entries, leafFilePaths);
+    entries = validateKnowledgeIndex(indexMarkdown, leafFilePaths);
   } catch (error) {
     if (!(error instanceof KnowledgeIndexError)) {
       throw error;

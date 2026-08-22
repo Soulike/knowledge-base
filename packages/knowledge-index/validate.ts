@@ -1,31 +1,51 @@
 import { KnowledgeIndexError } from "./error.ts";
+import { parseKnowledgeIndex } from "./parse.ts";
 import type { KnowledgeIndexEntry } from "./types.ts";
 
 export function validateKnowledgeIndex(
-  entries: readonly KnowledgeIndexEntry[],
+  markdown: string,
   availableFilePaths: readonly string[],
-): void {
-  const diagnostics: string[] = [];
-  const availablePathSet = new Set(availableFilePaths);
-  const indexedPathSet = new Set(entries.map((entry) => entry.filePath));
+): KnowledgeIndexEntry[] {
+  const parsedIndex = parseKnowledgeIndex(markdown);
+  const diagnostics = [...parsedIndex.diagnostics];
 
-  for (const entry of entries) {
-    if (!availablePathSet.has(entry.filePath)) {
-      diagnostics.push(
-        `The index lists 'knowledge/${entry.filePath}', but that leaf document does not exist.`,
+  if (parsedIndex.indexedFilePaths !== null) {
+    const availablePathSet = new Set(availableFilePaths);
+    const indexedPathCounts = new Map<string, number>();
+
+    for (const filePath of parsedIndex.indexedFilePaths) {
+      indexedPathCounts.set(
+        filePath,
+        (indexedPathCounts.get(filePath) ?? 0) + 1,
       );
     }
-  }
 
-  for (const availableFilePath of availableFilePaths) {
-    if (!indexedPathSet.has(availableFilePath)) {
-      diagnostics.push(
-        `Knowledge leaf 'knowledge/${availableFilePath}' must be listed exactly once in the index.`,
-      );
+    for (const [filePath, count] of indexedPathCounts) {
+      if (count > 1) {
+        diagnostics.push(
+          `Knowledge document 'knowledge/${filePath}' must be listed exactly once, but it appears ${count} times.`,
+        );
+      }
+
+      if (!availablePathSet.has(filePath)) {
+        diagnostics.push(
+          `The index lists 'knowledge/${filePath}', but that leaf document does not exist.`,
+        );
+      }
+    }
+
+    for (const availableFilePath of availableFilePaths) {
+      if (!indexedPathCounts.has(availableFilePath)) {
+        diagnostics.push(
+          `Knowledge leaf 'knowledge/${availableFilePath}' must be listed exactly once in the index.`,
+        );
+      }
     }
   }
 
   if (diagnostics.length > 0) {
     throw new KnowledgeIndexError(diagnostics);
   }
+
+  return parsedIndex.entries;
 }

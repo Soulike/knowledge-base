@@ -4,7 +4,6 @@ import { fileURLToPath } from "node:url";
 
 import {
   KnowledgeIndexError,
-  parseKnowledgeIndex,
   validateKnowledgeIndex,
 } from "@knowledge-base/knowledge-index";
 import { validateKnowledgeDocument } from "./validate.ts";
@@ -99,8 +98,7 @@ export async function checkKnowledgeDirectory(
       (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
     );
     try {
-      const entries = parseKnowledgeIndex(indexMarkdown);
-      validateKnowledgeIndex(entries, leafFilePaths);
+      validateKnowledgeIndex(indexMarkdown, leafFilePaths);
     } catch (error) {
       if (!(error instanceof KnowledgeIndexError)) {
         throw error;

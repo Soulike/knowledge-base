@@ -30,8 +30,10 @@ Results use these statuses:
   workflow.
 
 Operational failures also create or update an open failure issue and fail the
-workflow. The automation never reads closed issues or closes issues. New issues
-are assigned to `Soulike` and receive the `automated-verification` label.
+workflow. Verification searches only open issues. If a selected issue closes
+before publication, the publisher creates a new issue. The automation never
+closes issues. New issues are assigned to `Soulike` and receive the
+`automated-verification` label.
 
 The optional repository variables `CONTENT_VERIFICATION_MODEL` and
 `CONTENT_VERIFICATION_REASONING_EFFORT` select the Copilot model and reasoning

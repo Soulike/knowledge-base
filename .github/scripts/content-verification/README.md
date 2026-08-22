@@ -29,6 +29,10 @@ Results use these statuses:
   verifier, or create an assigned `verification-failed` issue, then fail the
   workflow.
 
+The publisher trusts the verifier's semantic match. Before commenting, it only
+confirms that the selected issue remains open, is not a pull request, and names
+the reviewed unit ID in its title or body. Otherwise, it creates a new issue.
+
 Operational failures also create or update an open failure issue and fail the
 workflow. Verification searches only open issues. If a selected issue closes
 before publication, the publisher creates a new issue. The automation never

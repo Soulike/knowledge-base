@@ -1,4 +1,5 @@
 export type GitHubIssue = {
+  body: string;
   number: number;
   open: boolean;
   pullRequest: boolean;
@@ -35,10 +36,14 @@ function issue(value: unknown): GitHubIssue {
   if (typeof item.title !== "string" || item.title.length === 0) {
     throw new Error("GitHub issue title is invalid.");
   }
+  if (item.body !== null && typeof item.body !== "string") {
+    throw new Error("GitHub issue body is invalid.");
+  }
   if (item.state !== "open" && item.state !== "closed") {
     throw new Error("GitHub issue state is invalid.");
   }
   return {
+    body: item.body ?? "",
     number: item.number as number,
     open: item.state === "open",
     pullRequest: item.pull_request !== undefined,

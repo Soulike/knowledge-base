@@ -1,4 +1,4 @@
-import type { IssuePublisher, NewIssue } from "./github.ts";
+import type { GitHubIssue, IssuePublisher, NewIssue } from "./github.ts";
 import type { VerificationOutput, VerificationUnitResult } from "./output.ts";
 import type { VerificationScope } from "./targets.ts";
 
@@ -91,6 +91,10 @@ function bodyFor(
   return `${sections.join("\n\n")}\n`;
 }
 
+function namesUnit(issue: GitHubIssue, unitId: string): boolean {
+  return issue.title.includes(unitId) || issue.body.includes(unitId);
+}
+
 async function ensureLabels(publisher: IssuePublisher): Promise<void> {
   await publisher.ensureLabel(
     labels.automation.name,
@@ -117,7 +121,11 @@ async function publishUnit(
   const body = bodyFor(unit, context);
   if (unit.matchingIssueNumber !== null) {
     const existing = await publisher.get(unit.matchingIssueNumber);
-    if (existing?.open === true && !existing.pullRequest) {
+    if (
+      existing?.open === true &&
+      !existing.pullRequest &&
+      namesUnit(existing, unit.id)
+    ) {
       await publisher.comment(existing.number, body);
       return { updated: existing.number };
     }

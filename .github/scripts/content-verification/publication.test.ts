@@ -113,10 +113,11 @@ describe("publishVerification", () => {
   it("comments on the open issue selected by the reviewer", async () => {
     const publisher = new FakePublisher();
     publisher.issues.set(12, {
+      body: "",
       number: 12,
       open: true,
       pullRequest: false,
-      title: "Existing issue",
+      title: "Existing issue for knowledge/example.md",
     });
 
     const result = await publishVerification(
@@ -130,13 +131,55 @@ describe("publishVerification", () => {
     assert.equal(publisher.comments[0]?.issueNumber, 12);
   });
 
+  it("comments when the selected issue body names the reviewed unit", async () => {
+    const publisher = new FakePublisher();
+    publisher.issues.set(12, {
+      body: "This failure affects knowledge/example.md.",
+      number: 12,
+      open: true,
+      pullRequest: false,
+      title: "Existing verification issue",
+    });
+
+    const result = await publishVerification(
+      output("modification-required", 12),
+      context,
+      publisher,
+    );
+
+    assert.deepEqual(result.updated, [12]);
+    assert.equal(publisher.created.length, 0);
+    assert.equal(publisher.comments[0]?.issueNumber, 12);
+  });
+
+  it("creates a new issue when the selected issue names another unit", async () => {
+    const publisher = new FakePublisher();
+    publisher.issues.set(12, {
+      body: "This failure affects knowledge/other.md.",
+      number: 12,
+      open: true,
+      pullRequest: false,
+      title: "Existing verification issue",
+    });
+
+    const result = await publishVerification(
+      output("modification-required", 12),
+      context,
+      publisher,
+    );
+
+    assert.deepEqual(result.created, [101]);
+    assert.deepEqual(publisher.comments, []);
+  });
+
   it("creates a new issue when the selected issue is no longer open", async () => {
     const publisher = new FakePublisher();
     publisher.issues.set(12, {
+      body: "",
       number: 12,
       open: false,
       pullRequest: false,
-      title: "Closed issue",
+      title: "Closed issue for knowledge/example.md",
     });
 
     const result = await publishVerification(
@@ -154,6 +197,7 @@ describe("publishExecutionFailure", () => {
   it("updates an open issue with the exact operational-failure title", async () => {
     const publisher = new FakePublisher();
     publisher.issues.set(8, {
+      body: "",
       number: 8,
       open: true,
       pullRequest: false,

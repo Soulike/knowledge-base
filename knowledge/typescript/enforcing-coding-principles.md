@@ -77,7 +77,9 @@ Prefer a test that fails when the stated invariant stops holding. When a useful 
 
 Enable `reportUnusedDisableDirectives` so a suppression fails once it is no longer needed. A project may also adopt an established ESLint-comments plugin when it needs machine enforcement for suppression descriptions or restrictions on disabling particular rule IDs. Treat that as a separate dependency decision; the baseline rules do not prove that a description is accurate.
 
-Do not permit suppressions for non-null assertions or chained assertions when the governing policy prohibits them absolutely. A downstream configuration can still disable any rule explicitly, so CI and review must treat changes to the enforcement configuration as policy changes rather than ordinary cleanup.
+ESLint bulk suppressions are a separate suppression channel. The CLI automatically applies the default `eslint-suppressions.json` when it exists, and `--suppress-all` or `--suppress-rule` can populate it without a source-adjacent description. Do not use bulk suppressions for any assertion-policy rule. Keep ordinary assertion exceptions inline so their evidence remains beside the assertion, and reject suppressions-file entries for every rule ID governed by this policy.
+
+Do not permit inline or bulk suppressions for non-null, definite-assignment, or chained assertions when the governing policy prohibits them absolutely. If a project uses bulk suppressions for unrelated rules, validate the default or configured suppressions file in CI and treat changes to it as enforcement-policy changes. A downstream configuration can still disable any rule explicitly, so CI and review must treat changes to the enforcement configuration as policy changes rather than ordinary cleanup.
 
 ## Verify the effective enforcement
 
@@ -104,3 +106,4 @@ Static tooling cannot determine whether an optional property is semantically cor
 - [typescript-eslint: `consistent-type-assertions`](https://typescript-eslint.io/rules/consistent-type-assertions/)
 - [typescript-eslint: `no-unsafe-type-assertion`](https://typescript-eslint.io/rules/no-unsafe-type-assertion/)
 - [ESLint: Configure rules](https://eslint.org/docs/latest/use/configure/rules)
+- [ESLint: Bulk suppressions](https://eslint.org/docs/latest/use/suppressions)

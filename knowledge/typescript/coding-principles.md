@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document defines project-independent TypeScript coding principles for representing absence and establishing runtime type facts without hiding uncertainty from the type system. It owns the use of non-null assertions, definite-assignment assertions, chained and ordinary type assertions, runtime narrowing, and optional object properties; tool configuration that enforces these principles is maintained separately.
+This document defines baseline project-independent principles to apply whenever TypeScript code is written, modified, or reviewed, with a focus on representing absence and establishing runtime type facts without hiding uncertainty from the type system. It owns the use of non-null assertions, definite-assignment assertions, chained and ordinary type assertions, runtime narrowing, and optional object properties; tool configuration that enforces these principles is maintained separately.
 
 ## When to update
 
@@ -110,7 +110,7 @@ type LoadState<T> =
 
 The union enumerates the valid states, preserves the relationship between the discriminator and state-specific fields, and lets control-flow narrowing expose only the fields available in the selected state. Do not make a required property optional merely to defer initialization or silence an assignment error; represent the uninitialized state explicitly or redesign the lifecycle.
 
-`property?: T` and `property: T | undefined` express different object shapes. The first permits the property to be absent. The second requires the property to exist while allowing its value to be `undefined`. That difference is observable through operations such as the `in` operator, `Object.keys()`, object spread, and serialization.
+`property?: T` and `property: T | undefined` express different object shapes. The first permits the property to be absent. The second requires the property to exist while allowing its value to be `undefined`. That difference is observable through operations such as the `in` operator, `Object.keys()`, and object spread. A serializer preserves the distinction only when its format records property presence; `JSON.stringify` omits object properties whose values are `undefined`, so it produces the same output for an absent property and a present property whose value is `undefined`.
 
 Compiler options affect how strictly assignments preserve this distinction. In particular, `exactOptionalPropertyTypes` rejects assigning `undefined` to `property?: T` unless `undefined` is part of the declared value type. The domain distinction remains relevant even when a project's compiler configuration does not enforce it.
 

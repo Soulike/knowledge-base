@@ -79,9 +79,9 @@ A test or comment does not make an assertion safe by itself. It makes the safety
 
 `as const` is not an escape hatch under this rule. It asks TypeScript to retain literal information and readonly structure rather than claiming that a runtime value has an unrelated shape.
 
-## Represent absence as a domain state
+## Use optional only for independently optional fields
 
-Use an optional property only when omitting the property is a valid state in the represented domain:
+Use an optional property only when the field itself is optional within the represented domain state. Omitting it must remain valid independently of the object's other fields:
 
 ```ts
 interface SearchOptions {
@@ -89,7 +89,17 @@ interface SearchOptions {
 }
 ```
 
-Do not make a required property optional merely to defer initialization or silence an assignment error. If an object has distinct lifecycle states, model those states directly instead of making every state partially valid:
+The boundary is not whether a field is absent in some runtime situations. Ask whether the field is optional within one state, or required in some states and absent in others. When another field or discriminator determines whether the field must exist, an optional property erases that relationship:
+
+```ts
+interface LoadState<T> {
+  status: "loading" | "ready" | "failed";
+  value?: T;
+  error?: Error;
+}
+```
+
+This type permits states such as `{ status: "ready" }`, `{ status: "loading", value: result }`, and `{ status: "ready", value: result, error: failure }` even though the domain may allow none of them. Model a finite set of mutually exclusive states as a discriminated union so each member declares exactly which fields that state requires:
 
 ```ts
 type LoadState<T> =
@@ -97,6 +107,8 @@ type LoadState<T> =
   | { status: "ready"; value: T }
   | { status: "failed"; error: Error };
 ```
+
+The union enumerates the valid states, preserves the relationship between the discriminator and state-specific fields, and lets control-flow narrowing expose only the fields available in the selected state. Do not make a required property optional merely to defer initialization or silence an assignment error; represent the uninitialized state explicitly or redesign the lifecycle.
 
 `property?: T` and `property: T | undefined` express different object shapes. The first permits the property to be absent. The second requires the property to exist while allowing its value to be `undefined`. That difference is observable through operations such as the `in` operator, `Object.keys()`, object spread, and serialization.
 

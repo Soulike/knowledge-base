@@ -10,7 +10,15 @@ Update this document when ESLint changes flat-configuration merging, plugin or s
 
 ## One rule key has one effective configuration
 
-When several ESLint configuration objects match a file, ESLint merges them in order and later objects override earlier objects when the same key conflicts. Rule entries have one special merge behavior: different rule IDs compose independently, and a later configuration that specifies only severity for the same rule ID, whether as a scalar or a one-element array, retains existing options. A later array that supplies options replaces the earlier options.
+When several ESLint configuration objects match a file, ESLint merges them in order and later objects override earlier objects when the same key conflicts. Rule entries have one special merge behavior: different rule IDs compose independently, and a later configuration that supplies only severity for the same rule ID retains existing options. A later configuration that supplies options replaces the earlier options.
+
+For example, after an earlier configuration sets `semi: ["error", "never"]`, these later values produce different effective configurations:
+
+| Later rule value     | Effective rule configuration |
+| -------------------- | ---------------------------- |
+| `"warn"`             | `["warn", "never"]`          |
+| `["warn"]`           | `["warn", "never"]`          |
+| `["warn", "always"]` | `["warn", "always"]`         |
 
 `no-restricted-syntax` stores every selector in the option array of one rule ID. A downstream configuration that adds another selector by assigning that rule again does not append to the inherited list:
 

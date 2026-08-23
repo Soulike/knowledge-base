@@ -85,7 +85,7 @@ When a custom rule remains necessary:
 
 ## Export presets without hiding ownership
 
-A reusable plugin may export named configurations such as `recommended` or `strict`. Keep plugin registration and rule enablement together in the supported preset, and give each configuration object a descriptive name so `--print-config` and configuration-inspection errors identify its source.
+A reusable plugin may export named configurations such as `recommended` or `strict`. Keep plugin registration and rule enablement together in the supported preset, and give each configuration object a descriptive name so error messages and Config Inspector identify its source.
 
 Treat the preset as a default policy selection, not an immutable layer. Consumers can override it, so changes to downstream rule severities or suppressions still require review under the consuming project's policy.
 

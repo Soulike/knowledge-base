@@ -134,8 +134,9 @@ The watch request authorizes these operations when the autonomy gate passes:
 - run local validation;
 - create ordinary commits and push them normally to the existing PR branch;
 - reply to top-level comments and review threads;
-- resolve review threads only through a provider-supported atomic
-  compare-and-set tied to the observed thread version or last comment;
+- resolve review threads after complete disposition, using an atomic
+  compare-and-set when available or the pre- and post-resolution reconciliation
+  required below;
 - rerun one clearly transient CI replay unit for the same PR identity under the
   complete-effect rule below; and
 - update the PR title or description only through a provider-supported atomic
@@ -262,12 +263,21 @@ of these are true:
 4. A reply records the disposition and relevant evidence.
 5. No part of the thread remains unanswered.
 
-After those semantic criteria pass, require the provider to reject the
-resolution if the thread or last comment changed since observation. Re-fetch
-and reclassify after a compare-and-set conflict. When the provider exposes only
-an unconditional thread identifier mutation, keep the reply autonomous but
-leave resolution as human intervention required; a final read immediately
-before mutation cannot close the race.
+After those semantic criteria pass, re-fetch the complete thread immediately
+before resolution and reclassify it when the thread state or comments changed.
+Use a provider-supported compare-and-set tied to the observed thread version or
+last comment when available, and re-fetch after a conflict.
+
+When the provider exposes only an unconditional thread identifier mutation,
+resolution remains autonomous after the final pre-resolution read confirms
+that every current comment is answered. Immediately re-fetch the complete
+thread after resolution. Treat a concurrent comment as new activity and
+reclassify it. If it raises an unanswered concern, unresolve the thread when the
+provider supports it, then handle the new disposition. When the provider cannot
+restore the unresolved state, answer an autonomous concern immediately or
+record human intervention required for a concern that cannot yet be answered.
+Reconcile an unknown mutation result under the uncertain-effect rule before
+retrying it.
 
 Keep the thread unresolved when the reply asks a question, proposes alternatives,
 depends on a human decision, provides a partial fix, or cannot be verified. An

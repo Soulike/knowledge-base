@@ -263,21 +263,23 @@ of these are true:
 4. A reply records the disposition and relevant evidence.
 5. No part of the thread remains unanswered.
 
-After those semantic criteria pass, re-fetch the complete thread immediately
-before resolution and reclassify it when the thread state or comments changed.
-Use a provider-supported compare-and-set tied to the observed thread version or
-last comment when available, and re-fetch after a conflict.
+After those semantic criteria pass, re-fetch the complete PR state and thread
+immediately before resolution. Reclassify when the complete PR identity, thread
+state, or comments changed. Use a provider-supported compare-and-set tied to
+the observed thread version or last comment when available, and re-fetch after
+a conflict.
 
 When the provider exposes only an unconditional thread identifier mutation,
-resolution remains autonomous after the final pre-resolution read confirms
-that every current comment is answered. Immediately re-fetch the complete
-thread after resolution. Treat a concurrent comment as new activity and
-reclassify it. If it raises an unanswered concern, unresolve the thread when the
-provider supports it, then handle the new disposition. When the provider cannot
-restore the unresolved state, answer an autonomous concern immediately or
-record human intervention required for a concern that cannot yet be answered.
-Reconcile an unknown mutation result under the uncertain-effect rule before
-retrying it.
+resolution remains autonomous only when the provider can also restore the
+unresolved state. The final pre-resolution read must confirm that the complete
+PR identity still matches the verified head and every current comment is
+answered. Immediately retrieve a new complete PR state and thread after
+resolution. Reclassify any identity, thread-state, or comment change; when the
+resolution criteria no longer hold, restore the unresolved state before
+handling the new disposition. Reconcile an unknown resolution or restoration
+result under the uncertain-effect rule before retrying it. When restoration is
+unavailable or its result cannot be reconciled, keep unconditional resolution
+as human intervention required.
 
 Keep the thread unresolved when the reply asks a question, proposes alternatives,
 depends on a human decision, provides a partial fix, or cannot be verified. An

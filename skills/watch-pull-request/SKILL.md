@@ -146,10 +146,23 @@ monitoring mechanism when available. Do not post periodic or no-op PR status
 comments.
 
 When persistent waiting is unavailable or execution is interrupted, checkpoint
-the complete PR identity, handled thread and comment identities, CI attempts,
-published commits and replies, and remaining dispositions. State that
-monitoring stopped; never claim to remain watching after execution ends. Resume
-by reconciling the checkpoint with a fresh complete state.
+all state needed to distinguish owned remediation from unrelated work:
+
+- the trusted control revision, accepted intent, and any active mutation
+  freeze;
+- the complete PR identity and safe workspace identity;
+- the local HEAD, dirty diff and ownership, unpublished fix commits, and the
+  focused and aggregate validation tied to each exact commit;
+- handled thread and comment identities, CI attempts, published commits and
+  replies, and remaining dispositions; and
+- every in-flight mutation whose result is not yet known, together with its
+  reconciliation state.
+
+State that monitoring stopped; never claim to remain watching after execution
+ends. On resume, verify workspace ownership and reconcile the fresh complete PR
+state, unpublished work, published effects, and uncertain operations before
+starting new work. Preserve unresolved local state and require human
+intervention when its ownership or outcome cannot be established.
 
 ## Hand off the human-only state
 

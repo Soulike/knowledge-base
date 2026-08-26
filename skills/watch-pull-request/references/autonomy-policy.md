@@ -89,14 +89,18 @@ The watch request authorizes these operations when the autonomy gate passes:
 - resolve review threads under the resolution criteria below;
 - rerun one clearly transient CI replay unit for the same PR identity under the
   complete-effect rule below; and
-- update the PR title or description when necessary to describe the accepted
-  scope and current result accurately.
+- update the PR title or description only through a provider-supported atomic
+  compare-and-set tied to the observed metadata version.
 
 For a title or description update, preserve relevant human-authored context and
-linked issues. Autonomous factual maintenance includes correcting stale
-wording, documenting implemented behavior or verification, and updating an
-accurate checklist. A competing framing, changed scope, or new release,
-compatibility, or policy commitment requires a human decision.
+linked issues. Autonomous factual maintenance can correct stale wording,
+document implemented behavior or verification, or update an accurate checklist
+only when the provider rejects the write if the observed metadata changed.
+Re-fetch and reclassify after a compare-and-set conflict. When the provider has
+no version, ETag, or equivalent atomic precondition, keep replacement-style
+metadata updates human-only rather than risking a lost update. A competing
+framing, changed scope, or new release, compatibility, or policy commitment
+requires a human decision.
 
 Keep every other mutation outside this workflow. In particular, hand off label,
 assignee, milestone, review-request, draft-state, base-branch, repository,

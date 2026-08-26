@@ -119,8 +119,9 @@ Skip this step when no autonomous work remains.
    repeat focused and aggregate validation against the resulting identity.
    Reclassify from a complete snapshot before publication when any other field
    changed.
-7. Publish the validated fix commits together with one ordinary push. Begin a
-   new complete observation cycle after the push.
+7. Apply the Autonomy policy's publication-effects rule, then publish the
+   validated fix commits together with one ordinary push. Begin a new complete
+   observation cycle after the push.
 8. For an autonomous item that needs no code change, revalidate its evidence
    and complete PR identity immediately before its remote mutation.
 9. Reply in the original thread when one exists. State what changed or why no

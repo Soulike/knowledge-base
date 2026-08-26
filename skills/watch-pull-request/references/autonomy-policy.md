@@ -62,6 +62,22 @@ execution or publication as human intervention required. A passing
 PR-controlled command does not prove that executing it on the control host was
 safe.
 
+## Authorize publication-triggered automation
+
+Before pushing, resolve the provider's complete event fanout for the exact
+repository, source ref, and proposed head. Include push and pull-request events,
+base-loaded or head-loaded workflows, external check providers, effective
+actors and privileges, credentials exposed, execution of proposed-head content,
+and every deployment, release, publication, spending, or other remote effect.
+
+Autonomous publication requires every triggered execution and effect to be
+independently trusted, authorized for the exact proposed head, and inside the
+autonomy gate. Hand off instead when the fanout or privileges cannot be
+established, proposed-head code would receive authority outside the isolated
+validation boundary, or any triggered effect is privileged, costly,
+non-idempotent, or otherwise outside the accepted PR intent. Authorizing the
+Git ref update does not authorize its downstream automation.
+
 ## Apply the mutation allowlist
 
 The watch request authorizes these operations when the autonomy gate passes:

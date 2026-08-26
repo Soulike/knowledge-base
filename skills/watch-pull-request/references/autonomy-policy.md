@@ -93,12 +93,23 @@ concurrent-head rule below.
 
 ## Integrate a concurrent head
 
-When a mandatory pre-push fetch discovers a new source head, integrate it only
-with an ordinary non-rewriting merge when the active project permits merge
-commits and the integration is conflict-free. Re-evaluate every local fix
-against the combined head and repeat its focused and aggregate validation. Hand
-off when the project requires linear history, the integration conflicts, or
-ownership is ambiguous. Do not overwrite the concurrent change.
+When a mandatory pre-push fetch discovers a new source SHA, use the trusted
+object graph to prove whether the previously observed source SHA is its
+ancestor.
+
+For a fast-forward source advance, integrate the new head only with an ordinary
+non-rewriting merge when the active project permits merge commits and the
+integration is conflict-free. Re-evaluate every local fix against the combined
+head and repeat its focused and aggregate validation. Hand off when the project
+requires linear history, the integration conflicts, or ownership is ambiguous.
+
+Treat a non-descendant source SHA as a divergent replacement. Do not merge the
+histories or push a descendant that republishes removed commits. Invalidate the
+snapshot, preserve local remediation as checkpointed state, and reclassify the
+replacement head from a fresh safe workspace. When unpublished or displaced
+fixes would need to be reapplied, require human intervention unless the trusted
+project policy already defines an authorized non-rewriting recovery. Never
+overwrite the concurrent change.
 
 ## Classify comments and review findings
 

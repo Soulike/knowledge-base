@@ -48,35 +48,21 @@ After configuring typescript-eslint's current [typed linting](https://typescript
       { assertionStyle: "never" },
     ],
     "@typescript-eslint/no-unsafe-type-assertion": "error",
-    "@typescript-eslint/switch-exhaustiveness-check": [
-      "error",
-      {
-        allowDefaultCaseForExhaustiveSwitch: false,
-        considerDefaultExhaustiveForUnions: false,
-        requireDefaultForNonUnion: false,
-      },
-    ],
   },
 }
 ```
 
 The responsibilities of these rules differ:
 
-| Principle or risk                                | Enforcement mechanism                                                            | Coverage boundary                                                                                                                                                                |
-| ------------------------------------------------ | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Postfix non-null assertion such as `value!`      | `@typescript-eslint/no-non-null-assertion`                                       | Rejects expression assertions; it does not reject definite-assignment assertions on declarations.                                                                                |
-| Ordinary type assertions are exceptional         | `@typescript-eslint/consistent-type-assertions` with `assertionStyle: "never"`   | Rejects ordinary `as T` and angle-bracket assertions while retaining `as const`; an approved exception needs a narrow suppression.                                               |
-| Narrowing and chained assertions are unsafe      | `@typescript-eslint/no-unsafe-type-assertion`                                    | Uses type information to reject narrowing assertions, including the unsafe step in common `as unknown as T` and `as never as T` bridges; it requires typed linting.              |
-| Definite-assignment assertions are prohibited    | A dedicated plugin rule such as `policy/no-definite-assignment-assertion`        | No typescript-eslint rule above owns declaration assertions such as `field!: T` or `let value!: T`; cover every supported declaration node and parser version in the rule tests. |
-| Every syntactically chained assertion is banned  | A dedicated plugin rule such as `policy/no-chained-type-assertions`, when needed | A syntax rule can reject nested assertions regardless of type compatibility; indirect bridges through variables require type-aware analysis or the unsafe-assertion rule.        |
-| Repeated equality dispatch prefers `switch`      | `unicorn/prefer-switch`, when that plugin is adopted                             | Provides syntax-based assistance for common `if`/`else if` chains; it neither determines whether the subject is a closed type nor covers every equivalent conditional shape.     |
-| Finite variant dispatch is explicit and complete | `@typescript-eslint/switch-exhaustiveness-check` with the options shown above    | Uses type information to reject missing literal-union or enum cases, prevents `default` from satisfying completeness, and rejects `default` after every member is named.         |
+| Principle or risk                               | Enforcement mechanism                                                            | Coverage boundary                                                                                                                                                                |
+| ----------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Postfix non-null assertion such as `value!`     | `@typescript-eslint/no-non-null-assertion`                                       | Rejects expression assertions; it does not reject definite-assignment assertions on declarations.                                                                                |
+| Ordinary type assertions are exceptional        | `@typescript-eslint/consistent-type-assertions` with `assertionStyle: "never"`   | Rejects ordinary `as T` and angle-bracket assertions while retaining `as const`; an approved exception needs a narrow suppression.                                               |
+| Narrowing and chained assertions are unsafe     | `@typescript-eslint/no-unsafe-type-assertion`                                    | Uses type information to reject narrowing assertions, including the unsafe step in common `as unknown as T` and `as never as T` bridges; it requires typed linting.              |
+| Definite-assignment assertions are prohibited   | A dedicated plugin rule such as `policy/no-definite-assignment-assertion`        | No typescript-eslint rule above owns declaration assertions such as `field!: T` or `let value!: T`; cover every supported declaration node and parser version in the rule tests. |
+| Every syntactically chained assertion is banned | A dedicated plugin rule such as `policy/no-chained-type-assertions`, when needed | A syntax rule can reject nested assertions regardless of type compatibility; indirect bridges through variables require type-aware analysis or the unsafe-assertion rule.        |
 
 Do not encode shared declaration or chaining policies as additional selectors in `no-restricted-syntax`. In layered configurations, a later value for that one rule key can replace the earlier selector list. Use independently named plugin rules as described in [Composable ESLint policy rules](../eslint/composable-policy-rules.md).
-
-These two rules provide complementary TypeScript support for [Exhaustive branching over finite variants](../programming/exhaustive-branching.md). `@typescript-eslint/switch-exhaustiveness-check` checks an existing `switch`; it does not require an `if` chain to become one. When a project already uses or accepts ESLint Plugin Unicorn, `unicorn/prefer-switch` with `minimumCases: 2` and `emptyDefaultCase: "no-default-case"` is a reasonable aid for converting common repeated equality chains. Its syntax-based coverage is intentionally partial, so code review still decides whether other conditionals are finite variant dispatches. Do not add a dedicated type-aware rule merely to close that coverage gap unless repeated violations justify the maintenance cost.
-
-For the exhaustive-switch rule, `requireDefaultForNonUnion: false` leaves open types such as `string` and `number` outside this closed-set policy. A `never` assignment inside a `default` branch can also make TypeScript report a newly added union member, but it does not satisfy the explicit-case, no-catch-all principle; use the type-aware lint rule when enforcing that principle.
 
 ## Make exceptional assertions visible
 
@@ -119,7 +105,5 @@ Static tooling cannot determine whether an optional property is semantically cor
 - [typescript-eslint: `no-non-null-assertion`](https://typescript-eslint.io/rules/no-non-null-assertion/)
 - [typescript-eslint: `consistent-type-assertions`](https://typescript-eslint.io/rules/consistent-type-assertions/)
 - [typescript-eslint: `no-unsafe-type-assertion`](https://typescript-eslint.io/rules/no-unsafe-type-assertion/)
-- [typescript-eslint: `switch-exhaustiveness-check`](https://typescript-eslint.io/rules/switch-exhaustiveness-check/)
-- [ESLint Plugin Unicorn: `prefer-switch`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-switch.md)
 - [ESLint: Configure rules](https://eslint.org/docs/latest/use/configure/rules)
 - [ESLint: Bulk suppressions](https://eslint.org/docs/latest/use/suppressions)

@@ -49,12 +49,21 @@ repository-selected hooks, clean and smudge filters, long-running process
 filters, custom merge drivers, and any other external Git program that
 proposed-head attributes or configuration can select.
 
-Restrict the credential-bearing control process to verifying the exact immutable
-object graph and intended source ref with trusted tooling, then performing a
-hook-free transport push that does not inspect a worktree, index, or
-PR-controlled attributes. Keep the credential that authorizes the exact
-repository, ref, and operation outside the execution environment, and authorize
-the object graph and destination again at publication.
+Do not expose the credential-bearing process to the sandbox repository or its
+Git metadata. Transfer only the intended final SHA and the exact verified Git
+objects reachable from it into fresh control-owned transport state. Build that
+state from a trusted configuration allowlist: reject sandbox-written local and
+included configuration, remotes, URL rewrites, credential and SSH helpers,
+alternates, replace refs, grafts, environment-supplied Git configuration, and
+other non-object state.
+
+In the fresh transport state, verify the same immutable object graph that will
+be packed, with replacement mechanisms disabled, then perform a hook-free push
+using an explicit trusted repository URL and refspec. The transport must not
+inspect a sandbox worktree, index, attributes, refs, or configuration. Keep the
+credential that authorizes the exact repository, ref, and operation outside the
+execution environment, and authorize the object graph and destination again at
+publication.
 
 When this isolation cannot be established, limit the Agent to static inspection
 and appropriately isolated CI evidence, then classify any required local

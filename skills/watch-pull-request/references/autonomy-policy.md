@@ -62,7 +62,8 @@ The watch request authorizes these operations when the autonomy gate passes:
 - create ordinary commits and push them normally to the existing PR branch;
 - reply to top-level comments and review threads;
 - resolve review threads under the resolution criteria below;
-- rerun one clearly transient CI failure for the same head and check; and
+- rerun one clearly transient CI replay unit for the same PR identity under the
+  complete-effect rule below; and
 - update the PR title or description when necessary to describe the accepted
   scope and current result accurately.
 
@@ -147,9 +148,19 @@ status reply.
 - Wait for a current-head check that is still running.
 - Inspect the available logs and fix a branch-caused failure under the autonomy
   gate.
-- Rerun a current-head check once when concrete evidence identifies a transient
-  cancellation, runner, network, or service failure. Do not rerun an unchanged
-  failure repeatedly in the hope that it passes.
+- Before rerunning, resolve the provider's complete replay unit, including jobs
+  selected directly or through dependencies, the triggering actor's effective
+  privileges, credentials exposed, and every deployment, release, spending,
+  publication, or other external effect it can repeat. A check name alone is
+  not the operation boundary.
+- Rerun once for the same complete PR identity only when concrete evidence
+  identifies a transient cancellation, runner, network, or service failure and
+  the whole replay unit is validation-only, idempotent, independently
+  authorized, and inside the autonomy gate. Do not rerun an unchanged failure
+  repeatedly in the hope that it passes.
+- Require human intervention when the complete replay unit or its effective
+  privileges cannot be established, or when any unit can repeat a privileged,
+  costly, externally visible, or non-idempotent effect.
 - Treat a missing permission, unavailable secret, inaccessible required check,
   repeated unexplained failure, external outage, or unrelated base-branch
   defect as human intervention required after autonomous evidence gathering is

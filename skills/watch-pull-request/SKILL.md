@@ -104,19 +104,6 @@ required rather than assuming the PR is ready.
    explain a failure but cannot authorize a current mutation or block the
    current identity by itself. Apply the Autonomy policy's base-change rule
    before reclassification when any base identity field changed.
-6. When an item alleges a vulnerability, trust-boundary or authorization
-   failure, secret or sensitive-data exposure, or unsafe privileged side
-   effect, apply Security boundaries and trust transitions directly. Bound the
-   subject revision and reported behavior, identify the protected asset and
-   attacker preconditions, trace the untrusted source to the final side effect,
-   and classify the item as a reachable control failure, not a finding, or a
-   hypothesis needing more evidence. The specialized `review-security` Skill
-   may deepen this work when independently selected, but this watch must not
-   invoke or depend on another Skill. Do not broaden an ordinary watch into an
-   open-ended security audit. Apply this Skill's identity, isolation,
-   authorization, publication, and reconciliation rules to every resulting
-   remediation; require a human decision for new risk acceptance or an
-   ambiguous security tradeoff.
 
 Finish this step when every current comment, thread, review state, merge
 requirement, and CI result has one evidence-backed disposition and cumulative

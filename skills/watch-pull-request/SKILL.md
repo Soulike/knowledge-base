@@ -50,11 +50,15 @@ surface:
 - base repository identity, base ref, and base SHA, together with source
   repository identity, source ref, and source SHA;
 - submitted reviews and their states;
+- aggregate review decision, requested reviewers and teams, and required
+  approval state;
 - complete paginated review threads and replies, including resolved and
   outdated state;
-- top-level PR comments; and
+- top-level PR comments;
 - required and optional CI checks, their conclusions, details, attempts, and
-  associated head SHA.
+  associated head SHA; and
+- provider mergeability and conflicts, merge queue or auto-merge state, and
+  every visible branch or merge requirement.
 
 Use a thread-aware interface when thread state matters; a flat PR summary or
 comment list is not sufficient. Treat resolved, outdated, and older-head items
@@ -66,7 +70,9 @@ repository/ref/SHA as one complete PR identity. A stable source SHA alone does
 not keep the snapshot current.
 
 Finish this step only when every current surface has been retrieved or a
-specific access or operational blocker has been recorded.
+specific access or operational blocker has been recorded. Treat unavailable
+visibility into applicable review or merge requirements as human intervention
+required rather than assuming the PR is ready.
 
 ## Classify the current cycle
 
@@ -90,9 +96,9 @@ specific access or operational blocker has been recorded.
    current identity by itself. Apply the Autonomy policy's base-change rule
    before reclassification when any base identity field changed.
 
-Finish this step when every current comment, thread, review state, and CI result
-has one evidence-backed disposition and cumulative drift has either been ruled
-out or escalated.
+Finish this step when every current comment, thread, review state, merge
+requirement, and CI result has one evidence-backed disposition and cumulative
+drift has either been ruled out or escalated.
 
 ## Perform one autonomous remediation cycle
 
@@ -185,14 +191,16 @@ When no executable autonomous work remains, report one of these states:
   needs unavailable authority, access, credentials, infrastructure, or another
   human-only operation.
 - **Ready for human merge:** no known autonomous work, unresolved defect, or
-  other blocker remains. Merge remains a permanent human operation.
+  other blocker remains; every visible required review and merge condition is
+  satisfied except the merge operation itself. Merge remains a permanent human
+  operation.
 
 The consolidated handoff must identify the PR and current head; summarize CI,
-fix commits, aggregate validation, replies, and resolved threads; link each
-remaining blocker; explain why it crosses the autonomy boundary; present
-concrete options and consequences; give a recommendation; and state any
-cumulative-change concern. Confirm that no other executable autonomous work
-remains and identify every deferred item.
+review and merge requirements, fix commits, aggregate validation, replies, and
+resolved threads; link each remaining blocker; explain why it crosses the
+autonomy boundary; present concrete options and consequences; give a
+recommendation; and state any cumulative-change concern. Confirm that no other
+executable autonomous work remains and identify every deferred item.
 
 After the human answers, apply only the decisions and interventions they
 authorized, then ask whether to continue watching the PR. A request to continue

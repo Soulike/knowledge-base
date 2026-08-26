@@ -136,17 +136,31 @@ Skip this step when no autonomous work remains.
    source SHA changed, apply the Autonomy policy's concurrent-head rule, then
    repeat focused and aggregate validation against the resulting identity.
 7. Perform direct bounded publication only after the Autonomy policy's
-   publication compare-and-set and publication-effects rules pass, then begin a
-   new complete observation cycle.
-8. For an autonomous item that needs no code change, revalidate its evidence
-   and complete PR identity immediately before performing its exact allowlisted
-   mutation.
-9. Reply in the original thread when one exists. State what changed or why no
-   change was appropriate, the current commit or head context, validation
-   performed, and any remaining limitation. Resolve the thread only when the
-   Autonomy policy's resolution criteria are all satisfied.
+   publication compare-and-set and publication-effects rules pass. Reconcile
+   the published head, then complete a new observation and classification cycle
+   before performing any follow-up mutation.
+8. For every autonomously handled top-level comment or review thread,
+   revalidate its concern and disposition against the current complete PR
+   identity immediately before replying, then reply to that comment or in that
+   thread. Give every associated item its own disposition when one fix addresses
+   several items; one reply does not dispose of the others. For a published fix,
+   state what changed, the published commit or head, validation performed, and
+   any remaining limitation. When no code change was appropriate, state why,
+   the supporting evidence and current head, and any remaining limitation.
+   Resolve each review thread only when the Autonomy policy's resolution
+   criteria are all satisfied.
+9. For an autonomous item that needs neither a code change nor a discussion
+   reply, revalidate its evidence and complete PR identity immediately before
+   performing its exact allowlisted mutation.
 10. Apply the Autonomy policy's uncertain-effect reconciliation rule before
     replaying a mutation whose outcome is unknown.
+
+Do not enter **Wait and resume** until every item handled in the cycle is
+accounted for and every attempted remote mutation has a known result: each item
+handled through a top-level comment or review thread has its required reply,
+each eligible review-thread resolution has a reconciled result, and each item
+whose reply must wait for a human decision is recorded under the Autonomy policy
+without a holding reply.
 
 Do not impose an arbitrary total cycle limit. Continue only while each cycle
 has an evidence-backed reason to advance the PR, and apply the Autonomy
@@ -155,7 +169,8 @@ policy's remediation-loop stopping rule after every cycle.
 Finish this step when every selected fix is represented by one validated local
 commit, the aggregate branch result passed available required validation, the
 commits were pushed together without rewriting history, and every remote
-mutation has a known reconciled result.
+mutation has a known reconciled result and every handled comment or thread is
+accounted for.
 
 ## Wait and resume
 

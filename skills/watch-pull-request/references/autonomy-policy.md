@@ -134,8 +134,9 @@ The watch request authorizes these operations when the autonomy gate passes:
 - run local validation;
 - create ordinary commits and push them normally to the existing PR branch;
 - reply to top-level comments and review threads;
-- resolve review threads only through a provider-supported atomic
-  compare-and-set tied to the observed thread version or last comment;
+- resolve review threads after complete disposition, using an atomic
+  compare-and-set when available or the pre- and post-resolution reconciliation
+  required below;
 - rerun one clearly transient CI replay unit for the same PR identity under the
   complete-effect rule below; and
 - update the PR title or description only through a provider-supported atomic
@@ -262,12 +263,25 @@ of these are true:
 4. A reply records the disposition and relevant evidence.
 5. No part of the thread remains unanswered.
 
-After those semantic criteria pass, require the provider to reject the
-resolution if the thread or last comment changed since observation. Re-fetch
-and reclassify after a compare-and-set conflict. When the provider exposes only
-an unconditional thread identifier mutation, keep the reply autonomous but
-leave resolution as human intervention required; a final read immediately
-before mutation cannot close the race.
+After those semantic criteria pass, re-fetch the complete PR state and thread
+immediately before resolution. Reclassify when the complete PR identity, thread
+state, or comments changed. Use a provider-supported compare-and-set tied to
+the observed thread version or last comment when available, and re-fetch after
+a conflict.
+
+When the provider exposes only an unconditional thread identifier mutation,
+resolution remains autonomous after the final pre-resolution read confirms
+that the complete PR identity still matches the verified head and every current
+comment is answered. This accepts the residual race that new activity can
+arrive before the mutation because comments remain visible and the resolved
+marker is reversible. Immediately retrieve a new complete PR state and thread
+after resolution, then reclassify any identity, thread-state, or comment
+change. Treat concurrent activity as current work regardless of the resolved
+marker. Do not issue an unconditional restoration mutation because it cannot
+prove ownership of the current thread state; when the fresh disposition
+requires the thread to be unresolved and the provider cannot guard that
+restoration, record human intervention required. Reconcile an unknown
+resolution result under the uncertain-effect rule before retrying it.
 
 Keep the thread unresolved when the reply asks a question, proposes alternatives,
 depends on a human decision, provides a partial fix, or cannot be verified. An

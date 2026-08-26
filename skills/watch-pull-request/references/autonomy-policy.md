@@ -71,6 +71,22 @@ execution or publication as human intervention required. A passing
 PR-controlled command does not prove that executing it on the control host was
 safe.
 
+## Publish non-Git payloads before the ref
+
+Before updating the source ref, inspect the exact proposed tree with trusted
+parsers for Git LFS pointers and every other project-supported mechanism whose
+payloads live outside the Git object graph. Do not rely on a disabled pre-push
+hook or proposed-head tooling to discover or publish them.
+
+For each new side-band payload, establish its exact content identifier and
+destination, then verify that it already exists or upload it through a separate
+trusted transport authorized for only those identifiers and effects. Require
+the upload to be idempotent and verify the destination before publishing the
+Git ref. When the payload mechanism, required objects, destination, or safe
+upload operation cannot be established, classify publication as human
+intervention required rather than creating a dangling pointer or incomplete
+checkout.
+
 ## Authorize publication-triggered automation
 
 Before pushing, resolve the provider's complete event fanout for the exact

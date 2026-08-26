@@ -43,10 +43,18 @@ and no network access beyond destinations independently authorized from the
 trusted control revision. Launch validation with trusted tooling rather than a
 launcher supplied only by the PR.
 
-Perform commit, integration, and push operations through a trusted control
-process with repository-controlled hooks disabled. Keep the credential that
-authorizes the exact repository, source ref, and operation outside the
-execution environment, and authorize that destination again at publication.
+Perform every worktree, index, checkout, check-in, commit, and integration
+operation inside the credential-free environment. Disable or neutralize
+repository-selected hooks, clean and smudge filters, long-running process
+filters, custom merge drivers, and any other external Git program that
+proposed-head attributes or configuration can select.
+
+Restrict the credential-bearing control process to verifying the exact immutable
+object graph and intended source ref with trusted tooling, then performing a
+hook-free transport push that does not inspect a worktree, index, or
+PR-controlled attributes. Keep the credential that authorizes the exact
+repository, ref, and operation outside the execution environment, and authorize
+the object graph and destination again at publication.
 
 When this isolation cannot be established, limit the Agent to static inspection
 and appropriately isolated CI evidence, then classify any required local

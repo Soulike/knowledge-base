@@ -15,7 +15,8 @@ An action is autonomous only when every condition holds:
 
 1. It remains inside the accepted PR intent.
 2. Its exact operation is in the mutation allowlist below.
-3. Its evidence is complete, current, and applicable to the current head SHA.
+3. Its evidence is complete, current, and applicable to the complete PR
+   identity captured by the Skill.
 4. The existing requirements, contracts, or repository rules determine one
    materially reasonable response without a new product, design, policy,
    architecture, security, compatibility, or risk choice.

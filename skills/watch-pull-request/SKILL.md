@@ -45,8 +45,10 @@ mutation boundary are explicit.
 Retrieve the current backlog and future activity from every applicable PR
 surface:
 
-- PR state, title, description, base, source branch, current head, draft or
-  terminal state, and writeability;
+- PR number, state, draft or terminal state, title, description, and
+  writeability;
+- base repository identity, base ref, and base SHA, together with source
+  repository identity, source ref, and source SHA;
 - submitted reviews and their states;
 - complete paginated review threads and replies, including resolved and
   outdated state;
@@ -57,7 +59,11 @@ surface:
 Use a thread-aware interface when thread state matters; a flat PR summary or
 comment list is not sufficient. Treat resolved, outdated, and older-head items
 as diagnostic history rather than proof that their underlying concerns are
-gone. Bind the complete snapshot to the observed head SHA.
+gone. Bind the snapshot to the complete PR identity below.
+
+Treat the PR number and state, base repository/ref/SHA, and source
+repository/ref/SHA as one complete PR identity. A stable source SHA alone does
+not keep the snapshot current.
 
 Finish this step only when every current surface has been retrieved or a
 specific access or operational blocker has been recorded.
@@ -78,9 +84,10 @@ specific access or operational blocker has been recorded.
    - historical, duplicate, already handled, or otherwise non-actionable.
 4. Evaluate optional CI failures when they provide credible evidence of a PR
    defect, but do not make an unrelated optional service a completion gate.
-5. Reclassify conclusions whenever the head changes. Older-head evidence may
+5. Invalidate the snapshot and reclassify conclusions whenever any complete PR
+   identity field or effective access changes. Older-identity evidence may
    explain a failure but cannot authorize a current mutation or block the
-   current head by itself.
+   current identity by itself.
 
 Finish this step when every current comment, thread, review state, and CI result
 has one evidence-backed disposition and cumulative drift has either been ruled
@@ -106,13 +113,15 @@ Skip this step when no autonomous work remains.
 5. After all fix commits are ready, inspect the accumulated diff and run the
    aggregate validation required by the active project. Reapply the cumulative
    boundary before publication.
-6. Re-fetch the remote head immediately before pushing. When it changed,
-   apply the Autonomy policy's concurrent-head rule, then repeat focused and
-   aggregate validation against the resulting head before publication.
+6. Re-fetch the complete PR identity immediately before pushing. When only the
+   source SHA changed, apply the Autonomy policy's concurrent-head rule, then
+   repeat focused and aggregate validation against the resulting identity.
+   Reclassify from a complete snapshot before publication when any other field
+   changed.
 7. Publish the validated fix commits together with one ordinary push. Begin a
    new complete observation cycle after the push.
 8. For an autonomous item that needs no code change, revalidate its evidence
-   and current head immediately before its remote mutation.
+   and complete PR identity immediately before its remote mutation.
 9. Reply in the original thread when one exists. State what changed or why no
    change was appropriate, the current commit or head context, validation
    performed, and any remaining limitation. Resolve the thread only when the
@@ -137,18 +146,18 @@ monitoring mechanism when available. Do not post periodic or no-op PR status
 comments.
 
 When persistent waiting is unavailable or execution is interrupted, checkpoint
-the PR identity, last observed head, handled thread and comment identities, CI
-attempts, published commits and replies, and remaining dispositions. State
-that monitoring stopped; never claim to remain watching after execution ends.
-Resume by reconciling the checkpoint with a fresh complete state.
+the complete PR identity, handled thread and comment identities, CI attempts,
+published commits and replies, and remaining dispositions. State that
+monitoring stopped; never claim to remain watching after execution ends. Resume
+by reconciling the checkpoint with a fresh complete state.
 
 ## Hand off the human-only state
 
 Before handing off, perform one final complete paginated retrieval and confirm
-that it describes the current head. Continue the workflow when it exposes
-executable autonomous work. When a PR-wide ambiguity or cumulative-drift
-decision invokes the Autonomy policy's mutation freeze, treat its deferred work
-as non-executable and hand off the governing decision.
+that it describes the complete current PR identity. Continue the workflow when
+it exposes executable autonomous work. When a PR-wide ambiguity or
+cumulative-drift decision invokes the Autonomy policy's mutation freeze, treat
+its deferred work as non-executable and hand off the governing decision.
 
 When no executable autonomous work remains, report one of these states:
 

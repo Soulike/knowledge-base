@@ -1,0 +1,171 @@
+# Pull request watch autonomy policy
+
+## Scope
+
+This policy decides whether an observed pull request item may be handled under
+the user's request to watch the PR or must be handed to a human. Apply it to the
+current complete PR state, not to an isolated comment or check result.
+
+## Require the autonomy gate
+
+An action is autonomous only when every condition holds:
+
+1. It remains inside the accepted PR intent.
+2. Its exact operation is in the mutation allowlist below.
+3. Its evidence is complete, current, and applicable to the current head SHA.
+4. The existing requirements, contracts, or repository rules determine one
+   materially reasonable response without a new product, design, policy,
+   architecture, security, compatibility, or risk choice.
+5. The action is reversible or its uncertain outcome can be reconciled before
+   replay.
+6. Its result can be independently verified.
+7. It needs no new credentials, privileges, spending, external commitment, or
+   control bypass.
+8. It does not conflict with another active finding, accepted requirement, or
+   applicable repository instruction.
+
+Failure of any condition means the proposed action is not autonomous. Classify
+the underlying item as human-only or non-actionable from its evidence; do not
+infer authority from the Agent's confidence or from the identity of a
+commenter.
+
+## Apply the mutation allowlist
+
+The watch request authorizes these operations when the autonomy gate passes:
+
+- edit files within the accepted PR intent;
+- run local validation;
+- create ordinary commits and push them normally to the existing PR branch;
+- reply to top-level comments and review threads;
+- resolve review threads under the resolution criteria below;
+- rerun one clearly transient CI failure for the same head and check; and
+- update the PR title or description when necessary to describe the accepted
+  scope and current result accurately.
+
+For a title or description update, preserve relevant human-authored context and
+linked issues. Autonomous factual maintenance includes correcting stale
+wording, documenting implemented behavior or verification, and updating an
+accurate checklist. A competing framing, changed scope, or new release,
+compatibility, or policy commitment requires a human decision.
+
+Keep every other mutation outside this workflow. In particular, hand off label,
+assignee, milestone, review-request, draft-state, base-branch, repository,
+required-check, branch-protection, approval, change-request, review-dismissal,
+close, reopen, branch-deletion, and history-rewrite operations. Merge is always
+a human operation for the pull request itself. Use ordinary new commits and
+non-force pushes. Do not rebase, squash, or cherry-pick branch history, and do
+not amend published commits. Integrate a changed source head only under the
+concurrent-head rule below.
+
+## Integrate a concurrent head
+
+When a mandatory pre-push fetch discovers a new source head, integrate it only
+with an ordinary non-rewriting merge when the active project permits merge
+commits and the integration is conflict-free. Re-evaluate every local fix
+against the combined head and repeat its focused and aggregate validation. Hand
+off when the project requires linear history, the integration conflicts, or
+ownership is ambiguous. Do not overwrite the concurrent change.
+
+## Classify comments and review findings
+
+Handle a finding autonomously when its active concern still applies and one
+response follows from the accepted intent, existing behavior contract,
+repository instruction, or established verification oracle. This includes an
+objective fix, an evidence-backed answer, or an evidence-backed explanation
+that the concern is duplicate, already fixed, outdated, or inapplicable.
+
+Require a human decision when a valid concern involves any of these conditions:
+
+- multiple materially reasonable behaviors or designs;
+- conflicting reviewer requests;
+- expansion or redefinition of the accepted PR purpose;
+- an unresolved product, user-experience, architecture, compatibility, policy,
+  or risk choice;
+- acceptance of residual risk instead of correction of a defect;
+- insufficient evidence to establish whether the finding is correct; or
+- conflict with repository instructions or accepted requirements.
+
+Topic alone does not make implementation human-only. The Agent may implement a
+previously selected high-impact approach, but selection of a new production
+dependency, public or compatibility contract, stored-data migration,
+authentication or permission model, deployment or spending commitment,
+license policy, security tradeoff, or similar high-impact policy requires a
+human. Treat suppression, reduced assertions, skipped validation, increased
+retries or timeouts, disabled required checks, and concealed failures as policy
+changes unless the accepted intent already establishes a correct independent
+reason for that exact change.
+
+## Resolve threads only after complete disposition
+
+Resolve a review thread without waiting for reviewer confirmation only when all
+of these are true:
+
+1. The complete current thread was read.
+2. Its active concern was fixed or objectively answered.
+3. The result was verified against the current head.
+4. A reply records the disposition and relevant evidence.
+5. No part of the thread remains unanswered.
+
+Keep the thread unresolved when the reply asks a question, proposes alternatives,
+depends on a human decision, provides a partial fix, or cannot be verified. An
+`outdated` marker does not establish that the concern was addressed, and a
+resolved marker does not establish that the same problem has not reappeared
+elsewhere. Re-evaluate the concern semantically after every push rather than
+optimizing for an unresolved-thread count.
+
+Do not post a holding reply merely to announce that the Agent is waiting for a
+human decision. Hand the decision to the user and reply in the thread after the
+decision is available, unless an active-project workflow requires an interim
+status reply.
+
+## Classify CI results
+
+- Wait for a current-head check that is still running.
+- Inspect the available logs and fix a branch-caused failure under the autonomy
+  gate.
+- Rerun a current-head check once when concrete evidence identifies a transient
+  cancellation, runner, network, or service failure. Do not rerun an unchanged
+  failure repeatedly in the hope that it passes.
+- Treat a missing permission, unavailable secret, inaccessible required check,
+  repeated unexplained failure, external outage, or unrelated base-branch
+  defect as human intervention required after autonomous evidence gathering is
+  exhausted.
+- Report an unrelated optional infrastructure failure accurately without
+  changing production code to accommodate it or presenting it as a PR defect.
+
+Modifying tests, fixtures, or snapshots is autonomous only when the production
+behavior and independent expected result are already established. Preserve
+meaningful coverage and assertions. When relevant validation cannot run
+locally, a validated fix may be pushed for required CI evidence; when no
+meaningful validation is available or an existing failure cannot be explained,
+the proposed mutation is human-only.
+
+## Stop on cumulative drift or remediation loops
+
+Evaluate the accumulated base-to-head behavior, scope, and risk before each
+mutation and before publication. Stop every mutation when the sequence of
+otherwise reasonable changes collectively expands scope, changes the overall
+design, creates conflicting behavior, introduces a new high-impact policy, or
+makes the accepted intent ambiguous. Preserve the current branch, identify the
+changes that produced the drift, classify otherwise-autonomous mutations as
+deferred by the PR-wide freeze, present the newly exposed decision, and wait.
+The deferred work does not prevent a human-decision handoff; list it so the
+watch can resume it after the governing decision.
+
+Also stop the affected remediation when substantially the same concern returns
+after a claimed fix, fixes alternate between incompatible states, each attempt
+creates equivalent or more severe failures, or the next attempt has no
+evidence-backed reason to succeed. Other independent autonomous work may
+continue unless cumulative drift invalidates the complete PR contract.
+
+## Reconcile uncertain effects
+
+A timeout or connection failure after a mutation does not prove that the
+operation failed. Query the destination for the intended commit, push, reply,
+resolution, metadata update, or CI attempt before replaying it. Retry only when
+non-completion is established and the same operation remains authorized and
+replay-safe. For a push, successful publication requires the PR source ref and
+current head to equal the intended final head with every intended fix commit in
+its ancestry; remote commit-object existence alone is insufficient. Otherwise
+classify the unknown outcome as human intervention required and stop related
+mutations.

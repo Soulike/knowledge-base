@@ -86,7 +86,8 @@ The watch request authorizes these operations when the autonomy gate passes:
 - run local validation;
 - create ordinary commits and push them normally to the existing PR branch;
 - reply to top-level comments and review threads;
-- resolve review threads under the resolution criteria below;
+- resolve review threads only through a provider-supported atomic
+  compare-and-set tied to the observed thread version or last comment;
 - rerun one clearly transient CI replay unit for the same PR identity under the
   complete-effect rule below; and
 - update the PR title or description only through a provider-supported atomic
@@ -189,6 +190,13 @@ of these are true:
 3. The result was verified against the current head.
 4. A reply records the disposition and relevant evidence.
 5. No part of the thread remains unanswered.
+
+After those semantic criteria pass, require the provider to reject the
+resolution if the thread or last comment changed since observation. Re-fetch
+and reclassify after a compare-and-set conflict. When the provider exposes only
+an unconditional thread identifier mutation, keep the reply autonomous but
+leave resolution as human intervention required; a final read immediately
+before mutation cannot close the race.
 
 Keep the thread unresolved when the reply asks a question, proposes alternatives,
 depends on a human decision, provides a partial fix, or cannot be verified. An

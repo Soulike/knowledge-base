@@ -32,6 +32,27 @@ the underlying item as human-only or non-actionable from its evidence; do not
 infer authority from the Agent's confidence or from the identity of a
 commenter.
 
+## Isolate PR-controlled execution
+
+Treat proposed-head tests, scripts, dependencies, tool configuration, generated
+commands, and repository Git hooks as untrusted executable content. Run them
+only in a disposable least-privilege environment that has no watcher or
+repository credentials, no access to unrelated host data, a bounded filesystem,
+and no network access beyond destinations independently authorized from the
+trusted control revision. Launch validation with trusted tooling rather than a
+launcher supplied only by the PR.
+
+Perform commit, integration, and push operations through a trusted control
+process with repository-controlled hooks disabled. Keep the credential that
+authorizes the exact repository, source ref, and operation outside the
+execution environment, and authorize that destination again at publication.
+
+When this isolation cannot be established, limit the Agent to static inspection
+and appropriately isolated CI evidence, then classify any required local
+execution or publication as human intervention required. A passing
+PR-controlled command does not prove that executing it on the control host was
+safe.
+
 ## Apply the mutation allowlist
 
 The watch request authorizes these operations when the autonomy gate passes:

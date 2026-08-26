@@ -90,33 +90,35 @@ out or escalated.
 
 Skip this step when no autonomous work remains.
 
-1. Preserve unrelated local and remote work. Do not stage, commit, overwrite,
+1. Apply the Autonomy policy's execution-isolation rule before any command or
+   Git operation that can execute PR-controlled content.
+2. Preserve unrelated local and remote work. Do not stage, commit, overwrite,
    discard, or publish changes outside the classified fixes. If safe ownership
    or isolation cannot be maintained, record human intervention required and
    continue only read-only observation.
-2. Group the currently known, compatible work into semantic fixes. A semantic
+3. Group the currently known, compatible work into semantic fixes. A semantic
    fix may address several comments, but unrelated concerns remain separate.
-3. For each fix:
+4. For each fix:
    - implement the complete fix against the current head;
    - inspect its diff and run its relevant focused validation;
    - create one ordinary local commit only after that fix passes; and
    - keep every intermediate commit in a valid state for the behavior it owns.
-4. After all fix commits are ready, inspect the accumulated diff and run the
+5. After all fix commits are ready, inspect the accumulated diff and run the
    aggregate validation required by the active project. Reapply the cumulative
    boundary before publication.
-5. Re-fetch the remote head immediately before pushing. When it changed,
+6. Re-fetch the remote head immediately before pushing. When it changed,
    apply the Autonomy policy's concurrent-head rule, then repeat focused and
    aggregate validation against the resulting head before publication.
-6. Publish the validated fix commits together with one ordinary push. Begin a
+7. Publish the validated fix commits together with one ordinary push. Begin a
    new complete observation cycle after the push.
-7. For an autonomous item that needs no code change, revalidate its evidence
+8. For an autonomous item that needs no code change, revalidate its evidence
    and current head immediately before its remote mutation.
-8. Reply in the original thread when one exists. State what changed or why no
+9. Reply in the original thread when one exists. State what changed or why no
    change was appropriate, the current commit or head context, validation
    performed, and any remaining limitation. Resolve the thread only when the
    Autonomy policy's resolution criteria are all satisfied.
-9. Apply the Autonomy policy's uncertain-effect reconciliation rule before
-   replaying a mutation whose outcome is unknown.
+10. Apply the Autonomy policy's uncertain-effect reconciliation rule before
+    replaying a mutation whose outcome is unknown.
 
 Do not impose an arbitrary total cycle limit. Continue only while each cycle
 has an evidence-backed reason to advance the PR, and apply the Autonomy

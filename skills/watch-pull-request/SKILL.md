@@ -130,8 +130,8 @@ Skip this step when no autonomous work remains.
    source SHA changed, apply the Autonomy policy's concurrent-head rule, then
    repeat focused and aggregate validation against the resulting identity.
 7. Submit publication through the Autonomy policy's trusted mutation adapter
-   after its publication-effects rule passes, then begin a new complete
-   observation cycle.
+   only after its publication compare-and-set and publication-effects rules
+   pass, then begin a new complete observation cycle.
 8. For an autonomous item that needs no code change, revalidate its evidence
    and complete PR identity immediately before submitting its typed operation
    to the trusted mutation adapter.

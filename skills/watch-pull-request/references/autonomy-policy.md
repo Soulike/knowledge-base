@@ -178,6 +178,27 @@ fixes would need to be reapplied, require human intervention unless the trusted
 project policy already defines an authorized non-rewriting recovery. Never
 overwrite the concurrent change.
 
+## Compare and set PR publication
+
+The trusted mutation adapter must publish one explicit source-ref update with
+the observed source SHA as the expected old object and the verified intended
+head as the new object. Independently prove that the expected old object is an
+ancestor of the new object and reject every non-fast-forward result, even when
+the transport expresses the compare-and-set as a lease or force-capable
+operation.
+
+Guard the observed base repository, base ref and SHA, source repository and
+ref, and PR open, draft, merged, and closed state with provider-side atomic
+preconditions at the publication sink. A stale source lease or identity
+precondition rejects the operation and returns the workflow to a fresh complete
+snapshot without replay.
+
+When the provider cannot atomically guard the complete PR identity together
+with the source-ref update, classify publication as human intervention
+required. Present the exact expected identity, object graph, destination, and
+residual race so a human can perform or explicitly authorize that one
+publication; a final read followed by an unconditional push is not equivalent.
+
 ## Re-establish authority after a base change
 
 Freeze every mutation when the base repository, ref, or SHA changes. A changed

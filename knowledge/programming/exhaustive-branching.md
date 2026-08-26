@@ -2,24 +2,24 @@
 
 ## Scope
 
-This document defines when code should use an exhaustive multi-way branch over a closed, finite set of variants so that changes to the set prompt each affected handler to be reconsidered. It applies across languages with `switch`, `match`, or equivalent constructs.
+This document defines a coding suggestion for dispatch over a value whose language contract and static tooling expose a complete, closed set of variants. Exhaustive multi-way branching makes changes to that set visible at each affected handler.
 
 ## When to update
 
-Update this document when a recurring control-flow change exposes a missing distinction between closed variants, open conditions, and unchecked runtime values.
+Update this document when a recurring control-flow change exposes a missing distinction between statically closed variants, open or evolvable domains, and unchecked runtime values.
 
 ## Use multi-way branching for a closed set
 
-A branch subject is closed when its type defines a finite set of possible variants. Common representations include enumerations, discriminated or tagged unions, sealed hierarchies, and algebraic data types.
+A branch subject is closed only when the language, type, module, and versioning contracts rule out unnamed or future variants for the checked code, and the compiler or linter can determine the complete set. Closed enumerations, discriminated or tagged unions, sealed hierarchies, and algebraic data types can meet this condition; representations that admit other runtime values or future cases do not.
 
 When behavior depends on which variant is present, prefer the language's multi-way branch over an `if`/`else` chain against the discriminator. The structure makes the common subject and the intended set of alternatives explicit.
 
-Use `if` statements when the conditions are not a finite partition of one value, such as ranges, relational predicates, independently meaningful Boolean conditions, or an open value domain. An ordinary Boolean decision is a predicate rather than a multi-variant dispatch; keep `if` for it unless the Boolean is hiding domain states that should be modeled explicitly.
+Use `if` statements when the conditions are not a finite partition of one value, such as ranges, relational predicates, independently meaningful Boolean conditions, or an open value domain. Follow the language's future-case convention when the set can evolve independently of the checked code.
 
 ## List every variant explicitly
 
 List every declared variant with an explicit case. Cases may share an implementation when the language supports grouped labels, but each handled variant must still be named.
 
-Omit `default`, `else`, a top-level `_`, or another catch-all arm that stands for unnamed variants. A catch-all can accept a newly added variant without drawing attention to the branch. Explicit cases instead make each affected dispatch site reconsider how the new variant should behave; compilers and linters that support exhaustiveness checking can surface those sites automatically.
+Prefer omitting `default`, `else`, a top-level `_`, or another catch-all arm that can handle or ignore a newly added variant. Explicit cases instead make each affected dispatch site reconsider how the new variant should behave. If a language requires a statically checked unreachable or fail-closed sentinel to preserve that guarantee, use its standard idiom rather than a fallback that accepts the new value.
 
 If values can arrive from an unchecked external source, validate them before treating them as the closed type. When “unknown” is a valid domain state, model it as an explicit variant and handle it by name.

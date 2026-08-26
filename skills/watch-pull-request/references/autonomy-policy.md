@@ -111,6 +111,25 @@ fixes would need to be reapplied, require human intervention unless the trusted
 project policy already defines an authorized non-rewriting recovery. Never
 overwrite the concurrent change.
 
+## Re-establish authority after a base change
+
+Freeze every mutation when the base repository, ref, or SHA changes. A changed
+base can change governing instructions, accepted specifications, the effective
+diff, and required validation, so the previous watch contract cannot authorize
+another action.
+
+When the repository and ref are unchanged and only the base SHA moved, pin the
+exact new SHA as the trusted control revision and repeat the complete watch-
+contract step. Reload trusted instructions, specifications, and tooling;
+rebuild accepted intent, capabilities, isolation, and validation; take a fresh
+complete snapshot; and reassess every local or published fix against the new
+base before resuming.
+
+Require a human decision when the base repository or ref changed. When the user
+previously selected a control revision other than the base, also require a
+human decision to retain that old authority or replace it with the exact new
+base. Do not continue mutating under a stale control revision.
+
 ## Classify comments and review findings
 
 Handle a finding autonomously when its active concern still applies and one

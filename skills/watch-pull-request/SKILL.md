@@ -87,7 +87,8 @@ specific access or operational blocker has been recorded.
 5. Invalidate the snapshot and reclassify conclusions whenever any complete PR
    identity field or effective access changes. Older-identity evidence may
    explain a failure but cannot authorize a current mutation or block the
-   current identity by itself.
+   current identity by itself. Apply the Autonomy policy's base-change rule
+   before reclassification when any base identity field changed.
 
 Finish this step when every current comment, thread, review state, and CI result
 has one evidence-backed disposition and cumulative drift has either been ruled

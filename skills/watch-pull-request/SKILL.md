@@ -114,11 +114,12 @@ Skip this step when no autonomous work remains.
 5. After all fix commits are ready, inspect the accumulated diff and run the
    aggregate validation required by the active project. Reapply the cumulative
    boundary before publication.
-6. Re-fetch the complete PR identity immediately before pushing. When only the
+6. Immediately before pushing, repeat **Capture one complete state** and
+   **Classify the current cycle**, including every paginated comment, review
+   thread, submitted review, and CI result. Freeze publication and handle the
+   new disposition when any item changes the selected work. When only the
    source SHA changed, apply the Autonomy policy's concurrent-head rule, then
    repeat focused and aggregate validation against the resulting identity.
-   Reclassify from a complete snapshot before publication when any other field
-   changed.
 7. Apply the Autonomy policy's publication-effects rule, then publish the
    validated fix commits together with one ordinary push. Begin a new complete
    observation cycle after the push.

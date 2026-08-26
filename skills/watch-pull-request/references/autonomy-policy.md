@@ -259,7 +259,12 @@ operation failed. Query the destination for the intended commit, push, reply,
 resolution, metadata update, or CI attempt before replaying it. Retry only when
 non-completion is established and the same operation remains authorized and
 replay-safe. For a push, successful publication requires the PR source ref and
-current head to equal the intended final head with every intended fix commit in
-its ancestry; remote commit-object existence alone is insufficient. Otherwise
-classify the unknown outcome as human intervention required and stop related
+current head either to equal the intended final head or to descend from it with
+every intended fix commit reachable. A descendant proves that publication
+completed before another fast-forward advance; invalidate the snapshot and
+reclassify that descendant identity without replaying the push. Remote
+commit-object existence alone is insufficient. When the source ref still
+equals the exact pre-push head, non-completion is established and a replay may
+proceed only after fresh authorization. Classify a divergent or otherwise
+unreconcilable result as human intervention required and stop related
 mutations.

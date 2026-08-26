@@ -270,16 +270,18 @@ the observed thread version or last comment when available, and re-fetch after
 a conflict.
 
 When the provider exposes only an unconditional thread identifier mutation,
-resolution remains autonomous only when the provider can also restore the
-unresolved state. The final pre-resolution read must confirm that the complete
-PR identity still matches the verified head and every current comment is
-answered. Immediately retrieve a new complete PR state and thread after
-resolution. Reclassify any identity, thread-state, or comment change; when the
-resolution criteria no longer hold, restore the unresolved state before
-handling the new disposition. Reconcile an unknown resolution or restoration
-result under the uncertain-effect rule before retrying it. When restoration is
-unavailable or its result cannot be reconciled, keep unconditional resolution
-as human intervention required.
+resolution remains autonomous after the final pre-resolution read confirms
+that the complete PR identity still matches the verified head and every current
+comment is answered. This accepts the residual race that new activity can
+arrive before the mutation because comments remain visible and the resolved
+marker is reversible. Immediately retrieve a new complete PR state and thread
+after resolution, then reclassify any identity, thread-state, or comment
+change. Treat concurrent activity as current work regardless of the resolved
+marker. Do not issue an unconditional restoration mutation because it cannot
+prove ownership of the current thread state; when the fresh disposition
+requires the thread to be unresolved and the provider cannot guard that
+restoration, record human intervention required. Reconcile an unknown
+resolution result under the uncertain-effect rule before retrying it.
 
 Keep the thread unresolved when the reply asks a question, proposes alternatives,
 depends on a human decision, provides a partial fix, or cannot be verified. An

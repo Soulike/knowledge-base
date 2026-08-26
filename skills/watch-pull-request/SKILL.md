@@ -139,25 +139,28 @@ Skip this step when no autonomous work remains.
    publication compare-and-set and publication-effects rules pass. Reconcile
    the published head, then complete a new observation and classification cycle
    before performing any follow-up mutation.
-8. For every top-level comment or review thread whose disposition depends on a
-   published fix, revalidate its concern against the reconciled current head,
-   then reply to that comment or in that thread. Give every associated item its
-   own disposition when one fix addresses several items; one reply does not
-   dispose of the others. State what changed, the published commit or head,
-   validation performed, and any remaining limitation. Resolve each review
-   thread only when the Autonomy policy's resolution criteria are all
-   satisfied.
-9. For an autonomous item that needs no code change, revalidate its evidence
-   and complete PR identity immediately before performing its exact allowlisted
-   mutation.
+8. For every autonomously handled top-level comment or review thread,
+   revalidate its concern and disposition against the current complete PR
+   identity immediately before replying, then reply to that comment or in that
+   thread. Give every associated item its own disposition when one fix addresses
+   several items; one reply does not dispose of the others. For a published fix,
+   state what changed, the published commit or head, validation performed, and
+   any remaining limitation. When no code change was appropriate, state why,
+   the supporting evidence and current head, and any remaining limitation.
+   Resolve each review thread only when the Autonomy policy's resolution
+   criteria are all satisfied.
+9. For an autonomous item that needs neither a code change nor a discussion
+   reply, revalidate its evidence and complete PR identity immediately before
+   performing its exact allowlisted mutation.
 10. Apply the Autonomy policy's uncertain-effect reconciliation rule before
     replaying a mutation whose outcome is unknown.
 
 Do not enter **Wait and resume** until every item handled in the cycle is
 accounted for and every attempted remote mutation has a known result: each item
-addressed by a published fix has its required reply, each eligible review-thread
-resolution has a reconciled result, and each item whose reply must wait for a
-human decision is recorded under the Autonomy policy without a holding reply.
+handled through a top-level comment or review thread has its required reply,
+each eligible review-thread resolution has a reconciled result, and each item
+whose reply must wait for a human decision is recorded under the Autonomy policy
+without a holding reply.
 
 Do not impose an arbitrary total cycle limit. Continue only while each cycle
 has an evidence-backed reason to advance the PR, and apply the Autonomy

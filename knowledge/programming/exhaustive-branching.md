@@ -14,7 +14,7 @@ A branch subject is closed only when the language, type, module, and versioning 
 
 When behavior depends on which variant is present, prefer the language's multi-way branch over an `if`/`else` chain against the discriminator. The structure makes the common subject and the intended set of alternatives explicit.
 
-Use `if` statements when the conditions are not a finite partition of one value, such as ranges, relational predicates, independently meaningful Boolean conditions, or an open value domain. Follow the language's future-case convention when the set can evolve independently of the checked code.
+Use `if` statements for ranges, relational predicates, and independently meaningful conditions rather than variant dispatch. When a variant set can evolve independently of the checked code, retain the multi-way branch and follow the language's future-case convention.
 
 ## List every variant explicitly
 

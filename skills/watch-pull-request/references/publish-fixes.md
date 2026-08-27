@@ -19,10 +19,27 @@ own that concern. Combine concerns only when they share a root cause or must
 change together to preserve a coherent invariant, and keep that coupled fix in
 one commit.
 
+Run focused validation for each fix unit before creating its commit. The
+validation must directly cover the concern that the commit owns and preserve
+the active project's required checks.
+
 Name the technical result in each commit message so the corresponding replies
 can identify the commit that handled their concern. Prepare every commit for
-the current observation cycle before the pre-push check; the cycle publishes
-all of them together with one push.
+the current observation cycle before the pre-push check.
+
+Before that check, inspect the complete aggregate diff from the captured base
+SHA through the proposed local head. Include both fixes published by earlier
+cycles and every unpublished commit from the current cycle. Run the aggregate
+validation required by the active project, then reapply the autonomy gate and
+its cumulative-drift criteria to the proposed result. Each commit passing on
+its own does not establish that their combined result remains within the
+accepted intent and mutation boundary.
+
+When the aggregate result fails that gate, preserve the unpublished commits,
+freeze mutation, record the fix units and evidence that produced the drift,
+and hand off the governing decision. Do not push or post replies that depend on
+those commits. When it passes, the cycle publishes all prepared commits
+together with one push.
 
 ## Run the pre-push check
 

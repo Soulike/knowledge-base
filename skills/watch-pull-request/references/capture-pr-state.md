@@ -5,6 +5,8 @@ Retrieve one complete current snapshot from every applicable PR surface:
 - PR number, state, draft or terminal state, title, description, and
   writeability;
 - base repository, ref, and SHA, together with source repository, ref, and SHA;
+- complete base-to-current-head commit history and aggregate diff, including
+  changes published by earlier observation cycles;
 - submitted reviews, aggregate review decision, requested reviewers and teams,
   and required approval state;
 - complete paginated review threads and replies, including resolved and
@@ -19,6 +21,11 @@ Use a thread-aware interface when thread state matters. A flat comment list or
 summary is not a complete snapshot. Record the complete content and state of
 each review thread so a later reply-and-resolve step can compare it with this
 baseline.
+
+Inspect the aggregate diff and commit history as one current artifact even when
+the latest activity concerns only one commit, comment, or thread. Supply that
+complete change as evidence to the autonomy gate's cumulative-drift decision;
+the latest incremental diff is not a substitute.
 
 Treat the PR number and state, base repository/ref/SHA, and source
 repository/ref/SHA as one complete PR identity. Separately record the source

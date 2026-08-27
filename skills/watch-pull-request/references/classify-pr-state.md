@@ -109,7 +109,4 @@ evidence-backed reason to succeed. Independent autonomous work may continue
 unless cumulative drift invalidates the PR-wide contract.
 
 Finish when every current comment, thread, review state, merge requirement, and
-CI result has an evidence-backed disposition. Perform independent autonomous
-work first. When none remains, hand off if any human-only item exists; otherwise
-wait if every remaining active item is an expected external result. Hand off a
-terminal or ready-for-merge state.
+CI result has an evidence-backed disposition.

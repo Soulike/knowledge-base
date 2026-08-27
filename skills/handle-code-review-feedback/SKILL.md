@@ -1,6 +1,6 @@
 ---
 name: handle-code-review-feedback
-description: Handle received code review feedback by independently verifying each concern and proposed remedy against relevant evidence before deciding whether and how to change code. Use when an Agent is understanding, evaluating, or addressing received code review feedback.
+description: Handle received code review feedback by independently verifying each concern and proposed remedy against relevant evidence. Use when deciding whether and how to address code review feedback directed at work under change.
 ---
 
 # Handle code review feedback
@@ -119,9 +119,10 @@ Apply the dispositions as follows:
   interpretations or missing evidence that prevent a decision.
 - For `already-addressed`, `duplicate`, `outdated`, or `inapplicable`, verify
   that status and avoid duplicate or irrelevant changes.
-- For `preference`, distinguish an optional, well-supported consistency
-  improvement from a choice among materially reasonable alternatives. Keep the
-  latter undecided.
+- For `preference`, apply an optional, well-supported consistency improvement
+  only when it remains inside the accepted task scope and edits are authorized;
+  otherwise record it without changing the reviewed work. Keep a choice among
+  materially reasonable alternatives undecided.
 
 When edits are not authorized, report the selected technical handling without
 changing files. When they are authorized, use the active project's applicable

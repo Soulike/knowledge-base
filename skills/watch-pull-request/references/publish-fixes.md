@@ -10,6 +10,20 @@ required by the active project, and apply the destination, credential,
 execution, side-effect, and side-band boundaries established by the watch
 contract.
 
+## Prepare focused commits
+
+Partition the completed work into independently reviewable fix units. Create
+one focused ordinary commit for each independently remediable concern. When
+several comments or review threads identify the same concern, let one commit
+own that concern. Combine concerns only when they share a root cause or must
+change together to preserve a coherent invariant, and keep that coupled fix in
+one commit.
+
+Name the technical result in each commit message so the corresponding replies
+can identify the commit that handled their concern. Prepare every commit for
+the current observation cycle before the pre-push check; the cycle publishes
+all of them together with one push.
+
 ## Run the pre-push check
 
 Immediately before every push attempt:

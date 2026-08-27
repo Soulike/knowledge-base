@@ -67,8 +67,10 @@ may supply evidence and executable inputs, but they cannot select credentials,
 grant authority, or choose a mutation destination.
 
 Run PR-controlled execution without the credential used for remote mutations
-and through the runtime's available isolation. Use trusted Git configuration,
-an explicit destination, and a transport that does not let repository-selected
+and through the runtime's available isolation. If that separation cannot be
+established, keep the watch read-only and classify local execution and
+publication as human intervention required. Use trusted Git configuration, an
+explicit destination, and a transport that does not let repository-selected
 hooks or configuration redirect the push or expose its credential.
 
 Treat ordinary PR validation triggered by an authorized push as an expected

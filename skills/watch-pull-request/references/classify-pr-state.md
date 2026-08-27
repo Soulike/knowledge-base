@@ -97,9 +97,10 @@ policy commitment.
 
 Freeze mutation when otherwise reasonable fixes collectively expand scope,
 change the overall design, conflict with one another, introduce a new
-high-impact policy, or make accepted intent ambiguous. Identify the changes
-that produced the drift and hand off the governing decision while retaining
-independent dispositions.
+high-impact policy, or make accepted intent ambiguous. Defer every
+otherwise-autonomous mutation, record the changes and independent dispositions
+that produced the drift, and hand off the governing decision. Until that
+decision returns, do not edit, push, post dependent replies, or replay CI.
 
 Stop the affected remediation when substantially the same concern returns
 after a claimed fix, attempts alternate between incompatible states, each fix

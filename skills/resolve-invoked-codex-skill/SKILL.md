@@ -21,23 +21,58 @@ came from the user, an active Skill, or another instruction.
      through the repository root;
    - the user `.agents/skills` directory;
    - the administrator Skill directory;
-   - installed-plugin and bundled-system Skills through client-provided Skill
-     inventory when they are not represented by a documented filesystem path.
+   - installed-plugin and bundled-system Skills through Codex's plugin state
+     and resolved plugin paths, as well as client-provided Skill inventory.
 
    Also inspect the current `[[skills.config]]` entries as path evidence. When
    an entry identifies a path not found through another source, inspect only
    enough frontmatter at that path to match its registered name; do not load a
    disabled Skill's body as instructions.
 
-   Match the registered `name` in each `SKILL.md`, not only its directory name.
-   For a namespaced identifier, use the namespace to restrict the plugin and
-   match its Skill name within that package. Search these documented sources
-   rather than arbitrary filesystem locations.
+   Treat omission from the initial Skill catalog as incomplete evidence. For a
+   direct `$name` invocation, or a selection made through `/skills`, use the
+   client's explicit Skill resolution result when it is available. When Codex
+   CLI is available, use `codex plugin list --available --json` to enumerate
+   installed and available plugins and obtain their plugin identifier,
+   installation and enabled state, version, and resolved source path. For each
+   installed plugin, locate its manifest-declared Skill directory or default
+   `skills/` directory. Inspect that directory in the installed cache copy when
+   present and otherwise in the resolved plugin path reported by Codex. For an
+   uninstalled plugin, inspect only enough frontmatter under its resolved source
+   path to establish an exact match; do not load the Skill body as instructions
+   or treat it as invocable.
 
-3. Keep existence, enablement, and invocation eligibility separate. Check the
-   current Codex Skill configuration for the resolved path. When its
-   `[[skills.config]]` entry sets `enabled = false`, report that the Skill is
-   present but disabled, and do not load its body or follow its instructions.
+   When the JSON listing is unavailable but the marketplace command exists,
+   use `codex plugin marketplace list` to obtain every resolved marketplace
+   root. Otherwise inspect the repository, legacy-compatible, and personal
+   marketplace files described in
+   [OpenAI's plugin documentation](https://developers.openai.com/plugins/build/plugins/#how-local-marketplaces-work).
+   Resolve each local object-form `source.path` or plain-string `source`
+   relative to its marketplace root, and also inspect the documented installed
+   cache under
+   `~/.codex/plugins/cache/<marketplace>/<plugin>/<version>/`. Marketplace
+   paths are configurable examples, not fixed plugin locations. A marketplace
+   entry alone proves availability for installation, not installation; when
+   installation state or a resolved plugin path cannot be established, record
+   that source as an inspection limitation instead of claiming absence.
+
+   Match the registered `name` in each `SKILL.md`, not only its directory name.
+   For a namespaced identifier, use the namespace to restrict the
+   client-reported plugin or plugin identifier, then match its Skill name
+   within that package. Search these documented sources rather than arbitrary
+   filesystem locations.
+
+3. Keep existence, installation, enablement, and invocation eligibility
+   separate. When an exact match belongs to a plugin that is not installed,
+   report that state and do not load the Skill body as instructions. For an
+   installed plugin Skill, honor the plugin-level enabled state reported by
+   Codex or, when that state is unavailable, stored in
+   `~/.codex/config.toml`. When the plugin is disabled, inspect only enough
+   frontmatter to establish the exact match, report that the Skill is present
+   but its plugin is disabled, and do not load its body. Then check the current
+   Codex Skill configuration for the resolved path. When its `[[skills.config]]`
+   entry sets `enabled = false`, report that the Skill is present but disabled,
+   and do not load its body or follow its instructions.
    For each enabled match, inspect its adjacent `agents/openai.yaml` when
    present before establishing invocation eligibility. An explicit-only
    `policy.allow_implicit_invocation: false` value does not make a Skill absent.
@@ -65,7 +100,7 @@ came from the user, an active Skill, or another instruction.
 ## Completion criteria
 
 Finish only when the invoked identifier has been resolved to one eligible
-Skill, identified as present but disabled or requiring direct invocation,
-disambiguated by the user, reported absent after complete inspection, or
-reported unresolved without an absence claim because an applicable source
-could not be inspected.
+Skill; identified as present but uninstalled, disabled, or requiring direct
+invocation; disambiguated by the user; reported absent after complete
+inspection; or reported unresolved without an absence claim because an
+applicable source could not be inspected.

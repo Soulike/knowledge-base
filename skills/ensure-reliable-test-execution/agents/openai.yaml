@@ -1,4 +1,4 @@
 interface:
   display_name: "Ensure Reliable Test Execution"
   short_description: "Make test execution reproducible and fail-safe"
-  default_prompt: "Use $ensure-reliable-test-execution to diagnose this unreliable test execution and prove the repaired behavior."
+  default_prompt: "Use $ensure-reliable-test-execution to evaluate this unreliable test, diagnose its mechanism, and prove any repair."

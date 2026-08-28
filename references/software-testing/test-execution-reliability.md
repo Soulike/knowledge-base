@@ -6,7 +6,7 @@ This reference supports workflow steps that make automated test results reproduc
 
 ## When to update
 
-Update this document when a recurring test failure, silent omission, selector or runner behavior, concurrency mechanism, clock interaction, fixture leak, or platform difference exposes a reliability condition not covered by the current discovery, conditional-selection, synchronization, isolation, or retry principles.
+Update this document when a recurring test failure, silent omission, selector or runner behavior, concurrency mechanism, clock interaction, fixture leak, platform difference, or runtime distribution exposes a reliability condition not covered by the current discovery, conditional-selection, synchronization, isolation, retry, or timeout principles.
 
 ## A test that does not run protects nothing
 
@@ -68,6 +68,36 @@ For filesystem namespace races, apply the forced-interleaving techniques in [Pat
 
 Retries can reduce transient CI disruption, but they do not make a nondeterministic test correct. An unexplained retry turns the first failure into hidden evidence and can absorb future defects in the same scope. During flake diagnosis or after changing synchronization, run representative tests with retries disabled and repeat them under the concurrency that exposed the problem.
 
+When retries cannot be disabled, capture every attempt's outcome. An aggregate
+pass can conceal the same failure before and after a proposed repair and cannot
+establish that the mechanism changed.
+
+Prefer a controlled perturbation that amplifies the suspected mechanism over
+unfocused repetition: inject a startup delay, force an interleaving, constrain
+a relevant resource, or establish an ordering barrier. Bind the perturbation to
+the lifecycle that owns it, and restore clocks, resource settings, environment
+state, processes, and fixtures after success, failure, or timeout. A protocol
+that cannot reproduce the failure may still narrow hypotheses, but it does not
+establish a cause without other current evidence.
+
 Do not respond to an ordering or shared-state race by increasing an unrelated timeout. Correlate responses by identity or type, isolate mutable state, and establish the missing happens-before relationship. Varying failure locations across repeated runs often indicate leaked global state or an over-broad fixture rather than several independent product defects.
 
 Runner concurrency is an environmental input, not a universal constant. Choose it from measured resource constraints and the target execution environment. A formula that has opposite effects on developer and CI machines is not self-justifying; verify its actual result on both.
+
+## Bound honest runtime variation
+
+A timeout is a diagnostic bound, not evidence that an awaited condition is
+ready. Synchronize on observable progress or completion whenever that evidence
+exists.
+
+Increase a timeout only when the test protects a behavior worth retaining, the
+real integration boundary is already minimal, no production or harness defect
+explains the delay, its fixture and setup contain no avoidable work, and
+representative measurements show a bounded runtime distribution beyond the
+existing limit. Keep the override local to the affected test or operation and
+choose it from the measured distribution with explicit cleanup margin.
+
+Run blocking external work asynchronously when blocking would prevent the test
+runner from enforcing its timeout. Give a potentially hanging inner operation
+its own diagnostic timeout below the test timeout so failure propagation and
+cleanup can complete before the runner terminates the test.

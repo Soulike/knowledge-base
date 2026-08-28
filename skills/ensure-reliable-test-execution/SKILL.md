@@ -148,9 +148,10 @@ a larger timeout, retry count, or reduced assertion is not a diagnosis.
    report the required environment or evidence and why remediation remains
    blocked.
 
-Finish this step when the authorized repair is implemented at the diagnosed
-owner, or when the requested diagnosis or review accounts for the available
-evidence and every blocked or unauthorized change without editing.
+Finish this step when an authorized `remove` or `replace` disposition is
+implemented, an authorized reliability repair is implemented at the diagnosed
+owner, or the requested diagnosis or review accounts for the available evidence
+and every blocked or unauthorized change without editing.
 
 ## Prove reliable execution
 

@@ -1,19 +1,21 @@
 ---
 name: propose-knowledge-base-contribution
-description: Use when a substantive task reaches a stable stopping point with potentially non-obvious, evidence-backed, downstream-project-independent learning that could improve future work; a pull request becoming ready for merge is one such stopping point. Also use when the user accepts an earlier offer to prepare a knowledge-base contribution proposal.
+description: Use when a substantive task reaches a stable stopping point with potentially non-obvious, evidence-backed, downstream-project-independent learning that could improve future work; a pull request becoming ready for merge is one such stopping point. Also use when the user directly requests or accepts an earlier offer to prepare a knowledge-base contribution proposal.
 ---
 
 # Propose a knowledge-base contribution
 
-Offer to turn valuable task experience into a knowledge-base contribution, then
-prepare a decision-ready proposal only after the user accepts. This workflow
-does not authorize changes to the knowledge base.
+Offer to turn valuable task experience into a knowledge-base contribution, or
+prepare a decision-ready proposal when the user requests one directly or
+accepts the offer. This workflow does not authorize changes to the knowledge
+base.
 
 ## Select the interaction stage
 
-- When the user clearly accepts an earlier offer, continue at
-  [Prepare the proposal](#prepare-the-proposal). Treat that acceptance as
-  permission to prepare the proposal only. Clarify an ambiguous response.
+- When the user directly requests a proposal or clearly accepts an earlier
+  offer, continue at [Prepare the proposal](#prepare-the-proposal). Treat that
+  request or acceptance as permission to prepare the proposal only. Clarify an
+  ambiguous response to an earlier offer.
 - Otherwise, follow [Identify and offer a candidate](#identify-and-offer-a-candidate).
 
 ## Identify and offer a candidate

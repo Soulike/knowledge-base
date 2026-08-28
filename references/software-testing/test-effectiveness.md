@@ -69,7 +69,7 @@ Keep setup and cleanup that only tests need in test utilities. Do not add a life
 
 When mock setup is larger or more volatile than the behavior it isolates, use an integration test with real collaborators at the next stable boundary. A mock that repeatedly falls behind its real component no longer reduces uncertainty. If no concrete seam, cost, or source of nondeterminism justifies a mock, remove it.
 
-Choose fixture contents from the named contract and the branches the test must expose, not from incidental complexity. Apply [Reliable test execution](test-execution-reliability.md) for fixture ownership, ambient environment, mutable-state isolation, and cleanup.
+Choose fixture contents from the named contract and the branches the test must expose, not from incidental complexity. Apply [Reliable test execution](../../knowledge/software-testing/reliable-test-execution.md) for fixture ownership, ambient environment, mutable-state isolation, and cleanup.
 
 ## Remove spent migration scaffolding
 

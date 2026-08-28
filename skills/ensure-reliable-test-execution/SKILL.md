@@ -66,7 +66,7 @@ continue to Diagnose the reliability failure.
    record the missing proof instead of assuming that test count or line
    coverage establishes value.
 
-Finish this step for an intermittent failure only when the test has a retain,
+Finish this step only when every in-scope intermittent test has a retain,
 remove, replace, or unresolved disposition tied to a concrete fault and
 competing evidence. An unresolved value decision blocks remediation that would
 weaken, delete, or merely suppress the test.
@@ -74,11 +74,12 @@ weaken, delete, or merely suppress the test.
 ## Build an intermittent feedback loop
 
 When the scoped work contains no intermittent test, skip this section and
-continue to Diagnose the reliability failure. Continue here with a `retain`
-disposition. An unresolved disposition may also continue for investigation or
-a coverage-preserving harness repair; it still blocks weakening, deletion, or
-suppression. With `remove` or `replace`, skip this feedback loop and the
-reliability diagnosis, then continue to Repair or report.
+continue to Diagnose the reliability failure. For each in-scope intermittent
+test, continue here with a `retain` disposition. An unresolved disposition may
+also continue for investigation or a coverage-preserving harness repair; it
+still blocks weakening, deletion, or suppression. With `remove` or `replace`,
+skip this feedback loop and the reliability diagnosis for that test, then
+continue to Repair or report for that test.
 
 1. After the test-value decision, define one bounded pre- and post-repair
    protocol: a focused command or harness, the stable failure signature,
@@ -92,10 +93,10 @@ reliability diagnosis, then continue to Repair or report.
    environment cannot reproduce the failure, preserve the exact evidence and
    identify the execution conditions needed to close the gap.
 
-Finish this step for an intermittent test that continues into reliability
-diagnosis when the loop exposes the reported signature at a useful rate, or
-when the reproduction gap and required environment are explicit. The latter
-does not establish a cause by itself.
+Finish this step when every intermittent test routed into reliability diagnosis
+has a loop that exposes the reported signature at a useful rate, or has an
+explicit reproduction gap and required environment. The latter does not
+establish a cause by itself.
 
 ## Diagnose the reliability failure
 

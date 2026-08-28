@@ -36,11 +36,10 @@ description: Diagnose, change, and verify automated test execution so intended t
    rules, fixtures, environments, and supported platforms within the scope. In
    a change review, keep governing configuration at the comparison base
    distinct from proposed configuration.
-7. Choose the evidence mode. Reproduce a current failure in a disposable
-   environment when execution is permitted and practical. For a fixed-point
-   review, inspect supplied runs and immutable exact-revision artifacts without
-   editing the reviewed working tree. State what was observed, reproduced, or
-   not established.
+7. Choose the evidence mode. Reproduce a current failure when execution is
+   permitted and practical. For a fixed-point review, inspect supplied runs and
+   immutable exact-revision artifacts without editing the reviewed working
+   tree. State what was observed, reproduced, or not established.
 8. For a runner, framework, or discovery migration, record the expected test
    inventory and baseline result and skip outcomes, lifecycle behavior,
    cleanup and environment restoration, scheduling, concurrency, isolation,
@@ -51,6 +50,9 @@ observed deviation are bound to exact execution conditions, or when a review
 identifies the exact evidence still needed.
 
 ## Decide whether an intermittent test earns repair
+
+When the scoped work contains no intermittent test, skip this section and
+continue to Diagnose the reliability failure.
 
 1. For each intermittent test, identify the production behavior, realistic
    defect that should make the test fail, independent oracle, and every test or
@@ -71,6 +73,13 @@ weaken, delete, or merely suppress the test.
 
 ## Build an intermittent feedback loop
 
+When the scoped work contains no intermittent test, skip this section and
+continue to Diagnose the reliability failure. Continue here with a `retain`
+disposition. An unresolved disposition may also continue for investigation or
+a coverage-preserving harness repair; it still blocks weakening, deletion, or
+suppression. With `remove` or `replace`, skip this feedback loop and the
+reliability diagnosis, then continue to Repair or report.
+
 1. After the test-value decision, define one bounded pre- and post-repair
    protocol: a focused command or harness, the stable failure signature,
    retries disabled when supported or every attempt's outcome captured, a
@@ -83,9 +92,10 @@ weaken, delete, or merely suppress the test.
    environment cannot reproduce the failure, preserve the exact evidence and
    identify the execution conditions needed to close the gap.
 
-Finish this step for an intermittent failure when the loop exposes the reported
-signature at a useful rate, or when the reproduction gap and required
-environment are explicit. The latter does not establish a cause by itself.
+Finish this step for an intermittent test that continues into reliability
+diagnosis when the loop exposes the reported signature at a useful rate, or
+when the reproduction gap and required environment are explicit. The latter
+does not establish a cause by itself.
 
 ## Diagnose the reliability failure
 
@@ -115,11 +125,12 @@ a larger timeout, retry count, or reduced assertion is not a diagnosis.
 
 ## Repair or report
 
-1. When edits are authorized and the mechanism is established, apply the
-   narrowest change that restores the execution contract. Use the applicable
-   Reliable test execution criteria for discovery, selectors, synchronization,
-   clocks, state ownership, cleanup, retries, concurrency, platforms, external
-   processes, and honest runtime variation.
+1. For work that requires a reliability diagnosis, when edits are authorized
+   and the mechanism is established, apply the narrowest change that restores
+   the execution contract. Use the applicable Reliable test execution criteria
+   for discovery, selectors, synchronization, clocks, state ownership, cleanup,
+   retries, concurrency, platforms, external processes, and honest runtime
+   variation.
 2. For an intermittent failure, follow the test's value disposition: remove a
    redundant test, replace valuable coverage at its owning seam, repair a
    production defect exposed by a retained test, or repair harness
@@ -152,10 +163,11 @@ evidence and every blocked or unauthorized change without editing.
    affected, known unaffected, high-fan-out or global, mixed, and unknown
    inputs. Prove both the run and legitimate-skip paths and the fail-safe or
    conservative fallback for invalid or unavailable classification.
-3. For every intermittent failure with an implemented repair, run the
-   representative tests before and after using the bounded protocol: keep
-   retries disabled when supported or preserve attempt-level outcomes, use the
-   same controlled perturbation when one was selected, keep concurrency and the
+3. For every intermittent test that remains in place after an implemented
+   reliability repair, run the representative tests before and after using the
+   bounded protocol: keep retries disabled when supported or preserve
+   attempt-level outcomes, use the same controlled perturbation when one was
+   selected, keep concurrency and the
    relevant environment fixed, apply the chosen sample count or stopping rule,
    and compare the stable failure signature and outcomes. Exercise lifecycle
    cleanup on both success and failure. State explicitly when a pre-repair
@@ -181,8 +193,9 @@ For an implementation, finish only when every scoped intended test is
 collected, no failure is hidden as a pass or unsupported skip, relevant results
 are reproducible, migration semantics are preserved or deliberately accounted
 for, every applicable intermittent test's value disposition is satisfied,
-lifecycle cleanup has been exercised, and temporary sentinels, perturbations,
-and mutations are gone. For a diagnosis or review, finish when every available
+cleanup has been exercised on success and failure wherever the work perturbs or
+changes owned state or resources, and temporary sentinels, perturbations, and
+mutations are gone. For a diagnosis or review, finish when every available
 reliability and test-value claim has been assessed and each missing proof is
 explicit. In either mode, report performed and skipped checks with their
 outcomes.

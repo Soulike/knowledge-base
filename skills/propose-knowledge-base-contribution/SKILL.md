@@ -63,9 +63,12 @@ Stop after the question and wait for the user's response.
    [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md),
    [the Knowledge index](../../knowledge/index.md), and only the Knowledge
    documents whose `When to Read` conditions match the candidate. Inventory
-   relevant Skills and references in this plugin. Follow applicable
-   instructions and accepted requirements in the active workspace when they
-   conflict with packaged guidance.
+   relevant Skills and references in this plugin. Use applicable instructions
+   and accepted requirements in the active workspace to establish facts about
+   the source task, and treat matching Knowledge as supplemental when it
+   conflicts with project-specific facts. Keep this plugin's classification
+   and downstream-project-independence rules authoritative for the proposed
+   contribution; record project-specific conflicts as details to strip.
 4. Compare each candidate's responsibility, consumers, retrieval or invocation
    trigger, and maintenance lifecycle with existing material. Prefer updating
    an existing owner; propose a new Knowledge document, Skill, or Skill

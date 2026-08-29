@@ -69,9 +69,13 @@ it.
 ## Review and verdict lifecycle
 
 The maintained [review prompt](prompts/review.md) gives Copilot the pull-request
-identity and expected base and head. Copilot loads the complete diff and review
-history itself, evaluates the current code, and avoids duplicate findings. A
-fixed issue in an unresolved old thread does not force `needs-change`.
+identity and expected base and head. Its
+[repository guidance inventory](prompts/skills.md) keeps repository-owned Skill
+and Knowledge routes link-checkable under their repository-root runtime
+semantics. The runner injects that trusted inventory into the prompt. Copilot
+loads the complete diff and review history itself, evaluates the current code,
+and avoids duplicate findings. A fixed issue in an unresolved old thread does
+not force `needs-change`.
 
 Copilot posts every concrete `nit`, `low`, `medium`, and `high` finding as an
 inline comment on a changed line. Current `medium` or `high` findings select

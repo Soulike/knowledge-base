@@ -1,5 +1,5 @@
 {
-  "name": "@knowledge-base/ai-review",
+  "name": "@knowledge-base/check-prompt-links",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -8,10 +8,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@octokit/rest": "^22.0.1"
+    "github-slugger": "^2.0.0",
+    "mdast-util-from-markdown": "^2.0.3",
+    "mdast-util-to-string": "^4.0.0"
   },
   "devDependencies": {
-    "@types/mdast": "^4.0.4",
-    "mdast-util-from-markdown": "^2.0.3"
+    "@types/mdast": "^4.0.4"
   }
 }

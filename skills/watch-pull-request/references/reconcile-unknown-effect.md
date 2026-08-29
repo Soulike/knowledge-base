@@ -2,10 +2,10 @@
 
 A timeout, lost response, or connection failure after a mutation does not
 establish whether it completed. Query the exact destination for the intended
-push, reply, resolution, metadata update, CI replay, or explicitly authorized
-follow-up issue before attempting it again. Retrieve only the resource state
-needed to establish that result; the normal next observation cycle reconciles
-the complete PR.
+push, ready-for-review transition, reply, resolution, metadata update, CI
+replay, or explicitly authorized follow-up issue before attempting it again.
+Retrieve only the resource state needed to establish that result; the normal
+next observation cycle reconciles the complete PR.
 
 Retry only when non-completion is established, the operation remains
 authorized under the current state, and replay cannot duplicate or overwrite a
@@ -25,6 +25,10 @@ reply before posting another copy. For a resolution, query the target thread's
 current resolved state before repeating the mutation. For metadata or CI,
 identify the intended version or replay attempt rather than inferring success
 from a generic PR summary.
+
+For a ready-for-review transition, apply
+[Pull request review readiness](../../../references/github/pull-request-review-readiness.md)
+as the authoritative reconciliation and mutation-freeze policy.
 
 For a follow-up issue, query the authorized repository for an issue created by
 the expected identity that matches the approved source finding and intended

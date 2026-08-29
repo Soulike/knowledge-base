@@ -25,18 +25,23 @@ source checkout and treat installed plugin files as read-only runtime artifacts.
    validation. Review the complete diff and every complete responsibility it
    changes for scope, coherence, and consistency.
 6. Commit the intended changes. Use an available authenticated GitHub
-   integration or CLI to push the branch and open a draft pull request against
-   the canonical repository's default branch. Push directly when permitted;
-   otherwise, create or reuse an authenticated fork and open a cross-fork pull
-   request.
-7. Report the pull-request URL, changed paths, and validation results. Remove
-   the temporary checkout only after the branch is available remotely and the
-   pull request exists. If publishing fails, preserve the checkout and report
-   its path and the exact blocker.
+   integration or CLI to push the branch and open a pull request against the
+   canonical repository's default branch. Open it as a draft by default. When
+   the accepted request may include entering or continuing review, read
+   [Pull request review readiness](../../references/github/pull-request-review-readiness.md)
+   and apply its authority test, readiness gate, bounded publication procedure,
+   and post-publication freeze rules. Push directly when permitted; otherwise,
+   create or reuse an authenticated fork and open a cross-fork pull request.
+7. Report the pull-request URL, changed paths, validation results, published
+   review state, and whether the one-shot readiness authority was consumed.
+   Remove the temporary checkout only after the branch is available remotely
+   and the pull request exists. If publishing fails, preserve the checkout and
+   report its path and the exact blocker.
 
 ## Completion criteria
 
 When this Skill proceeds past the source-checkout guard, finish only when the
 requested change follows the cloned repository's authoring rules, validation
-has been run, and a draft pull request exists or a publishing blocker has been
+has been run, and a pull request exists in the review state selected by the
+accepted request and readiness conditions, or a publishing blocker has been
 reported with a recoverable checkout path.

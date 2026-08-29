@@ -10,6 +10,11 @@ description: Watch or resume watching a trusted or verified pull request across 
 Read [Establish the watch contract](references/establish-watch-contract.md) and
 [Security boundaries and trust transitions](../../references/security/security-boundaries.md),
 then establish the complete contract before performing any mutation.
+When the pull request is draft or the accepted intent may include entering
+review, also read
+[Pull request review readiness](../../references/github/pull-request-review-readiness.md)
+directly and record its one-shot authority and transition-history baseline in
+the watch contract.
 
 Restart this step whenever a fresh observation invalidates the watched PR,
 trusted control revision, accepted intent, access, safe workspace, or mutation
@@ -38,8 +43,8 @@ Repeat this cycle until its wait, handoff, or terminal condition applies:
      implement them. Retain independent waiting and human-only dispositions for
      the next cycle.
    - When no autonomous work remains and the PR is terminal, ready for merge,
-     or has any human-only item, exit this cycle and follow the handoff path
-     below.
+     has any human-only item, or has reached an accepted draft stopping point,
+     exit this cycle and follow the handoff path below.
    - When no autonomous or human-only work remains and every active item is
      waiting for an expected external result, exit this cycle and follow the
      waiting path below.
@@ -75,9 +80,10 @@ finds no executable autonomous work.
 - Before every human handoff, retrieve one final complete PR snapshot and
   compare it with the expected state. Return to the observation cycle when it
   differs or exposes autonomous work. Hand off only when the actual state
-  supports the reported terminal, human-only, or ready-for-merge disposition.
+  supports the reported terminal, accepted-draft-stopping-point, human-only, or
+  ready-for-merge disposition.
 
-Complete the watch only when the terminal PR state has been reported or the
-current head has no executable autonomous work, every deferred item is
-identified, and the human-only state has been handed off without claiming that
-monitoring continues after execution stops.
+Complete the watch only when the terminal or accepted draft stopping state has
+been reported, or the current head has no executable autonomous work, every
+deferred item is identified, and the human-only state has been handed off
+without claiming that monitoring continues after execution stops.

@@ -37,7 +37,10 @@ source checkout and treat installed plugin files as read-only runtime artifacts.
    entering or continuing review, read
    [Pull request review readiness](../../references/github/pull-request-review-readiness.md)
    and apply its authority test, readiness gate, one-way transition procedure,
-   and post-transition freeze rules to the verified draft.
+   and post-transition freeze rules to the verified draft. After a verified
+   ready transition, proceed directly to step 7 and finish this Skill. Continuing
+   observation requires separately selecting the pull-request watch workflow
+   from the accepted request and establishing its watch contract.
 7. Report the pull-request URL, changed paths, validation results, published
    review state, and whether the one-shot readiness authority was consumed.
    Remove the temporary checkout only after the branch is available remotely

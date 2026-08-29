@@ -47,6 +47,9 @@ through the watch contract:
 
 - Select `autonomous work` for the one-way ready-for-review transition only
   when the shared readiness policy reports that its authority and gate pass.
+- After the shared policy verifies a successful transition, account for its
+  consumed authority and begin a new complete observation cycle before any
+  dependent mutation.
 - Select `human intervention required` when the shared readiness policy reports
   consumed authority on a draft pull request.
 - Select the disposition of the blocking work or validation when a concrete

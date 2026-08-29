@@ -60,16 +60,18 @@ bounded check-then-act race only after the readiness gate passes.
 
 Immediately before publication, retrieve the exact target and source refs
 again, then retrieve the pull request's draft state and complete base and source
-identity. Cancel the operation and return to classification when any value
-differs from the readiness snapshot. Otherwise invoke the provider's dedicated
-ready-for-review operation exactly once. Mark the one-shot authority consumed
-immediately before invoking it.
+identity. When any value differs from the readiness snapshot, do not invoke the
+operation. Leave the one-shot authority unconsumed, freeze every further
+mutation, and return the mismatch to the caller for immediate human handoff.
+Otherwise invoke the provider's dedicated ready-for-review operation exactly
+once. Mark the one-shot authority consumed immediately before invoking it.
 
 Before performing any dependent mutation, retrieve the resulting pull request
 and compare its state and complete identity with the expected ready state:
 
 - The expected pull request in ready state at the expected target and source
-  SHAs establishes success. Begin a new complete observation cycle.
+  SHAs establishes success. Return the verified ready state and consumed
+  authority to the caller for its workflow-specific completion path.
 - A ready pull request with an unexpected base or source repository, ref, or
   SHA is an unexpected external effect. Freeze every further mutation and hand
   off the observed state to a human; do not convert it back to draft, push,

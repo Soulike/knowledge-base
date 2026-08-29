@@ -40,33 +40,64 @@ to an accepted requirement that makes remediation part of the PR. Merely
 touching the same module, function, or lines does not bring an unaffected
 pre-existing defect into scope.
 
-## Select the action
+## Select the required effect and disposition
 
-Evaluate these action paths in order and select exactly one:
+First decide whether resolving the finding requires a source change. A reply
+that reports or promises a source change selected for this finding in the
+current cycle belongs to the source-change branch; the existence of a possible
+reply does not turn that finding into an answer-only concern. A reply that only
+explains a source change already present on the captured head remains in the
+no-source-change branch.
 
-- When the concern is duplicate, already fixed, outdated, or inapplicable,
-  select an evidence-backed no-change reply as `autonomous work` when a reply
-  is appropriate; otherwise classify that concern as non-actionable. Neither
-  path authorizes a source change.
-- When evidence establishes only a preference or opportunistic improvement,
-  classify an evidence-backed no-change reply as `autonomous work` when a reply
-  is appropriate; otherwise classify the finding as non-actionable. Neither
-  disposition authorizes a source change or freezes the PR.
-- For a substantiated defect or other technically required change outside the
-  accepted PR intent, choose the `human decision required` disposition and
-  apply a PR-wide mutation freeze even when the remedy is obvious. Hand off the
-  choices to expand the accepted intent and reassess the complete change,
-  authorize a follow-up issue as a separate external mutation, or defer the
-  finding without creating one. Create an issue only after the user authorizes
-  its repository and scope. Re-establish the accepted intent and mutation
-  boundary before resuming. Preserve a prior prohibition on scope expansion
-  unless the user explicitly revises it.
-- Select an autonomous source mutation only when the recorded accepted intent
-  and trusted authority require this PR to act, the recorded PR relationship
-  supports that application, and every condition in the autonomy gate passes.
-  A behavior contract, project instruction, or verification oracle that proves
-  a defect exists does not by itself establish that this PR must fix it.
-- Require a human decision for materially reasonable alternatives, conflicting
+When the available evidence cannot establish whether a source change is
+required, select `human decision required` and preserve the affected source.
+Do not enter either branch until new evidence or the human decision resolves
+that uncertainty. Otherwise enter exactly one branch.
+
+### No source change required
+
+Use this branch for a live question or concern with one evidence-backed answer,
+for a duplicate, already fixed, outdated, or inapplicable concern, and for a
+preference or opportunistic improvement that no trusted authority makes
+required.
+
+- When one factual response follows from the recorded evidence and accepted
+  intent and a reply is appropriate, select `autonomous work` for that reply
+  only. The reply must not promise a source change, and the reply operation must
+  pass the autonomy gate.
+- When no reply is needed, classify the finding as non-actionable.
+- When the reply content requires a material choice or the evidence is
+  insufficient, select `human decision required`. When the response is known
+  but publishing it needs unavailable authority, access, or credentials,
+  select `human intervention required`.
+
+No disposition in this branch authorizes a source change or applies a PR-wide
+mutation freeze.
+
+### Source change required
+
+Use this branch only when independent evidence establishes a defect or another
+technically required change. A behavior contract, project instruction, or
+verification oracle that proves a defect exists does not by itself establish
+that this PR must fix it.
+
+- When the required change is outside the accepted PR intent, choose the
+  `human decision required` disposition and apply a PR-wide mutation freeze
+  even when the remedy is obvious. Hand off the choices to expand the accepted
+  intent and reassess the complete change, authorize a follow-up issue as a
+  separate external mutation, or defer the finding without creating one.
+  Create an issue only after the user authorizes its repository and scope.
+  Re-establish the accepted intent and mutation boundary before resuming.
+  Preserve a prior prohibition on scope expansion unless the user explicitly
+  revises it.
+- When the recorded accepted intent and trusted authority require this PR to
+  act, the recorded PR relationship supports that application, and every
+  condition in the autonomy gate passes, select `autonomous work` for the
+  source mutation.
+- When the required result is known but the operation needs unavailable
+  authority, access, credentials, infrastructure, or another human-only effect,
+  select `human intervention required`.
+- Require a human decision for materially reasonable remedies, conflicting
   review requests, an expansion or redefinition of PR purpose, unresolved
   product or architecture choices, compatibility or policy decisions, risk
   acceptance, insufficient evidence, or a conflict with accepted requirements.

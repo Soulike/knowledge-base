@@ -63,7 +63,10 @@ outside these prompt directories; `pnpm prompt-links:check` separately validates
 their repository-root-relative links and headings.
 
 A pathname used as a literal command operand, a path pattern, or an entry in a
-directory-layout diagram is not a prose reference.
+directory-layout diagram is not a prose reference. A pathname resolved only
+after selecting or creating a runtime workspace, including a path inside an
+isolated checkout, is not a static reference to the source document's
+repository.
 
 ## Markdown tests
 
@@ -104,10 +107,11 @@ installed plugin as a read-only runtime artifact; use the cloned repository as
 the only authoring target.
 
 Resolve usage-Skill file references relative to the Skill's `SKILL.md`. A root
-usage Skill can therefore read the shared index through a path such as
-[`../../knowledge/index.md`](knowledge/index.md). Prefer progressive disclosure:
-read the root index, then only the matching documents. Read shared files
-directly; do not rely on Skill-to-Skill invocation as a portable contract.
+usage Skill can therefore reach the
+[shared Knowledge index](knowledge/index.md) through the Skill-relative path
+`../../knowledge/index.md`. Prefer progressive disclosure: read the root index,
+then only the matching documents. Read shared files directly; do not rely on
+Skill-to-Skill invocation as a portable contract.
 
 An independent plugin's `skills/` also contains usage Skills, but those Skills
 belong solely to that plugin and follow its package boundary.

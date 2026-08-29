@@ -43,7 +43,8 @@ select them as autonomous:
   ordinary commits, and push them normally to the existing source branch;
 - perform one transition from draft to ready for review when the accepted watch
   intent includes progressing a completed pull request through review and the
-  shared readiness policy below passes;
+  [shared readiness policy](../../../references/github/pull-request-review-readiness.md)
+  passes;
 - reply to top-level comments and review threads, and resolve completely
   disposed review threads;
 - rerun one clearly transient, validation-only CI replay unit; and

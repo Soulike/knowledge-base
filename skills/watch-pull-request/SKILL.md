@@ -8,13 +8,13 @@ description: Watch or resume watching a trusted or verified pull request across 
 ## Establish the watch
 
 Read [Establish the watch contract](references/establish-watch-contract.md) and
-[Security boundaries and trust transitions](../../references/security/security-boundaries.md),
-then establish the complete contract before performing any mutation.
+[Security boundaries and trust transitions](../../references/security/security-boundaries.md).
 When the pull request is draft or the accepted intent may include entering
 review, also read
 [Pull request review readiness](../../references/github/pull-request-review-readiness.md)
 directly and record its one-shot authority and transition-history baseline in
-the watch contract.
+the watch contract. Establish the complete contract from all applicable
+guidance before performing any mutation.
 
 Restart this step whenever a fresh observation invalidates the watched PR,
 trusted control revision, accepted intent, access, safe workspace, or mutation

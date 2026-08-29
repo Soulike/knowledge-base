@@ -77,18 +77,24 @@ result.
 
 ## Prove execution and protection
 
-1. Run the narrowest project-declared entrypoint and confirm that the runner
-   reports the target test as collected.
-2. Use a safe, reversible mutation when it is required by the active project or
-   needed to establish that the test catches its named fault. Restore every
-   temporary change and inspect the working tree afterward.
-3. Exercise relevant success, failure, cleanup, and supported-environment paths
-   required by Trustworthy test execution.
-4. Run the broader static and behavioral checks required by the active project
+1. For each disposition that relies on automated protection, run the narrowest
+   project-declared entrypoint and confirm that the runner reports every relied-
+   upon test as collected.
+2. For a new or modified test, use a safe, reversible mutation when it is
+   required by the active project or needed to establish that the test catches
+   its named fault. Restore every temporary change and inspect the working tree
+   afterward.
+3. For a **No automated test owed** disposition, perform the applicable static,
+   schema, external-integration, or other non-test validation instead of test
+   collection or mutation.
+4. Exercise relevant success, failure, cleanup, and supported-environment paths
+   required by Trustworthy test execution for the tests that execute.
+5. Run the broader static and behavioral checks required by the active project
    and changed scope.
 
 For an implementation, finish only when every target behavior has a supported
-disposition, every owed test is effective and collected, and every temporary
+disposition, every automated protection claim is effective and collected,
+every no-test disposition has its applicable validation, and every temporary
 mutation or sentinel is gone. For a plan or assessment, finish when each
 disposition, proposed protection, and missing evidence item is explicit. Report
 performed and skipped checks with their outcomes.

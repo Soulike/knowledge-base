@@ -104,10 +104,12 @@ than defining its limits.
 
 ## Construct and deliver the prompt
 
-Read [Prompt construction](references/prompt-construction.md) after the visual
-requirements are settled. Use it to translate the final design into a
-self-contained, static, natural-language prompt and to render the prompt
-package.
+Read
+[Natural-language prompt format](../../references/generative-media/natural-language-prompt-format.md)
+and [Prompt construction](references/prompt-construction.md) after the visual
+requirements are settled. Apply the shared format while using the local
+reference to translate the final design into a static image prompt and render
+the prompt package.
 
 Before finishing, verify that:
 
@@ -122,8 +124,8 @@ Before finishing, verify that:
 - multiple people have unambiguous identities, actions, interactions, and
   spatial relationships;
 - user constraints remain authoritative over inferred aesthetic improvements;
-- the copyable prompt is continuous multi-paragraph prose rather than headings,
-  labeled fields, a list, a data structure, or a keyword string;
+- the copyable prompt follows the
+  [shared natural-language prompt format](../../references/generative-media/natural-language-prompt-format.md);
 - the prompt is coherent, self-contained, model-independent, and free of
   provider-specific syntax or parameters; and
 - the response contains the prompt package without invoking an image-generation

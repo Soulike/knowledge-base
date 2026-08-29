@@ -1,8 +1,9 @@
-# Add knowledge
+# Maintain Knowledge
 
 1. Read [`knowledge/index.md`](../../../../knowledge/index.md), then search the
-   existing `knowledge/` tree. Compare the candidate material with existing
-   document Scopes and `When to Read` conditions for overlapping ownership.
+   existing `knowledge/` tree. Compare every affected responsibility with
+   existing document Scopes and `When to Read` conditions for overlapping
+   ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
@@ -16,37 +17,42 @@
    domain specificity are valid. Return material whose meaning depends on its
    source project to the parent workflow as neither.
 5. Apply the ownership and generalization rules below before choosing a
-   destination. Use the resulting claim scopes and document boundaries
-   throughout the remaining steps.
-6. Compare the candidate material with each existing candidate document's
+   destination or operation. Use the resulting claim scopes and document
+   boundaries throughout the remaining steps.
+6. Compare each affected responsibility with every candidate document's
    pre-edit Scope, root-index `When to Read` condition, and `When to update`
    trigger. Select that document only when all three describe the same
    responsibility; otherwise select a separate owner.
-7. Update an existing document when it already owns the concept. Rewrite the
-   affected semantic block in place, remove superseded wording, and leave one
-   coherent current model rather than layering new qualifications onto the old
-   one. Create a new document only for a distinct responsibility, placing it in
-   a clear domain under `knowledge/` with the smallest useful document
-   structure.
+7. Choose the disposition of each affected semantic unit before adding
+   content. Update an existing document when it already owns the concept:
+   rewrite the complete affected block in place, remove superseded wording, and
+   leave one coherent current model rather than layering new qualifications
+   onto the old one. Delete content that no longer serves the document's
+   responsibility. Merge or split documents only when the ownership tests
+   below require it. Create a new document only for a distinct responsibility,
+   placing it in a clear domain under `knowledge/` with the smallest useful
+   document structure.
 8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
 9. Keep [`knowledge/index.md`](../../../../knowledge/index.md) as the only
    routing catalog. Organize leaf documents in domain directories, but list
-   every leaf directly in the root index and do not create nested indexes or
-   leaf-level `Related Knowledge`, `See also`, or similar routing appendices.
-   When one leaf genuinely depends on another, link it inline where the
-   dependency is applied and include the local context needed to use the current
-   document.
-10. Add or update exactly one root-index row for every affected leaf document
-    using the fields below, including its Knowledge Type.
-11. Verify that every leaf document is listed exactly once with one valid
-    Knowledge Type, serves its `When to Read` condition without requiring
+   every remaining leaf directly in the root index and do not create nested
+   indexes or leaf-level `Related Knowledge`, `See also`, or similar routing
+   appendices. When one leaf genuinely depends on another, link it inline where
+   the dependency is applied and include the local context needed to use the
+   current document.
+10. Add, update, or remove the root-index row for every affected leaf document
+    using the fields below, including its Knowledge Type. Repair every route
+    and inline dependency affected by a move, merge, split, rename, or removal.
+11. Verify that every remaining leaf document is listed exactly once with one
+    valid Knowledge Type, serves its `When to Read` condition without requiring
     another leaf as a prerequisite, contains no routing appendix, and resolves
     every changed relative link. Confirm that each concept has one canonical
     owner and each revised document presents one coherent current model.
     Compare every changed Scope and routing trigger with its pre-edit form;
     keep additions that express the same responsibility and route independent
-    responsibilities separately.
+    responsibilities separately. Confirm that removed leaves and obsolete
+    routes no longer remain.
 12. Run `pnpm knowledge:check` from the repository root.
 
 ## Ownership and generalization
@@ -56,6 +62,12 @@ Generalize source material to the narrowest stable abstraction supported by the 
 Test ownership against the pre-edit boundary. Topical overlap makes a document a candidate, while canonical ownership requires the same responsibility. Using a newly widened Scope or routing condition as proof of fit is circular. Revise a boundary when it states the same pre-edit responsibility more accurately; select a separate owner when the material introduces an independent responsibility, read trigger, or maintenance trigger. Compare the old and new routing conditions after drafting to catch a boundary widened to admit the material.
 
 Split a general principle from a product- or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed API choices, runtime behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
+
+Merge Knowledge documents when their pre-edit Scopes and reading triggers route
+the same responsibility and retaining both would preserve competing or
+duplicated authority. Preserve separate documents when their responsibilities,
+reading triggers, or maintenance lifecycles remain independently useful even
+when their subjects overlap.
 
 ## Knowledge document preface
 

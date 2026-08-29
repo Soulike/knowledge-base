@@ -6,15 +6,16 @@
     "node": ">=24"
   },
   "scripts": {
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm test && pnpm knowledge:check",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm test && pnpm knowledge:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts knowledge",
-    "links:check": "remark . --frail --quiet --use remark-validate-links",
+    "links:check": "remark . --frail --quiet --ignore-pattern '.github/scripts/*/prompts/**' --use remark-validate-links",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",
     "plugin-version:update": "node .github/scripts/plugin-version/update.ts",
     "prepare": "husky",
+    "prompt-links:check": "node .github/scripts/check-prompt-links/check.ts .",
     "test": "pnpm --recursive --if-present test",
     "typecheck": "pnpm --recursive --if-present typecheck"
   },

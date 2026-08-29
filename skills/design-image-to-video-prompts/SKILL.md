@@ -1,6 +1,6 @@
 ---
 name: design-image-to-video-prompts
-description: Use when the user wants to design a detailed, model-independent natural-language prompt for a people-focused continuous video generated from one required first-frame image, either from a new motion idea or by replacing an earlier prompt after describing how its generated result failed, with optional integrated audio.
+description: Use when the user wants an image-to-video prompt for a people-focused continuous video generated from one required first-frame image, either by designing a detailed, model-independent natural-language prompt from a new motion idea or by replacing an earlier prompt after describing how its generated result failed, with optional integrated audio.
 ---
 
 # Design image-to-video prompts

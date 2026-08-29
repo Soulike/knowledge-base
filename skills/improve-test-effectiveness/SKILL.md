@@ -17,7 +17,7 @@ description: Audit and improve the behavioral protection supplied by established
 2. Resolve paths relative to this `SKILL.md`, then read
    [Test effectiveness](../../references/software-testing/test-effectiveness.md).
 3. Read
-   [Reliable test execution](../../references/software-testing/test-execution-reliability.md)
+   [Reliable test execution](../../knowledge/software-testing/reliable-test-execution.md)
    when the review involves discovery, conditional validation, asynchronous
    behavior, clocks, retries, concurrency, fixtures, external processes, or
    supported platforms.

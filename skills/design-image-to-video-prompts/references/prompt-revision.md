@@ -2,8 +2,8 @@
 
 Use this reference when the user wants to revise an earlier image-to-video
 prompt from a supplied first frame and a textual description of the failed
-result. The Agent cannot observe the failed video and must not present an
-inference as direct visual evidence.
+result. The failed video is outside this Skill's accepted inputs. Do not inspect
+an attached failed video or present an inference as direct visual evidence.
 
 Ask the user to describe what happened, approximately when it happened, and
 what should have happened instead whenever the available report does not

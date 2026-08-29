@@ -29,8 +29,10 @@ parameters, provider acceptance, and first-frame repair to the caller.
 1. Record whether the request is a new prompt or a revision of an earlier
    attempt. For a revision, require the earlier prompt and the user's textual
    description of the failure; the failed video itself is not an available
-   input. Read [Prompt-revision diagnosis](references/prompt-revision.md) before
-   planning the replacement prompt.
+   input. If either required artifact is missing, ask the user to provide it and
+   stop replacement design until it is available. Read
+   [Prompt-revision diagnosis](references/prompt-revision.md) before planning
+   the replacement prompt.
 2. Require a target duration. Use an already supplied duration; otherwise ask
    the user how many seconds the video should last. Do not substitute a current
    provider's supported duration range for the user's decision.

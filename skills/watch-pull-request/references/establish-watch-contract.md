@@ -52,6 +52,12 @@ milestones, requested reviewers, draft state, base branch, repository policy,
 required checks, approvals, review decisions, PR open or closed state, branch
 existence, or published history. Merge is always a human operation.
 
+After a scope-decision handoff, the user may separately authorize creation of
+one follow-up issue for one classified out-of-scope finding. Bind that one-shot
+effect to the canonical repository and approved issue scope, reconcile an
+unknown result before any retry, and then restore the standing watch boundary.
+It does not grant autonomous issue-creation authority for later findings.
+
 Use the least-privilege credentials available for the canonical repository,
 PR, existing source ref, and allowed operations. Never use them to force push,
 merge, close, change the base, change repository policy, or perform

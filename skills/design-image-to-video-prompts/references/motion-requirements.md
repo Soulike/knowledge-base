@@ -33,7 +33,7 @@ the same phase rather than becoming an artificial sequence.
 
 When the action budget does not fit, identify which events are primary and
 which are supporting. Recommend a longer duration, fewer events, simpler
-movement, or separate clips. Do not conceal an infeasible plan by compressing
+movement, or later clips. Do not conceal an infeasible plan by compressing
 every event into abrupt motion.
 
 ## Coordinate the moving layers

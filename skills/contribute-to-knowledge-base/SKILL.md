@@ -1,6 +1,6 @@
 ---
 name: contribute-to-knowledge-base
-description: Contribute changes to the canonical knowledge base from outside its source checkout. Use when the user wants to add, correct, reorganize, or remove Knowledge or Skills through the installed plugin.
+description: Contribute changes to the canonical knowledge base from outside its source checkout. Use when the user wants to add, correct, rewrite, split, merge, move, or remove Knowledge, Skills, Skill references, or the maintained Agent instructions and prompts that govern them through the installed plugin.
 ---
 
 # Contribute to knowledge base
@@ -19,10 +19,11 @@ source checkout and treat installed plugin files as read-only runtime artifacts.
    an existing source checkout.
 3. Create a descriptive contribution branch before editing files.
 4. In the cloned repository, read every applicable `AGENTS.md`, then read
-   `.agents/skills/add-to-knowledge-base/SKILL.md` directly and follow the
+   `.agents/skills/maintain-knowledge-base/SKILL.md` directly and follow the
    authoring workflow and references it selects.
 5. Implement the requested change and run the repository's documented
-   validation. Review the complete diff for scope and consistency.
+   validation. Review the complete diff and every affected responsibility unit
+   for scope, coherence, and consistency.
 6. Commit the intended changes. Use an available authenticated GitHub
    integration or CLI to push the branch and open a draft pull request against
    the canonical repository's default branch. Push directly when permitted;

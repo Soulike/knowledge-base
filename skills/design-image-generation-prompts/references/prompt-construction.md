@@ -28,20 +28,12 @@ moving camera. A prompt can depict a runner in mid-stride; it cannot ask a still
 image to show the runner beginning, accelerating, turning a corner, and then
 stopping.
 
-## Format the prompt as prose
+## Organize the image prompt
 
-Write the copyable prompt as continuous multi-paragraph natural language inside
-one plain-text fenced block. Use complete sentences and paragraph breaks, not
-Markdown headings, labeled fields such as `Subject:` or `Lighting:`, numbered or
-bulleted lists, tables, JSON, YAML, XML, or comma-separated keyword and tag
-strings.
-
-Give each paragraph a coherent visual responsibility. A useful progression is
-to establish the whole frame, resolve its people and action, place them in the
-setting and composition, describe the selected rendering language, and finish
-with important invariants or exclusions. This is a reading flow rather than a
-fixed paragraph count or required template: merge, split, reorder, extend, or
-omit paragraphs when the image is clearer another way.
+A useful image-specific progression is to establish the whole frame, resolve
+its people and action, place them in the setting and composition, describe the
+selected rendering language, and finish with important invariants or
+exclusions.
 
 Express creation instructions, image roles, edit operations, static target
 states, and invariants as complete sentences in the paragraphs that own those
@@ -108,8 +100,7 @@ write a complete replacement prompt rather than a conversational patch such as
 
 ## Render the prompt package
 
-Follow the user's language unless they request another language. Include only
-the sections that carry information for the current request:
+Include only the sections that carry information for the current request:
 
 1. **Requirement summary:** use for a complex result or material assumptions.
 2. **Image handling:** use when images are involved. Distinguish model inputs
@@ -119,17 +110,14 @@ the sections that carry information for the current request:
    evidence for the revision. Explain the material cause briefly outside the
    prompt.
 4. **Final prompt:** always include one canonical, complete prompt using the
-   prose format above. It must stand on its own with only the declared
-   model-input images. Add complete alternative prompts only when the user asks
-   for variants or confirms that a materially different visual direction should
-   remain open; do not generate variants mechanically.
+   required natural-language format. Add complete alternative prompts only when
+   the user asks for variants or confirms that a materially different visual
+   direction should remain open; do not generate variants mechanically.
 
 The numbered sections describe the available output components, not a form that
-must always contain four headings. Add a short, task-specific note outside the
-prompt when it materially helps the user apply the package; keep analysis and
-explanation out of the copyable prompt itself.
+must always contain four headings. Add a short, task-specific note when it
+materially helps the user apply the package.
 
-Review the final prompt as if the image model receives only that text and the
-declared model-input images. It is complete when the intended still frame,
-people, relationships, rendering, and constraints remain understandable
-without the earlier conversation or any analysis-only reference.
+The image prompt is complete when the intended still frame, people,
+relationships, rendering, and constraints are explicit from the final prompt
+and declared model-input images, without any analysis-only reference.

@@ -35,7 +35,7 @@ Give every observed item one disposition:
 - autonomous work deferred by a PR-wide mutation freeze;
 - waiting for an expected external result;
 - human decision required;
-- human intervention required; or
+- human intervention required;
 - accepted draft stopping point reached; or
 - historical, duplicate, already handled, or otherwise non-actionable.
 

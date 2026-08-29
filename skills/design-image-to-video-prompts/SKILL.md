@@ -58,11 +58,12 @@ you can inspect, or turn the reference's examples into required fields.
 Evaluate whether the requested actions fit the confirmed duration. When they do
 not, explain the conflict and recommend concrete choices such as extending the
 duration, simplifying or prioritizing actions, converting an event into
-supporting motion, or moving other events into later clips. Treat later clips
-as a workflow boundary: agree which event remains in the current continuous
-shot, produce only that prompt, and explain that each later clip needs a new
-invocation after its first-frame image exists. Wait for the user's choice
-instead of silently accelerating, deleting, or combining primary events.
+supporting motion, or moving other events into later clips. Wait for the user's
+choice instead of silently accelerating, deleting, or combining primary
+events. When the user selects later clips, agree which event remains in the
+current continuous shot, continue the ordinary camera and construction path
+for that one shot, produce only its prompt, and explain that each later clip
+needs a new invocation after its first-frame image exists.
 
 Recommend a camera behavior from the first-frame composition, subject motion,
 duration, continuity risk, and desired effect. Ask the user to accept it or

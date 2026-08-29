@@ -42,19 +42,26 @@ pre-existing defect into scope.
 
 ## Select the action
 
-- Select `autonomous work` only when the active concern still applies and one
-  response follows from accepted intent, an existing behavior contract,
-  project instructions, or an established verification oracle. The response
-  may be an objective fix, an evidence-backed answer, or an explanation that
-  the concern is duplicate, already fixed, outdated, or inapplicable.
-- For a substantiated finding outside the accepted PR intent, select `human
-decision required` and apply a PR-wide mutation freeze even when the remedy
-  is obvious. Hand off the choices to expand the accepted intent and reassess
-  the complete change, authorize a follow-up issue as a separate external
-  mutation, or defer the finding without creating one. Create an issue only
-  after the user authorizes its repository and scope. Re-establish the accepted
-  intent and mutation boundary before resuming. Preserve a prior prohibition on
-  scope expansion unless the user explicitly revises it.
+Select exactly one action path:
+
+- For a substantiated finding outside the accepted PR intent, choose the
+  `human decision required` disposition and apply a PR-wide mutation freeze
+  even when the remedy is obvious. Hand off the choices to expand the accepted
+  intent and reassess the complete change, authorize a follow-up issue as a
+  separate external mutation, or defer the finding without creating one.
+  Create an issue only after the user authorizes its repository and scope.
+  Re-establish the accepted intent and mutation boundary before resuming.
+  Preserve a prior prohibition on scope expansion unless the user explicitly
+  revises it.
+- Select an autonomous source mutation only when the recorded accepted intent
+  and trusted authority require this PR to act, the recorded PR relationship
+  supports that application, and every condition in the autonomy gate passes.
+  A behavior contract, project instruction, or verification oracle that proves
+  a defect exists does not by itself establish that this PR must fix it.
+- Select an evidence-backed no-change reply as `autonomous work` when the
+  concern is duplicate, already fixed, outdated, or inapplicable and a reply is
+  appropriate; otherwise classify the finding as non-actionable. Neither path
+  authorizes a source change.
 - When evidence establishes only a preference or opportunistic improvement,
   classify an evidence-backed no-change reply as `autonomous work` when a reply
   is appropriate; otherwise classify the finding as non-actionable. Neither

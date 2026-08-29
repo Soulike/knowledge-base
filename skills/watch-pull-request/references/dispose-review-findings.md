@@ -42,24 +42,29 @@ pre-existing defect into scope.
 
 ## Select the required effect and disposition
 
-First decide whether resolving the finding requires a source change. A reply
-that reports or promises a source change selected for this finding in the
-current cycle belongs to the source-change branch; the existence of a possible
-reply does not turn that finding into an answer-only concern. A reply that only
-explains a source change already present on the captured head remains in the
-no-source-change branch.
+First decide whether independent evidence establishes that resolving the
+finding technically requires a source change, regardless of whether this PR or
+cycle may perform it. A requested or preferred edit that no trusted authority
+makes required does not satisfy that condition. A substantiated defect that
+requires source remediation does, even when the current disposition freezes or
+defers that work. A reply that reports or promises a current-cycle source
+change follows the source-change branch; a reply that only explains a source
+change already present on the captured head remains in the no-source-change
+branch.
 
-When the available evidence cannot establish whether a source change is
-required, select `human decision required` and preserve the affected source.
-Do not enter either branch until new evidence or the human decision resolves
-that uncertainty. Otherwise enter exactly one branch.
+When the available evidence cannot establish whether technically required
+source remediation exists, select `human decision required` and preserve the
+affected source. Do not enter either branch until new evidence or the human
+decision resolves that uncertainty. Otherwise enter exactly one branch.
 
-### No source change required
+### No technically required source change
 
-Use this branch for a live question or concern with one evidence-backed answer,
-for a duplicate, already fixed, outdated, or inapplicable concern, and for a
-preference or opportunistic improvement that no trusted authority makes
-required.
+Use this branch only when resolving the finding requires no source remediation:
+a question or concern fully resolved by one evidence-backed answer; a duplicate,
+already fixed, outdated, or inapplicable concern; or a preference or
+opportunistic improvement that no trusted authority makes required. Merely
+acknowledging a substantiated defect does not resolve it and cannot select this
+branch.
 
 - When one factual response follows from the recorded evidence and accepted
   intent and a reply is appropriate, select `autonomous work` for that reply
@@ -74,7 +79,7 @@ required.
 No disposition in this branch authorizes a source change or applies a PR-wide
 mutation freeze.
 
-### Source change required
+### Technically required source change
 
 Use this branch only when independent evidence establishes a defect or another
 technically required change. A behavior contract, project instruction, or

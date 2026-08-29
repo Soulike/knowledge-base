@@ -1,4 +1,0 @@
-interface:
-  display_name: "Resolve Flaky Tests"
-  short_description: "Diagnose and repair intermittent test failures"
-  default_prompt: "Use $resolve-flaky-tests to evaluate each flaky test, choose its disposition, repair or report at the owning boundary, and prove the result."

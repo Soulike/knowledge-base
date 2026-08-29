@@ -1,0 +1,4 @@
+interface:
+  display_name: "Write Effective Tests"
+  short_description: "Design and write effective behavioral tests"
+  default_prompt: "Use $write-effective-tests to decide what automated coverage this production behavior needs, then write and prove the effective tests."

@@ -74,14 +74,17 @@ changes to Knowledge, Skills, or Skill references, use the trusted
 `.agents/skills/add-to-knowledge-base/SKILL.md` and only its applicable linked
 references as review criteria. Use relevant Knowledge and the installed
 `review-security` and `improve-dev-documentation` Skills as reference material.
-Select testing guidance by the changed responsibility:
-`design-effective-tests` for coverage owed to a defined production behavior or
-change, `improve-test-effectiveness` for existing-suite effectiveness or test
-cleanup, [Reliable test execution](../../../../knowledge/software-testing/reliable-test-execution.md)
-for discovery or runner semantics, `resolve-flaky-tests` for outcomes that vary
-across comparable runs, and `reduce-test-execution-cost` for reproducible
-test-performance work. Also use `codebase-design`, `tdd`, and
-`writing-for-agents` when their review dimensions apply.
+Use `review-and-improve-tests` as the testing review workflow for changed tests,
+coverage claims, test failures, intermittent outcomes, collection or runner
+semantics, and test-cost changes. Select testing Knowledge by the changed
+responsibility: `knowledge/software-testing/test-effectiveness.md` for coverage,
+oracles, ownership, doubles, and test value;
+`knowledge/software-testing/trustworthy-test-execution.md` for collection,
+selection, skips, fixtures, time, retries, concurrency, platforms, external
+processes, timeouts, and runner changes; and
+`knowledge/software-testing/test-execution-cost.md` for runtime or resource-cost
+claims. Also use `codebase-design`, `tdd`, and `writing-for-agents` when their
+review dimensions apply.
 
 Review every applicable dimension:
 

@@ -1,4 +1,0 @@
-interface:
-  display_name: "Improve Test Effectiveness"
-  short_description: "Strengthen the protection provided by tests"
-  default_prompt: "Use $improve-test-effectiveness to audit these existing tests and improve the behavioral protection they provide."

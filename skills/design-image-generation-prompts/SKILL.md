@@ -73,7 +73,7 @@ Read the shared lenses for the
 [one visible instant](references/visual-requirements.md#freeze-action-into-one-visible-instant),
 [medium-specific decisions](references/visual-requirements.md#choose-medium-specific-decisions),
 and [research readiness](references/visual-requirements.md#decide-whether-research-is-complete).
-Read only the additional branch selected by the request:
+Read every additional branch that applies to the request:
 
 - for analysis-only images or transfers between images, read
   [Extract and adapt visual references](references/visual-requirements.md#extract-and-adapt-visual-references);

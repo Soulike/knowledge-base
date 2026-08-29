@@ -50,24 +50,6 @@ fabric, and reflected lights on wet pavement. This example illustrates the
 translation; it does not prescribe those details for other scenes. Omit
 backstory that has no visible consequence in the chosen frame.
 
-## Extract and adapt visual references
-
-For an analysis-only image, inspect the aspect the user selected and the
-minimum coupled details that make it intelligible. A pose reference may require
-body orientation, balance, gaze, interaction, or camera relationship while
-leaving identity, clothing, setting, and style untouched. A style reference may
-call for line quality, edge treatment, value structure, palette relationships,
-texture, rendering density, or characteristic proportions without copying its
-subject matter. Add other observable dimensions when they better explain the
-requested reference.
-
-When transferring an action or composition onto a model-input character,
-preserve the reference's controlling visual idea and recognizable spatial
-relationships. Adapt joint range, stance, spacing, silhouette, clothing
-response, prop placement, or framing when the target character and scene need
-it. Ask before an adaptation changes the meaning the user wanted from the
-reference.
-
 ## Choose medium-specific decisions
 
 Use a shared subject, action, setting, and composition core, then inspect the
@@ -87,34 +69,6 @@ sheet, animation frame, comic panel, or finished narrative illustration.
 
 These are prompts for attention rather than closed vocabularies. Replace,
 extend, or omit them when another medium has different controlling properties.
-
-## Bound an edit
-
-For an edit, identify the edit target, the requested final state, the region or
-concept allowed to change, and the invariants that define everything else.
-Consider composition, crop, identity, pose, wardrobe, lighting, style, text,
-edges, reflections, shadows, and perspective when they are relevant. Do not
-invent a preservation requirement merely because it appears in this example
-list.
-
-Use operation language such as replace, remove, add, or adjust to establish the
-edit boundary. Describe the resulting image as a single static state, and make
-integration requirements visible: matching perspective, contact, scale,
-lighting, shadows, texture, and edge treatment where the edit needs them.
-
-## Diagnose an unsatisfactory result
-
-Compare the available evidence among the intended frame, earlier prompt,
-generated result, and user's critique. Ask for a missing artifact only when its
-absence materially blocks diagnosis. Look for missing visual decisions,
-ambiguous attachment roles, misassigned people or actions, narrative language
-that failed to specify a frame, conflicting requirements, invisible
-abstractions, or too much competing detail. Treat this list as diagnostic
-starting points rather than an exhaustive failure taxonomy.
-
-Identify the smallest set of underlying decisions that explains the mismatch.
-Finish the diagnosis when those material causes and the decisions that need to
-change are explicit.
 
 ## Decide whether research is complete
 

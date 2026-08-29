@@ -57,7 +57,7 @@ between supplying it to the image model and accepting a textual approximation.
 ## Diagnose a prior attempt
 
 When the request includes an earlier prompt or unsatisfactory result, read
-[Diagnose an unsatisfactory result](references/visual-requirements.md#diagnose-an-unsatisfactory-result),
+[Diagnose a prior prompt or result](references/prompt-revision.md),
 identify the material causes of the mismatch from the available evidence, and
 request only missing evidence that materially blocks the diagnosis. Then
 classify the replacement prompt as generate or edit from the user's intended
@@ -76,9 +76,9 @@ and [research readiness](references/visual-requirements.md#decide-whether-resear
 Read every additional branch that applies to the request:
 
 - for analysis-only images or transfers between images, read
-  [Extract and adapt visual references](references/visual-requirements.md#extract-and-adapt-visual-references);
+  [Analyze and adapt visual references](references/visual-reference-analysis.md);
 - for an edit, read
-  [Bound an edit](references/visual-requirements.md#bound-an-edit).
+  [Bound an image edit](references/image-editing.md).
 
 Treat enumerations in these sections as examples unless they explicitly mark a
 closed distinction.

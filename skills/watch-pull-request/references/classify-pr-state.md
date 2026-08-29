@@ -35,8 +35,32 @@ Give every observed item one disposition:
 - autonomous work deferred by a PR-wide mutation freeze;
 - waiting for an expected external result;
 - human decision required;
-- human intervention required; or
+- human intervention required;
+- accepted draft stopping point reached; or
 - historical, duplicate, already handled, or otherwise non-actionable.
+
+## Classify review readiness
+
+When the pull request is draft, apply
+[Pull request review readiness](../../../references/github/pull-request-review-readiness.md)
+through the watch contract:
+
+- Select `autonomous work` for the one-way ready-for-review transition only
+  when the shared readiness policy reports that its authority and gate pass.
+- After the shared policy verifies a successful transition, account for its
+  consumed authority and begin a new complete observation cycle before any
+  dependent mutation.
+- Select `human intervention required` when the shared readiness policy reports
+  consumed authority on a draft pull request.
+- Select the disposition of the blocking work or validation when a concrete
+  autonomous task or expected result is the only reason the gate does not yet
+  pass; do not request the transition early.
+- Select `human decision required` when progressing into review is materially
+  ambiguous or a readiness condition depends on a product, design,
+  architecture, security, compatibility, policy, scope, or risk choice.
+- Select `accepted draft stopping point reached` when the user explicitly asked
+  to retain draft state and no other autonomous, waiting, or human-only item
+  remains. Conversion from ready for review back to draft remains human-only.
 
 ## Classify CI
 

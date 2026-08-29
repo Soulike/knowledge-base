@@ -9,6 +9,9 @@ Retrieve one complete current snapshot from every applicable PR surface:
   changes published by earlier observation cycles;
 - submitted reviews, aggregate review decision, requested reviewers and teams,
   and required approval state;
+- the complete paginated ready-for-review and convert-to-draft event history,
+  including actor and time, and the watch contract's one-shot readiness
+  authority state;
 - complete paginated review threads and replies, including resolved and
   outdated state;
 - top-level PR comments;

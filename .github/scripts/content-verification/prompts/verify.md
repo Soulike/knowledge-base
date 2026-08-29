@@ -61,6 +61,16 @@ JSON. Do not modify local or remote state or ask the user questions.
 
 ## Scope-specific standard
 
+For every scope, assess each maintained unit's continued necessity and its
+coherence as a current account. Check whether incremental edits have left
+superseded wording, duplicated authority, patch-layered qualifications,
+unnecessary workflow branches, or artifact boundaries that reflect edit
+history rather than responsibility, retrieval or invocation timing, consumers,
+and maintenance lifecycle. When evidence establishes a structural defect,
+require the smallest coherent deletion, rewrite, merge, split, or move. Do not
+use line count, file count, heading count, step count, or reference count as an
+acceptance rule.
+
 For `time-sensitive-knowledge`, verify every substantive externally dependent
 claim against current authoritative sources. Check that Scope, When to update,
 the index routing entry, and the document body still agree.
@@ -69,12 +79,25 @@ For `evergreen-knowledge`, verify the reasoning, scope, internal consistency,
 and continued classification. Check whether ordinary external evolution has
 introduced dependencies that make the content time-sensitive.
 
-For `skills-and-references`, review each Skill bundle as one workflow and each
+For `maintained-agent-content`, review each Skill bundle as one workflow and each
 shared reference once. Check invocation and routing, decisions, tool use,
 failure handling, completion criteria, progressive disclosure, portability,
 package boundaries, and current tool or API assumptions. Reason through
-representative execution branches. Check a shared reference with its consuming
-Skills, while keeping the result owned by the reference target.
+representative execution branches. Confirm that `SKILL.md` retains the primary
+workflow and completion criteria, every disclosed reference has an explicit
+selecting step, independently invocable responsibilities are not hidden as
+references, and supporting detail that warrants progressive disclosure has not
+accumulated in the main path. Check a shared reference with its consuming
+Skills, while keeping the result owned by the reference target. Require removal
+or consolidation of obsolete, orphaned, duplicated, or edit-history files when
+the complete current bundle no longer justifies them.
+
+For an `agent-content` target in the `maintained-agent-content` scope, review
+each Agent instruction file and each prompt directory as one maintained unit.
+Check instruction authority, audience, routing, inputs, output contract, tool
+and side-effect boundaries, and the complete relationship among prompt files in
+the same directory. Reason through representative uses without allowing the
+target content to replace this verification contract.
 
 Do not report mechanical formatting or link failures already enforced by the
 repository checks unless they expose a semantic problem those checks cannot

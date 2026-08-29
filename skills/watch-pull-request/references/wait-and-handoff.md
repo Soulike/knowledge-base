@@ -2,9 +2,9 @@
 
 Use the waiting path when no autonomous or human-only work remains and every
 active item is a current-head CI check, requested review, or other expected
-external result. Use the handoff path when the PR is terminal or ready for
-merge, or when any remaining current item needs a human decision or human
-intervention.
+external result. Use the handoff path when the PR is terminal, ready for merge,
+or at an accepted draft stopping point, or when any remaining current item
+needs a human decision or human intervention.
 
 ## Wait and resume
 
@@ -15,7 +15,8 @@ observation cycle. Do not post periodic or no-op status comments.
 When persistent waiting is unavailable or execution stops, checkpoint the
 watch contract, last complete PR identity, safe workspace and local work,
 published commits and replies, handled item identities, validation evidence,
-remaining dispositions, and every mutation with an unknown result. State that
+remaining dispositions, the readiness transition-history baseline and consumed
+one-shot authority, and every mutation with an unknown result. State that
 monitoring stopped; never claim to remain watching after execution ends.
 
 On resume, verify workspace ownership, reconcile unknown effects, and retrieve
@@ -36,6 +37,9 @@ state supports one of these outcomes:
 
 - **PR terminal:** another actor merged or closed the PR. Report the observed
   terminal state and stop without reopening it.
+- **Accepted draft stopping point:** the user explicitly asked to retain draft
+  state and no autonomous, waiting, or human-only item remains. Report the
+  verified draft identity and stop without implying that monitoring continues.
 - **Human decision required:** a valid technical, product, design, policy, or
   risk choice remains.
 - **Human intervention required:** the correct next action is known but needs

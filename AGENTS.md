@@ -13,8 +13,9 @@ one or more Skills.
   technical subject, or current engineering artifact before an Agent selects
   or enters a workflow. Removing every Skill that uses the leaf must not remove
   that reason to read it. Keep
-  `knowledge/index.md` as the only index and list every leaf Knowledge document
-  there directly with its `time-sensitive` or `evergreen` Knowledge Type. Use
+  [`knowledge/index.md`](knowledge/index.md) as the only index and list every
+  leaf Knowledge document there directly with its `time-sensitive` or
+  `evergreen` Knowledge Type. Use
   subdirectories for organization, not nested indexes. Each leaf must provide
   enough context to serve its root-index `When to Read` condition without
   requiring another leaf as a prerequisite. Keep Knowledge routing in the root
@@ -47,6 +48,21 @@ project; otherwise leave it in the source project. Repository-authoring Skills
 are outside this user-facing boundary; the narrow contribution exception is
 described below.
 
+## Markdown references
+
+In maintained Markdown, write every prose reference to a statically known
+repository file or heading as a Markdown link whose target is relative to the
+document that contains it. The link text may show the repository-root-relative
+path when that helps the reader, but an inline-code pathname alone does not
+satisfy this requirement. A pathname used as a literal command operand, a path
+pattern, or an entry in a directory-layout diagram is not a prose reference.
+
+When a runtime consumer gives relative paths a different base, keep the source
+link document-relative and make the consumer resolve or provide the referenced
+material from the same trusted revision. Validate the source link and the
+runtime route independently; do not replace the link with an unchecked path
+string.
+
 ## Markdown tests
 
 Tests that inspect Markdown documents must use the repository's existing
@@ -66,10 +82,11 @@ Agents working in a source checkout and may inspect or edit `knowledge/`,
 plugin Skills, manifests, indexes, and repository tooling. They are development
 instructions, not capabilities exposed by the installed primary plugin.
 
-Use `.agents/skills/add-to-knowledge-base/SKILL.md` whenever new material must
-be integrated into this repository. It first classifies the material as
-Knowledge, Skill or Skill reference, mixed, or out of scope, then loads only
-the applicable authoring workflow.
+Use
+[`.agents/skills/add-to-knowledge-base/SKILL.md`](.agents/skills/add-to-knowledge-base/SKILL.md)
+whenever new material must be integrated into this repository. It first
+classifies the material as Knowledge, Skill or Skill reference, mixed, or out
+of scope, then loads only the applicable authoring workflow.
 
 ### Plugin usage Skills
 
@@ -86,9 +103,9 @@ the only authoring target.
 
 Resolve usage-Skill file references relative to the Skill's `SKILL.md`. A root
 usage Skill can therefore read the shared index through a path such as
-`../../knowledge/index.md`. Prefer progressive disclosure: read the root index,
-then only the matching documents. Read shared files directly; do not rely on
-Skill-to-Skill invocation as a portable contract.
+[`../../knowledge/index.md`](knowledge/index.md). Prefer progressive disclosure:
+read the root index, then only the matching documents. Read shared files
+directly; do not rely on Skill-to-Skill invocation as a portable contract.
 
 An independent plugin's `skills/` also contains usage Skills, but those Skills
 belong solely to that plugin and follow its package boundary.
@@ -141,16 +158,17 @@ Use this layout:
 Target Codex and GitHub Copilot. Claude Code compatibility is out of scope.
 
 Keep this repository's single shared marketplace at
-`.claude-plugin/marketplace.json`. OpenAI documents this path as
-legacy-compatible, and GitHub Copilot CLI includes it among its marketplace
-lookup locations. This repository uses it as a compatibility bridge so both
-target clients consume one marketplace definition; it is neither client's
-native marketplace format and is not part of Agent Plugins v1. Package the root
-plugin and every independent plugin as Agent Plugins v1.0.0 directories with a
-root `plugin.json`. Put portable behavior in `skills/` and, when needed, a root
-`mcp.json`. Keep client-specific components outside the portable core.
+[`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json). OpenAI
+documents this path as legacy-compatible, and GitHub Copilot CLI includes it
+among its marketplace lookup locations. This repository uses it as a
+compatibility bridge so both target clients consume one marketplace definition;
+it is neither client's native marketplace format and is not part of Agent
+Plugins v1. Package the root plugin and every independent plugin as Agent
+Plugins v1.0.0 directories with a root [`plugin.json`](plugin.json). Put
+portable behavior in `skills/` and, when needed, a root `mcp.json`. Keep
+client-specific components outside the portable core.
 
-`.claude-plugin/marketplace.json`:
+[`.claude-plugin/marketplace.json`](.claude-plugin/marketplace.json):
 
 ```json
 {
@@ -171,7 +189,7 @@ root `plugin.json`. Put portable behavior in `skills/` and, when needed, a root
 }
 ```
 
-Root `plugin.json`:
+Root [`plugin.json`](plugin.json):
 
 ```json
 {

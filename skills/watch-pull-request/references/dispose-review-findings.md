@@ -44,10 +44,10 @@ pre-existing defect into scope.
 
 Evaluate these action paths in order and select exactly one:
 
-- Select an evidence-backed no-change reply as `autonomous work` when the
-  concern is duplicate, already fixed, outdated, or inapplicable and a reply is
-  appropriate; otherwise classify the finding as non-actionable. Neither path
-  authorizes a source change.
+- When the concern is duplicate, already fixed, outdated, or inapplicable,
+  select an evidence-backed no-change reply as `autonomous work` when a reply
+  is appropriate; otherwise classify that concern as non-actionable. Neither
+  path authorizes a source change.
 - When evidence establishes only a preference or opportunistic improvement,
   classify an evidence-backed no-change reply as `autonomous work` when a reply
   is appropriate; otherwise classify the finding as non-actionable. Neither

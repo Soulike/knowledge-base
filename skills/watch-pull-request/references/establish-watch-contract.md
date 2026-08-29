@@ -41,6 +41,10 @@ select them as autonomous:
 
 - edit files within the accepted PR intent, validate the result, create
   ordinary commits, and push them normally to the existing source branch;
+- perform one transition from draft to ready for review when the accepted watch
+  intent includes progressing a completed pull request through review and the
+  [shared readiness policy](../../../references/github/pull-request-review-readiness.md)
+  passes;
 - reply to top-level comments and review threads, and resolve completely
   disposed review threads;
 - rerun one clearly transient, validation-only CI replay unit; and
@@ -48,9 +52,11 @@ select them as autonomous:
   conditional update tied to the observed metadata state.
 
 Keep every other mutation human-only, including changes to labels, assignees,
-milestones, requested reviewers, draft state, base branch, repository policy,
-required checks, approvals, review decisions, PR open or closed state, branch
-existence, or published history. Merge is always a human operation.
+milestones, requested reviewers, conversion from ready for review back to
+draft, any draft-state change outside the transition authorized by the shared
+readiness policy, base branch, repository policy, required checks, approvals,
+review decisions, PR open or closed state, branch existence, or published
+history. Merge is always a human operation.
 
 After a scope-decision handoff, the user may separately authorize creation of
 one follow-up issue for one classified out-of-scope finding. Bind that one-shot

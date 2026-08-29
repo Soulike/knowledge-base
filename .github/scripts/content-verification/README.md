@@ -6,12 +6,16 @@ Three workflows verify the default branch without editing it:
 | -------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------ |
 | [`verify-time-sensitive-knowledge.yml`](../../workflows/verify-time-sensitive-knowledge.yml) | Knowledge indexed as `time-sensitive`     | Monthly, day 1 at 03:17 UTC    |
 | [`verify-evergreen-knowledge.yml`](../../workflows/verify-evergreen-knowledge.yml)           | Knowledge indexed as `evergreen`          | Quarterly, day 8 at 03:43 UTC  |
-| [`verify-skills.yml`](../../workflows/verify-skills.yml)                                     | Skill bundles and shared Skill references | Quarterly, day 15 at 04:11 UTC |
+| [`verify-maintained-agent-content.yml`](../../workflows/verify-maintained-agent-content.yml) | Skills, references, instructions, prompts | Quarterly, day 15 at 04:11 UTC |
 
 Each workflow also supports manual dispatch. A Skill bundle contains its
 `SKILL.md` and tracked files below the same directory. References inside a Skill
 belong to that bundle. Each tracked reference under a package-level
-`references/` directory is verified once as its own unit.
+`references/` directory is verified once as its own unit. Each tracked
+`AGENTS.md` not already owned by a Skill or shared-reference target is an
+Agent-instruction unit. Markdown files under one `.github/scripts/*/prompts/`
+directory form one prompt unit so the verifier sees their complete input and
+guidance relationship.
 
 The verifier installs `codebase-design`, `tdd`, and `writing-for-agents` as
 review-only guidance. The model can read the exact checked-out revision, search

@@ -70,18 +70,22 @@ Stop after the question and wait for the user's response.
    and downstream-project-independence rules authoritative for the proposed
    contribution; record project-specific conflicts as details to strip.
 4. Compare each candidate's responsibility, consumers, retrieval or invocation
-   trigger, and maintenance lifecycle with existing material. Prefer updating
-   an existing owner; propose a new Knowledge document, Skill, or Skill
-   reference only when no existing artifact owns the responsibility.
+   trigger, and maintenance lifecycle with existing material. Compare making no
+   contribution, deleting, rewriting, adding, merging, splitting, and moving
+   the affected material, and complete this comparison before proposing any
+   content addition. Prefer maintaining an existing owner; propose a new
+   Knowledge document, Skill, or Skill reference only when no existing artifact
+   owns the responsibility.
 5. Merge candidates that share one reusable cause and discard weak or
    redundant candidates. Keep independent candidates separately selectable.
 6. Present a decision-ready proposal for every retained candidate:
    - the established experience and supporting evidence;
    - the generalized lesson and why it should improve future work;
-   - the proposed classification and whether to update an existing owner or
-     create a new artifact;
-   - a concrete title, reading or invocation trigger, and the proposed reusable
-     content in draft form rather than only an outline;
+   - the proposed classification, the complete responsibility affected, and the
+     operation: delete, rewrite, add, merge, split, move, or create an artifact;
+   - a concrete title, reading or invocation trigger when applicable, and the
+     proposed final reusable content and structure in draft form rather than
+     only an outline;
    - the project-specific details removed from the reusable content; and
    - uncertainties, exclusions, or limits that the contribution must preserve.
 7. Report evidence and conclusions rather than hidden reasoning. Keep
@@ -99,5 +103,6 @@ The offer stage is complete only when the normal task outcome has been
 reported and the workflow either remains silent because no candidate qualifies
 or asks one concise proposal question. The proposal stage is complete only
 when every candidate has been independently verified, compared with existing
-material, classified, generalized, and either presented for selection or
-rejected with the reason stated, while the knowledge base remains unchanged.
+material and non-additive alternatives, classified, generalized, assigned a
+concrete operation, and either presented for selection or rejected with the
+reason stated, while the knowledge base remains unchanged.

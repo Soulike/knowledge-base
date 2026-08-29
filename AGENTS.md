@@ -88,10 +88,12 @@ plugin Skills, manifests, indexes, and repository tooling. They are development
 instructions, not capabilities exposed by the installed primary plugin.
 
 Use
-[`.agents/skills/add-to-knowledge-base/SKILL.md`](.agents/skills/add-to-knowledge-base/SKILL.md)
-whenever new material must be integrated into this repository. It first
-classifies the material as Knowledge, Skill or Skill reference, mixed, or out
-of scope, then loads only the applicable authoring workflow.
+[`.agents/skills/maintain-knowledge-base/SKILL.md`](.agents/skills/maintain-knowledge-base/SKILL.md)
+whenever an authorized change adds, corrects, rewrites, splits, merges, moves,
+or removes Knowledge, a Skill, a Skill reference, or maintained Agent
+instructions and prompts that govern them. It first classifies every affected
+responsibility, then selects the applicable authoring workflows and the
+smallest coherent operation.
 
 ### Plugin usage Skills
 
@@ -131,11 +133,13 @@ Use this layout:
 ├── .agents/
 │   ├── references/
 │   └── skills/
-│       └── add-to-knowledge-base/
+│       └── maintain-knowledge-base/
 │           ├── SKILL.md
 │           └── references/
-│               ├── add-knowledge.md
-│               └── add-skill.md
+│               ├── maintain-knowledge.md
+│               ├── maintain-skill.md
+│               ├── maintain-skill-reference.md
+│               └── update-plugin-version.md
 ├── knowledge/
 │   ├── index.md
 │   └── chromium/

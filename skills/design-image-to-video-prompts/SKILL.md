@@ -51,9 +51,9 @@ attention set rather than a questionnaire or exhaustive motion taxonomy.
 Build a decision frontier from the request and visible first-frame evidence. In
 each round, ask every currently answerable question whose unresolved answer
 would materially change the motion, timing, camera, continuity, end state, or
-integrated audio. Give a recommended answer for each question. Do not repeat a
-settled question, ask the user for visible facts you can inspect, or turn the
-reference's examples into required fields.
+integrated audio when that mode was selected. Give a recommended answer for
+each question. Do not repeat a settled question, ask the user for visible facts
+you can inspect, or turn the reference's examples into required fields.
 
 Evaluate whether the requested actions fit the confirmed duration. When they do
 not, explain the conflict and recommend concrete choices such as extending the

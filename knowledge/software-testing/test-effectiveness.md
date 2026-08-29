@@ -57,6 +57,14 @@ When local code interprets, transforms, validates, or transmits the input, test
 the owned effect through that code's interface. When no local owned effect
 exists, use the applicable non-test validation instead of manufacturing a test.
 
+When the owned contract is a local executable artifact such as a script,
+command-line tool, or hook, execute it and assert its outputs, exit status, or
+side effects. Matching its source text proves only that the text exists and can
+stay green when behavior is broken. Use a source-level assertion only when
+source form is itself the contract, such as compatibility with a parser that
+cannot run in the current environment, and use a structural parser when
+structure matters.
+
 ## Find marginal protection
 
 Several common test shapes add little or no independent protection:

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review and Improve Tests"
+  short_description: "Review, diagnose, and improve existing tests"
+  default_prompt: "Use $review-and-improve-tests to review these tests or test results, diagnose each problem at its owner, improve the supported cases, and prove every resulting claim."

@@ -94,7 +94,7 @@ and proposed owning boundaries without editing. When remediation is explicitly
 authorized, fix the failed control at its owning boundary and preserve
 unrelated work; do not tune a scanner around reachable vulnerable behavior.
 
-Read [Test effectiveness](../../references/software-testing/test-effectiveness.md)
+Read [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
 before designing or judging security regression coverage, and apply its
 ownership, oracle, test-double, and security-boundary criteria to the failed
 control.

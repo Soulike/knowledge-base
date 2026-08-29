@@ -84,7 +84,7 @@ limit compatibility edits to the approved units.
 Inspect the resulting manifests, resolved graph, lifecycle behavior, and diff
 before validation. If the remediation changes application behavior or needs a
 security regression test, read
-[Test effectiveness](../../references/software-testing/test-effectiveness.md)
+[Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
 and follow the active project's testing workflow.
 
 ## Validate the local remediation

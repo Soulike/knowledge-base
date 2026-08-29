@@ -42,22 +42,8 @@ pre-existing defect into scope.
 
 ## Select the action
 
-Select exactly one action path:
+Evaluate these action paths in order and select exactly one:
 
-- For a substantiated finding outside the accepted PR intent, choose the
-  `human decision required` disposition and apply a PR-wide mutation freeze
-  even when the remedy is obvious. Hand off the choices to expand the accepted
-  intent and reassess the complete change, authorize a follow-up issue as a
-  separate external mutation, or defer the finding without creating one.
-  Create an issue only after the user authorizes its repository and scope.
-  Re-establish the accepted intent and mutation boundary before resuming.
-  Preserve a prior prohibition on scope expansion unless the user explicitly
-  revises it.
-- Select an autonomous source mutation only when the recorded accepted intent
-  and trusted authority require this PR to act, the recorded PR relationship
-  supports that application, and every condition in the autonomy gate passes.
-  A behavior contract, project instruction, or verification oracle that proves
-  a defect exists does not by itself establish that this PR must fix it.
 - Select an evidence-backed no-change reply as `autonomous work` when the
   concern is duplicate, already fixed, outdated, or inapplicable and a reply is
   appropriate; otherwise classify the finding as non-actionable. Neither path
@@ -66,6 +52,20 @@ Select exactly one action path:
   classify an evidence-backed no-change reply as `autonomous work` when a reply
   is appropriate; otherwise classify the finding as non-actionable. Neither
   disposition authorizes a source change or freezes the PR.
+- For a substantiated defect or other technically required change outside the
+  accepted PR intent, choose the `human decision required` disposition and
+  apply a PR-wide mutation freeze even when the remedy is obvious. Hand off the
+  choices to expand the accepted intent and reassess the complete change,
+  authorize a follow-up issue as a separate external mutation, or defer the
+  finding without creating one. Create an issue only after the user authorizes
+  its repository and scope. Re-establish the accepted intent and mutation
+  boundary before resuming. Preserve a prior prohibition on scope expansion
+  unless the user explicitly revises it.
+- Select an autonomous source mutation only when the recorded accepted intent
+  and trusted authority require this PR to act, the recorded PR relationship
+  supports that application, and every condition in the autonomy gate passes.
+  A behavior contract, project instruction, or verification oracle that proves
+  a defect exists does not by itself establish that this PR must fix it.
 - Require a human decision for materially reasonable alternatives, conflicting
   review requests, an expansion or redefinition of PR purpose, unresolved
   product or architecture choices, compatibility or policy decisions, risk

@@ -68,10 +68,11 @@ the choice, make the quality-oriented decision and surface it in the
 requirement summary.
 
 Fill low-impact gaps coherently. Surface material assumptions, and ask when
-hard constraints conflict. For a simple, low-ambiguity motion plan, proceed
-without a separate confirmation turn. Before composing a materially complex
-plan, present the current understanding and wait for confirmation unless the
-user delegated the remaining choices.
+hard constraints conflict. After camera behavior is settled as required above,
+proceed with a simple, low-ambiguity motion plan without a separate whole-plan
+confirmation turn. Before composing a materially complex plan, present the
+current understanding and wait for confirmation unless the user delegated the
+remaining choices.
 
 ## Construct and deliver the prompt
 

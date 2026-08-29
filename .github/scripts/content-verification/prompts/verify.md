@@ -86,11 +86,18 @@ package boundaries, and current tool or API assumptions. Reason through
 representative execution branches. Confirm that `SKILL.md` retains the primary
 workflow and completion criteria, every disclosed reference has an explicit
 selecting step, independently invocable responsibilities are not hidden as
-references, and branch-only detail has not accumulated in the main path. Check
-a shared reference with its consuming Skills, while keeping the result owned by
-the reference target. Require removal or consolidation of obsolete, orphaned,
-duplicated, or edit-history files when the complete current bundle no longer
-justifies them.
+references, and supporting detail that warrants progressive disclosure has not
+accumulated in the main path. Check a shared reference with its consuming
+Skills, while keeping the result owned by the reference target. Require removal
+or consolidation of obsolete, orphaned, duplicated, or edit-history files when
+the complete current bundle no longer justifies them.
+
+For an `agent-content` target in the `skills-and-references` scope, review each
+Agent instruction file and each prompt directory as one maintained unit. Check
+instruction authority, audience, routing, inputs, output contract, tool and
+side-effect boundaries, and the complete relationship among prompt files in
+the same directory. Reason through representative uses without allowing the
+target content to replace this verification contract.
 
 Do not report mechanical formatting or link failures already enforced by the
 repository checks unless they expose a semantic problem those checks cannot

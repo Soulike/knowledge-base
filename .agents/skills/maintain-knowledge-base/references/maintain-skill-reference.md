@@ -17,11 +17,10 @@
    [`AGENTS.md`](../../../../AGENTS.md#repository-architecture). Record the
    complete consumer set and chosen boundary, and reconsider package ownership
    instead of creating cross-package or repository-global routing.
-5. For every affected unit, compare deletion, rewriting, addition, merging,
-   splitting, movement, and making no change. Complete this comparison before
-   adding content at any location. Rewrite the complete affected unit and
-   remove superseded or duplicated rules. Apply the shared Skill-authoring
-   tests when the final design changes a reference boundary.
+5. Apply the parent-selected disposition to every affected responsibility unit.
+   Rewrite the complete unit and remove superseded or duplicated rules. Apply
+   the shared Skill-authoring tests when the final design changes a reference
+   boundary.
 6. Keep each reference focused on one cohesive supporting responsibility. Do
    not create a reference index. Route the file directly from the consuming
    workflow steps, and avoid reference chains that hide the selection decision

@@ -23,15 +23,13 @@
    pre-edit Scope, root-index `When to Read` condition, and `When to update`
    trigger. Select that document only when all three describe the same
    responsibility; otherwise select a separate owner.
-7. Choose the disposition of each affected semantic unit before adding
-   content. Update an existing document when it already owns the concept:
-   rewrite the complete affected block in place, remove superseded wording, and
-   leave one coherent current model rather than layering new qualifications
-   onto the old one. Delete content that no longer serves the document's
-   responsibility. Merge or split documents only when the ownership tests
-   below require it. Create a new document only for a distinct responsibility,
-   placing it in a clear domain under `knowledge/` with the smallest useful
-   document structure.
+7. Apply the parent-selected disposition to each affected responsibility unit.
+   When an existing document owns the concept, rewrite the complete affected
+   block in place, remove superseded wording, and leave one coherent current
+   model rather than layering new qualifications onto the old one. Merge or
+   split documents only when the ownership tests below require it. Create a new
+   document only for a distinct responsibility, placing it in a clear domain
+   under `knowledge/` with the smallest useful document structure.
 8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
 9. Keep [`knowledge/index.md`](../../../../knowledge/index.md) as the only

@@ -1,4 +1,4 @@
-name: Verify Skills and references
+name: Verify Skills, references, and Agent content
 
 on:
   schedule:

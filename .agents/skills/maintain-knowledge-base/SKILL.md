@@ -8,6 +8,11 @@ description: Maintain content in this knowledge-base repository. Use when an aut
 Classify every affected responsibility before choosing its final artifact or
 operation.
 
+An **affected responsibility unit** is the smallest complete block of meaning
+or workflow behavior owned by one responsibility that the authorized change
+can make stale or incoherent. Its required route and consumer repairs are part
+of the change effect, but do not authorize changes to independent behavior.
+
 ## Workflow
 
 1. Resolve repository paths relative to this `SKILL.md`; the repository root is
@@ -27,14 +32,14 @@ operation.
    workflow-removal, routing-order, and lifecycle tests. A Knowledge candidate
    must support a root-index `When to Read` condition that is observable from an
    installed-plugin task, subject, or artifact before any workflow is selected.
-4. Classify every new, changed, moved, or removed part as Knowledge, Skill,
-   Skill reference, mixed, or another repository-owned artifact using that
-   model. Keep explanation selected only by a workflow step in that Skill or an
-   appropriately scoped reference even when the prose sounds general or several
-   Skills use it. Keep repository instructions, prompts, implementation, and
-   other material that owns neither retrievable understanding nor a reusable
-   workflow in its actual artifact type rather than forcing it into Knowledge
-   or a Skill.
+4. Classify every new, changed, moved, or removed affected responsibility unit
+   as Knowledge, Skill, Skill reference, mixed, or another repository-owned
+   artifact using that model. Keep explanation selected only by a workflow step
+   in that Skill or an appropriately scoped reference even when the prose
+   sounds general or several Skills use it. Keep repository instructions,
+   prompts, implementation, and other material that owns neither retrievable
+   understanding nor a reusable workflow in its actual artifact type rather
+   than forcing it into Knowledge or a Skill.
 5. Inventory relevant existing Knowledge, Skills, and references in every
    applicable package or authoring scope. Compare their pre-edit
    responsibilities, consumers, retrieval or invocation triggers, and
@@ -49,7 +54,7 @@ operation.
    by responsibility, retrieval or invocation timing, consumers, and
    maintenance lifecycle rather than by the requested operation or current file
    layout.
-8. For every affected semantic unit, compare making no change, deleting,
+8. For every affected responsibility unit, compare making no change, deleting,
    rewriting, adding, merging, splitting, and moving the material. Complete this
    comparison before adding content at any location. Do not add by default when
    the material corrects, duplicates, or supersedes existing content; needs a
@@ -74,7 +79,15 @@ operation.
     `skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)
     after the content stabilizes.
-11. Review the combined result and report the classification, affected
+11. When meaning or structure changed, use a fresh Agent or isolated context for
+    a read-only semantic comparison of the trusted pre-change state, accepted
+    requirements, and every final affected artifact. Require the comparison to
+    account for every semantic change and verify that retained, moved, split,
+    and merged responsibilities remain reachable from each required starting
+    point. Resolve every unexplained loss, distortion, duplicate authority, or
+    route failure and repeat the comparison after each fix. Treat unavailable
+    independent comparison as an incomplete result.
+12. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated primary-plugin version when applicable, and mechanical and
     semantic validation performed. Explain a plausible structural alternative
@@ -103,5 +116,6 @@ The resulting diff must preserve the Knowledge-versus-workflow boundary and
 must not change an independent responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.
-When root Knowledge, Skill references, or usage Skills changed, also require
-the PR-scoped primary-plugin version and its validation to be current.
+The independent semantic comparison must find no unexplained change. When root
+Knowledge, Skill references, or usage Skills changed, also require the
+PR-scoped primary-plugin version and its validation to be current.

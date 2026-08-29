@@ -18,7 +18,7 @@ export type VerificationScope = (typeof verificationScopes)[number];
 export type VerificationTarget = {
   files: string[];
   id: string;
-  kind: "knowledge" | "shared-reference" | "skill";
+  kind: "agent-content" | "knowledge" | "shared-reference" | "skill";
 };
 
 function isKnowledgeScope(
@@ -48,6 +48,14 @@ function sharedReferencePackage(filePath: string): boolean {
     return true;
   }
   return /^plugins\/[^/]+\/references\//u.test(filePath);
+}
+
+function isAgentInstructions(filePath: string): boolean {
+  return filePath === "AGENTS.md" || filePath.endsWith("/AGENTS.md");
+}
+
+function promptBundleDirectory(filePath: string): string | undefined {
+  return /^(\.github\/scripts\/[^/]+\/prompts)\/.+\.md$/u.exec(filePath)?.[1];
 }
 
 function normalizedTrackedPaths(trackedPaths: string[]): string[] {
@@ -104,7 +112,7 @@ function knowledgeTargets(
     .sort((left, right) => left.id.localeCompare(right.id));
 }
 
-function skillTargets(trackedPaths: string[]): VerificationTarget[] {
+function agentContentTargets(trackedPaths: string[]): VerificationTarget[] {
   const entrypoints = trackedPaths.filter(isSkillEntrypoint);
   const targets = entrypoints.map<VerificationTarget>((entrypoint) => {
     const directory = posix.dirname(entrypoint);
@@ -126,6 +134,31 @@ function skillTargets(trackedPaths: string[]): VerificationTarget[] {
     targets.push({ files: [filePath], id: filePath, kind: "shared-reference" });
   }
 
+  const alreadyOwned = new Set(targets.flatMap((target) => target.files));
+  for (const filePath of trackedPaths.filter(isAgentInstructions)) {
+    if (!alreadyOwned.has(filePath)) {
+      targets.push({ files: [filePath], id: filePath, kind: "agent-content" });
+    }
+  }
+
+  const promptBundles = new Map<string, string[]>();
+  for (const filePath of trackedPaths) {
+    const directory = promptBundleDirectory(filePath);
+    if (!directory || alreadyOwned.has(filePath)) {
+      continue;
+    }
+    const files = promptBundles.get(directory) ?? [];
+    files.push(filePath);
+    promptBundles.set(directory, files);
+  }
+  for (const [directory, files] of promptBundles) {
+    targets.push({
+      files: files.sort(),
+      id: directory,
+      kind: "agent-content",
+    });
+  }
+
   return targets.sort((left, right) => left.id.localeCompare(right.id));
 }
 
@@ -137,7 +170,7 @@ export function discoverVerificationTargets(
   const paths = normalizedTrackedPaths(trackedPaths);
   const targets = isKnowledgeScope(scope)
     ? knowledgeTargets(scope, paths, indexMarkdown)
-    : skillTargets(paths);
+    : agentContentTargets(paths);
   if (targets.length === 0) {
     throw new Error(
       `Verification scope '${scope}' did not discover any targets.`,

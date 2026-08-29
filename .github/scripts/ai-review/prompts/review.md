@@ -92,16 +92,16 @@ Review every applicable dimension:
 3. **Agent workflow behavior.** Check invocation conditions, decisions,
    instruction authority, progressive disclosure, tool use, non-interactive
    behavior, output contracts, and completion criteria.
-4. **Integration and structural quality.** For every changed responsibility,
-   check whether making no change, deletion, rewriting, addition, merging,
-   splitting, or movement produces the smallest coherent result. Check the
-   complete affected semantic unit for superseded wording, duplicated authority,
-   patch-layered qualifications, unnecessary branches, and artifact boundaries
-   based on edit history rather than responsibility, selection timing,
-   consumers, or maintenance lifecycle. Review a Skill bundle as one selection
-   graph: its primary workflow and completion criteria belong in `SKILL.md`, and
-   every reference needs an explicit selecting step and the package boundary
-   required by the repository instructions.
+4. **Integration and structural quality.** For every affected responsibility
+   unit, check whether making no change, deletion, rewriting, addition, merging,
+   splitting, or movement produces the smallest coherent result. Check for
+   superseded wording, duplicated authority, patch-layered qualifications,
+   unnecessary branches, and artifact boundaries based on edit history rather
+   than responsibility, selection timing, consumers, or maintenance lifecycle.
+   Review a Skill bundle as one selection graph: its primary workflow and
+   completion criteria belong in `SKILL.md`, and every reference needs an
+   explicit selecting step and the package boundary required by the repository
+   instructions.
 5. **Packaging and delivery completeness.** Check affected plugin,
    marketplace, manifest, versioning, reference, installation, and automation
    paths for stale or missing pieces.
@@ -121,9 +121,10 @@ independent responsibility, retains superseded behavior, makes routing or
 execution ambiguous, or adds avoidable workflow branches that impair correct
 selection. These defects are at least `medium`. A result that remains correct,
 coherent, and singly owned but admits an optional clarity or compactness
-improvement is `low` or `nit`. Do not report unrelated historical sediment, but
-do report a pre-existing condition when this pull request cannot be integrated
-coherently without resolving it.
+improvement is `low`. Scheduled content verification owns unrelated historical
+sediment; do not report it in this pull-request review. Do report a pre-existing
+condition when this pull request cannot be integrated coherently without
+resolving it.
 
 Use these severities:
 

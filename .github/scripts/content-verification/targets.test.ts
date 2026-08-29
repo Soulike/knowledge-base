@@ -27,11 +27,13 @@ describe("discoverVerificationTargets", () => {
     );
   });
 
-  it("bundles Skill resources and counts shared references once", () => {
+  it("bundles Skills, prompts, instructions, and shared references once", () => {
     const tracked = [
       ".agents/references/authoring.md",
       ".agents/skills/add/references/local.md",
       ".agents/skills/add/SKILL.md",
+      ".github/scripts/ai-review/prompts/review.md",
+      ".github/scripts/ai-review/prompts/skills.md",
       "AGENTS.md",
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
@@ -55,6 +57,19 @@ describe("discoverVerificationTargets", () => {
           ],
           id: ".agents/skills/add/SKILL.md",
           kind: "skill",
+        },
+        {
+          files: [
+            ".github/scripts/ai-review/prompts/review.md",
+            ".github/scripts/ai-review/prompts/skills.md",
+          ],
+          id: ".github/scripts/ai-review/prompts",
+          kind: "agent-content",
+        },
+        {
+          files: ["AGENTS.md"],
+          id: "AGENTS.md",
+          kind: "agent-content",
         },
         {
           files: ["plugins/example/references/plugin.md"],

@@ -39,11 +39,11 @@
    placement, and progressive-disclosure tests before editing. Return
    separately selected supporting material to the parent as Skill-reference
    content, and keep only independently invocable responsibilities as Skills.
-8. Choose the disposition of every affected workflow unit before adding
-   content. Rewrite the complete unit and remove superseded steps, exceptions,
-   or completion conditions when behavior changes. Delete no-op or obsolete
-   instructions. Do not preserve old and new behavior as layered
-   qualifications when one current path can express the accepted contract.
+8. Apply the parent-selected disposition to every affected responsibility unit.
+   Rewrite the complete unit and remove superseded steps, exceptions, or
+   completion conditions when behavior changes. Delete no-op or obsolete
+   instructions. Do not preserve old and new behavior as layered qualifications
+   when one current path can express the accepted contract.
 9. Apply the shared reference's split and merge tests when the final design
    changes the bundle boundary. Do not use file length, step count, or reference
    count as a structural rule.

@@ -23,7 +23,13 @@ applicable. Add examples only when they distinguish an otherwise ambiguous
 boundary, and introduce them after the complete condition so they cannot stand
 in for it.
 
-Write task-facing instructions in imperative form. Keep the primary workflow and completion criteria in the main file. Load branch-specific references only from the decisions that require them, and keep one authoritative copy of each rule.
+Write task-facing instructions in imperative form. Keep the invocation
+contract, primary workflow, decisions that select supporting material, and
+completion criteria in the main file. Preserve enough context there for every
+execution path to reach the right material. Disclose supporting facts,
+criteria, or procedures when a workflow decision selects them or when delayed
+retrieval improves a long sequence or an overgrown information hierarchy. Keep
+one authoritative copy of each rule.
 
 ## Design the Skill bundle by responsibility
 
@@ -34,12 +40,9 @@ preserve. Organize the bundle by independently owned responsibility, retrieval
 timing, consumers, and maintenance lifecycle rather than by edit history or the
 operation that introduced the content.
 
-Keep the invocation contract, primary workflow, decisions that select
-supporting material, and completion criteria in `SKILL.md`. Keep information
-needed by every execution path there as well. Move branch-only facts, criteria,
-or procedures into a reference selected directly by the workflow step that
-needs them. A separate Skill requires an independently invocable responsibility
-with its own user outcome and completion state; do not replace progressive
+For each responsibility, select the information-hierarchy tier established
+above. A separate Skill requires an independently invocable responsibility with
+its own user outcome and completion state; do not replace progressive
 disclosure with Skill-to-Skill orchestration.
 
 After applying the active project's package-boundary rules, split a reference
@@ -49,12 +52,10 @@ properties coincide and separate files preserve only historical edits. Do not
 use file length, step count, or reference count as an automatic split or merge
 rule.
 
-For every affected unit in the bundle, compare making no change, deleting,
-rewriting, adding, merging, splitting, and moving the material. Complete this
-comparison before adding content anywhere. Replace superseded workflow steps
-and remove obsolete routes rather than retaining chronological layers. The
-final bundle should expose one authoritative current workflow for each
-invocation and should contain no orphaned reference or duplicated rule.
+Replace superseded workflow steps and remove obsolete routes rather than
+retaining chronological layers. The final bundle should expose one
+authoritative current workflow for each invocation and should contain no
+orphaned reference or duplicated rule.
 
 ## Verify behavior, not only structure
 

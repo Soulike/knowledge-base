@@ -43,7 +43,7 @@ describe("discoverVerificationTargets", () => {
     ];
 
     assert.deepEqual(
-      discoverVerificationTargets("skills-and-references", tracked, index),
+      discoverVerificationTargets("maintained-agent-content", tracked, index),
       [
         {
           files: [".agents/references/authoring.md"],

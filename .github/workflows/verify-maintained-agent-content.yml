@@ -1,4 +1,4 @@
-name: Verify Skills, references, and Agent content
+name: Verify maintained Agent content
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: content-verification-skills-and-references
+  group: content-verification-maintained-agent-content
   cancel-in-progress: false
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
 
       - name: Record verification artifact name
         id: artifact
-        run: printf 'name=content-verification-skills-and-references-%s-%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
+        run: printf 'name=content-verification-maintained-agent-content-%s-%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" >> "$GITHUB_OUTPUT"
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -66,7 +66,7 @@ jobs:
           --yes
           --full-depth
 
-      - name: Verify Skills and references
+      - name: Verify maintained Agent content
         env:
           CONTENT_VERIFICATION_MODEL: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
           CONTENT_VERIFICATION_OUTPUT_DIRECTORY: ${{ runner.temp }}/content-verification
@@ -75,7 +75,7 @@ jobs:
           CONTENT_VERIFICATION_REVISION: ${{ steps.revision.outputs.sha }}
           CONTENT_VERIFICATION_RUN_ATTEMPT: ${{ github.run_attempt }}
           CONTENT_VERIFICATION_RUN_ID: ${{ github.run_id }}
-          CONTENT_VERIFICATION_SCOPE: skills-and-references
+          CONTENT_VERIFICATION_SCOPE: maintained-agent-content
           COPILOT_GITHUB_TOKEN: ${{ github.token }}
         run: node .github/scripts/content-verification/run.ts
 
@@ -138,7 +138,7 @@ jobs:
           CONTENT_VERIFICATION_REVISION: ${{ steps.revision.outputs.sha }}
           CONTENT_VERIFICATION_RUN_ATTEMPT: ${{ github.run_attempt }}
           CONTENT_VERIFICATION_RUN_ID: ${{ github.run_id }}
-          CONTENT_VERIFICATION_SCOPE: skills-and-references
+          CONTENT_VERIFICATION_SCOPE: maintained-agent-content
           CONTENT_VERIFICATION_VERIFY_RESULT: ${{ needs.verify.result }}
           GITHUB_TOKEN: ${{ github.token }}
         run: node .github/scripts/content-verification/publish.ts

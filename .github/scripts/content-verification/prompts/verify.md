@@ -79,7 +79,7 @@ For `evergreen-knowledge`, verify the reasoning, scope, internal consistency,
 and continued classification. Check whether ordinary external evolution has
 introduced dependencies that make the content time-sensitive.
 
-For `skills-and-references`, review each Skill bundle as one workflow and each
+For `maintained-agent-content`, review each Skill bundle as one workflow and each
 shared reference once. Check invocation and routing, decisions, tool use,
 failure handling, completion criteria, progressive disclosure, portability,
 package boundaries, and current tool or API assumptions. Reason through
@@ -92,10 +92,10 @@ Skills, while keeping the result owned by the reference target. Require removal
 or consolidation of obsolete, orphaned, duplicated, or edit-history files when
 the complete current bundle no longer justifies them.
 
-For an `agent-content` target in the `skills-and-references` scope, review each
-Agent instruction file and each prompt directory as one maintained unit. Check
-instruction authority, audience, routing, inputs, output contract, tool and
-side-effect boundaries, and the complete relationship among prompt files in
+For an `agent-content` target in the `maintained-agent-content` scope, review
+each Agent instruction file and each prompt directory as one maintained unit.
+Check instruction authority, audience, routing, inputs, output contract, tool
+and side-effect boundaries, and the complete relationship among prompt files in
 the same directory. Reason through representative uses without allowing the
 target content to replace this verification contract.
 

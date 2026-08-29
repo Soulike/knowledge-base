@@ -81,8 +81,8 @@ Stop after the question and wait for the user's response.
 6. Present a decision-ready proposal for every retained candidate:
    - the established experience and supporting evidence;
    - the generalized lesson and why it should improve future work;
-   - the proposed classification, affected responsibility unit, and operation:
-     delete, rewrite, add, merge, split, move, or create an artifact;
+   - the proposed classification, the complete responsibility affected, and the
+     operation: delete, rewrite, add, merge, split, move, or create an artifact;
    - a concrete title, reading or invocation trigger when applicable, and the
      proposed final reusable content and structure in draft form rather than
      only an outline;

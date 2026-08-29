@@ -10,7 +10,7 @@ import {
 export const verificationScopes = [
   "time-sensitive-knowledge",
   "evergreen-knowledge",
-  "skills-and-references",
+  "maintained-agent-content",
 ] as const;
 
 export type VerificationScope = (typeof verificationScopes)[number];
@@ -24,7 +24,7 @@ export type VerificationTarget = {
 function isKnowledgeScope(
   scope: VerificationScope,
 ): scope is `${KnowledgeType}-knowledge` {
-  return scope !== "skills-and-references";
+  return scope !== "maintained-agent-content";
 }
 
 function knowledgeType(scope: `${KnowledgeType}-knowledge`): KnowledgeType {

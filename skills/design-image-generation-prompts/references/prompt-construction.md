@@ -28,6 +28,28 @@ moving camera. A prompt can depict a runner in mid-stride; it cannot ask a still
 image to show the runner beginning, accelerating, turning a corner, and then
 stopping.
 
+## Format the prompt as prose
+
+Write the copyable prompt as continuous multi-paragraph natural language inside
+one plain-text fenced block. Use complete sentences and paragraph breaks, not
+Markdown headings, labeled fields such as `Subject:` or `Lighting:`, numbered or
+bulleted lists, tables, JSON, YAML, XML, or comma-separated keyword and tag
+strings.
+
+Give each paragraph a coherent visual responsibility. A useful progression is
+to establish the whole frame, resolve its people and action, place them in the
+setting and composition, describe the selected rendering language, and finish
+with important invariants or exclusions. This is a reading flow rather than a
+fixed paragraph count or required template: merge, split, reorder, extend, or
+omit paragraphs when the image is clearer another way.
+
+Express creation instructions, image roles, edit operations, static target
+states, and invariants as complete sentences in the paragraphs that own those
+visual decisions. Introduce a model-input image naturally at the first sentence
+where its role matters. When the finished image must contain exact text, quote
+that text verbatim within a sentence instead of turning the prompt into a field
+list.
+
 ## Represent image inputs truthfully
 
 List every model-input image outside the prompt with a stable semantic label,
@@ -96,8 +118,8 @@ the sections that carry information for the current request:
 3. **Revision diagnosis:** use when an earlier prompt or generated result is
    evidence for the revision. Explain the material cause briefly outside the
    prompt.
-4. **Final prompt:** always include one canonical, complete prompt in a
-   plain-text fenced block. It must stand on its own with only the declared
+4. **Final prompt:** always include one canonical, complete prompt using the
+   prose format above. It must stand on its own with only the declared
    model-input images. Add complete alternative prompts only when the user asks
    for variants or confirms that a materially different visual direction should
    remain open; do not generate variants mechanically.

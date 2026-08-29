@@ -121,6 +121,8 @@ Before finishing, verify that:
 - multiple people have unambiguous identities, actions, interactions, and
   spatial relationships;
 - user constraints remain authoritative over inferred aesthetic improvements;
+- the copyable prompt is continuous multi-paragraph prose rather than headings,
+  labeled fields, a list, a data structure, or a keyword string;
 - the prompt is coherent, self-contained, model-independent, and free of
   provider-specific syntax or parameters; and
 - the response contains the prompt package without invoking an image-generation

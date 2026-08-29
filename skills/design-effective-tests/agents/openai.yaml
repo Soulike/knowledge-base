@@ -1,4 +1,0 @@
-interface:
-  display_name: "Design Effective Tests"
-  short_description: "Design effective tests for production behavior"
-  default_prompt: "Use $design-effective-tests to decide what automated coverage this production behavior needs and design effective tests."

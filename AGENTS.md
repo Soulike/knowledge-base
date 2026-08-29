@@ -50,12 +50,13 @@ described below.
 
 ## Markdown references
 
-In maintained Markdown, write every prose reference to a statically known
-repository file or heading as a Markdown link whose target is relative to the
-document that contains it. The link text may show the repository-root-relative
-path when that helps the reader, but an inline-code pathname alone does not
-satisfy this requirement. A pathname used as a literal command operand, a path
-pattern, or an entry in a directory-layout diagram is not a prose reference.
+In maintained Markdown, write every prose reference to another statically known
+repository file or to a document heading as a Markdown link whose target is
+relative to the document that contains it. The link text may show the
+repository-root-relative path when that helps the reader, but an inline-code
+pathname alone does not satisfy this requirement. A pathname used as a literal
+command operand, a path pattern, or an entry in a directory-layout diagram is
+not a prose reference.
 
 When a runtime consumer gives relative paths a different base, keep the source
 link document-relative and make the consumer resolve or provide the referenced

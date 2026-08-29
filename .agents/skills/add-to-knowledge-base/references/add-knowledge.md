@@ -30,12 +30,13 @@
    structure.
 8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-9. Keep `knowledge/index.md` as the only routing catalog. Organize leaf
-   documents in domain directories, but list every leaf directly in the root
-   index and do not create nested indexes or leaf-level `Related Knowledge`,
-   `See also`, or similar routing appendices. When one leaf genuinely depends
-   on another, link it inline where the dependency is applied and include the
-   local context needed to use the current document.
+9. Keep [`knowledge/index.md`](../../../../knowledge/index.md) as the only
+   routing catalog. Organize leaf documents in domain directories, but list
+   every leaf directly in the root index and do not create nested indexes or
+   leaf-level `Related Knowledge`, `See also`, or similar routing appendices.
+   When one leaf genuinely depends on another, link it inline where the
+   dependency is applied and include the local context needed to use the current
+   document.
 10. Add or update exactly one root-index row for every affected leaf document
     using the fields below, including its Knowledge Type.
 11. Verify that every leaf document is listed exactly once with one valid
@@ -89,9 +90,10 @@ lists of editing steps.
 ## Index fields
 
 **File Path.** Use the repository-root-relative path as the link text and a
-relative Markdown link from `knowledge/index.md` as its target. Point directly
-to a leaf Knowledge document, list it exactly once, and confirm that the target
-exists.
+relative Markdown link from
+[`knowledge/index.md`](../../../../knowledge/index.md) as its target. Point
+directly to a leaf Knowledge document, list it exactly once, and confirm that
+the target exists.
 
 **Knowledge Type.** Classify each leaf document as `time-sensitive` or
 `evergreen` according to the correctness of its substantive claims within its

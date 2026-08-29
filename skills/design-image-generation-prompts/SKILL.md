@@ -115,8 +115,9 @@ Before finishing, verify that:
 - every input image has an unambiguous role and destination;
 - every analysis-only image has been translated into relevant textual
   instructions and is absent as an external dependency from the final prompt;
-- every model-input image appears in the input manifest and has a clear role in
-  the prompt;
+- every model-input image is accounted for by the
+  [Image handling output component](references/prompt-construction.md#render-the-prompt-package)
+  and has a clear role in the prompt;
 - the prompt describes one visible instant, even when the pose implies motion;
 - multiple people have unambiguous identities, actions, interactions, and
   spatial relationships;

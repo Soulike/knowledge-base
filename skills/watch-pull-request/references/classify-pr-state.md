@@ -38,29 +38,6 @@ Give every observed item one disposition:
 - human intervention required; or
 - historical, duplicate, already handled, or otherwise non-actionable.
 
-## Classify review findings
-
-Handle a finding autonomously when its active concern still applies and one
-response follows from accepted intent, an existing behavior contract, project
-instructions, or an established verification oracle. The response may be an
-objective fix, an evidence-backed answer, or an explanation that the concern
-is duplicate, already fixed, outdated, or inapplicable.
-
-Require a human decision for materially reasonable alternatives, conflicting
-review requests, an expansion or redefinition of PR purpose, unresolved
-product or architecture choices, compatibility or policy decisions, risk
-acceptance, insufficient evidence, or a conflict with accepted requirements.
-
-Topic alone does not make implementation human-only. The Agent may implement a
-previously selected high-impact approach, but selection of a new production
-dependency, public or compatibility contract, stored-data migration,
-authentication or permission model, deployment or spending commitment, license
-policy, security tradeoff, or similar policy requires a human. Treat
-suppression, reduced assertions, skipped validation, increased retries or
-timeouts, disabled required checks, and concealed failures as policy changes
-unless accepted intent already supplies an independent reason for that exact
-change.
-
 ## Classify CI
 
 - Wait for a current-head check that is still running.

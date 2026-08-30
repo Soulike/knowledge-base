@@ -32,11 +32,14 @@ expression, a physical action, a relationship, or a contrast between a person
 and the surrounding world. Treat backstory as useful only when it changes
 something visible in the selected frame.
 
-Resolve the image's intended use, orientation, aspect ratio, cropping tolerance,
-viewing size, and required negative space when they affect the visible
-proposition. A profile image, book cover, poster, and cinematic landscape frame
-can require different figure scale and empty-space decisions even when they
-depict the same subject.
+Always establish the target orientation and explicit aspect ratio before
+composing the frame. Also resolve intended use, cropping tolerance, viewing
+size, and required negative space when they affect the composition. A profile
+image, book cover, poster, and cinematic landscape frame can require different
+figure scale and empty-space decisions even when they depict the same subject.
+When a reference image has a different ratio or crop, decide whether its
+composition should control the new frame or adapt its relevant content to the
+target canvas; do not inherit the reference canvas accidentally.
 
 ## Build a legible cast and relationship graph
 
@@ -150,10 +153,11 @@ observation, and creator-owned model sheets or portfolios. Use several visual
 references when one image would entangle identity, pose, costume, composition,
 and style that should be decided independently.
 
-The design is ready when it can be described as one coherent visible frame;
-every important person, action, relationship, and constraint has an owner and
-position; the setting and hierarchy serve the same proposition; and remaining
-gaps are low impact or explicitly delegated.
+The design is ready when its canvas and aspect ratio are explicit; it can be
+described as one coherent visible frame; every important person, action,
+relationship, and constraint has an owner and position; its medium, atmosphere,
+setting, hierarchy, and intended detail density serve the same proposition; and
+remaining gaps are low impact or explicitly delegated.
 
 ## Sources
 

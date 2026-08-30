@@ -50,9 +50,10 @@ adds useful emphasis after its visible carriers are defined.
 Include the responsibilities that materially control this image:
 
 - the artifact and controlling visible idea;
+- the target orientation, aspect ratio, crop, and required negative space;
 - every important person and the attributes that belong to that person;
 - the chosen action instant and visible interactions;
-- spatial arrangement, viewpoint, crop, depth, and visual hierarchy;
+- spatial arrangement, viewpoint, depth, and visual hierarchy;
 - environment and contextual evidence;
 - medium-specific shape, line, value, color, rendering, optics, light, motion,
   and material behavior; and
@@ -61,6 +62,12 @@ Include the responsibilities that materially control this image:
 This is an attention set, not a fixed schema. Omit dimensions that do not
 change the result, combine related information, and introduce unfamiliar
 dimensions when the image needs them.
+
+State the target canvas in visible terms, such as a vertical 2:3 composition or
+a wide 16:9 frame, even when the caller may also configure the ratio through a
+provider parameter. When image references are involved, make clear whether a
+reference controls composition and crop; otherwise its relevant content should
+adapt to the stated target canvas.
 
 ## Prefer sufficient specificity over length
 

@@ -67,10 +67,56 @@ visual sources. Translate a named work, creator, or style reference into the
 observable properties relevant to this image rather than using its name as a
 substitute for art direction.
 
-Proceed directly when the available evidence already resolves the necessary
-design. Before prompt construction, present the current visible design for
-confirmation only when unresolved complexity, several image contracts, exact
-interactions, or material assumptions make silent commitment risky.
+## Settle the canvas and creative direction
+
+Always establish the target orientation and explicit aspect ratio. Also settle
+intended use, cropping tolerance, and required negative space when they affect
+the composition. When an image reference is involved, establish whether its
+composition, crop, or aspect ratio should control the new frame. Never inherit
+the reference image's canvas merely because the image will be supplied to the
+model.
+
+When the target canvas is missing, recommend one with a brief composition-based
+reason and ask the user to accept or change it. When the user explicitly
+delegates the choice, make it and surface it in the visible-design summary.
+
+Settle the macro creative direction before developing details:
+
+- the intended medium and artifact, such as an anime key visual, light-novel
+  cover, environmental photograph, or another form;
+- the overall visual language and degree of stylization or realism;
+- mood, atmosphere, emotional temperature, and intended visual impression;
+- value, palette, contrast, and lighting character;
+- rendering or photographic character; and
+- the background's narrative role and intended detail density.
+
+Treat these as high-impact decisions, not low-impact gaps. When they are absent
+and the user has not delegated them, use the matching Knowledge and research to
+propose one coherent creative direction, explain the most important trade-off,
+and ask the user to accept or change the proposal. Do not make the user invent
+technical art direction that the Agent can recommend.
+
+## Develop the visible frame
+
+Use the settled intent, canvas, creative direction, and matching Knowledge to
+expand a simple idea into a complete visual design. Resolve the focal hierarchy,
+cast and interaction, selected action instant, viewpoint, composition,
+foreground-middle-ground-background structure, motivated light, environment,
+props, material response, and secondary visual accents that make the intended
+image specific and visually engaging.
+
+Choose richness deliberately. Add environmental storytelling, depth, lighting,
+color relationships, effects, and supporting details when they reinforce the
+intent; remove them when restraint or negative space is the intended visual
+character. A sparse background and a richly layered scene are both valid only
+when their density is an explicit design choice rather than an omitted decision.
+
+Do not begin prompt construction until the target canvas, macro creative
+direction, and visible-frame development are explicit or deliberately
+delegated, and every unresolved high-impact user-owned choice has been settled.
+When the conversation already contains those decisions, proceed without
+repeating them. Otherwise present one combined visible-design proposal and wait
+for the user's confirmation before constructing the prompt.
 
 ## Construct and deliver the prompt
 
@@ -82,17 +128,26 @@ then apply the matching still-image prompting Knowledge to express the result.
 
 Before finishing, verify that:
 
+- the final prompt explicitly states the target orientation and aspect ratio,
+  and its crop, figure scale, and negative space are compatible with that
+  canvas;
 - the image has one controlling visible proposition and one coherent instant;
 - every important person, attribute, action, interaction, position, and contact
   has an unambiguous owner;
-- medium, composition, environment, light, color, and material decisions support
-  the same intended frame;
+- the medium, artifact, visual language, atmosphere, palette, and background
+  role are explicit rather than left to model defaults;
+- composition, spatial layers, environment, motivated light, material response,
+  and supporting details create the intended degree of richness without
+  competing with the focal idea;
 - every material factual or visual research gap is resolved or disclosed;
 - every image has an explicitly user-decided role and destination;
 - every analysis-only image has been translated into relevant textual
   instructions and is absent as an external dependency from the final prompt;
 - every model-input image appears in the image-handling output and has a clear
   semantic role;
+- the prompt satisfies the selected natural-language format, including its
+  user-language and continuous-prose requirements, and does not split the
+  result into positive and negative prompts or a keyword string;
 - the prompt is coherent, self-contained, model-independent, and free of
   provider-specific syntax or parameters; and
 - the response contains the prompt package without invoking an image-generation

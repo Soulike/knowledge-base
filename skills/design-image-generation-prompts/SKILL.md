@@ -1,6 +1,6 @@
 ---
 name: design-image-generation-prompts
-description: Design a new image-generation prompt for a people-focused still image. Use when the user wants help writing a drawing or image-generation prompt.
+description: Design a new image-generation prompt for a people-focused still image. Use when the user wants to create a drawing or image-generation prompt and no existing prompt or generated result is being evaluated.
 ---
 
 # Design image-generation prompts
@@ -24,6 +24,10 @@ setting, wardrobe, style, or other references, but it does not preserve or
 modify an existing image as an edit target. Treat photographic, anime,
 painterly, comic, 3D, and other visual media as open possibilities rather than
 an exhaustive style taxonomy.
+
+When the user asks to review, diagnose, or improve an existing prompt or
+generated result, explain that evaluating an existing attempt falls outside
+this workflow and stop without producing a prompt package for that request.
 
 When the requested outcome is a video or requires editing, replacing,
 extending, or preserving any part of an existing image, explain that it falls

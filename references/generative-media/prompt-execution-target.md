@@ -11,6 +11,10 @@ not ask the user to repeat information that is already available. Preserve the
 most specific identity the evidence supports, but do not invent an exact model
 identifier when the user knows only a family or product surface.
 
+When a supplied name could refer either to a product surface or to direct model
+or API use, and that distinction changes which Knowledge matches, ask which
+execution path will receive the prompt rather than choosing one implicitly.
+
 When no execution target is known, ask whether the prompt is intended for a
 specific image model or product surface. Explain that the answer is used only
 to apply matching prompt guidance. If the user has not chosen a target or does

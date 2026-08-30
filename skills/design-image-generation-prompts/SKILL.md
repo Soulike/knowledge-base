@@ -1,132 +1,208 @@
 ---
 name: design-image-generation-prompts
-description: Use when the user wants to design or revise a detailed, model-independent natural-language prompt for a people-focused still image. Applies to textual briefs of any specificity, character or other images supplied to the image model, visual references available only for analysis, edits to an existing image, and unsatisfactory prompts or generated results.
+description: Design a new image-generation prompt for a people-focused still image. Use when the user wants to create a drawing or image-generation prompt and no existing prompt or generated result is being evaluated.
 ---
 
 # Design image-generation prompts
 
-Produce a prompt package that another image model can use to create or edit one
+Produce a prompt package that another image model can use to generate one new
 still image centered on one or more people. Finish with the prompt package;
-leave image generation, model selection, provider parameters, and provider
-acceptance to the caller.
+leave image generation, model selection, provider parameters, provider
+acceptance, and provider-specific input controls to the caller.
 
-## Establish the request
+Own the professional visual-development work that an illustrator, art director,
+or photographer would perform before production: research the need, make
+quality-oriented visual decisions, critique the resulting design, and hand off
+the prompt and material plan. Do not act as a formatter for the user's first
+description.
 
-1. For a request that does not revise an earlier attempt, classify the intended
-   result as one of these closed cases:
-   - **Generate:** describe a new image, with or without image inputs.
-   - **Edit:** change an existing image while preserving identified invariants.
-2. When the user supplies an earlier prompt, an unsatisfactory result, or both,
-   record the available artifacts as revision evidence. Defer both diagnosis
-   and classification of the replacement prompt until every supplied image has
-   been routed.
-3. Confirm that the requested artifact is a people-focused still image. Treat
-   photographic, anime, painterly, comic, 3D, and other visual media as open
-   possibilities rather than an exhaustive style taxonomy.
+## Validate the generation request
 
-## Route every input image
+Confirm that the requested artifact is a newly generated, people-focused still
+image. It may use no images or several images as identity, pose, composition,
+setting, wardrobe, style, or other references, but it does not preserve or
+modify an existing image as an edit target. Treat photographic, anime,
+painterly, comic, 3D, and other visual media as open possibilities rather than
+an exhaustive style taxonomy.
 
-For each image available to the Agent, establish two independent properties:
+When the user asks to review, diagnose, or improve an existing prompt or
+generated result, explain that evaluating an existing attempt falls outside
+this workflow and stop without producing a prompt package for that request.
 
-- **Role:** what the image contributes. Examples include character identity,
-  an edit target, pose, interaction, camera angle, composition, setting,
-  wardrobe, prop design, or visual style. One image may have several roles, and
-  this list does not limit other roles relevant to the request.
-- **Destination:** either **model input**, meaning the user will supply the
-  image to the image model with the final prompt, or **analysis only**, meaning
-  only the Agent can inspect it and the final prompt must translate its
-  relevant information into words.
+When the requested outcome is a video or an edit whose target is an existing
+image, such as modifying, replacing, or extending a region or requiring regions
+of that same image to remain unchanged, explain that it falls outside this
+workflow and stop without producing a prompt package. Do not apply this stop to
+references that constrain a newly generated whole image.
 
-Record a stable label, role, destination, required invariants, allowed
-adaptations, and intentionally ignored content for each image when those
-details matter. Use the user's explicit delivery statement first. Treat “use
-the character from this image” as model input and “edit this image” as a
-model-input edit target when the surrounding request does not contradict that
-reading. Wording such as “use this image's pose, camera angle, composition, or
-style as reference” establishes a role but not, by itself, a destination. Ask
-when the request does not establish whether the image will accompany the final
-prompt, or when wording such as “refer to this image” or “combine these images”
-also leaves its role unclear.
+Inventory the user's intent, constraints, references, and every settled
+decision already available in the conversation or supplied artifacts. Use that
+information regardless of how it was obtained. Do not repeat research or ask
+the user to reconfirm a decision merely because another process collected it.
 
-Inspect accessible images instead of asking the user to report visible facts.
-When an image cannot be inspected, identify the missing evidence and ask the
-user to reattach it or describe the relevant part. If exact character identity
-matters but the only character image is analysis only, ask the user to choose
-between supplying it to the image model and accepting a textual approximation.
+## Establish image inputs
 
-## Diagnose a prior attempt
+When the user supplies an image, read
+[Establish every image's contract](../../references/generative-media/still-image-prompt-contract.md#establish-every-images-contract)
+and complete it before treating the image as a requirement. Inspect visible
+facts yourself, but do not infer what an image should control or whether the
+image model will receive it.
 
-When the request includes an earlier prompt or unsatisfactory result, read
-[Diagnose a prior prompt or result](references/prompt-revision.md),
-identify the material causes of the mismatch from the available evidence, and
-request only missing evidence that materially blocks the diagnosis. Then
-classify the replacement prompt as generate or edit from the user's intended
-next action. Keep that intent independent from every image's destination: a
-prior result may be analysis only or may accompany either kind of replacement
-prompt in an explicitly assigned model-input role.
+## Research the image
 
-## Research the visual requirements
+Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
+condition to the current task, and read only the matching Knowledge documents.
+Treat them as supplemental guidance; follow instructions, requirements,
+Skills, and project-specific information from the Agent's active working
+directory when they conflict.
 
-Read the shared lenses for the
-[controlling visual idea](references/visual-requirements.md#find-the-controlling-visual-idea),
-[people and relationships](references/visual-requirements.md#resolve-people-and-relationships),
-[one visible instant](references/visual-requirements.md#freeze-action-into-one-visible-instant),
-[medium-specific decisions](references/visual-requirements.md#choose-medium-specific-decisions),
-and [research readiness](references/visual-requirements.md#decide-whether-research-is-complete).
-Read every additional branch that applies to the request:
+Use the matching Knowledge to identify what is already settled and what remains
+to be researched. Separate two kinds of missing information:
 
-- for analysis-only images or transfers between images, read
-  [Analyze and adapt visual references](references/visual-reference-analysis.md);
-- for an edit, read
-  [Bound an image edit](references/image-editing.md).
+- investigate facts and visible evidence that can be established from images,
+  current sources, direct observation, or subject-matter authorities; and
+- ask the user only for unresolved creative choices, priorities, permissions,
+  or trade-offs that materially change the image.
 
-Treat enumerations in these sections as examples unless they explicitly mark a
-closed distinction.
+Give a recommended answer when asking the user to choose. Fill low-impact gaps
+coherently when they do not conceal a meaningful creative fork. Do not turn the
+Knowledge documents into a form, ask about every possible design dimension, or
+repeat information already present. When hard constraints conflict, explain the
+visible consequence and ask which constraint controls.
 
-Build a decision frontier from the information already available. In each
-round, ask all currently answerable questions whose unresolved answers would
-materially change the image. Give a recommended answer for each question. Do
-not ask a question whose answer depends on another open decision, repeat a
-settled question, or turn the reference's decision lenses into a form the user
-must fill out. Resolve visible facts from the supplied evidence yourself.
+Perform external research when the matching Knowledge identifies an unfamiliar
+or accuracy-sensitive subject, medium, visual reference, physical interaction,
+place, period, culture, object, or technique. Prefer primary records,
+subject-matter institutions, official technical material, and creator-owned
+visual sources. Translate a named work, creator, or style reference into the
+observable properties relevant to this image rather than using its name as a
+substitute for art direction.
 
-The user may delegate a decision to the Agent. Make a coherent choice and
-surface any material assumption in the requirement summary. Fill low-impact
-gaps without blocking. When hard constraints conflict, identify the conflict
-and ask which constraint controls.
+Apply the matching visual-design Knowledge to identify material that would
+resolve a hard requirement or materially improve the design, then record the
+result in the material plan. When tools permit, search for and inspect candidate
+references; otherwise provide concrete search, photography, or preparation
+criteria. Treat Agent-found references as analysis only unless the user
+explicitly approves one as a model input. Do not automatically download or
+redistribute external images.
 
-For a simple, low-ambiguity request, proceed without a separate confirmation
-turn. Before composing any materially complex prompt, such as one involving
-multiple people, several image roles, exact interactions, or tightly bounded
-edits, present the current understanding and wait for confirmation unless the
-user delegated the remaining choices. These cases illustrate complexity rather
-than defining its limits.
+When a hard requirement depends on unavailable material, present the supported
+alternatives identified by the Knowledge and wait for the user's resolution.
+Continue without nonessential material when the design can remain coherent, and
+state what the optional material could improve. Route every newly supplied or
+newly approved model-input image through the image contract before using it.
+
+## Settle the canvas and creative direction
+
+Always establish the target orientation and explicit aspect ratio. Also settle
+intended use, cropping tolerance, and required negative space when they affect
+the composition. When an image reference is involved, establish whether its
+composition, crop, or aspect ratio should control the new frame. Never inherit
+the reference image's canvas merely because the image will be supplied to the
+model.
+
+When the target canvas is missing, recommend one with a brief composition-based
+reason and ask the user to accept or change it. When the user explicitly
+delegates the choice, make it and surface it in the visible-design summary.
+
+Settle the macro creative direction before developing details:
+
+- the intended medium and artifact, such as an anime key visual, light-novel
+  cover, environmental photograph, or another form;
+- the overall visual language and degree of stylization or realism;
+- mood, atmosphere, emotional temperature, and intended visual impression;
+- value, palette, contrast, and lighting character;
+- rendering or photographic character; and
+- the background's narrative role and intended detail density.
+
+Treat these as high-impact decisions, not low-impact gaps. When they are absent
+and the user has not delegated them, use the matching Knowledge and research to
+form one coherent recommended direction. Ask immediately only when a genuine
+creative fork or hard constraint prevents a responsible recommendation;
+otherwise carry that direction into the complete visible-frame proposal. Do not
+make the user invent technical art direction that the Agent can recommend.
+
+## Develop the visible frame
+
+Use the settled intent, canvas, creative direction, and matching Knowledge to
+expand a simple idea into a complete visual design. Resolve the focal hierarchy,
+cast and interaction, selected action instant, viewpoint, composition,
+foreground-middle-ground-background structure, motivated light, environment,
+props, material response, and secondary visual accents that make the intended
+image specific and visually engaging.
+
+Choose richness deliberately. Add environmental storytelling, depth, lighting,
+color relationships, effects, and supporting details when they reinforce the
+intent; remove them when restraint or negative space is the intended visual
+character. A sparse background and a richly layered scene are both valid only
+when their density is an explicit design choice rather than an omitted decision.
+
+## Critique and preflight the handoff
+
+Apply the matching visual-design Knowledge to critique the complete proposal
+before presenting it or constructing the prompt. Revise every issue the
+Knowledge identifies, and present the corrected proposal rather than the first
+draft or the internal critique.
+
+Apply the still-image prompting Knowledge to preflight model-independent
+generation risks and apply its mitigations without changing hard constraints
+silently. When a mitigation changes intent, ask the user which requirement
+controls; otherwise disclose only the residual risks that materially affect the
+handoff.
+
+Do not begin prompt construction until the target canvas, macro creative
+direction, visible-frame development, material plan, visual critique, and
+generation preflight are complete; every required material is available or the
+user accepted an alternative; and every unresolved high-impact user-owned
+choice has been settled. When the conversation already contains those
+decisions, proceed without repeating them. When the user explicitly delegated
+them, make and surface the decisions. Otherwise present one combined proposal
+containing the applicable visual brief, material plan, and material risk or
+trade-off for confirmation, then wait before constructing the prompt.
 
 ## Construct and deliver the prompt
 
-Read
-[Natural-language prompt format](../../references/generative-media/natural-language-prompt-format.md)
-and [Prompt construction](references/prompt-construction.md) after the visual
-requirements are settled. Apply the shared format while using the local
-reference to translate the final design into a static image prompt and render
-the prompt package.
+After the image design is coherent, read
+[Render the prompt package](../../references/generative-media/still-image-prompt-contract.md#render-the-prompt-package)
+and the
+[natural-language prompt format](../../references/generative-media/natural-language-prompt-format.md),
+then apply the matching still-image prompting Knowledge to express the result.
 
 Before finishing, verify that:
 
-- every high-impact decision is settled or explicitly delegated;
-- every input image has an unambiguous role and destination;
+- the final prompt explicitly states the target orientation and aspect ratio,
+  and its crop, figure scale, and negative space are compatible with that
+  canvas;
+- the image has one controlling visible proposition and one coherent instant;
+- every important person, attribute, action, interaction, position, and contact
+  has an unambiguous owner;
+- the medium, artifact, visual language, atmosphere, palette, and background
+  role are explicit rather than left to model defaults;
+- composition, spatial layers, environment, motivated light, material response,
+  and supporting details create the intended degree of richness without
+  competing with the focal idea;
+- every useful or required visual material has a defined purpose and evidence
+  requirement, and each unavailable hard requirement has a user-accepted
+  resolution;
+- the complete visual design has passed a professional critique rather than
+  preserving the first plausible proposal;
+- model-independent generation risks have been mitigated, accepted, or
+  disclosed without promising a particular model's execution;
+- every material factual or visual research gap is resolved or disclosed;
+- every user-supplied image and every image proposed as a model input has an
+  explicitly user-decided role and destination;
+- every Agent-found reference not approved as a model input remains analysis
+  only, has its relevant properties translated into text, and is identified by
+  source when it materially informed the design;
 - every analysis-only image has been translated into relevant textual
   instructions and is absent as an external dependency from the final prompt;
-- every model-input image is accounted for by the
-  [Image handling output component](references/prompt-construction.md#render-the-prompt-package)
-  and has a clear role in the prompt;
-- the prompt describes one visible instant, even when the pose implies motion;
-- multiple people have unambiguous identities, actions, interactions, and
-  spatial relationships;
-- user constraints remain authoritative over inferred aesthetic improvements;
-- the copyable prompt follows the
-  [shared natural-language prompt format](../../references/generative-media/natural-language-prompt-format.md);
+- every model-input image appears in the image-handling output and has a clear
+  semantic role;
+- the prompt satisfies the selected natural-language format, including its
+  user-language and continuous-prose requirements, and does not split the
+  result into positive and negative prompts or a keyword string;
 - the prompt is coherent, self-contained, model-independent, and free of
   provider-specific syntax or parameters; and
-- the response contains the prompt package without invoking an image-generation
-  tool.
+- the response includes every applicable final visual brief, material plan,
+  research finding, generation risk, and final-prompt component without empty
+  sections or invoking an image-generation tool.

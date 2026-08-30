@@ -40,6 +40,14 @@ decision already available in the conversation or supplied artifacts. Use that
 information regardless of how it was obtained. Do not repeat research or ask
 the user to reconfirm a decision merely because another process collected it.
 
+## Establish the prompt execution target
+
+Read
+[Establish the prompt execution target](../../references/generative-media/prompt-execution-target.md)
+and complete it before evaluating the Knowledge index. Use an already selected
+target only to route matching Knowledge and portable prompt mitigations; do not
+choose or configure an image model as part of this workflow.
+
 ## Establish image inputs
 
 When the user supplies an image, read
@@ -189,6 +197,11 @@ Before finishing, verify that:
 - model-independent generation risks have been mitigated, accepted, or
   disclosed without promising a particular model's execution;
 - every material factual or visual research gap is resolved or disclosed;
+- the prompt's execution target is recorded when known, or the user chose the
+  portable path after the workflow asked about an unspecified target;
+- target-specific Knowledge was applied only when its routing conditions
+  matched established execution context, and every resulting prompt
+  instruction remains observable, natural-language, and portable;
 - every user-supplied image and every image proposed as a model input has an
   explicitly user-decided role and destination;
 - every Agent-found reference not approved as a model input remains analysis

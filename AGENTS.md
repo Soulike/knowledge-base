@@ -84,9 +84,9 @@ evidence summary in the pull-request description so a reviewer can evaluate the
 task model, research, responsibility boundaries, and observed behavior
 independently. When authoring stops before a pull request exists, preserve the
 same summary in the handoff. Keep lasting rules and subject understanding in
-their authoritative Skill, Knowledge, or reference rather than adding a design-
-history document. A mechanical-only change may use reduced evidence only when
-its summary explains why behavior is unchanged.
+their authoritative Skill, Knowledge, or reference rather than adding a
+document that records design history. A mechanical-only change may use reduced
+evidence only when its summary explains why behavior is unchanged.
 
 ## Skill scopes
 

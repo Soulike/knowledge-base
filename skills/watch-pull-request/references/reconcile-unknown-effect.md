@@ -26,6 +26,16 @@ current resolved state before repeating the mutation. For metadata or CI,
 identify the intended version or replay attempt rather than inferring success
 from a generic PR summary.
 
+For a title or description update performed through the automated-review
+remediation exception, query the exact PR identity, source head, title,
+description, and any provider-exposed metadata revision or update timestamp.
+The exact intended title and description at the expected identity and head
+establish completion. The exact pre-write metadata with an unchanged provider
+revision or update timestamp establishes non-completion, but another attempt
+still requires a fresh complete observation and classification. Any other
+result is an unexplained concurrent or partial state; preserve it and require
+human intervention rather than overwriting it or replaying the stale update.
+
 For a ready-for-review transition, apply
 [Pull request review readiness](../../../references/github/pull-request-review-readiness.md)
 as the authoritative reconciliation and mutation-freeze policy.

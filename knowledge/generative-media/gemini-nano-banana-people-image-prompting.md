@@ -3,19 +3,39 @@
 ## Scope
 
 This document defines time-sensitive prompt adaptation and diagnosis guidance
-for people-focused still images generated with a Gemini Nano Banana-family
-image model. It owns the generator-specific checks that should be considered
-whenever this family is the execution target and translates each applicable
-mitigation into portable natural language; the currently evidenced check
-concerns recurring omission of fingernails or toenails when visible hands or
-feet should show them.
+for people-focused still images generated with Gemini native image generation,
+also known as the Nano Banana family. It owns the generator-specific checks
+that should be considered whenever this family is the execution target and
+translates each applicable mitigation into portable natural language; the
+currently evidenced check concerns recurring omission of fingernails or
+toenails when visible hands or feet should show them.
 
 ## When to update
 
 Update this document when Google changes the Nano Banana family, its supported
-generation surfaces, or its prompt-following behavior, or when representative
-repeated generations establish, invalidate, or change a family-specific
-prompting risk or mitigation for people-focused images.
+model names, model identifiers, generation surfaces, or prompt-following
+behavior, or when representative repeated generations establish, invalidate,
+or change a family-specific prompting risk or mitigation for people-focused
+images.
+
+## Recognize the current family
+
+Google currently documents these equivalent Nano Banana family identities in
+its
+[Gemini API image-generation guide](https://ai.google.dev/gemini-api/docs/image-generation):
+
+| Family name        | Official Gemini model name  | API model ID                  |
+| ------------------ | --------------------------- | ----------------------------- |
+| Nano Banana 2 Lite | Gemini 3.1 Flash Lite Image | `gemini-3.1-flash-lite-image` |
+| Nano Banana 2      | Gemini 3.1 Flash Image      | `gemini-3.1-flash-image`      |
+| Nano Banana Pro    | Gemini 3 Pro Image          | `gemini-3-pro-image`          |
+| Nano Banana        | Gemini 2.5 Flash Image      | `gemini-2.5-flash-image`      |
+
+Treat a family name, its corresponding official Gemini name, and its API model
+ID as the same execution-target identity for Knowledge routing. A Gemini
+product surface that exposes native image generation without identifying the
+underlying model still selects this family profile, but supports only
+surface-level conclusions until the exact model is established.
 
 ## Evaluate the fingernail and toenail risk conditionally
 
@@ -29,7 +49,8 @@ omits nails.
 
 Use the mitigation only when all of these conditions hold:
 
-- the intended generator is a Nano Banana-family image model;
+- the intended generator matches a current family identity above or a Gemini
+  product surface using native image generation;
 - one or more hands or feet are inside the frame and large enough for individual
   digits to resolve; and
 - ordinary anatomy, grooming, character design, or the requested styling makes

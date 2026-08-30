@@ -25,9 +25,11 @@ has no artifact to evaluate.
 
 Confirm that the intended result is a newly generated, people-focused still
 image rather than a video or an edit that preserves or modifies part of an
-existing image. When the intended outcome requires editing, replacing,
-extending, or preserving any part of an existing image, explain that it falls
-outside this workflow and stop without producing a replacement package.
+existing image. When the intended outcome is an edit whose target is an existing
+image, such as modifying, replacing, or extending a region or requiring regions
+of that same image to remain unchanged, explain that it falls outside this
+workflow and stop without producing a replacement package. Do not apply this
+stop to references that constrain a newly generated whole image.
 
 Inventory every available prompt, generated result, declared image input, user
 criticism, intended result, hard constraint, and settled decision. Use available

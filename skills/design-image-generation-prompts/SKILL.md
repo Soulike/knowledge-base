@@ -29,10 +29,11 @@ When the user asks to review, diagnose, or improve an existing prompt or
 generated result, explain that evaluating an existing attempt falls outside
 this workflow and stop without producing a prompt package for that request.
 
-When the requested outcome is a video or requires editing, replacing,
-extending, or preserving any part of an existing image, explain that it falls
-outside this workflow and stop without producing a prompt package for that
-request.
+When the requested outcome is a video or an edit whose target is an existing
+image, such as modifying, replacing, or extending a region or requiring regions
+of that same image to remain unchanged, explain that it falls outside this
+workflow and stop without producing a prompt package. Do not apply this stop to
+references that constrain a newly generated whole image.
 
 Inventory the user's intent, constraints, references, and every settled
 decision already available in the conversation or supplied artifacts. Use that

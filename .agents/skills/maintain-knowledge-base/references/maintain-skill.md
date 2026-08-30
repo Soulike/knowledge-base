@@ -54,12 +54,15 @@
    obsolete route and file.
 10. Apply the Skill-reference placement and routing rules in
     [`AGENTS.md`](../../../../AGENTS.md#repository-architecture). For every usage
-    Skill that applies Knowledge, encode working-directory precedence. Keep
-    ordinary installed workflows inside their package boundary and free of
-    dependencies on source-checkout tooling, `.agents/`, private infrastructure,
-    or unguaranteed Skill-to-Skill invocation. A contribution Skill may create
-    an isolated checkout of the canonical source and read `.agents/` there, but
-    must not use the installed plugin as its authoring target.
+    Skill that applies Knowledge, encode working-directory precedence: treat
+    shared Knowledge as supplemental guidance and follow instructions, Skills,
+    requirements, and project-specific information from the Agent's active
+    working directory when they conflict. Keep ordinary installed workflows
+    inside their package boundary and free of dependencies on source-checkout
+    tooling, `.agents/`, private infrastructure, or unguaranteed Skill-to-Skill
+    invocation. A contribution Skill may create an isolated checkout of the
+    canonical source and read `.agents/` there, but must not use the installed
+    plugin as its authoring target.
 11. Run `pnpm check`, `git diff --check`, and every additional validator or
     focused test selected by the changed artifacts. Produce the authoring
     standard's required behavioral evidence in a fresh or isolated context. The

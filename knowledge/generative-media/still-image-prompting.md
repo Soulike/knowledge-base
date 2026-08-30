@@ -114,6 +114,32 @@ layout constraints than the image can prioritize, simplify or ask which
 requirements control. More explicit prose does not remove the generator's
 finite compositional capacity.
 
+## Preflight generation feasibility
+
+Before handing off a prompt, inspect the design for model-independent generation
+risks. Relevant risks include several separately identified people, exact
+counts, per-person attribute or wardrobe binding, complex physical contact,
+strict left-right or depth relationships, exact text or layout, and several
+reference images that simultaneously control identity, pose, composition, and
+style.
+
+Also inspect the prompt's attention budget. A frame can be visually coherent
+for a human artist yet ask a generator to preserve too many equally important
+people, props, effects, environmental details, and exclusions at once. Identify
+which requirements control and which can adapt before the model makes that
+choice implicitly.
+
+Mitigate a material risk by simplifying the frame, strengthening local subject
+bindings, reducing competing reference roles, relaxing exactness, prioritizing
+one interaction or focal relationship, or separating incompatible goals into
+different images. When mitigation would change a hard constraint or creative
+intent, present the trade-off to the user rather than silently weakening it.
+
+This preflight does not predict a particular model or guarantee execution.
+Disclose residual risk when a coherent prompt still depends on a capability
+that text alone cannot ensure, such as several exact identities, intricate
+contact, dense text, or rigid layout.
+
 ## Treat every image input as an explicit semantic contract
 
 Image-generation systems expose different mechanisms for general image

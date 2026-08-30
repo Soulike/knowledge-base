@@ -10,6 +10,12 @@ still image centered on one or more people. Finish with the prompt package;
 leave image generation, model selection, provider parameters, provider
 acceptance, and provider-specific input controls to the caller.
 
+Own the professional visual-development work that an illustrator, art director,
+or photographer would perform before production: research the need, make
+quality-oriented visual decisions, critique the resulting design, and hand off
+the prompt and material plan. Do not act as a formatter for the user's first
+description.
+
 ## Validate the generation request
 
 Confirm that the requested artifact is a newly generated, people-focused still
@@ -31,7 +37,7 @@ the user to reconfirm a decision merely because another process collected it.
 
 ## Establish image inputs
 
-When any image is available, read
+When the user supplies an image, read
 [Establish every image's contract](../../references/generative-media/still-image-prompt-contract.md#establish-every-images-contract)
 and complete it before treating the image as a requirement. Inspect visible
 facts yourself, but do not infer what an image should control or whether the
@@ -67,6 +73,20 @@ visual sources. Translate a named work, creator, or style reference into the
 observable properties relevant to this image rather than using its name as a
 substitute for art direction.
 
+Apply the matching visual-design Knowledge to identify material that would
+resolve a hard requirement or materially improve the design, then record the
+result in the material plan. When tools permit, search for and inspect candidate
+references; otherwise provide concrete search, photography, or preparation
+criteria. Treat Agent-found references as analysis only unless the user
+explicitly approves one as a model input. Do not automatically download or
+redistribute external images.
+
+When a hard requirement depends on unavailable material, present the supported
+alternatives identified by the Knowledge and wait for the user's resolution.
+Continue without nonessential material when the design can remain coherent, and
+state what the optional material could improve. Route every newly supplied or
+newly approved model-input image through the image contract before using it.
+
 ## Settle the canvas and creative direction
 
 Always establish the target orientation and explicit aspect ratio. Also settle
@@ -92,9 +112,10 @@ Settle the macro creative direction before developing details:
 
 Treat these as high-impact decisions, not low-impact gaps. When they are absent
 and the user has not delegated them, use the matching Knowledge and research to
-propose one coherent creative direction, explain the most important trade-off,
-and ask the user to accept or change the proposal. Do not make the user invent
-technical art direction that the Agent can recommend.
+form one coherent recommended direction. Ask immediately only when a genuine
+creative fork or hard constraint prevents a responsible recommendation;
+otherwise carry that direction into the complete visible-frame proposal. Do not
+make the user invent technical art direction that the Agent can recommend.
 
 ## Develop the visible frame
 
@@ -111,12 +132,28 @@ intent; remove them when restraint or negative space is the intended visual
 character. A sparse background and a richly layered scene are both valid only
 when their density is an explicit design choice rather than an omitted decision.
 
+## Critique and preflight the handoff
+
+Apply the matching visual-design Knowledge to critique the complete proposal
+before presenting it or constructing the prompt. Revise every issue the
+Knowledge identifies, and present the corrected proposal rather than the first
+draft or the internal critique.
+
+Apply the still-image prompting Knowledge to preflight model-independent
+generation risks and apply its mitigations without changing hard constraints
+silently. When a mitigation changes intent, ask the user which requirement
+controls; otherwise disclose only the residual risks that materially affect the
+handoff.
+
 Do not begin prompt construction until the target canvas, macro creative
-direction, and visible-frame development are explicit or deliberately
-delegated, and every unresolved high-impact user-owned choice has been settled.
-When the conversation already contains those decisions, proceed without
-repeating them. Otherwise present one combined visible-design proposal and wait
-for the user's confirmation before constructing the prompt.
+direction, visible-frame development, material plan, visual critique, and
+generation preflight are complete; every required material is available or the
+user accepted an alternative; and every unresolved high-impact user-owned
+choice has been settled. When the conversation already contains those
+decisions, proceed without repeating them. When the user explicitly delegated
+them, make and surface the decisions. Otherwise present one combined proposal
+containing the applicable visual brief, material plan, and material risk or
+trade-off for confirmation, then wait before constructing the prompt.
 
 ## Construct and deliver the prompt
 
@@ -139,8 +176,19 @@ Before finishing, verify that:
 - composition, spatial layers, environment, motivated light, material response,
   and supporting details create the intended degree of richness without
   competing with the focal idea;
+- every useful or required visual material has a defined purpose and evidence
+  requirement, and each unavailable hard requirement has a user-accepted
+  resolution;
+- the complete visual design has passed a professional critique rather than
+  preserving the first plausible proposal;
+- model-independent generation risks have been mitigated, accepted, or
+  disclosed without promising a particular model's execution;
 - every material factual or visual research gap is resolved or disclosed;
-- every image has an explicitly user-decided role and destination;
+- every user-supplied image and every image proposed as a model input has an
+  explicitly user-decided role and destination;
+- every Agent-found reference not approved as a model input remains analysis
+  only, has its relevant properties translated into text, and is identified by
+  source when it materially informed the design;
 - every analysis-only image has been translated into relevant textual
   instructions and is absent as an external dependency from the final prompt;
 - every model-input image appears in the image-handling output and has a clear
@@ -150,5 +198,6 @@ Before finishing, verify that:
   result into positive and negative prompts or a keyword string;
 - the prompt is coherent, self-contained, model-independent, and free of
   provider-specific syntax or parameters; and
-- the response contains the prompt package without invoking an image-generation
-  tool.
+- the response includes every applicable final visual brief, material plan,
+  research finding, generation risk, and final-prompt component without empty
+  sections or invoking an image-generation tool.

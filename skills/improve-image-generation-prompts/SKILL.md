@@ -100,7 +100,11 @@ Before finishing, verify that:
   input contract, and generator execution;
 - every change addresses an identified material cause and every preserved
   decision remains intact;
-- every image has an explicitly user-decided role and destination;
+- every user-supplied image and every image proposed as a model input has an
+  explicitly user-decided role and destination;
+- every Agent-found reference not approved as a model input remains analysis
+  only, has its relevant properties translated into text, and is identified by
+  source when it materially informed the diagnosis or replacement;
 - every analysis-only image has been translated into relevant text and every
   model input appears in the image-handling output;
 - multiple people retain unambiguous identities, attributes, actions,

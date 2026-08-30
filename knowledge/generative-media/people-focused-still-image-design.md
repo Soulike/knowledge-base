@@ -153,11 +153,48 @@ observation, and creator-owned model sheets or portfolios. Use several visual
 references when one image would entangle identity, pose, costume, composition,
 and style that should be decided independently.
 
+## Plan the visual evidence
+
+Identify which unresolved decisions need visual material rather than more
+verbal description. Useful material roles can include person or character
+identity, clothing construction, pose and contact, composition and viewpoint,
+location and architecture, lighting, material response, line and color, or a
+broader visual language. Do not collect references without a named design
+question that they help answer.
+
+For each useful material, define the visible evidence it must contain, which
+part of the design it should control, and which unrelated content should not
+transfer. Separate material needed to understand or research the design from
+material that must be supplied to an image generator. One source may inform the
+designer without becoming an input to the final generation.
+
+When a hard requirement depends on unavailable evidence, make the consequence
+explicit. Exact identity, unfamiliar physical contact, or historically precise
+clothing may require the user to supply a reference, relax the requirement, or
+accept an approximation. Missing optional material should not block a coherent
+design; record what a suitable reference would add and continue with supported
+choices.
+
+## Critique the design
+
+Review the complete frame before treating it as ready. Check whether it answers
+the intended purpose, establishes one visible proposition and reading order,
+makes people and relationships legible, uses composition and depth deliberately,
+and gives the environment a clear role. Verify that light, color, materials,
+medium, atmosphere, and detail density reinforce the same result.
+
+Revise a proposal that relies on generic defaults, leaves the background empty
+without intent, gives every element equal emphasis, decorates the scene without
+supporting its proposition, or combines incompatible visual languages. A
+minimal image can pass the critique when its restraint, negative space, and
+limited detail are deliberate and effective.
+
 The design is ready when its canvas and aspect ratio are explicit; it can be
 described as one coherent visible frame; every important person, action,
 relationship, and constraint has an owner and position; its medium, atmosphere,
 setting, hierarchy, and intended detail density serve the same proposition; and
-remaining gaps are low impact or explicitly delegated.
+the complete design has passed this critique. Remaining gaps must be low impact
+or explicitly delegated.
 
 ## Sources
 

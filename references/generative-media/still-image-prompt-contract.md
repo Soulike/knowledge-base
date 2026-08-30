@@ -5,13 +5,14 @@ for generating a new still image from text and optional image inputs.
 
 ## Establish every image's contract
 
-Inspect each accessible image instead of asking the user to report visible
-facts. When an image cannot be inspected, identify the missing evidence and ask
-the user to reattach it or describe only the relevant part.
+Inspect each user-supplied image instead of asking the user to report visible
+facts. When such an image cannot be inspected, identify the missing evidence
+and ask the user to reattach it or describe only the relevant part.
 
-The user must explicitly decide every image's semantic role and destination.
-Do not infer either from vague wording such as "use this image," "refer to
-this," or "combine these." Record:
+The user must explicitly decide the semantic role and destination of every
+image they supply or that is proposed as a model input. Do not infer either
+from vague wording such as "use this image," "refer to this," or "combine
+these." Record:
 
 - a stable semantic label;
 - whether the image will be supplied to the image model or is available only
@@ -37,8 +38,15 @@ controlling the result.
 
 When exact character or person identity matters but the only identity image is
 analysis only, explain that text can provide only an approximation. Ask the user
-to choose between supplying the image to the model and accepting that
-approximation.
+to choose among supplying the image to the model, relaxing the exact-identity
+requirement, and accepting that approximation.
+
+Treat visual references found by the Agent during research as analysis only by
+default. The Agent may inspect them, cite their sources, and translate their
+relevant properties without asking the user to approve that research use. Do
+not declare or package one as a model input unless the user explicitly chooses
+that destination; if proposed for model input, establish its complete contract
+before prompt construction.
 
 Every requested output is a newly generated whole image. A composition or pose
 reference may strongly constrain the new frame, but no image is an edit target
@@ -49,19 +57,27 @@ contract.
 
 Include only the components that carry information for the current task:
 
-1. **Requirement summary:** include for a complex result, material assumptions,
-   or decisions the user should be able to verify.
-2. **Research findings:** include only externally verified facts or visual
+1. **Final visual brief:** include when the workflow made nontrivial visual
+   decisions or the user should be able to verify the handoff. Summarize the
+   canvas, controlling idea, creative direction, visible frame, and intended
+   detail density without repeating the complete prompt.
+2. **Material plan and image handling:** include when images are involved or the
+   workflow identified useful or required visual material. State what each
+   material solves, the visible evidence it must contain, whether it is already
+   available, and whether it is analysis only or a user-approved model input.
+   List model inputs by stable label, role, and upload order when the caller
+   established that order. For missing optional material, give concrete search
+   or preparation criteria rather than an empty placeholder.
+3. **Research findings:** include only externally verified facts or visual
    conclusions that materially changed the design, with their sources. Keep
    creative judgment distinct from sourced fact.
-3. **Image handling:** include when images are involved. List model inputs by
-   stable label, role, and upload order when the caller established that order.
-   Separately identify analysis-only evidence and the properties translated
-   from it.
-4. **Diagnosis:** include only when the owning workflow evaluates an existing
+4. **Generation risks:** include only material model-independent risks that
+   remain after mitigation, together with the requirement at risk and the
+   chosen or recommended response. Do not emit a generic warning list.
+5. **Diagnosis:** include only when the owning workflow evaluates an existing
    prompt. State the material cause and confidence without turning every
    wording preference into a defect.
-5. **Final prompt:** always include one canonical, complete prompt. Add complete
+6. **Final prompt:** always include one canonical, complete prompt. Add complete
    alternatives only when the user requests variants or keeps a materially
    different visual direction open.
 

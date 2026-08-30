@@ -60,6 +60,14 @@ change it. When the user explicitly delegates the direction, make and surface
 the decision. Do not ask for preferences that cannot change the diagnosis or
 next handoff.
 
+## Establish the prompt execution target
+
+Read
+[Establish the prompt execution target](../../references/generative-media/prompt-execution-target.md)
+and complete it before evaluating the Knowledge index. Use an established
+target as evidence for matching Knowledge and bounded execution diagnosis; do
+not choose or configure an image model as part of this workflow.
+
 ## Critique and diagnose the attempt
 
 Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
@@ -183,6 +191,11 @@ Before finishing, verify that:
   model input appears in the material-plan and image-handling output;
 - the improved design has passed the model-independent generation preflight and
   all material residual risks are mitigated, accepted, or disclosed;
+- the prompt's execution target is recorded when known, or the user chose the
+  portable path after the workflow asked about an unspecified target;
+- target-specific Knowledge was applied only when its routing conditions
+  matched established execution context, and no model-specific causal claim
+  exceeds the available evidence;
 - the final prompt satisfies the selected natural-language format, follows the
   user's language, and is not split into positive and negative prompts or a
   keyword string;

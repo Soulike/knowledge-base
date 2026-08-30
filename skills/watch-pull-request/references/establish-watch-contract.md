@@ -48,8 +48,10 @@ select them as autonomous:
 - reply to top-level comments and review threads, and resolve completely
   disposed review threads;
 - rerun one clearly transient, validation-only CI replay unit; and
-- factually maintain the PR title or description through a provider-supported
-  conditional update tied to the observed metadata state.
+- factually maintain the PR title or description under the metadata
+  classification and reconciliation rules, including their bounded exception
+  for recording completed automated-review remediation when the provider lacks
+  a conditional write.
 
 Keep every other mutation human-only, including changes to labels, assignees,
 milestones, requested reviewers, conversion from ready for review back to

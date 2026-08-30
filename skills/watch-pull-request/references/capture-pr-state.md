@@ -2,8 +2,8 @@
 
 Retrieve one complete current snapshot from every applicable PR surface:
 
-- PR number, state, draft or terminal state, title, description, and
-  writeability;
+- PR number, state, draft or terminal state, title, description, any
+  provider-exposed metadata revision or update timestamp, and writeability;
 - base repository, ref, and SHA, together with source repository, ref, and SHA;
 - complete base-to-current-head commit history and aggregate diff, including
   changes published by earlier observation cycles;

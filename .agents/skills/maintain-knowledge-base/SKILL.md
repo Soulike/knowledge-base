@@ -50,11 +50,16 @@ of the change effect, but do not authorize changes to independent behavior.
    [Good development documentation](../../../references/documentation/good-development-documentation.md)
    and apply it throughout the applicable authoring workflow.
 7. Read each affected artifact as a whole together with the routes and
-   consumers needed to judge it. Before editing, design the final artifact set
-   by responsibility, retrieval or invocation timing, consumers, and
+   consumers needed to judge it. Read every applicable artifact workflow named
+   below and complete its analysis up to, but not including, application of a
+   parent-selected operation. Reclassify any material that a branch returns.
+   For mixed material, analyze the Knowledge part first, then the Skill part,
+   then its references.
+8. Using the completed artifact-specific analysis, design the final artifact
+   set by responsibility, retrieval or invocation timing, consumers, and
    maintenance lifecycle rather than by the requested operation or current file
    layout.
-8. For every affected responsibility unit, compare making no change, deleting,
+9. For every affected responsibility unit, compare making no change, deleting,
    rewriting, adding, merging, splitting, and moving the material. Complete this
    comparison before adding content at any location. Do not add by default when
    the material corrects, duplicates, or supersedes existing content; needs a
@@ -64,22 +69,23 @@ of the change effect, but do not authorize changes to independent behavior.
    movement preserves the required outcome with less maintained content and
    whether branch-only detail belongs behind progressive disclosure. Select the
    operation that leaves the smallest complete and coherent current model.
-9. For each Knowledge part, read
-   [`references/maintain-knowledge.md`](references/maintain-knowledge.md) and
-   complete that workflow. For each Skill part, read
-   [`references/maintain-skill.md`](references/maintain-skill.md) and complete
-   that workflow. For each Skill-reference part, read
-   [`references/maintain-skill-reference.md`](references/maintain-skill-reference.md)
-   and complete that workflow. For mixed material, finish the Knowledge branch
-   first, then stabilize the Skill responsibilities before finalizing their
-   references. Maintain other repository-owned explanatory or instructional
-   artifacts directly under the parent quality gate and their governing project
-   standards.
-10. When the final diff changes root `knowledge/**`, `references/**`, or
+10. Resume each applicable artifact workflow and apply the selected operations.
+    For each Knowledge part, use
+    [`references/maintain-knowledge.md`](references/maintain-knowledge.md) and
+    complete that workflow. For each Skill part, use
+    [`references/maintain-skill.md`](references/maintain-skill.md) and complete
+    that workflow. For each Skill-reference part, use
+    [`references/maintain-skill-reference.md`](references/maintain-skill-reference.md)
+    and complete that workflow. For mixed material, finish the Knowledge branch
+    first, then stabilize the Skill responsibilities before finalizing their
+    references. Maintain other repository-owned explanatory or instructional
+    artifacts directly under the parent quality gate and their governing project
+    standards.
+11. When the final diff changes root `knowledge/**`, `references/**`, or
     `skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)
     after the content stabilizes.
-11. When meaning or structure changed, use a fresh Agent or isolated context for
+12. When meaning or structure changed, use a fresh Agent or isolated context for
     a read-only semantic comparison of the trusted pre-change state, accepted
     requirements, and every final affected artifact. Require the comparison to
     account for every semantic change and verify that retained, moved, split,
@@ -87,7 +93,7 @@ of the change effect, but do not authorize changes to independent behavior.
     point. Resolve every unexplained loss, distortion, duplicate authority, or
     route failure and repeat the comparison after each fix. Treat unavailable
     independent comparison as an incomplete result.
-12. Review the combined result and report the classification, affected
+13. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated primary-plugin version when applicable, and mechanical and
     semantic validation performed. Explain a plausible structural alternative

@@ -80,17 +80,30 @@ and continued classification. Check whether ordinary external evolution has
 introduced dependencies that make the content time-sensitive.
 
 For `maintained-agent-content`, review each Skill bundle as one workflow and each
-shared reference once. Check invocation and routing, decisions, tool use,
-failure handling, completion criteria, progressive disclosure, portability,
-package boundaries, and current tool or API assumptions. Reason through
-representative execution branches. Confirm that `SKILL.md` retains the primary
-workflow and completion criteria, every disclosed reference has an explicit
-selecting step, independently invocable responsibilities are not hidden as
-references, and supporting detail that warrants progressive disclosure has not
-accumulated in the main path. Check a shared reference with its consuming
-Skills, while keeping the result owned by the reference target. Require removal
-or consolidation of obsolete, orphaned, duplicated, or edit-history files when
-the complete current bundle no longer justifies them.
+shared reference once. Read
+[Agent Skill authoring](references/agents/skill-authoring.md) as the repository's
+canonical current standard, while keeping this verification prompt
+authoritative. When that reference is itself a target, verify it rather than
+assuming that it is correct.
+
+For each Skill bundle, apply that standard to an independently reconstructed
+current task. Do not require historical pull-request evidence. Use the current
+bundle and current authoritative sources to reason through risk-derived
+invocation, workflow, and output scenarios, including one likely to expose a
+shortcut or omitted professional responsibility. Check invocation and routing,
+decisions, tool use, failure handling, completion criteria, progressive
+disclosure, portability, package boundaries, and current tool or API
+assumptions. Use `verification-failed` when missing or inconclusive evidence
+prevents a trustworthy current-state judgment rather than inventing a defect.
+
+Confirm that `SKILL.md` retains the primary workflow and completion criteria,
+every disclosed reference has an explicit selecting step, independently
+invocable responsibilities are not hidden as references, and supporting detail
+that warrants progressive disclosure has not accumulated in the main path.
+Check a shared reference with its consuming Skills, while keeping the result
+owned by the reference target. Require removal or consolidation of obsolete,
+orphaned, duplicated, patch-layered, or edit-history files when the complete
+current bundle no longer justifies them.
 
 For an `agent-content` target in the `maintained-agent-content` scope, review
 each Agent instruction file and each prompt directory as one maintained unit.

@@ -69,6 +69,12 @@ packaging or delivery, implementation code, repository automation, tests, or
 human-facing documentation. Use that classification to select the applicable
 rules and review dimensions.
 
+For every new or materially changed Skill, inspect the pull-request description
+and its linked evidence for the design and behavioral evidence required by the
+trusted Agent Skill authoring guidance. Independently reconstruct the real user
+task before accepting the author's model or scenarios. Missing applicable
+evidence is an incomplete change even when the proposed prose appears plausible.
+
 ### Trusted repository guidance
 
 {{TRUSTED_GUIDANCE}}
@@ -89,10 +95,16 @@ Review every applicable dimension:
    completeness. Verify evolving claims against current authoritative sources.
 2. **Classification and routing.** Check ownership, retrieval routes,
    lifecycle, package boundaries, and downstream-project independence.
-3. **Agent workflow behavior.** Check invocation conditions, decisions,
+3. **Skill task sufficiency and evidence.** For a new or materially changed
+   Skill, apply the trusted Agent Skill authoring standard to the complete
+   affected task. Independently derive risk-based scenarios and compare them
+   with the supplied design and behavioral evidence. Distinguish a demonstrated
+   content defect from a verification gap; either prevents approval when
+   material.
+4. **Agent workflow behavior.** Check invocation conditions, decisions,
    instruction authority, progressive disclosure, tool use, non-interactive
    behavior, output contracts, and completion criteria.
-4. **Integration and structural quality.** For every affected responsibility
+5. **Integration and structural quality.** For every affected responsibility
    unit, check whether making no change, deletion, rewriting, addition, merging,
    splitting, or movement produces the smallest coherent result. Check for
    superseded wording, duplicated authority, patch-layered qualifications,
@@ -102,7 +114,7 @@ Review every applicable dimension:
    completion criteria belong in `SKILL.md`, and every reference needs an
    explicit selecting step and the package boundary required by the repository
    instructions.
-5. **Packaging and delivery completeness.** Check affected plugin,
+6. **Packaging and delivery completeness.** Check affected plugin,
    marketplace, manifest, versioning, reference, installation, and automation
    paths for stale or missing pieces.
 
@@ -114,6 +126,12 @@ Report only concrete, actionable issues introduced by this pull request. Each
 finding must identify the failure or maintenance harm, explain why it matters,
 and describe a viable correction. Exclude praise, pre-existing problems,
 speculation, and duplicates of existing findings.
+
+When a pull request materially changes a Skill responsibility, review that
+complete affected responsibility against the trusted authoring standard. A
+pre-existing gap is in scope when leaving it in place makes the changed task,
+boundary, or completion model incoherent or insufficient. Do not expand the
+review into unrelated historical deficiencies.
 
 Treat failed integration as a substantive current-change defect when the pull
 request leaves duplicate or conflicting authority, widens an owner to absorb an
@@ -140,6 +158,13 @@ comment limit; every finding must independently meet the standard. The verdict
 is `needs-change` when the current code has at least one `medium` or `high`
 finding, and `approved` otherwise. `low` and `nit` findings remain inline
 comments but do not select `needs-change`.
+
+For missing design or behavioral evidence, anchor the finding to a changed line
+that establishes the affected Skill responsibility. State which evidence is
+missing, why the current behavior cannot be verified, and what the pull-request
+description must supply. Do not present an evidence gap as an observed runtime
+failure. Missing applicable evidence for a new or materially changed Skill is
+at least `medium`.
 
 ## Publish exactly one review
 

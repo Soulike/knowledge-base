@@ -56,6 +56,7 @@ test("injects the repository-root guidance routes", async () => {
   assert.deepEqual(linkTargets(prompt), [
     "AGENTS.md",
     ".agents/skills/maintain-knowledge-base/SKILL.md",
+    "references/agents/skill-authoring.md",
     "knowledge/software-testing/test-effectiveness.md",
     "knowledge/software-testing/trustworthy-test-execution.md",
     "knowledge/software-testing/test-execution-cost.md",

@@ -46,9 +46,13 @@ of the change effect, but do not authorize changes to independent behavior.
    maintenance lifecycles. Prefer an existing owner when it already owns the
    responsibility; retain a new artifact only for an independently owned
    remainder, and report why no existing owner fits it.
-6. If any affected part is maintained explanatory or instructional text, read
-   [Good development documentation](../../../references/documentation/good-development-documentation.md)
-   and apply it throughout the applicable authoring workflow.
+6. If any affected part is maintained factual, explanatory, or instructional
+   documentation, read
+   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md)
+   and apply it throughout the applicable authoring workflow. When that
+   documentation describes software behavior, interfaces, implementation,
+   operation, or decisions, or a software change may invalidate it, also read
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
 7. Read each affected artifact as a whole together with the routes and
    consumers needed to judge it. Read every applicable artifact workflow named
    below and complete its analysis up to, but not including, application of a

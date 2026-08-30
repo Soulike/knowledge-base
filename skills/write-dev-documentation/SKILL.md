@@ -7,8 +7,10 @@ description: Write or update maintained software-development documentation, incl
 
 ## Establish authority and scope
 
-1. Follow the active project's governing instructions and documentation
-   standards.
+1. Follow instructions, Skills, requirements, project-specific information,
+   and documentation standards from the active working directory. Treat this
+   plugin's packaged Knowledge as supplemental guidance; when it conflicts with
+   one of those sources, follow the active-working-directory source.
 2. Resolve linked paths relative to this `SKILL.md`, then read
    [Maintained document quality](../../knowledge/documentation/maintained-document-quality.md)
    and

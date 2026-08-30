@@ -25,11 +25,13 @@ neither is available, identify the missing attempt and stop because this
 workflow has no artifact to evaluate.
 
 Confirm that the intended result is a people-focused, continuous video
-generated from an image rather than text-only video, video-to-video
-transformation, source-image editing, or a multi-shot sequence. A continuous
-transformation occurring after the initial image remains within scope. Treat
-photographic, anime, painterly, comic, 3D, and other visual media as open
-possibilities rather than an exhaustive style taxonomy.
+generated from an image. When the intended result is text-only video,
+video-to-video transformation, source-image editing, or a multi-shot sequence,
+explain that it falls outside this workflow and stop without producing a
+replacement package. A continuous transformation occurring after the initial
+image remains within scope. Treat photographic, anime, painterly, comic, 3D,
+and other visual media as open possibilities rather than an exhaustive style
+taxonomy.
 
 Inventory every available prompt, generated video, declared model input,
 provider control, user criticism, intended result, hard constraint, and settled
@@ -195,22 +197,22 @@ Before finishing, verify that:
 - every source image has an explicit role and every analysis-only image or video
   has been translated into relevant text without becoming a model-input
   dependency;
-- the material plan records the target canvas, initial-image crop, extension,
-  or reframing, protected content, and the adaptation's effect on movement space
-  and the ending composition;
+- when a replacement package is produced, its material plan records the target
+  canvas, initial-image crop, extension, or reframing, protected content, and
+  the adaptation's effect on movement space and the ending composition;
 - a replacement is produced only when an accessible initial image exists and a
   supported semantic or specification change warrants it;
 - every replacement states the confirmed duration, orientation, and aspect
   ratio and describes one feasible continuous progression with a clear camera
   plan and end state;
-- performance, blocking, action binding, motion layers, medium treatment,
-  continuity, and selected audio address the supported causes rather than every
-  conceivable defect;
-- model-independent generation risks have been mitigated, accepted, or
-  disclosed without promising execution;
-- the final prompt follows the user's language and continuous-prose requirements
-  and is not split into positive and negative prompts, a timeline, shot list,
-  screenplay, keyword string, or provider syntax;
+- every replacement's performance, blocking, action binding, motion layers,
+  medium treatment, continuity, and selected audio address the supported causes
+  rather than every conceivable defect;
+- model-independent generation risks for any replacement have been mitigated,
+  accepted, or disclosed without promising execution;
+- every replacement prompt follows the user's language and continuous-prose
+  requirements and is not split into positive and negative prompts, a timeline,
+  shot list, screenplay, keyword string, or provider syntax;
 - no prompt change exists only to make the response appear more active; and
 - the response includes every applicable professional diagnosis, shot brief,
   material plan, research finding, generation risk, final prompt, and usage note

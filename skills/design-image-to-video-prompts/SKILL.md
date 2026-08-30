@@ -33,9 +33,10 @@ workflow and stop without producing a prompt package for that request.
 
 When the requested result is text-only video, video-to-video transformation,
 editing or repairing the initial image, or a sequence containing several shots,
-explain that it falls outside this workflow. A continuous change occurring
-after the initial frame, including a transformation of a person, object,
-environment, light, or visual state, remains within scope.
+explain that it falls outside this workflow and stop without producing a prompt
+package. A continuous change occurring after the initial frame, including a
+transformation of a person, object, environment, light, or visual state, remains
+within scope.
 
 Inventory the user's intent, constraints, materials, and every settled decision
 already available in the conversation or supplied artifacts. Use that

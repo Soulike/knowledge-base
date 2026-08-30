@@ -84,7 +84,10 @@ of the change effect, but do not authorize changes to independent behavior.
     first, then stabilize the Skill responsibilities before finalizing their
     references. Maintain other repository-owned explanatory or instructional
     artifacts directly under the parent quality gate and their governing project
-    standards.
+    standards. Before finalizing any resulting document, apply the loaded
+    Knowledge's boundary between authoring evidence and reader-facing content;
+    keep an authoring input only when it serves the final document's maintained
+    responsibility.
 11. When the final diff changes root `knowledge/**`, `references/**`, or
     `skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)

@@ -53,6 +53,15 @@ not independent authority for missing or editorially unsuitable information. A
 source index similarly owns question-to-source routing while the linked sources
 own the answers.
 
+Authoring evidence and reader-facing content have different responsibilities.
+Research, source collection, review evidence, rejected alternatives, drafts,
+and task history may justify what an author writes without belonging in the
+maintained document. Keep them in the work record that owns the authoring event
+unless the intended reader needs them to find, understand, judge, maintain, or
+act on the document's content. When traceability is itself part of the
+document's responsibility, include only the provenance needed for that use
+rather than reproducing the research process.
+
 Distinguish established facts and requirements from interpretation, examples,
 uncertainty, and preference. When readers must evaluate an analytical result,
 expose the material evidence, assumptions, method, limitations, and uncertainty

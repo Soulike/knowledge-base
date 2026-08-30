@@ -51,7 +51,10 @@ order:
    everything else, then repair prose, links, indexes, prompts, and navigation
    affected by the deletion. Defer a decision only when correctness or form
    must be established before necessity can be judged, and resolve it in the
-   relevant later stage.
+   relevant later stage. Apply the loaded Knowledge's boundary between
+   authoring evidence and reader-facing content; material that only records how
+   the document was produced belongs in its owning work record unless the
+   maintained document explicitly owns that traceability.
 2. **Correct.** Check every surviving factual claim against its authoritative
    source. Classify it as **Keep**, **Correct**, **Delete**, or **Unverified**.
    Resolve each correction or deletion. Record an unverified claim as
@@ -75,7 +78,7 @@ order:
 2. Apply the loaded Knowledge's reader review and risk-proportionate validation
    to every retained document. Check factual pointers against their
    authoritative sources and search for stale terminology, competing
-   explanations, and broken routes.
+   explanations, broken routes, and authoring-only material.
 3. Use a fresh Agent or isolated context for a read-only semantic comparison of
    the original target, the agreed findings, and every final affected artifact.
    Provide the active project instructions, applicable standards, loaded

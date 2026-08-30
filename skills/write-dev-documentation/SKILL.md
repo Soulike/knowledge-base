@@ -57,7 +57,12 @@ description: Write or update maintained software-development documentation, incl
 3. Before editing, resolve the project choices required by the chosen response.
    Apply the matching project standards and loaded Knowledge to every
    resolved target. Write the current state as one coherent account.
-4. Reconcile every affected document, comment, example, index, prompt, Agent
+4. Apply the loaded Knowledge's boundary between authoring evidence and
+   reader-facing content. Treat research, source collection, review evidence,
+   rejected alternatives, drafts, and task history as working inputs; carry
+   them into a maintained target only when they serve its reader-facing
+   responsibility.
+5. Reconcile every affected document, comment, example, index, prompt, Agent
    instruction, Skill, link, and navigation entry. When a documented invariant
    changes, reconcile its enforcement and evidence as well.
 
@@ -68,7 +73,7 @@ description: Write or update maintained software-development documentation, incl
    disposition and that all final sources agree.
 2. Apply the loaded Knowledge's reader review and risk-proportionate validation
    to every new or retained document. Confirm that no unexplained competing copy
-   remains.
+   or authoring-only material remains.
 3. Check every changed route from the reader's starting point. Confirm its label
    or condition lets the reader choose the destination before opening it.
    Search for stale terminology, paths, headings, examples, prompts, and

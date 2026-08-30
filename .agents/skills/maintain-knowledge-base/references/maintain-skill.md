@@ -28,10 +28,12 @@
    would otherwise explain. Then complete the authoring standard's professional
    research using the loaded Knowledge and any necessary current authoritative
    sources. Repository-authoring and primary-plugin Skills reference applicable
-   canonical root Knowledge rather than reproducing it. For an independent
-   plugin, use the comparison only to identify root-owned or out-of-package
-   material: do not reference root files, and return that material to the parent
-   for reclassification or package-ownership reconsideration.
+   canonical root Knowledge rather than reproducing it, and return missing
+   independently retrievable understanding to the parent as mixed material so
+   the Knowledge branch completes first. For an independent plugin, use the
+   comparison only to identify root-owned or out-of-package material: do not
+   reference root files, and return that material to the parent for
+   reclassification or package-ownership reconsideration.
 6. Search the selected Skill scope for workflows with the same or overlapping
    task. Compare their invocation conditions, accepted input states,
    user-visible results, decisions, privileged effects, failure and completion

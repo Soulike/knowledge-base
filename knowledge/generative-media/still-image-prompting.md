@@ -3,12 +3,13 @@
 ## Scope
 
 This document explains model-independent principles for expressing and
-evaluating a generated still image as a natural-language prompt. It owns the
-distinctions among visual-design quality, prompt-specification quality, and
-generator execution; semantic completeness and prioritization; multi-subject
-binding; image-reference semantics; constraints; and diagnosis of common
-prompt-alignment failures, without prescribing provider syntax or one universal
-prompt length or serialization.
+evaluating a generated still image as a natural-language prompt and for
+diagnosing an existing generation attempt from its prompt, result, or paired
+iterations. It owns the distinctions among intent fit, visual-design quality,
+prompt-specification quality, and generator execution; semantic completeness
+and prioritization; multi-subject binding; image-reference semantics;
+constraints; and diagnosis of common prompt-alignment failures, without
+prescribing provider syntax or one universal prompt length or serialization.
 
 ## When to update
 
@@ -19,13 +20,15 @@ generated still image.
 
 ## Separate the picture, its specification, and its execution
 
-Evaluate three different questions:
+Evaluate four different questions:
 
-1. **Visual-design quality:** Would the intended frame work as an image,
+1. **Intent fit:** Does the intended or generated frame answer the user's actual
+   goal, priorities, and hard constraints?
+2. **Visual-design quality:** Would the intended frame work as an image,
    independent of a generator?
-2. **Prompt-specification quality:** Does the prompt express that design
+3. **Prompt-specification quality:** Does the prompt express that design
    completely, coherently, and without material ambiguity?
-3. **Generator execution:** Did the selected model honor the text and image
+4. **Generator execution:** Did the selected model honor the text and image
    conditions within its own capabilities and stochastic variation?
 
 A visually attractive output can depict the wrong scene. A complete prompt can
@@ -33,11 +36,20 @@ still be executed poorly. A generator can also follow a weak visual design
 faithfully. Do not assume that adding words improves all three axes or that one
 failed output proves a prompt defect.
 
-When reviewing an existing prompt, compare the intended image, prompt, declared
-image inputs, generated result, and user criticism when those artifacts are
-available. Locate the smallest causal set of mismatches before changing the
-prompt. Preserve sound decisions and state uncertainty when one stochastic
-output cannot establish the cause.
+An existing attempt may provide a prompt, a generated result, or both. A prompt
+without a result supports prospective review. A result without its prompt
+supports professional visual critique and design of the next prompt, but not a
+claim about which original wording caused the failure. When both are available,
+compare the intended image, prompt, declared image inputs, result, and user
+criticism before assigning a cause.
+
+Pair multiple prompts, input contracts, results, and feedback by iteration.
+Repeated failures support a stronger causal hypothesis than one stochastic
+output; a problem that appears or disappears after one change can locate a
+likely cause; and a requirement that a later prompt accidentally drops is a
+regression rather than evidence that the earlier requirement was unnecessary.
+Preserve sound decisions and state the confidence and limits of every causal
+diagnosis.
 
 ## Write a visible contract
 
@@ -207,6 +219,18 @@ clothing or props, wrong left-right or depth relationships, implausible contact,
 lost low-priority requirements, identity mixing, exact-layout failure, and text
 errors. Use these as diagnostic categories, not as proof that prompt wording
 caused the failure.
+
+Evaluate visual craft against the intended result before labeling a choice as a
+defect. Unclear hierarchy, unreadable action, incompatible geometry, accidental
+emptiness, conflicting light, or incoherent medium treatment can have
+explainable visual consequences. Rich versus restrained, soft versus dramatic,
+or realistic versus exaggerated treatment may instead be an aesthetic
+direction that requires user preference rather than correction.
+
+Prioritize the smallest high-impact causal set. Distinguish required corrections
+from optional refinements and generator-execution failures. Do not bury the next
+decision under an exhaustive list of minor imperfections unless the user asks
+for a complete critique.
 
 Rewrite the complete prompt when its semantic contract changes. Do not return a
 conversational patch such as "make it more dramatic" or mechanically append

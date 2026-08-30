@@ -41,6 +41,12 @@ analysis only, explain that text can provide only an approximation. Ask the user
 to choose among supplying the image to the model, relaxing the exact-identity
 requirement, and accepting that approximation.
 
+When the user supplies a generated result for critique, its role as analysis
+evidence is established by that request. Inspect it without asking permission to
+analyze it. Whether the same image will also be supplied to the next generation
+is a separate decision; do not assign it a model-input role unless the user
+explicitly chooses that destination and defines what it should control.
+
 Treat visual references found by the Agent during research as analysis only by
 default. The Agent may inspect them, cite their sources, and translate their
 relevant properties without asking the user to approve that research use. Do
@@ -57,26 +63,28 @@ contract.
 
 Include only the components that carry information for the current task:
 
-1. **Final visual brief:** include when the workflow made nontrivial visual
+1. **Professional diagnosis:** include when the owning workflow evaluates an
+   existing prompt, generated result, or paired attempt. State the high-impact
+   visual findings, smallest supported causal set, required versus optional
+   improvements, and diagnosis confidence without turning every aesthetic
+   preference into a defect.
+2. **Final visual brief:** include when the workflow made nontrivial visual
    decisions or the user should be able to verify the handoff. Summarize the
    canvas, controlling idea, creative direction, visible frame, and intended
    detail density without repeating the complete prompt.
-2. **Material plan and image handling:** include when images are involved or the
+3. **Material plan and image handling:** include when images are involved or the
    workflow identified useful or required visual material. State what each
    material solves, the visible evidence it must contain, whether it is already
    available, and whether it is analysis only or a user-approved model input.
    List model inputs by stable label, role, and upload order when the caller
    established that order. For missing optional material, give concrete search
    or preparation criteria rather than an empty placeholder.
-3. **Research findings:** include only externally verified facts or visual
+4. **Research findings:** include only externally verified facts or visual
    conclusions that materially changed the design, with their sources. Keep
    creative judgment distinct from sourced fact.
-4. **Generation risks:** include only material model-independent risks that
+5. **Generation risks:** include only material model-independent risks that
    remain after mitigation, together with the requirement at risk and the
    chosen or recommended response. Do not emit a generic warning list.
-5. **Diagnosis:** include only when the owning workflow evaluates an existing
-   prompt. State the material cause and confidence without turning every
-   wording preference into a defect.
 6. **Final prompt:** always include one canonical, complete prompt. Add complete
    alternatives only when the user requests variants or keeps a materially
    different visual direction open.

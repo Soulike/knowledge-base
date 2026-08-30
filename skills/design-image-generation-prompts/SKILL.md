@@ -1,6 +1,6 @@
 ---
 name: design-image-generation-prompts
-description: Use when the user wants a new, detailed, model-independent natural-language prompt for generating a people-focused still image from an idea, visual brief, or zero or more image references.
+description: Design a new image-generation prompt for a people-focused still image. Use when the user wants help writing a drawing or image-generation prompt.
 ---
 
 # Design image-generation prompts

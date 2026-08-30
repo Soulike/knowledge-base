@@ -1,6 +1,6 @@
 ---
 name: improve-image-generation-prompts
-description: Use when the user provides an existing prompt for a people-focused generated still image and wants it evaluated, corrected, or fully rewritten, either before generation or with feedback and generated results.
+description: Improve an existing image-generation prompt for a people-focused still image. Use when the user wants to review, diagnose, correct, or rewrite a drawing or image-generation prompt.
 ---
 
 # Improve image-generation prompts

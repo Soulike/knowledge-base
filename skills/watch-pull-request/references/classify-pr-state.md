@@ -130,11 +130,13 @@ The exception accepts the small race in which any checked PR identity, state,
 head, title, or description changes after the refresh but before the write. It
 does not authorize adopting a changed identity or make automated review output
 authoritative: the finding and remediation must still be independently
-established, scoped, and verified. When any condition fails, keep the update
-human-only and preserve the current metadata. After a known successful
-response, any unexpected identity, state, head, title, or description is an
-inconsistent result that freezes further mutation and requires human
-intervention rather than a retry.
+established, scoped, and verified. When an eligibility or allowed-content
+condition in items 1, 2, or 4 fails, keep the update human-only and preserve the
+current metadata. A pre-write mismatch follows item 3's return to observation
+or contract establishment, while a failed or unknown invocation follows item
+5's reconciliation path. After a known successful response, any unexpected
+identity, state, head, title, or description is an inconsistent result that
+freezes further mutation and requires human intervention rather than a retry.
 
 ## Stop drift and remediation loops
 

@@ -9,10 +9,10 @@
      `skills/` directory.
 2. Read
    [Agent Skill authoring](../../../../references/agents/skill-authoring.md) and
-   use its four stages as the authoring path: define the real task, assign
-   knowledge and execution responsibilities, write the executable workflow, and
-   prove the behavior. Determine whether the change is material under that
-   reference before selecting the amount of research and evidence.
+   determine whether the change is material. Before the parent selects an
+   operation, use the reference to define the real task and assign knowledge and
+   execution responsibilities. After selection, resume here to write the
+   executable workflow and prove its behavior.
 3. Establish the real task before preserving or changing the current Skill
    boundary. Record the professional questions that require research, but do not
    treat the repository's current contents as a complete domain model.

@@ -12,24 +12,29 @@ description: Decide whether a defined production behavior needs automated covera
    plugin's packaged Knowledge or workflow guidance.
 2. Resolve paths relative to this `SKILL.md`, then read
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md).
-3. Read
-   [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-   when discovery, conditional selection, asynchronous behavior, clocks,
-   mutable state, retries, concurrency, platforms, external processes, or
-   timeouts can affect the proposed result.
-4. Read
-   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
-   when the requested design makes a material runtime, environment, fixture, or
-   resource tradeoff.
-5. Read
-   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
-   when a test harness creates, stores, or transports credentials or
-   authenticates local peers.
-6. Define the target production behavior or bounded coverage need. Discover its
+3. Define the target production behavior or bounded coverage need. Discover its
    owning code, existing tests and static gates, project-declared test locations
    and commands, and local testing conventions. When the request concerns an
    actual production change, inventory every behaviorally relevant change so no
    required protection disappears behind the proposed tests.
+4. Read
+   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+   when the request, available production contract, and discovered code do not
+   establish the proposed behavior's requirement, reachability, or owning
+   module.
+5. Read
+   [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
+   when discovery, conditional selection, asynchronous behavior, clocks,
+   mutable state, retries, concurrency, platforms, external processes, or
+   timeouts can affect the proposed result.
+6. Read
+   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   when the requested design makes a material runtime, environment, fixture, or
+   resource tradeoff.
+7. Read
+   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
+   when a test harness creates, stores, or transports credentials or
+   authenticates local peers.
 
 Finish this step when every target behavior, applicable local rule, existing
 evidence path, and command that can establish execution is known.

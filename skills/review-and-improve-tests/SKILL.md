@@ -33,6 +33,12 @@ change may contain tests with different concerns and dispositions.
      before retaining, strengthening, replacing, consolidating, or deleting a
      reported failing or intermittent test.
    - Read
+     [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+     when a test is offered as evidence that production should own a behavior,
+     when the available contract does not establish that behavior's
+     reachability or owning module, or when test structure suggests mixed
+     module responsibilities or a missing seam.
+   - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
      for collection, selection, skips, fixtures, time, ordering, retries,
      concurrency, platforms, external processes, timeouts, runner changes, or

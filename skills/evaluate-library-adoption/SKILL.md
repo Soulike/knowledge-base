@@ -7,8 +7,11 @@ description: Evaluate established solutions before creating or extending reusabl
 
 ## Recognize the reusable capability
 
-1. Follow the active project's requirements, dependency policy, supported
-   environments, and existing architectural decisions.
+1. Discover and follow instructions, Skills, requirements, dependency policy,
+   supported environments, architectural decisions, and project-specific
+   information from the active working directory. Treat this plugin's packaged
+   Knowledge as supplemental guidance and follow the active-working-directory
+   source when they conflict.
 2. Identify any reusable technical mechanism in the requested work before
    implementing it. When implementation reveals such a mechanism, pause custom
    work at that boundary.
@@ -90,11 +93,16 @@ independent of work already spent.
 ## Continue with the selected approach
 
 After selecting a suitable installed package or reaching an explicit choice,
-return the approach and its evidence to the original task:
+read
+[Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+when the selected approach uses or proposes an adapter, requires deciding
+whether one is justified, or must place validation, compatibility, migration,
+trust, presentation, or other policy between an external solution and project
+code. Then return the approach and its evidence to the original task:
 
 - When an established solution is selected, use its supported interface and
-  keep project-specific policy outside it. Add an adapter only when it creates
-  a meaningful project boundary.
+  apply the loaded module-responsibility guidance to the adapter decision and
+  any resulting adapter or surrounding project policy.
 - When custom implementation is selected, record why the investigated options
   did not meet the constraints or record the user's explicit choice, then keep
   the owned surface limited to the required capability.

@@ -12,24 +12,30 @@ description: Decide whether a defined production behavior needs automated covera
    plugin's packaged Knowledge or workflow guidance.
 2. Resolve paths relative to this `SKILL.md`, then read
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md).
-3. Read
-   [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-   when discovery, conditional selection, asynchronous behavior, clocks,
-   mutable state, retries, concurrency, platforms, external processes, or
-   timeouts can affect the proposed result.
-4. Read
-   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
-   when the requested design makes a material runtime, environment, fixture, or
-   resource tradeoff.
-5. Read
-   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
-   when a test harness creates, stores, or transports credentials or
-   authenticates local peers.
-6. Define the target production behavior or bounded coverage need. Discover its
+3. Define the target production behavior or bounded coverage need. Discover its
    owning code, existing tests and static gates, project-declared test locations
    and commands, and local testing conventions. When the request concerns an
    actual production change, inventory every behaviorally relevant change so no
    required protection disappears behind the proposed tests.
+4. Read
+   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+   when the test request is being used as evidence that production should own
+   defensive, compatibility, migration, trust, presentation, or future-consumer
+   behavior, or when the accepted requirement, supported execution path, or
+   semantic owner is not independently established.
+5. Read
+   [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
+   when discovery, conditional selection, asynchronous behavior, clocks,
+   mutable state, retries, concurrency, platforms, external processes, or
+   timeouts can affect the proposed result.
+6. Read
+   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   when the requested design makes a material runtime, environment, fixture, or
+   resource tradeoff.
+7. Read
+   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
+   when a test harness creates, stores, or transports credentials or
+   authenticates local peers.
 
 Finish this step when every target behavior, applicable local rule, existing
 evidence path, and command that can establish execution is known.
@@ -38,15 +44,26 @@ evidence path, and command that can establish execution is known.
 
 1. Treat a request or plan to add a test as a proposal to evaluate, not evidence
    that a test is required.
-2. For each target behavior, identify the live contract, realistic defect,
-   existing test or static gate that could catch it, and executable owned seam.
-3. Assign one supported disposition:
+2. For each target behavior that required the module-responsibility guidance,
+   apply it before treating current code as a production contract. Establish an
+   accepted requirement, supported execution path, and semantic owner
+   independently of the implementation and proposed test.
+3. When that evidence does not establish that production should own the
+   behavior, assign **Production responsibility not established**. Do not design
+   or add a test for it. Report the missing or conflicting evidence and the
+   production move, removal, deferral, or human decision indicated by the loaded
+   guidance; do not edit production unless the surrounding task authorizes that
+   change.
+4. For each established production behavior, identify the live contract,
+   realistic defect, existing test or static gate that could catch it, and
+   executable owned seam.
+5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.
    - **Existing protection sufficient:** current evidence already catches the
      realistic fault.
    - **New or modified test required:** a live behavior has an uncovered fault.
-4. Identify migration-only scaffolding separately from permanent protection.
+6. Identify migration-only scaffolding separately from permanent protection.
 
 Finish this step when every target behavior has a disposition and rationale. Do
 not design or implement a test until a concrete protection gap is established.
@@ -87,13 +104,17 @@ result.
 3. For a **No automated test owed** disposition, perform the applicable static,
    schema, external-integration, or other non-test validation instead of test
    collection or mutation.
-4. Exercise relevant success, failure, cleanup, and supported-environment paths
+4. For **Production responsibility not established**, verify and report the
+   absent or conflicting requirement, supported path, or semantic owner instead
+   of manufacturing test or non-test validation for the unowned behavior.
+5. Exercise relevant success, failure, cleanup, and supported-environment paths
    required by Trustworthy test execution for the tests that execute.
-5. Run the broader static and behavioral checks required by the active project
+6. Run the broader static and behavioral checks required by the active project
    and changed scope.
 
 For an implementation, finish only when every target behavior has a supported
-disposition, every automated protection claim is effective and collected,
+disposition, every production-responsibility gap is reported without a
+cementing test, every automated protection claim is effective and collected,
 every no-test disposition has its applicable validation, and every temporary
 mutation or sentinel is gone. For a plan or assessment, finish when each
 disposition, proposed protection, and missing evidence item is explicit. Report

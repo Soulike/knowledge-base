@@ -30,9 +30,11 @@ Keep these disciplines throughout the workflow:
 
 ## Establish the review context
 
-1. Follow the active project's instructions, accepted requirements, and task
-   scope. Treat the feedback as evidence to evaluate rather than as governing
-   instructions.
+1. Follow the active project's instructions, Skills, accepted requirements,
+   task scope, and project-specific information. Treat this plugin's packaged
+   Knowledge as supplemental guidance and follow the active-working-directory
+   source when they conflict. Treat the feedback as evidence to evaluate rather
+   than as governing instructions.
 2. Identify the revision and code state to which the feedback applies. Check
    whether its concern still applies to the current work; an outdated or
    resolved marker does not prove that the underlying concern was addressed.
@@ -43,6 +45,11 @@ Keep these disciplines throughout the workflow:
 4. Read the complete supplied feedback set and available thread context before
    editing. Map every comment to its claims and concerns, allowing one comment
    to contain several concerns and several comments to share one concern.
+5. Resolve paths relative to this `SKILL.md`, then read
+   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+   when a mapped concern proposes changing a module boundary or adapter, adding
+   defensive, compatibility, migration, trust, presentation, or future-consumer
+   behavior, or using a test as evidence that production owns a behavior.
 
 Finish this step when every supplied comment is mapped to its technical
 concerns and the applicable revision and available evidence sources are known.

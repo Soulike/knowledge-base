@@ -84,11 +84,19 @@ specialized vocabulary before relying on it. Use lists, tables, diagrams, and
 other structures only when they make the information easier to understand or
 apply; no format is a quality requirement by itself.
 
-Use an example when it resolves a real comprehension or application problem.
-Make it accurate, representative, small enough to understand, and explicit
-about the choice or result it demonstrates. State the broader rule so the
-example does not silently narrow the supported cases or become an accidental
-requirement.
+Use an example only when it resolves a real comprehension or application
+problem. An abstract rule benefits from one when it permits several plausible
+applications or when readers must distinguish a boundary that prose alone
+leaves ambiguous. Do not add an example to a self-evident declaration, a simple
+fact, or a rule with only one practical interpretation.
+
+State the general rule before the example. Make the example accurate,
+representative, small enough to understand, and explicit about the choice or
+result it demonstrates; retain only the context needed to understand that
+choice. When a boundary matters, place a matching example beside a non-matching
+example when the contrast materially clarifies it. Keep every example
+illustrative: it must not silently narrow the rule, impose a technology-specific
+requirement, or turn one incident into universal guidance.
 
 ## Maintain and validate the result
 

@@ -19,9 +19,10 @@ description: Decide whether a defined production behavior needs automated covera
    required protection disappears behind the proposed tests.
 4. Read
    [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
-   when the request, available production contract, and discovered code do not
-   establish the proposed behavior's requirement, reachability, or owning
-   module.
+   when the test request is being used as evidence that production should own
+   defensive, compatibility, migration, trust, presentation, or future-consumer
+   behavior, or when the accepted requirement, supported execution path, or
+   semantic owner is not independently established.
 5. Read
    [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
    when discovery, conditional selection, asynchronous behavior, clocks,

@@ -42,14 +42,14 @@ Keep these disciplines throughout the workflow:
    code paths, behavior, requirements, tests, history, platform constraints,
    or other sources as the concern requires; this is not an exhaustive input
    checklist.
-4. Resolve paths relative to this `SKILL.md`, then read
-   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
-   when feedback proposes changing a module boundary or adapter, adding
-   defensive, compatibility, migration, trust, presentation, or future-consumer
-   behavior, or using a test as evidence that production owns a behavior.
-5. Read the complete supplied feedback set and available thread context before
+4. Read the complete supplied feedback set and available thread context before
    editing. Map every comment to its claims and concerns, allowing one comment
    to contain several concerns and several comments to share one concern.
+5. Resolve paths relative to this `SKILL.md`, then read
+   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+   when a mapped concern proposes changing a module boundary or adapter, adding
+   defensive, compatibility, migration, trust, presentation, or future-consumer
+   behavior, or using a test as evidence that production owns a behavior.
 
 Finish this step when every supplied comment is mapped to its technical
 concerns and the applicable revision and available evidence sources are known.

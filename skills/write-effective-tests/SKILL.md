@@ -44,15 +44,26 @@ evidence path, and command that can establish execution is known.
 
 1. Treat a request or plan to add a test as a proposal to evaluate, not evidence
    that a test is required.
-2. For each target behavior, identify the live contract, realistic defect,
-   existing test or static gate that could catch it, and executable owned seam.
-3. Assign one supported disposition:
+2. For each target behavior that required the module-responsibility guidance,
+   apply it before treating current code as a production contract. Establish an
+   accepted requirement, supported execution path, and semantic owner
+   independently of the implementation and proposed test.
+3. When that evidence does not establish that production should own the
+   behavior, assign **Production responsibility not established**. Do not design
+   or add a test for it. Report the missing or conflicting evidence and the
+   production move, removal, deferral, or human decision indicated by the loaded
+   guidance; do not edit production unless the surrounding task authorizes that
+   change.
+4. For each established production behavior, identify the live contract,
+   realistic defect, existing test or static gate that could catch it, and
+   executable owned seam.
+5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.
    - **Existing protection sufficient:** current evidence already catches the
      realistic fault.
    - **New or modified test required:** a live behavior has an uncovered fault.
-4. Identify migration-only scaffolding separately from permanent protection.
+6. Identify migration-only scaffolding separately from permanent protection.
 
 Finish this step when every target behavior has a disposition and rationale. Do
 not design or implement a test until a concrete protection gap is established.
@@ -93,13 +104,17 @@ result.
 3. For a **No automated test owed** disposition, perform the applicable static,
    schema, external-integration, or other non-test validation instead of test
    collection or mutation.
-4. Exercise relevant success, failure, cleanup, and supported-environment paths
+4. For **Production responsibility not established**, verify and report the
+   absent or conflicting requirement, supported path, or semantic owner instead
+   of manufacturing test or non-test validation for the unowned behavior.
+5. Exercise relevant success, failure, cleanup, and supported-environment paths
    required by Trustworthy test execution for the tests that execute.
-5. Run the broader static and behavioral checks required by the active project
+6. Run the broader static and behavioral checks required by the active project
    and changed scope.
 
 For an implementation, finish only when every target behavior has a supported
-disposition, every automated protection claim is effective and collected,
+disposition, every production-responsibility gap is reported without a
+cementing test, every automated protection claim is effective and collected,
 every no-test disposition has its applicable validation, and every temporary
 mutation or sentinel is gone. For a plan or assessment, finish when each
 disposition, proposed protection, and missing evidence item is explicit. Report

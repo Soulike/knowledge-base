@@ -118,8 +118,8 @@ decide.
 
 ## Output contract
 
-Return exactly one JSON object with no Markdown fence, preamble, or trailing
-comment:
+In your final answer, return exactly one JSON object with no Markdown fence,
+preamble, or trailing comment:
 
 ```json
 {

@@ -323,6 +323,7 @@ export async function publishExecutionFailure(
   message: string,
   context: PublicationContext,
   publisher: IssuePublisher,
+  diagnostics?: string,
 ): Promise<PublicationResult> {
   const titlePrefix = `Content verification workflow failed: ${context.scope}: `;
   const title = `${titlePrefix}${message.replace(/\s+/gu, " ").trim()}`.slice(
@@ -330,14 +331,16 @@ export async function publishExecutionFailure(
     256,
   );
   const marker = publicationMarker(`execution-failure:${title}`, context);
-  const body = boundedBody(
-    `${[
-      marker,
-      `The \`${context.scope}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
-      `## Failure\n\n${renderPlaintext(message)}`,
-      `[Open workflow run](${runUrl(context)})`,
-    ].join("\n\n")}\n`,
-  );
+  const sections = [
+    marker,
+    `The \`${context.scope}\` verifier could not produce a complete, validated result for revision [\`${context.revision.slice(0, 12)}\`](https://github.com/${context.repository}/commit/${context.revision}).`,
+    `## Failure\n\n${renderPlaintext(message)}`,
+  ];
+  if (diagnostics?.trim()) {
+    sections.push(`## Runtime diagnostics\n\n${renderPlaintext(diagnostics)}`);
+  }
+  sections.push(`[Open workflow run](${runUrl(context)})`);
+  const body = boundedBody(`${sections.join("\n\n")}\n`);
   const openIssues = await publisher.listOpenIssues();
   if (
     containsTrustedMarker(

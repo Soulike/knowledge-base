@@ -26,9 +26,34 @@ The prompt must describe the environment the runner actually provides. State whi
 
 A prompt that requires unavailable evidence makes a complete result impossible. A runtime capability that the prompt does not account for makes the Agent's operating boundary ambiguous. Change the prompt and launcher together when the capability contract changes; current command flags and tool names remain executable configuration rather than facts to copy into this document.
 
+## Separate the Agent transcript from the result
+
+An Agent process may emit commentary, progress, tool calls, retries, usage
+records, and a final answer through one process output. Disabling incremental
+streaming or instructing the Agent to return only a structured value does not
+turn that complete transcript into one result payload. Treat the transcript as
+protocol data rather than content to pass directly to a result parser.
+
+Use a result transport with machine-detectable framing, such as a structured
+event stream with an identified terminal answer, a narrowly scoped submission
+tool, or a dedicated result artifact. Define how the consumer selects exactly
+one completed result and successful terminal state. Reject missing, duplicate,
+out-of-order, ambiguous, malformed, and unsupported envelopes. Do not recover a
+result by stripping expected prose or code fences, or by searching unframed
+text for a likely structured substring.
+
+Validate the transport envelope before validating the selected payload. Keep
+those responsibilities separate so a transport change cannot silently weaken
+the subject, scope, coverage, or result-state checks applied to the payload.
+
 ## Validate one complete result
 
-Make the result identify its subject and scope, then compare both with the run contract. Require exactly one result for every target and reject missing, duplicate, or unknown targets. Define the allowed fields for each result state so that a success, required change, inconclusive review, and execution failure cannot be mistaken for one another.
+After the transport boundary selects one result payload, make that result
+identify its subject and scope, then compare both with the run contract. Require
+exactly one result for every target and reject missing, duplicate, or unknown
+targets. Define the allowed fields for each result state so that a success,
+required change, inconclusive review, and execution failure cannot be mistaken
+for one another.
 
 Use one canonical validator whenever model output or a transferred artifact is deserialized. Recheck the subject, scope, complete target coverage, exact shape, and state invariants rather than transferring trust from an earlier process. Within one validation boundary, downstream consumers should receive the validated representation instead of reinterpreting raw model text or applying a second, weaker version of the contract.
 

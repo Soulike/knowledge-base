@@ -1,4 +1,3 @@
-import { spawn } from "node:child_process";
 import { constants } from "node:fs";
 import { mkdir, open, readFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
@@ -8,7 +7,14 @@ import {
   readVerificationConfig,
   type VerificationConfig,
 } from "./config.ts";
+import {
+  extractCopilotFinalAnswer,
+  formatCopilotDiagnostics,
+  summarizeCopilotEventTypes,
+  type CopilotRunDiagnostics,
+} from "./copilot-output.ts";
 import { parseVerificationOutput } from "./output.ts";
+import { captureCommand, command } from "./run-command.ts";
 import { discoverVerificationTargets } from "./targets.ts";
 
 type VerificationMetadata = {
@@ -33,36 +39,6 @@ const COPILOT_REVIEW_TOOLS = [
   "web_fetch",
   "web_search",
 ] as const;
-
-async function command(
-  commandName: string,
-  arguments_: string[],
-  workingDirectory?: string,
-  trim = true,
-): Promise<string> {
-  return await new Promise((resolvePromise, reject) => {
-    const child = spawn(commandName, arguments_, {
-      cwd: workingDirectory,
-      env: process.env,
-      stdio: ["ignore", "pipe", "inherit"],
-    });
-    let stdout = "";
-    child.stdout.setEncoding("utf8");
-    child.stdout.on("data", (chunk: string) => {
-      stdout += chunk;
-    });
-    child.on("error", reject);
-    child.on("close", (code) => {
-      if (code !== 0) {
-        reject(
-          new Error(`${commandName} exited with status ${code ?? "unknown"}.`),
-        );
-        return;
-      }
-      resolvePromise(trim ? stdout.trim() : stdout);
-    });
-  });
-}
 
 async function writeExclusive(path: string, contents: string): Promise<void> {
   const handle = await open(
@@ -112,8 +88,10 @@ async function assertCleanWorkspace(workspace: string): Promise<void> {
   }
 }
 
-async function verify(): Promise<void> {
+async function verify(diagnostics: CopilotRunDiagnostics): Promise<void> {
   const config = readVerificationConfig();
+  diagnostics.model = config.model;
+  diagnostics.reasoningEffort = config.reasoningEffort;
   const expectedOutputDirectory = resolve(
     process.env.RUNNER_TEMP ?? "",
     "content-verification",
@@ -164,6 +142,8 @@ async function verify(): Promise<void> {
     "--silent",
     "--stream",
     "off",
+    "--output-format",
+    "json",
     "--no-color",
     "--no-ask-user",
     "--no-auto-update",
@@ -190,12 +170,24 @@ async function verify(): Promise<void> {
 
   const copilotVersion = await command("copilot", ["--version"]);
   const skillsVersion = await command("skills", ["--version"]);
-  const response = await command("copilot", copilotArguments);
+  diagnostics.copilotVersion = copilotVersion;
+  diagnostics.skillsVersion = skillsVersion;
+  console.log(`Copilot CLI version: ${copilotVersion}`);
+  console.log(`Skills CLI version: ${skillsVersion}`);
+  console.log("Starting Copilot content verification.");
+  const copilot = await captureCommand("copilot", copilotArguments);
+  diagnostics.observedEventTypes = summarizeCopilotEventTypes(copilot.stdout);
+  if (copilot.exitCode !== 0) {
+    throw new Error(
+      `copilot exited with status ${copilot.exitCode ?? "unknown"}.`,
+    );
+  }
+  const response = copilot.stdout;
   if (!response) {
     throw new Error("Copilot returned an empty verification response.");
   }
   const result = parseVerificationOutput(
-    response,
+    extractCopilotFinalAnswer(response),
     config.revision,
     config.scope,
     targets,
@@ -229,7 +221,10 @@ async function verify(): Promise<void> {
   );
 }
 
-async function recordFailure(error: unknown): Promise<void> {
+async function recordFailure(
+  error: unknown,
+  diagnostics: CopilotRunDiagnostics,
+): Promise<void> {
   const outputDirectory = process.env.CONTENT_VERIFICATION_OUTPUT_DIRECTORY;
   const runnerTemp = process.env.RUNNER_TEMP;
   if (!outputDirectory || !runnerTemp) {
@@ -242,6 +237,7 @@ async function recordFailure(error: unknown): Promise<void> {
   await rm(resolvedOutput, { force: true, recursive: true });
   await mkdir(resolvedOutput, { recursive: true });
   const failure = {
+    diagnostics: formatCopilotDiagnostics(diagnostics),
     message: error instanceof Error ? error.message : String(error),
     revision: process.env.CONTENT_VERIFICATION_REVISION ?? null,
     scope: process.env.CONTENT_VERIFICATION_SCOPE ?? null,
@@ -252,9 +248,16 @@ async function recordFailure(error: unknown): Promise<void> {
   );
 }
 
+const diagnostics: CopilotRunDiagnostics = {
+  copilotVersion: null,
+  model: null,
+  observedEventTypes: [],
+  reasoningEffort: null,
+  skillsVersion: null,
+};
 try {
-  await verify();
+  await verify(diagnostics);
 } catch (error) {
-  await recordFailure(error);
+  await recordFailure(error, diagnostics);
   throw error;
 }

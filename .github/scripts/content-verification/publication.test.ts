@@ -512,6 +512,34 @@ describe("publishExecutionFailure", () => {
     assert.equal(publisher.comments.length, 1);
   });
 
+  it("keeps runtime diagnostics out of failure identity", async () => {
+    const publisher = new FakePublisher();
+
+    const first = await publishExecutionFailure(
+      "Copilot failed.",
+      context,
+      publisher,
+      "Copilot CLI: 1.0.81",
+    );
+    const second = await publishExecutionFailure(
+      "Copilot failed.",
+      { ...context, runId: 43 },
+      publisher,
+      "Copilot CLI: 1.0.82",
+    );
+
+    assert.deepEqual(first.created, [101]);
+    assert.deepEqual(second.updated, [101]);
+    assert.equal(publisher.created.length, 1);
+    assert.equal(publisher.comments.length, 1);
+    assert.match(publisher.created[0]?.body ?? "", /Copilot CLI: 1\.0\.81/u);
+    assert.match(publisher.comments[0]?.body ?? "", /Copilot CLI: 1\.0\.82/u);
+    assert.equal(
+      publisher.created[0]?.title,
+      "Content verification workflow failed: time-sensitive-knowledge: Copilot failed.",
+    );
+  });
+
   it("bounds rendered operational-failure bodies after plaintext rendering", async () => {
     const publisher = new FakePublisher();
 

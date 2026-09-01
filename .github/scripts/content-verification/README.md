@@ -22,10 +22,14 @@ review-only guidance. The model can read the exact checked-out revision, search
 and fetch unrestricted current authoritative web sources, and read open issues
 for final deduplication. It has no shell or Git-history access. Deterministic
 orchestration verifies the revision, discovers tracked targets, and checks that
-the workspace remains clean. The model must return one validated result for
-every discovered unit. It does not install the knowledge-base plugin because
-that plugin is the review subject. The publisher runs as a separate job with
-issue-write permission and revalidates the result before changing GitHub state.
+the workspace remains clean. Copilot emits a structured event stream; the
+runner requires exactly one final answer followed by a successful result event
+before validating one result for every discovered unit. It does not install the
+knowledge-base plugin because that plugin is the review subject. The publisher
+runs as a separate job with issue-write permission and revalidates the result
+before changing GitHub state. Operational failure reports record the selected
+model and reasoning effort, tool versions, and a bounded event-type summary
+without retaining the complete Agent transcript.
 
 Results use these statuses:
 

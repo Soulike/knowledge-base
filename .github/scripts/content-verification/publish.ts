@@ -3,6 +3,7 @@ import { appendFile, readFile } from "node:fs/promises";
 import { join, resolve } from "node:path";
 
 import { GitHubIssuePublisher } from "./github.ts";
+import { parseExecutionFailureReport } from "./failure-report.ts";
 import { parseVerificationOutput } from "./output.ts";
 import {
   publishExecutionFailure,
@@ -125,22 +126,6 @@ async function discoverTargets(context: PublicationContext, workspace: string) {
   );
 }
 
-function failureMessage(source: string): string {
-  let value: unknown;
-  try {
-    value = JSON.parse(source) as unknown;
-  } catch {
-    return "The verifier failed without a readable failure report.";
-  }
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    return "The verifier failed without a valid failure report.";
-  }
-  const message = (value as Record<string, unknown>).message;
-  return typeof message === "string" && message.trim().length > 0
-    ? message.slice(0, 20_000)
-    : "The verifier failed without a failure message.";
-}
-
 async function readOptional(path: string): Promise<string | undefined> {
   try {
     return await readFile(path, "utf8");
@@ -197,12 +182,19 @@ async function main(): Promise<void> {
     const failureSource = await readOptional(
       join(artifactDirectory, "failure.json"),
     );
-    const message =
+    const failure =
       failureSource === undefined
-        ? `The verification job concluded with '${verifyResult}' before publishing a validated report.`
-        : failureMessage(failureSource);
-    publication = await publishExecutionFailure(message, context, publisher);
-    summary = message;
+        ? {
+            message: `The verification job concluded with '${verifyResult}' before publishing a validated report.`,
+          }
+        : parseExecutionFailureReport(failureSource);
+    publication = await publishExecutionFailure(
+      failure.message,
+      context,
+      publisher,
+      failure.diagnostics,
+    );
+    summary = failure.message;
   } else {
     const targets = await discoverTargets(context, workspace);
     const output = parseVerificationOutput(

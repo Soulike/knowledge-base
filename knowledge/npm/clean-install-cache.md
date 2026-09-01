@@ -126,11 +126,11 @@ Apply the comparability principles in
 installation belongs to test or CI setup. For this installation comparison,
 use the protected-behavior comparison baseline above, then also hold the
 hardware and starting `node_modules` state constant. Define the cache warm-up
-policy and cache contents, interleave or randomize control and candidate runs,
-repeat both variants, and report a distribution or repeated aggregate. Measure
-cache restoration separately when the workflow pays that cost, and record
-registry requests or transferred bytes when they help establish the proposed
-mechanism.
+policy and cache contents, and start every control and candidate run from the
+same defined cache baseline. Interleave or randomize the variants, repeat both,
+and report a distribution or repeated aggregate. Measure cache restoration
+separately when the workflow pays that cost, and record registry requests or
+transferred bytes when they help establish the proposed mechanism.
 
 Adopt the candidate only when the protected behavior remains consistent and
 the complete relevant workflow is more efficient. Keep conclusions scoped to

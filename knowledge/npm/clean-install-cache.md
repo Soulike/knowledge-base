@@ -4,10 +4,8 @@
 
 This document defines how npm's cache interacts with lockfile-driven clean
 installations and how to evaluate cache-preference changes without altering the
-protected installation behavior. It covers `npm ci`, ordinary cached fetching,
-`prefer-offline`, strict offline operation, cache restoration through
-`actions/setup-node`, configuration scope, and the evidence required to adopt
-an optimization.
+selected dependency graph, verified package content, installation policy, or
+recovery behavior.
 
 ## When to update
 
@@ -16,6 +14,15 @@ registry-fetch behavior, integrity or audit behavior, configuration scope, or
 when `actions/setup-node` changes what npm data it caches, or when real
 clean-install optimization work exposes a missing behavior invariant,
 applicability condition, or efficiency proof.
+
+## Verify the current behavior
+
+The mappings in this document were verified against
+[npm CLI 11.19.1](https://github.com/npm/cli/tree/v11.19.1) and
+[`actions/setup-node` at commit `94196ee`](https://github.com/actions/setup-node/tree/94196ee1d15439c1b6651cd87ef14e88ec435966).
+Before changing an installation that uses another version, verify its current
+clean-install, cache, network-fallback, integrity, audit, and configuration
+semantics against the authoritative upstream documentation or source.
 
 ## Distinguish cached data from the installed tree
 
@@ -59,12 +66,12 @@ can still be fetched, and enabled audit behavior can make its own requests.
 
 ## Preserve the protected installation behavior
 
-Compare the candidate and control under the same manifest and lockfile, npm
-version and configuration, platform, registry inputs, environment, and
-installation-script policy. The protected result is the same lockfile-selected
-dependency graph and the same accepted integrity-verified package content.
-Changing that result is a correctness failure, not an acceptable performance
-tradeoff.
+Fix one comparison baseline for the candidate and control: source revision,
+manifest and lockfile, npm version and configuration, platform, registry
+inputs, environment, and installation-script policy. The protected result is
+the same lockfile-selected dependency graph and the same accepted
+integrity-verified package content. Changing that result is a correctness
+failure, not an acceptable performance tradeoff.
 
 Preserve every tree-shaping flag used to create the lockfile and the project's
 existing policies for lifecycle scripts, approved native builds, registry and
@@ -117,13 +124,13 @@ performance claim.
 Apply the comparability principles in
 [Test execution cost](../software-testing/test-execution-cost.md) when the
 installation belongs to test or CI setup. For this installation comparison,
-hold the revision, manifest and lockfile, npm version and configuration,
-platform, registry, hardware, script policy, and starting `node_modules` state
-constant. Define the cache warm-up policy and cache contents, interleave or
-randomize control and candidate runs, repeat both variants, and report a
-distribution or repeated aggregate. Measure cache restoration separately when
-the workflow pays that cost, and record registry requests or transferred bytes
-when they help establish the proposed mechanism.
+use the protected-behavior comparison baseline above, then also hold the
+hardware and starting `node_modules` state constant. Define the cache warm-up
+policy and cache contents, interleave or randomize control and candidate runs,
+repeat both variants, and report a distribution or repeated aggregate. Measure
+cache restoration separately when the workflow pays that cost, and record
+registry requests or transferred bytes when they help establish the proposed
+mechanism.
 
 Adopt the candidate only when the protected behavior remains consistent and
 the complete relevant workflow is more efficient. Keep conclusions scoped to

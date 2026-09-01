@@ -6,6 +6,9 @@ type IndexedEvent = {
 const TERMINAL_BOOKKEEPING_EVENTS = new Set([
   "assistant.idle",
   "assistant.turn_end",
+  "model.messages_snapshot",
+  "model.response",
+  "model.turn_ended",
   "session.usage_checkpoint",
 ]);
 

@@ -60,9 +60,12 @@ cache miss. Strict `--offline` is a different operational contract: use it only
 when cache completeness is independently enforced and failure on any missing
 or unusable entry is intended.
 
-Cache preference does not disable integrity verification. It also does not
-turn the whole installation into a no-network operation: missing package data
-can still be fetched, and enabled audit behavior can make its own requests.
+Cache preference does not disable integrity verification. With
+`--prefer-offline`, missing package data can still be fetched, and enabled
+install-time audit behavior can make its own requests. In npm CLI 11.19.1,
+strict `--offline` instead suppresses the install-time audit report even when
+audit is enabled. A project that requires that security gate must retain an
+online install mode or run a separate online audit step.
 
 ## Preserve the protected installation behavior
 
@@ -111,8 +114,9 @@ in one metric does not establish a reduction in another.
 Avoid claiming that plain `npm ci` ignores a warm cache. `--prefer-offline`
 removes eligible stale-cache revalidation work; it cannot remove deletion,
 unpacking, linking, audit, lifecycle scripts, native compilation, or cache
-misses. A fresh cache may already avoid revalidation, and non-fetch work can
-dominate the elapsed time.
+misses. Cached responses that are still HTTP-fresh may already avoid
+revalidation under plain `npm ci`, and non-fetch work can dominate the elapsed
+time.
 
 Mechanism-level evidence can justify a command-scoped change when the actual
 path reuses cached responses that would otherwise be revalidated and the change
@@ -143,5 +147,6 @@ condition is false or cannot be established.
 - [npm ci documentation](https://github.com/npm/cli/blob/v11.19.1/docs/lib/content/commands/npm-ci.md)
 - [npm cache-preference definitions](https://github.com/npm/cli/blob/v11.19.1/workspaces/config/lib/definitions/definitions.js)
 - [npm registry-fetch cache-mode mapping](https://github.com/npm/cli/blob/v11.19.1/node_modules/npm-registry-fetch/lib/index.js)
+- [npm offline audit behavior](https://github.com/npm/cli/blob/v11.19.1/workspaces/arborist/lib/audit-report.js)
 - [`actions/setup-node` cache documentation](https://github.com/actions/setup-node/blob/94196ee1d15439c1b6651cd87ef14e88ec435966/README.md)
 - [`actions/setup-node` npm cache implementation](https://github.com/actions/setup-node/blob/94196ee1d15439c1b6651cd87ef14e88ec435966/src/cache-utils.ts)

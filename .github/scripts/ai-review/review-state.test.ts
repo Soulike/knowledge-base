@@ -79,7 +79,7 @@ test("rejects missing, empty, or duplicate model fields", () => {
 });
 
 test("rejects duplicate or incomplete framework attribution", () => {
-  const marker = reviewBody("approved").match(/<!--.*?-->/u)?.[0] ?? "";
+  const marker = reviewBody("approved").match(/<!--[^>]*-->/u)?.[0] ?? "";
   assert.equal(parseReviewBody(`${reviewBody("approved")}\n${marker}`), null);
   assert.equal(
     parseReviewBody(

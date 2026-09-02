@@ -74,17 +74,22 @@ For every required test:
 
 1. Name the production fault that must make it fail, the owning seam, independent
    oracle, observable failure, fixture, and project-declared command.
-2. Choose the narrowest test that exercises the owned behavior without
+2. For behavior that is stateful or spans an integration boundary, use
+   [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
+   to identify independently variable state dimensions and select a complete
+   reachable combination that exposes the named fault before finalizing the
+   fixture. Add another combination only when it exposes a distinct live fault.
+3. Choose the narrowest test that exercises the owned behavior without
    restating the implementation or relying on unrelated behavior.
-3. Apply Trustworthy test execution to collection, fixtures, ambient state,
+4. Apply Trustworthy test execution to collection, fixtures, ambient state,
    cleanup, time, ordering, retries, concurrency, platforms, and external
    processes that affect the result.
-4. Apply Test execution cost only to an actual design tradeoff. Do not replace a
+5. Apply Test execution cost only to an actual design tradeoff. Do not replace a
    required real integration seam with a mock merely to make the test cheaper.
-5. Fit the test to the active project's conventions and available seams. When
+6. Fit the test to the active project's conventions and available seams. When
    the production design prevents effective testing, report the missing seam
    rather than hiding it behind a larger fixture or more mocks.
-6. When edits are authorized, implement the smallest coherent coverage change.
+7. When edits are authorized, implement the smallest coherent coverage change.
    For a planning or assessment request, report the disposition and proposed
    test without editing.
 

@@ -61,7 +61,11 @@ available evidence path is identified.
    realistic fault, independent oracle, observable failure, and competing test
    or static evidence. Record tests with no identified behavior and behaviors
    with no identified protection instead of dropping either from the review.
-2. Classify every item by the concerns that actually apply:
+2. For behavior that is stateful or spans an integration boundary, identify the
+   independently mutable boundaries represented or omitted by the fixture.
+   Check whether assumed consistency, retained derived state, or an unexamined
+   healthy fallback hides the named fault.
+3. Classify every item by the concerns that actually apply:
 
    | Concern                 | Evidence required                                                                                 |
    | ----------------------- | ------------------------------------------------------------------------------------------------- |
@@ -71,11 +75,11 @@ available evidence path is identified.
    | Collection or selection | Expected and actual identities plus honest run, fail, and legitimate-skip paths                   |
    | Execution cost          | Comparable baseline and candidate using the same cost basis                                       |
 
-3. Assign each test or behavior a supported disposition: keep, strengthen,
+4. Assign each test or behavior a supported disposition: keep, strengthen,
    replace, consolidate, delete, add coverage, no test owed, or unresolved.
    Do not infer protection from test count or line coverage, and do not assume a
    failing or flaky test is defective merely because its outcome is disruptive.
-4. Record production seams or module responsibilities that prevent direct,
+5. Record production seams or module responsibilities that prevent direct,
    effective testing as design findings rather than hiding them behind more
    mocks or broader fixtures.
 

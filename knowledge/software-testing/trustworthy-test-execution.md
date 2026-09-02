@@ -80,6 +80,26 @@ establishes the awaited fact:
 | A coarse timestamp or version                    | Establish a deterministic older precondition, reread the baseline, then perform the action.                  |
 | The delay itself is the contract                 | Observe the trigger, then measure from it with an explicit interval rationale and adequate diagnostic bound. |
 
+Before replacing a fixed wait or eventual-condition poll, identify the
+production completion path that the existing test actually reaches. The same
+observable end state can result from a primary event and a timeout, polling,
+watchdog, or compatibility fallback. A new synchronization mechanism that
+forces a different path can preserve the final assertion while discarding the
+old path's protection. Apply
+[Test effectiveness](test-effectiveness.md) to give independently implemented
+completion paths separate coverage dispositions, retaining each only when it
+catches a distinct live fault.
+
+Synchronize a retained path on evidence specific to that path. For a time-driven
+fallback, advance a controlled clock and observe the state immediately before
+and at the contractual boundary; use a path-specific temporary mutation when
+the protected branch remains ambiguous. For example, an eventual-removal test
+in a harness that never emits `animationend` can be exercising a 400 ms timeout
+fallback. Dispatching `animationend` makes the test faster but stops protecting
+that fallback, while a controlled-clock test that observes presence through
+399 ms and removal at 400 ms preserves the boundary without paying real elapsed
+time.
+
 A polling condition must imply the assertion that follows. Waiting for one call
 before asserting exactly three races an intermediate state. Negative assertions
 need an ordering guarantee, acknowledgement, queue drain, lifecycle event, or

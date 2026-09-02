@@ -29,6 +29,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Install fixed gh-aw compiler
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh extension install github/gh-aw --pin v0.87.10
+
+      - name: Check generated Agentic workflows
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: pnpm agentic:check
+
       - name: Typecheck
         run: pnpm typecheck
 

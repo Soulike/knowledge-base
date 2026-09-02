@@ -38,6 +38,12 @@ importers:
         specifier: ^8.65.0
         version: 8.65.0(eslint@10.8.0(supports-color@9.0.0))(supports-color@9.0.0)(typescript@6.0.3)
 
+  .github/scripts/agentic-workflows:
+    devDependencies:
+      yaml:
+        specifier: ^2.9.0
+        version: 2.9.0
+
   .github/scripts/ai-review:
     dependencies:
       "@octokit/rest":

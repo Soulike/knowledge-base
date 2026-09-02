@@ -5,7 +5,10 @@ import { fileURLToPath } from "node:url";
 
 import { validatePromptLinks, type PromptLinkDiagnostic } from "./validate.ts";
 
-const PROMPT_PATH = /^\.github\/scripts\/[^/]+\/prompts\/.*\.md$/u;
+const PROMPT_PATHS = [
+  /^\.github\/scripts\/[^/]+\/prompts\/.*\.md$/u,
+  /^\.github\/workflows\/(?!README\.md$)(?:shared\/)?[^/]+\.md$/u,
+] as const;
 
 export interface PromptLinkCheckResult {
   checkedFileCount: number;
@@ -56,9 +59,10 @@ export async function checkPromptLinks(
     ),
   );
   const repositoryMarkdown = new Map(markdownEntries);
-  const promptPaths = markdownPaths.filter((filePath) =>
-    PROMPT_PATH.test(toPortablePath(filePath)),
-  );
+  const promptPaths = markdownPaths.filter((filePath) => {
+    const portablePath = toPortablePath(filePath);
+    return PROMPT_PATHS.some((pattern) => pattern.test(portablePath));
+  });
   const diagnostics: PromptLinkCheckResult["diagnostics"] = [];
 
   for (const promptPath of promptPaths) {

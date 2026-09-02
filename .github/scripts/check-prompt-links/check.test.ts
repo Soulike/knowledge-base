@@ -27,14 +27,31 @@ test("checks new prompt Markdown and detects deleted targets", async (t) => {
     "example",
     "prompts",
   );
+  const workflowDirectory = join(repository, ".github", "workflows");
+  const sharedWorkflowDirectory = join(workflowDirectory, "shared");
   t.after(() => rm(repository, { force: true, recursive: true }));
 
-  await mkdir(promptDirectory, { recursive: true });
+  await Promise.all([
+    mkdir(promptDirectory, { recursive: true }),
+    mkdir(sharedWorkflowDirectory, { recursive: true }),
+  ]);
   await Promise.all([
     writeFile(join(repository, "AGENTS.md"), "# Instructions\n"),
     writeFile(
       join(promptDirectory, "review.md"),
       "Read [repository instructions](AGENTS.md).\n",
+    ),
+    writeFile(
+      join(workflowDirectory, "agent.md"),
+      "Read [repository instructions](AGENTS.md).\n",
+    ),
+    writeFile(
+      join(sharedWorkflowDirectory, "runtime.md"),
+      "Read [repository instructions](AGENTS.md).\n",
+    ),
+    writeFile(
+      join(workflowDirectory, "README.md"),
+      "This ordinary document uses [document-relative semantics](../../AGENTS.md).\n",
     ),
     writeFile(
       join(repository, "notes.md"),
@@ -51,7 +68,7 @@ test("checks new prompt Markdown and detects deleted targets", async (t) => {
   });
 
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout, "Checked 1 prompt Markdown files.\n");
+  assert.equal(result.stdout, "Checked 3 prompt Markdown files.\n");
   assert.equal(result.stderr, "");
 
   await rm(join(repository, "AGENTS.md"));

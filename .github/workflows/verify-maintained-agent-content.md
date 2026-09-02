@@ -120,7 +120,7 @@ Verify every target in
 `$RUNNER_TEMP/gh-aw/content-verification-targets.json` at the exact revision
 named by that manifest. The runner mounts this manifest read-only inside the
 Agent sandbox. It was derived deterministically from tracked files and the
-parsed [Knowledge index](../../knowledge/index.md); it is the complete required
+parsed [Knowledge index](knowledge/index.md); it is the complete required
 scope. A target is one Skill bundle, one shared reference, one Agent instruction
 file, one Agentic workflow source, or one repository-owned prompt bundle.
 Preserve every exact target `id` in notes and safe outputs.
@@ -129,9 +129,9 @@ Preserve every exact target `id` in notes and safe outputs.
 
 Do not search GitHub issues during this phase.
 
-1. Read the root [repository instructions](../../AGENTS.md), the target
+1. Read the root [repository instructions](AGENTS.md), the target
    manifest, and every file named by every target. Read
-   [Agent Skill authoring](../../references/agents/skill-authoring.md) as the
+   [Agent Skill authoring](references/agents/skill-authoring.md) as the
    repository's current authoring standard, while keeping this task contract
    authoritative. When that reference is itself a target, verify it instead of
    assuming it is correct. If a target is missing, duplicated, unreadable, or

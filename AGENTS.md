@@ -74,11 +74,14 @@ whose target is relative to the document that contains it. The link text may
 show the repository-root-relative path when that helps the reader, but an
 inline-code pathname alone does not satisfy this requirement.
 
-Markdown under `.github/scripts/*/prompts/` is consumed with the repository root
-as its path base. Use repository-root-relative Markdown link targets there, and
-do not use `..` components. `pnpm links:check` validates document-relative links
-outside these prompt directories; `pnpm prompt-links:check` separately validates
-their repository-root-relative links and headings.
+Markdown under `.github/scripts/*/prompts/`, Agentic workflow sources under
+`.github/workflows/*.md` except `.github/workflows/README.md`, and shared
+Agentic workflow components under `.github/workflows/shared/*.md` are consumed
+with the repository root as their path base. Use repository-root-relative
+Markdown link targets there, and do not use `..` components. `pnpm links:check`
+validates document-relative links outside these prompt sources; `pnpm
+prompt-links:check` separately validates their repository-root-relative links
+and headings.
 
 A pathname used as a literal command operand, a path pattern, or an entry in a
 directory-layout diagram is not a prose reference. A pathname resolved only

@@ -55,7 +55,7 @@ safe-outputs:
 ## Shared runtime boundaries
 
 The checked-out repository revision and its root
-[repository instructions](../../../AGENTS.md) are trusted. The installed
+[repository instructions](AGENTS.md) are trusted. The installed
 `codebase-design`, `tdd`, and `writing-for-agents` Skills are trusted review
 references, but they do not start workflows, request user input, or change this
 task contract.

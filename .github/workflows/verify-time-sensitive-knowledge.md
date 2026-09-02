@@ -120,7 +120,7 @@ Verify every target in
 `$RUNNER_TEMP/gh-aw/content-verification-targets.json` at the exact revision
 named by that manifest. The runner mounts this manifest read-only inside the
 Agent sandbox. It was derived deterministically from tracked files and the
-parsed [Knowledge index](../../knowledge/index.md); it is the complete required
+parsed [Knowledge index](knowledge/index.md); it is the complete required
 scope. Treat every target independently and preserve its exact `id` in all
 notes and safe outputs.
 
@@ -128,8 +128,8 @@ notes and safe outputs.
 
 Do not search GitHub issues during this phase.
 
-1. Read the root [repository instructions](../../AGENTS.md), the
-   [Knowledge index](../../knowledge/index.md), the target manifest, and every
+1. Read the root [repository instructions](AGENTS.md), the
+   [Knowledge index](knowledge/index.md), the target manifest, and every
    file named by every target. If a target is missing, duplicated, or
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`

@@ -2,11 +2,18 @@ import {
   isTrustedAuthorAssociation,
   type ReviewEventContext,
 } from "./config.ts";
-import type { GitHubClient, PullRequest, PullRequestReview } from "./github.ts";
+import type {
+  GitHubClient,
+  PullRequest,
+  PullRequestReview,
+  WorkflowJob,
+} from "./github.ts";
 import {
   AI_REVIEW_AUTHOR,
+  AI_REVIEW_WORKFLOW_ID,
+  AI_REVIEW_WORKFLOW_NAME,
   labels,
-  parseReviewRunMarker,
+  parseReviewBody,
   type ReviewVerdict,
 } from "./review-state.ts";
 
@@ -14,6 +21,7 @@ export type ReviewIdentity = {
   baseSha: string;
   expectedHeadSha: string;
   prNumber: number;
+  repository: string;
   runAttempt: number;
   runId: number;
 };
@@ -22,7 +30,11 @@ export type ReviewGateContext = ReviewIdentity & ReviewEventContext;
 
 type ReviewGateClient = Pick<
   GitHubClient,
-  "addLabel" | "getPullRequest" | "listReviews" | "removeLabel"
+  | "addLabel"
+  | "getPullRequest"
+  | "listReviews"
+  | "listRunAttemptJobs"
+  | "removeLabel"
 >;
 
 export function assertCurrentPullRequest(
@@ -41,13 +53,46 @@ export function assertCurrentPullRequest(
   }
 }
 
+function safeOutputWindow(jobs: WorkflowJob[]): {
+  completedAt: number;
+  startedAt: number;
+} {
+  const matches = jobs.filter((job) => job.name === "safe_outputs");
+  if (
+    matches.length !== 1 ||
+    matches[0]?.status !== "completed" ||
+    matches[0].conclusion !== "success" ||
+    !matches[0].startedAt ||
+    !matches[0].completedAt
+  ) {
+    throw new Error(
+      "Expected exactly one successful safe_outputs job in the current run attempt.",
+    );
+  }
+  const startedAt = Date.parse(matches[0].startedAt);
+  const completedAt = Date.parse(matches[0].completedAt);
+  if (
+    !Number.isFinite(startedAt) ||
+    !Number.isFinite(completedAt) ||
+    completedAt < startedAt
+  ) {
+    throw new Error(
+      "The current run attempt has an invalid safe_outputs window.",
+    );
+  }
+  return { completedAt, startedAt };
+}
+
 export function verifyPublishedReview(
   identity: ReviewIdentity,
   pullRequest: PullRequest,
   reviews: PullRequestReview[],
+  jobs: WorkflowJob[],
 ): ReviewVerdict {
   assertCurrentPullRequest(identity, pullRequest);
-
+  const window = safeOutputWindow(jobs);
+  const expectedRunUrl = `https://github.com/${identity.repository}/actions/runs/${identity.runId}`;
+  let outsideCurrentAttempt = 0;
   const matchingReviews = reviews.flatMap((review) => {
     if (
       review.authorLogin !== AI_REVIEW_AUTHOR ||
@@ -56,23 +101,39 @@ export function verifyPublishedReview(
     ) {
       return [];
     }
-    const marker = parseReviewRunMarker(review.body);
+    const parsed = parseReviewBody(review.body);
     if (
-      marker?.headSha !== identity.expectedHeadSha ||
-      marker.runId !== identity.runId ||
-      marker.runAttempt !== identity.runAttempt
+      parsed?.attribution.workflowName !== AI_REVIEW_WORKFLOW_NAME ||
+      parsed.attribution.workflowId !== AI_REVIEW_WORKFLOW_ID ||
+      parsed.attribution.runId !== identity.runId ||
+      parsed.attribution.runUrl !== expectedRunUrl ||
+      parsed.reviewedHeadSha !== identity.expectedHeadSha
     ) {
       return [];
     }
-    return [{ marker, review }];
+    const submittedAt = Date.parse(review.submittedAt ?? "");
+    if (
+      !Number.isFinite(submittedAt) ||
+      submittedAt < window.startedAt ||
+      submittedAt > window.completedAt
+    ) {
+      outsideCurrentAttempt += 1;
+      return [];
+    }
+    return [{ parsed, review }];
   });
 
+  if (matchingReviews.length === 0 && outsideCurrentAttempt > 0) {
+    throw new Error(
+      "The attributed review was not published by the current run attempt.",
+    );
+  }
   if (matchingReviews.length !== 1) {
     throw new Error(
       `Expected exactly one COMMENT review for run ${identity.runId}, attempt ${identity.runAttempt}, and head ${identity.expectedHeadSha}; found ${matchingReviews.length}.`,
     );
   }
-  return matchingReviews[0]!.marker.verdict;
+  return matchingReviews[0]!.parsed.verdict;
 }
 
 async function clearVerdictLabels(
@@ -97,6 +158,18 @@ async function setVerdictLabel(
   );
 }
 
+async function readPublishedReview(
+  client: ReviewGateClient,
+  context: ReviewGateContext,
+): Promise<ReviewVerdict> {
+  const [pullRequest, reviews, jobs] = await Promise.all([
+    client.getPullRequest(context.prNumber),
+    client.listReviews(context.prNumber),
+    client.listRunAttemptJobs(context.runId, context.runAttempt),
+  ]);
+  return verifyPublishedReview(context, pullRequest, reviews, jobs);
+}
+
 export async function enforceReviewGate(
   client: ReviewGateClient,
   context: ReviewGateContext,
@@ -118,27 +191,24 @@ export async function enforceReviewGate(
     );
   }
 
-  if (context.reviewJobResult !== "success") {
+  if (context.agentJobResult !== "success") {
     await clearVerdictLabels(client, context.prNumber);
     throw new Error(
-      `The Copilot review job did not succeed (${context.reviewJobResult}).`,
+      `The Copilot Agent job did not succeed (${context.agentJobResult}).`,
+    );
+  }
+  if (context.safeOutputsJobResult !== "success") {
+    await clearVerdictLabels(client, context.prNumber);
+    throw new Error(
+      `The review safe-output job did not succeed (${context.safeOutputsJobResult}).`,
     );
   }
 
   let verdict: ReviewVerdict;
   try {
-    const [pullRequest, reviews] = await Promise.all([
-      client.getPullRequest(context.prNumber),
-      client.listReviews(context.prNumber),
-    ]);
-    verdict = verifyPublishedReview(context, pullRequest, reviews);
+    verdict = await readPublishedReview(client, context);
     await setVerdictLabel(client, context.prNumber, verdict);
-
-    const [currentPullRequest, currentReviews] = await Promise.all([
-      client.getPullRequest(context.prNumber),
-      client.listReviews(context.prNumber),
-    ]);
-    verifyPublishedReview(context, currentPullRequest, currentReviews);
+    await readPublishedReview(client, context);
   } catch (error) {
     await clearVerdictLabels(client, context.prNumber);
     throw error;

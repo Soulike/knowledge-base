@@ -9,9 +9,5 @@
   },
   "dependencies": {
     "@octokit/rest": "^22.0.1"
-  },
-  "devDependencies": {
-    "@types/mdast": "^4.0.4",
-    "mdast-util-from-markdown": "^2.0.3"
   }
 }

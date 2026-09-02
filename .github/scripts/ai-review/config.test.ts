@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
-  copilotEffortArguments,
   isTrustedAuthorAssociation,
   readReviewConfig,
   readReviewEvent,
@@ -11,50 +10,23 @@ import {
 const validEnvironment: NodeJS.ProcessEnv = {
   AI_REVIEW_BASE_SHA: "a".repeat(40),
   AI_REVIEW_HEAD_SHA: "b".repeat(40),
-  AI_REVIEW_MODEL: "auto",
   AI_REVIEW_PR_NUMBER: "42",
   AI_REVIEW_PR_URL: "https://github.com/Soulike/knowledge-base/pull/42",
-  AI_REVIEW_REASONING_EFFORT: "auto",
   AI_REVIEW_REPOSITORY: "Soulike/knowledge-base",
-  AI_REVIEW_RUN_ATTEMPT: "1",
-  AI_REVIEW_RUN_ID: "1234",
-  AI_REVIEW_TOOLING_SHA: "c".repeat(40),
-  GITHUB_WORKSPACE: "/workspace/knowledge-base",
+  GITHUB_RUN_ATTEMPT: "1",
+  GITHUB_RUN_ID: "1234",
 };
 
-test("defaults model and reasoning effort to auto", () => {
-  const environment = { ...validEnvironment };
-  delete environment.AI_REVIEW_MODEL;
-  delete environment.AI_REVIEW_REASONING_EFFORT;
-
-  const config = readReviewConfig(environment);
-
-  assert.equal(config.model, "auto");
-  assert.equal(config.reasoningEffort, "auto");
-  assert.deepEqual(copilotEffortArguments(config.reasoningEffort), []);
-});
-
-test("passes an explicit supported reasoning effort", () => {
-  const config = readReviewConfig({
-    ...validEnvironment,
-    AI_REVIEW_REASONING_EFFORT: "xhigh",
+test("reads the trusted gate identity without legacy runner configuration", () => {
+  assert.deepEqual(readReviewConfig(validEnvironment), {
+    baseSha: "a".repeat(40),
+    expectedHeadSha: "b".repeat(40),
+    prNumber: 42,
+    prUrl: "https://github.com/Soulike/knowledge-base/pull/42",
+    repository: "Soulike/knowledge-base",
+    runAttempt: 1,
+    runId: 1234,
   });
-
-  assert.deepEqual(copilotEffortArguments(config.reasoningEffort), [
-    "--reasoning-effort",
-    "xhigh",
-  ]);
-});
-
-test("rejects an unsupported reasoning effort before invoking Copilot", () => {
-  assert.throws(
-    () =>
-      readReviewConfig({
-        ...validEnvironment,
-        AI_REVIEW_REASONING_EFFORT: "extreme",
-      }),
-    /must be one of/u,
-  );
 });
 
 test("rejects malformed event identity", () => {
@@ -99,26 +71,29 @@ test("binds the pull-request URL to the configured repository and number", () =>
 test("reads a supported pull-request lifecycle event", () => {
   assert.deepEqual(
     readReviewEvent({
+      AI_REVIEW_AGENT_RESULT: "success",
       AI_REVIEW_AUTHOR_ASSOCIATION: "MEMBER",
       AI_REVIEW_EVENT_ACTION: "synchronize",
-      AI_REVIEW_JOB_RESULT: "success",
       AI_REVIEW_PR_DRAFT: "false",
+      AI_REVIEW_SAFE_OUTPUTS_RESULT: "success",
     }),
     {
       action: "synchronize",
+      agentJobResult: "success",
       authorAssociation: "MEMBER",
       isDraft: false,
-      reviewJobResult: "success",
+      safeOutputsJobResult: "success",
     },
   );
 });
 
 test("rejects an unsupported lifecycle action or job result", () => {
   const event = {
+    AI_REVIEW_AGENT_RESULT: "success",
     AI_REVIEW_AUTHOR_ASSOCIATION: "MEMBER",
     AI_REVIEW_EVENT_ACTION: "edited",
-    AI_REVIEW_JOB_RESULT: "success",
     AI_REVIEW_PR_DRAFT: "false",
+    AI_REVIEW_SAFE_OUTPUTS_RESULT: "success",
   };
   assert.throws(() => readReviewEvent(event), /must be one of/u);
   assert.throws(
@@ -126,7 +101,7 @@ test("rejects an unsupported lifecycle action or job result", () => {
       readReviewEvent({
         ...event,
         AI_REVIEW_EVENT_ACTION: "opened",
-        AI_REVIEW_JOB_RESULT: "neutral",
+        AI_REVIEW_SAFE_OUTPUTS_RESULT: "neutral",
       }),
     /cancelled, failure, skipped, or success/u,
   );

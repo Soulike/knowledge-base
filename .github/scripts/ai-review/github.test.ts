@@ -61,6 +61,7 @@ test("uses Octokit pagination and preserves submitted review identity", async (t
             commit_id: "b".repeat(40),
             id: 11,
             state: "COMMENTED",
+            submitted_at: "2026-09-02T10:00:30Z",
             user: { login: "github-actions[bot]" },
           },
         ],
@@ -79,6 +80,7 @@ test("uses Octokit pagination and preserves submitted review identity", async (t
           commit_id: "c".repeat(40),
           id: 12,
           state: "DISMISSED",
+          submitted_at: "2026-09-02T09:00:00Z",
           user: null,
         },
       ],
@@ -97,6 +99,7 @@ test("uses Octokit pagination and preserves submitted review identity", async (t
       commitSha: "b".repeat(40),
       id: 11,
       state: "COMMENTED",
+      submittedAt: "2026-09-02T10:00:30Z",
     },
     {
       authorLogin: null,
@@ -104,6 +107,48 @@ test("uses Octokit pagination and preserves submitted review identity", async (t
       commitSha: "c".repeat(40),
       id: 12,
       state: "DISMISSED",
+      submittedAt: "2026-09-02T09:00:00Z",
+    },
+  ]);
+});
+
+test("reads the exact run-attempt jobs used to authenticate publication", async (t) => {
+  let capturedUrl = "";
+  mockFetch(t, async (input) => {
+    capturedUrl = String(input);
+    return jsonResponse(
+      {
+        jobs: [
+          {
+            completed_at: "2026-09-02T10:01:00Z",
+            conclusion: "success",
+            id: 77,
+            name: "safe_outputs",
+            started_at: "2026-09-02T10:00:00Z",
+            status: "completed",
+          },
+        ],
+        total_count: 1,
+      },
+      { status: 200 },
+    );
+  });
+  const client = new GitHubClient("token", "owner/repository");
+
+  const jobs = await client.listRunAttemptJobs(1234, 2);
+
+  assert.equal(
+    capturedUrl,
+    "https://api.github.com/repos/owner/repository/actions/runs/1234/attempts/2/jobs?per_page=100",
+  );
+  assert.deepEqual(jobs, [
+    {
+      completedAt: "2026-09-02T10:01:00Z",
+      conclusion: "success",
+      id: 77,
+      name: "safe_outputs",
+      startedAt: "2026-09-02T10:00:00Z",
+      status: "completed",
     },
   ]);
 });

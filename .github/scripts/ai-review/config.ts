@@ -1,32 +1,14 @@
 const SHA_PATTERN = /^[0-9a-f]{40}$/u;
 const REPOSITORY_PATTERN = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/u;
-const MODEL_PATTERN = /^[A-Za-z0-9._:/-]+$/u;
-
-export const reasoningEfforts = [
-  "auto",
-  "none",
-  "minimal",
-  "low",
-  "medium",
-  "high",
-  "xhigh",
-  "max",
-] as const;
-
-export type ReasoningEffort = (typeof reasoningEfforts)[number];
 
 export type ReviewConfig = {
   baseSha: string;
   expectedHeadSha: string;
-  model: string;
   prNumber: number;
   prUrl: string;
-  reasoningEffort: ReasoningEffort;
   repository: string;
   runAttempt: number;
   runId: number;
-  toolingSha: string;
-  workspace: string;
 };
 
 export const reviewEventActions = [
@@ -44,11 +26,14 @@ export const trustedAuthorAssociations = [
   "COLLABORATOR",
 ] as const;
 
+export type ReviewJobResult = "cancelled" | "failure" | "skipped" | "success";
+
 export type ReviewEventContext = {
   action: (typeof reviewEventActions)[number];
+  agentJobResult: ReviewJobResult;
   authorAssociation: string;
   isDraft: boolean;
-  reviewJobResult: "cancelled" | "failure" | "skipped" | "success";
+  safeOutputsJobResult: ReviewJobResult;
 };
 
 function required(environment: NodeJS.ProcessEnv, name: string): string {
@@ -77,24 +62,24 @@ function sha(value: string, name: string): string {
   return value;
 }
 
+function jobResult(
+  environment: NodeJS.ProcessEnv,
+  name: string,
+): ReviewJobResult {
+  const value = required(environment, name);
+  if (
+    !(["cancelled", "failure", "skipped", "success"] as const).includes(
+      value as ReviewJobResult,
+    )
+  ) {
+    throw new Error(`${name} must be cancelled, failure, skipped, or success.`);
+  }
+  return value as ReviewJobResult;
+}
+
 export function readReviewConfig(
   environment: NodeJS.ProcessEnv = process.env,
 ): ReviewConfig {
-  const model = environment.AI_REVIEW_MODEL?.trim() || "auto";
-  if (!MODEL_PATTERN.test(model)) {
-    throw new Error(
-      "AI_REVIEW_MODEL may contain only letters, numbers, '.', '_', ':', '/', and '-'.",
-    );
-  }
-
-  const reasoningEffort =
-    environment.AI_REVIEW_REASONING_EFFORT?.trim() || "auto";
-  if (!reasoningEfforts.includes(reasoningEffort as ReasoningEffort)) {
-    throw new Error(
-      `AI_REVIEW_REASONING_EFFORT must be one of: ${reasoningEfforts.join(", ")}.`,
-    );
-  }
-
   const repository = required(environment, "AI_REVIEW_REPOSITORY");
   if (!REPOSITORY_PATTERN.test(repository)) {
     throw new Error("AI_REVIEW_REPOSITORY must use the owner/name form.");
@@ -138,29 +123,18 @@ export function readReviewConfig(
       required(environment, "AI_REVIEW_HEAD_SHA"),
       "AI_REVIEW_HEAD_SHA",
     ),
-    model,
     prNumber,
     prUrl,
-    reasoningEffort: reasoningEffort as ReasoningEffort,
     repository,
     runAttempt: positiveInteger(
-      required(environment, "AI_REVIEW_RUN_ATTEMPT"),
-      "AI_REVIEW_RUN_ATTEMPT",
+      required(environment, "GITHUB_RUN_ATTEMPT"),
+      "GITHUB_RUN_ATTEMPT",
     ),
     runId: positiveInteger(
-      required(environment, "AI_REVIEW_RUN_ID"),
-      "AI_REVIEW_RUN_ID",
+      required(environment, "GITHUB_RUN_ID"),
+      "GITHUB_RUN_ID",
     ),
-    toolingSha: sha(
-      required(environment, "AI_REVIEW_TOOLING_SHA"),
-      "AI_REVIEW_TOOLING_SHA",
-    ),
-    workspace: required(environment, "GITHUB_WORKSPACE"),
   };
-}
-
-export function copilotEffortArguments(effort: ReasoningEffort): string[] {
-  return effort === "auto" ? [] : ["--reasoning-effort", effort];
 }
 
 export function readReviewEvent(
@@ -176,19 +150,15 @@ export function readReviewEvent(
   if (draft !== "true" && draft !== "false") {
     throw new Error("AI_REVIEW_PR_DRAFT must be true or false.");
   }
-  const reviewJobResult = required(environment, "AI_REVIEW_JOB_RESULT");
-  if (
-    !["cancelled", "failure", "skipped", "success"].includes(reviewJobResult)
-  ) {
-    throw new Error(
-      "AI_REVIEW_JOB_RESULT must be cancelled, failure, skipped, or success.",
-    );
-  }
   return {
     action: action as ReviewEventContext["action"],
+    agentJobResult: jobResult(environment, "AI_REVIEW_AGENT_RESULT"),
     authorAssociation: required(environment, "AI_REVIEW_AUTHOR_ASSOCIATION"),
     isDraft: draft === "true",
-    reviewJobResult: reviewJobResult as ReviewEventContext["reviewJobResult"],
+    safeOutputsJobResult: jobResult(
+      environment,
+      "AI_REVIEW_SAFE_OUTPUTS_RESULT",
+    ),
   };
 }
 

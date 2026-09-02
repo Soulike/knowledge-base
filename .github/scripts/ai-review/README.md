@@ -1,46 +1,77 @@
-# Copilot CLI pull-request review
+# gh-aw pull-request review
 
-The [`AI review` workflow](../../workflows/ai-review.yml) reviews every
-non-draft pull request from an `OWNER`, `MEMBER`, or `COLLABORATOR`. It runs when
-the pull request opens, reopens, becomes ready for review, or receives a new
-push. A per-pull-request concurrency group cancels the older run when another
-push arrives.
+The [`AI review` source](../../workflows/ai-review.md) and its
+[generated workflow](../../workflows/ai-review.lock.yml) review every non-draft
+pull request from an `OWNER`, `MEMBER`, or `COLLABORATOR`. The workflow runs when
+the pull request opens, reopens, becomes ready, or receives a new push. A
+per-pull-request concurrency group cancels the older run when another push
+arrives.
 
-Draft and closed events skip Copilot and remove the AI verdict labels. The gate
-fails while a pull request is a draft, then the pull request starts its first
-review when it becomes ready for review. A closed pull request is not
-applicable to the gate.
+Draft and closed events skip the Agent and safe outputs. The trusted gate removes
+both verdict labels and fails while a pull request is a draft. A closed pull
+request is not applicable and leaves the gate successful after label cleanup.
 
-## Trust and permission boundary
+## Trust and publication boundary
 
-The workflow uses `pull_request_target` and checks out the pull request's
-trusted base revision. It never checks out, installs, or executes the proposed
-head. The trusted job fetches the proposed commits into the local Git object
-database so Copilot can inspect them with read-only Git commands while the
-working tree remains at the base revision.
+The workflow uses `pull_request_target` because the repository-owned gate and
+safe-output publisher need trusted base code and pull-request write permission.
+The Agent job checks out the event's exact base SHA with credentials removed. A
+trusted pre-Agent step fetches `refs/pull/<number>/head` into `FETCH_HEAD`,
+verifies the expected SHA, and never checks it out. The Agent may inspect the
+proposed objects through an allowlist of read-only Git commands, but must not
+install, execute, apply, merge, or source the proposed tree.
 
-Copilot has unrestricted internal tools and network access. The built-in GitHub
-MCP server is disabled; Copilot uses the authenticated GitHub CLI to retrieve
-complete pull-request and review history. Its token can read repository and
-issue data and can write pull-request reviews. The prompt authorizes exactly one
-mutation: one atomic REST `COMMENT` review containing the summary and all inline
-comments. It never approves, requests changes, changes labels, replies to
-threads, or resolves threads.
+The Agent reads pull-request state and history through the read-only GitHub
+proxy. The prompt requires complete title, description, issue, commit, diff,
+review, inline comment, reply, top-level comment, and review-thread state before
+publication. Tavily is available only for current external evidence needed by
+the review.
 
-The separate trusted gate owns label changes. It uses
-[`@octokit/rest`](https://github.com/octokit/rest.js) for typed GitHub REST
-endpoints and pagination, then authenticates the review by author, current head,
-run identity, review state, visible verdict, and hidden marker. A malformed,
-missing, duplicate, stale, or failed review clears both verdict labels and
-fails closed.
+Before inference, the trusted base checkout installs:
 
-This boundary assumes pull-request authors with the trusted associations are
-allowed to provide content to an unrestricted reviewer. Reassess the design
-before widening that author policy. GitHub does not expose a review-only job
-permission: `pull-requests: write` also permits other pull-request mutations.
-The prompt and trusted-author restriction limit that residual capability, while
-the gate detects an invalid or missing review but cannot undo an unrelated
-mutation.
+- the current knowledge-base plugin from that checkout; and
+- the latest selected external review-reference Skills.
+
+Neither is compile-time pinned. Copilot CLI also remains at `latest`; the
+repository pins only the gh-aw compiler and generated runtime contract.
+
+The Agent has no general pull-request write credential. It can request only:
+
+- at most 100 inline review comments pinned to the expected head; and
+- exactly one consolidated review pinned to the expected head and restricted to
+  the `COMMENT` event.
+
+Every unanchored finding and every line-addressable finding beyond the inline
+limit remains in the review body and contributes to the visible severity counts
+and verdict. The Agent cannot approve, request changes, reply, resolve a thread,
+alter a branch, or merge through safe outputs. gh-aw threat detection must
+succeed before the permission-isolated safe-output job publishes the atomic
+review.
+
+## Trusted verdict gate
+
+The custom job named exactly `AI review gate` remains the required status check.
+It retrieves the current pull-request state, every submitted review, and the
+jobs for the current workflow run attempt. A review is accepted only when all of
+these facts agree:
+
+- the pull request is still open at the event base and expected head;
+- the author is `github-actions[bot]`, the state is `COMMENTED`, and the API
+  commit id is the expected head;
+- the gh-aw-owned attribution footer names the `AI review` workflow, workflow id
+  `ai-review`, current run id, and exact run URL;
+- the review was submitted during the one successful `safe_outputs` job in the
+  current run attempt; and
+- the body contains exactly one model, verdict, four-level finding count, and
+  reviewed-head field, with `needs-change` selected exactly when `high` or
+  `medium` is nonzero.
+
+The gate never trusts an Agent-authored hidden marker; gh-aw sanitizes the Agent
+body before appending its own attribution. A missing, malformed, duplicate,
+stale, failed, or prior-attempt review clears both verdict labels and fails
+closed. After applying `AI Approved` or `AI Need Change`, the gate reads the pull
+request, reviews, and attempt jobs again. A head change removes the newly applied
+label. `AI Need Change` remains visible while the required check fails.
 
 ## Configuration
 
@@ -51,62 +82,24 @@ Create these repository labels:
 | `AI Approved`    | The reviewed current code has no medium or high finding. |
 | `AI Need Change` | The reviewed current code has a medium or high finding.  |
 
-Set these Actions variables to choose Copilot behavior:
+Set these Actions variables:
 
-| Variable                     | Value                                                                  |
-| ---------------------------- | ---------------------------------------------------------------------- |
-| `AI_REVIEW_MODEL`            | A Copilot model identifier or `auto`.                                  |
-| `AI_REVIEW_REASONING_EFFORT` | `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, or `auto`. |
+| Variable                     | Value                                                                 |
+| ---------------------------- | --------------------------------------------------------------------- |
+| `AI_REVIEW_MODEL`            | A Copilot model identifier or `auto`; missing defaults to `auto`.     |
+| `AI_REVIEW_REASONING_EFFORT` | One of `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
 
-Missing variables default to `auto`. `auto` model selection is passed to
-Copilot; `auto` reasoning effort omits the CLI option so the selected model uses
-its default.
+The reasoning effort is mandatory and must not be `auto`. The shared preflight
+rejects a missing, `auto`, or unsupported value before inference because gh-aw
+passes the configured value to Copilot CLI's explicit `--reasoning-effort`
+option.
 
-Configure `AI review gate` as the required status check. The workflow must
-already exist on the default branch before `pull_request_target` events can run
-it.
+The workflow also uses the `TAVILY_API_KEY` Actions secret. Configure
+`AI review gate` as the required status check. A `pull_request_target` workflow
+must exist on the default branch before pull-request events can run it.
 
-## Review and verdict lifecycle
+## Generated workflow contract
 
-The maintained [review prompt](prompts/review.md) gives Copilot the pull-request
-identity and expected base and head. Its
-[repository guidance inventory](prompts/skills.md) keeps repository-owned Skill
-and Knowledge routes link-checkable under their repository-root runtime
-semantics. The runner injects that trusted inventory into the prompt. Copilot
-loads the complete diff and review history itself, evaluates the current code,
-and avoids duplicate findings. A fixed issue in an unresolved old thread does
-not force `needs-change`.
-
-Copilot posts every concrete `nit`, `low`, `medium`, and `high` finding as an
-inline comment on a changed line. Current `medium` or `high` findings select
-`needs-change`; otherwise the verdict is `approved`. The review remains a
-`COMMENT` review in both cases, so the automation never changes GitHub's review
-approval state.
-
-The summary records the short model name or identifier reported by Copilot,
-reviewed head SHA, visible verdict, severity counts, and this run marker. The
-model field is informational rather than an authenticated statement from the
-model backend; the gate requires exactly one well-formed field but does not
-verify its value.
-
-```html
-<!-- knowledge-base-ai-review verdict=approved head=<sha> run-id=<id> run-attempt=<n> -->
-```
-
-After Copilot exits, the gate retrieves all submitted reviews through Octokit.
-It accepts exactly one review from `github-actions[bot]` for the current run,
-attempt, and head. The gate applies `AI Approved` or `AI Need Change`, rechecks
-the pull-request revision, and succeeds only for `approved`. The review and
-`AI Need Change` label remain visible when the verdict fails the check.
-
-The workflow streams Copilot stdout and stderr directly into the Actions log,
-including its progress and final submission result. It does not parse model
-output or transfer JSON artifacts between jobs.
-
-## Tool versions
-
-Each run installs the latest Copilot CLI, Skills CLI, and selected external
-review-reference Skills. It installs the knowledge-base plugin from the trusted
-base checkout. Floating tool and Skill versions accept upstream drift as a
-maintainer-owned supply-chain tradeoff; reassess this choice when reproducible
-reviews are required or an upstream incident occurs.
+The repository compiles the source with gh-aw `v0.87.10`. Regenerate and verify
+the committed lock workflow with the commands documented in the
+[scheduled-verification runtime](../content-verification/README.md#generated-workflow-contract).

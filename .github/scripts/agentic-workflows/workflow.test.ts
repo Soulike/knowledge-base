@@ -328,3 +328,127 @@ describe("generated scheduled verification workflows", () => {
     }
   });
 });
+
+describe("generated pull-request AI review workflow", () => {
+  const lockPath = new URL(
+    "../../workflows/ai-review.lock.yml",
+    import.meta.url,
+  );
+
+  it("keeps the trusted base, exact head, bounded COMMENT review, and required gate", () => {
+    const generated = object(
+      parse(readFileSync(lockPath, "utf8")),
+      "AI review",
+    );
+    const generatedJobs = object(generated.jobs, "jobs");
+    const agentJob = object(generatedJobs.agent, "agent job");
+    const agentSteps = array(agentJob.steps, "agent steps");
+    const safeOutputs = object(generatedJobs.safe_outputs, "safe outputs job");
+    const gateJob = object(generatedJobs.ai_review_gate, "AI review gate");
+    const gateSteps = array(gateJob.steps, "gate steps");
+
+    assert.equal(generated.name, "AI review");
+    assert.equal(
+      object(generated.concurrency, "concurrency").group,
+      "ai-review-${{ github.event.pull_request.number }}",
+    );
+    assert.deepEqual(agentJob.permissions, {
+      contents: "read",
+      "copilot-requests": "write",
+      issues: "read",
+      "pull-requests": "read",
+    });
+    assert.match(String(agentJob.if), /\["OWNER","MEMBER","COLLABORATOR"\]/u);
+    assert.match(String(agentJob.if), /!github\.event\.pull_request\.draft/u);
+    assert.deepEqual(
+      object(
+        stepByName(agentSteps, "Checkout ${{ github.repository }}").with,
+        "trusted base checkout",
+      ),
+      {
+        "fetch-depth": 0,
+        "persist-credentials": false,
+        ref: "${{ github.event.pull_request.base.sha }}",
+        repository: "${{ github.repository }}",
+      },
+    );
+    assert.deepEqual(safeOutputs.permissions, { "pull-requests": "write" });
+    assert.match(
+      String(
+        stepByName(
+          agentSteps,
+          "Fetch the expected head without checking it out",
+        ).run,
+      ),
+      /refs\/pull\/\$\{PR_NUMBER\}\/head/u,
+    );
+    assert.match(
+      String(
+        stepByName(
+          agentSteps,
+          "Install the trusted checked-out knowledge-base plugin",
+        ).run,
+      ),
+      /plugin install knowledge-base@knowledge-base/u,
+    );
+    const safeConfig = object(
+      JSON.parse(
+        String(
+          object(
+            stepByName(agentSteps, "Generate Safe Outputs Config").env,
+            "safe outputs config environment",
+          ).GH_AW_SAFE_OUTPUTS_CONFIG,
+        ),
+      ),
+      "safe outputs config",
+    );
+    assert.deepEqual(safeConfig.create_pull_request_review_comment, {
+      commit_id: "${{ github.event.pull_request.head.sha }}",
+      max: 100,
+      side: "RIGHT",
+    });
+    assert.deepEqual(safeConfig.submit_pull_request_review, {
+      allowed_events: ["COMMENT"],
+      commit_id: "${{ github.event.pull_request.head.sha }}",
+      footer: "always",
+      max: 1,
+    });
+    assert.equal(gateJob.name, "AI review gate");
+    assert.equal(gateJob.if, "always()");
+    assert.deepEqual(gateJob.needs, ["agent", "safe_outputs"]);
+    assert.deepEqual(gateJob.permissions, {
+      actions: "read",
+      contents: "read",
+      "pull-requests": "write",
+    });
+    assert.equal(
+      object(
+        stepByName(
+          gateSteps,
+          "Verify review, update verdict label, and enforce verdict",
+        ).env,
+        "gate environment",
+      ).AI_REVIEW_SAFE_OUTPUTS_RESULT,
+      "${{ needs.safe_outputs.result }}",
+    );
+  });
+
+  it("removes the obsolete direct Agent publication path", () => {
+    for (const file of [
+      "diff.ts",
+      "prompt.ts",
+      "prompt.test.ts",
+      "run-command.ts",
+      "run-command.test.ts",
+      "run-review.ts",
+      "prompts/review.md",
+      "prompts/skills.md",
+    ]) {
+      assert.equal(
+        existsSync(new URL(`../ai-review/${file}`, import.meta.url)),
+        false,
+        `${file} should be removed`,
+      );
+    }
+  });
+});

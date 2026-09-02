@@ -5,7 +5,7 @@ import {
   parseVerificationManifest,
   validateAgenticVerificationOutput,
 } from "./agentic-gate.ts";
-import { parseVerificationScope } from "./targets.ts";
+import { parseVerificationScope } from "./scope.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();

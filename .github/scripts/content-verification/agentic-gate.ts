@@ -1,5 +1,6 @@
 import type { VerificationManifest } from "./manifest.ts";
-import type { VerificationScope, VerificationTarget } from "./targets.ts";
+import type { VerificationScope } from "./scope.ts";
+import type { VerificationTarget } from "./targets.ts";
 
 const ISSUE_TITLE_PREFIXES = {
   "evergreen-knowledge": "[evergreen Knowledge] ",

@@ -1,6 +1,6 @@
+import type { VerificationScope } from "./scope.ts";
 import {
   discoverVerificationTargets,
-  type VerificationScope,
   type VerificationTarget,
 } from "./targets.ts";
 

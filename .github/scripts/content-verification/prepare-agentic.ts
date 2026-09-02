@@ -4,7 +4,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { promisify } from "node:util";
 
 import { buildVerificationManifest } from "./manifest.ts";
-import { parseVerificationScope } from "./targets.ts";
+import { parseVerificationScope } from "./scope.ts";
 
 const executeFile = promisify(execFile);
 

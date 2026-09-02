@@ -55,7 +55,7 @@ Each run ends with exactly one terminal safe-output pattern:
 
 The [content publication gate](../scripts/content-verification/agentic-gate.ts) runs after the Agent and before the issue-write job. It authenticates manifest revision and scope, target shape, terminal output, exact issue keys, scope-specific title, per-target cardinality, and target/revision body binding. It rejects incomplete, missing-tool, missing-data, malformed, unknown, duplicate, or expanded effects.
 
-Issue publication is staged unless `CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED` is exactly `true`. While staged, gh-aw also suppresses conclusion-job issue reporting so framework failures cannot bypass the publication switch. Published maintenance issues receive `automated-verification` and `modification-required`, and are assigned to `Soulike`.
+When the gate succeeds, gh-aw publishes the validated issue requests directly. Framework-failure, missing-tool, missing-data, and incomplete-result paths cannot publish issues. Published maintenance issues receive `automated-verification` and `modification-required`, and are assigned to `Soulike`.
 
 ## Required pull-request review
 
@@ -78,15 +78,20 @@ The gate owns `AI Approved` and `AI Need Change`. It clears both labels for miss
 
 Set these Actions variables:
 
-| Variable                                         | Requirement                                                                             |
-| ------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| `CONTENT_VERIFICATION_MODEL`                     | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `CONTENT_VERIFICATION_REASONING_EFFORT`          | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED` | Set exactly `true` only after staged output is accepted.                                |
-| `AI_REVIEW_MODEL`                                | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `AI_REVIEW_REASONING_EFFORT`                     | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| Variable                                | Requirement                                                                             |
+| --------------------------------------- | --------------------------------------------------------------------------------------- |
+| `CONTENT_VERIFICATION_MODEL`            | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `CONTENT_VERIFICATION_REASONING_EFFORT` | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `AI_REVIEW_MODEL`                       | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `AI_REVIEW_REASONING_EFFORT`            | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
 
-All four tasks use the `TAVILY_API_KEY` Actions secret. Run the [Tavily secret setup wizard](../../scripts/setup-tavily-secret.sh) to obtain and store it without echoing the key. Configure `AI review gate` as a required status check and create the `AI Approved`, `AI Need Change`, `automated-verification`, and `modification-required` labels.
+All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
+
+```bash
+gh secret set TAVILY_API_KEY --repo Soulike/knowledge-base
+```
+
+Configure `AI review gate` as a required status check and create the `AI Approved`, `AI Need Change`, `automated-verification`, and `modification-required` labels.
 
 ## Compile and validate
 

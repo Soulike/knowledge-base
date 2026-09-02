@@ -161,7 +161,12 @@ describe("generated time-sensitive Knowledge workflow", () => {
     );
   });
 
-  it("restricts research and applies fail-closed staged issue outputs", () => {
+  it("restricts research and applies gated issue outputs", () => {
+    assert.doesNotMatch(
+      source,
+      /CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED/u,
+    );
+
     const gateway = String(stepByName(agentSteps, "Start MCP Gateway").run);
     assert.match(gateway, /https:\/\/mcp\.tavily\.com\/mcp\//u);
     assert.match(gateway, /"tavily_search"/u);
@@ -187,11 +192,6 @@ describe("generated time-sensitive Knowledge workflow", () => {
     assert.deepEqual(config.noop, { max: 1, "report-as-issue": "false" });
     assert.deepEqual(config.report_incomplete, {});
 
-    assert.equal(
-      object(safeOutputs.env, "safe outputs environment")
-        .GH_AW_SAFE_OUTPUTS_STAGED,
-      "${{ vars.CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED != 'true' }}",
-    );
     assert.deepEqual(safeOutputs.needs, [
       "activation",
       "agent",
@@ -211,10 +211,6 @@ describe("generated time-sensitive Knowledge workflow", () => {
       /agentic-gate-cli\.ts/u,
     );
 
-    assert.match(
-      String(conclusion.if),
-      /vars\.CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED == 'true'/u,
-    );
     assert.equal(
       object(
         stepByName(conclusionSteps, "Record missing tool").env,

@@ -29,9 +29,6 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  conclusion:
-    if: vars.CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED == 'true'
-
   content_verification_gate:
     name: Content verification gate
     needs:
@@ -97,7 +94,6 @@ post-steps:
       path: ${{ runner.temp }}/gh-aw/content-verification-targets.json
 
 safe-outputs:
-  staged: ${{ vars.CONTENT_VERIFICATION_ISSUE_PUBLICATION_ENABLED != 'true' }}
   report-failure-as-issue: false
   report-failed-jobs: false
   create-issue:

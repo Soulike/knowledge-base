@@ -55,11 +55,11 @@ remote MCP service so the workflow does not execute an unpinned local Tavily
 package with a repository secret.
 
 Migrate the scheduled and pull-request workflows directly in one reviewed
-change. Scheduled issue publication starts behind a fail-closed repository
-variable. Pull-request review becomes active after the change reaches the
-default branch; repository administrators may use the existing ruleset bypass
-to repair a gate failure that could not be exercised by the workflow-changing
-pull request itself.
+change. Scheduled issue publication becomes active after the change reaches
+the default branch and remains fail-closed behind the trusted content gate.
+Pull-request review becomes active at the same time; repository administrators
+may use the existing ruleset bypass to repair a gate failure that could not be
+exercised by the workflow-changing pull request itself.
 
 ## Consequences
 

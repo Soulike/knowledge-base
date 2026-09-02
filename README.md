@@ -75,7 +75,7 @@ pnpm check
 
 Run `pnpm check` before opening a pull request. Repository conventions for Agent-assisted changes and the Knowledge-versus-workflow boundary live in [`AGENTS.md`](AGENTS.md); the authoring workflow applies the detailed classification tests.
 
-The repository's [Copilot CLI pull-request review](.github/scripts/ai-review/README.md) runs automatically for eligible non-draft pull requests and their subsequent pushes.
+The repository's [Agentic GitHub workflows](.github/workflows/README.md) run scheduled content verification and the required pull-request review.
 
 ## Compatibility
 

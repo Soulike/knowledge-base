@@ -1,5 +1,23 @@
 # Repository conventions
 
+## Agent skills
+
+### Issue tracker
+
+Engineering specs and tickets are tracked in GitHub Issues. See
+[the issue-tracker instructions](docs/agents/issue-tracker.md).
+
+### Triage labels
+
+Engineering Skills use the repository's standard five-role triage vocabulary.
+See [the triage-label mapping](docs/agents/triage-labels.md).
+
+### Domain docs
+
+This is a single-context repository with a root glossary and repository-wide
+architectural decisions. See
+[the domain-document instructions](docs/agents/domain.md).
+
 ## Repository architecture
 
 The repository root is the primary `knowledge-base` plugin. In this repository,

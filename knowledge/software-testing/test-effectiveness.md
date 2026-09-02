@@ -3,16 +3,17 @@
 ## Scope
 
 This document defines framework-independent principles for deciding whether an
-automated test provides useful behavioral protection and for choosing the seam,
-oracle, assertions, and doubles that make that protection effective.
+automated test provides useful behavioral protection and for choosing the fault
+scenario, fixture, seam, oracle, assertions, and doubles that make that
+protection effective.
 
 ## When to update
 
 Update this document when evidence from real defects, test maintenance, module
 decomposition, or mutation analysis changes the criteria for identifying
-valuable coverage, redundant assertions, misleading oracles, appropriate test
-layers, test-structure design signals, or realistic faults that a test should
-expose.
+valuable coverage, fault-revealing scenarios, redundant assertions, misleading
+oracles, appropriate test layers, test-structure design signals, or realistic
+faults that a test should expose.
 
 ## Protect behavior, not inventory
 
@@ -91,6 +92,43 @@ Redundancy is about independent failure, not textual similarity. Similar tests
 can protect separately implemented branches, while differently written tests
 can be redundant when they only fail for the same reason.
 
+## Select fault-revealing scenarios
+
+After naming the live contract and realistic defect, identify the states that
+can vary independently and affect that defect. Depending on the behavior, these
+can include an authority, derived store, persistence record, immutable artifact,
+cache, external dependency, or asynchronous step. Model only dimensions that
+participate in the contract; a fixture that leaves every input healthy and
+mutually consistent can exercise the ordinary path while hiding the named fault.
+
+Choose degraded, partial, stale, absent, or contradictory combinations that are
+reachable and expose distinct live faults. Do not brute-force a Cartesian
+product or construct combinations that the actual producers, protocol, or
+operation cannot create. A state combination earns coverage when it can occur
+and changes an owned decision, capability, failure, or side effect.
+
+Control every independently meaningful input in the selected scenario. When a
+fallback, cache, or retained derived value remains available, establish whether
+using it is permitted or forbidden rather than letting fixture defaults decide.
+When one contract requires both a retained capability and the absence of a
+secondary authority, fallback, mutation, or side effect, assert both and keep a
+positive control that proves the fixture can exercise the capability.
+
+Cover detailed state combinations at the narrowest seam that owns the decision.
+Add a representative composed or end-to-end scenario when the fault depends on
+cross-boundary wiring, selecting the highest-risk user-observable state supported
+by the evidence rather than defaulting to the happy path.
+
+For example, a coherent baseline can establish the ordinary path when an
+authority reports a resource available and its metadata and prepared artifact
+agree. A fault-revealing case can then keep the authority available and metadata
+current while removing the recorded artifact and leaving a general cache in
+place. That test defines and observes the required capability outcome and
+whether consulting the cache is forbidden; a generic "unavailable" fixture that
+leaves the cache unexamined cannot establish either claim. A separate reachable
+contradiction can retain derived data after the authority no longer reports the
+resource and prove that the retained data does not become a second authority.
+
 ## Use an independent oracle
 
 Derive expected results independently from the implementation under test.
@@ -129,7 +167,8 @@ When mock setup is larger or more volatile than the behavior it isolates, use a
 real collaborator at the next stable seam. If no concrete seam, cost, or source
 of nondeterminism justifies a mock, remove it.
 
-Choose fixtures from the named contract rather than incidental complexity.
+Choose fixtures from the named contract and selected fault-revealing scenario
+rather than incidental complexity.
 Apply [Trustworthy test execution](trustworthy-test-execution.md) when fixture
 ownership, ambient state, time, ordering, or cleanup affects the result.
 

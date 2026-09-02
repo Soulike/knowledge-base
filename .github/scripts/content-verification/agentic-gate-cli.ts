@@ -5,6 +5,7 @@ import {
   parseVerificationManifest,
   validateAgenticVerificationOutput,
 } from "./agentic-gate.ts";
+import { parseVerificationScope } from "./targets.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();
@@ -43,6 +44,9 @@ const artifactDirectory = resolve(
   required("CONTENT_VERIFICATION_ARTIFACT_DIRECTORY"),
 );
 const expectedRevision = required("CONTENT_VERIFICATION_EXPECTED_REVISION");
+const expectedScope = parseVerificationScope(
+  required("CONTENT_VERIFICATION_SCOPE"),
+);
 const [manifestPath, outputPath] = await Promise.all([
   findFile(artifactDirectory, "content-verification-targets.json"),
   findFile(artifactDirectory, "agent_output.json"),
@@ -55,6 +59,10 @@ const [manifestValue, outputValue] = await Promise.all([
     (content) => JSON.parse(content) as unknown,
   ),
 ]);
-const manifest = parseVerificationManifest(manifestValue, expectedRevision);
+const manifest = parseVerificationManifest(
+  manifestValue,
+  expectedRevision,
+  expectedScope,
+);
 validateAgenticVerificationOutput(manifest, outputValue);
 process.stdout.write("Content verification safe outputs passed the gate.\n");

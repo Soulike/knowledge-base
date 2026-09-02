@@ -2,11 +2,11 @@
 
 Three scheduled tasks verify the default branch without editing it:
 
-| Task                                                                                                                                                           | Scope                                     | Schedule                       | Current runtime                    |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------------ | ---------------------------------- |
-| [Time-sensitive source](../../workflows/verify-time-sensitive-knowledge.md) and [generated workflow](../../workflows/verify-time-sensitive-knowledge.lock.yml) | Knowledge indexed as `time-sensitive`     | Monthly, day 1 at 03:17 UTC    | gh-aw safe outputs                 |
-| [Evergreen workflow](../../workflows/verify-evergreen-knowledge.yml)                                                                                           | Knowledge indexed as `evergreen`          | Quarterly, day 8 at 03:43 UTC  | Legacy structured-result publisher |
-| [Maintained Agent content workflow](../../workflows/verify-maintained-agent-content.yml)                                                                       | Skills, references, instructions, prompts | Quarterly, day 15 at 04:11 UTC | Legacy structured-result publisher |
+| Task                                                                                                                                                                     | Scope                                     | Schedule                       |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- | ------------------------------ |
+| [Time-sensitive source](../../workflows/verify-time-sensitive-knowledge.md) and [generated workflow](../../workflows/verify-time-sensitive-knowledge.lock.yml)           | Knowledge indexed as `time-sensitive`     | Monthly, day 1 at 03:17 UTC    |
+| [Evergreen source](../../workflows/verify-evergreen-knowledge.md) and [generated workflow](../../workflows/verify-evergreen-knowledge.lock.yml)                          | Knowledge indexed as `evergreen`          | Quarterly, day 8 at 03:43 UTC  |
+| [Maintained Agent content source](../../workflows/verify-maintained-agent-content.md) and [generated workflow](../../workflows/verify-maintained-agent-content.lock.yml) | Skills, references, instructions, prompts | Quarterly, day 15 at 04:11 UTC |
 
 Each task also supports manual dispatch. Target discovery uses tracked files and
 the parsed Knowledge index. A Skill bundle contains its `SKILL.md` and tracked
@@ -16,24 +16,36 @@ is verified once as its own unit. Each tracked `AGENTS.md` not already owned by
 a Skill or shared-reference target is an Agent-instruction unit. Markdown files
 under one `.github/scripts/*/prompts/` directory form one prompt unit.
 
-## Time-sensitive Knowledge
+## Shared Agentic runtime
 
-The time-sensitive task imports the
+All three tasks import the
 [shared Agentic workflow runtime](../../workflows/shared/agentic-runtime.md).
 Before inference, the runtime rejects a missing, `auto`, or unsupported
-`CONTENT_VERIFICATION_REASONING_EFFORT`. The task then derives an immutable
+`CONTENT_VERIFICATION_REASONING_EFFORT`. Each task then derives an immutable
 manifest from `git ls-files`, the parsed
 [Knowledge index](../../../knowledge/index.md), and the checked out revision.
 An invalid index, duplicate ownership, empty scope, or mutable revision fails
 before the Agent runs.
 
-The Agent reads every manifest target and researches evolving claims through
-the remote Tavily MCP service. Its GitHub tools are read-only. Content analysis
-must finish before it searches open and closed issue history. A closed issue
-constrains an unchanged finding only when a trusted maintainer explicitly says
-the disposition should govern later verification while its premises remain
-unchanged; closure alone does not. Changed evidence or repository behavior may
-justify a new issue that cites the prior decision.
+The tasks share target discovery, a read-only GitHub tool boundary, remote
+Tavily search and extraction, floating external review Skills, staged safe
+outputs, and a repository-owned publication gate. Their names, schedules,
+scopes, concurrency identities, and review standards remain task-specific:
+
+- time-sensitive Knowledge verifies externally dependent claims against current
+  authoritative sources;
+- evergreen Knowledge verifies reasoning, scope, internal consistency, and
+  whether the content remains correctly classified as evergreen; and
+- maintained Agent content reviews Skill bundles, shared references, Agent
+  instructions, and prompt bundles for invocation, workflow, output, tooling,
+  portability, routing, package, and lifecycle responsibilities.
+
+Each Agent must finish content analysis before it searches open and closed
+issue history. A closed issue constrains an unchanged finding only when a
+trusted maintainer explicitly says the disposition should govern later
+verification while its premises remain unchanged; closure alone does not.
+Changed evidence or repository behavior may justify a new issue that cites the
+prior decision.
 
 Completion is carried by gh-aw safe outputs rather than a parsed final answer:
 
@@ -43,7 +55,8 @@ Completion is carried by gh-aw safe outputs rather than a parsed final answer:
 - `report_incomplete` fails the workflow when evidence, tools, targets, or
   analysis are incomplete.
 
-A trusted gate runs after the Agent and before publication. It rejects
+A trusted gate runs after the Agent and before publication. It validates the
+manifest shape for the selected scope and rejects
 `report_incomplete`, missing-tool/data signals, malformed terminal output,
 unknown targets, duplicate issues for one target, and issue bodies that are not
 bound to the manifest revision. The safe-output job cannot run unless this gate
@@ -81,16 +94,7 @@ before the repository's type, lint, formatting, link, Knowledge-format, and
 test gates. Generated lock workflows are excluded from Prettier because gh-aw
 is their authoritative formatter.
 
-## Legacy scopes during migration
-
-The evergreen and maintained-Agent-content tasks still use the legacy
-structured-result adapter and publisher. They install the same review Skills,
-validate one result for every deterministic target, and publish or update
-issues in a separate issue-write job. Their `current`,
-`modification-required`, and `verification-failed` result rules remain
-unchanged until those workflows are migrated separately.
-
 `CONTENT_VERIFICATION_MODEL` remains optional and defaults to `auto`. A concrete
 `CONTENT_VERIFICATION_REASONING_EFFORT` configures all three tasks and is
-mandatory for the migrated time-sensitive task; the two legacy tasks retain
-their existing `auto` fallback during the migration.
+mandatory; `auto` is rejected before inference because gh-aw forwards the value
+to Copilot CLI's explicit `--reasoning-effort` option.

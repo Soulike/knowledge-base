@@ -14,14 +14,22 @@ const index = `# Knowledge index
 `;
 
 describe("buildVerificationManifest", () => {
-  it("derives a stable time-sensitive manifest from the parsed index and tracked files", () => {
+  it("derives stable manifests for every scheduled verification scope", () => {
     const revision = "a".repeat(40);
+    const tracked = [
+      "AGENTS.md",
+      ".agents/skills/check/SKILL.md",
+      ".agents/skills/check/references/detail.md",
+      "knowledge/b.md",
+      "knowledge/a.md",
+      "knowledge/index.md",
+    ];
 
     assert.deepEqual(
       buildVerificationManifest(
         "time-sensitive-knowledge",
         revision,
-        ["knowledge/b.md", "knowledge/a.md", "knowledge/index.md"],
+        tracked,
         index,
       ),
       {
@@ -33,6 +41,48 @@ describe("buildVerificationManifest", () => {
             id: "knowledge/a.md",
             kind: "knowledge",
           },
+        ],
+      },
+    );
+    assert.deepEqual(
+      buildVerificationManifest(
+        "evergreen-knowledge",
+        revision,
+        tracked,
+        index,
+      ),
+      {
+        revision,
+        scope: "evergreen-knowledge",
+        targets: [
+          {
+            files: ["knowledge/b.md"],
+            id: "knowledge/b.md",
+            kind: "knowledge",
+          },
+        ],
+      },
+    );
+    assert.deepEqual(
+      buildVerificationManifest(
+        "maintained-agent-content",
+        revision,
+        tracked,
+        index,
+      ),
+      {
+        revision,
+        scope: "maintained-agent-content",
+        targets: [
+          {
+            files: [
+              ".agents/skills/check/SKILL.md",
+              ".agents/skills/check/references/detail.md",
+            ],
+            id: ".agents/skills/check/SKILL.md",
+            kind: "skill",
+          },
+          { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
         ],
       },
     );

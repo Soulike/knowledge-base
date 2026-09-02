@@ -4,6 +4,7 @@ import { dirname, isAbsolute, join, resolve } from "node:path";
 import { promisify } from "node:util";
 
 import { buildVerificationManifest } from "./manifest.ts";
+import { parseVerificationScope } from "./targets.ts";
 
 const executeFile = promisify(execFile);
 
@@ -17,6 +18,7 @@ function required(name: string): string {
 
 const workspace = resolve(required("GITHUB_WORKSPACE"));
 const outputPath = required("CONTENT_VERIFICATION_TARGET_MANIFEST");
+const scope = parseVerificationScope(required("CONTENT_VERIFICATION_SCOPE"));
 if (!isAbsolute(outputPath)) {
   throw new Error("CONTENT_VERIFICATION_TARGET_MANIFEST must be absolute.");
 }
@@ -37,7 +39,7 @@ const trackedPaths = trackedOutput
   .split("\0")
   .filter((filePath) => filePath.length > 0);
 const manifest = buildVerificationManifest(
-  "time-sensitive-knowledge",
+  scope,
   revisionOutput.trim(),
   trackedPaths,
   indexMarkdown,

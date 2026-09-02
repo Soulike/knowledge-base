@@ -1,6 +1,11 @@
 import type { VerificationManifest } from "./manifest.ts";
+import type { VerificationScope, VerificationTarget } from "./targets.ts";
 
-const ISSUE_TITLE_PREFIX = "[time-sensitive Knowledge] ";
+const ISSUE_TITLE_PREFIXES = {
+  "evergreen-knowledge": "[evergreen Knowledge] ",
+  "maintained-agent-content": "[maintained Agent content] ",
+  "time-sensitive-knowledge": "[time-sensitive Knowledge] ",
+} as const satisfies Record<VerificationScope, string>;
 
 type JsonObject = Record<string, unknown>;
 
@@ -39,41 +44,84 @@ function requireExactKeys(
 export function parseVerificationManifest(
   value: unknown,
   expectedRevision: string,
+  expectedScope: VerificationScope,
 ): VerificationManifest {
   const manifest = object(value, "target manifest");
+  requireExactKeys(
+    manifest,
+    ["revision", "scope", "targets"],
+    "target manifest",
+  );
   const revision = string(manifest.revision, "manifest revision");
   if (revision !== expectedRevision) {
     fail("manifest revision does not match the workflow subject.");
   }
-  if (manifest.scope !== "time-sensitive-knowledge") {
-    fail("manifest scope must be time-sensitive-knowledge.");
+  if (manifest.scope !== expectedScope) {
+    fail(`manifest scope must be ${expectedScope}.`);
   }
   if (!Array.isArray(manifest.targets) || manifest.targets.length === 0) {
     fail("manifest targets must be a non-empty array.");
   }
 
   const targetIds = new Set<string>();
+  const ownedFiles = new Set<string>();
   const targets = manifest.targets.map((targetValue) => {
     const target = object(targetValue, "manifest target");
+    requireExactKeys(target, ["files", "id", "kind"], "manifest target");
     const id = string(target.id, "manifest target id");
     if (targetIds.has(id)) {
       fail(`manifest target '${id}' is duplicated.`);
     }
-    if (target.kind !== "knowledge") {
-      fail(`manifest target '${id}' must be Knowledge.`);
+    if (!Array.isArray(target.files) || target.files.length === 0) {
+      fail(`manifest target '${id}' must own at least one file.`);
     }
-    if (
-      !Array.isArray(target.files) ||
-      target.files.length !== 1 ||
-      target.files[0] !== id
-    ) {
-      fail(`manifest target '${id}' must own exactly its Knowledge leaf.`);
+    const files = target.files.map((file) =>
+      string(file, `manifest target '${id}' file`),
+    );
+    for (const file of files) {
+      if (ownedFiles.has(file)) {
+        fail(`manifest file '${file}' belongs to multiple targets.`);
+      }
+      ownedFiles.add(file);
+    }
+
+    let parsed: VerificationTarget;
+    if (expectedScope !== "maintained-agent-content") {
+      if (
+        target.kind !== "knowledge" ||
+        files.length !== 1 ||
+        files[0] !== id
+      ) {
+        fail(`manifest target '${id}' must own exactly its Knowledge leaf.`);
+      }
+      parsed = { files: [id], id, kind: "knowledge" };
+    } else if (target.kind === "skill") {
+      if (!id.endsWith("/SKILL.md") || files[0] !== id) {
+        fail(`Skill target '${id}' must begin with its SKILL.md entrypoint.`);
+      }
+      parsed = { files, id, kind: "skill" };
+    } else if (target.kind === "shared-reference") {
+      if (files.length !== 1 || files[0] !== id) {
+        fail(`Shared-reference target '${id}' must own exactly its file.`);
+      }
+      parsed = { files: [id], id, kind: "shared-reference" };
+    } else if (target.kind === "agent-content") {
+      const ownsInstruction = files.length === 1 && files[0] === id;
+      const ownsPromptBundle = files.every((file) => file.startsWith(`${id}/`));
+      if (!ownsInstruction && !ownsPromptBundle) {
+        fail(
+          `Agent-content target '${id}' must own its instruction or prompt bundle.`,
+        );
+      }
+      parsed = { files, id, kind: "agent-content" };
+    } else {
+      fail(`manifest target '${id}' has an unsupported kind.`);
     }
     targetIds.add(id);
-    return { files: [id], id, kind: "knowledge" as const };
+    return parsed;
   });
 
-  return { revision, scope: "time-sensitive-knowledge", targets };
+  return { revision, scope: expectedScope, targets };
 }
 
 export function validateAgenticVerificationOutput(
@@ -92,6 +140,7 @@ export function validateAgenticVerificationOutput(
   }
 
   const targetIds = new Set(manifest.targets.map((target) => target.id));
+  const issueTitlePrefix = ISSUE_TITLE_PREFIXES[manifest.scope];
   const requestedTargets = new Set<string>();
   let noopCount = 0;
   for (const itemValue of output.items) {
@@ -115,10 +164,10 @@ export function validateAgenticVerificationOutput(
     requireExactKeys(item, ["type", "title", "body"], "create_issue");
 
     const title = string(item.title, "issue title");
-    if (!title.startsWith(ISSUE_TITLE_PREFIX)) {
-      fail(`Issue title must begin with '${ISSUE_TITLE_PREFIX}'.`);
+    if (!title.startsWith(issueTitlePrefix)) {
+      fail(`Issue title must begin with '${issueTitlePrefix}'.`);
     }
-    const targetId = title.slice(ISSUE_TITLE_PREFIX.length);
+    const targetId = title.slice(issueTitlePrefix.length);
     if (!targetIds.has(targetId)) {
       fail(`Issue title names unknown target '${targetId}'.`);
     }

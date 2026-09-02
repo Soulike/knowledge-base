@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import { parse } from "yaml";
@@ -124,7 +124,9 @@ describe("generated time-sensitive Knowledge workflow", () => {
 
     const names = agentSteps.map((step) => object(step, "agent step").name);
     const preflight = names.indexOf("Validate required reasoning effort");
-    const manifest = names.indexOf("Generate time-sensitive target manifest");
+    const manifest = names.indexOf(
+      "Generate content verification target manifest",
+    );
     const gateway = names.indexOf("Start MCP Gateway");
     const inference = names.indexOf("Execute GitHub Copilot CLI");
     assert.ok(preflight >= 0 && preflight < manifest);
@@ -132,13 +134,15 @@ describe("generated time-sensitive Knowledge workflow", () => {
 
     assert.match(
       String(
-        stepByName(agentSteps, "Generate time-sensitive target manifest").run,
+        stepByName(agentSteps, "Generate content verification target manifest")
+          .run,
       ),
       /prepare-agentic\.ts/u,
     );
     assert.equal(
       object(
-        stepByName(agentSteps, "Generate time-sensitive target manifest").env,
+        stepByName(agentSteps, "Generate content verification target manifest")
+          .env,
         "target manifest environment",
       ).CONTENT_VERIFICATION_TARGET_MANIFEST,
       "${{ runner.temp }}/gh-aw/content-verification-targets.json",
@@ -233,5 +237,94 @@ describe("generated time-sensitive Knowledge workflow", () => {
     );
     assert.ok("detection" in jobs);
     assert.ok("conclusion" in jobs);
+  });
+});
+
+describe("generated scheduled verification workflows", () => {
+  const cases = [
+    {
+      concurrency: "content-verification-time-sensitive-knowledge",
+      cron: "17 3 1 * *",
+      file: "verify-time-sensitive-knowledge",
+      name: "Verify time-sensitive Knowledge",
+      scope: "time-sensitive-knowledge",
+    },
+    {
+      concurrency: "content-verification-evergreen-knowledge",
+      cron: "43 3 8 1,4,7,10 *",
+      file: "verify-evergreen-knowledge",
+      name: "Verify evergreen Knowledge",
+      scope: "evergreen-knowledge",
+    },
+    {
+      concurrency: "content-verification-maintained-agent-content",
+      cron: "11 4 15 1,4,7,10 *",
+      file: "verify-maintained-agent-content",
+      name: "Verify maintained Agent content",
+      scope: "maintained-agent-content",
+    },
+  ] as const;
+
+  it("retains distinct names, schedules, scopes, and concurrency identities", () => {
+    for (const candidate of cases) {
+      const path = new URL(
+        `../../workflows/${candidate.file}.lock.yml`,
+        import.meta.url,
+      );
+      const generated = object(
+        parse(readFileSync(path, "utf8")),
+        candidate.file,
+      );
+      assert.equal(generated.name, candidate.name);
+      assert.equal(
+        object(generated.concurrency, "concurrency").group,
+        candidate.concurrency,
+      );
+      assert.equal(
+        object(
+          array(
+            object(generated.on, "workflow triggers").schedule,
+            "schedule",
+          )[0],
+          "schedule entry",
+        ).cron,
+        candidate.cron,
+      );
+
+      const generatedJobs = object(generated.jobs, "jobs");
+      const generatedAgent = object(generatedJobs.agent, "agent job");
+      const manifestStep = stepByName(
+        array(generatedAgent.steps, "agent steps"),
+        "Generate content verification target manifest",
+      );
+      assert.equal(
+        object(manifestStep.env, "manifest environment")
+          .CONTENT_VERIFICATION_SCOPE,
+        candidate.scope,
+      );
+      assert.ok("content_verification_gate" in generatedJobs);
+      assert.ok("safe_outputs" in generatedJobs);
+    }
+  });
+
+  it("removes the superseded structured-result execution and publication pipeline", () => {
+    for (const file of [
+      "config.ts",
+      "copilot-output.ts",
+      "failure-report.ts",
+      "github.ts",
+      "output.ts",
+      "publication.ts",
+      "publish.ts",
+      "run-command.ts",
+      "run.ts",
+      "prompts/verify.md",
+    ]) {
+      assert.equal(
+        existsSync(new URL(`../content-verification/${file}`, import.meta.url)),
+        false,
+        `${file} should be removed`,
+      );
+    }
   });
 });

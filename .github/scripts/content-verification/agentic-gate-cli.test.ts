@@ -38,6 +38,7 @@ async function runGate(items: unknown[]): Promise<void> {
         CONTENT_VERIFICATION_AGENT_RESULT: "success",
         CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: directory,
         CONTENT_VERIFICATION_EXPECTED_REVISION: revision,
+        CONTENT_VERIFICATION_SCOPE: manifest.scope,
       },
     });
   } finally {

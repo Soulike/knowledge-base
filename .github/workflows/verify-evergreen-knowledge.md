@@ -1,9 +1,9 @@
 ---
-name: Verify time-sensitive Knowledge
+name: Verify evergreen Knowledge
 
 on:
   schedule:
-    - cron: "17 3 1 * *"
+    - cron: "43 3 8 1,4,7,10 *"
   workflow_dispatch:
 
 engine:
@@ -25,7 +25,7 @@ permissions:
   issues: read
 
 concurrency:
-  group: content-verification-time-sensitive-knowledge
+  group: content-verification-evergreen-knowledge
   cancel-in-progress: false
 
 jobs:
@@ -64,7 +64,7 @@ jobs:
           CONTENT_VERIFICATION_AGENT_RESULT: ${{ needs.agent.result }}
           CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-gate
           CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
-          CONTENT_VERIFICATION_SCOPE: time-sensitive-knowledge
+          CONTENT_VERIFICATION_SCOPE: evergreen-knowledge
         run: node .github/scripts/content-verification/agentic-gate-cli.ts
 
   safe_outputs:
@@ -83,7 +83,7 @@ pre-agent-steps:
 
   - name: Generate content verification target manifest
     env:
-      CONTENT_VERIFICATION_SCOPE: time-sensitive-knowledge
+      CONTENT_VERIFICATION_SCOPE: evergreen-knowledge
       CONTENT_VERIFICATION_TARGET_MANIFEST: ${{ runner.temp }}/gh-aw/content-verification-targets.json
     run: node .github/scripts/content-verification/prepare-agentic.ts
 
@@ -114,7 +114,7 @@ safe-outputs:
     create-issue: false
 ---
 
-# Verify time-sensitive Knowledge
+# Verify evergreen Knowledge
 
 Verify every target in
 `$RUNNER_TEMP/gh-aw/content-verification-targets.json` at the exact revision
@@ -134,26 +134,28 @@ Do not search GitHub issues during this phase.
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`
    exactly once.
-2. For every target, verify each substantive externally dependent claim against
-   current authoritative sources. Use Tavily search to locate candidates and
-   Tavily extraction to inspect the source that supports the conclusion. A
-   reachable URL or search snippet is not sufficient evidence.
+2. For every target, verify its reasoning, scope, internal consistency,
+   continued necessity, and `evergreen` classification. Check whether ordinary
+   external evolution has introduced an evolving dependency that now requires
+   time-sensitive maintenance. Use Tavily search and extraction when a current
+   authoritative source is necessary to decide that question; a reachable URL
+   or search snippet is not sufficient evidence.
 3. Check that the Knowledge leaf's Scope, When to update, index routing entry,
-   and body still agree. Also assess whether the leaf remains necessary and is
-   one coherent current account rather than accumulated obsolete wording,
-   duplicated authority, patch-layered exceptions, or edit-history structure.
+   and body still agree. Also assess whether the leaf is one coherent current
+   account rather than accumulated obsolete wording, duplicated authority,
+   patch-layered exceptions, or edit-history structure.
 4. Classify each target as `current`, `modification-required`, or
-   `verification-failed`. A required correction must identify the current
+   `verification-failed`. A required correction must identify the reasoning or
    evidence, the smallest coherent change, and acceptance criteria. Missing or
    inconclusive evidence is `verification-failed`; never turn uncertainty into
    a proposed change.
 5. Finish and freeze the classification and finding set for every target before
    entering the history phase. Issue content may affect deduplication or a
    historical disposition, but it must not introduce new findings or rewrite
-   the evidence analysis.
+   the completed analysis.
 
-Every evidence-backed issue must retain the authoritative source URLs needed by
-a maintainer to evaluate the finding.
+Every evidence-backed issue must retain the repository paths and authoritative
+source URLs needed by a maintainer to evaluate the finding.
 
 ## History phase
 
@@ -189,11 +191,11 @@ Complete with exactly one of these outcomes:
 2. Otherwise, for each target with one or more unsuppressed
    `modification-required` findings and no matching open issue, call
    `create_issue` exactly once. Set the title to
-   `[time-sensitive Knowledge] <exact target id>` and combine all of that
-   target's current related findings in the body. Include the exact target id,
-   manifest revision, summaries, authoritative source URLs, required changes,
-   acceptance criteria, matching history, and any changed premise. Never
-   request two issues for one target.
+   `[evergreen Knowledge] <exact target id>` and combine all of that target's
+   current related findings in the body. Include the exact target id, manifest
+   revision, summaries, reasoning and evidence, required changes, acceptance
+   criteria, matching history, and any changed premise. Never request two
+   issues for one target.
 3. If no issue remains to be requested because every target is current,
    duplicated by an open issue, or constrained by an unchanged trusted closed
    disposition, call `noop` exactly once with a concise count for each reason.

@@ -392,6 +392,30 @@ describe("generated pull-request AI review workflow", () => {
       footer: "always",
       max: 1,
     });
+    const safeValidation = object(
+      JSON.parse(
+        String(
+          object(
+            stepByName(agentSteps, "Generate Safe Outputs Tools").env,
+            "safe outputs tool environment",
+          ).GH_AW_VALIDATION_JSON,
+        ),
+      ),
+      "safe output validation",
+    );
+    assert.deepEqual(
+      object(
+        object(
+          object(
+            safeValidation.create_pull_request_review_comment,
+            "review comment validation",
+          ).fields,
+          "review comment fields",
+        ).side,
+        "review comment side",
+      ).enum,
+      ["LEFT", "RIGHT"],
+    );
     assert.equal(gateJob.name, "AI review gate");
     assert.equal(gateJob.if, "always()");
     assert.deepEqual(gateJob.needs, ["agent", "safe_outputs"]);

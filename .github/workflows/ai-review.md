@@ -294,6 +294,10 @@ line and `LEFT` for a removed line. Each comment must begin with
 `**[severity] Short actionable title**` and explain the failure or maintenance
 harm, why it matters, and a viable correction.
 
+The workflow-level `RIGHT` setting is the fallback side, not a per-item pin.
+Set the safe-output call's `side` field explicitly to `LEFT` or `RIGHT` for each
+finding; the generated schema permits both values.
+
 Do not discard a finding merely because it cannot be anchored or because more
 than 100 findings exist. Put every unanchored finding and every line-addressable
 finding beyond the 100-comment limit in the final review body under

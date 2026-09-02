@@ -189,8 +189,6 @@ TOTAL_STAGES=2
 # GitHub CLI uses GH_REPO as the repository context for commands, including the
 # template library's `gh secret set` call that intentionally omits `--repo`.
 export GH_REPO="${GH_REPO:-Soulike/knowledge-base}"
-export HTTP_PROXY="${HTTP_PROXY:-http://127.0.0.1:1087}"
-export HTTPS_PROXY="${HTTPS_PROXY:-$HTTP_PROXY}"
 
 banner "Tavily Actions secret setup"
 
@@ -207,7 +205,7 @@ done
 
 stage "GitHub — store the repository secret"
 say "Target repository: $GH_REPO"
-note "GitHub CLI requests use $HTTPS_PROXY unless you override HTTP_PROXY/HTTPS_PROXY."
+note "GitHub CLI honors your existing HTTP_PROXY/HTTPS_PROXY environment when needed."
 if confirm "Set or replace the TAVILY_API_KEY Actions secret now?"; then
   set_secret TAVILY_API_KEY "$TAVILY_API_KEY"
 else

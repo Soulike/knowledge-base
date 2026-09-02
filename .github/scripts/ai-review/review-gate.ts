@@ -6,13 +6,17 @@ import type {
   GitHubClient,
   PullRequest,
   PullRequestReview,
+  PullRequestReviewComment,
   WorkflowJob,
 } from "./github.ts";
 import {
   AI_REVIEW_AUTHOR,
   AI_REVIEW_WORKFLOW_ID,
   AI_REVIEW_WORKFLOW_NAME,
+  type FindingCounts,
+  type FindingSeverity,
   labels,
+  parseInlineFindingSeverity,
   parseReviewBody,
   type ReviewVerdict,
 } from "./review-state.ts";
@@ -32,6 +36,7 @@ type ReviewGateClient = Pick<
   GitHubClient,
   | "addLabel"
   | "getPullRequest"
+  | "listReviewComments"
   | "listReviews"
   | "listRunAttemptJobs"
   | "removeLabel"
@@ -50,6 +55,33 @@ export function assertCurrentPullRequest(
     throw new Error(
       `Pull request changed during review: expected ${identity.baseSha}...${identity.expectedHeadSha}, received ${pullRequest.baseSha}...${pullRequest.headSha} (${pullRequest.state}).`,
     );
+  }
+}
+
+function assertExactFindingCounts(
+  review: PullRequestReview,
+  reviewComments: PullRequestReviewComment[],
+  visible: FindingCounts,
+  bodyOnly: FindingCounts,
+): void {
+  const inline: FindingCounts = { high: 0, low: 0, medium: 0, nit: 0 };
+  for (const comment of reviewComments.filter(
+    (candidate) => candidate.reviewId === review.id,
+  )) {
+    const severity = parseInlineFindingSeverity(comment.body);
+    if (!severity) {
+      throw new Error(
+        `Review ${review.id} contains an inline comment without a valid finding severity.`,
+      );
+    }
+    inline[severity] += 1;
+  }
+  for (const severity of Object.keys(visible) as FindingSeverity[]) {
+    if (inline[severity] + bodyOnly[severity] !== visible[severity]) {
+      throw new Error(
+        `Review ${review.id} finding counts do not equal its inline and body-only findings.`,
+      );
+    }
   }
 }
 
@@ -87,6 +119,7 @@ export function verifyPublishedReview(
   identity: ReviewIdentity,
   pullRequest: PullRequest,
   reviews: PullRequestReview[],
+  reviewComments: PullRequestReviewComment[],
   jobs: WorkflowJob[],
 ): ReviewVerdict {
   assertCurrentPullRequest(identity, pullRequest);
@@ -120,6 +153,12 @@ export function verifyPublishedReview(
       outsideCurrentAttempt += 1;
       return [];
     }
+    assertExactFindingCounts(
+      review,
+      reviewComments,
+      parsed.counts,
+      parsed.bodyOnlyCounts,
+    );
     return [{ parsed, review }];
   });
 
@@ -162,12 +201,19 @@ async function readPublishedReview(
   client: ReviewGateClient,
   context: ReviewGateContext,
 ): Promise<ReviewVerdict> {
-  const [pullRequest, reviews, jobs] = await Promise.all([
+  const [pullRequest, reviews, reviewComments, jobs] = await Promise.all([
     client.getPullRequest(context.prNumber),
     client.listReviews(context.prNumber),
+    client.listReviewComments(context.prNumber),
     client.listRunAttemptJobs(context.runId, context.runAttempt),
   ]);
-  return verifyPublishedReview(context, pullRequest, reviews, jobs);
+  return verifyPublishedReview(
+    context,
+    pullRequest,
+    reviews,
+    reviewComments,
+    jobs,
+  );
 }
 
 export async function enforceReviewGate(

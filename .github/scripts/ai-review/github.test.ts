@@ -153,6 +153,47 @@ test("reads the exact run-attempt jobs used to authenticate publication", async 
   ]);
 });
 
+test("paginates inline review comments and preserves their review identity", async (t) => {
+  let requestCount = 0;
+  mockFetch(t, async () => {
+    requestCount += 1;
+    if (requestCount === 1) {
+      return jsonResponse(
+        [
+          {
+            body: "**[high] Unsafe change**",
+            id: 501,
+            pull_request_review_id: 99,
+          },
+        ],
+        {
+          headers: {
+            Link: '<https://api.github.com/repositories/1/pulls/42/comments?page=2>; rel="next"',
+          },
+          status: 200,
+        },
+      );
+    }
+    return jsonResponse(
+      [
+        {
+          body: "**[low] Clarify this**",
+          id: 502,
+          pull_request_review_id: 100,
+        },
+      ],
+      { status: 200 },
+    );
+  });
+  const client = new GitHubClient("token", "owner/repository");
+
+  assert.deepEqual(await client.listReviewComments(42), [
+    { body: "**[high] Unsafe change**", id: 501, reviewId: 99 },
+    { body: "**[low] Clarify this**", id: 502, reviewId: 100 },
+  ]);
+  assert.equal(requestCount, 2);
+});
+
 test("adds a verdict label with the issues endpoint", async (t) => {
   let capturedRequest: RequestInit | undefined;
   let capturedUrl = "";

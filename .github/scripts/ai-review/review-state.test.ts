@@ -29,6 +29,7 @@ test("parses one consistent visible verdict and gh-aw attribution", () => {
       workflowId: "ai-review",
       workflowName: "AI review",
     },
+    bodyOnlyCounts: { high: 0, low: 1, medium: 0, nit: 0 },
     counts: { high: 0, low: 1, medium: 0, nit: 0 },
     model: "grok-4.6",
     reviewedHeadSha: headSha,

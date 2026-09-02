@@ -20,6 +20,12 @@ export type PullRequestReview = {
   submittedAt: string | null;
 };
 
+export type PullRequestReviewComment = {
+  body: string;
+  id: number;
+  reviewId: number | null;
+};
+
 export type WorkflowJob = {
   completedAt: string | null;
   conclusion: string | null;
@@ -126,6 +132,25 @@ export class GitHubClient {
       id: review.id,
       state: review.state,
       submittedAt: review.submitted_at ?? null,
+    }));
+  }
+
+  async listReviewComments(
+    prNumber: number,
+  ): Promise<PullRequestReviewComment[]> {
+    const comments = await this.#octokit.paginate(
+      this.#octokit.rest.pulls.listReviewComments,
+      {
+        owner: this.#owner,
+        per_page: 100,
+        pull_number: prNumber,
+        repo: this.#name,
+      },
+    );
+    return comments.map((comment) => ({
+      body: comment.body,
+      id: comment.id,
+      reviewId: comment.pull_request_review_id ?? null,
     }));
   }
 

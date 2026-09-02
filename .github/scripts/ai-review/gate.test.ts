@@ -53,6 +53,18 @@ None.
   };
 }
 
+function comments(verdict: "approved" | "needs-change", reviewId = 99) {
+  return verdict === "needs-change"
+    ? [
+        {
+          body: "**[high] Unsafe change**\n\nCorrect the behavior.",
+          id: 501,
+          reviewId,
+        },
+      ]
+    : [];
+}
+
 function jobs(overrides: Record<string, unknown> = {}) {
   return [
     {
@@ -73,6 +85,7 @@ test("accepts an approved COMMENT review for this run attempt and head", () => {
       identity,
       pullRequest(),
       [review("approved")],
+      comments("approved"),
       jobs(),
     ),
     "approved",
@@ -85,9 +98,24 @@ test("returns needs-change from authenticated visible findings", () => {
       identity,
       pullRequest(),
       [review("needs-change")],
+      comments("needs-change"),
       jobs(),
     ),
     "needs-change",
+  );
+});
+
+test("rejects inline findings omitted from the visible counts", () => {
+  assert.throws(
+    () =>
+      verifyPublishedReview(
+        identity,
+        pullRequest(),
+        [review("approved")],
+        comments("needs-change"),
+        jobs(),
+      ),
+    /finding counts/u,
   );
 });
 
@@ -104,6 +132,32 @@ test("ignores reviews from another run while selecting the current review", () =
         }),
         review("approved"),
       ],
+      comments("approved"),
+      jobs(),
+    ),
+    "approved",
+  );
+});
+
+test("ignores a malformed review from an earlier attempt before validating current counts", () => {
+  assert.equal(
+    verifyPublishedReview(
+      identity,
+      pullRequest(),
+      [
+        review("approved", {
+          id: 98,
+          submittedAt: "2026-09-02T09:00:00Z",
+        }),
+        review("approved"),
+      ],
+      [
+        {
+          body: "**[high] Stale malformed count**",
+          id: 500,
+          reviewId: 98,
+        },
+      ],
       jobs(),
     ),
     "approved",
@@ -117,6 +171,7 @@ test("fails closed when the current run publishes more than one review", () => {
         identity,
         pullRequest(),
         [review("approved", { id: 98 }), review("approved", { id: 99 })],
+        comments("approved"),
         jobs(),
       ),
     /exactly one COMMENT review/u,
@@ -129,7 +184,14 @@ test("rejects a marker on the wrong commit or review state", () => {
     review("approved", { state: "APPROVED" }),
   ]) {
     assert.throws(
-      () => verifyPublishedReview(identity, pullRequest(), [candidate], jobs()),
+      () =>
+        verifyPublishedReview(
+          identity,
+          pullRequest(),
+          [candidate],
+          comments("approved"),
+          jobs(),
+        ),
       /exactly one COMMENT review/u,
     );
   }
@@ -142,6 +204,7 @@ test("rejects a review after the pull request changes", () => {
         identity,
         pullRequest({ headSha: "c".repeat(40) }),
         [review("approved")],
+        comments("approved"),
         jobs(),
       ),
     /Pull request changed during review/u,
@@ -155,6 +218,7 @@ test("rejects a review that predates the current run attempt", () => {
         identity,
         pullRequest(),
         [review("approved", { submittedAt: "2026-09-02T09:59:59Z" })],
+        comments("approved"),
         jobs(),
       ),
     /current run attempt/u,
@@ -164,17 +228,21 @@ test("rejects a review that predates the current run attempt", () => {
 class FakeGitHubClient {
   readonly labels = new Set<string>(["AI Approved", "AI Need Change"]);
   readonly pulls: ReturnType<typeof pullRequest>[];
+  readonly reviewComments: ReturnType<typeof comments>;
   readonly reviews: ReturnType<typeof review>[];
   jobReads = 0;
   pullRequestReads = 0;
+  reviewCommentReads = 0;
   reviewReads = 0;
 
   constructor(
     pulls: ReturnType<typeof pullRequest>[],
     reviews: ReturnType<typeof review>[],
+    reviewComments: ReturnType<typeof comments> = comments("approved"),
   ) {
     this.pulls = pulls;
     this.reviews = reviews;
+    this.reviewComments = reviewComments;
   }
 
   async getPullRequest(): Promise<ReturnType<typeof pullRequest>> {
@@ -184,6 +252,11 @@ class FakeGitHubClient {
       throw new Error("Unexpected pull-request read.");
     }
     return value;
+  }
+
+  async listReviewComments(): Promise<ReturnType<typeof comments>> {
+    this.reviewCommentReads += 1;
+    return this.reviewComments;
   }
 
   async listReviews(): Promise<ReturnType<typeof review>[]> {
@@ -228,6 +301,7 @@ test("applies only AI Approved after authenticating an approved review", async (
   assert.equal(await enforceReviewGate(client, gateContext()), "approved");
   assert.deepEqual([...client.labels], ["AI Approved"]);
   assert.equal(client.reviewReads, 2);
+  assert.equal(client.reviewCommentReads, 2);
   assert.equal(client.jobReads, 2);
 });
 
@@ -235,6 +309,7 @@ test("preserves AI Need Change while failing the gate", async () => {
   const client = new FakeGitHubClient(
     [pullRequest(), pullRequest()],
     [review("needs-change")],
+    comments("needs-change"),
   );
 
   await assert.rejects(

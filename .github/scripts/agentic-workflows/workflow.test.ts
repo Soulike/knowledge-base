@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import { parse } from "yaml";
@@ -306,27 +306,6 @@ describe("generated scheduled verification workflows", () => {
       assert.ok("safe_outputs" in generatedJobs);
     }
   });
-
-  it("removes the superseded structured-result execution and publication pipeline", () => {
-    for (const file of [
-      "config.ts",
-      "copilot-output.ts",
-      "failure-report.ts",
-      "github.ts",
-      "output.ts",
-      "publication.ts",
-      "publish.ts",
-      "run-command.ts",
-      "run.ts",
-      "prompts/verify.md",
-    ]) {
-      assert.equal(
-        existsSync(new URL(`../content-verification/${file}`, import.meta.url)),
-        false,
-        `${file} should be removed`,
-      );
-    }
-  });
 });
 
 describe("generated pull-request AI review workflow", () => {
@@ -431,24 +410,5 @@ describe("generated pull-request AI review workflow", () => {
       ).AI_REVIEW_SAFE_OUTPUTS_RESULT,
       "${{ needs.safe_outputs.result }}",
     );
-  });
-
-  it("removes the obsolete direct Agent publication path", () => {
-    for (const file of [
-      "diff.ts",
-      "prompt.ts",
-      "prompt.test.ts",
-      "run-command.ts",
-      "run-command.test.ts",
-      "run-review.ts",
-      "prompts/review.md",
-      "prompts/skills.md",
-    ]) {
-      assert.equal(
-        existsSync(new URL(`../ai-review/${file}`, import.meta.url)),
-        false,
-        `${file} should be removed`,
-      );
-    }
   });
 });

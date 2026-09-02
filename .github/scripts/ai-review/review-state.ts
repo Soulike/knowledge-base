@@ -16,6 +16,7 @@ export type FindingCounts = {
   medium: number;
   nit: number;
 };
+export type FindingSeverity = keyof FindingCounts;
 
 export type ParsedReviewBody = {
   attribution: {
@@ -24,6 +25,7 @@ export type ParsedReviewBody = {
     workflowId: string;
     workflowName: string;
   };
+  bodyOnlyCounts: FindingCounts;
   counts: FindingCounts;
   model: string;
   reviewedHeadSha: string;
@@ -40,6 +42,8 @@ const bodyOnlyHeadingPattern = /^## Findings not posted inline$/gmu;
 const bodyOnlyFindingPattern =
   /^- \*\*\[(high|medium|low|nit)\] [^*\r\n]{1,300}\*\*$/gmu;
 const bodyOnlyNonePattern = /^None\.$/gmu;
+const inlineFindingPattern =
+  /^\*\*\[(high|medium|low|nit)\] [^*\r\n]{1,300}\*\*/u;
 const frameworkMarkerPattern =
   /<!--\s*gh-aw-agentic-workflow:\s*([^>]*?)\s*-->/gu;
 
@@ -86,18 +90,18 @@ function attribution(
   return { runId, runUrl, workflowId, workflowName };
 }
 
-function bodyOnlyFindingsFitVisibleCounts(
+function bodyOnlyFindingCounts(
   body: string,
   marker: RegExpMatchArray,
   visible: FindingCounts,
-): boolean {
+): FindingCounts | null {
   const heading = oneMatch(bodyOnlyHeadingPattern, body);
   if (heading?.index === undefined || marker.index === undefined) {
-    return false;
+    return null;
   }
   const sectionStart = heading.index + heading[0].length;
   if (sectionStart >= marker.index) {
-    return false;
+    return null;
   }
   const section = body.slice(sectionStart, marker.index);
   const none = [...section.matchAll(bodyOnlyNonePattern)];
@@ -107,15 +111,26 @@ function bodyOnlyFindingsFitVisibleCounts(
     none.length > 1 ||
     (none.length === 0 && findings.length === 0)
   ) {
-    return false;
+    return null;
   }
   const bodyOnly: FindingCounts = { high: 0, low: 0, medium: 0, nit: 0 };
   for (const finding of findings) {
     const severity = finding[1] as keyof FindingCounts;
     bodyOnly[severity] += 1;
   }
-  return (Object.keys(bodyOnly) as Array<keyof FindingCounts>).every(
+  return (Object.keys(bodyOnly) as FindingSeverity[]).every(
     (severity) => bodyOnly[severity] <= visible[severity],
+  )
+    ? bodyOnly
+    : null;
+}
+
+export function parseInlineFindingSeverity(
+  body: string,
+): FindingSeverity | null {
+  return (
+    (inlineFindingPattern.exec(body)?.[1] as FindingSeverity | undefined) ??
+    null
   );
 }
 
@@ -157,11 +172,13 @@ export function parseReviewBody(body: string | null): ParsedReviewBody | null {
     return null;
   }
   const counts = { high, low, medium, nit };
-  if (!bodyOnlyFindingsFitVisibleCounts(body, markerMatch, counts)) {
+  const bodyOnlyCounts = bodyOnlyFindingCounts(body, markerMatch, counts);
+  if (!bodyOnlyCounts) {
     return null;
   }
   return {
     attribution: parsedAttribution,
+    bodyOnlyCounts,
     counts,
     model: modelMatch[1] as string,
     reviewedHeadSha: headMatch[1] as string,

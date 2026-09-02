@@ -34,7 +34,12 @@ describe("discoverVerificationTargets", () => {
       ".agents/skills/add/SKILL.md",
       ".github/scripts/ai-review/prompts/review.md",
       ".github/scripts/ai-review/prompts/skills.md",
+      ".github/workflows/README.md",
+      ".github/workflows/ai-review.md",
+      ".github/workflows/shared/agentic-runtime.md",
       "AGENTS.md",
+      "CONTEXT.md",
+      "docs/agents/domain.md",
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
       "plugins/example/skills/check/SKILL.md",
@@ -67,8 +72,28 @@ describe("discoverVerificationTargets", () => {
           kind: "agent-content",
         },
         {
+          files: [".github/workflows/ai-review.md"],
+          id: ".github/workflows/ai-review.md",
+          kind: "agent-content",
+        },
+        {
+          files: [".github/workflows/shared/agentic-runtime.md"],
+          id: ".github/workflows/shared/agentic-runtime.md",
+          kind: "shared-reference",
+        },
+        {
           files: ["AGENTS.md"],
           id: "AGENTS.md",
+          kind: "agent-content",
+        },
+        {
+          files: ["CONTEXT.md"],
+          id: "CONTEXT.md",
+          kind: "agent-content",
+        },
+        {
+          files: ["docs/agents/domain.md"],
+          id: "docs/agents/domain.md",
           kind: "agent-content",
         },
         {

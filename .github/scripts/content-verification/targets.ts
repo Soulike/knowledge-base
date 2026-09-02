@@ -6,14 +6,7 @@ import {
   type KnowledgeType,
   validateKnowledgeIndex,
 } from "@knowledge-base/knowledge-index";
-
-export const verificationScopes = [
-  "time-sensitive-knowledge",
-  "evergreen-knowledge",
-  "maintained-agent-content",
-] as const;
-
-export type VerificationScope = (typeof verificationScopes)[number];
+import type { VerificationScope } from "./scope.ts";
 
 export type VerificationTarget = {
   files: string[];
@@ -47,11 +40,26 @@ function sharedReferencePackage(filePath: string): boolean {
   if (filePath.startsWith(".agents/references/")) {
     return true;
   }
+  if (filePath.startsWith(".github/workflows/shared/")) {
+    return filePath.endsWith(".md");
+  }
   return /^plugins\/[^/]+\/references\//u.test(filePath);
 }
 
 function isAgentInstructions(filePath: string): boolean {
-  return filePath === "AGENTS.md" || filePath.endsWith("/AGENTS.md");
+  return (
+    filePath === "AGENTS.md" ||
+    filePath.endsWith("/AGENTS.md") ||
+    filePath === "CONTEXT.md" ||
+    /^docs\/agents\/[^/]+\.md$/u.test(filePath)
+  );
+}
+
+function isAgenticWorkflowSource(filePath: string): boolean {
+  return (
+    /^\.github\/workflows\/[^/]+\.md$/u.test(filePath) &&
+    filePath !== ".github/workflows/README.md"
+  );
 }
 
 function promptBundleDirectory(filePath: string): string | undefined {
@@ -141,6 +149,12 @@ function agentContentTargets(trackedPaths: string[]): VerificationTarget[] {
     }
   }
 
+  for (const filePath of trackedPaths.filter(isAgenticWorkflowSource)) {
+    if (!alreadyOwned.has(filePath)) {
+      targets.push({ files: [filePath], id: filePath, kind: "agent-content" });
+    }
+  }
+
   const promptBundles = new Map<string, string[]>();
   for (const filePath of trackedPaths) {
     const directory = promptBundleDirectory(filePath);
@@ -189,13 +203,4 @@ export function discoverVerificationTargets(
     }
   }
   return targets;
-}
-
-export function parseVerificationScope(value: string): VerificationScope {
-  if (!verificationScopes.includes(value as VerificationScope)) {
-    throw new Error(
-      `Verification scope must be one of: ${verificationScopes.join(", ")}.`,
-    );
-  }
-  return value as VerificationScope;
 }

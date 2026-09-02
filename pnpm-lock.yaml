@@ -38,18 +38,17 @@ importers:
         specifier: ^8.65.0
         version: 8.65.0(eslint@10.8.0(supports-color@9.0.0))(supports-color@9.0.0)(typescript@6.0.3)
 
+  .github/scripts/agentic-workflows:
+    devDependencies:
+      yaml:
+        specifier: ^2.9.0
+        version: 2.9.0
+
   .github/scripts/ai-review:
     dependencies:
       "@octokit/rest":
         specifier: ^22.0.1
         version: 22.0.1
-    devDependencies:
-      "@types/mdast":
-        specifier: ^4.0.4
-        version: 4.0.4
-      mdast-util-from-markdown:
-        specifier: ^2.0.3
-        version: 2.0.3(supports-color@9.0.0)
 
   .github/scripts/check-knowledge-format:
     dependencies:
@@ -88,13 +87,6 @@ importers:
       "@knowledge-base/knowledge-index":
         specifier: workspace:*
         version: link:../../../packages/knowledge-index
-      "@octokit/rest":
-        specifier: ^22.0.1
-        version: 22.0.1
-    devDependencies:
-      mdast-util-from-markdown:
-        specifier: ^2.0.3
-        version: 2.0.3(supports-color@9.0.0)
 
   .github/scripts/plugin-version: {}
 

@@ -1,5 +1,5 @@
 {
-  "name": "@knowledge-base/content-verification",
+  "name": "@knowledge-base/agentic-workflows",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,7 @@
     "test": "node --test *.test.ts",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@knowledge-base/knowledge-index": "workspace:*"
+  "devDependencies": {
+    "yaml": "^2.9.0"
   }
 }

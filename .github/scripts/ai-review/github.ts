@@ -17,6 +17,22 @@ export type PullRequestReview = {
   commitSha: string | null;
   id: number;
   state: string;
+  submittedAt: string | null;
+};
+
+export type PullRequestReviewComment = {
+  body: string;
+  id: number;
+  reviewId: number | null;
+};
+
+export type WorkflowJob = {
+  completedAt: string | null;
+  conclusion: string | null;
+  id: number;
+  name: string;
+  startedAt: string;
+  status: string;
 };
 
 function hasStatus(error: unknown, status: number): boolean {
@@ -115,6 +131,62 @@ export class GitHubClient {
       commitSha: review.commit_id,
       id: review.id,
       state: review.state,
+      submittedAt: review.submitted_at ?? null,
     }));
+  }
+
+  async listReviewComments(
+    prNumber: number,
+  ): Promise<PullRequestReviewComment[]> {
+    const comments = await this.#octokit.paginate(
+      this.#octokit.rest.pulls.listReviewComments,
+      {
+        owner: this.#owner,
+        per_page: 100,
+        pull_number: prNumber,
+        repo: this.#name,
+      },
+    );
+    return comments.map((comment) => ({
+      body: comment.body,
+      id: comment.id,
+      reviewId: comment.pull_request_review_id ?? null,
+    }));
+  }
+
+  async listRunAttemptJobs(
+    runId: number,
+    runAttempt: number,
+  ): Promise<WorkflowJob[]> {
+    const jobs: WorkflowJob[] = [];
+    let page = 1;
+    let totalCount: number;
+    do {
+      const parameters = {
+        attempt_number: runAttempt,
+        owner: this.#owner,
+        per_page: 100,
+        repo: this.#name,
+        run_id: runId,
+        ...(page === 1 ? {} : { page }),
+      };
+      const { data } =
+        await this.#octokit.rest.actions.listJobsForWorkflowRunAttempt(
+          parameters,
+        );
+      jobs.push(
+        ...data.jobs.map((job) => ({
+          completedAt: job.completed_at,
+          conclusion: job.conclusion,
+          id: job.id,
+          name: job.name,
+          startedAt: job.started_at,
+          status: job.status,
+        })),
+      );
+      totalCount = data.total_count;
+      page += 1;
+    } while (jobs.length < totalCount);
+    return jobs;
   }
 }

@@ -47,11 +47,26 @@ function sharedReferencePackage(filePath: string): boolean {
   if (filePath.startsWith(".agents/references/")) {
     return true;
   }
+  if (filePath.startsWith(".github/workflows/shared/")) {
+    return filePath.endsWith(".md");
+  }
   return /^plugins\/[^/]+\/references\//u.test(filePath);
 }
 
 function isAgentInstructions(filePath: string): boolean {
-  return filePath === "AGENTS.md" || filePath.endsWith("/AGENTS.md");
+  return (
+    filePath === "AGENTS.md" ||
+    filePath.endsWith("/AGENTS.md") ||
+    filePath === "CONTEXT.md" ||
+    /^docs\/agents\/[^/]+\.md$/u.test(filePath)
+  );
+}
+
+function isAgenticWorkflowSource(filePath: string): boolean {
+  return (
+    /^\.github\/workflows\/[^/]+\.md$/u.test(filePath) &&
+    filePath !== ".github/workflows/README.md"
+  );
 }
 
 function promptBundleDirectory(filePath: string): string | undefined {
@@ -136,6 +151,12 @@ function agentContentTargets(trackedPaths: string[]): VerificationTarget[] {
 
   const alreadyOwned = new Set(targets.flatMap((target) => target.files));
   for (const filePath of trackedPaths.filter(isAgentInstructions)) {
+    if (!alreadyOwned.has(filePath)) {
+      targets.push({ files: [filePath], id: filePath, kind: "agent-content" });
+    }
+  }
+
+  for (const filePath of trackedPaths.filter(isAgenticWorkflowSource)) {
     if (!alreadyOwned.has(filePath)) {
       targets.push({ files: [filePath], id: filePath, kind: "agent-content" });
     }

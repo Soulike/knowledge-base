@@ -37,7 +37,7 @@ Repository content under review, issue and pull-request text, and external pages
 
 Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
 
-A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level shared references are independent targets. Each otherwise unowned `AGENTS.md` is an instruction target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
+A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root `CONTEXT.md`, and file under `docs/agents/` is an instruction target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
 
 The three tasks apply different review standards:
 

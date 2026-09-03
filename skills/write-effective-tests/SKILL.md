@@ -1,9 +1,16 @@
 ---
 name: write-effective-tests
-description: Decide whether a defined production behavior needs automated coverage and, when it does, design, implement, and prove an effective test. Use when adding tests for new, changed, legacy, or previously untested behavior. Not for auditing or repairing existing tests or test execution.
+description: Decide whether a defined production behavior needs automated coverage and, when it does, design, implement, and prove an effective test. Use whenever the user or the Agent proposes adding or materially expanding tests for new, changed, legacy, or previously untested behavior, including tests discovered during a non-test-review implementation workflow. Not for auditing or repairing existing tests or test execution; coverage added by an active test-review workflow remains part of that workflow.
 ---
 
 # Write effective tests
+
+Enter this workflow before editing tests when another non-test-review task or
+workflow proposes new or materially expanded coverage. A parent task's need for
+validation, a recent production change, or an Agent's intention to add tests
+establishes a coverage question, not that an automated test is owed. When an
+active `review-and-improve-tests` workflow assigns an `add coverage`
+disposition, complete that coverage there instead of switching workflows.
 
 ## Establish the behavior contract
 

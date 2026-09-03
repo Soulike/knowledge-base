@@ -21,17 +21,31 @@ The source Markdown is maintained by people and Agents. The generated `*.lock.ym
 
 All four tasks import [the shared runtime](shared/agentic-runtime.md). It provides:
 
-- all GitHub read toolsets through a read-only proxy;
-- GitHub Actions run, check, artifact, and log inspection;
+- all GitHub read toolsets with read-only server credentials;
+- the pinned local GitHub MCP server for pull-request threads, Actions runs,
+  checks, artifacts, logs, and other GitHub reads;
+- unrestricted Bash commands inside the Agent sandbox;
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
-- Node.js 24;
+- the latest LTS Node.js release;
+- repository dependencies installed from the trusted checkout before inference;
 - the knowledge-base plugin from the checked-out repository revision;
 - floating `codebase-design`, `tdd`, and `writing-for-agents` review-reference Skills;
 - required reasoning-effort validation; and
 - fail-closed threat detection before safe-output publication.
 
+The shared source disables gh-aw per-run, threat-detection, and daily AI Credits
+guardrails with `-1`. This removes the runtime dependency on gh-aw model-pricing
+tables; it does not disable Copilot provider billing or token reporting.
+
 The Agent does not receive the credential used for issue or review publication. It requests an allowed effect through safe-output tools. A separate job with only the required write permission validates and applies that request. Repository-owned gates then enforce task-specific subject, shape, verdict, or completion policy.
+
+Unrestricted Bash applies only inside the disposable Agent sandbox. The runtime
+excludes the Copilot, GitHub MCP, and Tavily environment credentials from that
+container and fails before inference unless temporary Git credentials have been
+removed from every checkout. Authenticated GitHub reads remain behind the
+read-only MCP server, and GitHub publication remains behind safe outputs and
+repository-owned gates.
 
 Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the four task contracts.
 

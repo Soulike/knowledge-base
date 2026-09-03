@@ -48,7 +48,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "lts/*"
 
       - name: Download Agent output and target manifest
         uses: actions/download-artifact@v8

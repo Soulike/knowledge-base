@@ -75,6 +75,110 @@ function assertLongContext(agentSteps: unknown[]): void {
   assert.match(run, /--allow-tool github|--allow-all-tools/u);
 }
 
+function assertUnrestrictedBash(agentSteps: unknown[]): void {
+  const execution = stepByName(agentSteps, "Execute GitHub Copilot CLI");
+  const run = String(execution.run);
+  assert.match(run, /--allow-all-tools/u);
+  assert.match(run, /--exclude-env COPILOT_GITHUB_TOKEN/u);
+  assert.match(run, /--exclude-env GITHUB_MCP_SERVER_TOKEN/u);
+  assert.match(run, /--exclude-env TAVILY_API_KEY/u);
+
+  const environment = object(execution.env, "Agent execution environment");
+  assert.equal("GH_TOKEN" in environment, false);
+  assert.equal("GITHUB_TOKEN" in environment, false);
+}
+
+function assertGitCredentialsRemoved(agentSteps: unknown[]): void {
+  const names = agentSteps.map((step) => object(step, "agent step").name);
+  const configure = names.indexOf("Configure Git credentials");
+  const failClosedCleanup = names.indexOf(
+    "Remove and verify Git credentials before Agent",
+  );
+  const frameworkCleanup = names.indexOf("Clean credentials");
+  const execution = names.indexOf("Execute GitHub Copilot CLI");
+  assert.ok(
+    configure >= 0 &&
+      configure < failClosedCleanup &&
+      failClosedCleanup < frameworkCleanup &&
+      frameworkCleanup < execution,
+  );
+
+  const cleanup = stepByName(
+    agentSteps,
+    "Remove and verify Git credentials before Agent",
+  );
+  assert.equal("continue-on-error" in cleanup, false);
+  const run = String(cleanup.run);
+  assert.match(run, /clean_git_credentials\.sh/u);
+  assert.match(run, /credential\\\./u);
+  assert.match(run, /extraheader/u);
+  assert.match(run, />\/dev\/null 2>&1/u);
+  assert.match(run, /authenticated Git remote/u);
+}
+
+function assertDependenciesInstalled(
+  agentSteps: unknown[],
+  installStepName: string,
+): void {
+  const names = agentSteps.map((step) => object(step, "agent step").name);
+  const setup = names.indexOf("Set up pnpm");
+  const install = names.indexOf(installStepName);
+  const execution = names.indexOf("Execute GitHub Copilot CLI");
+  assert.ok(setup >= 0 && setup < install && install < execution);
+  assert.equal(
+    stepByName(agentSteps, installStepName).run,
+    "pnpm install --frozen-lockfile --ignore-scripts",
+  );
+}
+
+function assertLtsNode(
+  steps: unknown[],
+  stepName: string,
+  runtime: boolean,
+): void {
+  assert.deepEqual(
+    object(stepByName(steps, stepName).with, `${stepName} inputs`),
+    runtime
+      ? { "node-version": "lts/*", "package-manager-cache": false }
+      : { "node-version": "lts/*" },
+  );
+}
+
+function assertGitHubMcp(source: string, agentSteps: unknown[]): void {
+  const githubServer = array(
+    metadata(source, "gh-aw-manifest").mcp_servers,
+    "MCP servers",
+  ).find((server) => object(server, "MCP server").name === "github");
+  assert.ok(githubServer, "Expected the local GitHub MCP server.");
+
+  const tools = array(
+    object(githubServer, "GitHub MCP server").tools,
+    "GitHub MCP tools",
+  );
+  assert.ok(tools.includes("pull_request_read"));
+  assert.ok(tools.includes("get_job_logs"));
+  assert.ok(tools.includes("list_dependabot_alerts"));
+
+  const gateway = String(stepByName(agentSteps, "Start MCP Gateway").run);
+  assert.match(gateway, /github-mcp-server:v1\.11\.0/u);
+  assert.match(gateway, /"GITHUB_READ_ONLY": "1"/u);
+  assert.match(gateway, /"GITHUB_TOOLSETS": "all,dependabot"/u);
+
+  const execution = String(
+    stepByName(agentSteps, "Execute GitHub Copilot CLI").run,
+  );
+  assert.doesNotMatch(execution, /shell\(gh(?::\*)?\)|\bgh api\b/u);
+}
+
+function assertAICreditsDisabled(source: string, activation: JsonObject): void {
+  assert.doesNotMatch(source, /"maxAiCredits"|enableTokenSteering/u);
+  assert.equal(
+    "GH_AW_MAX_DAILY_AI_CREDITS" in
+      object(activation.env, "activation environment"),
+    false,
+  );
+}
+
 function metadata(source: string, key: string): JsonObject {
   const prefix = `# ${key}: `;
   const line = source
@@ -94,6 +198,7 @@ describe("generated time-sensitive Knowledge workflow", () => {
   );
   const workflow = object(parse(source), "workflow");
   const jobs = object(workflow.jobs, "jobs");
+  const activation = object(jobs.activation, "activation job");
   const agent = object(jobs.agent, "agent job");
   const agentSteps = array(agent.steps, "agent steps");
   const conclusion = object(jobs.conclusion, "conclusion job");
@@ -164,6 +269,12 @@ describe("generated time-sensitive Knowledge workflow", () => {
 
   it("keeps inference read-only and prepares the exact target manifest first", () => {
     assertReadOnlyAgentPermissions(agent.permissions);
+    assertLtsNode(agentSteps, "Setup Node.js", true);
+    assertUnrestrictedBash(agentSteps);
+    assertGitCredentialsRemoved(agentSteps);
+    assertDependenciesInstalled(agentSteps, "Install repository dependencies");
+    assertGitHubMcp(source, agentSteps);
+    assertAICreditsDisabled(source, activation);
     assert.deepEqual(safeOutputs.permissions, { issues: "write" });
 
     const names = agentSteps.map((step) => object(step, "agent step").name);
@@ -251,6 +362,7 @@ describe("generated time-sensitive Knowledge workflow", () => {
     assert.equal(gate.if, "always()");
     assert.equal(gate.needs, "agent");
     assert.deepEqual(gate.permissions, { contents: "read" });
+    assertLtsNode(gateSteps, "Set up Node.js", false);
     assert.match(
       String(stepByName(gateSteps, "Enforce content verification result").run),
       /agentic-gate-cli\.ts/u,
@@ -312,10 +424,8 @@ describe("generated scheduled verification workflows", () => {
         `../../workflows/${candidate.file}.lock.yml`,
         import.meta.url,
       );
-      const generated = object(
-        parse(readFileSync(path, "utf8")),
-        candidate.file,
-      );
+      const generatedSource = readFileSync(path, "utf8");
+      const generated = object(parse(generatedSource), candidate.file);
       assert.equal(generated.name, candidate.name);
       assert.equal(
         object(generated.concurrency, "concurrency").group,
@@ -333,10 +443,32 @@ describe("generated scheduled verification workflows", () => {
       );
 
       const generatedJobs = object(generated.jobs, "jobs");
+      const generatedActivation = object(
+        generatedJobs.activation,
+        "activation job",
+      );
       const generatedAgent = object(generatedJobs.agent, "agent job");
       const agentSteps = array(generatedAgent.steps, "agent steps");
+      const generatedGate = object(
+        generatedJobs.content_verification_gate,
+        "content verification gate job",
+      );
+      const gateSteps = array(
+        generatedGate.steps,
+        "content verification gate steps",
+      );
       assertReadOnlyAgentPermissions(generatedAgent.permissions);
       assertLongContext(agentSteps);
+      assertLtsNode(agentSteps, "Setup Node.js", true);
+      assertLtsNode(gateSteps, "Set up Node.js", false);
+      assertUnrestrictedBash(agentSteps);
+      assertGitCredentialsRemoved(agentSteps);
+      assertDependenciesInstalled(
+        agentSteps,
+        "Install repository dependencies",
+      );
+      assertGitHubMcp(generatedSource, agentSteps);
+      assertAICreditsDisabled(generatedSource, generatedActivation);
       const manifestStep = stepByName(
         agentSteps,
         "Generate content verification target manifest",
@@ -371,6 +503,7 @@ describe("generated pull-request AI review workflow", () => {
     const source = readFileSync(lockPath, "utf8");
     const generated = object(parse(source), "AI review");
     const generatedJobs = object(generated.jobs, "jobs");
+    const activationJob = object(generatedJobs.activation, "activation job");
     const agentJob = object(generatedJobs.agent, "agent job");
     const agentSteps = array(agentJob.steps, "agent steps");
     const safeOutputs = object(generatedJobs.safe_outputs, "safe outputs job");
@@ -384,6 +517,15 @@ describe("generated pull-request AI review workflow", () => {
     );
     assertReadOnlyAgentPermissions(agentJob.permissions);
     assertLongContext(agentSteps);
+    assertLtsNode(agentSteps, "Setup Node.js", true);
+    assertUnrestrictedBash(agentSteps);
+    assertGitCredentialsRemoved(agentSteps);
+    assertDependenciesInstalled(
+      agentSteps,
+      "Install trusted base dependencies",
+    );
+    assertGitHubMcp(source, agentSteps);
+    assertAICreditsDisabled(source, activationJob);
     assert.match(String(agentJob.if), /\["OWNER","MEMBER","COLLABORATOR"\]/u);
     assert.match(String(agentJob.if), /!github\.event\.pull_request\.draft/u);
     assert.deepEqual(
@@ -486,12 +628,6 @@ describe("generated pull-request AI review workflow", () => {
       ).AI_REVIEW_SAFE_OUTPUTS_RESULT,
       "${{ needs.safe_outputs.result }}",
     );
-    assert.deepEqual(
-      object(
-        stepByName(gateSteps, "Set up Node.js").with,
-        "gate Node.js setup",
-      ),
-      { "node-version": "24" },
-    );
+    assertLtsNode(gateSteps, "Set up Node.js", false);
   });
 });

@@ -4,9 +4,13 @@ import-schema:
     type: string
     required: true
 
+max-ai-credits: -1
+max-daily-ai-credits: -1
+
 tools:
+  bash: [":*"]
   github:
-    mode: gh-proxy
+    mode: local
     read-only: true
     toolsets: [all, dependabot]
 
@@ -26,7 +30,7 @@ network:
 
 runtimes:
   node:
-    version: "24"
+    version: "lts/*"
 
 pre-agent-steps:
   - name: Validate required reasoning effort
@@ -51,8 +55,23 @@ pre-agent-steps:
       copilot plugin install knowledge-base@knowledge-base
       copilot plugin list
 
+  - name: Remove and verify Git credentials before Agent
+    run: |
+      bash "${RUNNER_TEMP}/gh-aw/actions/clean_git_credentials.sh"
+      while IFS= read -r config; do
+        if git config --file "$config" --get-regexp '^credential\.|^http(\..*)?\.extraheader$' >/dev/null 2>&1; then
+          echo "Git credentials remain in $config" >&2
+          exit 1
+        fi
+        if git config --file "$config" --get-regexp '^remote\..*\.url$' | grep -Eq 'https?://[^/[:space:]]+@'; then
+          echo "An authenticated Git remote remains in $config" >&2
+          exit 1
+        fi
+      done < <(find "$GITHUB_WORKSPACE" /tmp -maxdepth 15 -type f -name config \( -path '*/.git/config' -o -path '*/.git/modules/*/config' \) 2>/dev/null | sort -u)
+
 safe-outputs:
   threat-detection:
+    max-ai-credits: -1
     continue-on-error: false
 ---
 

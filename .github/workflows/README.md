@@ -2,7 +2,7 @@
 
 This repository uses gh-aw for four Agentic GitHub Actions tasks. A shared runtime owns execution, sandbox, read tools, external research, and safe-output transport. The three scheduled content-verification tasks also share one content decision and publication contract, while the required pull-request reviewer retains a separate task contract.
 
-The architectural rationale is recorded in [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md). The general state and trust invariants are maintained as [Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
+The shared runtime adoption is recorded in [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md), and the content-verification result and issue-history contract is recorded in [ADR 0002](../../docs/adr/0002-resolve-inconclusive-content-verification-through-trusted-issues.md). The general state and trust invariants are maintained as [Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
 
 ## Workflow inventory
 

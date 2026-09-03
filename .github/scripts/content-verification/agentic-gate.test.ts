@@ -170,6 +170,13 @@ describe("validateAgenticVerificationOutput", () => {
       [
         inconclusive({
           action: "do_not_create_issue",
+          no_issue_reason: "ambiguous_history",
+          issue_number: "42",
+        }),
+      ],
+      [
+        inconclusive({
+          action: "do_not_create_issue",
           no_issue_reason: "trusted_collaborator_disposition",
           issue_number: "42",
         }),

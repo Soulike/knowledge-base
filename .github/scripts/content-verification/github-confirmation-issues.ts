@@ -4,44 +4,98 @@ import type {
   ConfirmationIssueRepository,
 } from "./inconclusive-resolution.ts";
 
-type GitHubIssueResponse = {
-  body: string | null;
-  html_url: string;
-  labels: Array<{ name?: string } | string>;
-  number: number;
-  pull_request?: unknown;
-  state: string;
-  title: string;
-  user: { login?: string } | null;
-};
-
-type GitHubCommentResponse = {
-  author_association?: string;
-  body: string | null;
-  html_url: string;
-  id: number;
-  issue_url: string;
-};
+type JsonObject = Record<string, unknown>;
 
 function fail(message: string): never {
   throw new Error(`GitHub confirmation issue adapter: ${message}`);
 }
 
-function issue(response: GitHubIssueResponse): ConfirmationIssue {
+function object(value: unknown, description: string): JsonObject {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    fail(`${description} must be an object.`);
+  }
+  return value as JsonObject;
+}
+
+function array(value: unknown, description: string): unknown[] {
+  if (!Array.isArray(value)) {
+    fail(`${description} must be an array.`);
+  }
+  return value;
+}
+
+function string(value: unknown, description: string): string {
+  if (typeof value !== "string") {
+    fail(`${description} must be a string.`);
+  }
+  return value;
+}
+
+function nullableString(value: unknown, description: string): string {
+  if (value === null) {
+    return "";
+  }
+  return string(value, description);
+}
+
+function positiveInteger(value: unknown, description: string): string {
+  if (!Number.isSafeInteger(value) || Number(value) <= 0) {
+    fail(`${description} must be a positive safe integer.`);
+  }
+  return String(value);
+}
+
+function issue(value: unknown): ConfirmationIssue {
+  const response = object(value, "issue response");
+  const number = positiveInteger(response.number, "issue number");
   if (response.state !== "open" && response.state !== "closed") {
-    fail(`issue #${String(response.number)} has unsupported state.`);
+    fail(`issue #${number} has unsupported state.`);
+  }
+  const user =
+    response.user === null ? undefined : object(response.user, "issue user");
+  const labels = array(response.labels, "issue labels").map((label) => {
+    if (typeof label === "string") {
+      return label;
+    }
+    return string(object(label, "issue label").name, "issue label name");
+  });
+  if (new Set(labels).size !== labels.length) {
+    fail(`issue #${number} contains duplicate labels.`);
   }
   return {
-    authorLogin: response.user?.login ?? "",
-    body: response.body ?? "",
-    htmlUrl: response.html_url,
-    labels: response.labels
-      .map((label) => (typeof label === "string" ? label : label.name))
-      .filter((label): label is string => typeof label === "string"),
-    number: String(response.number),
-    pullRequest: response.pull_request !== undefined,
+    authorLogin:
+      user === undefined ? "" : string(user.login, "issue author login"),
+    body: nullableString(response.body, "issue body"),
+    htmlUrl: string(response.html_url, "issue URL"),
+    labels,
+    number,
+    pullRequest: Object.hasOwn(response, "pull_request"),
     state: response.state,
-    title: response.title,
+    title: string(response.title, "issue title"),
+  };
+}
+
+function comment(value: unknown): {
+  authorAssociation?: string;
+  body: string;
+  htmlUrl: string;
+  id: string;
+  issueUrl: string;
+} {
+  const response = object(value, "comment response");
+  return {
+    ...(response.author_association === undefined
+      ? {}
+      : {
+          authorAssociation: string(
+            response.author_association,
+            "comment author association",
+          ),
+        }),
+    body: nullableString(response.body, "comment body"),
+    htmlUrl: string(response.html_url, "comment URL"),
+    id: positiveInteger(response.id, "comment id"),
+    issueUrl: string(response.issue_url, "comment issue URL"),
   };
 }
 
@@ -69,7 +123,7 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
     this.#token = input.token;
   }
 
-  async #request<T>(path: string, init?: RequestInit): Promise<T> {
+  async #request(path: string, init?: RequestInit): Promise<unknown> {
     const response = await this.#fetch(`${this.#apiUrl}${path}`, {
       ...init,
       headers: {
@@ -85,7 +139,7 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
         `${init?.method ?? "GET"} ${path} failed with ${String(response.status)}: ${detail}`,
       );
     }
-    return (await response.json()) as T;
+    return (await response.json()) as unknown;
   }
 
   async createIssue(input: {
@@ -94,7 +148,7 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
     labels: string[];
     title: string;
   }): Promise<ConfirmationIssue> {
-    const response = await this.#request<GitHubIssueResponse>(
+    const response = await this.#request(
       `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues`,
       {
         body: JSON.stringify(input),
@@ -106,32 +160,34 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
   }
 
   async getComment(commentId: string): Promise<ConfirmationIssueComment> {
-    const response = await this.#request<GitHubCommentResponse>(
-      `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues/comments/${commentId}`,
+    const response = comment(
+      await this.#request(
+        `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues/comments/${commentId}`,
+      ),
     );
     const issueUrlPrefix = `${this.#apiUrl}/repos/${this.#owner}/${this.#repo}/issues/`;
-    const issueNumber = response.issue_url.startsWith(issueUrlPrefix)
-      ? /^\d+$/u.test(response.issue_url.slice(issueUrlPrefix.length))
-        ? response.issue_url.slice(issueUrlPrefix.length)
+    const issueNumber = response.issueUrl.startsWith(issueUrlPrefix)
+      ? /^\d+$/u.test(response.issueUrl.slice(issueUrlPrefix.length))
+        ? response.issueUrl.slice(issueUrlPrefix.length)
         : undefined
       : undefined;
     if (!issueNumber) {
       fail(`comment ${commentId} has an invalid issue URL.`);
     }
     return {
-      ...(response.author_association === undefined
+      ...(response.authorAssociation === undefined
         ? {}
-        : { authorAssociation: response.author_association }),
-      body: response.body ?? "",
-      htmlUrl: response.html_url,
-      id: String(response.id),
+        : { authorAssociation: response.authorAssociation }),
+      body: response.body,
+      htmlUrl: response.htmlUrl,
+      id: response.id,
       issueNumber,
     };
   }
 
   async getIssue(issueNumber: string): Promise<ConfirmationIssue> {
     return issue(
-      await this.#request<GitHubIssueResponse>(
+      await this.#request(
         `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues/${issueNumber}`,
       ),
     );
@@ -147,8 +203,11 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
         per_page: String(perPage),
         state: "open",
       });
-      const pageIssues = await this.#request<GitHubIssueResponse[]>(
-        `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues?${query.toString()}`,
+      const pageIssues = array(
+        await this.#request(
+          `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues?${query.toString()}`,
+        ),
+        "issue list",
       );
       issues.push(...pageIssues.map(issue));
       if (pageIssues.length < perPage) {

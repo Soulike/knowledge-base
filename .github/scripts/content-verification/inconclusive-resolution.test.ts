@@ -259,6 +259,37 @@ describe("applyVerificationInconclusiveDecisions", () => {
     assert.equal(repository.created.length, 0);
   });
 
+  it("publishes the Agent's create decision when prior dispositions conflict", async () => {
+    const repository = new FakeIssueRepository();
+    repository.issues.set("41", confirmationIssue("41", "closed"));
+    repository.issues.set("42", confirmationIssue("42", "closed"));
+
+    const result = await applyVerificationInconclusiveDecisions(
+      manifest,
+      agentOutput([
+        {
+          ...createDecision("Prior collaborator dispositions conflict"),
+          related_issue_numbers: "41,42",
+        },
+      ]),
+      {
+        owner: "Soulike",
+        repo: "knowledge-base",
+        runUrl:
+          "https://github.com/Soulike/knowledge-base/actions/runs/33713910029",
+        staged: false,
+      },
+      repository,
+    );
+
+    assert.equal(result.created.length, 1);
+    assert.equal(repository.created.length, 1);
+    assert.match(
+      repository.created[0]?.body ?? "",
+      /issues\/41[\s\S]*issues\/42/u,
+    );
+  });
+
   it("publishes separate issues for independent findings on one target", async () => {
     const repository = new FakeIssueRepository();
 

@@ -12,7 +12,6 @@ export type ReviewConfig = {
 };
 
 export const reviewEventActions = [
-  "closed",
   "converted_to_draft",
   "opened",
   "ready_for_review",

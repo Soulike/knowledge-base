@@ -325,10 +325,10 @@ test("clears verdict labels when the Agent or safe-output job fails", async (t) 
     { safeOutputsJobResult: "failure" as const },
   ]) {
     await t.test(JSON.stringify(context), async () => {
-      const client = new FakeGitHubClient([], []);
+      const client = new FakeGitHubClient([pullRequest()], []);
       await assert.rejects(enforceReviewGate(client, gateContext(context)));
       assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.pullRequestReads, 1);
     });
   }
 });
@@ -339,30 +339,38 @@ test("clears verdict labels and fails the gate for a draft", async (t) => {
     { action: "converted_to_draft" as const, isDraft: true },
   ]) {
     await t.test(context.action, async () => {
-      const client = new FakeGitHubClient([], []);
+      const client = new FakeGitHubClient([pullRequest()], []);
       await assert.rejects(
         enforceReviewGate(client, gateContext(context)),
         /draft pull request/u,
       );
       assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.pullRequestReads, 1);
     });
   }
 });
 
-test("clears verdict labels without requiring a review after close", async () => {
-  const client = new FakeGitHubClient([], []);
-  assert.equal(
-    await enforceReviewGate(client, gateContext({ action: "closed" as const })),
-    "not-applicable",
+test("preserves the last verdict when an in-flight review observes a closed pull request", async () => {
+  const client = new FakeGitHubClient(
+    [pullRequest({ state: "closed" }), pullRequest({ state: "closed" })],
+    [review("approved")],
   );
-  assert.deepEqual([...client.labels], []);
-  assert.equal(client.pullRequestReads, 0);
+  client.labels.delete("AI Need Change");
+
+  await assert.rejects(
+    enforceReviewGate(client, gateContext()),
+    /Pull request changed during review/u,
+  );
+  assert.deepEqual([...client.labels], ["AI Approved"]);
 });
 
 test("removes a newly applied verdict if the head changes during gating", async () => {
   const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest({ headSha: "c".repeat(40) })],
+    [
+      pullRequest(),
+      pullRequest({ headSha: "c".repeat(40) }),
+      pullRequest({ headSha: "c".repeat(40) }),
+    ],
     [review("approved")],
   );
   await assert.rejects(

@@ -185,6 +185,16 @@ async function clearVerdictLabels(
   ]);
 }
 
+async function clearOpenPullRequestVerdictLabels(
+  client: ReviewGateClient,
+  prNumber: number,
+): Promise<void> {
+  const pullRequest = await client.getPullRequest(prNumber);
+  if (pullRequest.state === "open") {
+    await clearVerdictLabels(client, prNumber);
+  }
+}
+
 async function setVerdictLabel(
   client: ReviewGateClient,
   prNumber: number,
@@ -219,32 +229,27 @@ async function readPublishedReview(
 export async function enforceReviewGate(
   client: ReviewGateClient,
   context: ReviewGateContext,
-): Promise<"approved" | "not-applicable"> {
-  if (context.action === "closed") {
-    await clearVerdictLabels(client, context.prNumber);
-    return "not-applicable";
-  }
-
+): Promise<"approved"> {
   if (context.action === "converted_to_draft" || context.isDraft) {
-    await clearVerdictLabels(client, context.prNumber);
+    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error("AI review cannot pass for a draft pull request.");
   }
 
   if (!isTrustedAuthorAssociation(context.authorAssociation)) {
-    await clearVerdictLabels(client, context.prNumber);
+    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `AI review requires a trusted pull-request author; received ${context.authorAssociation}.`,
     );
   }
 
   if (context.agentJobResult !== "success") {
-    await clearVerdictLabels(client, context.prNumber);
+    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `The Copilot Agent job did not succeed (${context.agentJobResult}).`,
     );
   }
   if (context.safeOutputsJobResult !== "success") {
-    await clearVerdictLabels(client, context.prNumber);
+    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `The review safe-output job did not succeed (${context.safeOutputsJobResult}).`,
     );
@@ -256,7 +261,7 @@ export async function enforceReviewGate(
     await setVerdictLabel(client, context.prNumber, verdict);
     await readPublishedReview(client, context);
   } catch (error) {
-    await clearVerdictLabels(client, context.prNumber);
+    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw error;
   }
 

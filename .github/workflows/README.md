@@ -89,7 +89,7 @@ Unanchored findings and line-addressable findings beyond the inline limit remain
 
 The custom job named exactly `AI review gate` remains the repository's required check. The [gate implementation](../scripts/ai-review/review-gate.ts) accepts exactly one `github-actions[bot]` `COMMENTED` review only when its API commit, gh-aw-owned attribution, current pull-request state, and current run-attempt `safe_outputs` time window agree. It paginates that review's inline comments, parses their severity together with body-only findings, and requires their exact sum to equal the visible four-level counts before applying the count-derived verdict. `high` or `medium` findings select `needs-change`; otherwise the verdict is `approved`.
 
-The gate owns `AI Approved` and `AI Need Change`. It clears both labels for missing, failed, malformed, stale, draft, or untrusted review paths; a closed pull request is not applicable. After applying a verdict label, it re-reads the pull request, reviews, and current-attempt jobs. A head change removes the newly applied label. A `needs-change` review and label remain visible while the required check fails.
+The gate owns `AI Approved` and `AI Need Change`. It clears both labels for missing, failed, malformed, stale, draft, or untrusted review paths while the pull request remains open. After applying a verdict label, it re-reads the pull request, reviews, and current-attempt jobs. A head change removes the newly applied label. The workflow does not run for pull-request closure, and an in-flight gate that observes the pull request already closed preserves its last verdict label. A `needs-change` review and label remain visible while the required check fails.
 
 ## Repository configuration
 

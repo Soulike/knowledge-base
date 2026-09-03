@@ -9,7 +9,6 @@ on:
       - ready_for_review
       - synchronize
       - converted_to_draft
-      - closed
 
 engine:
   id: copilot
@@ -86,7 +85,6 @@ jobs:
   agent:
     if: >-
       !github.event.pull_request.draft &&
-      github.event.action != 'closed' &&
       github.event.action != 'converted_to_draft' &&
       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association)
 

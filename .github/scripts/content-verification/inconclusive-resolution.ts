@@ -98,7 +98,9 @@ function removeControlCharacters(value: string): string {
 
 function safeIssueText(value: string): string {
   return removeControlCharacters(value)
-    .replace(/<!--[\s\S]*?-->/gu, "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
     .replace(/@(?=[\p{L}\p{N}_-])/gu, "@\u200b");
 }
 

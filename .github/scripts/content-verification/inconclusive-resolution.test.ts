@@ -153,6 +153,32 @@ describe("applyVerificationInconclusiveDecisions", () => {
     }
   });
 
+  it("cannot reconstruct an HTML comment delimiter while sanitizing Agent text", async () => {
+    const repository = new FakeIssueRepository();
+
+    await applyVerificationInconclusiveDecisions(
+      manifest,
+      agentOutput([
+        {
+          ...createDecision(),
+          finding: "Untrusted fragments: <<!--removed-->!-- payload",
+        },
+      ]),
+      {
+        owner: "Soulike",
+        repo: "knowledge-base",
+        runUrl:
+          "https://github.com/Soulike/knowledge-base/actions/runs/33713910029",
+        staged: false,
+      },
+      repository,
+    );
+
+    const body = repository.created[0]?.body ?? "";
+    const afterTrustedMarker = body.slice(body.indexOf("\n") + 1);
+    assert.doesNotMatch(afterTrustedMarker, /<!--/u);
+  });
+
   it("accepts an authenticated matching open confirmation issue", async () => {
     const repository = new FakeIssueRepository();
     repository.issues.set("41", confirmationIssue("41", "open"));

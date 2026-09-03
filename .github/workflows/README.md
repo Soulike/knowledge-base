@@ -28,7 +28,8 @@ All four tasks import [the shared runtime](shared/agentic-runtime.md). It provid
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
 - the latest LTS Node.js release;
-- repository dependencies installed from the trusted checkout before inference;
+- repository dependencies installed from the trusted checkout before inference,
+  with a lockfile-keyed pnpm store cache;
 - the knowledge-base plugin from the checked-out repository revision;
 - floating `codebase-design`, `tdd`, and `writing-for-agents` review-reference Skills;
 - required reasoning-effort validation; and

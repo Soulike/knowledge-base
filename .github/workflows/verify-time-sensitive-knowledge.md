@@ -75,6 +75,8 @@ pre-agent-steps:
     uses: pnpm/action-setup@v6
     with:
       version: latest
+      cache: true
+      cache_dependency_path: pnpm-lock.yaml
 
   - name: Install repository dependencies
     run: pnpm install --frozen-lockfile --ignore-scripts

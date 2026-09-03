@@ -55,6 +55,8 @@ pre-agent-steps:
     uses: pnpm/action-setup@v6
     with:
       version: latest
+      cache: true
+      cache_dependency_path: pnpm-lock.yaml
 
   - name: Install trusted base dependencies
     run: pnpm install --frozen-lockfile --ignore-scripts
@@ -111,6 +113,8 @@ jobs:
         uses: pnpm/action-setup@v6
         with:
           version: latest
+          cache: true
+          cache_dependency_path: pnpm-lock.yaml
 
       - name: Set up Node.js
         uses: actions/setup-node@v7

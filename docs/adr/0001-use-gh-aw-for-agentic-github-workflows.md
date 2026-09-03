@@ -43,8 +43,8 @@ safe-output transport only where their responsibilities genuinely coincide.
 The Agent never receives GitHub write permission for the selected effects.
 Issue creation, pull-request review submission, and similar effects use
 [safe outputs](../../CONTEXT.md#safe-output). Repository-specific validation
-remains outside the shared runtime; in particular, pull-request verdict labels
-and the required exact-head conclusion remain owned by a trusted
+remains outside the shared runtime; in particular, the required exact-head
+conclusion remains owned by a trusted
 [publication gate](../../CONTEXT.md#publication-gate).
 
 Keep runtime pinning intentionally narrow. The `gh-aw` compiler and generated

@@ -226,7 +226,6 @@ test("rejects a review that predates the current run attempt", () => {
 });
 
 class FakeGitHubClient {
-  readonly labels = new Set<string>(["AI Approved", "AI Need Change"]);
   readonly pulls: ReturnType<typeof pullRequest>[];
   readonly reviewComments: ReturnType<typeof comments>;
   readonly reviews: ReturnType<typeof review>[];
@@ -268,14 +267,6 @@ class FakeGitHubClient {
     this.jobReads += 1;
     return jobs();
   }
-
-  async removeLabel(_prNumber: number, label: string): Promise<void> {
-    this.labels.delete(label);
-  }
-
-  async addLabel(_prNumber: number, label: string): Promise<void> {
-    this.labels.add(label);
-  }
 }
 
 function gateContext(
@@ -292,22 +283,19 @@ function gateContext(
   };
 }
 
-test("applies only AI Approved after authenticating an approved review", async () => {
-  const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest()],
-    [review("approved")],
-  );
+test("approves an authenticated review without mutating the pull request", async () => {
+  const client = new FakeGitHubClient([pullRequest()], [review("approved")]);
 
   assert.equal(await enforceReviewGate(client, gateContext()), "approved");
-  assert.deepEqual([...client.labels], ["AI Approved"]);
-  assert.equal(client.reviewReads, 2);
-  assert.equal(client.reviewCommentReads, 2);
-  assert.equal(client.jobReads, 2);
+  assert.equal(client.pullRequestReads, 1);
+  assert.equal(client.reviewReads, 1);
+  assert.equal(client.reviewCommentReads, 1);
+  assert.equal(client.jobReads, 1);
 });
 
-test("preserves AI Need Change while failing the gate", async () => {
+test("fails the gate for an authenticated needs-change review", async () => {
   const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest()],
+    [pullRequest()],
     [review("needs-change")],
     comments("needs-change"),
   );
@@ -316,10 +304,9 @@ test("preserves AI Need Change while failing the gate", async () => {
     enforceReviewGate(client, gateContext()),
     /requires changes/u,
   );
-  assert.deepEqual([...client.labels], ["AI Need Change"]);
 });
 
-test("clears verdict labels when the Agent or safe-output job fails", async (t) => {
+test("fails without reading reviews when the Agent or safe-output job fails", async (t) => {
   for (const context of [
     { agentJobResult: "failure" as const },
     { safeOutputsJobResult: "failure" as const },
@@ -327,13 +314,13 @@ test("clears verdict labels when the Agent or safe-output job fails", async (t) 
     await t.test(JSON.stringify(context), async () => {
       const client = new FakeGitHubClient([], []);
       await assert.rejects(enforceReviewGate(client, gateContext(context)));
-      assert.deepEqual([...client.labels], []);
       assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.reviewReads, 0);
     });
   }
 });
 
-test("clears verdict labels and fails the gate for a draft", async (t) => {
+test("fails without reading reviews for a draft", async (t) => {
   for (const context of [
     { action: "opened" as const, isDraft: true },
     { action: "converted_to_draft" as const, isDraft: true },
@@ -344,30 +331,8 @@ test("clears verdict labels and fails the gate for a draft", async (t) => {
         enforceReviewGate(client, gateContext(context)),
         /draft pull request/u,
       );
-      assert.deepEqual([...client.labels], []);
       assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.reviewReads, 0);
     });
   }
-});
-
-test("clears verdict labels without requiring a review after close", async () => {
-  const client = new FakeGitHubClient([], []);
-  assert.equal(
-    await enforceReviewGate(client, gateContext({ action: "closed" as const })),
-    "not-applicable",
-  );
-  assert.deepEqual([...client.labels], []);
-  assert.equal(client.pullRequestReads, 0);
-});
-
-test("removes a newly applied verdict if the head changes during gating", async () => {
-  const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest({ headSha: "c".repeat(40) })],
-    [review("approved")],
-  );
-  await assert.rejects(
-    enforceReviewGate(client, gateContext()),
-    /Pull request changed during review/u,
-  );
-  assert.deepEqual([...client.labels], []);
 });

@@ -13,10 +13,6 @@ function required(name: string): string {
 const config = readReviewConfig();
 const event = readReviewEvent();
 const client = new GitHubClient(required("GITHUB_TOKEN"), config.repository);
-const result = await enforceReviewGate(client, { ...config, ...event });
+await enforceReviewGate(client, { ...config, ...event });
 
-if (result === "not-applicable") {
-  console.log("AI review is not applicable to a closed pull request.");
-} else {
-  console.log("AI review approved.");
-}
+console.log("AI review approved.");

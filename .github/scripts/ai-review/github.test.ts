@@ -193,34 +193,3 @@ test("paginates inline review comments and preserves their review identity", asy
   ]);
   assert.equal(requestCount, 2);
 });
-
-test("adds a verdict label with the issues endpoint", async (t) => {
-  let capturedRequest: RequestInit | undefined;
-  let capturedUrl = "";
-  mockFetch(t, async (input, request) => {
-    capturedUrl = String(input);
-    capturedRequest = request;
-    return jsonResponse([], { status: 200 });
-  });
-  const client = new GitHubClient("token", "owner/repository");
-
-  await client.addLabel(42, "AI Approved");
-
-  assert.equal(
-    capturedUrl,
-    "https://api.github.com/repos/owner/repository/issues/42/labels",
-  );
-  assert.equal(capturedRequest?.method, "POST");
-  assert.deepEqual(JSON.parse(String(capturedRequest?.body)), {
-    labels: ["AI Approved"],
-  });
-});
-
-test("treats a missing verdict label as already removed", async (t) => {
-  mockFetch(t, async () => {
-    return jsonResponse({ message: "Label does not exist" }, { status: 404 });
-  });
-  const client = new GitHubClient("token", "owner/repository");
-
-  await assert.doesNotReject(client.removeLabel(42, "AI Need Change"));
-});

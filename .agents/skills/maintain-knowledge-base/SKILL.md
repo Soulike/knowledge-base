@@ -87,7 +87,13 @@ of the change effect, but do not authorize changes to independent behavior.
     standards. Before finalizing any resulting document, apply the loaded
     Knowledge's boundary between authoring evidence and reader-facing content;
     keep an authoring input only when it serves the final document's maintained
-    responsibility.
+    responsibility. Before editing tests, route by the responsibility that
+    started the work. Direct selection of new protection for a production
+    behavior or bounded coverage need uses
+    [`write-effective-tests`](../../../skills/write-effective-tests/SKILL.md).
+    Review of coverage, an existing or proposed test, or test execution uses
+    [`review-and-improve-tests`](../../../skills/review-and-improve-tests/SKILL.md),
+    which retains any coverage work selected by that review.
 11. When the final diff changes root `knowledge/**`, `references/**`, or
     `skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)

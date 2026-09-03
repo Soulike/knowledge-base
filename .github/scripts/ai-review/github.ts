@@ -35,15 +35,6 @@ export type WorkflowJob = {
   status: string;
 };
 
-function hasStatus(error: unknown, status: number): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    "status" in error &&
-    error.status === status
-  );
-}
-
 export class GitHubClient {
   readonly #name: string;
   readonly #octokit: Octokit;
@@ -88,31 +79,6 @@ export class GitHubClient {
       number: data.number,
       state: data.state,
     };
-  }
-
-  async removeLabel(prNumber: number, label: string): Promise<void> {
-    try {
-      await this.#octokit.rest.issues.removeLabel({
-        issue_number: prNumber,
-        name: label,
-        owner: this.#owner,
-        repo: this.#name,
-      });
-    } catch (error) {
-      if (hasStatus(error, 404)) {
-        return;
-      }
-      throw error;
-    }
-  }
-
-  async addLabel(prNumber: number, label: string): Promise<void> {
-    await this.#octokit.rest.issues.addLabels({
-      issue_number: prNumber,
-      labels: [label],
-      owner: this.#owner,
-      repo: this.#name,
-    });
   }
 
   async listReviews(prNumber: number): Promise<PullRequestReview[]> {

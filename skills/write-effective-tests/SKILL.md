@@ -1,6 +1,6 @@
 ---
 name: write-effective-tests
-description: Decide whether a defined production behavior needs automated coverage and, when it does, design, implement, and prove an effective test. Use when adding tests for new, changed, legacy, or previously untested behavior. Not for auditing or repairing existing tests or test execution.
+description: Decide whether an identified production behavior needs new or materially expanded automated protection and implement it when owed. Use for direct coverage selection from the behavior or a bounded protection need.
 ---
 
 # Write effective tests

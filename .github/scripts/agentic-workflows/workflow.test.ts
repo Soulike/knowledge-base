@@ -370,6 +370,78 @@ describe("compiled content-verification publication boundary", () => {
       assert.match(source, /uncertain/u);
     }
   });
+
+  it("reports incomplete execution and failed repository jobs as workflow failures", () => {
+    for (const file of contentVerificationFiles) {
+      const { jobs } = loadCompiledWorkflow(file);
+      const conclusion = object(jobs.conclusion, `${file} conclusion`);
+      const steps = array(conclusion.steps, `${file} conclusion steps`);
+      const permissions = object(
+        conclusion.permissions,
+        `${file} conclusion permissions`,
+      );
+      const dependencies = array(
+        conclusion.needs,
+        `${file} conclusion dependencies`,
+      );
+
+      assert.deepEqual(permissions, { actions: "read", issues: "write" });
+      for (const dependency of [
+        "content_verification_gate",
+        "resolve_verification_inconclusive",
+        "safe_outputs",
+      ]) {
+        assert.ok(dependencies.includes(dependency));
+      }
+      assert.match(String(conclusion.if), /^always\(\)/u);
+
+      assert.equal(
+        object(
+          stepByName(steps, "Handle agent failure").env,
+          `${file} agent-failure environment`,
+        ).GH_AW_FAILURE_REPORT_AS_ISSUE,
+        "true",
+      );
+      assert.equal(
+        object(
+          stepByName(steps, "Report failed jobs").env,
+          `${file} failed-jobs environment`,
+        ).GH_AW_REPORT_FAILED_JOBS,
+        "true",
+      );
+      assert.equal(
+        object(
+          stepByName(steps, "Record incomplete").env,
+          `${file} incomplete environment`,
+        ).GH_AW_REPORT_INCOMPLETE_CREATE_ISSUE,
+        "false",
+      );
+    }
+
+    const aiReviewConclusion = object(
+      loadCompiledWorkflow("ai-review").jobs.conclusion,
+      "AI review conclusion",
+    );
+    const aiReviewSteps = array(
+      aiReviewConclusion.steps,
+      "AI review conclusion steps",
+    );
+    assert.equal(
+      object(
+        stepByName(aiReviewSteps, "Handle agent failure").env,
+        "AI review failure environment",
+      ).GH_AW_FAILURE_REPORT_AS_ISSUE,
+      "false",
+    );
+    assert.equal(
+      aiReviewSteps.some(
+        (step) =>
+          object(step, "AI review conclusion step").name ===
+          "Report failed jobs",
+      ),
+      false,
+    );
+  });
 });
 
 describe("compiled pull-request review trust boundary", () => {

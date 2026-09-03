@@ -60,6 +60,14 @@ not interpret collaborator prose or launch a second Agent. The pull-request
 reviewer's required exact-head conclusion remains owned by its separate trusted
 [publication gate](../../CONTEXT.md#publication-gate).
 
+Treat current, modification-required, and verification-inconclusive findings
+as successful content outcomes. Reserve failed workflow status for incomplete
+execution, malformed or unauthenticated output, threat detection, trusted-gate
+or publication failure, and other unexpected mechanism errors. Enable gh-aw's
+global failure-issue and failed-job reporters for every scheduled verification
+workflow. Keep the dedicated incomplete-result issue handler disabled so one
+failure does not create two operational issues.
+
 Keep runtime pinning intentionally narrow. The `gh-aw` compiler and generated
 action references are fixed. GitHub Copilot CLI, external review-reference
 Skills, the trusted-main knowledge-base plugin, and the Tavily remote service
@@ -101,6 +109,17 @@ exercised by the workflow-changing pull request itself.
   exact publication-time duplicate check. It does not create a permanent
   finding key, group findings, parse the meaning of maintainer replies, or turn
   a maintainer's content change into a disposition.
+- A red scheduled verification run denotes incomplete or failed execution, not
+  content cleanliness. gh-aw creates or reuses an operational failure issue for
+  Agent and framework failures and reports failed repository-owned jobs from the
+  conclusion job. Those issues remain distinct from content-result issues.
+- Failure-issue publication remains best effort at the fixed runtime boundary.
+  The failed-job reporter creates per-run issues rather than sharing the
+  Agent/framework reporter's 24-hour reuse window and excludes the built-in
+  safe-output job. A fatal built-in modification-issue publication failure can
+  therefore remain visible through red Actions status and normal notification
+  without a corresponding failure issue. The repository accepts that limitation
+  instead of adding a second failure parser or persistent aggregator.
 - Pull-request review continues to bind its verdict to the exact reviewed head.
   Safe review submission replaces direct Agent mutation but does not replace
   the repository-owned publication gate.

@@ -12,8 +12,8 @@ import-schema:
     required: true
 
 safe-outputs:
-  report-failure-as-issue: false
-  report-failed-jobs: false
+  report-failure-as-issue: true
+  report-failed-jobs: true
   create-issue:
     max: 100
     labels: [automated-verification, modification-required]

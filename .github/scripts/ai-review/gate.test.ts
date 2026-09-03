@@ -229,6 +229,7 @@ test("rejects a review that predates the current run attempt", () => {
 class FakeGitHubClient {
   readonly labels = new Set<string>(["AI Approved", "AI Need Change"]);
   readonly pulls: ReturnType<typeof pullRequest>[];
+  readonly removeLabelBehaviors = new Map<string, () => Promise<void>>();
   readonly reviewComments: ReturnType<typeof comments>;
   readonly reviews: ReturnType<typeof review>[];
   closeOnNextLabelRemoval = false;
@@ -275,6 +276,7 @@ class FakeGitHubClient {
   }
 
   async removeLabel(_prNumber: number, label: string): Promise<void> {
+    await this.removeLabelBehaviors.get(label)?.();
     this.labels.delete(label);
     if (this.closeOnNextLabelRemoval) {
       this.closeOnNextLabelRemoval = false;
@@ -386,6 +388,36 @@ test("restores the last verdict when a pull request closes during label removal"
     /Agent job did not succeed/u,
   );
   assert.deepEqual([...client.labels], ["AI Approved"]);
+  assert.equal(client.pullRequestReads, 2);
+});
+
+test("waits for both label removals before restoring after closure", async () => {
+  const delayedRemoval = Promise.withResolvers<void>();
+  const removalStarted = Promise.withResolvers<void>();
+  const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
+  client.removeLabelBehaviors.set("AI Approved", async () => {
+    throw new Error("AI Approved removal failed.");
+  });
+  client.removeLabelBehaviors.set("AI Need Change", async () => {
+    removalStarted.resolve();
+    await delayedRemoval.promise;
+  });
+
+  const outcome = enforceReviewGate(
+    client,
+    gateContext({ agentJobResult: "failure" }),
+  ).then(
+    () => null,
+    (error: unknown) => error,
+  );
+  await removalStarted.promise;
+  await Promise.resolve();
+  assert.equal(client.pullRequestReads, 1);
+
+  client.closed = true;
+  delayedRemoval.resolve();
+  assert.match(String(await outcome), /AI Approved removal failed/u);
+  assert.deepEqual([...client.labels], ["AI Approved", "AI Need Change"]);
   assert.equal(client.pullRequestReads, 2);
 });
 

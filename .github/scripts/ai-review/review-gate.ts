@@ -179,10 +179,19 @@ async function clearVerdictLabels(
   client: ReviewGateClient,
   prNumber: number,
 ): Promise<void> {
-  await Promise.all([
+  const results = await Promise.allSettled([
     client.removeLabel(prNumber, labels.approved),
     client.removeLabel(prNumber, labels.needsChange),
   ]);
+  const failures = results.flatMap((result) =>
+    result.status === "rejected" ? [result.reason] : [],
+  );
+  if (failures.length === 1) {
+    throw failures[0];
+  }
+  if (failures.length > 1) {
+    throw new AggregateError(failures, "Failed to clear AI review labels.");
+  }
 }
 
 async function clearOpenPullRequestVerdictLabels(

@@ -13,7 +13,7 @@ The architectural rationale is recorded in [ADR 0001](../../docs/adr/0001-use-gh
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
 | AI review                | Eligible non-draft pull requests and later pushes                                | [Source](ai-review.md), [generated](ai-review.lock.yml)                                             |
 
-Every source declares `engine.version: latest`, so gh-aw installs the current Copilot CLI at run time. The repository variable selects the model. Each task passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unsupported value before inference.
+Every source declares `engine.version: latest`, leaving Copilot CLI selection floating at run time; gh-aw may reuse a compatible cached CLI. The repository variable selects the model. Each task selects Copilot's `long_context` tier and passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unsupported effort before inference.
 
 The source Markdown is maintained by people and Agents. The generated `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed review artifacts owned by the fixed compiler.
 
@@ -21,7 +21,8 @@ The source Markdown is maintained by people and Agents. The generated `*.lock.ym
 
 All four tasks import [the shared runtime](shared/agentic-runtime.md). It provides:
 
-- a read-only GitHub proxy;
+- all GitHub read toolsets through a read-only proxy;
+- GitHub Actions run, check, artifact, and log inspection;
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
 - Node.js 24;
@@ -79,12 +80,18 @@ The gate owns `AI Approved` and `AI Need Change`. It clears both labels for miss
 
 Set these Actions variables:
 
-| Variable                                | Requirement                                                                             |
-| --------------------------------------- | --------------------------------------------------------------------------------------- |
-| `CONTENT_VERIFICATION_MODEL`            | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `CONTENT_VERIFICATION_REASONING_EFFORT` | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `AI_REVIEW_MODEL`                       | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `AI_REVIEW_REASONING_EFFORT`            | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| Variable                                 | Requirement                                                                             |
+| ---------------------------------------- | --------------------------------------------------------------------------------------- |
+| `CONTENT_VERIFICATION_MODEL`             | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `CONTENT_VERIFICATION_REASONING_EFFORT`  | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `AI_REVIEW_MODEL`                        | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `AI_REVIEW_REASONING_EFFORT`             | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `GH_AW_DEFAULT_MAX_AI_CREDITS`           | Set to `-1` to disable per-run gh-aw AI Credits enforcement and token steering.         |
+| `GH_AW_DEFAULT_DETECTION_MAX_AI_CREDITS` | Set to `-1` to disable the separate threat-detection AI Credits limit.                  |
+| `GH_AW_DEFAULT_MAX_DAILY_AI_CREDITS`     | Set to `-1` to disable the repository's daily gh-aw AI Credits guardrail.               |
+
+The three AI Credits variables disable gh-aw's catalog-dependent budget
+guardrails; they do not disable Copilot provider billing or token reporting.
 
 All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
 

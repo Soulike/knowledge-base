@@ -11,6 +11,8 @@ engine:
   version: latest
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
+    - --context
+    - long_context
     - --reasoning-effort
     - ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
 
@@ -20,9 +22,8 @@ imports:
       reasoning_effort: ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
 
 permissions:
-  contents: read
+  all: read
   copilot-requests: write
-  issues: read
 
 concurrency:
   group: content-verification-maintained-agent-content

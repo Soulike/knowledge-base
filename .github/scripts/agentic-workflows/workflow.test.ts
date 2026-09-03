@@ -27,6 +27,54 @@ function stepByName(steps: unknown[], name: string): JsonObject {
   return object(step, `workflow step '${name}'`);
 }
 
+function assertTrustedPluginInstallation(step: JsonObject): void {
+  const run = String(step.run);
+  const addMarketplace = run.indexOf(
+    'copilot plugin marketplace add "$GITHUB_WORKSPACE"',
+  );
+  const installPlugin = run.indexOf(
+    "copilot plugin install knowledge-base@knowledge-base",
+  );
+
+  assert.ok(
+    addMarketplace >= 0,
+    "The checked-out repository must be registered as the plugin marketplace.",
+  );
+  assert.ok(
+    installPlugin > addMarketplace,
+    "The knowledge-base plugin must be installed from the registered checkout marketplace.",
+  );
+}
+
+function assertReadOnlyAgentPermissions(value: unknown): void {
+  assert.deepEqual(object(value, "agent permissions"), {
+    actions: "read",
+    attestations: "read",
+    checks: "read",
+    "code-quality": "read",
+    contents: "read",
+    "copilot-requests": "write",
+    deployments: "read",
+    discussions: "read",
+    drives: "read",
+    issues: "read",
+    models: "read",
+    packages: "read",
+    pages: "read",
+    "pull-requests": "read",
+    "repository-projects": "read",
+    "security-events": "read",
+    statuses: "read",
+    "vulnerability-alerts": "read",
+  });
+}
+
+function assertLongContext(agentSteps: unknown[]): void {
+  const run = String(stepByName(agentSteps, "Execute GitHub Copilot CLI").run);
+  assert.match(run, /--context long_context/u);
+  assert.match(run, /--allow-tool github|--allow-all-tools/u);
+}
+
 function metadata(source: string, key: string): JsonObject {
   const prefix = `# ${key}: `;
   const line = source
@@ -115,11 +163,7 @@ describe("generated time-sensitive Knowledge workflow", () => {
   });
 
   it("keeps inference read-only and prepares the exact target manifest first", () => {
-    assert.deepEqual(agent.permissions, {
-      contents: "read",
-      "copilot-requests": "write",
-      issues: "read",
-    });
+    assertReadOnlyAgentPermissions(agent.permissions);
     assert.deepEqual(safeOutputs.permissions, { issues: "write" });
 
     const names = agentSteps.map((step) => object(step, "agent step").name);
@@ -151,6 +195,7 @@ describe("generated time-sensitive Knowledge workflow", () => {
       String(stepByName(agentSteps, "Execute GitHub Copilot CLI").run),
       /--reasoning-effort.*CONTENT_VERIFICATION_REASONING_EFFORT/su,
     );
+    assertLongContext(agentSteps);
     assert.match(
       String(stepByName(agentSteps, "Execute GitHub Copilot CLI").run),
       /\$\{RUNNER_TEMP\}\/gh-aw:\$\{RUNNER_TEMP\}\/gh-aw:ro/u,
@@ -290,6 +335,8 @@ describe("generated scheduled verification workflows", () => {
       const generatedJobs = object(generated.jobs, "jobs");
       const generatedAgent = object(generatedJobs.agent, "agent job");
       const agentSteps = array(generatedAgent.steps, "agent steps");
+      assertReadOnlyAgentPermissions(generatedAgent.permissions);
+      assertLongContext(agentSteps);
       const manifestStep = stepByName(
         agentSteps,
         "Generate content verification target manifest",
@@ -305,9 +352,8 @@ describe("generated scheduled verification workflows", () => {
           "Install the trusted checked-out knowledge-base plugin",
       );
       assert.equal(pluginSteps.length, 1);
-      assert.match(
-        String(object(pluginSteps[0], "plugin installation step").run),
-        /plugin install knowledge-base@knowledge-base/u,
+      assertTrustedPluginInstallation(
+        object(pluginSteps[0], "plugin installation step"),
       );
       assert.ok("content_verification_gate" in generatedJobs);
       assert.ok("safe_outputs" in generatedJobs);
@@ -322,10 +368,8 @@ describe("generated pull-request AI review workflow", () => {
   );
 
   it("keeps the trusted base, exact head, bounded COMMENT review, and required gate", () => {
-    const generated = object(
-      parse(readFileSync(lockPath, "utf8")),
-      "AI review",
-    );
+    const source = readFileSync(lockPath, "utf8");
+    const generated = object(parse(source), "AI review");
     const generatedJobs = object(generated.jobs, "jobs");
     const agentJob = object(generatedJobs.agent, "agent job");
     const agentSteps = array(agentJob.steps, "agent steps");
@@ -338,12 +382,8 @@ describe("generated pull-request AI review workflow", () => {
       object(generated.concurrency, "concurrency").group,
       "ai-review-${{ github.event.pull_request.number }}",
     );
-    assert.deepEqual(agentJob.permissions, {
-      contents: "read",
-      "copilot-requests": "write",
-      issues: "read",
-      "pull-requests": "read",
-    });
+    assertReadOnlyAgentPermissions(agentJob.permissions);
+    assertLongContext(agentSteps);
     assert.match(String(agentJob.if), /\["OWNER","MEMBER","COLLABORATOR"\]/u);
     assert.match(String(agentJob.if), /!github\.event\.pull_request\.draft/u);
     assert.deepEqual(
@@ -368,14 +408,11 @@ describe("generated pull-request AI review workflow", () => {
       ),
       /refs\/pull\/\$\{PR_NUMBER\}\/head/u,
     );
-    assert.match(
-      String(
-        stepByName(
-          agentSteps,
-          "Install the trusted checked-out knowledge-base plugin",
-        ).run,
+    assertTrustedPluginInstallation(
+      stepByName(
+        agentSteps,
+        "Install the trusted checked-out knowledge-base plugin",
       ),
-      /plugin install knowledge-base@knowledge-base/u,
     );
     assert.equal(
       agentSteps.filter(
@@ -448,6 +485,13 @@ describe("generated pull-request AI review workflow", () => {
         "gate environment",
       ).AI_REVIEW_SAFE_OUTPUTS_RESULT,
       "${{ needs.safe_outputs.result }}",
+    );
+    assert.deepEqual(
+      object(
+        stepByName(gateSteps, "Set up Node.js").with,
+        "gate Node.js setup",
+      ),
+      { "node-version": "24" },
     );
   });
 });

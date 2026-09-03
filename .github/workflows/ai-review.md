@@ -16,6 +16,8 @@ engine:
   version: latest
   model: ${{ vars.AI_REVIEW_MODEL || 'auto' }}
   args:
+    - --context
+    - long_context
     - --reasoning-effort
     - ${{ vars.AI_REVIEW_REASONING_EFFORT }}
 
@@ -25,21 +27,10 @@ imports:
       reasoning_effort: ${{ vars.AI_REVIEW_REASONING_EFFORT }}
 
 permissions:
-  contents: read
+  all: read
   copilot-requests: write
-  issues: read
-  pull-requests: read
 
 tools:
-  github:
-    mode: gh-proxy
-    read-only: true
-    allowed:
-      - issue_read
-      - search_issues
-      - pull_request_read
-      - get_commit
-      - get_file_contents
   bash:
     - gh api *
     - git cat-file *
@@ -128,7 +119,6 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
-          cache: pnpm
           node-version: "24"
 
       - name: Install trusted gate dependencies

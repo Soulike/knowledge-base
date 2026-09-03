@@ -8,11 +8,7 @@ tools:
   github:
     mode: gh-proxy
     read-only: true
-    allowed:
-      - issue_read
-      - search_issues
-      - get_commit
-      - get_file_contents
+    toolsets: [all, dependabot]
 
 mcp-servers:
   tavily:

@@ -60,6 +60,20 @@ function issue(
   };
 }
 
+function inconclusive(
+  overrides: Record<string, unknown> = {},
+): Record<string, unknown> {
+  return {
+    type: "resolve_verification_inconclusive",
+    action: "create_issue",
+    target_id: "knowledge/a.md",
+    summary: "Current sources do not address the observed behavior",
+    finding: "The claim could not be confirmed or invalidated.",
+    evidence_checked: "Checked the current official product documentation.",
+    ...overrides,
+  };
+}
+
 describe("validateAgenticVerificationOutput", () => {
   it("accepts exactly one noop or one revision-bound issue per target for every scope", () => {
     for (const [scope, candidate] of Object.entries(manifests)) {
@@ -117,6 +131,57 @@ describe("validateAgenticVerificationOutput", () => {
       [unknown],
       [unbound],
       [expandedEffect],
+    ]) {
+      assert.throws(
+        () =>
+          validateAgenticVerificationOutput(manifest, { errors: [], items }),
+        /verification gate/u,
+      );
+    }
+  });
+
+  it("accepts mixed modification and per-finding inconclusive decisions", () => {
+    assert.doesNotThrow(() =>
+      validateAgenticVerificationOutput(manifest, {
+        errors: [],
+        items: [
+          issue("knowledge/b.md"),
+          inconclusive(),
+          inconclusive({
+            summary: "A second independent observation is not documented",
+            finding: "A different claim remains inconclusive.",
+          }),
+        ],
+      }),
+    );
+  });
+
+  it("rejects duplicate or contradictory inconclusive decisions", () => {
+    for (const items of [
+      [inconclusive(), inconclusive()],
+      [inconclusive({ target_id: "knowledge/unknown.md" })],
+      [
+        inconclusive({
+          action: "create_issue",
+          no_issue_reason: "matching_open_issue",
+          issue_number: "42",
+        }),
+      ],
+      [
+        inconclusive({
+          action: "do_not_create_issue",
+          no_issue_reason: "trusted_collaborator_disposition",
+          issue_number: "42",
+        }),
+      ],
+      [
+        inconclusive({
+          action: "do_not_create_issue",
+          no_issue_reason: "matching_open_issue",
+          issue_number: "42",
+          comment_id: "9001",
+        }),
+      ],
     ]) {
       assert.throws(
         () =>

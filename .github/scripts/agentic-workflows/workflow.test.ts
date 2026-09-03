@@ -299,6 +299,77 @@ describe("compiled content-verification publication boundary", () => {
       );
     }
   });
+
+  it("publishes inconclusive decisions through one authenticated custom job", () => {
+    for (const file of contentVerificationFiles) {
+      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
+      const publisher = object(
+        jobs.resolve_verification_inconclusive,
+        `${file} inconclusive publisher`,
+      );
+      const steps = array(publisher.steps, `${file} inconclusive steps`);
+      const permissions = object(
+        publisher.permissions,
+        `${file} inconclusive permissions`,
+      );
+
+      assert.deepEqual(permissions, { contents: "read", issues: "write" });
+      assert.ok(
+        array(publisher.needs, `${file} inconclusive dependencies`).includes(
+          "agent",
+        ),
+      );
+      assert.match(String(publisher.if), /resolve_verification_inconclusive/u);
+      assert.match(
+        String(publisher.if),
+        /needs\.detection\.result == 'success'/u,
+      );
+      assert.match(
+        String(
+          stepByName(steps, "Apply inconclusive verification decisions").run,
+        ),
+        /inconclusive-resolution-cli\.ts/u,
+      );
+      const publisherEnvironment = object(
+        stepByName(steps, "Apply inconclusive verification decisions").env,
+        `${file} inconclusive environment`,
+      );
+      assert.equal(
+        publisherEnvironment.CONTENT_VERIFICATION_AGENT_RESULT,
+        "${{ needs.agent.result }}",
+      );
+      assert.equal(
+        publisherEnvironment.CONTENT_VERIFICATION_EXPECTED_REVISION,
+        "${{ github.sha }}",
+      );
+      assert.match(
+        String(publisherEnvironment.CONTENT_VERIFICATION_TARGET_MANIFEST),
+        /content-verification-targets\.json/u,
+      );
+
+      const safeConfig = object(
+        JSON.parse(
+          String(
+            object(
+              stepByName(agentSteps, "Generate Safe Outputs Config").env,
+              `${file} safe-output environment`,
+            ).GH_AW_SAFE_OUTPUTS_CONFIG,
+          ),
+        ),
+        `${file} safe-output config`,
+      );
+      const tool = object(
+        safeConfig["resolve-verification-inconclusive"],
+        `${file} inconclusive tool`,
+      );
+      assert.equal(tool.max, 100);
+      assert.match(String(tool.description), /exactly once/u);
+      assert.match(source, /verification-inconclusive/u);
+      assert.match(source, /matching_open_issue/u);
+      assert.match(source, /trusted_collaborator_disposition/u);
+      assert.match(source, /uncertain/u);
+    }
+  });
 });
 
 describe("compiled pull-request review trust boundary", () => {

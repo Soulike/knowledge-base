@@ -1,6 +1,6 @@
 # Agentic GitHub workflows
 
-This repository uses gh-aw for four Agentic GitHub Actions tasks. A shared runtime owns execution, sandbox, read tools, external research, and safe-output transport. Three scheduled content-verification tasks and one required pull-request reviewer retain separate subjects, completion rules, and publication gates.
+This repository uses gh-aw for four Agentic GitHub Actions tasks. A shared runtime owns execution, sandbox, read tools, external research, and safe-output transport. The three scheduled content-verification tasks also share one content decision and publication contract, while the required pull-request reviewer retains a separate task contract.
 
 The architectural rationale is recorded in [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md). The general state and trust invariants are maintained as [Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
 
@@ -54,6 +54,8 @@ Repository content under review, issue and pull-request text, and external pages
 
 Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
 
+All three tasks import [the shared content-verification contract](shared/content-verification.md). Task-specific sources own what to analyze; the shared component owns result terms, history use, terminal safe-output rules, the modification-issue policy, and the trusted inconclusive publisher.
+
 A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root `CONTEXT.md`, and file under `docs/agents/` is an instruction target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
 
 The three tasks apply different review standards:
@@ -62,17 +64,22 @@ The three tasks apply different review standards:
 - evergreen Knowledge verifies reasoning, internal consistency, continued necessity, and whether external evolution has made the classification time-sensitive; and
 - maintained Agent content reviews invocation, routing, decisions, tool use, failure handling, completion, progressive disclosure, portability, package boundaries, current assumptions, and maintenance lifecycle.
 
-All three use the same decision order. The Agent completes and freezes content analysis before searching issues. It then searches both open and closed history for each actionable finding. An open issue suppresses a duplicate only when it covers the same target, premise, change, and acceptance outcome. A closed issue constrains a future run only when a trusted maintainer explicitly records that the same disposition should govern future verification while its premises remain unchanged. Closure alone is not a durable decision.
+All three use the same decision order. The Agent completes and freezes content analysis before searching issues. Each non-current finding is either `modification-required`, when current reasoning or evidence establishes a content defect and correction, or `verification-inconclusive`, when the required analysis completed but available evidence cannot confirm or invalidate the finding.
 
-Each run ends with exactly one terminal safe-output pattern:
+The Agent then searches both open and closed history for every finding. An open maintenance issue suppresses a modification duplicate only when it covers the same target, premise, change, and acceptance outcome. An open confirmation issue may suppress the same pending inconclusive finding. A closed confirmation issue constrains a future run only through an applicable no-change reply from an `OWNER`, `MEMBER`, or `COLLABORATOR`. That reply explains how the information was obtained, why it remains valid, and when it must be verified again; the trigger may be a date or another observable event. Closure alone, an issue body, an untrusted reply, or a content change without a no-change reply is not a historical disposition. The Agent interprets semantic equivalence, applicability, conflicts, and revalidation triggers; uncertainty creates a new confirmation issue.
+
+Each run uses these terminal safe-output patterns:
 
 - one combined `create_issue` request for each affected target without a matching open issue;
-- one `noop` when no new issue remains; or
+- exactly one `resolve_verification_inconclusive` call for every inconclusive finding, choosing either one new confirmation issue or an authenticated reason not to create one;
+- one `noop` only when no modification issue or inconclusive decision is needed; or
 - one `report_incomplete` when a target, tool, source, or analysis step is unavailable.
 
-The [content publication gate](../scripts/content-verification/agentic-gate.ts) runs after the Agent and before the issue-write job. It authenticates manifest revision and scope, target shape, terminal output, exact issue keys, scope-specific title, per-target cardinality, and target/revision body binding. It rejects incomplete, missing-tool, missing-data, malformed, unknown, duplicate, or expanded effects.
+The [content publication gate](../scripts/content-verification/agentic-gate.ts) runs after the Agent and before the built-in issue-write job. It authenticates manifest revision and scope, represented target shape, terminal output, exact tool keys, scope-specific modification title, per-target modification cardinality, exact duplicate inconclusive calls, and target/revision binding. It rejects incomplete, missing-tool, missing-data, malformed, unknown, contradictory, duplicate, or expanded effects. As described in the architectural decision, this transport does not prove an unrepresented classification for every target or finding.
 
-When the gate succeeds, gh-aw publishes the validated issue requests directly. Framework-failure, missing-tool, missing-data, and incomplete-result paths cannot publish issues. Published maintenance issues receive `automated-verification` and `modification-required`, and are assigned to `Soulike`.
+When the gate succeeds, gh-aw publishes validated modification requests. Published maintenance issues receive `automated-verification` and `modification-required`, and are assigned to `Soulike`.
+
+The [inconclusive publisher](../scripts/content-verification/inconclusive-resolution.ts) is a separate custom safe-output job with read-only repository access and issue write permission. It re-runs the canonical output validation, re-reads every referenced issue and comment from the workflow repository, authenticates confirmation origin, target binding, issue state, comment relationship, and collaborator association, and then applies every create-or-do-not-create decision. It never interprets historical prose. For creates, it constructs the issue title, `automated-verification` and `ready-for-human` labels, target and revision binding, run link, finding details, and maintainer instructions. It checks for an exact open publication duplicate immediately before each create without assigning a permanent finding identifier or performing semantic deduplication.
 
 ## Required pull-request review
 

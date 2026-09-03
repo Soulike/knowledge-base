@@ -10,6 +10,35 @@ const ISSUE_TITLE_PREFIXES = {
 
 type JsonObject = Record<string, unknown>;
 
+export type InconclusiveDecisionReason =
+  "matching_open_issue" | "trusted_collaborator_disposition";
+
+type InconclusiveDecisionBase = {
+  evidenceChecked: string;
+  finding: string;
+  summary: string;
+  targetId: string;
+  type: "resolve_verification_inconclusive";
+};
+
+export type VerificationInconclusiveDecision =
+  | (InconclusiveDecisionBase & {
+      action: "create_issue";
+      relatedIssueNumbers: string[];
+    })
+  | (InconclusiveDecisionBase & {
+      action: "do_not_create_issue";
+      commentId?: string;
+      issueNumber: string;
+      reason: InconclusiveDecisionReason;
+    });
+
+export type AgenticVerificationOutput = {
+  inconclusiveDecisions: VerificationInconclusiveDecision[];
+  issueTargets: string[];
+  noop: boolean;
+};
+
 function fail(message: string): never {
   throw new Error(`Content verification gate: ${message}`);
 }
@@ -22,10 +51,57 @@ function object(value: unknown, description: string): JsonObject {
 }
 
 function string(value: unknown, description: string): string {
-  if (typeof value !== "string" || value.length === 0) {
+  if (typeof value !== "string" || value.trim().length === 0) {
     fail(`${description} must be a non-empty string.`);
   }
   return value;
+}
+
+function boundedString(
+  value: unknown,
+  description: string,
+  maximumLength: number,
+): string {
+  const parsed = string(value, description);
+  if (parsed.length > maximumLength) {
+    fail(`${description} must not exceed ${String(maximumLength)} characters.`);
+  }
+  return parsed;
+}
+
+function optionalString(
+  value: unknown,
+  description: string,
+  maximumLength: number,
+): string | undefined {
+  if (value === undefined) {
+    return undefined;
+  }
+  return boundedString(value, description, maximumLength);
+}
+
+function positiveIntegerString(value: unknown, description: string): string {
+  const parsed = boundedString(value, description, 20);
+  if (!/^[1-9]\d*$/u.test(parsed)) {
+    fail(`${description} must be a positive integer string.`);
+  }
+  return parsed;
+}
+
+function issueNumberList(value: unknown): string[] {
+  if (value === undefined) {
+    return [];
+  }
+  const parsed = boundedString(value, "related issue numbers", 1000)
+    .split(",")
+    .map((number) => number.trim());
+  if (parsed.some((number) => !/^[1-9]\d*$/u.test(number))) {
+    fail("related issue numbers must be comma-separated positive integers.");
+  }
+  if (new Set(parsed).size !== parsed.length) {
+    fail("related issue numbers must not contain duplicates.");
+  }
+  return parsed;
 }
 
 function requireExactKeys(
@@ -125,10 +201,10 @@ export function parseVerificationManifest(
   return { revision, scope: expectedScope, targets };
 }
 
-export function validateAgenticVerificationOutput(
+export function parseAgenticVerificationOutput(
   manifest: VerificationManifest,
   outputValue: unknown,
-): void {
+): AgenticVerificationOutput {
   const output = object(outputValue, "agent output");
   if (!Array.isArray(output.errors)) {
     fail("agent output errors must be an array.");
@@ -143,6 +219,8 @@ export function validateAgenticVerificationOutput(
   const targetIds = new Set(manifest.targets.map((target) => target.id));
   const issueTitlePrefix = ISSUE_TITLE_PREFIXES[manifest.scope];
   const requestedTargets = new Set<string>();
+  const inconclusiveDecisionIdentities = new Set<string>();
+  const inconclusiveDecisions: VerificationInconclusiveDecision[] = [];
   let noopCount = 0;
   for (const itemValue of output.items) {
     const item = object(itemValue, "safe output item");
@@ -157,6 +235,133 @@ export function validateAgenticVerificationOutput(
     if (type === "noop") {
       requireExactKeys(item, ["type", "message"], "noop");
       noopCount += 1;
+      continue;
+    }
+    if (type === "resolve_verification_inconclusive") {
+      requireExactKeys(
+        item,
+        [
+          "type",
+          "action",
+          "target_id",
+          "summary",
+          "finding",
+          "evidence_checked",
+          "no_issue_reason",
+          "issue_number",
+          "comment_id",
+          "related_issue_numbers",
+        ],
+        "resolve_verification_inconclusive",
+      );
+      const targetId = boundedString(
+        item.target_id,
+        "inconclusive target id",
+        1000,
+      );
+      if (!targetIds.has(targetId)) {
+        fail(`Inconclusive decision names unknown target '${targetId}'.`);
+      }
+      const summary = boundedString(
+        item.summary,
+        "inconclusive finding summary",
+        200,
+      );
+      if (/\r|\n/u.test(summary)) {
+        fail("inconclusive finding summary must be one line.");
+      }
+      const finding = boundedString(
+        item.finding,
+        "inconclusive finding",
+        12000,
+      );
+      const evidenceChecked = boundedString(
+        item.evidence_checked,
+        "inconclusive evidence checked",
+        12000,
+      );
+      const identity = JSON.stringify([
+        targetId,
+        summary,
+        finding,
+        evidenceChecked,
+      ]);
+      if (inconclusiveDecisionIdentities.has(identity)) {
+        fail(
+          "An inconclusive finding called its decision tool more than once.",
+        );
+      }
+      inconclusiveDecisionIdentities.add(identity);
+
+      if (item.action === "create_issue") {
+        if (
+          item.no_issue_reason !== undefined ||
+          item.issue_number !== undefined ||
+          item.comment_id !== undefined
+        ) {
+          fail("create_issue inconclusive decisions cannot claim suppression.");
+        }
+        inconclusiveDecisions.push({
+          action: "create_issue",
+          evidenceChecked,
+          finding,
+          relatedIssueNumbers: issueNumberList(item.related_issue_numbers),
+          summary,
+          targetId,
+          type,
+        });
+        continue;
+      }
+
+      if (item.action !== "do_not_create_issue") {
+        fail(
+          "inconclusive action must be create_issue or do_not_create_issue.",
+        );
+      }
+      if (item.related_issue_numbers !== undefined) {
+        fail("do_not_create_issue cannot include related issue numbers.");
+      }
+      if (
+        item.no_issue_reason !== "matching_open_issue" &&
+        item.no_issue_reason !== "trusted_collaborator_disposition"
+      ) {
+        fail("do_not_create_issue requires an accepted no-issue reason.");
+      }
+      const issueNumber = positiveIntegerString(
+        item.issue_number,
+        "referenced issue number",
+      );
+      const commentId = optionalString(
+        item.comment_id,
+        "referenced comment id",
+        30,
+      );
+      if (commentId !== undefined && !/^[1-9]\d*$/u.test(commentId)) {
+        fail("referenced comment id must be a positive integer string.");
+      }
+      if (
+        item.no_issue_reason === "matching_open_issue" &&
+        commentId !== undefined
+      ) {
+        fail("matching_open_issue must not include a comment id.");
+      }
+      if (
+        item.no_issue_reason === "trusted_collaborator_disposition" &&
+        commentId === undefined
+      ) {
+        fail("trusted_collaborator_disposition requires a comment id.");
+      }
+      inconclusiveDecisions.push({
+        action: "do_not_create_issue",
+        ...(commentId === undefined ? {} : { commentId }),
+        evidenceChecked,
+        finding,
+        issueNumber,
+        reason: item.no_issue_reason,
+        summary,
+        targetId,
+        type,
+      });
       continue;
     }
     if (type !== "create_issue") {
@@ -186,10 +391,25 @@ export function validateAgenticVerificationOutput(
   if (noopCount > 1) {
     fail("More than one noop was declared.");
   }
-  if (noopCount === 1 && requestedTargets.size > 0) {
-    fail("noop and create_issue are mutually exclusive terminal outcomes.");
+  const effectCount = requestedTargets.size + inconclusiveDecisions.length;
+  if (noopCount === 1 && effectCount > 0) {
+    fail(
+      "noop and verification effects are mutually exclusive terminal outcomes.",
+    );
   }
-  if (noopCount === 0 && requestedTargets.size === 0) {
+  if (noopCount === 0 && effectCount === 0) {
     fail("Agent produced no accepted terminal safe output.");
   }
+  return {
+    inconclusiveDecisions,
+    issueTargets: [...requestedTargets],
+    noop: noopCount === 1,
+  };
+}
+
+export function validateAgenticVerificationOutput(
+  manifest: VerificationManifest,
+  outputValue: unknown,
+): void {
+  parseAgenticVerificationOutput(manifest, outputValue);
 }

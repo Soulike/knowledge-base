@@ -36,6 +36,7 @@ describe("discoverVerificationTargets", () => {
       ".github/scripts/ai-review/prompts/skills.md",
       ".github/workflows/README.md",
       ".github/workflows/ai-review.md",
+      ".github/workflows/shared/content-verification.md",
       ".github/workflows/shared/agentic-runtime.md",
       "AGENTS.md",
       "CONTEXT.md",
@@ -79,6 +80,11 @@ describe("discoverVerificationTargets", () => {
         {
           files: [".github/workflows/shared/agentic-runtime.md"],
           id: ".github/workflows/shared/agentic-runtime.md",
+          kind: "shared-reference",
+        },
+        {
+          files: [".github/workflows/shared/content-verification.md"],
+          id: ".github/workflows/shared/content-verification.md",
           kind: "shared-reference",
         },
         {

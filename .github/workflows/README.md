@@ -25,13 +25,14 @@ All four tasks import [the shared runtime](shared/agentic-runtime.md). It provid
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
 - Node.js 24;
+- the knowledge-base plugin from the checked-out repository revision;
 - floating `codebase-design`, `tdd`, and `writing-for-agents` review-reference Skills;
 - required reasoning-effort validation; and
 - fail-closed threat detection before safe-output publication.
 
 The Agent does not receive the credential used for issue or review publication. It requests an allowed effect through safe-output tools. A separate job with only the required write permission validates and applies that request. Repository-owned gates then enforce task-specific subject, shape, verdict, or completion policy.
 
-Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and explicitly installed review material are trusted guidance. The runtime boundary does not merge the four task contracts.
+Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the four task contracts.
 
 ## Scheduled content verification
 
@@ -61,7 +62,7 @@ When the gate succeeds, gh-aw publishes the validated issue requests directly. F
 
 The AI reviewer uses `pull_request_target` and runs its Agent only for pull requests authored by an `OWNER`, `MEMBER`, or `COLLABORATOR`. It checks out the exact event base with credentials removed. A trusted pre-Agent step fetches `refs/pull/<number>/head` into `FETCH_HEAD`, verifies the event head SHA, and never checks out, installs, or executes the proposed tree.
 
-The Agent reads the exact diff and surrounding files with allowlisted Git commands. It reads complete pull-request, review, comment, reply, and thread state through read-only GitHub tools, including paginated GraphQL `reviewThreads`. The trusted base checkout installs the current knowledge-base plugin, while the external review-reference Skills remain floating.
+The Agent reads the exact diff and surrounding files with allowlisted Git commands. It reads complete pull-request, review, comment, reply, and thread state through read-only GitHub tools, including paginated GraphQL `reviewThreads`. The shared runtime installs the current trusted-base knowledge-base plugin, while the external review-reference Skills remain floating.
 
 Safe outputs buffer one atomic `COMMENT` review pinned to the expected head:
 

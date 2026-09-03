@@ -72,14 +72,6 @@ pre-agent-steps:
       test "$(git rev-parse FETCH_HEAD)" = "$PR_HEAD_SHA"
       git cat-file -e "${PR_HEAD_SHA}^{commit}"
 
-  - name: Install the trusted checked-out knowledge-base plugin
-    env:
-      COPILOT_GITHUB_TOKEN: ${{ github.token }}
-    run: |
-      copilot plugin marketplace add "$GITHUB_WORKSPACE"
-      copilot plugin install knowledge-base@knowledge-base
-      copilot plugin list
-
 safe-outputs:
   report-failure-as-issue: false
   report-failed-jobs: false

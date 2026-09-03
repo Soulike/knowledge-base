@@ -289,14 +289,25 @@ describe("generated scheduled verification workflows", () => {
 
       const generatedJobs = object(generated.jobs, "jobs");
       const generatedAgent = object(generatedJobs.agent, "agent job");
+      const agentSteps = array(generatedAgent.steps, "agent steps");
       const manifestStep = stepByName(
-        array(generatedAgent.steps, "agent steps"),
+        agentSteps,
         "Generate content verification target manifest",
       );
       assert.equal(
         object(manifestStep.env, "manifest environment")
           .CONTENT_VERIFICATION_SCOPE,
         candidate.scope,
+      );
+      const pluginSteps = agentSteps.filter(
+        (step) =>
+          object(step, "agent step").name ===
+          "Install the trusted checked-out knowledge-base plugin",
+      );
+      assert.equal(pluginSteps.length, 1);
+      assert.match(
+        String(object(pluginSteps[0], "plugin installation step").run),
+        /plugin install knowledge-base@knowledge-base/u,
       );
       assert.ok("content_verification_gate" in generatedJobs);
       assert.ok("safe_outputs" in generatedJobs);
@@ -365,6 +376,14 @@ describe("generated pull-request AI review workflow", () => {
         ).run,
       ),
       /plugin install knowledge-base@knowledge-base/u,
+    );
+    assert.equal(
+      agentSteps.filter(
+        (step) =>
+          object(step, "agent step").name ===
+          "Install the trusted checked-out knowledge-base plugin",
+      ).length,
+      1,
     );
     const safeConfig = object(
       JSON.parse(

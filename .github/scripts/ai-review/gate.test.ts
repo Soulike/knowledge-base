@@ -23,6 +23,7 @@ function pullRequest(overrides: Record<string, unknown> = {}) {
     baseSha,
     headSha,
     htmlUrl: "https://github.com/Soulike/knowledge-base/pull/42",
+    labels: ["AI Approved", "AI Need Change"],
     number: 42,
     state: "open",
     ...overrides,
@@ -230,6 +231,8 @@ class FakeGitHubClient {
   readonly pulls: ReturnType<typeof pullRequest>[];
   readonly reviewComments: ReturnType<typeof comments>;
   readonly reviews: ReturnType<typeof review>[];
+  closeOnNextLabelRemoval = false;
+  closed = false;
   jobReads = 0;
   pullRequestReads = 0;
   reviewCommentReads = 0;
@@ -251,7 +254,9 @@ class FakeGitHubClient {
     if (!value) {
       throw new Error("Unexpected pull-request read.");
     }
-    return value;
+    return this.closed
+      ? { ...value, labels: [...this.labels], state: "closed" }
+      : value;
   }
 
   async listReviewComments(): Promise<ReturnType<typeof comments>> {
@@ -271,6 +276,10 @@ class FakeGitHubClient {
 
   async removeLabel(_prNumber: number, label: string): Promise<void> {
     this.labels.delete(label);
+    if (this.closeOnNextLabelRemoval) {
+      this.closeOnNextLabelRemoval = false;
+      this.closed = true;
+    }
   }
 
   async addLabel(_prNumber: number, label: string): Promise<void> {
@@ -325,10 +334,10 @@ test("clears verdict labels when the Agent or safe-output job fails", async (t) 
     { safeOutputsJobResult: "failure" as const },
   ]) {
     await t.test(JSON.stringify(context), async () => {
-      const client = new FakeGitHubClient([pullRequest()], []);
+      const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
       await assert.rejects(enforceReviewGate(client, gateContext(context)));
       assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 1);
+      assert.equal(client.pullRequestReads, 2);
     });
   }
 });
@@ -339,13 +348,13 @@ test("clears verdict labels and fails the gate for a draft", async (t) => {
     { action: "converted_to_draft" as const, isDraft: true },
   ]) {
     await t.test(context.action, async () => {
-      const client = new FakeGitHubClient([pullRequest()], []);
+      const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
       await assert.rejects(
         enforceReviewGate(client, gateContext(context)),
         /draft pull request/u,
       );
       assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 1);
+      assert.equal(client.pullRequestReads, 2);
     });
   }
 });
@@ -364,10 +373,27 @@ test("preserves the last verdict when an in-flight review observes a closed pull
   assert.deepEqual([...client.labels], ["AI Approved"]);
 });
 
+test("restores the last verdict when a pull request closes during label removal", async () => {
+  const client = new FakeGitHubClient(
+    [pullRequest({ labels: ["AI Approved"] }), pullRequest()],
+    [],
+  );
+  client.labels.delete("AI Need Change");
+  client.closeOnNextLabelRemoval = true;
+
+  await assert.rejects(
+    enforceReviewGate(client, gateContext({ agentJobResult: "failure" })),
+    /Agent job did not succeed/u,
+  );
+  assert.deepEqual([...client.labels], ["AI Approved"]);
+  assert.equal(client.pullRequestReads, 2);
+});
+
 test("removes a newly applied verdict if the head changes during gating", async () => {
   const client = new FakeGitHubClient(
     [
       pullRequest(),
+      pullRequest({ headSha: "c".repeat(40) }),
       pullRequest({ headSha: "c".repeat(40) }),
       pullRequest({ headSha: "c".repeat(40) }),
     ],

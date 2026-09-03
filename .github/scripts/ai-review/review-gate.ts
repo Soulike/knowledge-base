@@ -189,9 +189,29 @@ async function clearOpenPullRequestVerdictLabels(
   client: ReviewGateClient,
   prNumber: number,
 ): Promise<void> {
-  const pullRequest = await client.getPullRequest(prNumber);
-  if (pullRequest.state === "open") {
+  const before = await client.getPullRequest(prNumber);
+  if (before.state !== "open") {
+    return;
+  }
+  const previousLabels = [labels.approved, labels.needsChange].filter((label) =>
+    before.labels.includes(label),
+  );
+  let removalFailed = false;
+  let removalError: unknown;
+  try {
     await clearVerdictLabels(client, prNumber);
+  } catch (error) {
+    removalFailed = true;
+    removalError = error;
+  }
+  const after = await client.getPullRequest(prNumber);
+  if (after.state !== "open") {
+    await Promise.all(
+      previousLabels.map((label) => client.addLabel(prNumber, label)),
+    );
+  }
+  if (removalFailed) {
+    throw removalError;
   }
 }
 

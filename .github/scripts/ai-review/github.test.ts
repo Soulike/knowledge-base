@@ -26,6 +26,7 @@ test("maps pull-request identity through the Octokit REST endpoint", async (t) =
         base: { sha: "a".repeat(40) },
         head: { sha: "b".repeat(40) },
         html_url: "https://github.com/owner/repository/pull/42",
+        labels: [{ name: "AI Approved" }, { name: "documentation" }],
         number: 42,
         state: "open",
       },
@@ -44,6 +45,7 @@ test("maps pull-request identity through the Octokit REST endpoint", async (t) =
     baseSha: "a".repeat(40),
     headSha: "b".repeat(40),
     htmlUrl: "https://github.com/owner/repository/pull/42",
+    labels: ["AI Approved", "documentation"],
     number: 42,
     state: "open",
   });

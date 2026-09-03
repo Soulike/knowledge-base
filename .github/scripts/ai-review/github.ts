@@ -7,6 +7,7 @@ export type PullRequest = {
   baseSha: string;
   headSha: string;
   htmlUrl: string;
+  labels: string[];
   number: number;
   state: string;
 };
@@ -85,6 +86,7 @@ export class GitHubClient {
       baseSha: data.base.sha,
       headSha: data.head.sha,
       htmlUrl: data.html_url,
+      labels: data.labels.map((label) => label.name),
       number: data.number,
       state: data.state,
     };

@@ -1,8 +1,3 @@
-export const labels = {
-  approved: "AI Approved",
-  needsChange: "AI Need Change",
-} as const;
-
 export const reviewVerdicts = ["approved", "needs-change"] as const;
 export type ReviewVerdict = (typeof reviewVerdicts)[number];
 

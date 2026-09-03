@@ -379,13 +379,10 @@ describe("compiled pull-request review trust boundary", () => {
     assert.deepEqual(gate.permissions, {
       actions: "read",
       contents: "read",
-      "pull-requests": "write",
+      "pull-requests": "read",
     });
     const gateEnvironment = object(
-      stepByName(
-        gateSteps,
-        "Verify review, update verdict label, and enforce verdict",
-      ).env,
+      stepByName(gateSteps, "Verify review and enforce verdict").env,
       "gate environment",
     );
     assert.equal(

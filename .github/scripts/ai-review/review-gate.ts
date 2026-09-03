@@ -15,7 +15,6 @@ import {
   AI_REVIEW_WORKFLOW_NAME,
   type FindingCounts,
   type FindingSeverity,
-  labels,
   parseInlineFindingSeverity,
   parseReviewBody,
   type ReviewVerdict,
@@ -34,12 +33,7 @@ export type ReviewGateContext = ReviewIdentity & ReviewEventContext;
 
 type ReviewGateClient = Pick<
   GitHubClient,
-  | "addLabel"
-  | "getPullRequest"
-  | "listReviewComments"
-  | "listReviews"
-  | "listRunAttemptJobs"
-  | "removeLabel"
+  "getPullRequest" | "listReviewComments" | "listReviews" | "listRunAttemptJobs"
 >;
 
 export function assertCurrentPullRequest(
@@ -175,67 +169,6 @@ export function verifyPublishedReview(
   return matchingReviews[0]!.parsed.verdict;
 }
 
-async function clearVerdictLabels(
-  client: ReviewGateClient,
-  prNumber: number,
-): Promise<void> {
-  const results = await Promise.allSettled([
-    client.removeLabel(prNumber, labels.approved),
-    client.removeLabel(prNumber, labels.needsChange),
-  ]);
-  const failures = results.flatMap((result) =>
-    result.status === "rejected" ? [result.reason] : [],
-  );
-  if (failures.length === 1) {
-    throw failures[0];
-  }
-  if (failures.length > 1) {
-    throw new AggregateError(failures, "Failed to clear AI review labels.");
-  }
-}
-
-async function clearOpenPullRequestVerdictLabels(
-  client: ReviewGateClient,
-  prNumber: number,
-): Promise<void> {
-  const before = await client.getPullRequest(prNumber);
-  if (before.state !== "open") {
-    return;
-  }
-  const previousLabels = [labels.approved, labels.needsChange].filter((label) =>
-    before.labels.includes(label),
-  );
-  let removalFailed = false;
-  let removalError: unknown;
-  try {
-    await clearVerdictLabels(client, prNumber);
-  } catch (error) {
-    removalFailed = true;
-    removalError = error;
-  }
-  const after = await client.getPullRequest(prNumber);
-  if (after.state !== "open") {
-    await Promise.all(
-      previousLabels.map((label) => client.addLabel(prNumber, label)),
-    );
-  }
-  if (removalFailed) {
-    throw removalError;
-  }
-}
-
-async function setVerdictLabel(
-  client: ReviewGateClient,
-  prNumber: number,
-  verdict: ReviewVerdict,
-): Promise<void> {
-  await clearVerdictLabels(client, prNumber);
-  await client.addLabel(
-    prNumber,
-    verdict === "approved" ? labels.approved : labels.needsChange,
-  );
-}
-
 async function readPublishedReview(
   client: ReviewGateClient,
   context: ReviewGateContext,
@@ -260,39 +193,27 @@ export async function enforceReviewGate(
   context: ReviewGateContext,
 ): Promise<"approved"> {
   if (context.action === "converted_to_draft" || context.isDraft) {
-    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error("AI review cannot pass for a draft pull request.");
   }
 
   if (!isTrustedAuthorAssociation(context.authorAssociation)) {
-    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `AI review requires a trusted pull-request author; received ${context.authorAssociation}.`,
     );
   }
 
   if (context.agentJobResult !== "success") {
-    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `The Copilot Agent job did not succeed (${context.agentJobResult}).`,
     );
   }
   if (context.safeOutputsJobResult !== "success") {
-    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
     throw new Error(
       `The review safe-output job did not succeed (${context.safeOutputsJobResult}).`,
     );
   }
 
-  let verdict: ReviewVerdict;
-  try {
-    verdict = await readPublishedReview(client, context);
-    await setVerdictLabel(client, context.prNumber, verdict);
-    await readPublishedReview(client, context);
-  } catch (error) {
-    await clearOpenPullRequestVerdictLabels(client, context.prNumber);
-    throw error;
-  }
+  const verdict = await readPublishedReview(client, context);
 
   if (verdict === "needs-change") {
     throw new Error("AI review requires changes.");

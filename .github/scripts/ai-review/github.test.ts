@@ -26,7 +26,6 @@ test("maps pull-request identity through the Octokit REST endpoint", async (t) =
         base: { sha: "a".repeat(40) },
         head: { sha: "b".repeat(40) },
         html_url: "https://github.com/owner/repository/pull/42",
-        labels: [{ name: "AI Approved" }, { name: "documentation" }],
         number: 42,
         state: "open",
       },
@@ -45,7 +44,6 @@ test("maps pull-request identity through the Octokit REST endpoint", async (t) =
     baseSha: "a".repeat(40),
     headSha: "b".repeat(40),
     htmlUrl: "https://github.com/owner/repository/pull/42",
-    labels: ["AI Approved", "documentation"],
     number: 42,
     state: "open",
   });
@@ -194,35 +192,4 @@ test("paginates inline review comments and preserves their review identity", asy
     { body: "**[low] Clarify this**", id: 502, reviewId: 100 },
   ]);
   assert.equal(requestCount, 2);
-});
-
-test("adds a verdict label with the issues endpoint", async (t) => {
-  let capturedRequest: RequestInit | undefined;
-  let capturedUrl = "";
-  mockFetch(t, async (input, request) => {
-    capturedUrl = String(input);
-    capturedRequest = request;
-    return jsonResponse([], { status: 200 });
-  });
-  const client = new GitHubClient("token", "owner/repository");
-
-  await client.addLabel(42, "AI Approved");
-
-  assert.equal(
-    capturedUrl,
-    "https://api.github.com/repos/owner/repository/issues/42/labels",
-  );
-  assert.equal(capturedRequest?.method, "POST");
-  assert.deepEqual(JSON.parse(String(capturedRequest?.body)), {
-    labels: ["AI Approved"],
-  });
-});
-
-test("treats a missing verdict label as already removed", async (t) => {
-  mockFetch(t, async () => {
-    return jsonResponse({ message: "Label does not exist" }, { status: 404 });
-  });
-  const client = new GitHubClient("token", "owner/repository");
-
-  await assert.doesNotReject(client.removeLabel(42, "AI Need Change"));
 });

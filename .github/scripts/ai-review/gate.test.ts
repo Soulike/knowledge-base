@@ -23,7 +23,6 @@ function pullRequest(overrides: Record<string, unknown> = {}) {
     baseSha,
     headSha,
     htmlUrl: "https://github.com/Soulike/knowledge-base/pull/42",
-    labels: ["AI Approved", "AI Need Change"],
     number: 42,
     state: "open",
     ...overrides,
@@ -227,13 +226,9 @@ test("rejects a review that predates the current run attempt", () => {
 });
 
 class FakeGitHubClient {
-  readonly labels = new Set<string>(["AI Approved", "AI Need Change"]);
   readonly pulls: ReturnType<typeof pullRequest>[];
-  readonly removeLabelBehaviors = new Map<string, () => Promise<void>>();
   readonly reviewComments: ReturnType<typeof comments>;
   readonly reviews: ReturnType<typeof review>[];
-  closeOnNextLabelRemoval = false;
-  closed = false;
   jobReads = 0;
   pullRequestReads = 0;
   reviewCommentReads = 0;
@@ -255,9 +250,7 @@ class FakeGitHubClient {
     if (!value) {
       throw new Error("Unexpected pull-request read.");
     }
-    return this.closed
-      ? { ...value, labels: [...this.labels], state: "closed" }
-      : value;
+    return value;
   }
 
   async listReviewComments(): Promise<ReturnType<typeof comments>> {
@@ -273,19 +266,6 @@ class FakeGitHubClient {
   async listRunAttemptJobs(): Promise<ReturnType<typeof jobs>> {
     this.jobReads += 1;
     return jobs();
-  }
-
-  async removeLabel(_prNumber: number, label: string): Promise<void> {
-    await this.removeLabelBehaviors.get(label)?.();
-    this.labels.delete(label);
-    if (this.closeOnNextLabelRemoval) {
-      this.closeOnNextLabelRemoval = false;
-      this.closed = true;
-    }
-  }
-
-  async addLabel(_prNumber: number, label: string): Promise<void> {
-    this.labels.add(label);
   }
 }
 
@@ -303,22 +283,19 @@ function gateContext(
   };
 }
 
-test("applies only AI Approved after authenticating an approved review", async () => {
-  const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest()],
-    [review("approved")],
-  );
+test("approves an authenticated review without mutating the pull request", async () => {
+  const client = new FakeGitHubClient([pullRequest()], [review("approved")]);
 
   assert.equal(await enforceReviewGate(client, gateContext()), "approved");
-  assert.deepEqual([...client.labels], ["AI Approved"]);
-  assert.equal(client.reviewReads, 2);
-  assert.equal(client.reviewCommentReads, 2);
-  assert.equal(client.jobReads, 2);
+  assert.equal(client.pullRequestReads, 1);
+  assert.equal(client.reviewReads, 1);
+  assert.equal(client.reviewCommentReads, 1);
+  assert.equal(client.jobReads, 1);
 });
 
-test("preserves AI Need Change while failing the gate", async () => {
+test("fails the gate for an authenticated needs-change review", async () => {
   const client = new FakeGitHubClient(
-    [pullRequest(), pullRequest()],
+    [pullRequest()],
     [review("needs-change")],
     comments("needs-change"),
   );
@@ -327,113 +304,35 @@ test("preserves AI Need Change while failing the gate", async () => {
     enforceReviewGate(client, gateContext()),
     /requires changes/u,
   );
-  assert.deepEqual([...client.labels], ["AI Need Change"]);
 });
 
-test("clears verdict labels when the Agent or safe-output job fails", async (t) => {
+test("fails without reading reviews when the Agent or safe-output job fails", async (t) => {
   for (const context of [
     { agentJobResult: "failure" as const },
     { safeOutputsJobResult: "failure" as const },
   ]) {
     await t.test(JSON.stringify(context), async () => {
-      const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
+      const client = new FakeGitHubClient([], []);
       await assert.rejects(enforceReviewGate(client, gateContext(context)));
-      assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 2);
+      assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.reviewReads, 0);
     });
   }
 });
 
-test("clears verdict labels and fails the gate for a draft", async (t) => {
+test("fails without reading reviews for a draft", async (t) => {
   for (const context of [
     { action: "opened" as const, isDraft: true },
     { action: "converted_to_draft" as const, isDraft: true },
   ]) {
     await t.test(context.action, async () => {
-      const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
+      const client = new FakeGitHubClient([], []);
       await assert.rejects(
         enforceReviewGate(client, gateContext(context)),
         /draft pull request/u,
       );
-      assert.deepEqual([...client.labels], []);
-      assert.equal(client.pullRequestReads, 2);
+      assert.equal(client.pullRequestReads, 0);
+      assert.equal(client.reviewReads, 0);
     });
   }
-});
-
-test("preserves the last verdict when an in-flight review observes a closed pull request", async () => {
-  const client = new FakeGitHubClient(
-    [pullRequest({ state: "closed" }), pullRequest({ state: "closed" })],
-    [review("approved")],
-  );
-  client.labels.delete("AI Need Change");
-
-  await assert.rejects(
-    enforceReviewGate(client, gateContext()),
-    /Pull request changed during review/u,
-  );
-  assert.deepEqual([...client.labels], ["AI Approved"]);
-});
-
-test("restores the last verdict when a pull request closes during label removal", async () => {
-  const client = new FakeGitHubClient(
-    [pullRequest({ labels: ["AI Approved"] }), pullRequest()],
-    [],
-  );
-  client.labels.delete("AI Need Change");
-  client.closeOnNextLabelRemoval = true;
-
-  await assert.rejects(
-    enforceReviewGate(client, gateContext({ agentJobResult: "failure" })),
-    /Agent job did not succeed/u,
-  );
-  assert.deepEqual([...client.labels], ["AI Approved"]);
-  assert.equal(client.pullRequestReads, 2);
-});
-
-test("waits for both label removals before restoring after closure", async () => {
-  const delayedRemoval = Promise.withResolvers<void>();
-  const removalStarted = Promise.withResolvers<void>();
-  const client = new FakeGitHubClient([pullRequest(), pullRequest()], []);
-  client.removeLabelBehaviors.set("AI Approved", async () => {
-    throw new Error("AI Approved removal failed.");
-  });
-  client.removeLabelBehaviors.set("AI Need Change", async () => {
-    removalStarted.resolve();
-    await delayedRemoval.promise;
-  });
-
-  const outcome = enforceReviewGate(
-    client,
-    gateContext({ agentJobResult: "failure" }),
-  ).then(
-    () => null,
-    (error: unknown) => error,
-  );
-  await removalStarted.promise;
-  await Promise.resolve();
-  assert.equal(client.pullRequestReads, 1);
-
-  client.closed = true;
-  delayedRemoval.resolve();
-  assert.match(String(await outcome), /AI Approved removal failed/u);
-  assert.deepEqual([...client.labels], ["AI Approved", "AI Need Change"]);
-  assert.equal(client.pullRequestReads, 2);
-});
-
-test("removes a newly applied verdict if the head changes during gating", async () => {
-  const client = new FakeGitHubClient(
-    [
-      pullRequest(),
-      pullRequest({ headSha: "c".repeat(40) }),
-      pullRequest({ headSha: "c".repeat(40) }),
-      pullRequest({ headSha: "c".repeat(40) }),
-    ],
-    [review("approved")],
-  );
-  await assert.rejects(
-    enforceReviewGate(client, gateContext()),
-    /Pull request changed during review/u,
-  );
-  assert.deepEqual([...client.labels], []);
 });

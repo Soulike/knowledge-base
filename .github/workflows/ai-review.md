@@ -98,7 +98,7 @@ jobs:
     permissions:
       actions: read
       contents: read
-      pull-requests: write
+      pull-requests: read
     steps:
       - name: Check out the trusted gate implementation
         uses: actions/checkout@v7
@@ -122,7 +122,7 @@ jobs:
       - name: Install trusted gate dependencies
         run: pnpm install --frozen-lockfile --ignore-scripts
 
-      - name: Verify review, update verdict label, and enforce verdict
+      - name: Verify review and enforce verdict
         env:
           AI_REVIEW_AGENT_RESULT: ${{ needs.agent.result }}
           AI_REVIEW_AUTHOR_ASSOCIATION: ${{ github.event.pull_request.author_association }}
@@ -319,4 +319,4 @@ not call either review-publication tool. Do not call `noop`. Never approve,
 request changes, reply, resolve a thread, alter a branch, merge, or perform any
 other mutation. The repository-owned gate authenticates the framework marker,
 review author, exact commit, current run attempt, visible verdict data, and
-current pull-request state before applying the verdict label.
+current pull-request state before determining the required check conclusion.

@@ -80,18 +80,12 @@ The gate owns `AI Approved` and `AI Need Change`. It clears both labels for miss
 
 Set these Actions variables:
 
-| Variable                                 | Requirement                                                                             |
-| ---------------------------------------- | --------------------------------------------------------------------------------------- |
-| `CONTENT_VERIFICATION_MODEL`             | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `CONTENT_VERIFICATION_REASONING_EFFORT`  | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `AI_REVIEW_MODEL`                        | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `AI_REVIEW_REASONING_EFFORT`             | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `GH_AW_DEFAULT_MAX_AI_CREDITS`           | Set to `-1` to disable per-run gh-aw AI Credits enforcement and token steering.         |
-| `GH_AW_DEFAULT_DETECTION_MAX_AI_CREDITS` | Set to `-1` to disable the separate threat-detection AI Credits limit.                  |
-| `GH_AW_DEFAULT_MAX_DAILY_AI_CREDITS`     | Set to `-1` to disable the repository's daily gh-aw AI Credits guardrail.               |
-
-The three AI Credits variables disable gh-aw's catalog-dependent budget
-guardrails; they do not disable Copilot provider billing or token reporting.
+| Variable                                | Requirement                                                                             |
+| --------------------------------------- | --------------------------------------------------------------------------------------- |
+| `CONTENT_VERIFICATION_MODEL`            | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `CONTENT_VERIFICATION_REASONING_EFFORT` | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `AI_REVIEW_MODEL`                       | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
+| `AI_REVIEW_REASONING_EFFORT`            | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
 
 All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
 

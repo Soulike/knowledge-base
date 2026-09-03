@@ -37,9 +37,25 @@ while the runtime that executes it remains fixed and reviewable.
 
 ### Historical disposition
 
-An explicit decision from a trusted maintainer about a previously reported
-finding. It constrains later Agents when the same finding and premises recur,
-but it does not override materially changed evidence or repository behavior.
+An explicit decision recorded by a trusted repository collaborator in a closed
+issue about a previously reported finding. It constrains later Agents when the
+same finding and premises recur, but it does not override materially changed
+evidence or repository behavior. An open issue, closure alone, or a reply from
+an untrusted author is not a historical disposition. A usable disposition
+states that no content modification is needed, explains the basis for treating
+the information as valid, and identifies when it must be verified again; that
+trigger may be a time or another observable event. A maintainer who resolves
+the issue by modifying or deleting the current content changes the next
+verification subject instead of creating a historical disposition.
+
+### Verification inconclusive
+
+A successful content-verification result in which the Agent completed the
+required analysis but the available evidence cannot confirm or invalidate a
+finding, and no applicable historical disposition resolves it. It creates or
+reuses a human confirmation issue without making the workflow fail. It is
+distinct from incomplete execution, where the Agent could not perform the
+required analysis.
 
 ### Subject identity
 

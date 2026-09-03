@@ -299,6 +299,149 @@ describe("compiled content-verification publication boundary", () => {
       );
     }
   });
+
+  it("publishes inconclusive decisions through one authenticated custom job", () => {
+    for (const file of contentVerificationFiles) {
+      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
+      const publisher = object(
+        jobs.resolve_verification_inconclusive,
+        `${file} inconclusive publisher`,
+      );
+      const steps = array(publisher.steps, `${file} inconclusive steps`);
+      const permissions = object(
+        publisher.permissions,
+        `${file} inconclusive permissions`,
+      );
+
+      assert.deepEqual(permissions, { contents: "read", issues: "write" });
+      assert.ok(
+        array(publisher.needs, `${file} inconclusive dependencies`).includes(
+          "agent",
+        ),
+      );
+      assert.match(String(publisher.if), /resolve_verification_inconclusive/u);
+      assert.match(
+        String(publisher.if),
+        /needs\.detection\.result == 'success'/u,
+      );
+      assert.match(
+        String(
+          stepByName(steps, "Apply inconclusive verification decisions").run,
+        ),
+        /inconclusive-resolution-cli\.ts/u,
+      );
+      const publisherEnvironment = object(
+        stepByName(steps, "Apply inconclusive verification decisions").env,
+        `${file} inconclusive environment`,
+      );
+      assert.equal(
+        publisherEnvironment.CONTENT_VERIFICATION_AGENT_RESULT,
+        "${{ needs.agent.result }}",
+      );
+      assert.equal(
+        publisherEnvironment.CONTENT_VERIFICATION_EXPECTED_REVISION,
+        "${{ github.sha }}",
+      );
+      assert.match(
+        String(publisherEnvironment.CONTENT_VERIFICATION_TARGET_MANIFEST),
+        /content-verification-targets\.json/u,
+      );
+
+      const safeConfig = object(
+        JSON.parse(
+          String(
+            object(
+              stepByName(agentSteps, "Generate Safe Outputs Config").env,
+              `${file} safe-output environment`,
+            ).GH_AW_SAFE_OUTPUTS_CONFIG,
+          ),
+        ),
+        `${file} safe-output config`,
+      );
+      const tool = object(
+        safeConfig["resolve-verification-inconclusive"],
+        `${file} inconclusive tool`,
+      );
+      assert.equal(tool.max, 100);
+      assert.match(String(tool.description), /exactly once/u);
+      assert.match(source, /verification-inconclusive/u);
+      assert.match(source, /matching_open_issue/u);
+      assert.match(source, /trusted_collaborator_disposition/u);
+      assert.match(source, /uncertain/u);
+    }
+  });
+
+  it("reports incomplete execution and failed repository jobs as workflow failures", () => {
+    for (const file of contentVerificationFiles) {
+      const { jobs } = loadCompiledWorkflow(file);
+      const conclusion = object(jobs.conclusion, `${file} conclusion`);
+      const steps = array(conclusion.steps, `${file} conclusion steps`);
+      const permissions = object(
+        conclusion.permissions,
+        `${file} conclusion permissions`,
+      );
+      const dependencies = array(
+        conclusion.needs,
+        `${file} conclusion dependencies`,
+      );
+
+      assert.deepEqual(permissions, { actions: "read", issues: "write" });
+      for (const dependency of [
+        "content_verification_gate",
+        "resolve_verification_inconclusive",
+        "safe_outputs",
+      ]) {
+        assert.ok(dependencies.includes(dependency));
+      }
+      assert.match(String(conclusion.if), /^always\(\)/u);
+
+      assert.equal(
+        object(
+          stepByName(steps, "Handle agent failure").env,
+          `${file} agent-failure environment`,
+        ).GH_AW_FAILURE_REPORT_AS_ISSUE,
+        "true",
+      );
+      assert.equal(
+        object(
+          stepByName(steps, "Report failed jobs").env,
+          `${file} failed-jobs environment`,
+        ).GH_AW_REPORT_FAILED_JOBS,
+        "true",
+      );
+      assert.equal(
+        object(
+          stepByName(steps, "Record incomplete").env,
+          `${file} incomplete environment`,
+        ).GH_AW_REPORT_INCOMPLETE_CREATE_ISSUE,
+        "false",
+      );
+    }
+
+    const aiReviewConclusion = object(
+      loadCompiledWorkflow("ai-review").jobs.conclusion,
+      "AI review conclusion",
+    );
+    const aiReviewSteps = array(
+      aiReviewConclusion.steps,
+      "AI review conclusion steps",
+    );
+    assert.equal(
+      object(
+        stepByName(aiReviewSteps, "Handle agent failure").env,
+        "AI review failure environment",
+      ).GH_AW_FAILURE_REPORT_AS_ISSUE,
+      "false",
+    );
+    assert.equal(
+      aiReviewSteps.some(
+        (step) =>
+          object(step, "AI review conclusion step").name ===
+          "Report failed jobs",
+      ),
+      false,
+    );
+  });
 });
 
 describe("compiled pull-request review trust boundary", () => {

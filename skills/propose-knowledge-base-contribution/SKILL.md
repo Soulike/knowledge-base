@@ -88,14 +88,21 @@ Stop after the question and wait for the user's response.
      only an outline;
    - the project-specific details removed from the reusable content; and
    - uncertainties, exclusions, or limits that the contribution must preserve.
-7. Report evidence and conclusions rather than hidden reasoning. Keep
-   project-specific evidence inside the authorized conversation; make the
-   proposed reusable content downstream-project-independent and safe to
-   publish.
-8. Make no knowledge-base edit, branch, issue, commit, push, or pull request.
-   End by asking whether the user wants to start the contribution process for
-   the selected candidates. Treat a later affirmative response as a new request
-   that must be routed independently.
+7. Separate that private authoring evidence and removal record from a clearly
+   delimited sanitized public proposal. Give the public proposal its exact
+   public title, evidence, complete reusable content and structure, possible
+   ownership and operation, limits and uncertainty, and requested maintainer
+   outcome. Report evidence and conclusions rather than hidden reasoning. Keep
+   project-specific evidence inside the authorized conversation; make every
+   part of the delimited public proposal downstream-project-independent and
+   safe to publish.
+8. Make no knowledge-base edit, branch, issue, comment, commit, push, or pull
+   request. End by asking whether the user wants to publish the selected
+   candidates as sanitized issues. Treat a later affirmative response as a new
+   publication request that must be routed independently. It authorizes only
+   mechanical issue formatting that preserves the delimited public proposal's
+   claims, disclosures, links, evidence, exclusions, and uncertainty; any
+   substantive change requires review of the exact public text.
 
 ## Completion criteria
 

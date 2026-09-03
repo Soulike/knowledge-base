@@ -62,9 +62,8 @@
     working directory when they conflict. Keep ordinary installed workflows
     inside their package boundary and free of dependencies on source-checkout
     tooling, `.agents/`, private infrastructure, or unguaranteed Skill-to-Skill
-    invocation. A contribution Skill may create an isolated checkout of the
-    canonical source and read `.agents/` there, but must not use the installed
-    plugin as its authoring target.
+    invocation. Apply the linked contribution-Skill exception directly when it
+    governs the workflow under change.
 11. Run `pnpm check`, `git diff --check`, and every additional validator or
     focused test selected by the changed artifacts. Produce the authoring
     standard's required behavioral evidence in a fresh or isolated context. The

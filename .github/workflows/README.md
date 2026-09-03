@@ -13,7 +13,7 @@ The architectural rationale is recorded in [ADR 0001](../../docs/adr/0001-use-gh
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
 | AI review                | Eligible non-draft pull requests and later pushes                                | [Source](ai-review.md), [generated](ai-review.lock.yml)                                             |
 
-Every source declares `engine.version: latest`, so gh-aw installs the current Copilot CLI at run time. The repository variable selects the model. Each task passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unsupported value before inference.
+Every source declares `engine.version: latest`, leaving Copilot CLI selection floating at run time; gh-aw may reuse a compatible cached CLI. The repository variable selects the model. Each task selects Copilot's `long_context` tier and passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unsupported effort before inference.
 
 The source Markdown is maintained by people and Agents. The generated `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed review artifacts owned by the fixed compiler.
 
@@ -21,17 +21,34 @@ The source Markdown is maintained by people and Agents. The generated `*.lock.ym
 
 All four tasks import [the shared runtime](shared/agentic-runtime.md). It provides:
 
-- a read-only GitHub proxy;
+- all GitHub read toolsets with read-only server credentials;
+- the pinned local GitHub MCP server for pull-request threads, Actions runs,
+  checks, artifacts, logs, and other GitHub reads;
+- unrestricted Bash commands inside the Agent sandbox;
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
-- Node.js 24;
+- the latest LTS Node.js release;
+- repository dependencies installed from the trusted checkout before inference,
+  with a lockfile-keyed pnpm store cache;
+- the knowledge-base plugin from the checked-out repository revision;
 - floating `codebase-design`, `tdd`, and `writing-for-agents` review-reference Skills;
 - required reasoning-effort validation; and
 - fail-closed threat detection before safe-output publication.
 
+The shared source disables gh-aw per-run, threat-detection, and daily AI Credits
+guardrails with `-1`. This removes the runtime dependency on gh-aw model-pricing
+tables; it does not disable Copilot provider billing or token reporting.
+
 The Agent does not receive the credential used for issue or review publication. It requests an allowed effect through safe-output tools. A separate job with only the required write permission validates and applies that request. Repository-owned gates then enforce task-specific subject, shape, verdict, or completion policy.
 
-Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and explicitly installed review material are trusted guidance. The runtime boundary does not merge the four task contracts.
+Unrestricted Bash applies only inside the disposable Agent sandbox. The runtime
+excludes the Copilot, GitHub MCP, and Tavily environment credentials from that
+container and fails before inference unless temporary Git credentials have been
+removed from every checkout. Authenticated GitHub reads remain behind the
+read-only MCP server, and GitHub publication remains behind safe outputs and
+repository-owned gates.
+
+Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the four task contracts.
 
 ## Scheduled content verification
 
@@ -61,7 +78,7 @@ When the gate succeeds, gh-aw publishes the validated issue requests directly. F
 
 The AI reviewer uses `pull_request_target` and runs its Agent only for pull requests authored by an `OWNER`, `MEMBER`, or `COLLABORATOR`. It checks out the exact event base with credentials removed. A trusted pre-Agent step fetches `refs/pull/<number>/head` into `FETCH_HEAD`, verifies the event head SHA, and never checks out, installs, or executes the proposed tree.
 
-The Agent reads the exact diff and surrounding files with allowlisted Git commands. It reads complete pull-request, review, comment, reply, and thread state through read-only GitHub tools, including paginated GraphQL `reviewThreads`. The trusted base checkout installs the current knowledge-base plugin, while the external review-reference Skills remain floating.
+The Agent reads the exact diff and surrounding files with allowlisted Git commands. It reads complete pull-request, review, comment, reply, and thread state through read-only GitHub tools, including paginated GraphQL `reviewThreads`. The shared runtime installs the current trusted-base knowledge-base plugin, while the external review-reference Skills remain floating.
 
 Safe outputs buffer one atomic `COMMENT` review pinned to the expected head:
 

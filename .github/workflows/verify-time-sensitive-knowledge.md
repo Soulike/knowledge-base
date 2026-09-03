@@ -11,6 +11,8 @@ engine:
   version: latest
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
+    - --context
+    - long_context
     - --reasoning-effort
     - ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
 
@@ -20,9 +22,8 @@ imports:
       reasoning_effort: ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
 
 permissions:
-  contents: read
+  all: read
   copilot-requests: write
-  issues: read
 
 concurrency:
   group: content-verification-time-sensitive-knowledge
@@ -47,7 +48,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "lts/*"
 
       - name: Download Agent output and target manifest
         uses: actions/download-artifact@v8
@@ -74,6 +75,8 @@ pre-agent-steps:
     uses: pnpm/action-setup@v6
     with:
       version: latest
+      cache: true
+      cache_dependency_path: pnpm-lock.yaml
 
   - name: Install repository dependencies
     run: pnpm install --frozen-lockfile --ignore-scripts

@@ -35,6 +35,19 @@ function requireOneFile(paths: string[], basename: string): string {
   return path;
 }
 
+function requireFiles(
+  paths: string[],
+  basename: string,
+): { additional: string[]; first: string } {
+  const [first, ...additional] = paths;
+  if (first === undefined) {
+    throw new Error(
+      `Content verification artifacts: expected at least one ${basename}, found 0.`,
+    );
+  }
+  return { additional, first };
+}
+
 export async function readContentVerificationArtifacts(
   directory: string,
 ): Promise<ContentVerificationArtifacts> {
@@ -47,27 +60,20 @@ export async function readContentVerificationArtifacts(
     manifestPaths,
     "content-verification-targets.json",
   );
-  if (outputPaths.length === 0) {
-    throw new Error(
-      "Content verification artifacts: expected at least one agent_output.json, found 0.",
-    );
-  }
-  const [manifestContent, outputContents] = await Promise.all([
-    readFile(manifestPath, "utf8"),
-    Promise.all(outputPaths.map((path) => readFile(path, "utf8"))),
-  ]);
+  const outputFiles = requireFiles(outputPaths, "agent_output.json");
+  const [manifestContent, firstOutputContent, additionalOutputContents] =
+    await Promise.all([
+      readFile(manifestPath, "utf8"),
+      readFile(outputFiles.first, "utf8"),
+      Promise.all(outputFiles.additional.map((path) => readFile(path, "utf8"))),
+    ]);
+  const outputContents = [firstOutputContent, ...additionalOutputContents];
   if (new Set(outputContents).size !== 1) {
     throw new Error(
       `Content verification artifacts: ${String(outputPaths.length)} agent_output.json copies disagree.`,
     );
   }
-  const outputContent = outputContents[0];
-  if (outputContent === undefined) {
-    throw new Error(
-      "Content verification artifacts: agent_output.json content was lost after discovery.",
-    );
-  }
   const manifestValue = JSON.parse(manifestContent) as unknown;
-  const outputValue = JSON.parse(outputContent) as unknown;
+  const outputValue = JSON.parse(firstOutputContent) as unknown;
   return { manifestValue, outputValue };
 }

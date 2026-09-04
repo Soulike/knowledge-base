@@ -445,7 +445,30 @@ describe("compiled content-verification publication boundary", () => {
       assert.match(source, /History phase/u);
       assert.match(source, /empty event stream/u);
       assert.match(source, /finish without[\s\S]+`noop`/u);
-      assert.match(source, /"report_incomplete": \{\s+"defaultMax"/u);
+      const validationConfig = object(
+        JSON.parse(
+          String(
+            object(
+              stepByName(agentSteps, "Generate Safe Outputs Tools").env,
+              `${file} safe-output tools environment`,
+            ).GH_AW_VALIDATION_JSON,
+          ),
+        ),
+        `${file} safe-output validation config`,
+      );
+      const reportIncomplete = object(
+        validationConfig.report_incomplete,
+        `${file} report-incomplete validation`,
+      );
+      assert.equal(reportIncomplete.defaultMax, 5);
+      assert.equal(
+        object(
+          object(reportIncomplete.fields, `${file} report-incomplete fields`)
+            .reason,
+          `${file} report-incomplete reason`,
+        ).required,
+        true,
+      );
     }
   });
 

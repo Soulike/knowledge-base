@@ -134,6 +134,26 @@ describe("publishVerificationFindings", () => {
     ]);
   });
 
+  it("cannot reconstruct an HTML comment delimiter from Agent finding text", async () => {
+    const repository = new FakeIssueRepository();
+    await publishVerificationFindings(
+      manifest,
+      [
+        {
+          ...findings[0]!,
+          finding: "Untrusted prefix --><!----> must remain quoted text.",
+        },
+      ],
+      context,
+      repository,
+    );
+
+    const body = repository.created[0]?.body ?? "";
+    assert.doesNotMatch(body, /--><!---->/u);
+    assert.match(body, /--&gt;&lt;!----&gt;/u);
+    assert.equal(body.match(/<!-- content-verification-finding:/gu)?.length, 1);
+  });
+
   it("suppresses only an exact open issue that appears at the write boundary", async () => {
     const repository = new FakeIssueRepository();
     const first = await publishVerificationFindings(

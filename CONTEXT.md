@@ -18,9 +18,9 @@ different task contracts even when they use the same Agentic workflow runtime.
 
 ### Safe output
 
-A requested side effect that an Agent declares without holding the credential
-that can perform it. A separate trusted boundary validates and applies the
-request with only the permissions required for that operation.
+A typed result or requested side effect that an Agent declares without holding
+the credential that can publish it. A separate trusted boundary validates the
+result and applies any authorized operation with only the required permissions.
 
 ### Publication gate
 
@@ -52,10 +52,9 @@ verification subject instead of creating a historical disposition.
 
 A successful content-verification result in which the Agent completed the
 required analysis but the available evidence cannot confirm or invalidate a
-finding, and no applicable historical disposition resolves it. It creates or
-reuses a human confirmation issue without making the workflow fail. It is
-distinct from incomplete execution, where the Agent could not perform the
-required analysis.
+finding. When it remains after issue-history comparison, it creates a
+human-owned issue without making the workflow fail. It is distinct from
+incomplete execution, where the Agent could not perform the required analysis.
 
 ### Verification target
 

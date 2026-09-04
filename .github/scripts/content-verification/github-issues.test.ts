@@ -23,43 +23,61 @@ function jsonResponse(value: unknown): Response {
 describe("GitHubIssueRepository", () => {
   it("rejects malformed external issue data before constructing a domain issue", async () => {
     const github = repository(async () =>
-      jsonResponse({
+      jsonResponse([
+        {
+          body: "body",
+          labels: null,
+          number: 42,
+          state: "open",
+          title: "title",
+          user: { login: "github-actions[bot]" },
+        },
+      ]),
+    );
+
+    await assert.rejects(
+      () => github.listOpenIssues(["automated-verification"]),
+      /GitHub issue adapter: issue labels must be an array/u,
+    );
+  });
+
+  it("creates a finding issue through the repository boundary", async () => {
+    let request: RequestInit | undefined;
+    const github = repository(async (_input, init) => {
+      request = init;
+      return jsonResponse({
         body: "body",
-        html_url: "https://github.com/Soulike/knowledge-base/issues/42",
-        labels: null,
+        labels: ["automated-verification", "modification-required"],
         number: 42,
         state: "open",
         title: "title",
         user: { login: "github-actions[bot]" },
+      });
+    });
+
+    assert.deepEqual(
+      await github.createIssue({
+        assignees: ["Soulike"],
+        body: "body",
+        labels: ["automated-verification", "modification-required"],
+        title: "title",
       }),
+      {
+        authorLogin: "github-actions[bot]",
+        body: "body",
+        labels: ["automated-verification", "modification-required"],
+        number: "42",
+        pullRequest: false,
+        state: "open",
+        title: "title",
+      },
     );
-
-    await assert.rejects(
-      () => github.getIssue("42"),
-      /GitHub confirmation issue adapter: issue labels must be an array/u,
-    );
-  });
-
-  it("authenticates a comment's repository issue relationship from validated data", async () => {
-    const github = repository(async () =>
-      jsonResponse({
-        author_association: "OWNER",
-        body: "No change is needed; verify after the next model update.",
-        html_url:
-          "https://github.com/Soulike/knowledge-base/issues/42#issuecomment-9001",
-        id: 9001,
-        issue_url:
-          "https://api.github.test/repos/Soulike/knowledge-base/issues/42",
-      }),
-    );
-
-    assert.deepEqual(await github.getComment("9001"), {
-      authorAssociation: "OWNER",
-      body: "No change is needed; verify after the next model update.",
-      htmlUrl:
-        "https://github.com/Soulike/knowledge-base/issues/42#issuecomment-9001",
-      id: "9001",
-      issueNumber: "42",
+    assert.equal(request?.method, "POST");
+    assert.deepEqual(JSON.parse(String(request?.body)), {
+      assignees: ["Soulike"],
+      body: "body",
+      labels: ["automated-verification", "modification-required"],
+      title: "title",
     });
   });
 });

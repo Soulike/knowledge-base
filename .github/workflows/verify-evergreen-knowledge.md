@@ -20,7 +20,7 @@ imports:
   - uses: shared/agentic-runtime.md
     with:
       reasoning_effort: ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
-  - uses: shared/content-verification-findings.md
+  - uses: shared/content-verification.md
     with:
       scope: evergreen-knowledge
 
@@ -29,92 +29,17 @@ permissions:
   copilot-requests: write
 
 safe-outputs:
-  report-failure-as-issue: true
-  report-failed-jobs: true
   noop: false
-  jobs:
-    add-finding:
-      description: Add one current content-verification finding during the review phase, before issue-history search begins.
-      max: 100
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-      inputs:
-        finding_id:
-          description: Choose a concise identifier for this finding within this run. Reuse exactly this ID in any later update_finding or delete_finding call.
-          required: true
-          type: string
-        target_id:
-          description: Primary target id from the manifest reviewTargetIds subset.
-          required: true
-          type: string
-        classification:
-          description: Whether current evidence establishes a required modification or leaves verification inconclusive.
-          required: true
-          type: choice
-          options: [modification-required, verification-inconclusive]
-        finding:
-          description: Free-form Markdown describing one coherent finding and the evidence or reasoning needed to act on it.
-          required: true
-          type: string
-        related_target_ids:
-          description: Optional comma-separated target ids from the manifest catalog affected by the same coherent remediation. Do not pass JSON.
-          required: false
-          type: string
-      steps:
-        - name: Record add-finding events
-          run: ":"
-    update-finding:
-      description: Fully replace one active finding added earlier in this run.
-      max: 100
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-      inputs:
-        finding_id:
-          description: Exact run-local identifier chosen in the earlier add_finding call.
-          required: true
-          type: string
-        target_id:
-          description: Complete replacement primary target id from the manifest reviewTargetIds subset.
-          required: true
-          type: string
-        classification:
-          description: Complete replacement classification for the finding.
-          required: true
-          type: choice
-          options: [modification-required, verification-inconclusive]
-        finding:
-          description: Complete replacement free-form Markdown for the finding.
-          required: true
-          type: string
-        related_target_ids:
-          description: Complete replacement comma-separated related target ids from the manifest catalog. Omit when none; do not pass JSON.
-          required: false
-          type: string
-      steps:
-        - name: Record update-finding events
-          run: ":"
+  scripts:
     delete-finding:
       description: Delete one active finding after review or issue history shows that it should not be published.
-      max: 100
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
       inputs:
         finding_id:
           description: Exact run-local identifier chosen in the earlier add_finding call.
           required: true
           type: string
-      steps:
-        - name: Record delete-finding events
-          run: ":"
-  missing-tool:
-    create-issue: false
-  missing-data:
-    create-issue: false
-  report-incomplete:
-    create-issue: false
+      script: |
+        return { accepted: true, finding_id: item.finding_id };
 
 concurrency:
   group: content-verification-evergreen-knowledge

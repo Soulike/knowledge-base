@@ -241,12 +241,6 @@ const contentVerificationFiles = [
   "verify-maintained-agent-content",
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
-const legacyContentVerificationFiles = [] as const;
-const findingsContentVerificationFiles = [
-  "verify-time-sensitive-knowledge",
-  "verify-evergreen-knowledge",
-  "verify-maintained-agent-content",
-] as const;
 
 describe("compiled Agent runtime boundaries", () => {
   it("preserves the shared runtime contract in every Agent workflow", () => {
@@ -295,15 +289,22 @@ describe("compiled content-verification publication boundary", () => {
     }
   });
 
-  it("gates every issue-writing job on the authenticated Agent result", () => {
-    for (const file of legacyContentVerificationFiles) {
-      const { agentSteps, jobs } = loadCompiledWorkflow(file);
+  it("publishes findings only after canonical validation and threat detection", () => {
+    for (const file of contentVerificationFiles) {
+      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
       const gate = object(
         jobs.content_verification_gate,
-        `${file} content verification gate`,
+        `${file} findings gate`,
       );
-      const gateSteps = array(gate.steps, `${file} gate steps`);
-      const safeOutputs = object(jobs.safe_outputs, `${file} safe outputs`);
+      const gateSteps = array(gate.steps, `${file} findings gate steps`);
+      const publisher = object(
+        jobs.content_verification_publish,
+        `${file} findings publisher`,
+      );
+      const publisherSteps = array(
+        publisher.steps,
+        `${file} findings publisher steps`,
+      );
 
       const manifestStep = stepByName(
         agentSteps,
@@ -319,7 +320,6 @@ describe("compiled content-verification publication boundary", () => {
       );
       const uploadInputs = object(uploadStep.with, `${file} upload inputs`);
       assert.equal(uploadInputs.path, manifestPath);
-
       assert.ok(
         stepIndex(agentSteps, "Generate content verification target manifest") <
           stepIndex(agentSteps, "Execute GitHub Copilot CLI"),
@@ -341,122 +341,11 @@ describe("compiled content-verification publication boundary", () => {
       );
       assert.equal(
         object(
-          stepByName(gateSteps, "Enforce content verification result").env,
+          stepByName(gateSteps, "Enforce content verification findings").env,
           `${file} gate environment`,
         ).CONTENT_VERIFICATION_ARTIFACT_DIRECTORY,
         downloadInputs.path,
       );
-      assert.match(
-        String(
-          stepByName(gateSteps, "Enforce content verification result").run,
-        ),
-        /agentic-gate-cli\.ts/u,
-      );
-
-      assert.deepEqual(safeOutputs.permissions, { issues: "write" });
-      assert.ok(
-        array(safeOutputs.needs, `${file} safe-output dependencies`).includes(
-          "content_verification_gate",
-        ),
-      );
-      assert.match(
-        String(safeOutputs.if),
-        /needs\.content_verification_gate\.result == 'success'/u,
-      );
-    }
-  });
-
-  it("publishes inconclusive decisions through one authenticated custom job", () => {
-    for (const file of legacyContentVerificationFiles) {
-      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
-      const publisher = object(
-        jobs.resolve_verification_inconclusive,
-        `${file} inconclusive publisher`,
-      );
-      const steps = array(publisher.steps, `${file} inconclusive steps`);
-      const permissions = object(
-        publisher.permissions,
-        `${file} inconclusive permissions`,
-      );
-
-      assert.deepEqual(permissions, { contents: "read", issues: "write" });
-      assert.ok(
-        array(publisher.needs, `${file} inconclusive dependencies`).includes(
-          "agent",
-        ),
-      );
-      assert.match(String(publisher.if), /resolve_verification_inconclusive/u);
-      assert.match(
-        String(publisher.if),
-        /needs\.detection\.result == 'success'/u,
-      );
-      assert.match(
-        String(
-          stepByName(steps, "Apply inconclusive verification decisions").run,
-        ),
-        /inconclusive-resolution-cli\.ts/u,
-      );
-      const publisherEnvironment = object(
-        stepByName(steps, "Apply inconclusive verification decisions").env,
-        `${file} inconclusive environment`,
-      );
-      assert.equal(
-        publisherEnvironment.CONTENT_VERIFICATION_AGENT_RESULT,
-        "${{ needs.agent.result }}",
-      );
-      assert.equal(
-        publisherEnvironment.CONTENT_VERIFICATION_EXPECTED_REVISION,
-        "${{ github.sha }}",
-      );
-      assert.match(
-        String(publisherEnvironment.CONTENT_VERIFICATION_TARGET_MANIFEST),
-        /content-verification-targets\.json/u,
-      );
-
-      const safeConfig = object(
-        JSON.parse(
-          String(
-            object(
-              stepByName(agentSteps, "Generate Safe Outputs Config").env,
-              `${file} safe-output environment`,
-            ).GH_AW_SAFE_OUTPUTS_CONFIG,
-          ),
-        ),
-        `${file} safe-output config`,
-      );
-      const tool = object(
-        safeConfig["resolve-verification-inconclusive"],
-        `${file} inconclusive tool`,
-      );
-      assert.equal(tool.max, 100);
-      assert.match(String(tool.description), /exactly once/u);
-      assert.match(source, /verification-inconclusive/u);
-      assert.match(source, /matching_open_issue/u);
-      assert.match(source, /trusted_collaborator_disposition/u);
-      assert.match(source, /uncertain/u);
-    }
-  });
-
-  it("publishes migrated findings only after canonical validation and threat detection", () => {
-    for (const file of findingsContentVerificationFiles) {
-      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
-      const gate = object(
-        jobs.content_verification_gate,
-        `${file} findings gate`,
-      );
-      const gateSteps = array(gate.steps, `${file} findings gate steps`);
-      const publisher = object(
-        jobs.content_verification_publish,
-        `${file} findings publisher`,
-      );
-      const publisherSteps = array(
-        publisher.steps,
-        `${file} findings publisher steps`,
-      );
-
-      assert.equal(gate.if, "always()");
-      assert.equal(gate.needs, "agent");
-      assert.deepEqual(gate.permissions, { contents: "read" });
       assert.match(
         String(
           stepByName(gateSteps, "Enforce content verification findings").run,
@@ -519,7 +408,7 @@ describe("compiled content-verification publication boundary", () => {
         `${file} update-finding tool`,
       );
       const deleteFinding = object(
-        safeConfig["delete-finding"],
+        safeConfig.delete_finding,
         `${file} delete-finding tool`,
       );
       const addInputs = object(addFinding.inputs, `${file} add-finding inputs`);
@@ -548,6 +437,7 @@ describe("compiled content-verification publication boundary", () => {
       assert.match(source, /Review phase/u);
       assert.match(source, /History phase/u);
       assert.match(source, /empty event stream/u);
+      assert.match(source, /finish without[\s\S]+`noop`/u);
     }
   });
 
@@ -565,28 +455,12 @@ describe("compiled content-verification publication boundary", () => {
         `${file} conclusion dependencies`,
       );
 
-      assert.deepEqual(permissions, {
-        actions: findingsContentVerificationFiles.includes(
-          file as (typeof findingsContentVerificationFiles)[number],
-        )
-          ? "write"
-          : "read",
-        issues: "write",
-      });
-      const expectedDependencies = findingsContentVerificationFiles.includes(
-        file as (typeof findingsContentVerificationFiles)[number],
-      )
-        ? [
-            "content_verification_gate",
-            "content_verification_publish",
-            "safe_outputs",
-          ]
-        : [
-            "content_verification_gate",
-            "resolve_verification_inconclusive",
-            "safe_outputs",
-          ];
-      for (const dependency of expectedDependencies) {
+      assert.deepEqual(permissions, { actions: "write", issues: "write" });
+      for (const dependency of [
+        "content_verification_gate",
+        "content_verification_publish",
+        "safe_outputs",
+      ]) {
         assert.ok(dependencies.includes(dependency));
       }
       assert.match(String(conclusion.if), /^always\(\)/u);

@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Superseded by [ADR 0003](0003-use-mutable-finding-events-for-content-verification.md)
 
 ## Context
 

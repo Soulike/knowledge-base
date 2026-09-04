@@ -59,6 +59,6 @@ superseded without rewriting its historical context.
   remain deterministic.
 - A malformed event or incomplete run fails the workflow and publishes no
   partial result; published findings are successful content outcomes.
-- The migration temporarily carries two contracts, but the delivery is not
-  complete until the legacy validator, publisher, safe outputs, tests, and
-  documentation are removed.
+- The one-pull-request migration temporarily carried two contracts. Final
+  cleanup removed the legacy validator, publisher, safe outputs, tests, and
+  current-behavior documentation before delivery.

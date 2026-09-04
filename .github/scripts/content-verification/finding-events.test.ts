@@ -127,6 +127,7 @@ describe("reduceFindingEvents", () => {
     for (const candidate of [
       { errors: ["invalid item"], items: [] },
       output([{ type: "report_incomplete", reason: "Source unavailable." }]),
+      output([{ type: "noop", message: "No findings." }]),
       output([{ ...add(), unsupported: true }]),
       { errors: [], items: "not-an-array" },
     ]) {

@@ -1,8 +1,8 @@
-import { parseVerificationManifest } from "./agentic-gate.ts";
 import { readContentVerificationArtifacts } from "./artifacts.ts";
 import { reduceFindingEvents } from "./finding-events.ts";
 import { publishVerificationFindings } from "./finding-publication.ts";
 import { GitHubIssueRepository } from "./github-issues.ts";
+import { parseVerificationManifest } from "./manifest-validation.ts";
 import { parseVerificationScope } from "./scope.ts";
 
 function required(name: string): string {

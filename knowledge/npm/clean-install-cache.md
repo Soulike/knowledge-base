@@ -18,7 +18,7 @@ applicability condition, or efficiency proof.
 ## Verify the current behavior
 
 The mappings in this document were verified against
-[npm CLI 11.19.1](https://github.com/npm/cli/tree/v11.19.1) and
+[npm CLI 12.0.2](https://github.com/npm/cli/tree/v12.0.2) and
 [`actions/setup-node` at commit `94196ee`](https://github.com/actions/setup-node/tree/94196ee1d15439c1b6651cd87ef14e88ec435966).
 Before changing an installation that uses another version, verify its current
 clean-install, cache, network-fallback, integrity, audit, and configuration
@@ -62,7 +62,7 @@ or unusable entry is intended.
 
 Cache preference does not disable integrity verification. With
 `--prefer-offline`, missing package data can still be fetched, and enabled
-install-time audit behavior can make its own requests. In npm CLI 11.19.1,
+install-time audit behavior can make its own requests. In npm CLI 12.0.2,
 strict `--offline` instead suppresses the install-time audit report even when
 audit is enabled. A project that requires that security gate must retain an
 online install mode or run a separate online audit step.
@@ -143,10 +143,10 @@ condition is false or cannot be established.
 
 ## References
 
-- [npm cache documentation](https://github.com/npm/cli/blob/v11.19.1/docs/lib/content/commands/npm-cache.md)
-- [npm ci documentation](https://github.com/npm/cli/blob/v11.19.1/docs/lib/content/commands/npm-ci.md)
-- [npm cache-preference definitions](https://github.com/npm/cli/blob/v11.19.1/workspaces/config/lib/definitions/definitions.js)
-- [npm registry-fetch cache-mode mapping](https://github.com/npm/cli/blob/v11.19.1/node_modules/npm-registry-fetch/lib/index.js)
-- [npm offline audit behavior](https://github.com/npm/cli/blob/v11.19.1/workspaces/arborist/lib/audit-report.js)
+- [npm cache documentation](https://github.com/npm/cli/blob/v12.0.2/docs/lib/content/commands/npm-cache.md)
+- [npm ci documentation](https://github.com/npm/cli/blob/v12.0.2/docs/lib/content/commands/npm-ci.md)
+- [npm cache-preference definitions](https://github.com/npm/cli/blob/v12.0.2/workspaces/config/lib/definitions/definitions.js)
+- [npm registry-fetch cache-mode mapping](https://github.com/npm/cli/blob/v12.0.2/node_modules/npm-registry-fetch/lib/index.js)
+- [npm offline audit behavior](https://github.com/npm/cli/blob/v12.0.2/workspaces/arborist/lib/audit-report.js)
 - [`actions/setup-node` cache documentation](https://github.com/actions/setup-node/blob/94196ee1d15439c1b6651cd87ef14e88ec435966/README.md)
 - [`actions/setup-node` npm cache implementation](https://github.com/actions/setup-node/blob/94196ee1d15439c1b6651cd87ef14e88ec435966/src/cache-utils.ts)

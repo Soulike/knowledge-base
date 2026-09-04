@@ -8,77 +8,81 @@ import-schema:
       - time-sensitive-knowledge
     required: true
 
-safe-outputs:
-  report-failure-as-issue: true
-  report-failed-jobs: true
-  scripts:
-    add-finding:
-      description: Add one current content-verification finding during the review phase, before issue-history search begins.
-      inputs:
-        finding_id:
-          description: Choose a concise identifier for this finding within this run. Reuse exactly this ID in any later update_finding or delete_finding call.
-          required: true
-          type: string
-        target_id:
-          description: Primary target id from the manifest reviewTargetIds subset.
-          required: true
-          type: string
-        classification:
-          description: Whether current evidence establishes a required modification or leaves verification inconclusive.
-          required: true
-          type: choice
-          options: [modification-required, verification-inconclusive]
-        finding:
-          description: Free-form Markdown describing one coherent finding and the evidence or reasoning needed to act on it.
-          required: true
-          type: string
-        related_target_ids:
-          description: Optional comma-separated target ids from the manifest catalog affected by the same coherent remediation. Do not pass JSON.
-          required: false
-          type: string
-      script: |
-        return { accepted: true, finding_id: item.finding_id };
-    update-finding:
-      description: Fully replace one active finding added earlier in this run.
-      inputs:
-        finding_id:
-          description: Exact run-local identifier chosen in the earlier add_finding call.
-          required: true
-          type: string
-        target_id:
-          description: Complete replacement primary target id from the manifest reviewTargetIds subset.
-          required: true
-          type: string
-        classification:
-          description: Complete replacement classification for the finding.
-          required: true
-          type: choice
-          options: [modification-required, verification-inconclusive]
-        finding:
-          description: Complete replacement free-form Markdown for the finding.
-          required: true
-          type: string
-        related_target_ids:
-          description: Complete replacement comma-separated related target ids from the manifest catalog. Omit when none; do not pass JSON.
-          required: false
-          type: string
-      script: |
-        return { accepted: true, finding_id: item.finding_id };
-    delete-finding:
-      description: Delete one active finding after review or issue history shows that it should not be published.
-      inputs:
-        finding_id:
-          description: Exact run-local identifier chosen in the earlier add_finding call.
-          required: true
-          type: string
-      script: |
-        return { accepted: true, finding_id: item.finding_id };
-  missing-tool:
-    create-issue: false
-  missing-data:
-    create-issue: false
-  report-incomplete:
-    create-issue: false
+jobs:
+  content_verification_gate:
+    name: Content verification gate
+    needs:
+      - agent
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the verified revision
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+
+      - name: Download Agent output and target manifest
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+          path: ${{ runner.temp }}/content-verification-gate
+          pattern: "{agent,agent-output-fallback,content-verification-target-manifest}"
+
+      - name: Enforce content verification findings
+        env:
+          CONTENT_VERIFICATION_AGENT_RESULT: ${{ needs.agent.result }}
+          CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-gate
+          CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
+          CONTENT_VERIFICATION_SCOPE: ${{ github.aw.import-inputs.scope }}
+        run: node .github/scripts/content-verification/findings-gate-cli.ts
+
+  content_verification_publish:
+    name: Publish content verification findings
+    needs:
+      - agent
+      - content_verification_gate
+      - detection
+    if: needs.agent.result == 'success' && needs.content_verification_gate.result == 'success' && needs.detection.result == 'success'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Check out the verified revision
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "lts/*"
+
+      - name: Download Agent output and target manifest
+        uses: actions/download-artifact@v8
+        with:
+          merge-multiple: true
+          path: ${{ runner.temp }}/content-verification-publish
+          pattern: "{agent,agent-output-fallback,content-verification-target-manifest}"
+
+      - name: Publish content verification findings
+        env:
+          CONTENT_VERIFICATION_AGENT_RESULT: ${{ needs.agent.result }}
+          CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-publish
+          CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
+          CONTENT_VERIFICATION_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          CONTENT_VERIFICATION_SCOPE: ${{ github.aw.import-inputs.scope }}
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node .github/scripts/content-verification/findings-publication-cli.ts
 ---
 
 ## Shared content-verification findings contract
@@ -134,6 +138,7 @@ unchanged when no history affects it.
 The remaining active findings are the complete publication result. They are
 validated and converted into issues by trusted code after the Agent finishes;
 the Agent never receives issue-write credentials. An empty event stream or a
-final set emptied by deletions is a successful no-action result. Because only
-findings are represented, this transport does not mechanically prove a current
-entry for every target.
+final set emptied by deletions is a successful no-action result: finish without
+calling a terminal tool, including `noop`. Because only findings are
+represented, this transport does not mechanically prove a current entry for
+every target.

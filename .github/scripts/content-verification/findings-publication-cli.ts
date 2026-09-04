@@ -1,15 +1,15 @@
-import { readFile } from "node:fs/promises";
-
 import { parseVerificationManifest } from "./agentic-gate.ts";
+import { readContentVerificationArtifacts } from "./artifacts.ts";
+import { reduceFindingEvents } from "./finding-events.ts";
+import { publishVerificationFindings } from "./finding-publication.ts";
 import { GitHubIssueRepository } from "./github-issues.ts";
-import { applyVerificationInconclusiveDecisions } from "./inconclusive-resolution.ts";
 import { parseVerificationScope } from "./scope.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();
   if (!value) {
     throw new Error(
-      `Inconclusive verification publisher: ${name} is required.`,
+      `Content verification findings publisher: ${name} is required.`,
     );
   }
   return value;
@@ -17,7 +17,7 @@ function required(name: string): string {
 
 if (required("CONTENT_VERIFICATION_AGENT_RESULT") !== "success") {
   throw new Error(
-    "Inconclusive verification publisher: Agent job did not succeed.",
+    "Content verification findings publisher: Agent job did not succeed.",
   );
 }
 
@@ -25,17 +25,15 @@ const expectedRevision = required("CONTENT_VERIFICATION_EXPECTED_REVISION");
 const expectedScope = parseVerificationScope(
   required("CONTENT_VERIFICATION_SCOPE"),
 );
-const manifestValue = JSON.parse(
-  await readFile(required("CONTENT_VERIFICATION_TARGET_MANIFEST"), "utf8"),
-) as unknown;
-const outputValue = JSON.parse(
-  await readFile(required("GH_AW_AGENT_OUTPUT"), "utf8"),
-) as unknown;
+const { manifestValue, outputValue } = await readContentVerificationArtifacts(
+  required("CONTENT_VERIFICATION_ARTIFACT_DIRECTORY"),
+);
 const manifest = parseVerificationManifest(
   manifestValue,
   expectedRevision,
   expectedScope,
 );
+const findings = reduceFindingEvents(manifest, outputValue);
 const repositoryParts = required("GITHUB_REPOSITORY").split("/");
 if (
   repositoryParts.length !== 2 ||
@@ -43,7 +41,7 @@ if (
   !repositoryParts[1]
 ) {
   throw new Error(
-    "Inconclusive verification publisher: GITHUB_REPOSITORY must be owner/repo.",
+    "Content verification findings publisher: GITHUB_REPOSITORY must be owner/repo.",
   );
 }
 const [owner, repo] = repositoryParts;
@@ -53,18 +51,12 @@ const repository = new GitHubIssueRepository({
   repo,
   token: required("GITHUB_TOKEN"),
 });
-const result = await applyVerificationInconclusiveDecisions(
+const result = await publishVerificationFindings(
   manifest,
-  outputValue,
-  {
-    owner,
-    repo,
-    runUrl: required("CONTENT_VERIFICATION_RUN_URL"),
-    staged: process.env.GH_AW_SAFE_OUTPUTS_STAGED === "true",
-  },
+  findings,
+  { runUrl: required("CONTENT_VERIFICATION_RUN_URL") },
   repository,
 );
-
 process.stdout.write(
-  `Inconclusive verification decisions applied: ${String(result.created.length)} created, ${String(result.suppressed.length)} not created.\n`,
+  `Content verification findings published: ${String(result.created.length)} created, ${String(result.suppressed.length)} exact duplicate(s) suppressed.\n`,
 );

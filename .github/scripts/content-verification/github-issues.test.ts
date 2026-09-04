@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { GitHubConfirmationIssueRepository } from "./github-confirmation-issues.ts";
+import { GitHubIssueRepository } from "./github-issues.ts";
 
 function repository(fetchImplementation: typeof fetch) {
-  return new GitHubConfirmationIssueRepository({
+  return new GitHubIssueRepository({
     apiUrl: "https://api.github.test",
     fetch: fetchImplementation,
     owner: "Soulike",
@@ -20,7 +20,7 @@ function jsonResponse(value: unknown): Response {
   });
 }
 
-describe("GitHubConfirmationIssueRepository", () => {
+describe("GitHubIssueRepository", () => {
   it("rejects malformed external issue data before constructing a domain issue", async () => {
     const github = repository(async () =>
       jsonResponse({

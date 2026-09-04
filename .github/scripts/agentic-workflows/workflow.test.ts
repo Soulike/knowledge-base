@@ -241,6 +241,13 @@ const contentVerificationFiles = [
   "verify-maintained-agent-content",
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
+const legacyContentVerificationFiles = [
+  "verify-time-sensitive-knowledge",
+  "verify-evergreen-knowledge",
+] as const;
+const findingsContentVerificationFiles = [
+  "verify-maintained-agent-content",
+] as const;
 
 describe("compiled Agent runtime boundaries", () => {
   it("preserves the shared runtime contract in every Agent workflow", () => {
@@ -290,7 +297,7 @@ describe("compiled content-verification publication boundary", () => {
   });
 
   it("gates every issue-writing job on the authenticated Agent result", () => {
-    for (const file of contentVerificationFiles) {
+    for (const file of legacyContentVerificationFiles) {
       const { agentSteps, jobs } = loadCompiledWorkflow(file);
       const gate = object(
         jobs.content_verification_gate,
@@ -361,7 +368,7 @@ describe("compiled content-verification publication boundary", () => {
   });
 
   it("publishes inconclusive decisions through one authenticated custom job", () => {
-    for (const file of contentVerificationFiles) {
+    for (const file of legacyContentVerificationFiles) {
       const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
       const publisher = object(
         jobs.resolve_verification_inconclusive,
@@ -431,6 +438,120 @@ describe("compiled content-verification publication boundary", () => {
     }
   });
 
+  it("publishes migrated findings only after canonical validation and threat detection", () => {
+    for (const file of findingsContentVerificationFiles) {
+      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
+      const gate = object(
+        jobs.content_verification_gate,
+        `${file} findings gate`,
+      );
+      const gateSteps = array(gate.steps, `${file} findings gate steps`);
+      const publisher = object(
+        jobs.content_verification_publish,
+        `${file} findings publisher`,
+      );
+      const publisherSteps = array(
+        publisher.steps,
+        `${file} findings publisher steps`,
+      );
+
+      assert.equal(gate.if, "always()");
+      assert.equal(gate.needs, "agent");
+      assert.deepEqual(gate.permissions, { contents: "read" });
+      assert.match(
+        String(
+          stepByName(gateSteps, "Enforce content verification findings").run,
+        ),
+        /findings-gate-cli\.ts/u,
+      );
+
+      assert.deepEqual(publisher.permissions, {
+        contents: "read",
+        issues: "write",
+      });
+      for (const dependency of [
+        "agent",
+        "content_verification_gate",
+        "detection",
+      ]) {
+        assert.ok(
+          array(
+            publisher.needs,
+            `${file} findings publisher dependencies`,
+          ).includes(dependency),
+        );
+      }
+      assert.match(String(publisher.if), /needs\.agent\.result == 'success'/u);
+      assert.match(
+        String(publisher.if),
+        /needs\.content_verification_gate\.result == 'success'/u,
+      );
+      assert.match(
+        String(publisher.if),
+        /needs\.detection\.result == 'success'/u,
+      );
+      assert.match(
+        String(
+          stepByName(publisherSteps, "Publish content verification findings")
+            .run,
+        ),
+        /findings-publication-cli\.ts/u,
+      );
+
+      const safeConfig = object(
+        JSON.parse(
+          String(
+            object(
+              stepByName(agentSteps, "Generate Safe Outputs Config").env,
+              `${file} safe-output environment`,
+            ).GH_AW_SAFE_OUTPUTS_CONFIG,
+          ),
+        ),
+        `${file} safe-output config`,
+      );
+      assert.equal("create_issue" in safeConfig, false);
+      assert.equal("resolve-verification-inconclusive" in safeConfig, false);
+      const addFinding = object(
+        safeConfig["add-finding"],
+        `${file} add-finding tool`,
+      );
+      const updateFinding = object(
+        safeConfig["update-finding"],
+        `${file} update-finding tool`,
+      );
+      const deleteFinding = object(
+        safeConfig["delete-finding"],
+        `${file} delete-finding tool`,
+      );
+      const addInputs = object(addFinding.inputs, `${file} add-finding inputs`);
+      assert.match(
+        String(object(addInputs.finding_id, `${file} finding id`).description),
+        /Reuse exactly this ID/u,
+      );
+      assert.deepEqual(
+        object(addInputs.classification, `${file} finding classification`)
+          .options,
+        ["modification-required", "verification-inconclusive"],
+      );
+      assert.ok(object(addInputs.finding, `${file} finding prose`).required);
+      assert.deepEqual(
+        Object.keys(
+          object(updateFinding.inputs, `${file} update-finding inputs`),
+        ).sort(),
+        Object.keys(addInputs).sort(),
+      );
+      assert.deepEqual(
+        Object.keys(
+          object(deleteFinding.inputs, `${file} delete-finding inputs`),
+        ),
+        ["finding_id"],
+      );
+      assert.match(source, /Review phase/u);
+      assert.match(source, /History phase/u);
+      assert.match(source, /empty event stream/u);
+    }
+  });
+
   it("reports incomplete execution and failed repository jobs as workflow failures", () => {
     for (const file of contentVerificationFiles) {
       const { jobs } = loadCompiledWorkflow(file);
@@ -445,12 +566,28 @@ describe("compiled content-verification publication boundary", () => {
         `${file} conclusion dependencies`,
       );
 
-      assert.deepEqual(permissions, { actions: "read", issues: "write" });
-      for (const dependency of [
-        "content_verification_gate",
-        "resolve_verification_inconclusive",
-        "safe_outputs",
-      ]) {
+      assert.deepEqual(permissions, {
+        actions: findingsContentVerificationFiles.includes(
+          file as (typeof findingsContentVerificationFiles)[number],
+        )
+          ? "write"
+          : "read",
+        issues: "write",
+      });
+      const expectedDependencies = findingsContentVerificationFiles.includes(
+        file as (typeof findingsContentVerificationFiles)[number],
+      )
+        ? [
+            "content_verification_gate",
+            "content_verification_publish",
+            "safe_outputs",
+          ]
+        : [
+            "content_verification_gate",
+            "resolve_verification_inconclusive",
+            "safe_outputs",
+          ];
+      for (const dependency of expectedDependencies) {
         assert.ok(dependencies.includes(dependency));
       }
       assert.match(String(conclusion.if), /^always\(\)/u);

@@ -3,6 +3,7 @@ import type {
   ConfirmationIssueComment,
   ConfirmationIssueRepository,
 } from "./inconclusive-resolution.ts";
+import type { FindingIssueRepository } from "./finding-publication.ts";
 
 type JsonObject = Record<string, unknown>;
 
@@ -99,7 +100,9 @@ function comment(value: unknown): {
   };
 }
 
-export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepository {
+export class GitHubIssueRepository
+  implements ConfirmationIssueRepository, FindingIssueRepository
+{
   readonly #apiUrl: string;
   readonly #fetch: typeof fetch;
   readonly #owner: string;

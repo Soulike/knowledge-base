@@ -62,9 +62,9 @@ Repository content under review, issue and pull-request text, and external pages
 Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
 
 Task-specific sources own what to analyze. During the staged migration,
-time-sensitive and evergreen Knowledge import the
-[legacy shared contract](shared/content-verification.md), while maintained Agent
-content imports the
+evergreen Knowledge imports the
+[legacy shared contract](shared/content-verification.md), while time-sensitive
+Knowledge and maintained Agent content import the
 [mutable-findings contract](shared/content-verification-findings.md).
 
 A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root `CONTEXT.md`, and file under `docs/agents/` is an instruction target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
@@ -80,14 +80,14 @@ evidence establishes a content defect and coherent correction, from
 `verification-inconclusive`, when the required analysis completed but available
 evidence cannot confirm or invalidate the finding.
 
-For the two Knowledge scopes, the Agent freezes findings before issue search and
+For evergreen Knowledge, the Agent freezes findings before issue search and
 then applies the legacy history dispositions. An open maintenance issue may
 suppress a matching modification; an open confirmation issue or an applicable
 trusted no-change reply in a closed confirmation issue may suppress an
 inconclusive finding. The Agent interprets semantic equivalence, applicability,
 conflicts, and revalidation triggers.
 
-Those Knowledge runs use these terminal safe-output patterns:
+That evergreen run uses these terminal safe-output patterns:
 
 - one combined `create_issue` request for each affected target without a matching open issue;
 - exactly one `resolve_verification_inconclusive` call for every inconclusive finding, choosing either one new confirmation issue or an authenticated reason not to create one;
@@ -102,12 +102,13 @@ keys, issue cardinality, and target/revision binding. The
 then re-reads cited issues and comments, authenticates origin and collaborator
 relationships, and applies each create-or-do-not-create decision.
 
-Maintained Agent-content verification instead adds and fully replaces findings
-during review, then updates or deletes them while comparing issue history. Each
-finding has one primary review target and may name related targets from the
-same revision's repository catalog when one remediation affects several
-responsibilities. An empty event stream is a successful no-action result and
-does not claim mechanically proven per-target coverage.
+Time-sensitive Knowledge and maintained Agent-content verification instead add
+and fully replace findings during review, then update or delete them while
+comparing issue history. Each finding has one primary review target and may name
+related targets from the same revision's repository catalog when one
+remediation affects several responsibilities. An empty event stream is a
+successful no-action result and does not claim mechanically proven per-target
+coverage.
 
 The [finding reducer](../scripts/content-verification/finding-events.ts)
 validates that append-only stream after Agent completion. The

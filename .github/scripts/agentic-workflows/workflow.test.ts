@@ -241,11 +241,9 @@ const contentVerificationFiles = [
   "verify-maintained-agent-content",
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
-const legacyContentVerificationFiles = [
-  "verify-time-sensitive-knowledge",
-  "verify-evergreen-knowledge",
-] as const;
+const legacyContentVerificationFiles = ["verify-evergreen-knowledge"] as const;
 const findingsContentVerificationFiles = [
+  "verify-time-sensitive-knowledge",
   "verify-maintained-agent-content",
 ] as const;
 

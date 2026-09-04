@@ -20,59 +20,105 @@ imports:
   - uses: shared/agentic-runtime.md
     with:
       reasoning_effort: ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
-  - uses: shared/content-verification.md
+  - uses: shared/content-verification-findings.md
     with:
       scope: time-sensitive-knowledge
-      modification_issue_title_prefix: "[time-sensitive Knowledge] "
 
 permissions:
   all: read
   copilot-requests: write
 
+safe-outputs:
+  report-failure-as-issue: true
+  report-failed-jobs: true
+  noop: false
+  jobs:
+    add-finding:
+      description: Add one current content-verification finding during the review phase, before issue-history search begins.
+      max: 100
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+      inputs:
+        finding_id:
+          description: Choose a concise identifier for this finding within this run. Reuse exactly this ID in any later update_finding or delete_finding call.
+          required: true
+          type: string
+        target_id:
+          description: Primary target id from the manifest reviewTargetIds subset.
+          required: true
+          type: string
+        classification:
+          description: Whether current evidence establishes a required modification or leaves verification inconclusive.
+          required: true
+          type: choice
+          options: [modification-required, verification-inconclusive]
+        finding:
+          description: Free-form Markdown describing one coherent finding and the evidence or reasoning needed to act on it.
+          required: true
+          type: string
+        related_target_ids:
+          description: Optional comma-separated target ids from the manifest catalog affected by the same coherent remediation. Do not pass JSON.
+          required: false
+          type: string
+      steps:
+        - name: Record add-finding events
+          run: ":"
+    update-finding:
+      description: Fully replace one active finding added earlier in this run.
+      max: 100
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+      inputs:
+        finding_id:
+          description: Exact run-local identifier chosen in the earlier add_finding call.
+          required: true
+          type: string
+        target_id:
+          description: Complete replacement primary target id from the manifest reviewTargetIds subset.
+          required: true
+          type: string
+        classification:
+          description: Complete replacement classification for the finding.
+          required: true
+          type: choice
+          options: [modification-required, verification-inconclusive]
+        finding:
+          description: Complete replacement free-form Markdown for the finding.
+          required: true
+          type: string
+        related_target_ids:
+          description: Complete replacement comma-separated related target ids from the manifest catalog. Omit when none; do not pass JSON.
+          required: false
+          type: string
+      steps:
+        - name: Record update-finding events
+          run: ":"
+    delete-finding:
+      description: Delete one active finding after review or issue history shows that it should not be published.
+      max: 100
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+      inputs:
+        finding_id:
+          description: Exact run-local identifier chosen in the earlier add_finding call.
+          required: true
+          type: string
+      steps:
+        - name: Record delete-finding events
+          run: ":"
+  missing-tool:
+    create-issue: false
+  missing-data:
+    create-issue: false
+  report-incomplete:
+    create-issue: false
+
 concurrency:
   group: content-verification-time-sensitive-knowledge
   cancel-in-progress: false
-
-jobs:
-  content_verification_gate:
-    name: Content verification gate
-    needs:
-      - agent
-    if: always()
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Check out the verified revision
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-          ref: ${{ github.sha }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "lts/*"
-
-      - name: Download Agent output and target manifest
-        uses: actions/download-artifact@v8
-        with:
-          merge-multiple: true
-          path: ${{ runner.temp }}/content-verification-gate
-          pattern: "{agent,agent-output-fallback,content-verification-target-manifest}"
-
-      - name: Enforce content verification result
-        env:
-          CONTENT_VERIFICATION_AGENT_RESULT: ${{ needs.agent.result }}
-          CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-gate
-          CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
-          CONTENT_VERIFICATION_SCOPE: time-sensitive-knowledge
-        run: node .github/scripts/content-verification/agentic-gate-cli.ts
-
-  safe_outputs:
-    needs:
-      - content_verification_gate
-    if: needs.content_verification_gate.result == 'success'
 
 pre-agent-steps:
   - name: Set up pnpm

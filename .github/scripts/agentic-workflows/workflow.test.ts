@@ -289,15 +289,22 @@ describe("compiled content-verification publication boundary", () => {
     }
   });
 
-  it("gates every issue-writing job on the authenticated Agent result", () => {
+  it("publishes findings only after canonical validation and threat detection", () => {
     for (const file of contentVerificationFiles) {
-      const { agentSteps, jobs } = loadCompiledWorkflow(file);
+      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
       const gate = object(
         jobs.content_verification_gate,
-        `${file} content verification gate`,
+        `${file} findings gate`,
       );
-      const gateSteps = array(gate.steps, `${file} gate steps`);
-      const safeOutputs = object(jobs.safe_outputs, `${file} safe outputs`);
+      const gateSteps = array(gate.steps, `${file} findings gate steps`);
+      const publisher = object(
+        jobs.content_verification_publish,
+        `${file} findings publisher`,
+      );
+      const publisherSteps = array(
+        publisher.steps,
+        `${file} findings publisher steps`,
+      );
 
       const manifestStep = stepByName(
         agentSteps,
@@ -313,7 +320,6 @@ describe("compiled content-verification publication boundary", () => {
       );
       const uploadInputs = object(uploadStep.with, `${file} upload inputs`);
       assert.equal(uploadInputs.path, manifestPath);
-
       assert.ok(
         stepIndex(agentSteps, "Generate content verification target manifest") <
           stepIndex(agentSteps, "Execute GitHub Copilot CLI"),
@@ -330,82 +336,62 @@ describe("compiled content-verification publication boundary", () => {
         stepByName(gateSteps, "Download Agent output and target manifest").with,
         `${file} download inputs`,
       );
+      assert.equal("merge-multiple" in downloadInputs, false);
       assert.ok(
         String(downloadInputs.pattern).includes(String(uploadInputs.name)),
       );
       assert.equal(
         object(
-          stepByName(gateSteps, "Enforce content verification result").env,
+          stepByName(gateSteps, "Enforce content verification findings").env,
           `${file} gate environment`,
         ).CONTENT_VERIFICATION_ARTIFACT_DIRECTORY,
         downloadInputs.path,
       );
       assert.match(
         String(
-          stepByName(gateSteps, "Enforce content verification result").run,
+          stepByName(gateSteps, "Enforce content verification findings").run,
         ),
-        /agentic-gate-cli\.ts/u,
+        /findings-gate-cli\.ts/u,
       );
 
-      assert.deepEqual(safeOutputs.permissions, { issues: "write" });
-      assert.ok(
-        array(safeOutputs.needs, `${file} safe-output dependencies`).includes(
-          "content_verification_gate",
-        ),
-      );
+      assert.deepEqual(publisher.permissions, {
+        contents: "read",
+        issues: "write",
+      });
+      for (const dependency of [
+        "agent",
+        "content_verification_gate",
+        "detection",
+      ]) {
+        assert.ok(
+          array(
+            publisher.needs,
+            `${file} findings publisher dependencies`,
+          ).includes(dependency),
+        );
+      }
+      assert.match(String(publisher.if), /needs\.agent\.result == 'success'/u);
       assert.match(
-        String(safeOutputs.if),
+        String(publisher.if),
         /needs\.content_verification_gate\.result == 'success'/u,
       );
-    }
-  });
-
-  it("publishes inconclusive decisions through one authenticated custom job", () => {
-    for (const file of contentVerificationFiles) {
-      const { agentSteps, jobs, source } = loadCompiledWorkflow(file);
-      const publisher = object(
-        jobs.resolve_verification_inconclusive,
-        `${file} inconclusive publisher`,
-      );
-      const steps = array(publisher.steps, `${file} inconclusive steps`);
-      const permissions = object(
-        publisher.permissions,
-        `${file} inconclusive permissions`,
-      );
-
-      assert.deepEqual(permissions, { contents: "read", issues: "write" });
-      assert.ok(
-        array(publisher.needs, `${file} inconclusive dependencies`).includes(
-          "agent",
-        ),
-      );
-      assert.match(String(publisher.if), /resolve_verification_inconclusive/u);
       assert.match(
         String(publisher.if),
         /needs\.detection\.result == 'success'/u,
       );
       assert.match(
         String(
-          stepByName(steps, "Apply inconclusive verification decisions").run,
+          stepByName(publisherSteps, "Publish content verification findings")
+            .run,
         ),
-        /inconclusive-resolution-cli\.ts/u,
+        /findings-publication-cli\.ts/u,
       );
-      const publisherEnvironment = object(
-        stepByName(steps, "Apply inconclusive verification decisions").env,
-        `${file} inconclusive environment`,
+      const publisherDownloadInputs = object(
+        stepByName(publisherSteps, "Download Agent output and target manifest")
+          .with,
+        `${file} publisher download inputs`,
       );
-      assert.equal(
-        publisherEnvironment.CONTENT_VERIFICATION_AGENT_RESULT,
-        "${{ needs.agent.result }}",
-      );
-      assert.equal(
-        publisherEnvironment.CONTENT_VERIFICATION_EXPECTED_REVISION,
-        "${{ github.sha }}",
-      );
-      assert.match(
-        String(publisherEnvironment.CONTENT_VERIFICATION_TARGET_MANIFEST),
-        /content-verification-targets\.json/u,
-      );
+      assert.equal("merge-multiple" in publisherDownloadInputs, false);
 
       const safeConfig = object(
         JSON.parse(
@@ -418,16 +404,71 @@ describe("compiled content-verification publication boundary", () => {
         ),
         `${file} safe-output config`,
       );
-      const tool = object(
-        safeConfig["resolve-verification-inconclusive"],
-        `${file} inconclusive tool`,
+      assert.equal("create_issue" in safeConfig, false);
+      assert.equal("resolve-verification-inconclusive" in safeConfig, false);
+      const addFinding = object(
+        safeConfig["add-finding"],
+        `${file} add-finding tool`,
       );
-      assert.equal(tool.max, 100);
-      assert.match(String(tool.description), /exactly once/u);
-      assert.match(source, /verification-inconclusive/u);
-      assert.match(source, /matching_open_issue/u);
-      assert.match(source, /trusted_collaborator_disposition/u);
-      assert.match(source, /uncertain/u);
+      const updateFinding = object(
+        safeConfig["update-finding"],
+        `${file} update-finding tool`,
+      );
+      const deleteFinding = object(
+        safeConfig.delete_finding,
+        `${file} delete-finding tool`,
+      );
+      const addInputs = object(addFinding.inputs, `${file} add-finding inputs`);
+      assert.match(
+        String(object(addInputs.finding_id, `${file} finding id`).description),
+        /Reuse exactly this ID/u,
+      );
+      assert.deepEqual(
+        object(addInputs.classification, `${file} finding classification`)
+          .options,
+        ["modification-required", "verification-inconclusive"],
+      );
+      assert.ok(object(addInputs.finding, `${file} finding prose`).required);
+      assert.deepEqual(
+        Object.keys(
+          object(updateFinding.inputs, `${file} update-finding inputs`),
+        ).sort(),
+        Object.keys(addInputs).sort(),
+      );
+      assert.deepEqual(
+        Object.keys(
+          object(deleteFinding.inputs, `${file} delete-finding inputs`),
+        ),
+        ["finding_id"],
+      );
+      assert.match(source, /Review phase/u);
+      assert.match(source, /History phase/u);
+      assert.match(source, /empty event stream/u);
+      assert.match(source, /finish without[\s\S]+`noop`/u);
+      const validationConfig = object(
+        JSON.parse(
+          String(
+            object(
+              stepByName(agentSteps, "Generate Safe Outputs Tools").env,
+              `${file} safe-output tools environment`,
+            ).GH_AW_VALIDATION_JSON,
+          ),
+        ),
+        `${file} safe-output validation config`,
+      );
+      const reportIncomplete = object(
+        validationConfig.report_incomplete,
+        `${file} report-incomplete validation`,
+      );
+      assert.equal(reportIncomplete.defaultMax, 5);
+      assert.equal(
+        object(
+          object(reportIncomplete.fields, `${file} report-incomplete fields`)
+            .reason,
+          `${file} report-incomplete reason`,
+        ).required,
+        true,
+      );
     }
   });
 
@@ -445,10 +486,10 @@ describe("compiled content-verification publication boundary", () => {
         `${file} conclusion dependencies`,
       );
 
-      assert.deepEqual(permissions, { actions: "read", issues: "write" });
+      assert.deepEqual(permissions, { actions: "write", issues: "write" });
       for (const dependency of [
         "content_verification_gate",
-        "resolve_verification_inconclusive",
+        "content_verification_publish",
         "safe_outputs",
       ]) {
         assert.ok(dependencies.includes(dependency));

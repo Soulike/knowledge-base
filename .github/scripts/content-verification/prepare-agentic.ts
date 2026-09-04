@@ -52,5 +52,5 @@ await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, {
   mode: 0o600,
 });
 process.stdout.write(
-  `Prepared ${String(manifest.targets.length)} targets at ${outputPath}.\n`,
+  `Prepared ${String(manifest.reviewTargetIds.length)} review targets from a ${String(manifest.targetCatalog.length)}-target catalog at ${outputPath}.\n`,
 );

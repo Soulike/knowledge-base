@@ -10,18 +10,26 @@ const executeFile = promisify(execFile);
 const revision = "a".repeat(40);
 const manifest = {
   revision,
+  reviewTargetIds: ["knowledge/a.md"],
   scope: "time-sensitive-knowledge",
-  targets: [
-    { files: ["knowledge/a.md"], id: "knowledge/a.md", kind: "knowledge" },
+  targetCatalog: [
+    {
+      files: ["knowledge/a.md"],
+      id: "knowledge/a.md",
+      kind: "knowledge",
+      knowledgeType: "time-sensitive",
+    },
   ],
 };
-const script = new URL("./agentic-gate-cli.ts", import.meta.url);
+const script = new URL("./findings-gate-cli.ts", import.meta.url);
 
 async function runGate(
   items: unknown[],
   gateScript = script.pathname,
 ): Promise<void> {
-  const directory = await mkdtemp(join(tmpdir(), "content-verification-gate-"));
+  const directory = await mkdtemp(
+    join(tmpdir(), "content-verification-findings-gate-"),
+  );
   const nested = join(directory, "nested");
   await mkdir(nested);
   try {
@@ -51,40 +59,34 @@ async function runGate(
 
 async function runIsolatedGate(items: unknown[]): Promise<void> {
   const directory = await mkdtemp(
-    join(tmpdir(), "content-verification-gate-runtime-"),
+    join(tmpdir(), "content-verification-findings-runtime-"),
   );
   try {
-    await Promise.all([
-      copyFile(
-        new URL("./agentic-gate-cli.ts", import.meta.url),
-        join(directory, "agentic-gate-cli.ts"),
-      ),
-      copyFile(
-        new URL("./agentic-gate.ts", import.meta.url),
-        join(directory, "agentic-gate.ts"),
-      ),
-      copyFile(
-        new URL("./scope.ts", import.meta.url),
-        join(directory, "scope.ts"),
-      ),
-    ]);
-    await runGate(items, join(directory, "agentic-gate-cli.ts"));
+    for (const file of [
+      "artifacts.ts",
+      "finding-events.ts",
+      "findings-gate-cli.ts",
+      "manifest-validation.ts",
+      "scope.ts",
+    ]) {
+      await copyFile(
+        new URL(`./${file}`, import.meta.url),
+        join(directory, file),
+      );
+    }
+    await runGate(items, join(directory, "findings-gate-cli.ts"));
   } finally {
     await rm(directory, { force: true, recursive: true });
   }
 }
 
-describe("content verification gate CLI", () => {
-  it("accepts a downloaded noop artifact", async () => {
-    await assert.doesNotReject(() =>
-      runGate([{ type: "noop", message: "No issue is needed." }]),
-    );
+describe("content verification findings gate CLI", () => {
+  it("accepts an empty downloaded event stream", async () => {
+    await assert.doesNotReject(() => runGate([]));
   });
 
   it("runs without installed workspace dependencies", async () => {
-    await assert.doesNotReject(() =>
-      runIsolatedGate([{ type: "noop", message: "No issue is needed." }]),
-    );
+    await assert.doesNotReject(() => runIsolatedGate([]));
   });
 
   it("exits nonzero for downloaded incomplete work", async () => {
@@ -96,7 +98,14 @@ describe("content verification gate CLI", () => {
             reason: "Source unavailable.",
           },
         ]),
-      /verification gate/u,
+      /Content verification findings/u,
+    );
+  });
+
+  it("rejects the runtime's system noop instead of treating it as coverage", async () => {
+    await assert.rejects(
+      () => runGate([{ type: "noop", message: "No findings." }]),
+      /unexpected safe output type 'noop'/u,
     );
   });
 });

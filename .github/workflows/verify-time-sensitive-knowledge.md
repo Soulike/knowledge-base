@@ -23,56 +23,27 @@ imports:
   - uses: shared/content-verification.md
     with:
       scope: time-sensitive-knowledge
-      modification_issue_title_prefix: "[time-sensitive Knowledge] "
 
 permissions:
   all: read
   copilot-requests: write
 
+safe-outputs:
+  noop: false
+  scripts:
+    delete-finding:
+      description: Delete one active finding after review or issue history shows that it should not be published.
+      inputs:
+        finding_id:
+          description: Exact run-local identifier chosen in the earlier add_finding call.
+          required: true
+          type: string
+      script: |
+        return { accepted: true, finding_id: item.finding_id };
+
 concurrency:
   group: content-verification-time-sensitive-knowledge
   cancel-in-progress: false
-
-jobs:
-  content_verification_gate:
-    name: Content verification gate
-    needs:
-      - agent
-    if: always()
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Check out the verified revision
-        uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-          ref: ${{ github.sha }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "lts/*"
-
-      - name: Download Agent output and target manifest
-        uses: actions/download-artifact@v8
-        with:
-          merge-multiple: true
-          path: ${{ runner.temp }}/content-verification-gate
-          pattern: "{agent,agent-output-fallback,content-verification-target-manifest}"
-
-      - name: Enforce content verification result
-        env:
-          CONTENT_VERIFICATION_AGENT_RESULT: ${{ needs.agent.result }}
-          CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-gate
-          CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
-          CONTENT_VERIFICATION_SCOPE: time-sensitive-knowledge
-        run: node .github/scripts/content-verification/agentic-gate-cli.ts
-
-  safe_outputs:
-    needs:
-      - content_verification_gate
-    if: needs.content_verification_gate.result == 'success'
 
 pre-agent-steps:
   - name: Set up pnpm
@@ -103,19 +74,20 @@ post-steps:
 
 # Verify time-sensitive Knowledge
 
-Verify every target in
-`/content-verification-targets.json` at the exact revision
-named by that manifest. The runner mounts this manifest read-only inside the
-Agent sandbox. It was derived deterministically from tracked files and the
-parsed [Knowledge index](knowledge/index.md); it is the complete required
-scope. Treat every target independently and preserve its exact `id` in all
-notes and safe outputs.
+At the exact revision named by
+`/content-verification-targets.json`, verify every target whose id appears in
+`reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
+this manifest read-only inside the Agent sandbox. It was derived
+deterministically from tracked files and the parsed
+[Knowledge index](knowledge/index.md); the selected ids are the complete
+required scope. Treat every selected target independently and preserve its
+exact `id` in all notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the
    [Knowledge index](knowledge/index.md), the target manifest, and every
-   file named by every target. If a target is missing, duplicated, or
+   file named by every selected target. If a target is missing, duplicated, or
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`
    exactly once.

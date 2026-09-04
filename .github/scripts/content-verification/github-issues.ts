@@ -1,13 +1,12 @@
 import type {
-  ConfirmationIssue,
-  ConfirmationIssueComment,
-  ConfirmationIssueRepository,
-} from "./inconclusive-resolution.ts";
+  FindingIssue,
+  FindingIssueRepository,
+} from "./finding-publication.ts";
 
 type JsonObject = Record<string, unknown>;
 
 function fail(message: string): never {
-  throw new Error(`GitHub confirmation issue adapter: ${message}`);
+  throw new Error(`GitHub issue adapter: ${message}`);
 }
 
 function object(value: unknown, description: string): JsonObject {
@@ -45,7 +44,7 @@ function positiveInteger(value: unknown, description: string): string {
   return String(value);
 }
 
-function issue(value: unknown): ConfirmationIssue {
+function issue(value: unknown): FindingIssue {
   const response = object(value, "issue response");
   const number = positiveInteger(response.number, "issue number");
   if (response.state !== "open" && response.state !== "closed") {
@@ -66,7 +65,6 @@ function issue(value: unknown): ConfirmationIssue {
     authorLogin:
       user === undefined ? "" : string(user.login, "issue author login"),
     body: nullableString(response.body, "issue body"),
-    htmlUrl: string(response.html_url, "issue URL"),
     labels,
     number,
     pullRequest: Object.hasOwn(response, "pull_request"),
@@ -75,31 +73,7 @@ function issue(value: unknown): ConfirmationIssue {
   };
 }
 
-function comment(value: unknown): {
-  authorAssociation?: string;
-  body: string;
-  htmlUrl: string;
-  id: string;
-  issueUrl: string;
-} {
-  const response = object(value, "comment response");
-  return {
-    ...(response.author_association === undefined
-      ? {}
-      : {
-          authorAssociation: string(
-            response.author_association,
-            "comment author association",
-          ),
-        }),
-    body: nullableString(response.body, "comment body"),
-    htmlUrl: string(response.html_url, "comment URL"),
-    id: positiveInteger(response.id, "comment id"),
-    issueUrl: string(response.issue_url, "comment issue URL"),
-  };
-}
-
-export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepository {
+export class GitHubIssueRepository implements FindingIssueRepository {
   readonly #apiUrl: string;
   readonly #fetch: typeof fetch;
   readonly #owner: string;
@@ -147,7 +121,7 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
     body: string;
     labels: string[];
     title: string;
-  }): Promise<ConfirmationIssue> {
+  }): Promise<FindingIssue> {
     const response = await this.#request(
       `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues`,
       {
@@ -159,42 +133,8 @@ export class GitHubConfirmationIssueRepository implements ConfirmationIssueRepos
     return issue(response);
   }
 
-  async getComment(commentId: string): Promise<ConfirmationIssueComment> {
-    const response = comment(
-      await this.#request(
-        `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues/comments/${commentId}`,
-      ),
-    );
-    const issueUrlPrefix = `${this.#apiUrl}/repos/${this.#owner}/${this.#repo}/issues/`;
-    const issueNumber = response.issueUrl.startsWith(issueUrlPrefix)
-      ? /^\d+$/u.test(response.issueUrl.slice(issueUrlPrefix.length))
-        ? response.issueUrl.slice(issueUrlPrefix.length)
-        : undefined
-      : undefined;
-    if (!issueNumber) {
-      fail(`comment ${commentId} has an invalid issue URL.`);
-    }
-    return {
-      ...(response.authorAssociation === undefined
-        ? {}
-        : { authorAssociation: response.authorAssociation }),
-      body: response.body,
-      htmlUrl: response.htmlUrl,
-      id: response.id,
-      issueNumber,
-    };
-  }
-
-  async getIssue(issueNumber: string): Promise<ConfirmationIssue> {
-    return issue(
-      await this.#request(
-        `/repos/${encodeURIComponent(this.#owner)}/${encodeURIComponent(this.#repo)}/issues/${issueNumber}`,
-      ),
-    );
-  }
-
-  async listOpenIssues(labels: string[]): Promise<ConfirmationIssue[]> {
-    const issues: ConfirmationIssue[] = [];
+  async listOpenIssues(labels: string[]): Promise<FindingIssue[]> {
+    const issues: FindingIssue[] = [];
     const perPage = 100;
     for (let page = 1; ; page += 1) {
       const query = new URLSearchParams({

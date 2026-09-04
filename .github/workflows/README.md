@@ -93,6 +93,20 @@ finding, and suppresses only an exact open publication race. Run-local finding
 IDs coordinate add, update, and delete calls but are not durable publication
 identity. The Agent has no issue-write credential.
 
+The pinned gh-aw runtime uploads the same Agent output in a dedicated fallback
+artifact and its broader Agent artifact. The gate keeps those artifacts
+separate and requires every discovered copy to be byte-identical before
+reduction. gh-aw also continues to advertise its system `noop` facility because
+threat detection is imported from the shared runtime; the content-verification
+contract requires an empty stream instead, and the reducer rejects `noop`.
+
+gh-aw `v0.87.10` also does not merge imported safe-output scripts and injects a
+default `create_issue` tool when every custom tool comes only from imports. The
+shared contract therefore owns the larger add and update schemas, while each
+task source repeats only the one-parameter delete script as a thin compiler
+adapter. Generated-workflow tests require the same three finding tools and no
+`create_issue` tool in every task.
+
 ### Status and failure issues
 
 Actions status represents the health of the verification mechanism, not whether

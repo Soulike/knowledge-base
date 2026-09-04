@@ -336,6 +336,7 @@ describe("compiled content-verification publication boundary", () => {
         stepByName(gateSteps, "Download Agent output and target manifest").with,
         `${file} download inputs`,
       );
+      assert.equal("merge-multiple" in downloadInputs, false);
       assert.ok(
         String(downloadInputs.pattern).includes(String(uploadInputs.name)),
       );
@@ -385,6 +386,12 @@ describe("compiled content-verification publication boundary", () => {
         ),
         /findings-publication-cli\.ts/u,
       );
+      const publisherDownloadInputs = object(
+        stepByName(publisherSteps, "Download Agent output and target manifest")
+          .with,
+        `${file} publisher download inputs`,
+      );
+      assert.equal("merge-multiple" in publisherDownloadInputs, false);
 
       const safeConfig = object(
         JSON.parse(
@@ -438,6 +445,7 @@ describe("compiled content-verification publication boundary", () => {
       assert.match(source, /History phase/u);
       assert.match(source, /empty event stream/u);
       assert.match(source, /finish without[\s\S]+`noop`/u);
+      assert.match(source, /"report_incomplete": \{\s+"defaultMax"/u);
     }
   });
 

@@ -34,16 +34,15 @@ const manifest: VerificationManifest = {
   ],
 };
 
-const findings: VerificationFinding[] = [
-  {
-    classification: "modification-required",
-    finding:
-      "Rewrite the two patch-layered exceptions as one current rule without losing the supported fallback.",
-    findingId: "coherent-rule",
-    relatedTargetIds: ["skills/check/SKILL.md", "references/check.md"],
-    targetId: "knowledge/a.md",
-  },
-];
+const primaryFinding: VerificationFinding = {
+  classification: "modification-required",
+  finding:
+    "Rewrite the two patch-layered exceptions as one current rule without losing the supported fallback.",
+  findingId: "coherent-rule",
+  relatedTargetIds: ["skills/check/SKILL.md", "references/check.md"],
+  targetId: "knowledge/a.md",
+};
+const findings: VerificationFinding[] = [primaryFinding];
 
 class FakeIssueRepository implements FindingIssueRepository {
   readonly created: Array<{
@@ -140,7 +139,7 @@ describe("publishVerificationFindings", () => {
       manifest,
       [
         {
-          ...findings[0]!,
+          ...primaryFinding,
           finding: "Untrusted prefix --><!----> must remain quoted text.",
         },
       ],
@@ -169,7 +168,7 @@ describe("publishVerificationFindings", () => {
       manifest,
       [
         {
-          ...findings[0]!,
+          ...primaryFinding,
           findingId: "same-content-new-run-id",
           relatedTargetIds: ["references/check.md", "skills/check/SKILL.md"],
         },
@@ -192,5 +191,49 @@ describe("publishVerificationFindings", () => {
       ],
     });
     assert.equal(repository.created.length, 1);
+  });
+
+  it("preserves an earlier publication when a later repository write fails", async () => {
+    const created: FindingIssue[] = [];
+    const repository: FindingIssueRepository = {
+      async createIssue(input) {
+        if (created.length === 1) {
+          throw new Error("Repository write failed.");
+        }
+        const issue: FindingIssue = {
+          authorLogin: "github-actions[bot]",
+          body: input.body,
+          labels: input.labels,
+          number: "101",
+          pullRequest: false,
+          state: "open",
+          title: input.title,
+        };
+        created.push(issue);
+        return issue;
+      },
+      async listOpenIssues() {
+        return [];
+      },
+    };
+
+    await assert.rejects(
+      () =>
+        publishVerificationFindings(
+          manifest,
+          [
+            primaryFinding,
+            {
+              ...primaryFinding,
+              finding: "A second independent correction.",
+              findingId: "second-correction",
+            },
+          ],
+          context,
+          repository,
+        ),
+      /Repository write failed/u,
+    );
+    assert.equal(created.length, 1);
   });
 });

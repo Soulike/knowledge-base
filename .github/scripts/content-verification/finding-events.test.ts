@@ -115,12 +115,49 @@ describe("reduceFindingEvents", () => {
       ],
       [{ type: "delete_finding", finding_id: "not-added" }],
       [add(), { type: "delete_finding", finding_id: "duplicate-owner" }, add()],
+      [
+        add(),
+        { type: "delete_finding", finding_id: "duplicate-owner" },
+        { type: "delete_finding", finding_id: "duplicate-owner" },
+      ],
+      [
+        add(),
+        { type: "delete_finding", finding_id: "duplicate-owner" },
+        { ...add(), type: "update_finding" },
+      ],
     ]) {
       assert.throws(
         () => reduceFindingEvents(manifest, output(events)),
         /Content verification findings/u,
       );
     }
+  });
+
+  it("preserves several independent findings with mixed classifications", () => {
+    assert.deepEqual(
+      reduceFindingEvents(
+        manifest,
+        output([
+          add(),
+          add({
+            finding_id: "unconfirmed-constraint",
+            classification: "verification-inconclusive",
+            finding: "The current source does not confirm this constraint.",
+            related_target_ids: undefined,
+          }),
+        ]),
+      ).map(({ classification, findingId }) => ({ classification, findingId })),
+      [
+        {
+          classification: "modification-required",
+          findingId: "duplicate-owner",
+        },
+        {
+          classification: "verification-inconclusive",
+          findingId: "unconfirmed-constraint",
+        },
+      ],
+    );
   });
 
   it("fails closed at the Agent-output artifact boundary", () => {

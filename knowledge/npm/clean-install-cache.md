@@ -76,6 +76,11 @@ the same lockfile-selected dependency graph and the same accepted
 integrity-verified package content. Changing that result is a correctness
 failure, not an acceptable performance tradeoff.
 
+First establish that this fixed baseline satisfies the project's intended
+installation behavior. Matching control and candidate results do not validate
+a baseline made incomplete by a separate npm-version, configuration, or
+installation-policy change.
+
 Preserve every tree-shaping flag used to create the lockfile and the project's
 existing policies for lifecycle scripts, approved native builds, registry and
 authentication settings, audit, and failure recovery. `--prefer-offline`

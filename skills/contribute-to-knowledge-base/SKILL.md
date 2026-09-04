@@ -20,9 +20,9 @@ repository. Treat installed plugin files as read-only context.
    clearly delimited sanitized public proposal the user has already reviewed
    authorizes an issue draft that preserves exactly the approved claims,
    disclosures, links, evidence, exclusions, and uncertainty while adding only
-   the repository's standard headings and general sanitization notice.
-   Otherwise, prepare the exact public text in the steps below and obtain
-   confirmation before publishing it.
+   the repository's standard headings and general sanitization notice, together
+   with its requested `needs-triage` label. Otherwise, prepare the exact public
+   text in the steps below and obtain confirmation before publishing it.
 3. Inspect the canonical repository remotely without creating a checkout. Use
    the authenticated `gh` CLI with the explicit repository identity from the
    manifest. Read the current default-branch versions of the relevant

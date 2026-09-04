@@ -92,24 +92,28 @@ Stop after the question and wait for the user's response.
    delimited sanitized public proposal. Give the public proposal its exact
    public title, evidence, complete reusable content and structure, possible
    ownership and operation, limits and uncertainty, and requested maintainer
-   outcome. Report evidence and conclusions rather than hidden reasoning. Keep
-   project-specific evidence inside the authorized conversation; make every
-   part of the delimited public proposal downstream-project-independent and
-   safe to publish.
+   outcome, together with the requested `needs-triage` label. Report evidence
+   and conclusions rather than hidden reasoning. Keep project-specific evidence
+   inside the authorized conversation; make every part of the delimited public
+   proposal downstream-project-independent and safe to publish.
 8. Make no knowledge-base edit, branch, issue, comment, commit, push, or pull
    request. End by asking whether the user wants to publish the selected
    candidates as sanitized issues. Treat a later affirmative response as a new
    publication request that must be routed independently. It authorizes only
    mechanical issue formatting that preserves the delimited public proposal's
-   claims, disclosures, links, evidence, exclusions, and uncertainty; any
-   substantive change requires review of the exact public text.
+   claims, disclosures, links, evidence, exclusions, and uncertainty, together
+   with its requested `needs-triage` label; any substantive change requires
+   review of the exact public text.
 
 ## Completion criteria
 
-The offer stage is complete only when the normal task outcome has been
-reported and the workflow either remains silent because no candidate qualifies
-or asks one concise proposal question. The proposal stage is complete only
-when every candidate has been independently verified, compared with existing
-material and non-additive alternatives, classified, generalized, assigned a
-concrete operation, and either presented for selection or rejected with the
-reason stated, while the knowledge base remains unchanged.
+The offer stage is complete only when the normal task outcome has been reported
+and the workflow either remains silent because no candidate qualifies or asks
+one concise proposal question. The proposal stage is complete only when every
+candidate has been independently verified, compared with existing material and
+non-additive alternatives, classified, generalized, assigned a concrete
+operation, and either rejected with the reason stated or presented with its
+separate private authoring evidence and clearly delimited sanitized public
+proposal. Every retained public proposal must satisfy steps 6 and 7, and the
+publication handoff in step 8 must be made while the knowledge base remains
+unchanged.

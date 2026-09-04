@@ -11,6 +11,11 @@ import-schema:
     type: string
     required: true
 
+sandbox:
+  agent:
+    mounts:
+      - "${{ runner.temp }}/gh-aw/content-verification-targets.json:/content-verification-targets.json:ro"
+
 safe-outputs:
   report-failure-as-issue: true
   report-failed-jobs: true

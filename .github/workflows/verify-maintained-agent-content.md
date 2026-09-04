@@ -104,7 +104,7 @@ post-steps:
 # Verify maintained Agent content
 
 Verify every target in
-`$RUNNER_TEMP/gh-aw/content-verification-targets.json` at the exact revision
+`/content-verification-targets.json` at the exact revision
 named by that manifest. The runner mounts this manifest read-only inside the
 Agent sandbox. It was derived deterministically from tracked files and the
 parsed [Knowledge index](knowledge/index.md); it is the complete required

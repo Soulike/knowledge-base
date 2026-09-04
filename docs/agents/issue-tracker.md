@@ -1,8 +1,11 @@
 # Issue tracker: GitHub
 
 Issues, specs, and implementation tickets for this repository live in GitHub
-Issues. Use the authenticated `gh` CLI from a checkout whose `origin` identifies
-the intended repository. Pull requests are not a request or triage surface.
+Issues. Use the authenticated `gh` CLI with an explicitly established target
+repository. In a source checkout, establish it from `origin`. A portable
+installed contribution workflow may instead use the canonical repository from
+its trusted plugin manifest and pass that identity explicitly to every
+operation. Pull requests are not a request or triage surface.
 
 ## Operations
 

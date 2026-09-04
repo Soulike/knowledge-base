@@ -136,11 +136,13 @@ Agent-facing entry points that retrieve Knowledge or orchestrate tasks for a
 user of the installed plugin. Ordinary usage Skills must remain useful without
 a source checkout, Git state, `.agents/`, or repository development tooling.
 
-A contribution Skill may read the primary manifest's `repository` field,
-create an isolated checkout of that canonical source repository, and then read
-the authoring instructions under `.agents/` in the checkout. Treat the
-installed plugin as a read-only runtime artifact; use the cloned repository as
-the only authoring target.
+A contribution Skill may read the primary manifest's `repository` field, use
+that explicit identity to inspect the canonical source and issue history
+remotely, and publish a sanitized issue or confirmed sanitized incremental
+comment without a source checkout. Treat the installed plugin as a read-only
+runtime artifact. Keep source modification, Git refs, pull requests, and issue
+activity after the publication terminal result outside that installed
+contribution workflow.
 
 Resolve usage-Skill file references relative to the Skill's `SKILL.md`. A root
 usage Skill can therefore reach the

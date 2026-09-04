@@ -64,7 +64,7 @@ Browse the [Knowledge catalog](knowledge/index.md) or the complete [Skills direc
 
 ## Contribute
 
-The easiest route is to ask an Agent to contribute a change to the knowledge base. The installed [`contribute-to-knowledge-base`](skills/contribute-to-knowledge-base/SKILL.md) Skill locates the canonical repository and follows its authoring and validation workflow.
+The easiest route is to ask an Agent to submit a contribution proposal. The installed [`contribute-to-knowledge-base`](skills/contribute-to-knowledge-base/SKILL.md) Skill locates the canonical repository, removes source-project and sensitive details, and publishes a triage-ready issue for maintainers.
 
 For a manual source checkout, use Node.js 24 or later and pnpm 11:
 

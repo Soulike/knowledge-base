@@ -34,12 +34,29 @@ describe("buildVerificationManifest", () => {
       ),
       {
         revision,
+        reviewTargetIds: ["knowledge/a.md"],
         scope: "time-sensitive-knowledge",
-        targets: [
+        targetCatalog: [
+          {
+            files: [
+              ".agents/skills/check/SKILL.md",
+              ".agents/skills/check/references/detail.md",
+            ],
+            id: ".agents/skills/check/SKILL.md",
+            kind: "skill",
+          },
+          { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
             files: ["knowledge/a.md"],
             id: "knowledge/a.md",
             kind: "knowledge",
+            knowledgeType: "time-sensitive",
+          },
+          {
+            files: ["knowledge/b.md"],
+            id: "knowledge/b.md",
+            kind: "knowledge",
+            knowledgeType: "evergreen",
           },
         ],
       },
@@ -53,12 +70,29 @@ describe("buildVerificationManifest", () => {
       ),
       {
         revision,
+        reviewTargetIds: ["knowledge/b.md"],
         scope: "evergreen-knowledge",
-        targets: [
+        targetCatalog: [
+          {
+            files: [
+              ".agents/skills/check/SKILL.md",
+              ".agents/skills/check/references/detail.md",
+            ],
+            id: ".agents/skills/check/SKILL.md",
+            kind: "skill",
+          },
+          { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
+          {
+            files: ["knowledge/a.md"],
+            id: "knowledge/a.md",
+            kind: "knowledge",
+            knowledgeType: "time-sensitive",
+          },
           {
             files: ["knowledge/b.md"],
             id: "knowledge/b.md",
             kind: "knowledge",
+            knowledgeType: "evergreen",
           },
         ],
       },
@@ -72,8 +106,9 @@ describe("buildVerificationManifest", () => {
       ),
       {
         revision,
+        reviewTargetIds: [".agents/skills/check/SKILL.md", "AGENTS.md"],
         scope: "maintained-agent-content",
-        targets: [
+        targetCatalog: [
           {
             files: [
               ".agents/skills/check/SKILL.md",
@@ -83,6 +118,18 @@ describe("buildVerificationManifest", () => {
             kind: "skill",
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
+          {
+            files: ["knowledge/a.md"],
+            id: "knowledge/a.md",
+            kind: "knowledge",
+            knowledgeType: "time-sensitive",
+          },
+          {
+            files: ["knowledge/b.md"],
+            id: "knowledge/b.md",
+            kind: "knowledge",
+            knowledgeType: "evergreen",
+          },
         ],
       },
     );

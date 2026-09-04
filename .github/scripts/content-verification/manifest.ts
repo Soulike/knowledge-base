@@ -1,6 +1,7 @@
 import type { VerificationScope } from "./scope.ts";
 import {
-  discoverVerificationTargets,
+  discoverVerificationTargetCatalog,
+  selectVerificationTargets,
   type VerificationTarget,
 } from "./targets.ts";
 
@@ -8,8 +9,9 @@ const SHA_PATTERN = /^[0-9a-f]{40}$/u;
 
 export type VerificationManifest = {
   revision: string;
+  reviewTargetIds: string[];
   scope: VerificationScope;
-  targets: VerificationTarget[];
+  targetCatalog: VerificationTarget[];
 };
 
 export function buildVerificationManifest(
@@ -21,9 +23,16 @@ export function buildVerificationManifest(
   if (!SHA_PATTERN.test(revision)) {
     throw new Error("Revision must be a lowercase 40-character Git SHA.");
   }
+  const targets = discoverVerificationTargetCatalog(
+    trackedPaths,
+    indexMarkdown,
+  );
   return {
     revision,
+    reviewTargetIds: selectVerificationTargets(scope, targets).map(
+      (target) => target.id,
+    ),
     scope,
-    targets: discoverVerificationTargets(scope, trackedPaths, indexMarkdown),
+    targetCatalog: targets,
   };
 }

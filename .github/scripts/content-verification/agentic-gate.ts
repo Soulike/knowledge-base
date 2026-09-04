@@ -126,7 +126,7 @@ export function parseVerificationManifest(
   const manifest = object(value, "target manifest");
   requireExactKeys(
     manifest,
-    ["revision", "scope", "targets"],
+    ["revision", "reviewTargetIds", "scope", "targetCatalog"],
     "target manifest",
   );
   const revision = string(manifest.revision, "manifest revision");
@@ -136,15 +136,22 @@ export function parseVerificationManifest(
   if (manifest.scope !== expectedScope) {
     fail(`manifest scope must be ${expectedScope}.`);
   }
-  if (!Array.isArray(manifest.targets) || manifest.targets.length === 0) {
-    fail("manifest targets must be a non-empty array.");
+  if (
+    !Array.isArray(manifest.targetCatalog) ||
+    manifest.targetCatalog.length === 0
+  ) {
+    fail("manifest target catalog must be a non-empty array.");
   }
 
   const targetIds = new Set<string>();
   const ownedFiles = new Set<string>();
-  const targets = manifest.targets.map((targetValue) => {
+  const targets = manifest.targetCatalog.map((targetValue) => {
     const target = object(targetValue, "manifest target");
-    requireExactKeys(target, ["files", "id", "kind"], "manifest target");
+    requireExactKeys(
+      target,
+      ["files", "id", "kind", "knowledgeType"],
+      "manifest target",
+    );
     const id = string(target.id, "manifest target id");
     if (targetIds.has(id)) {
       fail(`manifest target '${id}' is duplicated.`);
@@ -163,15 +170,25 @@ export function parseVerificationManifest(
     }
 
     let parsed: VerificationTarget;
-    if (expectedScope !== "maintained-agent-content") {
+    if (target.kind === "knowledge") {
       if (
-        target.kind !== "knowledge" ||
         files.length !== 1 ||
-        files[0] !== id
+        files[0] !== id ||
+        (target.knowledgeType !== "time-sensitive" &&
+          target.knowledgeType !== "evergreen")
       ) {
         fail(`manifest target '${id}' must own exactly its Knowledge leaf.`);
       }
-      parsed = { files: [id], id, kind: "knowledge" };
+      parsed = {
+        files: [id],
+        id,
+        kind: "knowledge",
+        knowledgeType: target.knowledgeType,
+      };
+    } else if (target.knowledgeType !== undefined) {
+      fail(
+        `manifest target '${id}' has Knowledge Type without Knowledge kind.`,
+      );
     } else if (target.kind === "skill") {
       if (!id.endsWith("/SKILL.md") || files[0] !== id) {
         fail(`Skill target '${id}' must begin with its SKILL.md entrypoint.`);
@@ -198,7 +215,44 @@ export function parseVerificationManifest(
     return parsed;
   });
 
-  return { revision, scope: expectedScope, targets };
+  if (
+    !Array.isArray(manifest.reviewTargetIds) ||
+    manifest.reviewTargetIds.length === 0
+  ) {
+    fail("manifest review target ids must be a non-empty array.");
+  }
+  const reviewTargetIds = manifest.reviewTargetIds.map((targetId) =>
+    string(targetId, "manifest review target id"),
+  );
+  if (new Set(reviewTargetIds).size !== reviewTargetIds.length) {
+    fail("manifest review target ids must not contain duplicates.");
+  }
+  const expectedReviewTargetIds = targets
+    .filter((target) =>
+      expectedScope === "maintained-agent-content"
+        ? target.kind !== "knowledge"
+        : target.kind === "knowledge" &&
+          target.knowledgeType ===
+            (expectedScope === "time-sensitive-knowledge"
+              ? "time-sensitive"
+              : "evergreen"),
+    )
+    .map((target) => target.id);
+  if (
+    reviewTargetIds.length !== expectedReviewTargetIds.length ||
+    reviewTargetIds.some(
+      (targetId, index) => targetId !== expectedReviewTargetIds[index],
+    )
+  ) {
+    fail("manifest review target ids do not match the complete scope subset.");
+  }
+
+  return {
+    revision,
+    reviewTargetIds,
+    scope: expectedScope,
+    targetCatalog: targets,
+  };
 }
 
 export function parseAgenticVerificationOutput(
@@ -216,7 +270,7 @@ export function parseAgenticVerificationOutput(
     fail("agent output items must be an array.");
   }
 
-  const targetIds = new Set(manifest.targets.map((target) => target.id));
+  const targetIds = new Set(manifest.reviewTargetIds);
   const issueTitlePrefix = ISSUE_TITLE_PREFIXES[manifest.scope];
   const requestedTargets = new Set<string>();
   const inconclusiveDecisionIdentities = new Set<string>();

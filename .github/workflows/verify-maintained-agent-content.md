@@ -103,19 +103,20 @@ post-steps:
 
 # Verify maintained Agent content
 
-Verify every target in
-`/content-verification-targets.json` at the exact revision
-named by that manifest. The runner mounts this manifest read-only inside the
-Agent sandbox. It was derived deterministically from tracked files and the
-parsed [Knowledge index](knowledge/index.md); it is the complete required
-scope. A target is one Skill bundle, one shared reference, one Agent instruction
-file, one Agentic workflow source, or one repository-owned prompt bundle.
-Preserve every exact target `id` in notes and safe outputs.
+At the exact revision named by
+`/content-verification-targets.json`, verify every target whose id appears in
+`reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
+this manifest read-only inside the Agent sandbox. It was derived
+deterministically from tracked files and the parsed
+[Knowledge index](knowledge/index.md); the selected ids are the complete
+required scope. A selected target is one Skill bundle, shared reference, Agent
+instruction, Agentic workflow source, or repository-owned prompt bundle.
+Preserve every exact selected target `id` in notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the target
-   manifest, and every file named by every target. Read
+   manifest, and every file named by every selected target. Read
    [Agent Skill authoring](references/agents/skill-authoring.md) as the
    repository's current authoring standard, while keeping this task contract
    authoritative. When that reference is itself a target, verify it instead of

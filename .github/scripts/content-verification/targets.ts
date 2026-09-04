@@ -8,11 +8,21 @@ import {
 } from "@knowledge-base/knowledge-index";
 import type { VerificationScope } from "./scope.ts";
 
-export type VerificationTarget = {
+type MaintainedAgentContentTarget = {
   files: string[];
   id: string;
-  kind: "agent-content" | "knowledge" | "shared-reference" | "skill";
+  kind: "agent-content" | "shared-reference" | "skill";
 };
+
+type KnowledgeVerificationTarget = {
+  files: string[];
+  id: string;
+  kind: "knowledge";
+  knowledgeType: KnowledgeType;
+};
+
+export type VerificationTarget =
+  KnowledgeVerificationTarget | MaintainedAgentContentTarget;
 
 function isKnowledgeScope(
   scope: VerificationScope,
@@ -85,7 +95,6 @@ function normalizedTrackedPaths(trackedPaths: string[]): string[] {
 }
 
 function knowledgeTargets(
-  scope: `${KnowledgeType}-knowledge`,
   trackedPaths: string[],
   indexMarkdown: string,
 ): VerificationTarget[] {
@@ -112,10 +121,14 @@ function knowledgeTargets(
   }
 
   return entries
-    .filter((entry) => entry.knowledgeType === knowledgeType(scope))
     .map<VerificationTarget>((entry) => {
       const filePath = `knowledge/${entry.filePath}`;
-      return { files: [filePath], id: filePath, kind: "knowledge" };
+      return {
+        files: [filePath],
+        id: filePath,
+        kind: "knowledge",
+        knowledgeType: entry.knowledgeType,
+      };
     })
     .sort((left, right) => left.id.localeCompare(right.id));
 }
@@ -181,15 +194,39 @@ export function discoverVerificationTargets(
   trackedPaths: string[],
   indexMarkdown: string,
 ): VerificationTarget[] {
-  const paths = normalizedTrackedPaths(trackedPaths);
-  const targets = isKnowledgeScope(scope)
-    ? knowledgeTargets(scope, paths, indexMarkdown)
-    : agentContentTargets(paths);
+  return selectVerificationTargets(
+    scope,
+    discoverVerificationTargetCatalog(trackedPaths, indexMarkdown),
+  );
+}
+
+export function selectVerificationTargets(
+  scope: VerificationScope,
+  targetCatalog: readonly VerificationTarget[],
+): VerificationTarget[] {
+  const targets = targetCatalog.filter((target) =>
+    isKnowledgeScope(scope)
+      ? target.kind === "knowledge" &&
+        target.knowledgeType === knowledgeType(scope)
+      : target.kind !== "knowledge",
+  );
   if (targets.length === 0) {
     throw new Error(
       `Verification scope '${scope}' did not discover any targets.`,
     );
   }
+  return targets;
+}
+
+export function discoverVerificationTargetCatalog(
+  trackedPaths: string[],
+  indexMarkdown: string,
+): VerificationTarget[] {
+  const paths = normalizedTrackedPaths(trackedPaths);
+  const targets = [
+    ...knowledgeTargets(paths, indexMarkdown),
+    ...agentContentTargets(paths),
+  ].sort((left, right) => left.id.localeCompare(right.id));
 
   const ownedFiles = new Set<string>();
   for (const target of targets) {

@@ -57,6 +57,20 @@ reuses a human confirmation issue without making the workflow fail. It is
 distinct from incomplete execution, where the Agent could not perform the
 required analysis.
 
+### Verification target
+
+One canonical maintained-content responsibility reviewed at an exact subject
+identity. A workflow selects its primary review targets from a repository-wide
+catalog at that identity; another catalog target is related only when the same
+coherent remediation affects that responsibility too.
+
+### Verification finding
+
+One current content defect or unresolved verification question whose evidence,
+affected targets, and acceptance outcome form a coherent remediation decision.
+One finding may affect several verification targets, but it is not split merely
+to produce one issue per target.
+
 ### Subject identity
 
 The immutable revision, pull-request head, or other exact artifact that an

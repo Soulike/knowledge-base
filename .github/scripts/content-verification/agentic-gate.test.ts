@@ -8,37 +8,48 @@ import {
 import type { VerificationManifest } from "./manifest.ts";
 
 const revision = "a".repeat(40);
+const targets = [
+  {
+    files: ["knowledge/a.md"],
+    id: "knowledge/a.md",
+    kind: "knowledge",
+    knowledgeType: "time-sensitive",
+  },
+  {
+    files: ["knowledge/b.md"],
+    id: "knowledge/b.md",
+    kind: "knowledge",
+    knowledgeType: "evergreen",
+  },
+  {
+    files: ["skills/a/SKILL.md", "skills/a/references/detail.md"],
+    id: "skills/a/SKILL.md",
+    kind: "skill",
+  },
+  {
+    files: ["references/agents/shared.md"],
+    id: "references/agents/shared.md",
+    kind: "shared-reference",
+  },
+] satisfies VerificationManifest["targetCatalog"];
 const manifests = {
   "evergreen-knowledge": {
     revision,
+    reviewTargetIds: ["knowledge/b.md"],
     scope: "evergreen-knowledge",
-    targets: [
-      { files: ["knowledge/b.md"], id: "knowledge/b.md", kind: "knowledge" },
-    ],
+    targetCatalog: targets,
   },
   "maintained-agent-content": {
     revision,
+    reviewTargetIds: ["skills/a/SKILL.md", "references/agents/shared.md"],
     scope: "maintained-agent-content",
-    targets: [
-      {
-        files: ["skills/a/SKILL.md", "skills/a/references/detail.md"],
-        id: "skills/a/SKILL.md",
-        kind: "skill",
-      },
-      {
-        files: ["references/agents/shared.md"],
-        id: "references/agents/shared.md",
-        kind: "shared-reference",
-      },
-    ],
+    targetCatalog: targets,
   },
   "time-sensitive-knowledge": {
     revision,
+    reviewTargetIds: ["knowledge/a.md"],
     scope: "time-sensitive-knowledge",
-    targets: [
-      { files: ["knowledge/a.md"], id: "knowledge/a.md", kind: "knowledge" },
-      { files: ["knowledge/b.md"], id: "knowledge/b.md", kind: "knowledge" },
-    ],
+    targetCatalog: targets,
   },
 } satisfies Record<string, VerificationManifest>;
 const manifest = manifests["time-sensitive-knowledge"];
@@ -86,8 +97,8 @@ describe("validateAgenticVerificationOutput", () => {
       assert.doesNotThrow(() =>
         validateAgenticVerificationOutput(candidate, {
           errors: [],
-          items: candidate.targets.map((target) =>
-            issue(target.id, scope as keyof typeof titlePrefixes),
+          items: candidate.reviewTargetIds.map((targetId) =>
+            issue(targetId, scope as keyof typeof titlePrefixes),
           ),
         }),
       );
@@ -145,7 +156,7 @@ describe("validateAgenticVerificationOutput", () => {
       validateAgenticVerificationOutput(manifest, {
         errors: [],
         items: [
-          issue("knowledge/b.md"),
+          issue("knowledge/a.md"),
           inconclusive(),
           inconclusive({
             summary: "A second independent observation is not documented",
@@ -226,7 +237,22 @@ describe("parseVerificationManifest", () => {
     assert.throws(
       () =>
         parseVerificationManifest(
-          { ...manifest, targets: [manifest.targets[0], manifest.targets[0]] },
+          {
+            ...manifest,
+            targetCatalog: [
+              manifest.targetCatalog[0],
+              manifest.targetCatalog[0],
+            ],
+          },
+          revision,
+          manifest.scope,
+        ),
+      /verification gate/u,
+    );
+    assert.throws(
+      () =>
+        parseVerificationManifest(
+          { ...manifest, reviewTargetIds: ["knowledge/b.md"] },
           revision,
           manifest.scope,
         ),

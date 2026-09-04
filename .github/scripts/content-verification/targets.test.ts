@@ -19,11 +19,25 @@ describe("discoverVerificationTargets", () => {
 
     assert.deepEqual(
       discoverVerificationTargets("time-sensitive-knowledge", tracked, index),
-      [{ files: ["knowledge/a.md"], id: "knowledge/a.md", kind: "knowledge" }],
+      [
+        {
+          files: ["knowledge/a.md"],
+          id: "knowledge/a.md",
+          kind: "knowledge",
+          knowledgeType: "time-sensitive",
+        },
+      ],
     );
     assert.deepEqual(
       discoverVerificationTargets("evergreen-knowledge", tracked, index),
-      [{ files: ["knowledge/b.md"], id: "knowledge/b.md", kind: "knowledge" }],
+      [
+        {
+          files: ["knowledge/b.md"],
+          id: "knowledge/b.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+      ],
     );
   });
 
@@ -41,6 +55,9 @@ describe("discoverVerificationTargets", () => {
       "AGENTS.md",
       "CONTEXT.md",
       "docs/agents/domain.md",
+      "knowledge/a.md",
+      "knowledge/b.md",
+      "knowledge/index.md",
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
       "plugins/example/skills/check/SKILL.md",

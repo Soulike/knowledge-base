@@ -115,10 +115,10 @@ safe-outputs:
 
 ## Shared content-verification decision contract
 
-Complete the task-specific analysis below without searching GitHub issues.
-For every target, freeze its current findings before using issue history. A
-target is `current` only when it has no finding. Classify each non-current
-finding as either:
+Complete the task-specific analysis below without searching GitHub issues. For
+every review target selected by the manifest's `reviewTargetIds`, freeze its
+current findings before using issue history. A target is `current` only when it
+has no finding. Classify each non-current finding as either:
 
 - `modification-required`: current reasoning or evidence establishes a content
   defect and the required correction; or

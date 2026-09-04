@@ -10,9 +10,15 @@ const executeFile = promisify(execFile);
 const revision = "a".repeat(40);
 const manifest = {
   revision,
+  reviewTargetIds: ["knowledge/a.md"],
   scope: "time-sensitive-knowledge",
-  targets: [
-    { files: ["knowledge/a.md"], id: "knowledge/a.md", kind: "knowledge" },
+  targetCatalog: [
+    {
+      files: ["knowledge/a.md"],
+      id: "knowledge/a.md",
+      kind: "knowledge",
+      knowledgeType: "time-sensitive",
+    },
   ],
 };
 const script = new URL("./agentic-gate-cli.ts", import.meta.url);

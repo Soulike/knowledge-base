@@ -12,9 +12,15 @@ import type { VerificationManifest } from "./manifest.ts";
 const revision = "a".repeat(40);
 const manifest: VerificationManifest = {
   revision,
+  reviewTargetIds: ["knowledge/a.md"],
   scope: "time-sensitive-knowledge",
-  targets: [
-    { files: ["knowledge/a.md"], id: "knowledge/a.md", kind: "knowledge" },
+  targetCatalog: [
+    {
+      files: ["knowledge/a.md"],
+      id: "knowledge/a.md",
+      kind: "knowledge",
+      knowledgeType: "time-sensitive",
+    },
   ],
 };
 

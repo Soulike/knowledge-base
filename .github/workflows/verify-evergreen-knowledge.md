@@ -103,19 +103,20 @@ post-steps:
 
 # Verify evergreen Knowledge
 
-Verify every target in
-`/content-verification-targets.json` at the exact revision
-named by that manifest. The runner mounts this manifest read-only inside the
-Agent sandbox. It was derived deterministically from tracked files and the
-parsed [Knowledge index](knowledge/index.md); it is the complete required
-scope. Treat every target independently and preserve its exact `id` in all
-notes and safe outputs.
+At the exact revision named by
+`/content-verification-targets.json`, verify every target whose id appears in
+`reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
+this manifest read-only inside the Agent sandbox. It was derived
+deterministically from tracked files and the parsed
+[Knowledge index](knowledge/index.md); the selected ids are the complete
+required scope. Treat every selected target independently and preserve its
+exact `id` in all notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the
    [Knowledge index](knowledge/index.md), the target manifest, and every
-   file named by every target. If a target is missing, duplicated, or
+   file named by every selected target. If a target is missing, duplicated, or
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`
    exactly once.

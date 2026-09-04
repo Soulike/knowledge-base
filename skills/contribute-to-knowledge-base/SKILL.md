@@ -94,20 +94,26 @@ repository. Treat installed plugin files as read-only context.
    access, issue availability, or publication permission blocks the operation,
    return the complete sanitized draft, requested label, target repository, and
    exact blocker. Do not clone, fork, create a branch, push, or open a pull
-   request as a fallback.
+   request as a fallback. Record the exact returned issue or comment identifier,
+   publishing identity, public text, and every provider-exposed revision value
+   needed to bind verification or a possible repair to that published object.
 10. Using the same explicit canonical repository identity or the verified
-    canonical issue URL, re-read every published issue or comment and verify
-    its repository, number, expected open state for a new issue, title when
-    applicable, exact public text, and label result. Bind every reconciliation
-    search and repair operation to that same identity. When publication has an
-    unknown result, search for the exact approved content and reconcile the
-    outcome before considering a retry. If verification reveals unapproved
-    sensitive content, immediately restore the affected issue title and body or
-    comment to its last approved sanitized draft, stop, and report the
-    potential exposure without claiming that the correction retracted
-    notifications, caches, or other copies. For any other identity, state, or
-    content mismatch, perform no further mutation and report
-    `publication-mismatch`.
+    canonical issue URL, re-read the exact returned issue or comment and verify
+    its repository, identifier, author, number, expected open state for a new
+    issue, title when applicable, exact public text, revision, and label result.
+    Bind every reconciliation search and repair operation to that same object
+    and canonical identity. When publication has an unknown result, search for
+    the exact approved content and reconcile the outcome before considering a
+    retry. If verification reveals unapproved sensitive content, restore the
+    last approved sanitized draft only when the current identifier, author,
+    public text, and revision still exactly match the recorded publication and
+    `gh` can bind the update conditionally to that revision. Re-read and verify
+    the repaired object, then stop and report the potential exposure without
+    claiming that the correction retracted notifications, caches, or other
+    copies. When ownership, content, revision, or conditional-update support
+    cannot establish a safe repair, perform no further mutation and report
+    `exposure-repair-blocked`. For any other identity, state, or content
+    mismatch, perform no further mutation and report `publication-mismatch`.
 11. Report one terminal result for every candidate:
     - `published`: a new open issue exists with verified public text;
     - `existing`: an open or closed issue already covers the proposal;
@@ -118,7 +124,9 @@ repository. Treat installed plugin files as read-only context.
     - `publication-mismatch`: a published target exists but its verified
       identity, state, or public text differs from the approved expectation; or
     - `exposure-repaired`: unapproved sensitive content was replaced with the
-      approved draft and the potential exposure was reported.
+      approved draft and the potential exposure was reported; or
+    - `exposure-repair-blocked`: unapproved sensitive content was detected but
+      ownership or revision safety did not permit an automatic overwrite.
 
     After reporting the verified publication or other terminal result, finish
     this Skill. Issue triage, replies, edits, closure, implementation, pull

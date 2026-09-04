@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
+import { fromMarkdown } from "mdast-util-from-markdown";
 import { parse } from "yaml";
+
+import type { Nodes } from "mdast";
 
 type JsonObject = Record<string, unknown>;
 
@@ -69,6 +72,31 @@ function loadCompiledWorkflow(file: string): CompiledWorkflow {
     jobs,
     source,
   };
+}
+
+function loadWorkflowPrompt(file: string): string {
+  return readFileSync(
+    new URL(`../../workflows/${file}.md`, import.meta.url),
+    "utf8",
+  );
+}
+
+function inlineCodeValues(markdown: string): string[] {
+  const values: string[] = [];
+
+  function visit(node: Nodes): void {
+    if (node.type === "inlineCode") {
+      values.push(node.value);
+    }
+    if ("children" in node) {
+      for (const child of node.children) {
+        visit(child);
+      }
+    }
+  }
+
+  visit(fromMarkdown(markdown));
+  return values;
 }
 
 function assertAgentPermissionBoundary(agent: JsonObject): void {
@@ -212,6 +240,7 @@ const contentVerificationFiles = [
   "verify-evergreen-knowledge",
   "verify-maintained-agent-content",
 ] as const;
+const targetManifestSandboxPath = "/content-verification-targets.json";
 
 describe("compiled Agent runtime boundaries", () => {
   it("preserves the shared runtime contract in every Agent workflow", () => {
@@ -229,6 +258,37 @@ describe("compiled Agent runtime boundaries", () => {
 });
 
 describe("compiled content-verification publication boundary", () => {
+  it("mounts the trusted manifest at the fixed path named in every prompt", () => {
+    for (const file of contentVerificationFiles) {
+      const { agentSteps } = loadCompiledWorkflow(file);
+      const promptPaths = inlineCodeValues(loadWorkflowPrompt(file));
+      const manifestStep = stepByName(
+        agentSteps,
+        "Generate content verification target manifest",
+      );
+      const manifestPath = String(
+        object(manifestStep.env, `${file} manifest environment`)
+          .CONTENT_VERIFICATION_TARGET_MANIFEST,
+      );
+      const execution = stepByName(agentSteps, "Execute GitHub Copilot CLI");
+
+      assert.equal(
+        promptPaths.filter((path) => path === targetManifestSandboxPath).length,
+        1,
+      );
+      assert.ok(
+        String(execution.run).includes(
+          `${manifestPath}:${targetManifestSandboxPath}:ro`,
+        ),
+      );
+      assert.ok(
+        !promptPaths.includes(
+          "$RUNNER_TEMP/gh-aw/content-verification-targets.json",
+        ),
+      );
+    }
+  });
+
   it("gates every issue-writing job on the authenticated Agent result", () => {
     for (const file of contentVerificationFiles) {
       const { agentSteps, jobs } = loadCompiledWorkflow(file);

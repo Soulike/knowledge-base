@@ -1,8 +1,8 @@
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 
-export const compilerVersion = "v0.87.10";
-export const runtimeActionSha = "ff62cdbec36230acbae869ddb28806e8eca01ea1";
+export const compilerVersion = "v0.88.2";
+export const runtimeActionSha = "8e30bcd8897f5047051fa3971188e1dd4cdb23cf";
 
 const compileArguments = [
   "compile",

@@ -2,6 +2,7 @@
 name: AI review
 
 on:
+  needs: [resolve_copilot_version]
   pull_request_target:
     types:
       - opened
@@ -12,7 +13,7 @@ on:
 
 engine:
   id: copilot
-  version: latest
+  version: ${{ needs.resolve_copilot_version.outputs.version }}
   model: ${{ vars.AI_REVIEW_MODEL || 'auto' }}
   args:
     - --context

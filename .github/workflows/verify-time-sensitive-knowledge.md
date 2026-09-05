@@ -8,7 +8,7 @@ on:
 
 engine:
   id: copilot
-  version: latest
+  version: ${{ needs.resolve_copilot_version.outputs.version }}
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
     - --context

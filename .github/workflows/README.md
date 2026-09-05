@@ -20,7 +20,9 @@ invariants are maintained as
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
 | AI review                | Eligible non-draft pull requests and later pushes                                | [Source](ai-review.md), [generated](ai-review.lock.yml)                                             |
 
-Every source declares `engine.version: latest`, leaving Copilot CLI selection floating at run time; gh-aw may reuse a compatible cached CLI. The repository variable selects the model. Each task selects Copilot's `long_context` tier and passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unsupported effort before inference.
+Every run resolves the latest stable release from the official `github/copilot-cli` repository before engine installation. Both the Agent and threat-detection jobs pass that concrete version to gh-aw through `engine.version`; only an exact-version cache entry can be reused. Resolution errors, prereleases, and malformed or empty versions fail instead of falling back to gh-aw's default or a cached older CLI. The Agent also checks the installed executable's reported version before its task starts. This is version selection and verification, not a model-capability preflight.
+
+The repository variable selects the model. Each task selects Copilot's `long_context` tier and passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unknown effort string before inference. This enum check does not certify model-specific reasoning or numeric context limits.
 
 The source Markdown is maintained by people and Agents. The generated `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed review artifacts owned by the fixed compiler.
 
@@ -35,6 +37,8 @@ All four tasks import [the shared runtime](shared/agentic-runtime.md). It provid
 - the remote Tavily MCP service, exposing only search and extraction;
 - a sandbox network boundary;
 - the latest LTS Node.js release;
+- one resolved stable Copilot CLI version shared by Agent and threat detection,
+  with an installed-version check before the Agent task;
 - repository dependencies installed from the trusted checkout before inference,
   with a lockfile-keyed pnpm store cache;
 - the knowledge-base plugin from the checked-out repository revision;
@@ -100,7 +104,7 @@ reduction. gh-aw also continues to advertise its system `noop` facility because
 threat detection is imported from the shared runtime; the content-verification
 contract requires an empty stream instead, and the reducer rejects `noop`.
 
-gh-aw `v0.87.10` also does not merge imported safe-output scripts and injects a
+The pinned gh-aw compiler does not merge imported safe-output scripts and injects a
 default `create_issue` tool when every custom tool comes only from imports. The
 shared contract therefore owns the larger add and update schemas, while each
 task source repeats only the one-parameter delete script as a thin compiler
@@ -124,8 +128,8 @@ The dedicated `report-incomplete` issue handler remains disabled, so incomplete
 work does not create a second issue beside the global failure report. These
 operational issues remain separate from content findings.
 
-Failure-issue publication is best effort within the fixed gh-aw runtime. In
-`v0.87.10`, failed-job reports are created per run rather than using the
+Failure-issue publication is best effort within the fixed gh-aw runtime.
+Failed-job reports are created per run rather than using the
 Agent/framework reporter's 24-hour reuse window, and the reporter excludes the
 built-in `safe_outputs` job. Actions status and normal notifications remain the
 complete operational signal; this repository does not add a second failure
@@ -169,14 +173,14 @@ Configure `AI review gate` as a required status check and create the `automated-
 
 ## Compile and validate
 
-The repository pins gh-aw `v0.87.10`. Install that exact compiler and regenerate all sources with:
+The repository pins gh-aw `v0.88.2`. Install that exact compiler and regenerate all sources with:
 
 ```bash
-gh extension install github/gh-aw --pin v0.87.10
+gh extension install github/gh-aw --pin v0.88.2
 pnpm agentic:compile
 ```
 
-For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The wrapper rejects every compiler version except `v0.87.10`.
+For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The wrapper rejects every compiler version except `v0.88.2`.
 
 Run:
 
@@ -188,4 +192,4 @@ git diff --check
 
 `pnpm agentic:check` recompiles and rejects modified, deleted, or untracked generated artifacts. Generated lock workflows are excluded from Prettier because gh-aw is their authoritative formatter.
 
-The expected compile warnings are the deliberate floating Copilot version and the `pull_request_target` security warning. The latter is bounded by explicit job permissions, the trusted-author filter, trusted-base checkout, exact unexecuted head objects, read-only Agent credentials, permission-isolated safe outputs, and the repository-owned verdict gate.
+The `pull_request_target` compile warning is bounded by explicit job permissions, the trusted-author filter, trusted-base checkout, exact unexecuted head objects, read-only Agent credentials, permission-isolated safe outputs, and the repository-owned verdict gate. Copilot remains floating across runs, but each run supplies the installer with one validated concrete version.

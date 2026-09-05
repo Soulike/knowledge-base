@@ -1,6 +1,16 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, it } from "node:test";
+import { runInNewContext } from "node:vm";
 
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { parse } from "yaml";
@@ -241,6 +251,217 @@ const contentVerificationFiles = [
   "verify-maintained-agent-content",
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
+
+describe("Copilot release selection", () => {
+  const versionExpression =
+    "${{ needs.resolve_copilot_version.outputs.version }}";
+
+  it("binds both installers to the resolved release and checks the Agent before inference", () => {
+    for (const file of [...contentVerificationFiles, "ai-review"]) {
+      const { jobs, agentSteps } = loadCompiledWorkflow(file);
+      const resolver = object(jobs.resolve_copilot_version, "release resolver");
+      assert.deepEqual(resolver.permissions, { contents: "read" });
+      assert.equal(
+        object(resolver.outputs, "release outputs").version,
+        "${{ steps.release.outputs.version }}",
+      );
+
+      assert.equal("needs" in resolver, false);
+      assert.equal("pre_activation" in jobs, file === "ai-review");
+      for (const [name, value] of Object.entries(jobs)) {
+        const job = object(value, name);
+        if (JSON.stringify(job).includes(versionExpression)) {
+          const dependencies = Array.isArray(job.needs)
+            ? job.needs
+            : [job.needs];
+          assert.ok(
+            dependencies.includes("resolve_copilot_version"),
+            `${file}: ${name} must receive the version output it consumes`,
+          );
+        }
+      }
+
+      for (const jobName of ["agent", "detection"]) {
+        const job = object(jobs[jobName], jobName);
+        assert.ok(
+          array(job.needs, "installer dependencies").includes(
+            "resolve_copilot_version",
+          ),
+        );
+        const install = stepByName(
+          array(job.steps, "job steps"),
+          "Install GitHub Copilot CLI",
+        );
+        assert.equal(
+          object(install.env, "installer environment").ENGINE_VERSION,
+          versionExpression,
+        );
+        assert.match(
+          String(install.run),
+          /install_copilot_cli\.sh" "\$\{ENGINE_VERSION\}"/u,
+        );
+      }
+
+      const verify = stepByName(
+        agentSteps,
+        "Verify selected Copilot CLI version",
+      );
+      assert.equal(
+        object(verify.env, "verification environment").EXPECTED_COPILOT_VERSION,
+        versionExpression,
+      );
+      assert.equal("continue-on-error" in verify, false);
+      assert.ok(
+        stepIndex(agentSteps, "Install GitHub Copilot CLI") <
+          stepIndex(agentSteps, "Verify selected Copilot CLI version"),
+      );
+      assert.ok(
+        stepIndex(agentSteps, "Verify selected Copilot CLI version") <
+          stepIndex(agentSteps, "Execute GitHub Copilot CLI"),
+      );
+    }
+  });
+
+  async function resolveRelease(
+    release: unknown,
+  ): Promise<Map<string, string>> {
+    const { jobs } = loadCompiledWorkflow("ai-review");
+    const resolver = object(jobs.resolve_copilot_version, "release resolver");
+    const step = stepByName(
+      array(resolver.steps, "resolver steps"),
+      "Resolve latest stable Copilot CLI",
+    );
+    const script = String(object(step.with, "resolver inputs").script);
+    const outputs = new Map<string, string>();
+    await new Promise<void>((resolve, reject) => {
+      runInNewContext(
+        `(async () => {\n${script}\n})().then(onSuccess, onFailure)`,
+        {
+          github: {
+            rest: {
+              repos: {
+                getLatestRelease: async (request: {
+                  owner: string;
+                  repo: string;
+                }) => {
+                  assert.equal(request.owner, "github");
+                  assert.equal(request.repo, "copilot-cli");
+                  if (release instanceof Error) throw release;
+                  return { data: release };
+                },
+              },
+            },
+          },
+          core: {
+            setOutput: (key: string, value: string) => outputs.set(key, value),
+            info: () => {},
+          },
+          onSuccess: resolve,
+          onFailure: reject,
+        },
+      );
+    });
+    return outputs;
+  }
+
+  it("resolves the publisher's stable release to one explicit installer version", async () => {
+    assert.deepEqual(
+      await resolveRelease({
+        tag_name: "v1.2.3",
+        draft: false,
+        prerelease: false,
+      }),
+      new Map([["version", "1.2.3"]]),
+    );
+  });
+
+  it("fails closed when the publisher query fails or cannot identify a stable release", async () => {
+    await assert.rejects(
+      resolveRelease(new Error("release query failed")),
+      /release query failed/u,
+    );
+    for (const release of [
+      { tag_name: "v1.2.3", draft: true, prerelease: false },
+      { tag_name: "v1.2.3", draft: false, prerelease: true },
+      ...[
+        "",
+        "latest",
+        "v1.2.3-1",
+        "v01.2.3",
+        "v1.2.3\n",
+        "v1.2.3\nversion=1.0.0",
+        null,
+      ].map((tag_name) => ({ tag_name, draft: false, prerelease: false })),
+    ]) {
+      await assert.rejects(
+        resolveRelease(release),
+        /Cannot resolve a concrete stable/u,
+      );
+    }
+  });
+
+  function verifyInstalled(expected: string, reported: string, exitCode = 0) {
+    const root = mkdtempSync(join(tmpdir(), "copilot-version-test-"));
+    try {
+      const executable = join(root, "copilot");
+      const argumentsFile = join(root, "arguments");
+      writeFileSync(
+        executable,
+        '#!/bin/sh\nprintf "%s" "$*" > "$PROBE_ARGUMENTS"\nprintf "%s" "$PROBE_REPORTED"\nexit "$PROBE_EXIT"\n',
+        { mode: 0o755 },
+      );
+      const { agentSteps } = loadCompiledWorkflow("ai-review");
+      const script = String(
+        stepByName(agentSteps, "Verify selected Copilot CLI version").run,
+      );
+      const result = spawnSync("bash", ["-c", script], {
+        encoding: "utf8",
+        env: {
+          PATH: `${root}:${process.env.PATH}`,
+          EXPECTED_COPILOT_VERSION: expected,
+          PROBE_ARGUMENTS: argumentsFile,
+          PROBE_REPORTED: reported,
+          PROBE_EXIT: String(exitCode),
+        },
+      });
+      return {
+        ...result,
+        arguments: existsSync(argumentsFile)
+          ? readFileSync(argumentsFile, "utf8")
+          : undefined,
+      };
+    } finally {
+      rmSync(root, { recursive: true, force: true });
+    }
+  }
+
+  it("accepts the selected executable version without permitting an auto-update", () => {
+    const result = verifyInstalled(
+      "1.2.3",
+      "GitHub Copilot CLI 1.2.3.\nRun 'copilot update' to check for updates.\n",
+    );
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.arguments, "--no-auto-update --version");
+  });
+
+  it("rejects stale or unreadable installed versions", () => {
+    for (const result of [
+      verifyInstalled("1.2.3", "GitHub Copilot CLI 1.2.2.\n"),
+      verifyInstalled("1.2.3", "GitHub Copilot CLI 1.2.3-1.\n"),
+      verifyInstalled("1.2.3", ""),
+      verifyInstalled("1.2.3", "GitHub Copilot CLI 1.2.3.\n", 17),
+    ])
+      assert.notEqual(result.status, 0);
+  });
+
+  it("never invokes a CLI when release resolution is missing or invalid", () => {
+    for (const expected of ["", "latest", "1.2.3\n"]) {
+      const result = verifyInstalled(expected, "GitHub Copilot CLI 1.2.3.\n");
+      assert.notEqual(result.status, 0);
+      assert.equal(result.arguments, undefined);
+    }
+  });
+});
 
 describe("compiled Agent runtime boundaries", () => {
   it("preserves the shared runtime contract in every Agent workflow", () => {

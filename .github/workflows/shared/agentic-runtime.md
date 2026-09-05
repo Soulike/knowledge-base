@@ -32,7 +32,69 @@ runtimes:
   node:
     version: "lts/*"
 
+jobs:
+  resolve_copilot_version:
+    name: Resolve latest stable Copilot CLI
+    needs: []
+    runs-on: ubuntu-slim
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Resolve latest stable Copilot CLI
+        id: release
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const { data: release } = await github.rest.repos.getLatestRelease({
+              owner: "github",
+              repo: "copilot-cli",
+            });
+            if (
+              release.draft !== false ||
+              release.prerelease !== false ||
+              typeof release.tag_name !== "string" ||
+              release.tag_name.trim() !== release.tag_name ||
+              !/^v(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(release.tag_name)
+            ) {
+              throw new Error("Cannot resolve a concrete stable Copilot CLI release.");
+            }
+            const version = release.tag_name.slice(1);
+            core.setOutput("version", version);
+            core.info(`Selected Copilot CLI ${version} for this workflow run.`);
+
+  activation:
+    needs: [resolve_copilot_version]
+
+  agent:
+    needs: [resolve_copilot_version]
+
+  detection:
+    needs: [resolve_copilot_version]
+
+  safe_outputs:
+    needs: [resolve_copilot_version]
+
 pre-agent-steps:
+  - name: Verify selected Copilot CLI version
+    shell: bash
+    env:
+      EXPECTED_COPILOT_VERSION: ${{ needs.resolve_copilot_version.outputs.version }}
+    run: |
+      set -euo pipefail
+      if ! [[ "${EXPECTED_COPILOT_VERSION:-}" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+        echo "::error::Missing or invalid resolved Copilot CLI version."
+        exit 1
+      fi
+      installed="$(copilot --no-auto-update --version)"
+      version_line="${installed%%$'\n'*}"
+      if [ "$version_line" != "GitHub Copilot CLI ${EXPECTED_COPILOT_VERSION}." ]; then
+        echo "::error::Installed Copilot CLI does not match selected version ${EXPECTED_COPILOT_VERSION}."
+        exit 1
+      fi
+      printf 'Verified Copilot CLI %s at %s\n' "$EXPECTED_COPILOT_VERSION" "$(command -v copilot)"
+
   - name: Validate required reasoning effort
     env:
       AGENTIC_REASONING_EFFORT: ${{ github.aw.import-inputs.reasoning_effort }}

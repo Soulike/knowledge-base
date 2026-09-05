@@ -22,7 +22,7 @@ invariants are maintained as
 
 Every run resolves the latest stable release from the official `github/copilot-cli` repository before engine installation. Both the Agent and threat-detection jobs pass that concrete version to gh-aw through `engine.version`; only an exact-version cache entry can be reused. Resolution errors, prereleases, and malformed or empty versions fail instead of falling back to gh-aw's default or a cached older CLI. The Agent also checks the installed executable's reported version before its task starts. This is version selection and verification, not a model-capability preflight.
 
-The repository variable selects the model. Each task selects Copilot's `long_context` tier and passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unknown effort string before inference. This enum check does not certify model-specific reasoning or numeric context limits.
+The repository variable selects the model. Each task passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unknown effort string before inference. The workflows do not override Copilot's context tier. Context budgets remain dependent on the model and runtime configuration; neither the version check nor this enum check certifies model-specific reasoning or numeric context limits.
 
 The source Markdown is maintained by people and Agents. The generated `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed review artifacts owned by the fixed compiler.
 

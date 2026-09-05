@@ -8,7 +8,7 @@ import {
 } from "./compiler-contract.ts";
 
 describe("compilerInvocation", () => {
-  it("pins the v0.87.10 compiler contract and resolved runtime action", () => {
+  it("pins the v0.88.2 compiler contract and resolved runtime action", () => {
     assert.deepEqual(compilerInvocation({}), {
       args: [
         "aw",
@@ -16,7 +16,7 @@ describe("compilerInvocation", () => {
         "--action-mode",
         "release",
         "--action-tag",
-        "ff62cdbec36230acbae869ddb28806e8eca01ea1",
+        "8e30bcd8897f5047051fa3971188e1dd4cdb23cf",
         "--strict",
         "--validate",
         "--no-check-update",
@@ -35,7 +35,7 @@ describe("compilerInvocation", () => {
           "--action-mode",
           "release",
           "--action-tag",
-          "ff62cdbec36230acbae869ddb28806e8eca01ea1",
+          "8e30bcd8897f5047051fa3971188e1dd4cdb23cf",
           "--strict",
           "--validate",
           "--no-check-update",
@@ -48,14 +48,11 @@ describe("compilerInvocation", () => {
 });
 
 describe("requireCompilerVersion", () => {
-  it("rejects any compiler other than v0.87.10", () => {
-    assert.equal(
-      requireCompilerVersion("gh aw version v0.87.10\n"),
-      "v0.87.10",
-    );
+  it("rejects any compiler other than v0.88.2", () => {
+    assert.equal(requireCompilerVersion("gh aw version v0.88.2\n"), "v0.88.2");
     assert.throws(
-      () => requireCompilerVersion("gh aw version v0.87.11\n"),
-      /Expected gh-aw compiler v0\.87\.10/u,
+      () => requireCompilerVersion("gh aw version v0.87.10\n"),
+      /Expected gh-aw compiler v0\.88\.2/u,
     );
   });
 });

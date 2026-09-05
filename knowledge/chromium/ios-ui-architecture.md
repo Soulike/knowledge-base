@@ -6,7 +6,7 @@ This document explains Chromium's iOS UI architecture for day-to-day feature dev
 
 ## When to update
 
-Update this document when Chromium changes the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer or mutator protocols, the legacy or current feature layouts, the shared-library layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
+Update this document when Chromium changes the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer or mutator protocols, the fullscreen ownership or broadcasting paths, the legacy or current feature layouts, the shared-library layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
 
 ## Design principles
 
@@ -96,7 +96,11 @@ Use commands for requests such as presenting settings, starting another browser 
 
 ### Broadcaster and observation
 
-Each `Browser` also owns a `ChromeBroadcaster`. It synchronizes a defined set of UI-layer properties while hiding the identity of the object producing each value. Use it only when multiple UI participants need that lightweight property synchronization. Model changes belong to model observers, consumer updates belong to mediators, and user intent belongs to mutators or commands.
+`ChromeBroadcaster` synchronizes a defined set of UI-layer properties while hiding the identity of the object producing each value. Its observer protocol limits which properties can participate; it is not a general-purpose observation or notification bus. Model changes belong to model observers, consumer updates belong to mediators, and user intent belongs to mutators or commands.
+
+`FullscreenControllerImpl` creates and strongly owns the broadcaster used by fullscreen. Its `FullscreenController` interface is attached to a `Browser` as `BrowserUserData`: obtain the installed controller with `FullscreenController::FromBrowser(browser)`, then use its `broadcaster()` accessor. `Browser` does not expose a broadcaster accessor. The normal browser-agent setup installs this controller for regular and incognito browsers, not inactive or temporary browsers, so a broadcaster is not available on every `Browser`.
+
+The controller is browser-scoped and is destroyed when its user data is removed or its browser is destroyed. Stopping a feature's UI does not itself destroy that controller: UI participants must stop their broadcasts and remove their observations when they disconnect. In current `BrowserViewController` code, enabling fullscreen refactoring bypasses broadcasting and uses `FullscreenBrowserAgent` instead. Follow the target feature's active fullscreen path before choosing this mechanism; do not make broadcaster-based synchronization the default for new UI state.
 
 ## Application context
 
@@ -108,7 +112,7 @@ The UI architecture sits within Chromium iOS's application object model:
   instances through weak pointers; it does not own their lifetime. A regular
   profile and its off-the-record counterpart share one list.
 - `Browser` models a UI-facing container of tabs. A window can have several browsers, such as regular, incognito, inactive, or temporary browsers.
-- `Browser` owns a `WebStateList`, `CommandDispatcher`, and `ChromeBroadcaster`, while a coordinator owns the `Browser` instance used by its UI.
+- `Browser` owns a `WebStateList` and `CommandDispatcher`, while a coordinator owns the `Browser` instance used by its UI. Fullscreen's broadcaster belongs to the browser-attached controller, with the availability and lifetime described under [Broadcaster and observation](#broadcaster-and-observation).
 - `WebStateList` owns and observes the ordered tabs; each `WebState` represents a tab and wraps its web view and tab helpers.
 
 This context determines dependency lifetime. Process-wide behavior belongs under `ApplicationContext`; profile behavior belongs in profile-keyed services; per-browser UI state follows `Browser`; tab state follows `WebState`. A feature should request the narrowest object whose lifetime and responsibility match the work.
@@ -181,16 +185,16 @@ These examples are representative rather than a required or exhaustive inventory
 
 ## Daily design decisions
 
-| Need                                                           | Preferred owner or mechanism                           |
-| -------------------------------------------------------------- | ------------------------------------------------------ |
-| Render state or handle local UIKit behavior                    | View controller                                        |
-| Transform model state into display state                       | Mediator to consumer protocol                          |
-| Apply feature-local user intent to model-facing behavior       | Mutator protocol implemented by mediator               |
-| Present, dismiss, replace, or compose a flow                   | Coordinator or child coordinator                       |
-| Request a UI action across feature boundaries                  | Command protocol through `CommandDispatcher`           |
-| Synchronize a defined UI property without knowing its producer | `ChromeBroadcaster`                                    |
-| Observe domain state                                           | Model observer owned or adapted by the mediator        |
-| Hold process, profile, browser, or tab state                   | Object matching that lifetime in the application model |
+| Need                                                                       | Preferred owner or mechanism                                |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Render state or handle local UIKit behavior                                | View controller                                             |
+| Transform model state into display state                                   | Mediator to consumer protocol                               |
+| Apply feature-local user intent to model-facing behavior                   | Mutator protocol implemented by mediator                    |
+| Present, dismiss, replace, or compose a flow                               | Coordinator or child coordinator                            |
+| Request a UI action across feature boundaries                              | Command protocol through `CommandDispatcher`                |
+| Synchronize UI properties on an existing broadcaster-based fullscreen path | `ChromeBroadcaster` from the attached fullscreen controller |
+| Observe domain state                                                       | Model observer owned or adapted by the mediator             |
+| Hold process, profile, browser, or tab state                               | Object matching that lifetime in the application model      |
 
 When two choices seem plausible, follow ownership and lifetime. If the behavior survives without UI, it belongs below the UI layer. If it changes how objects are assembled or presented, it belongs to a coordinator. If it translates state across the model/UI boundary, it belongs to a mediator.
 
@@ -211,14 +215,17 @@ These are not merely style issues. Each one collapses a dependency, lifetime, or
 
 ## Sources
 
-The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document, so current behavior was verified against Chromium `main` at commit [`1b33fac5`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d), and the directory examples were rechecked at [`df717de0`](https://chromium.googlesource.com/chromium/src/+/df717de0896b2f65a2043e54652bae0a9b827371):
+The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document. The general architecture references use Chromium commit [`1b33fac5`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d), and the directory examples were checked at [`df717de0`](https://chromium.googlesource.com/chromium/src/+/df717de0896b2f65a2043e54652bae0a9b827371). Browser attachment, broadcaster ownership and lifetime, and fullscreen integration were verified at [`341a2ce6`](https://chromium.googlesource.com/chromium/src/+/341a2ce649d7971be32a549389dee5f24d3c2755):
 
-- [iOS application objects](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/docs/ios/objects.md)
-- [`Browser` and its UI context](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser.h) and the current weak-tracking [`BrowserList`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser_list.h)
+- [iOS application objects](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/docs/ios/objects.md) for process, profile, and tab context; browser-related ownership follows the implementation references here.
+- [`Browser` interface](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/shared/model/browser/browser.h), [`BrowserImpl` ownership and teardown](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/main/model/browser_impl.mm), and the weak-tracking [`BrowserList`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser_list.h)
 - [shared-library layout](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/README.md)
 - [`ChromeCoordinator`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/coordinator/chrome_coordinator/chrome_coordinator.h)
 - [`CommandDispatcher`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/public/commands/command_dispatcher.h)
-- [`ChromeBroadcaster`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/broadcaster/ui_bundled/chrome_broadcaster.h)
+- [`ChromeBroadcaster` property-synchronization contract](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/broadcaster/ui_bundled/chrome_broadcaster.h)
+- [`FullscreenController` access path](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/fullscreen/ui_bundled/fullscreen_controller.h) and [`FullscreenControllerImpl` broadcaster ownership](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/fullscreen/ui_bundled/fullscreen_controller_impl.mm)
+- [`BrowserUserData` lifetime](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/shared/model/browser/browser_user_data.h) and [browser-agent attachment conditions](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/main/model/browser_agent_util.mm)
+- [`BrowserViewController` broadcasting, cleanup, and fullscreen-refactoring paths](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/browser_view/ui_bundled/browser_view_controller.mm)
 - [legacy Bookmarks `model/`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/bookmarks/model/) and [`ui_bundled/`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/bookmarks/ui_bundled/) directories
 - [current Manual Fill feature layout](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/autofill/manual_fill/) and its one-step migration from legacy `ui_bundled/` to the [`coordinator/model/public/test/ui` layout](https://chromium.googlesource.com/chromium/src/+/aae8da9d99eeddc95c6d560d3dde0824f98dd05b)
 - [Omnibox coordinator wiring](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/coordinator/omnibox_coordinator.mm), its [consumer](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/ui/omnibox_consumer.h) and [mutator](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/omnibox/ui/omnibox_mutator.h) protocols, and its earlier phased moves of [coordinator and mediator](https://chromium.googlesource.com/chromium/src/+/d8c2d322ddbd), [public](https://chromium.googlesource.com/chromium/src/+/5138f6aa23cd), and [`eg_tests`](https://chromium.googlesource.com/chromium/src/+/1fb2c48b1889) code before the final [`ui_bundled/` to `ui/` rename](https://chromium.googlesource.com/chromium/src/+/446193f4287a)

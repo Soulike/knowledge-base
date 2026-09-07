@@ -61,8 +61,9 @@ available evidence path is identified.
    behavior and expected result; examine its name, author's retention rationale,
    and passing history as evidence rather than accepting them as justification.
    Identify its realistic fault, relevant permitted changes, independent oracle,
-   observable failure, and competing test or static evidence. Apply Test
-   effectiveness to representation and cross-artifact assertions before
+   observable failure, and competing test or static evidence. Apply
+   [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
+   to representation and cross-artifact assertions before
    deciding their value. Record tests with no established behavior and behaviors
    with no identified protection instead of dropping either from the review.
 2. For behavior that is stateful or spans an integration boundary, identify the

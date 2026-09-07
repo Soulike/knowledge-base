@@ -33,10 +33,20 @@ the intended claim and which evidence can show whether it currently holds.
 | Test or executable example                         | Evidence for the exercised cases and environment                                                              | The complete intended contract, unsupported cases, or rationale                          |
 | Maintained prose                                   | Concepts, intent, decisions, task guidance, failure models, and relationships assigned to it                  | Automatic synchronization with executable behavior                                       |
 
+Establish the basis and scope of each obligation from a supported consumer,
+public guarantee, compatibility commitment, or accepted project decision.
+State required values and outcomes separately from the mechanisms that produce
+them; prescribe a mechanism only when the owning contract requires it.
+Distinguish obligations from recommendations and example-specific choices. A
+concrete recipe can prescribe names and values; make clear which prerequisites
+belong to that recipe and which belong to the underlying interface. Readers
+adapting the example retain the choices that the interface permits.
+
 When sources disagree, determine whether the defect belongs to the
 implementation, documentation, generator, test, or an unresolved contract
-decision. Do not silently choose the implementation merely because it executes,
-or the prose merely because it states an intention.
+decision. Evaluate a stated requirement's basis as well as whether the code
+implements it. Do not silently choose the implementation merely because it
+executes, or the prose merely because it states an intention.
 
 Treat a declared field according to what its consumer enforces. A schema
 annotation, example, or stated default does not prove validation or defaulting
@@ -51,6 +61,13 @@ project assigns it contractual authority. Cover observable behavior, inputs,
 outputs, boundaries, defaults, side effects, failures, lifecycle status, and
 compatibility commitments without turning incidental implementation detail into
 a promise.
+
+Reader confusion can expose missing information or a design problem. Ambiguous
+names, mixed responsibilities, or unnecessary distinctions may warrant a design
+finding before more prose preserves the confusion. Explain necessary complexity
+and supported architectural distinctions; needing an explanation does not by
+itself establish a design defect. Reporting a design finding does not authorize
+an implementation change.
 
 Source comments instead explain non-obvious local intent, assumptions,
 invariants, ownership, synchronization, lifetime, tradeoffs, or failure modes.
@@ -72,14 +89,22 @@ generated result separately for omitted semantics, misleading organization,
 unsafe examples, and internal detail that should not become public.
 
 Validate an executable example when the cost of drift or reader reuse justifies
-it. Compilation, execution, or output comparison proves only the exercised
-path. Editorial review still checks whether the example is representative,
-safe, comprehensible, and consistent with the intended contract.
+it. Check its described facts against their respective authorities while
+preserving choices that the contract permits. Editorial review also checks
+whether the example is representative, safe, and comprehensible.
 
-Treat tests as evidence rather than silent contract owners. Establish expected
-behavior independently, then use tests to detect whether selected behavior and
-documentation remain aligned. A passing test says nothing about material cases
-it does not exercise or assertions it does not make.
+Before enforcing equality between artifacts, establish why their synchronization
+is required. A generation relationship, compatibility commitment, or deliberate
+promise to publish a matching example can justify it. Evaluate that promise's
+reader or product value before retaining it; current equality or an author's
+claim that the check prevents drift does not establish the need. Update the
+promise and its validation together when that need changes.
+
+Treat tests as evidence for their exercised cases and asserted relationships.
+Establish expected behavior independently: artifacts can agree while sharing a
+defect. A justified equality check protects synchronization; compilation,
+execution, and output comparisons provide only the protection their cases and
+assertions establish. None supplies the complete intended contract.
 
 ## Give operational and decision records distinct jobs
 

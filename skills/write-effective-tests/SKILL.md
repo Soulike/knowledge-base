@@ -56,7 +56,9 @@ evidence path, and command that can establish execution is known.
    change.
 4. For each established production behavior, identify the live contract,
    realistic defect, existing test or static gate that could catch it, and
-   executable owned seam.
+   executable owned seam. Before choosing representation or cross-artifact
+   assertions, use the loaded guidance to establish the requirement they would
+   fix before treating current agreement as a protection subject.
 5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.
@@ -72,8 +74,11 @@ not design or implement a test until a concrete protection gap is established.
 
 For every required test:
 
-1. Name the production fault that must make it fail, the owning seam, independent
-   oracle, observable failure, fixture, and project-declared command.
+1. Name the production fault that must make it fail, a relevant permitted change
+   it must tolerate, the owning seam, independent oracle, observable failure,
+   fixture, and project-declared command. For representation or synchronization
+   checks, apply the loaded guidance to bound the protection claim before
+   choosing the assertion.
 2. For behavior that is stateful or spans an integration boundary, use
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
    to identify independently variable state dimensions and select a complete
@@ -94,8 +99,8 @@ For every required test:
    test without editing.
 
 Finish this step when each new or modified test can fail for its named fault,
-pass for the intended behavior, and has an independently derived expected
-result.
+pass for the intended behavior, tolerate relevant permitted changes, and has an
+independently established requirement and expected result.
 
 ## Prove execution and protection
 

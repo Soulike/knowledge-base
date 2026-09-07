@@ -26,6 +26,12 @@ reasoning settings, and the path to repository review criteria. The reusable
 workflow owns review setup, execution, safe publication, the structured verdict,
 and the review gate.
 
+Follow `main` deliberately under the shared project's
+[one-maintainer release decision](https://github.com/Soulike/ai-review-workflow/blob/0e9d1cb75e37912f98da237ad68e733f6afd22d2/docs/adr/0002-consume-main-without-a-release-process.md).
+This avoids a release and consumer version-update process while accepting that
+an upstream change can affect this repository before a reviewed fix or revert
+reaches the shared branch.
+
 Keep repository-specific review criteria in a prompt read from the exact event
 base. The prompt extends the shared review criteria without redefining execution,
 publication, severity, or verdict behavior.

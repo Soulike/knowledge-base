@@ -17,16 +17,23 @@ faults that a test should expose.
 
 ## Protect behavior, not inventory
 
-A test earns its place by detecting a realistic defect that no existing test or
-static check would already reject. Test count, line coverage, and proximity to
-recently changed code are discovery aids, not evidence of protection. Useful
-coverage identifies:
+A test earns its place by detecting a realistic violation of a supported
+contract without rejecting changes that contract permits. Establish the
+requirement independently of the assertion, its name, or its author's retention
+explanation. Test count, line coverage, and proximity to recently changed code
+are discovery aids, not evidence of protection. Useful coverage identifies:
 
 1. the production change that should make the test fail;
 2. why that change would violate a live contract;
-3. whether another test or static gate would already reject it; and
+3. whether another test or static gate would already reject it;
 4. whether the test observes the behavior strongly enough to distinguish the
-   defect.
+   defect; and
+5. which relevant permitted changes must leave the test passing.
+
+Choose new protection when no existing test or static check already rejects
+the named fault. Missing evidence for a requirement leaves an ownership question
+to resolve; it does not by itself establish that an existing commitment can be
+removed.
 
 A change in externally observable behavior normally needs protection for the
 new contract. A demonstrably behavior-preserving change, such as a rename, pure
@@ -135,11 +142,25 @@ Derive expected results independently from the implementation under test.
 Calling the production builder on both sides of an assertion, importing the
 decision constant and asserting the same constant, or reimplementing the full
 algorithm in the test creates a mirror that can preserve the same defect.
+Comparing two artifacts can likewise preserve a defect shared by both.
+
+For snapshots, structural equality, and source or text matching, establish
+why a supported consumer or accepted project purpose needs the fixed
+representation or synchronization relationship. A statement that artifacts
+match is itself a claim to evaluate; it does not by itself establish that
+enforcing their equality serves that purpose. A committed generated artifact
+may be promised to match current generation; equality then protects against
+missed regeneration, while separate evidence establishes generator correctness.
+The assertion's inability to detect shared defects limits its claim rather than
+invalidating justified synchronization protection.
 
 Prefer small fixtures with hand-derived outcomes, externally visible contracts,
-or a simpler independent model. Test the effect of a decision rather than its
-current representation: a retry test should observe attempts and outcome, not
-merely assert the configured retry count.
+or a simpler independent model for behavioral correctness. Observe the effect a
+contract requires: a retry test should observe attempts and outcome, not merely
+assert the configured retry count.
+Check a relevant permitted variation and a realistic violation when judging
+whether an assertion constrains too much or protects too little. This is a
+reasoning requirement, not a demand to execute mutations for every test.
 
 Exercise each reachable short-circuit outcome in compound guards. Pair a
 negative assertion with a positive control so an empty or broken setup cannot

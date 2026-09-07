@@ -57,9 +57,13 @@ available evidence path is identified.
 ## Evaluate protection and classify the problem
 
 1. When coverage or test value is in scope, map tests and live production
-   behaviors in both directions. For each test, identify its named behavior,
-   realistic fault, independent oracle, observable failure, and competing test
-   or static evidence. Record tests with no identified behavior and behaviors
+   behaviors in both directions. Independently establish each test's required
+   behavior and expected result; examine its name, author's retention rationale,
+   and passing history as evidence rather than accepting them as justification.
+   Identify its realistic fault, relevant permitted changes, independent oracle,
+   observable failure, and competing test or static evidence. Apply Test
+   effectiveness to representation and cross-artifact assertions before
+   deciding their value. Record tests with no established behavior and behaviors
    with no identified protection instead of dropping either from the review.
 2. For behavior that is stateful or spans an integration boundary, identify the
    independently mutable boundaries represented or omitted by the fixture.
@@ -67,13 +71,13 @@ available evidence path is identified.
    healthy fallback hides the named fault.
 3. Classify every item by the concerns that actually apply:
 
-   | Concern                 | Evidence required                                                                                 |
-   | ----------------------- | ------------------------------------------------------------------------------------------------- |
-   | Effectiveness           | Named behavior and fault, independent oracle, owning seam, and competing protection               |
-   | Consistent failure      | Stable signature and evidence locating the defect in production, test, harness, or infrastructure |
-   | Intermittent outcome    | Exact execution conditions, attempt outcomes, and a bounded comparison protocol                   |
-   | Collection or selection | Expected and actual identities plus honest run, fail, and legitimate-skip paths                   |
-   | Execution cost          | Comparable baseline and candidate using the same cost basis                                       |
+   | Concern                 | Evidence required                                                                                                 |
+   | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
+   | Effectiveness           | Established requirement, fault and permitted variation, independent oracle, owning seam, and competing protection |
+   | Consistent failure      | Stable signature and evidence locating the defect in production, test, harness, or infrastructure                 |
+   | Intermittent outcome    | Exact execution conditions, attempt outcomes, and a bounded comparison protocol                                   |
+   | Collection or selection | Expected and actual identities plus honest run, fail, and legitimate-skip paths                                   |
+   | Execution cost          | Comparable baseline and candidate using the same cost basis                                                       |
 
 4. Assign each test or behavior a supported disposition: keep, strengthen,
    replace, consolidate, delete, add coverage, no test owed, or unresolved.
@@ -137,9 +141,10 @@ change, and validation still required without editing.
 1. Confirm affected tests are collected through the relevant project-declared
    entrypoints.
 2. Apply Test effectiveness to every final protection claim. A retained,
-   strengthened, or replacement test must catch its named fault. A consolidation
-   or deletion must leave equivalent protection or establish that no test is
-   owed.
+   strengthened, or replacement test must catch its named fault and tolerate
+   relevant permitted changes. A consolidation or deletion must leave equivalent
+   protection or establish that no test is owed. Preserve unresolved protection
+   when its requirement remains uncertain.
 3. For a reliability repair, compare relevant pre- and post-change executions
    under the bounded protocol. Exercise owned cleanup on success and failure and
    state when a pre-change sample could not be obtained. Report the result as

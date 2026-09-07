@@ -52,13 +52,17 @@ description: Write or update maintained software-development documentation, incl
 1. Apply the loaded Knowledge to choose one response for each information need:
    make no documentation change, update an existing document, create the
    lightest fitting form, or report a required project decision that remains
-   unresolved.
+   unresolved. Determine whether reader confusion needs information or exposes
+   a design problem; report design findings within the authorized scope while
+   retaining explanations of necessary complexity.
 2. For an assessment-only request, report each response, its supporting
    evidence, the fitting form and destination selected by the project or user
    when applicable, and every unresolved decision without editing.
-3. Before editing, resolve the project choices required by the chosen response.
-   Apply the matching project standards and loaded Knowledge to every
-   resolved target. Write the current state as one coherent account.
+3. Before drafting, establish the basis and scope of reader obligations,
+   recommendations, and example-specific choices. Resolve the project decisions
+   required by the chosen response, including any promise to keep artifacts
+   synchronized. Apply the matching project standards and loaded Knowledge to
+   write each resolved target as one coherent current account.
 4. Apply the loaded Knowledge's boundary between authoring evidence and
    reader-facing content. Treat research, source collection, review evidence,
    rejected alternatives, drafts, and task history as working inputs; carry
@@ -72,7 +76,9 @@ description: Write or update maintained software-development documentation, incl
 
 1. Account for every changed file, changed meaning, information need, impact
    finding, and affected artifact. Confirm that each has the recorded
-   disposition and that all final sources agree.
+   disposition, each described claim agrees with its authority in meaning and
+   scope, each mandatory mechanism has a basis beyond its desired outcome, and
+   examples preserve choices the underlying contract permits.
 2. Apply the loaded Knowledge's reader review and risk-proportionate validation
    to every new or retained document. Confirm that no unexplained competing copy
    or authoring-only material remains.
@@ -85,5 +91,6 @@ description: Write or update maintained software-development documentation, incl
    incomplete result.
 
 Finish when every change and information need has a disposition, every required
-update and route is complete, all affected sources agree, and every required
+update and route is complete, reader obligations have an established basis,
+described claims agree with their respective authorities, and every required
 check passes.

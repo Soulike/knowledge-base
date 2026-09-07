@@ -11,11 +11,13 @@ including engine setup, review publication, result authentication, and the
 required gate. Those responsibilities are reusable across repositories and
 contain security-sensitive behavior that should have one maintenance owner.
 
-The public `Soulike/ai-review-workflow` repository now provides that reusable
-implementation and consumes it itself. This repository still needs its own
-review criteria for Knowledge, Skills, plugin packaging, and maintained Agent
-content. Its three scheduled content-verification workflows continue to use the
-locally maintained shared Agentic runtime and have a different task contract.
+The public
+[Soulike/ai-review-workflow](https://github.com/Soulike/ai-review-workflow)
+repository now provides that reusable implementation and consumes it itself.
+This repository still needs its own review criteria for Knowledge, Skills,
+plugin packaging, and maintained Agent content. Its three scheduled
+content-verification workflows continue to use the locally maintained shared
+Agentic runtime and have a different task contract.
 
 ## Decision
 
@@ -26,11 +28,12 @@ reasoning settings, and the path to repository review criteria. The reusable
 workflow owns review setup, execution, safe publication, the structured verdict,
 and the review gate.
 
-Follow `main` deliberately under the shared project's
-[one-maintainer release decision](https://github.com/Soulike/ai-review-workflow/blob/0e9d1cb75e37912f98da237ad68e733f6afd22d2/docs/adr/0002-consume-main-without-a-release-process.md).
+Follow `main` deliberately under the
+[shared project's release model](https://github.com/Soulike/ai-review-workflow).
 This avoids a release and consumer version-update process while accepting that
 an upstream change can affect this repository before a reviewed fix or revert
-reaches the shared branch.
+reaches the shared branch. The upstream repository owns the current explanation
+and routing for that model.
 
 Keep repository-specific review criteria in a prompt read from the exact event
 base. The prompt extends the shared review criteria without redefining execution,

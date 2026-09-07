@@ -2,10 +2,10 @@
 
 This repository maintains three scheduled content-verification workflows with
 gh-aw and delegates pull-request review to the reusable
-`Soulike/ai-review-workflow` workflow. The scheduled workflows share a local
-runtime and mutable-findings contract. The reusable workflow owns review
-execution, publication, and its required gate, while this repository owns its
-review criteria and caller configuration.
+[Soulike/ai-review-workflow](https://github.com/Soulike/ai-review-workflow).
+The scheduled workflows share a local runtime and mutable-findings contract.
+The reusable workflow owns review execution, publication, and its required gate,
+while this repository owns its review criteria and caller configuration.
 
 The shared runtime adoption is recorded in
 [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md).
@@ -36,11 +36,10 @@ back to gh-aw's default or a cached older CLI. The Agent also checks the
 installed executable's reported version before its task starts. This is version
 selection and verification, not a model-capability preflight.
 
-Repository variables select the model and concrete reasoning effort for both
-scheduled verification and AI review. The local shared preflight validates the
-scheduled inputs; the reusable review workflow validates its inputs. Neither
-path overrides Copilot's context tier or certifies model-specific reasoning or
-numeric context limits.
+Repository variables select the model and concrete reasoning effort for the
+scheduled workflows, whose local preflight validates those values. The AI review
+caller passes its variables to the upstream interface; the upstream repository
+owns their accepted values and behavior.
 
 The scheduled source Markdown is maintained by people and Agents. Its generated
 `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed
@@ -162,21 +161,14 @@ The [caller](ai-review.yml) invokes the public reusable workflow for the
 repository's `pull_request_target` lifecycle and cancels superseded work for the
 same pull request. It passes the selected model, required reasoning effort,
 Tavily secret, and the
-[repository review criteria](../scripts/ai-review/prompts/review.md). The
-criteria come from the exact event base and cover the repository's Knowledge,
-Skill, plugin, documentation, and delivery responsibilities.
+[repository review criteria](../scripts/ai-review/prompts/review.md). Those
+criteria cover the repository's Knowledge, Skill, plugin, documentation, and
+delivery responsibilities.
 
-The reusable workflow owns the trusted-base and proposed-head preparation,
-read-only review tools, review-reference installation, safe publication, and
-structured verdict. It publishes one `COMMENT` review with inline or body-only
-findings and passes its gate only after the required review publication succeeds
-with an `approved` verdict. High or medium findings select `needs-change`; an
-incomplete or failed review has no passing verdict.
-
-Each run reviews the event's fixed change independently. The reusable workflow
-does not parse review prose for its machine verdict, reconcile earlier review
-publications, or turn the result into a GitHub human approval. Human approval,
-last-push approval, and thread resolution remain repository rules.
+The [upstream repository](https://github.com/Soulike/ai-review-workflow) owns
+the callable interface, review execution, publication, verdict behavior, and
+recovery guidance. Human approval, last-push approval, and thread resolution
+remain repository rules here.
 
 The expected required check is `Review / Engine / AI review gate`, qualified by
 the caller and nested reusable jobs. After changing review execution, verify a
@@ -191,8 +183,8 @@ Set these Actions variables:
 | --------------------------------------- | --------------------------------------------------------------------------------------- |
 | `CONTENT_VERIFICATION_MODEL`            | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
 | `CONTENT_VERIFICATION_REASONING_EFFORT` | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `AI_REVIEW_MODEL`                       | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `AI_REVIEW_REASONING_EFFORT`            | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `AI_REVIEW_MODEL`                       | Model value passed to the upstream review interface.                                    |
+| `AI_REVIEW_REASONING_EFFORT`            | Required reasoning value passed to the upstream review interface.                       |
 
 All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
 

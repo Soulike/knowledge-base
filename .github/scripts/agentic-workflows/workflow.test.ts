@@ -257,7 +257,7 @@ describe("Copilot release selection", () => {
     "${{ needs.resolve_copilot_version.outputs.version }}";
 
   it("binds both installers to the resolved release and checks the Agent before inference", () => {
-    for (const file of [...contentVerificationFiles, "ai-review"]) {
+    for (const file of contentVerificationFiles) {
       const { jobs, agentSteps } = loadCompiledWorkflow(file);
       const resolver = object(jobs.resolve_copilot_version, "release resolver");
       assert.deepEqual(resolver.permissions, { contents: "read" });
@@ -267,7 +267,7 @@ describe("Copilot release selection", () => {
       );
 
       assert.equal("needs" in resolver, false);
-      assert.equal("pre_activation" in jobs, file === "ai-review");
+      assert.equal("pre_activation" in jobs, false);
       for (const [name, value] of Object.entries(jobs)) {
         const job = object(value, name);
         if (JSON.stringify(job).includes(versionExpression)) {
@@ -325,7 +325,7 @@ describe("Copilot release selection", () => {
   async function resolveRelease(
     release: unknown,
   ): Promise<Map<string, string>> {
-    const { jobs } = loadCompiledWorkflow("ai-review");
+    const { jobs } = loadCompiledWorkflow(contentVerificationFiles[0]);
     const resolver = object(jobs.resolve_copilot_version, "release resolver");
     const step = stepByName(
       array(resolver.steps, "resolver steps"),
@@ -410,7 +410,7 @@ describe("Copilot release selection", () => {
         '#!/bin/sh\nprintf "%s" "$*" > "$PROBE_ARGUMENTS"\nprintf "%s" "$PROBE_REPORTED"\nexit "$PROBE_EXIT"\n',
         { mode: 0o755 },
       );
-      const { agentSteps } = loadCompiledWorkflow("ai-review");
+      const { agentSteps } = loadCompiledWorkflow(contentVerificationFiles[0]);
       const script = String(
         stepByName(agentSteps, "Verify selected Copilot CLI version").run,
       );
@@ -471,10 +471,6 @@ describe("compiled Agent runtime boundaries", () => {
         "Install repository dependencies",
       );
     }
-    assertCommonAgentRuntime(
-      loadCompiledWorkflow("ai-review"),
-      "Install trusted base dependencies",
-    );
   });
 });
 
@@ -739,122 +735,5 @@ describe("compiled content-verification publication boundary", () => {
         "false",
       );
     }
-
-    const aiReviewConclusion = object(
-      loadCompiledWorkflow("ai-review").jobs.conclusion,
-      "AI review conclusion",
-    );
-    const aiReviewSteps = array(
-      aiReviewConclusion.steps,
-      "AI review conclusion steps",
-    );
-    assert.equal(
-      object(
-        stepByName(aiReviewSteps, "Handle agent failure").env,
-        "AI review failure environment",
-      ).GH_AW_FAILURE_REPORT_AS_ISSUE,
-      "false",
-    );
-    assert.equal(
-      aiReviewSteps.some(
-        (step) =>
-          object(step, "AI review conclusion step").name ===
-          "Report failed jobs",
-      ),
-      false,
-    );
-  });
-});
-
-describe("compiled pull-request review trust boundary", () => {
-  it("keeps the base checkout separate and binds publication to the PR head", () => {
-    const { agent, agentSteps, jobs } = loadCompiledWorkflow("ai-review");
-    const safeOutputs = object(jobs.safe_outputs, "AI review safe outputs");
-    const gate = object(jobs.ai_review_gate, "AI review gate");
-    const gateSteps = array(gate.steps, "AI review gate steps");
-
-    assert.match(String(agent.if), /\["OWNER","MEMBER","COLLABORATOR"\]/u);
-    assert.match(String(agent.if), /!github\.event\.pull_request\.draft/u);
-    assert.deepEqual(
-      object(
-        stepByName(agentSteps, "Checkout ${{ github.repository }}").with,
-        "trusted base checkout",
-      ),
-      {
-        "fetch-depth": 0,
-        "persist-credentials": false,
-        ref: "${{ github.event.pull_request.base.sha }}",
-        repository: "${{ github.repository }}",
-      },
-    );
-
-    const fetchHead = stepByName(
-      agentSteps,
-      "Fetch the expected head without checking it out",
-    );
-    assert.equal(
-      object(fetchHead.env, "head-fetch environment").PR_HEAD_SHA,
-      "${{ github.event.pull_request.head.sha }}",
-    );
-    const fetchCommand = String(fetchHead.run);
-    assert.match(fetchCommand, /git -c "http\.extraheader=/u);
-    assert.match(fetchCommand, /refs\/pull\/\$\{PR_NUMBER\}\/head/u);
-    assert.match(
-      fetchCommand,
-      /test "\$\(git rev-parse FETCH_HEAD\)" = "\$PR_HEAD_SHA"/u,
-    );
-    assert.doesNotMatch(fetchCommand, /\bgit (checkout|merge|switch|reset)\b/u);
-    assert.ok(
-      stepIndex(agentSteps, "Fetch the expected head without checking it out") <
-        stepIndex(agentSteps, "Install trusted base dependencies"),
-    );
-
-    assert.deepEqual(safeOutputs.permissions, { "pull-requests": "write" });
-    const safeConfig = object(
-      JSON.parse(
-        String(
-          object(
-            stepByName(agentSteps, "Generate Safe Outputs Config").env,
-            "safe-output config environment",
-          ).GH_AW_SAFE_OUTPUTS_CONFIG,
-        ),
-      ),
-      "safe-output config",
-    );
-    const reviewCommentOutput = object(
-      safeConfig.create_pull_request_review_comment,
-      "review comment output",
-    );
-    assert.equal(
-      reviewCommentOutput.commit_id,
-      "${{ github.event.pull_request.head.sha }}",
-    );
-    const reviewOutput = object(
-      safeConfig.submit_pull_request_review,
-      "review output",
-    );
-    assert.equal(
-      reviewOutput.commit_id,
-      "${{ github.event.pull_request.head.sha }}",
-    );
-    assert.deepEqual(reviewOutput.allowed_events, ["COMMENT"]);
-
-    assert.equal(gate.if, "always()");
-    assert.deepEqual(gate.needs, ["agent", "safe_outputs"]);
-    assert.deepEqual(gate.permissions, {
-      actions: "read",
-      contents: "read",
-      "pull-requests": "read",
-    });
-    const gateEnvironment = object(
-      stepByName(gateSteps, "Verify review and enforce verdict").env,
-      "gate environment",
-    );
-    assert.equal(
-      gateEnvironment.AI_REVIEW_SAFE_OUTPUTS_RESULT,
-      "${{ needs.safe_outputs.result }}",
-    );
-    assert.equal(gateEnvironment.AI_REVIEW_HEAD_SHA, reviewOutput.commit_id);
-    assert.equal(reviewCommentOutput.commit_id, reviewOutput.commit_id);
   });
 });

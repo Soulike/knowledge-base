@@ -1,0 +1,32 @@
+name: AI review
+
+on:
+  pull_request_target:
+    types: [opened, reopened, ready_for_review, synchronize, converted_to_draft]
+
+permissions: {}
+
+jobs:
+  review:
+    name: Review
+    concurrency:
+      group: ${{ github.workflow }}-ai-review-pr-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      discussions: read
+      issues: read
+      pull-requests: write
+      security-events: read
+      statuses: read
+      vulnerability-alerts: read
+      copilot-requests: write
+    uses: Soulike/ai-review-workflow/.github/workflows/ai-review.yml@main
+    with:
+      model: ${{ vars.AI_REVIEW_MODEL || 'auto' }}
+      reasoning-effort: ${{ vars.AI_REVIEW_REASONING_EFFORT }}
+      review-prompt-path: .github/scripts/ai-review/prompts/review.md
+    secrets:
+      TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}

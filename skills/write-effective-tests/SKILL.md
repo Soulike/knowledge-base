@@ -99,8 +99,8 @@ For every required test:
    test without editing.
 
 Finish this step when each new or modified test can fail for its named fault,
-tolerate relevant permitted changes, and has an independently established
-requirement and expected result.
+pass for the intended behavior, tolerate relevant permitted changes, and has an
+independently established requirement and expected result.
 
 ## Prove execution and protection
 

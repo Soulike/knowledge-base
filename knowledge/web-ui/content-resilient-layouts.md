@@ -7,9 +7,10 @@ required information when valid content and available rendering space vary.
 
 ## When to update
 
-Update when evidence about text rendering, layout constraints, information
-access, or realistic content-dependent failures changes these principles or
-reveals a missing case within this scope.
+Update when CSS sizing or overflow semantics, HTML disclosure semantics, or
+accessible-name and accessibility requirements change the guidance, or when
+evidence about text rendering, information access, or realistic content-dependent
+failures reveals a missing case within this scope.
 
 ## Treat content and available space as joint state
 

@@ -2,7 +2,9 @@
 
 ## Status
 
-Accepted
+Accepted. The pull-request review ownership described here is superseded by
+[ADR 0004](0004-delegate-pull-request-review.md); this record continues to own
+the scheduled content-verification runtime decision.
 
 ## Context
 

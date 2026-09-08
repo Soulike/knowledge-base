@@ -1,6 +1,11 @@
 # Agentic GitHub workflows
 
-This repository uses gh-aw for four Agentic GitHub Actions tasks. A shared runtime owns execution, sandbox, read tools, external research, and safe-output transport. The three scheduled content-verification tasks share the mutable-findings result and publication contract, while the required pull-request reviewer retains a separate task contract.
+This repository maintains three scheduled content-verification workflows with
+gh-aw and delegates pull-request review to the reusable
+[Soulike/ai-review-workflow](https://github.com/Soulike/ai-review-workflow).
+The scheduled workflows share a local runtime and mutable-findings contract.
+The reusable workflow owns review execution, publication, and its required gate,
+while this repository owns its review criteria and caller configuration.
 
 The shared runtime adoption is recorded in
 [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md).
@@ -10,25 +15,40 @@ records the current findings architecture and supersedes
 without rewriting that record's historical context. The general state and trust
 invariants are maintained as
 [Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
+[ADR 0004](../../docs/adr/0004-delegate-pull-request-review.md) records the
+pull-request review delegation and consumer boundary.
 
 ## Workflow inventory
 
-| Task                     | Trigger and subject                                                              | Source and generated workflow                                                                       |
+| Task                     | Trigger and subject                                                              | Maintained configuration                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | Time-sensitive Knowledge | Monthly, every Knowledge leaf indexed as `time-sensitive`                        | [Source](verify-time-sensitive-knowledge.md), [generated](verify-time-sensitive-knowledge.lock.yml) |
 | Evergreen Knowledge      | Quarterly, every Knowledge leaf indexed as `evergreen`                           | [Source](verify-evergreen-knowledge.md), [generated](verify-evergreen-knowledge.lock.yml)           |
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
-| AI review                | Eligible non-draft pull requests and later pushes                                | [Source](ai-review.md), [generated](ai-review.lock.yml)                                             |
+| AI review                | Ready pull requests and later pushes                                             | [Caller](ai-review.yml), [repository criteria](../scripts/ai-review/prompts/review.md)              |
 
-Every run resolves the latest stable release from the official `github/copilot-cli` repository before engine installation. Both the Agent and threat-detection jobs pass that concrete version to gh-aw through `engine.version`; only an exact-version cache entry can be reused. Resolution errors, prereleases, and malformed or empty versions fail instead of falling back to gh-aw's default or a cached older CLI. The Agent also checks the installed executable's reported version before its task starts. This is version selection and verification, not a model-capability preflight.
+Every scheduled run resolves the latest stable release from the official
+`github/copilot-cli` repository before engine installation. Both the Agent and
+threat-detection jobs pass that concrete version to gh-aw through
+`engine.version`; only an exact-version cache entry can be reused. Resolution
+errors, prereleases, and malformed or empty versions fail instead of falling
+back to gh-aw's default or a cached older CLI. The Agent also checks the
+installed executable's reported version before its task starts. This is version
+selection and verification, not a model-capability preflight.
 
-The repository variable selects the model. Each task passes a mandatory concrete reasoning effort through `engine.args`; the shared preflight rejects a missing, `auto`, or unknown effort string before inference. The workflows do not override Copilot's context tier. Context budgets remain dependent on the model and runtime configuration; neither the version check nor this enum check certifies model-specific reasoning or numeric context limits.
+Repository variables select the model and concrete reasoning effort for the
+scheduled workflows, whose local preflight validates those values. The AI review
+caller passes its variables to the upstream interface; the upstream repository
+owns their accepted values and behavior.
 
-The source Markdown is maintained by people and Agents. The generated `*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed review artifacts owned by the fixed compiler.
+The scheduled source Markdown is maintained by people and Agents. Its generated
+`*.lock.yml` files and [action lock](../aw/actions-lock.json) are committed
+review artifacts owned by the fixed compiler.
 
 ## Shared runtime boundary
 
-All four tasks import [the shared runtime](shared/agentic-runtime.md). It provides:
+The three scheduled tasks import
+[the shared runtime](shared/agentic-runtime.md). It provides:
 
 - all GitHub read toolsets with read-only server credentials;
 - the pinned local GitHub MCP server for pull-request threads, Actions runs,
@@ -59,7 +79,7 @@ removed from every checkout. Authenticated GitHub reads remain behind the
 read-only MCP server, and GitHub publication remains behind safe outputs and
 repository-owned gates.
 
-Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the four task contracts.
+Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the three verification scopes.
 
 ## Scheduled content verification
 
@@ -137,20 +157,23 @@ parser or persistent aggregator.
 
 ## Required pull-request review
 
-The AI reviewer uses `pull_request_target` and runs its Agent only for pull requests authored by an `OWNER`, `MEMBER`, or `COLLABORATOR`. It checks out the exact event base with credentials removed. A trusted pre-Agent step fetches `refs/pull/<number>/head` into `FETCH_HEAD`, verifies the event head SHA, and never checks out, installs, or executes the proposed tree.
+The [caller](ai-review.yml) invokes the public reusable workflow for the
+repository's `pull_request_target` lifecycle and cancels superseded work for the
+same pull request. It passes the selected model, required reasoning effort,
+Tavily secret, and the
+[repository review criteria](../scripts/ai-review/prompts/review.md). Those
+criteria cover the repository's Knowledge, Skill, plugin, documentation, and
+delivery responsibilities.
 
-The Agent reads the exact diff and surrounding files with allowlisted Git commands. It reads complete pull-request, review, comment, reply, and thread state through read-only GitHub tools, including paginated GraphQL `reviewThreads`. The shared runtime installs the current trusted-base knowledge-base plugin, while the external review-reference Skills remain floating.
+The [upstream repository](https://github.com/Soulike/ai-review-workflow) owns
+the callable interface, review execution, publication, verdict behavior, and
+recovery guidance. Human approval, last-push approval, and thread resolution
+remain repository rules here.
 
-Safe outputs buffer one atomic `COMMENT` review pinned to the expected head:
-
-- at most 100 accurately anchored inline comments; and
-- exactly one consolidated review body.
-
-Unanchored findings and line-addressable findings beyond the inline limit remain under `Findings not posted inline`, contribute to the visible severity counts, and affect the verdict. No safe output permits approval, request-changes, reply, thread resolution, branch mutation, or merge.
-
-The custom job named exactly `AI review gate` remains the repository's required check. The [gate implementation](../scripts/ai-review/review-gate.ts) accepts exactly one `github-actions[bot]` `COMMENTED` review only when its API commit, gh-aw-owned attribution, current pull-request state, and current run-attempt `safe_outputs` time window agree. It paginates that review's inline comments, parses their severity together with body-only findings, and requires their exact sum to equal the visible four-level counts before applying the count-derived verdict. `high` or `medium` findings select `needs-change`; otherwise the verdict is `approved`.
-
-The gate is read-only and does not project its verdict into pull-request labels. The authenticated review remains the human-readable record, while the head-bound `AI review gate` check is the only machine-enforced verdict. A new head requires its own check, and a `needs-change` review remains visible while that check fails. The workflow does not run for pull-request closure.
+The expected required check is `Review / Engine / AI review gate`, qualified by
+the caller and nested reusable jobs. After changing review execution, verify a
+fresh event against the deployed default-branch caller before updating the
+repository ruleset to require that check.
 
 ## Repository configuration
 
@@ -160,8 +183,8 @@ Set these Actions variables:
 | --------------------------------------- | --------------------------------------------------------------------------------------- |
 | `CONTENT_VERIFICATION_MODEL`            | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
 | `CONTENT_VERIFICATION_REASONING_EFFORT` | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
-| `AI_REVIEW_MODEL`                       | Copilot model identifier or `auto`; missing defaults to `auto`.                         |
-| `AI_REVIEW_REASONING_EFFORT`            | Concrete Copilot effort: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`. |
+| `AI_REVIEW_MODEL`                       | Model value passed to the upstream review interface.                                    |
+| `AI_REVIEW_REASONING_EFFORT`            | Required reasoning value passed to the upstream review interface.                       |
 
 All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
 
@@ -169,11 +192,15 @@ All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the r
 gh secret set TAVILY_API_KEY --repo Soulike/knowledge-base
 ```
 
-Configure `AI review gate` as a required status check and create the `automated-verification` and `modification-required` labels.
+Configure `Review / Engine / AI review gate` as a required status check after a
+fresh deployed run establishes that exact check. The scheduled verification
+workflows require the `automated-verification` and `modification-required`
+labels.
 
 ## Compile and validate
 
-The repository pins gh-aw `v0.88.2`. Install that exact compiler and regenerate all sources with:
+The repository pins gh-aw `v0.88.2` for the three scheduled workflows. Install
+that exact compiler and regenerate their sources with:
 
 ```bash
 gh extension install github/gh-aw --pin v0.88.2
@@ -192,4 +219,8 @@ git diff --check
 
 `pnpm agentic:check` recompiles and rejects modified, deleted, or untracked generated artifacts. Generated lock workflows are excluded from Prettier because gh-aw is their authoritative formatter.
 
-The `pull_request_target` compile warning is bounded by explicit job permissions, the trusted-author filter, trusted-base checkout, exact unexecuted head objects, read-only Agent credentials, permission-isolated safe outputs, and the repository-owned verdict gate. Copilot remains floating across runs, but each run supplies the installer with one validated concrete version.
+The reusable AI-review caller is ordinary GitHub Actions YAML and is not compiled
+by the local gh-aw toolchain. Its repository prompt is covered by the prompt-link
+check and maintained-content verification. A fresh pull-request event after the
+caller reaches the default branch establishes its hosted execution, publication,
+and check name.

@@ -80,6 +80,20 @@ establishes the awaited fact:
 | A coarse timestamp or version                    | Establish a deterministic older precondition, reread the baseline, then perform the action.                  |
 | The delay itself is the contract                 | Observe the trigger, then measure from it with an explicit interval rationale and adequate diagnostic bound. |
 
+Before each wait, poll, follow-up action, or assertion, name the exact fact the
+next step requires and accept a barrier only when observing it implies that
+fact. Evidence for one completion phase does not establish a later or unrelated
+phase. A response establishes that a reply was observed, while a URL assertion
+establishes only the asserted address condition. A rendered or accessible-state
+assertion establishes its asserted view condition at that observation point; it
+does not by itself establish unrelated hydration, effects, persistence, or
+background work. A local state change does not establish persistence, and a
+process-start signal does not establish service readiness. Observe an
+acknowledgement owned by the required phase, such as the persistence result, a
+read through the persistence owner, or the process's declared readiness
+interface. Treat exit before readiness as failure. Do not bridge phases with a
+fixed delay or an unrelated request.
+
 Before replacing a fixed wait or eventual-condition poll, identify the
 production completion path that the existing test actually reaches. The same
 observable end state can result from a primary event and a timeout, polling,
@@ -110,8 +124,9 @@ other barrier proving that an incorrect event would already have occurred.
 Give each test private mutable state. Do not read or mutate a developer's
 settings, credentials, home directory, running services, repository inventory,
 or global process manager unless that environment is the subject. Register
-cleanup at the lifecycle boundary that creates a resource and exercise it on
-success and failure.
+cleanup at the lifecycle boundary that creates a resource. The lifecycle owner
+that creates mutable state also owns the actors that can continue reading or
+writing it and the cleanup required to return it to the declared baseline.
 
 Shared fixtures are safe only when shared state is immutable and every test gets
 an independent mutable copy or a reset with a proven boundary. Order dependence,
@@ -121,6 +136,31 @@ isolation defects even when they save time.
 Run-level state is not worker-local state. Derive worker-local paths and
 identifiers inside each worker and establish them before application imports can
 cache shared configuration.
+
+Treat every real process, shell, browser, database, filesystem, transport, and
+remote operation as an execution input when it can change scheduling or the
+result. Account for the complete fan-out, including command lookup, interpreter
+startup, subprocesses launched by doubles, environment or repository setup, and
+cleanup. A double placed at an external seam should not start another
+interpreter, service, or remote operation unless that behavior participates in
+the protected contract. Apply [Test effectiveness](test-effectiveness.md) to
+decide which detailed cases must cross the external seam and which
+representative seam cases add distinct protection. Apply
+[Test execution cost](test-execution-cost.md) when measuring or reducing the
+resulting runtime or resource cost.
+
+Before deleting or reusing mutable state, stop, cancel, or await every owned
+writer, watcher, socket, request, timer, and child process that can still use it.
+Cancellation is complete only when the actor cannot later commit into the old
+or reused namespace. After those actors have settled, use bounded
+platform-supported retry only for documented transient cleanup failures; retry
+does not repair an active-writer race.
+
+Exercise cleanup after setup failure, assertion failure, timeout, and success
+when those paths can leave owned state. Preserve the primary failure when
+cleanup also fails, retain the cleanup failure as secondary diagnostic evidence,
+and verify that the resource is absent or that the declared baseline is
+observable before another test reuses its owner or name.
 
 Use controlled clocks for behavior defined by time, advance them through
 asynchronous APIs when queued work must settle, and always restore the real
@@ -140,6 +180,20 @@ platform, concurrency, retry policy, and relevant environment. Prefer a bounded
 perturbation that amplifies the suspected mechanism over unfocused repetition,
 and restore every affected clock, resource setting, environment value, process,
 and fixture on every exit.
+
+A focused green run establishes the ordinary path once. Match additional proof
+to execution inputs that can change the result. For a multi-phase transition,
+force or observe the ordering that distinguishes success from the reported
+failure. For a cleanup race, control the writer or process lifecycle around
+cleanup. For a process- or shell-heavy change, run the focused target with
+retries disabled when supported and the owning aggregate under its normal
+concurrency; exercise the relevant supported platform or disclose the gap.
+
+For a cold-start claim, name the owner that must be fresh, such as the browser
+context, client load, server process, data root, persisted cache, or module
+state, and recreate that boundary in the comparison. Warm repetition is
+supporting evidence after the mechanism is understood; it does not substitute
+for reproducing the relevant cold or adverse condition.
 
 A protocol that cannot reproduce the failure can narrow hypotheses but does not
 establish a cause. Compare pre- and post-change executions using the same

@@ -9,6 +9,9 @@ description: Watch or resume watching a trusted or verified pull request across 
 
 Read [Establish the watch contract](references/establish-watch-contract.md) and
 [Security boundaries and trust transitions](../../references/security/security-boundaries.md).
+When resuming a checkpointed watch, also read
+[Wait and hand off](references/wait-and-handoff.md) and complete its resume
+safeguards before observation.
 When the pull request is draft or the accepted intent may include entering
 review, also read
 [Pull request review readiness](../../references/github/pull-request-review-readiness.md)
@@ -21,6 +24,10 @@ trusted control revision, accepted intent, access, safe workspace, or mutation
 boundary.
 
 ## Run observation cycles
+
+Start a new watch, or resume one after completing the safeguards above, by
+entering this observation cycle for immediate complete state capture and
+classification.
 
 Repeat this cycle until its wait, handoff, or terminal condition applies:
 

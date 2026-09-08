@@ -22,6 +22,11 @@ any remaining scheduled poll, retrieve one complete current PR state, and begin
 a new observation cycle. The event is only a wake-up signal; the newly
 retrieved complete state remains authoritative.
 
+Treat each scheduled interval as one passive wait. Continue that same wait
+through runtime yields, tool returns, or execution continuations that occur
+before the deadline without a relevant event. They do not trigger a provider
+read, interval recalculation, or progress update.
+
 When an observation enters or returns to waiting, schedule a five-minute poll
 if no preceding waiting state is retained from the current execution. When a
 preceding state exists, restart with a five-minute interval if a semantic change

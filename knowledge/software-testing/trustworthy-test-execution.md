@@ -181,13 +181,15 @@ perturbation that amplifies the suspected mechanism over unfocused repetition,
 and restore every affected clock, resource setting, environment value, process,
 and fixture on every exit.
 
-A focused green run establishes the ordinary path once. Match additional proof
-to execution inputs that can change the result. For a multi-phase transition,
-force or observe the ordering that distinguishes success from the reported
-failure. For a cleanup race, control the writer or process lifecycle around
-cleanup. For a process- or shell-heavy change, run the focused target with
-retries disabled when supported and the owning aggregate under its normal
-concurrency; exercise the relevant supported platform or disclose the gap.
+A focused green run establishes only that the selected command passed once
+under the observed conditions; it does not establish which completion path
+produced the result. Match additional proof to execution inputs that can change
+the result. For a multi-phase transition, force or observe the ordering that
+distinguishes success from the reported failure. For a cleanup race, control the
+writer or process lifecycle around cleanup. For a process- or shell-heavy
+change, run the focused target with retries disabled when supported and the
+owning aggregate under its normal concurrency; exercise the relevant supported
+platform or disclose the gap.
 
 For a cold-start claim, name the owner that must be fresh, such as the browser
 context, client load, server process, data root, persisted cache, or module

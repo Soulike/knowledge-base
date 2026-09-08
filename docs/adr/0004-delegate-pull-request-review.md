@@ -39,6 +39,11 @@ Keep repository-specific review criteria in a prompt read from the exact event
 base. The prompt extends the shared review criteria without redefining execution,
 publication, severity, or verdict behavior.
 
+Treat the reusable workflow's gate as the sole machine verdict. This repository
+does not interpret review prose or maintain a second validator for the
+relationship between visible findings and that verdict. Changes to that
+relationship belong in the upstream repository.
+
 Replace the local reviewer and its generated workflow, gate implementation, and
 dedicated tests in one pull request. That migration pull request is evaluated by
 the previously deployed reviewer. After merge, verify the reusable workflow on

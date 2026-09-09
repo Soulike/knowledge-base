@@ -144,7 +144,36 @@ why it does not apply:
   declared inputs, material constraints, format, and completion gate rather than
   checking only that an artifact was emitted.
 
-Record the scenario, expected behavior, observed behavior, and conclusion.
+Before running invocation and workflow evidence, identify one comparison model
+for the evaluated task. When one or more models materially authored the behavior
+under test, use the most capable of them for that task. For human-only
+authorship, select the most capable supported model available to the authoring
+environment for that task. Record the comparison model, the basis for selecting
+it, and any exposed capability-relevant configuration.
+
+Run the evidence with a different supported model that is materially less
+capable for the evaluated task than the comparison model. Choose a model that
+still has the required modalities, tools, and context, and justify its
+lower-capability baseline from relevant evidence rather than its name or price
+alone. A lower reasoning effort on the comparison model does not provide this
+cross-model evidence. Treat inability to establish the model comparison, or
+otherwise unavailable applicable cross-model evidence, as an incomplete result.
+
+Use the lower-capability run to test whether invocation and procedure are
+self-sufficient, not as the sole judgment of professional correctness. It must
+select or exclude the Skill correctly and either follow the applicable workflow
+through its claimed completion or take an explicit capability or stopping path
+defined by the Skill. Invented procedure, skipped investigation or decisions,
+and premature completion are failures rather than acceptable model limits. When
+the task itself exceeds the baseline model's capabilities, a correct explicit
+stop demonstrates instruction robustness; a capable evaluator must separately
+establish the procedure's correctness and the output evidence.
+
+Record each scenario, expected behavior, observed behavior, and conclusion. For
+each model run, record the evaluator model and any exposed capability-relevant
+configuration, including reasoning effort when available. For each
+lower-capability run, also record the basis for establishing that its model
+differs from the comparison model and is an applicable lower-capability baseline.
 Static validation still checks frontmatter, links, formatting, metadata,
 packaging, and complete routes, but it cannot replace semantic evidence for
 behavior it does not execute. Compare the trusted pre-change and final bundles

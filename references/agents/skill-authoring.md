@@ -106,6 +106,18 @@ professional dimensions merely as optional examples when omitting them can
 prevent the promised result. At the same time, do not turn attention points
 into a fixed checklist when their relevance depends on the task.
 
+Bind each consequential action whose omission or incorrect execution could
+still leave a plausible-looking result to an observable postcondition before
+dependent work advances. Identify the acted-on object and revision when
+relevant, the expected postcondition, the observation that can establish it,
+and the reconciliation or stopping behavior for missing, partial,
+contradictory, or unknown results. Re-observe the actual state after the action
+and compare it with the postcondition before advancing. A plan or instruction
+to act, the Agent's memory or assertion, and the mere existence of an artifact
+are not evidence that the action completed. After an interruption or resumed
+run, re-observe current state from the last confirmed boundary before
+continuing.
+
 Define completion as the promised user result with its material constraints
 satisfied, not merely as producing a file, prompt, report, or other artifact.
 Include quality review or feasibility checks when a competent practitioner
@@ -139,7 +151,11 @@ why it does not apply:
 - **Workflow evidence:** exercise underspecified and already settled inputs, the
   principal complex branch, material conflicts or missing evidence, and inputs
   likely to tempt the Agent to skip investigation, decisions, or stopping
-  behavior.
+  behavior. When the task has consequential actions with observable
+  postconditions, include an applicable omitted, partial, interrupted,
+  wrong-target, or unknown-result action and verify that the workflow
+  re-observes, reconciles, or stops instead of advancing as though the action
+  completed.
 - **Output evidence:** verify the user-visible result, professional minimum,
   declared inputs, material constraints, format, and completion gate rather than
   checking only that an artifact was emitted.

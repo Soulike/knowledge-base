@@ -201,9 +201,52 @@ A protocol that cannot reproduce the failure can narrow hypotheses but does not
 establish a cause. Compare pre- and post-change executions using the same
 relevant conditions and record when a pre-change sample is unavailable.
 
+## Budget diagnostic deadline hierarchies
+
 A timeout is a diagnostic bound, not evidence that an awaited condition is
-ready. Increase one only when valuable behavior is protected, the real
-integration seam is already minimal, no production or harness defect explains
-the delay, avoidable setup work is absent, and measurements show a bounded
-runtime distribution beyond the existing limit. Keep the override local and
-leave enough margin for failure propagation and cleanup.
+ready or that elapsed time is itself the protected behavior. Increase one only
+when valuable behavior is protected, the real integration seam is
+already minimal, no production or harness defect explains the delay, avoidable
+setup work is absent, and measurements show a bounded runtime distribution
+beyond the existing limit. Keep an override local.
+
+Map every effective timeout, including defaults and overrides, to the exact
+lifecycle phases that its runner or operation governs. A test-body deadline can
+exclude hooks or teardown, while a worker, suite, fixture, or run deadline can
+impose another outer bound. Treat a deadline as outer only for the phases that
+its documented lifecycle covers.
+
+For each governing outer deadline, calculate the longest reachable wall-clock
+path through its phases. Sum the maximum relevant bounds of sequential work.
+For concurrent work, use the longest reachable critical path only when the
+operations actually overlap under their dependencies, runner scheduling, and
+resource constraints. Account for command discovery and startup, setup,
+reachable retries and retry delays, failure propagation, cancellation, process
+or resource settlement, and cleanup when they consume that same budget. Use the
+longest reachable alternative rather than summing mutually exclusive paths.
+
+An inner deadline being numerically lower than an outer deadline is
+insufficient when several bounded operations can run sequentially. When an
+inner failure is intended to provide the useful diagnostic, its governing outer
+deadline must leave time for that failure to occur and propagate and for owned
+work to settle or cancel before applicable cleanup. This numeric hierarchy is
+necessary but not sufficient: timer delivery can be late, and an expired
+timeout, abort request, or sent termination signal does not establish resource
+settlement.
+
+Prefer asynchronous, cancellable APIs for test-owned operations that may block
+on a process, service, transport, filesystem, or other external resource, and
+await completion or confirmed cancellation before cleanup. Short deterministic
+synchronous work does not require conversion merely because it is synchronous.
+Do not assume that a runner deadline can preempt longer synchronous blocking
+work: when enforcement depends on the same execution thread, the runner cannot
+act until that work returns or yields, and the resulting pass, failure, or
+delayed timeout is runner-specific. When synchronous behavior belongs to the
+protected contract, retain a representative case with an operation-level
+enforceable bound, or isolate it behind a worker or process that an independent
+watchdog can terminate before the test confirms settlement.
+
+A deliberately enforced performance deadline is a separate behavior contract.
+Establish its requirement through [Test effectiveness](test-effectiveness.md)
+and apply [Test execution cost](test-execution-cost.md) to its measurements and
+comparisons instead of treating it as diagnostic margin.

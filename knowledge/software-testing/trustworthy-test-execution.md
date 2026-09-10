@@ -186,10 +186,9 @@ block independently.
 Apply the attempt's ownership boundary before a hook restores shared state,
 another case reuses it, or a retry starts. Request cancellation when the
 operation supports it, then await evidence that every attempt-owned actor can
-no longer read or mutate the prior state. A completion Promise is a barrier
-only when it settles after the effects and cleanup on which the caller relies;
-for JavaScript and TypeScript coordination, apply
-[JavaScript Promise coordination](../javascript/promises.md).
+no longer read or mutate the prior state. Treat a completion signal as a
+barrier only when it represents the effects and cleanup on which the caller
+relies.
 
 When another attempt can start before that boundary, model the attempts as
 concurrent executions. Inventory every process singleton, environment value,

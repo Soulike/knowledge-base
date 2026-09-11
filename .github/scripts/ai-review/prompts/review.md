@@ -39,10 +39,12 @@ apply the
 Report a finding when no named source claim's correctness, authority, or
 application depends on the target; the target supplies related or optional
 material rather than a canonical premise, decision, or mapping on which that
-claim relies; or the pointer introduces an independently retrievable language-,
-platform-, product-, or implementation-specific branch. Accept the dependency
-only when it belongs within the source's existing scope and the source states
-enough local context to remain independently usable.
+claim relies; or the pointer's only contribution is an independently retrievable
+language-, platform-, product-, or implementation-specific branch. Accept the
+dependency only when it belongs within the source's accepted comparison
+boundary—its trusted pre-change responsibility for an existing leaf or its
+classified responsibility for a new leaf—and the source states enough local
+context to remain independently usable.
 
 Do not report a defect that a required CI check deterministically detects for
 the same revision. Still report behavior outside CI coverage, weakened or

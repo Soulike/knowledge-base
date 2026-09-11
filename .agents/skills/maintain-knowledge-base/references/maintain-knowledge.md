@@ -63,15 +63,22 @@ the target's canonical responsibility; it does not make the target prerequisite
 reading. The source must still state enough context to serve its own root-index
 route. Apply this deletion test before adding or retaining a link:
 
+First fix the comparison boundary for both leaves. For an existing leaf, use
+its trusted pre-edit Scope, root-index `When to Read` condition, and
+responsibility. For a new leaf, use the responsibility, retrieval condition,
+consumers, and maintenance lifecycle established by classification before its
+content or links are drafted; its proposed Scope must express rather than widen
+that boundary.
+
 1. Remove the link and its asserted dependency while preserving the source's
    local explanation. Name the exact claim whose correctness, authority, or
    application would change. If no source claim depends on the target, omit the
    link.
-2. Confirm that the target's pre-edit Scope owns the premise, decision, or
-   mapping on which that source claim relies. State the context needed to apply
-   the dependency locally without duplicating the target's responsibility.
-3. Confirm that the dependency belongs to the source's pre-edit responsibility.
-   A sentence or branch whose only contribution is related reading, an optional
+2. Confirm that the target's comparison boundary owns the premise, decision,
+   or mapping on which that source claim relies. State the context needed to
+   apply the dependency locally without duplicating the target's responsibility.
+3. Confirm that the dependency belongs to the source's comparison boundary. A
+   sentence or branch whose only contribution is related reading, an optional
    technique, or an independently retrievable language-, platform-, product-,
    or implementation-specific specialization fails this check and should rely
    on the target's root-index `When to Read` condition.

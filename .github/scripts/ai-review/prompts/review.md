@@ -33,6 +33,17 @@ Review every applicable repository-specific dimension:
    Apply one only when the finding and its premises still match, and recheck it
    when its recorded trigger has occurred.
 
+For every added or materially changed inline link between Knowledge leaves,
+apply the
+[inline-dependency test](.agents/skills/maintain-knowledge-base/references/maintain-knowledge.md#admit-inline-knowledge-dependencies).
+Report a finding when no named source claim's correctness, authority, or
+application depends on the target; the target supplies related or optional
+material rather than a canonical premise, decision, or mapping on which that
+claim relies; or the pointer introduces an independently retrievable language-,
+platform-, product-, or implementation-specific branch. Accept the dependency
+only when it belongs within the source's existing scope and the source states
+enough local context to remain independently usable.
+
 Do not report a defect that a required CI check deterministically detects for
 the same revision. Still report behavior outside CI coverage, weakened or
 silently skipped validation, and semantic defects that mechanical checks miss.

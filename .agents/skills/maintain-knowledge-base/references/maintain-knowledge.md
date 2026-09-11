@@ -36,22 +36,49 @@
    routing catalog. Organize leaf documents in domain directories, but list
    every remaining leaf directly in the root index and do not create nested
    indexes or leaf-level `Related Knowledge`, `See also`, or similar routing
-   appendices. When one leaf genuinely depends on another, link it inline where
-   the dependency is applied and include the local context needed to use the
-   current document.
+   appendices. Before linking one leaf from another, apply the
+   [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
+   retained dependency where it is applied and include the local context needed
+   to use the current document.
 10. Add, update, or remove the root-index row for every affected leaf document
     using the fields below, including its Knowledge Type. Repair every route
     and inline dependency affected by a move, merge, split, rename, or removal.
 11. Verify that every remaining leaf document is listed exactly once with one
     valid Knowledge Type, serves its `When to Read` condition without requiring
     another leaf as a prerequisite, contains no routing appendix, and resolves
-    every changed relative link. Confirm that each concept has one canonical
-    owner and each revised document presents one coherent current model.
-    Compare every changed Scope and routing trigger with its pre-edit form;
-    keep additions that express the same responsibility and route independent
-    responsibilities separately. Confirm that removed leaves and obsolete
-    routes no longer remain.
+    every changed relative link. Confirm that every added or materially changed
+    inline link between Knowledge leaves passes the inline-dependency test and
+    that its target fits the scope of the source claim. Confirm that each
+    concept has one canonical owner and each revised document presents one
+    coherent current model. Compare every changed Scope and routing trigger
+    with its pre-edit form; keep additions that express the same responsibility
+    and route independent responsibilities separately. Confirm that removed
+    leaves and obsolete routes no longer remain.
 12. Run `pnpm knowledge:check` from the repository root.
+
+## Admit inline Knowledge dependencies
+
+An inline link between Knowledge leaves records that a source claim depends on
+the target's canonical responsibility; it does not make the target prerequisite
+reading. The source must still state enough context to serve its own root-index
+route. Apply this deletion test before adding or retaining a link:
+
+1. Remove the link and its asserted dependency while preserving the source's
+   local explanation. Name the exact claim whose correctness, authority, or
+   application would change. If no source claim depends on the target, omit the
+   link.
+2. Confirm that the target's pre-edit Scope owns the premise, decision, or
+   mapping on which that source claim relies. State the context needed to apply
+   the dependency locally without duplicating the target's responsibility.
+3. Confirm that the dependency belongs to the source's pre-edit responsibility.
+   A sentence or branch whose only contribution is related reading, an optional
+   technique, or an independently retrievable language-, platform-, product-,
+   or implementation-specific specialization fails this check and should rely
+   on the target's root-index `When to Read` condition.
+
+Keep the link only when all three checks establish a dependency within the
+source responsibility. Related reading, optional techniques, and independently
+retrievable specializations remain separate Knowledge routes.
 
 ## Ownership and generalization
 

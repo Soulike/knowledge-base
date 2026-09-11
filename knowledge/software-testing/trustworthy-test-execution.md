@@ -173,6 +173,49 @@ sensitivity are execution inputs, not portable constants. For filesystem
 namespace races, use the forced-interleaving techniques in
 [Pathnames and filesystem resource identity](../filesystems/pathnames-and-resource-identity.md).
 
+## Treat timeout retries as overlapping executions
+
+A timeout, abort result, or wrapper rejection that can settle independently of
+the underlying body establishes only that the runner stopped waiting. It does
+not by itself establish that the test body or any writer, request, timer,
+process, or external operation started by that attempt has settled. A test-body
+`finally` block is likewise not a runner completion barrier: the runner can
+begin hooks or return control while the original body continues toward that
+block independently.
+
+Apply the attempt's ownership boundary before a hook restores shared state,
+another case reuses it, or a retry starts. Request cancellation when the
+operation supports it, then await evidence that every attempt-owned actor can
+no longer read or mutate the prior state. Treat a completion signal as a
+barrier only when it represents the effects and cleanup on which the caller
+relies.
+
+When another attempt can start before that boundary, model the attempts as
+concurrent executions. Inventory every process singleton, environment value,
+fixture, namespace, process, port, file, database, remote operation, and
+external side effect that both can reach. Account for an earlier attempt that
+publishes a late result, performs late cleanup, or deletes or overwrites state
+already claimed by the replacement. Attempt-private mutable state is isolated
+only when the previous attempt can no longer reach it.
+
+Disable same-case retry when settlement cannot be established before the next
+attempt. This removes that retry path, but it does not stop the timed-out work
+or make hooks and later cases safe. When the runner cannot prevent continued
+same-worker execution until quiescence, replace the attempt only after
+terminating and confirming an isolation boundary that contains every relevant
+actor and effect. A worker or process exit does not settle detached descendants,
+server-side or remote work, or durable effects outside that boundary.
+
+When a test retry can repeat a state-changing operation whose effects survive
+the caller's timeout or disconnection, apply
+[Overlapping mutation admission](../software-design/overlapping-mutation-admission.md)
+at the effect-owning boundary. The operation still needs an applicable
+idempotency, conditional-mutation, ownership, or stale-execution contract.
+
+An ordinary failure can be retried sequentially when the attempt's true
+completion boundary has settled and cleanup has restored the declared
+baseline.
+
 ## Establish intermittent evidence
 
 Bind an intermittent outcome to an exact revision, command, failure signature,

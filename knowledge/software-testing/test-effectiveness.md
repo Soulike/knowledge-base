@@ -121,6 +121,25 @@ When one contract requires both a retained capability and the absence of a
 secondary authority, fallback, mutation, or side effect, assert both and keep a
 positive control that proves the fixture can exercise the capability.
 
+For orchestration that forwards values returned by collaborators, a call
+assertion proves the interaction but not that the returned value reached the
+downstream decision. For each independently meaningful forwarded value, name a
+plausible wiring fault such as omission, substitution with another snapshot or
+context, or swapping two results. Choose fixture values for which correct and
+faulty forwarding produce different outcomes at the seam that owns the
+decision, and assert that semantic outcome. Treat call and argument assertions
+as supplemental unless the interaction itself is the owned contract. Use
+separate focused scenarios when one fixture cannot distinguish every forwarded
+value, and apply [controlled mutation evidence](#prove-the-test-has-teeth) when
+the protection remains uncertain.
+
+For example, current configuration can leave an input unclassified while
+historical configuration explicitly selects no action. Correctly forwarding
+the historical result selects no action, while omitting it produces the
+unclassified-input failure. If current and historical fixtures instead produce
+the same decision, the expected result cannot establish which value was
+forwarded.
+
 Cover detailed state combinations at the narrowest seam that owns the decision.
 Add a representative composed or end-to-end scenario when the fault depends on
 cross-boundary wiring, selecting the highest-risk user-observable state supported

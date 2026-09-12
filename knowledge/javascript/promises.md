@@ -81,7 +81,16 @@ const release = Promise.withResolvers<void>();
 This directly exercises cases such as one operation failing while a sibling
 remains in flight. `await Promise.resolve()` can advance already queued Promise
 reactions, but it is not a completion barrier for work that depends on later
-events, I/O, timers, or an external release. Apply
+events, I/O, timers, or an external release.
+
+Treat every externally settled test barrier as a test-owned asynchronous
+resource. Register its cleanup when it is created. On every exit, resolve or
+reject each outstanding barrier according to the test contract, await the
+operations that consume it until they settle, and only then discard resolver
+handles or reset fixture state. Dropping settlement-function references does
+not settle the Promise and can leave later work joined to a pending operation.
+
+Apply
 [Trustworthy test execution](../software-testing/trustworthy-test-execution.md)
 when the barrier participates in a broader asynchronous, timeout, retry, or
 cleanup test design.

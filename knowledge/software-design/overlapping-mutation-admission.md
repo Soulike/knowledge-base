@@ -116,6 +116,24 @@ and reject effects from stale owners there. Define which finalization effects
 need the same protection. Time-based expiry improves recovery from abandoned
 ownership but does not by itself stop an earlier execution from continuing.
 
+A locally owned generation represents one semantic precondition, not a general
+indication that nearby state changed. Define the assumption associated with the
+generation and advance it only when an event makes work admitted under an
+earlier value stale. Cache eviction, refresh requests, recomputation, or changes
+to independently owned cached data must not advance an authority generation
+unless they invalidate that same assumption. When one reset spans independent
+state, split its invalidation effects or give the independently changing domains
+separate generations so unrelated changes do not widen the stale domain.
+
+When an authority-changing mutation is confirmed and operation-owned
+verification or reconciliation follows, advance the applicable generation at
+that confirmed mutation boundary before those later phases can overlap
+pre-mutation work. The exact boundary depends on the external mutation
+contract. When an effect may have occurred without confirmation, a later local
+generation change cannot close that uncertainty; use an atomic precondition or
+fence at the effect-owning boundary, or define how the ambiguous outcome is
+reconciled.
+
 ## Keep observation separate from admission
 
 Status endpoints, persisted operation records, pending indicators, and polling
@@ -135,8 +153,9 @@ A design or review should account for:
 4. when active ownership is used, the final operation-owned effect and every
    release path;
 5. cancellation, timeout, queueing, or supersession behavior that applies; and
-6. the mechanism that rejects stale mutation and, when ownership can transfer,
-   stale release.
+6. the semantic precondition represented by each generation or fence, the
+   events and boundary that advance it, and the mechanism that rejects stale
+   mutation and, when ownership can transfer, stale release.
 
 Review remains incomplete while a supported ingress or operation-owned phase is
 unaccounted for, unless evidence establishes that a second invocation cannot
@@ -151,6 +170,14 @@ precondition and assert which effects can commit. Exercise exceptional release
 and finalization ownership when they can violate the contract. Add a composed
 test when separate ingresses must converge on the same owner, and keep the
 detailed cases at the narrowest seam that owns admission.
+
+When a generation protects publication from work admitted under an authority
+snapshot, test both sides of its scope. Hold valid work across an unrelated
+cache reset and prove that it remains valid. For a real authority change,
+complete the replacement work before releasing the pre-mutation work and prove
+that the stale completion cannot publish. When operation-owned verification
+follows the mutation, observe that the generation has already advanced before
+verification begins.
 
 For JavaScript and TypeScript barriers, apply [JavaScript Promise coordination](../javascript/promises.md).
 Apply [Test effectiveness](../software-testing/test-effectiveness.md) to select

@@ -1,9 +1,9 @@
 {
   "entries": {
-    "github/gh-aw/actions/setup@8e30bcd8897f5047051fa3971188e1dd4cdb23cf": {
+    "github/gh-aw/actions/setup@bde367913adeb3132f0a171594c88a17f4b7d08c": {
       "repo": "github/gh-aw/actions/setup",
-      "version": "8e30bcd8897f5047051fa3971188e1dd4cdb23cf",
-      "sha": "8e30bcd8897f5047051fa3971188e1dd4cdb23cf"
+      "version": "bde367913adeb3132f0a171594c88a17f4b7d08c",
+      "sha": "bde367913adeb3132f0a171594c88a17f4b7d08c"
     },
     "pnpm/action-setup@v6": {
       "repo": "pnpm/action-setup",

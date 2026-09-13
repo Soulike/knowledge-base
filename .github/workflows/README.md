@@ -199,15 +199,15 @@ labels.
 
 ## Compile and validate
 
-The repository pins gh-aw `v0.88.2` for the three scheduled workflows. Install
+The repository pins gh-aw `v0.88.7` for the three scheduled workflows. Install
 that exact compiler and regenerate their sources with:
 
 ```bash
-gh extension install github/gh-aw --pin v0.88.2
+gh extension install github/gh-aw --pin v0.88.7
 pnpm agentic:compile
 ```
 
-For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The wrapper rejects every compiler version except `v0.88.2`.
+For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The wrapper rejects every compiler version except `v0.88.7`.
 
 Run:
 

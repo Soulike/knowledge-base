@@ -189,7 +189,7 @@ resource and prove that the retained data does not become a second authority.
 
 ### Treat scale and input shape as fault dimensions
 
-When a unit owns an algorithm whose contract admits materially varying input
+When a module owns an algorithm whose contract admits materially varying input
 size or shape, identify the dimensions that can change its reachable correctness
 state. Depending on the algorithm, these can include total size, depth and
 execution waves, breadth and fan-out, relationship density, input ordering,

@@ -94,7 +94,7 @@ For every required test:
    to identify independently variable state dimensions and select a complete
    reachable combination that exposes the named fault before finalizing the
    fixture. Add another combination only when it exposes a distinct live fault.
-3. For a unit whose established contract admits materially varying input size or
+3. For a module whose established contract admits materially varying input size or
    shape, identify whether depth, breadth, density, ordering, contention, failure
    position, or another dimension can expose the named fault. Use the smallest
    bounded deterministic fixture that reaches that state and assert contract

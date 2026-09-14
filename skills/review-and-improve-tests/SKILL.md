@@ -78,7 +78,7 @@ available evidence path is identified.
    independently mutable boundaries represented or omitted by the fixture.
    Check whether assumed consistency, retained derived state, or an unexamined
    healthy fallback hides the named fault.
-3. For a unit whose established contract admits materially varying input size or
+3. For a module whose established contract admits materially varying input size or
    shape, identify whether the current fixtures omit a depth, breadth, density,
    ordering, contention, failure-position, or other dimension that exposes a
    distinct live fault. Require the smallest bounded deterministic fixture and a

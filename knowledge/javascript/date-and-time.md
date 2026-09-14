@@ -46,7 +46,7 @@ function instantToDate(instant) {
 }
 ```
 
-The conversion preserves the millisecond instant. Converting to `Date` loses sub-millisecond precision and does not preserve a named time zone, calendar, or wall-clock interpretation. Supply the intended time zone explicitly before deriving calendar fields from an instant.
+The finiteness check establishes only that an existing `Date` contains a representable instant; it does not validate the calendar input from which that `Date` was constructed. The conversion preserves the millisecond instant. Converting to `Date` loses sub-millisecond precision and does not preserve a named time zone, calendar, or wall-clock interpretation. Supply the intended time zone explicitly before deriving calendar fields from an instant.
 
 ## Contain legacy Date semantics
 
@@ -54,13 +54,13 @@ A valid `Date` represents an epoch-millisecond instant. It does not retain the i
 
 - The standardized date-only string `YYYY-MM-DD` is interpreted at UTC midnight. Displaying that instant with local getters in a zone west of UTC can produce the preceding calendar date. A date-only domain value should remain a date-only string or become `Temporal.PlainDate`, rather than being routed through `Date`.
 - Numeric construction uses the host's local time zone and zero-based months. For example, `new Date(2026, 7, 21)` represents a local time in August, not July.
-- Invalid input usually produces an `Invalid Date` whose numeric value is `NaN` instead of throwing at construction. Validate immediately at untrusted boundaries so the failure does not surface later in formatting, arithmetic, or serialization.
+- An `Invalid Date` has a numeric value of `NaN`, but a finite value does not prove that the original calendar input was valid. Component constructors and setters normalize overflowing fields, and implementation-dependent string parsing can accept unintended forms. Validate both the input syntax and the calendar-field combination before constructing a `Date`, or use the appropriate Temporal parser with rejecting behavior.
 - Setter methods mutate the instance and normalize overflowing fields. Shared references can therefore change unexpectedly, and operations such as incrementing the month can cross more than one calendar boundary. Clone before an unavoidable mutation and validate the result.
 - Local getters and UTC getters project the same instant through different time-zone assumptions. Choose one family deliberately and do not mix them within one calculation.
 - Adding a fixed millisecond count answers an elapsed-time question. It does not reliably express a calendar operation such as "the same local time tomorrow" or "one month later" because local days can be 23 or 25 hours and months have different lengths.
 - `toJSON()` and `toISOString()` serialize a valid `Date` as a UTC instant. That representation cannot recover the original numeric offset, named time zone, or wall-clock intent.
 
-Parse only formats owned by the input contract. Include an explicit `Z` or numeric offset when a string represents an instant, and reject strings that omit information the contract requires. Avoid implementation-dependent date strings. At persistence and API boundaries, distinguish date-only values, offset-bearing instants, local date-times, and zoned schedules in the schema rather than relying on one generic "date" field.
+Parse only formats owned by the input contract. Include an explicit `Z` or numeric offset when a string represents an instant, and reject strings that omit information the contract requires. Validate the grammar and calendar values before legacy `Date` parsing. When a boundary must construct a `Date` from separate fields, compare the resulting fields with the input in the same local or UTC basis so normalization cannot silently change the value. Avoid implementation-dependent date strings. At persistence and API boundaries, distinguish date-only values, offset-bearing instants, local date-times, and zoned schedules in the schema rather than relying on one generic "date" field.
 
 For occurred events, a UTC instant is usually the durable value. For future or recurring local schedules, retain the local calendar fields and named time zone needed to recompute the applicable instant, together with an explicit policy for repeated or skipped local times. Derive presentation values at the boundary that knows the viewer's time zone.
 
@@ -71,7 +71,7 @@ Apply [Test effectiveness](../software-testing/test-effectiveness.md) to name th
 - the same date-only or instant input under UTC and at least one materially different time zone;
 - a daylight-saving gap or overlap in a named zone when the code converts or calculates local times;
 - month-end, year-end, and leap-day arithmetic when calendar units are involved;
-- invalid, missing-offset, or out-of-range input at a parsing boundary;
+- invalid, impossible-but-normalized, missing-offset, or out-of-range input at a parsing boundary;
 - a serialization round trip that proves the contract preserves the required instant, date-only meaning, or named-zone context;
 - mutation or aliasing when legacy `Date` setters remain in use; and
 - the chosen Temporal overflow, offset-conflict, or disambiguation behavior when the default would also produce a plausible result.

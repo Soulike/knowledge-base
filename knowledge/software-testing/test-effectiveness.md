@@ -73,6 +73,33 @@ source form is itself the contract, such as compatibility with a parser that
 cannot run in the current environment, and use a structural parser when
 structure matters.
 
+For a reusable module, evaluate protection from the module's established
+interface contract separately from the ways its current consumers happen to use
+it. A consumer test can prove that one caller supplies and observes the expected
+integration, but a convention in that caller does not narrow the module's
+contract unless an enforced static gate or non-bypassable runtime boundary
+excludes the value from every supported path. This comparison does not require a
+separate test file or layer when existing coverage exercises the owning seam.
+
+Classify candidate inputs before treating them as coverage obligations:
+
+1. An input excluded by the declared interface or an enforced boundary does not
+   become supported because a cast, private mutation, or impossible fixture can
+   construct it.
+2. An input that the supported interface admits but that violates an established
+   invariant can require a rejection test when the module owns interpreting it
+   or admitting its side effects. Protect both the failure and the absence of
+   callbacks, persistence, or other effects that rejection must prevent.
+3. A valid input that current consumers do not use remains governed by the
+   module's contract. Decide its coverage from a distinct realistic fault and
+   competing protection rather than from present caller demand alone.
+
+Apply
+[Module responsibility and defensive scope](../software-design/module-responsibility-and-defensive-scope.md)
+before this classification when the invariant, supported path, or semantic owner
+is not independently established. Tests follow production ownership; they do
+not create it.
+
 ## Find marginal protection
 
 Several common test shapes add little or no independent protection:
@@ -85,7 +112,7 @@ Several common test shapes add little or no independent protection:
   transformation, arguments, side effects, failure propagation, or wiring that
   the project owns.
 - More inputs reach the same already-covered branch without exposing a distinct
-  boundary or failure mode.
+  boundary, failure mode, or reachable state dimension.
 - The same result is asserted at several layers even though only one layer owns
   the decision.
 - A runtime assertion repeats a property enforced for all relevant code by a
@@ -155,6 +182,38 @@ leaves the cache unexamined cannot establish either claim. A separate reachable
 contradiction can retain derived data after the authority no longer reports the
 resource and prove that the retained data does not become a second authority.
 
+### Treat scale and input shape as fault dimensions
+
+When a unit owns an algorithm whose contract admits materially varying input
+size or shape, identify the dimensions that can change its reachable correctness
+state. Depending on the algorithm, these can include total size, depth and
+execution waves, breadth and fan-out, relationship density, input ordering,
+contention, early or late failure, cancellation position, and combinations of
+successful, satisfied, failed, blocked, and pending work.
+
+Select a scale or shape dimension only when it can expose a named live fault. A
+larger input can add protection even when it enters the same source branch as a
+smaller one if it can reveal stack exhaustion, incomplete propagation, order
+dependence, starvation, resource conflicts, or another contract violation that
+the small fixture cannot reach. Accepting a collection by itself does not create
+a stress-test obligation.
+
+Use the smallest bounded deterministic fixture that reaches the selected
+dimension. Prefer generated setup when it reduces incidental detail, and assert
+contract invariants rather than copying a large execution trace or reproducing
+the production algorithm. Useful invariants can include prerequisite ordering,
+concurrency and conflict limits, order-independent results, one outcome per
+admitted item, transitive failure propagation, cancellation policy, and release
+of owned execution state. Do not multiply fixtures that protect the same
+dimension against the same fault.
+
+Keep correctness fixtures stable across supported test environments. Elapsed
+time, throughput, memory use, operation growth, and other performance or resource
+claims require their own established contract and observable metric. Apply
+[Test execution cost](test-execution-cost.md) to those measurements and
+comparisons rather than using an ordinary suite's diagnostic timeout as the
+oracle.
+
 ## Use an independent oracle
 
 Derive expected results independently from the implementation under test.
@@ -173,10 +232,11 @@ missed regeneration, while separate evidence establishes generator correctness.
 The assertion's inability to detect shared defects limits its claim rather than
 invalidating justified synchronization protection.
 
-Prefer small fixtures with hand-derived outcomes, externally visible contracts,
-or a simpler independent model for behavioral correctness. Observe the effect a
-contract requires: a retry test should observe attempts and outcome, not merely
-assert the configured retry count.
+Prefer the smallest fixture that reaches the selected fault dimension, with
+hand-derived outcomes, externally visible contracts, invariants, or a simpler
+independent model for behavioral correctness. Observe the effect a contract
+requires: a retry test should observe attempts and outcome, not merely assert the
+configured retry count.
 Check a relevant permitted variation and a realistic violation when judging
 whether an assertion constrains too much or protects too little. This is a
 reasoning requirement, not a demand to execute mutations for every test.

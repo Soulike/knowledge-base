@@ -36,8 +36,10 @@ change may contain tests with different concerns and dispositions.
      [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
      when a test is offered as evidence that production should own a behavior,
      when the available contract does not establish that behavior's
-     reachability or owning module, or when test structure suggests mixed
-     module responsibilities or a missing seam.
+     reachability or owning module, when current producer or consumer conventions
+     appear to exclude values representable by a reusable module's call signature
+     or data shape, or when test structure suggests mixed module responsibilities
+     or a missing seam.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
      for collection, selection, skips, fixtures, time, ordering, retries,
@@ -65,12 +67,26 @@ available evidence path is identified.
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
    to representation and cross-artifact assertions before
    deciding their value. Record tests with no established behavior and behaviors
-   with no identified protection instead of dropping either from the review.
+   with no identified protection instead of dropping either from the review. For
+   a reusable module, compare its established interface contract with protection
+   supplied through current consumers. Distinguish values excluded before the
+   operation by an enforced boundary, invalid values representable by its call
+   signature or data shape that a real supported path can deliver when the module
+   owns validation, and valid values unused by current consumers. Do not treat
+   one caller's convention as an enforced module boundary.
 2. For behavior that is stateful or spans an integration boundary, identify the
    independently mutable boundaries represented or omitted by the fixture.
    Check whether assumed consistency, retained derived state, or an unexamined
    healthy fallback hides the named fault.
-3. Classify every item by the concerns that actually apply:
+3. For a module whose established contract admits materially varying input size or
+   shape, identify whether the current fixtures omit a depth, breadth, density,
+   ordering, contention, failure-position, or other dimension that exposes a
+   distinct live fault. Require the smallest bounded deterministic fixture and a
+   contract-level invariant or independent oracle. Do not infer a stress-test
+   obligation from collection input alone, and apply
+   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   to runtime or resource claims.
+4. Classify every item by the concerns that actually apply:
 
    | Concern                 | Evidence required                                                                                                 |
    | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -80,11 +96,11 @@ available evidence path is identified.
    | Collection or selection | Expected and actual identities plus honest run, fail, and legitimate-skip paths                                   |
    | Execution cost          | Comparable baseline and candidate using the same cost basis                                                       |
 
-4. Assign each test or behavior a supported disposition: keep, strengthen,
+5. Assign each test or behavior a supported disposition: keep, strengthen,
    replace, consolidate, delete, add coverage, no test owed, or unresolved.
    Do not infer protection from test count or line coverage, and do not assume a
    failing or flaky test is defective merely because its outcome is disruptive.
-5. Record production seams or module responsibilities that prevent direct,
+6. Record production seams or module responsibilities that prevent direct,
    effective testing as design findings rather than hiding them behind more
    mocks or broader fixtures.
 

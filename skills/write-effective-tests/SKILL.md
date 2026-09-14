@@ -16,13 +16,17 @@ description: Decide whether an identified production behavior needs new or mater
    owning code, existing tests and static gates, project-declared test locations
    and commands, and local testing conventions. When the request concerns an
    actual production change, inventory every behaviorally relevant change so no
-   required protection disappears behind the proposed tests.
+   required protection disappears behind the proposed tests. For a reusable
+   module, identify its established interface contract separately from the
+   narrower paths exercised by each current consumer.
 4. Read
    [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
    when the test request is being used as evidence that production should own
    defensive, compatibility, migration, trust, presentation, or future-consumer
-   behavior, or when the accepted requirement, supported execution path, or
-   semantic owner is not independently established.
+   behavior; when a producer or consumer convention appears to exclude an input
+   representable by a reusable module's call signature or data shape; or when the
+   accepted requirement, supported execution path, or semantic owner is not
+   independently established.
 5. Read
    [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
    when discovery, conditional selection, asynchronous behavior, clocks,
@@ -58,7 +62,13 @@ evidence path, and command that can establish execution is known.
    realistic defect, existing test or static gate that could catch it, and
    executable owned seam. Before choosing representation or cross-artifact
    assertions, use the loaded guidance to establish the requirement they would
-   fix before treating current agreement as a protection subject.
+   fix before treating current agreement as a protection subject. For a reusable
+   module, compare its established interface contract with the protection
+   supplied by all current consumers. Distinguish values excluded before the
+   operation by an enforced boundary, invalid values representable by its call
+   signature or data shape that a real supported path can deliver when the module
+   owns validation, and valid values unused by current consumers. Do not treat a
+   caller convention as a coverage boundary.
 5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.
@@ -84,17 +94,25 @@ For every required test:
    to identify independently variable state dimensions and select a complete
    reachable combination that exposes the named fault before finalizing the
    fixture. Add another combination only when it exposes a distinct live fault.
-3. Choose the narrowest test that exercises the owned behavior without
+3. For a module whose established contract admits materially varying input size or
+   shape, identify whether depth, breadth, density, ordering, contention, failure
+   position, or another dimension can expose the named fault. Use the smallest
+   bounded deterministic fixture that reaches that state and assert contract
+   invariants instead of a copied execution trace. Do not add a scale case solely
+   because the unit accepts a collection. Apply
+   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   when the protection claim depends on runtime or resource measurements.
+4. Choose the narrowest test that exercises the owned behavior without
    restating the implementation or relying on unrelated behavior.
-4. Apply Trustworthy test execution to collection, fixtures, ambient state,
+5. Apply Trustworthy test execution to collection, fixtures, ambient state,
    cleanup, time, ordering, retries, concurrency, platforms, and external
    processes that affect the result.
-5. Apply Test execution cost only to an actual design tradeoff. Do not replace a
+6. Apply Test execution cost only to an actual design tradeoff. Do not replace a
    required real integration seam with a mock merely to make the test cheaper.
-6. Fit the test to the active project's conventions and available seams. When
+7. Fit the test to the active project's conventions and available seams. When
    the production design prevents effective testing, report the missing seam
    rather than hiding it behind a larger fixture or more mocks.
-7. When edits are authorized, implement the smallest coherent coverage change.
+8. When edits are authorized, implement the smallest coherent coverage change.
    For a planning or assessment request, report the disposition and proposed
    test without editing.
 

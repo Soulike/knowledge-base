@@ -24,8 +24,9 @@ description: Decide whether an identified production behavior needs new or mater
    when the test request is being used as evidence that production should own
    defensive, compatibility, migration, trust, presentation, or future-consumer
    behavior; when a producer or consumer convention appears to exclude an input
-   that a reusable module's interface admits; or when the accepted requirement,
-   supported execution path, or semantic owner is not independently established.
+   representable by a reusable module's call signature or data shape; or when the
+   accepted requirement, supported execution path, or semantic owner is not
+   independently established.
 5. Read
    [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
    when discovery, conditional selection, asynchronous behavior, clocks,
@@ -63,9 +64,11 @@ evidence path, and command that can establish execution is known.
    assertions, use the loaded guidance to establish the requirement they would
    fix before treating current agreement as a protection subject. For a reusable
    module, compare its established interface contract with the protection
-   supplied by all current consumers and classify enforced-excluded,
-   admitted-invalid, and valid inputs unused by current consumers before treating
-   a caller convention as a coverage boundary.
+   supplied by all current consumers. Distinguish values excluded before the
+   operation by an enforced boundary, invalid values representable by its call
+   signature or data shape that a real supported path can deliver when the module
+   owns validation, and valid values unused by current consumers. Do not treat a
+   caller convention as a coverage boundary.
 5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.

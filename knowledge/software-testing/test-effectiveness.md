@@ -76,29 +76,34 @@ structure matters.
 For a reusable module, evaluate protection from the module's established
 interface contract separately from the ways its current consumers happen to use
 it. A consumer test can prove that one caller supplies and observes the expected
-integration, but a convention in that caller does not narrow the module's
-contract unless an enforced static gate or non-bypassable runtime boundary
-excludes the value from every supported path. This comparison does not require a
-separate test file or layer when existing coverage exercises the owning seam.
+integration, but a convention in that caller neither narrows the module's
+contract nor establishes which values can reach the module. Examine the complete
+interface, enforced gates, and real supported producers and execution paths. This
+comparison does not require a separate test file or layer when existing coverage
+exercises the owning seam.
 
 Classify candidate inputs before treating them as coverage obligations:
 
-1. An input excluded by the declared interface or an enforced boundary does not
-   become supported because a cast, private mutation, or impossible fixture can
-   construct it.
-2. An input that the supported interface admits but that violates an established
-   invariant can require a rejection test when the module owns interpreting it
-   or admitting its side effects. Protect both the failure and the absence of
-   callbacks, persistence, or other effects that rejection must prevent.
-3. A valid input that current consumers do not use remains governed by the
-   module's contract. Decide its coverage from a distinct realistic fault and
-   competing protection rather than from present caller demand alone.
+1. A value that an enforced static gate, opaque constructor, schema, or
+   non-bypassable runtime boundary prevents from reaching the operation through
+   every supported path does not become supported because a cast, private
+   mutation, or impossible fixture can construct it.
+2. The operation's call signature or input representation can carry a value that
+   violates an invariant the module owns enforcing. It earns rejection coverage
+   only when a real supported producer or execution path can deliver it and the
+   module owns interpreting the value or admitting its side effects. Protect
+   both the failure and the absence of callbacks, persistence, or other effects
+   that rejection must prevent.
+3. A value accepted by the complete interface but unused by current consumers
+   remains governed by the module's contract. Decide its coverage from a
+   distinct realistic fault and competing protection rather than from present
+   caller demand alone.
 
 Apply
 [Module responsibility and defensive scope](../software-design/module-responsibility-and-defensive-scope.md)
-before this classification when the invariant, supported path, or semantic owner
-is not independently established. Tests follow production ownership; they do
-not create it.
+before this classification when the producer, supported path, invariant,
+validation responsibility, or effect-owning boundary is not independently
+established. Tests follow production ownership; they do not create it.
 
 ## Find marginal protection
 

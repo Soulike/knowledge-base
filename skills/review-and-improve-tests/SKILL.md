@@ -37,8 +37,9 @@ change may contain tests with different concerns and dispositions.
      when a test is offered as evidence that production should own a behavior,
      when the available contract does not establish that behavior's
      reachability or owning module, when current producer or consumer conventions
-     appear to narrow a reusable module's admitted inputs, or when test structure
-     suggests mixed module responsibilities or a missing seam.
+     appear to exclude values representable by a reusable module's call signature
+     or data shape, or when test structure suggests mixed module responsibilities
+     or a missing seam.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
      for collection, selection, skips, fixtures, time, ordering, retries,
@@ -68,8 +69,10 @@ available evidence path is identified.
    deciding their value. Record tests with no established behavior and behaviors
    with no identified protection instead of dropping either from the review. For
    a reusable module, compare its established interface contract with protection
-   supplied through current consumers. Classify enforced-excluded,
-   admitted-invalid, and valid inputs unused by current consumers; do not treat
+   supplied through current consumers. Distinguish values excluded before the
+   operation by an enforced boundary, invalid values representable by its call
+   signature or data shape that a real supported path can deliver when the module
+   owns validation, and valid values unused by current consumers. Do not treat
    one caller's convention as an enforced module boundary.
 2. For behavior that is stateful or spans an integration boundary, identify the
    independently mutable boundaries represented or omitted by the fixture.

@@ -29,6 +29,10 @@ Establish accepted PR intent in this order:
 4. The PR title, description, and discussion as corroborating evidence when
    they do not expand the authority above.
 
+Record the accepted outcome, included responsibilities, explicitly deferred
+consumers or behavior, and their trusted sources as the scope basis supplied to
+review handling. Keep those decisions with the contract when checkpointing it.
+
 Keep the watch read-only when these sources materially conflict or do not
 define the PR-wide intent well enough to classify mutations. An ambiguity
 limited to one finding makes only that finding human-only; continue independent

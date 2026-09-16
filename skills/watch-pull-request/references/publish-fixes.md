@@ -31,12 +31,14 @@ Before that check, inspect the complete aggregate diff from the captured base
 SHA through the proposed local head. Include both fixes published by earlier
 cycles and every unpublished commit from the current cycle. Run the aggregate
 validation required by the active project, then reapply the autonomy gate and
-its cumulative-drift criteria to the proposed result. Each commit passing on
-its own does not establish that their combined result remains within the
-accepted intent and mutation boundary. Compare the actual responsibilities and
-effects with the scope basis recorded for review handling, including explicit
-deferrals. Tests passing or the latest comment being resolved cannot establish
-that an additional consumer or policy belongs in the PR.
+its cumulative-drift and proportionality criteria to the proposed result. Each
+commit passing on its own does not establish that their combined result remains
+within the accepted intent and mutation boundary. Compare the actual
+responsibilities and effects with the scope basis recorded for review handling,
+including explicit deferrals and the complete causal remediation chain. Tests
+passing or the latest comment being resolved cannot establish that an
+additional consumer, policy, or permanent coordination mechanism belongs in the
+PR.
 
 When the aggregate result fails that gate, preserve the unpublished commits,
 freeze mutation, record the fix units and evidence that produced the drift,

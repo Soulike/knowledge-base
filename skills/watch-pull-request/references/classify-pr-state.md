@@ -15,8 +15,9 @@ An item is autonomous only when every condition holds:
 3. Its evidence is complete, current, and applicable to the captured PR
    identity.
 4. Existing requirements, contracts, project instructions, or a verification
-   oracle determine one materially reasonable response without a new product,
-   design, architecture, security, compatibility, policy, or risk choice.
+   oracle determine one materially reasonable and proportionate response
+   without a new product, design, architecture, security, compatibility,
+   quality, policy, or risk choice.
 5. The action is reversible, or an uncertain result can be reconciled before
    replay.
 6. Its result can be independently verified.
@@ -24,8 +25,10 @@ An item is autonomous only when every condition holds:
    control bypass.
 8. It does not conflict with another active finding, accepted requirement, or
    applicable project instruction.
-9. The complete base-to-current-head change has not accumulated scope or risk
-   that makes the accepted intent ambiguous.
+9. The complete base-to-current-head change and any causal remediation chain on
+   which this item's response depends have not accumulated scope, risk, or
+   permanent implementation responsibility that makes the accepted intent or
+   this response's proportionality ambiguous.
 
 Agent confidence and commenter identity do not replace a failed condition.
 
@@ -140,18 +143,30 @@ freezes further mutation and requires human intervention rather than a retry.
 
 ## Stop drift and remediation loops
 
-Freeze mutation when otherwise reasonable fixes collectively expand scope,
-change the overall design, conflict with one another, introduce a new
-high-impact policy, or make accepted intent ambiguous. Defer every
-otherwise-autonomous mutation, record the changes and independent dispositions
-that produced the drift, and hand off the governing decision. Until that
-decision returns, do not edit, push, post dependent replies, or replay CI.
+Freeze PR-wide mutation when otherwise reasonable fixes collectively expand
+scope, change the overall design, conflict with one another, introduce a new
+high-impact policy, make accepted intent ambiguous, or leave the PR's aggregate
+response dependent on a human product-quality or risk choice. Defer every
+otherwise-autonomous mutation, record the causal remediation chain and
+independent dispositions that produced the drift, and hand off the governing
+decision. Until that decision returns, do not edit, push, post dependent
+replies, or replay CI.
 
 Stop the affected remediation when substantially the same concern returns
 after a claimed fix, attempts alternate between incompatible states, each fix
 creates an equivalent or more severe failure, or the next attempt has no
-evidence-backed reason to succeed. Independent autonomous work may continue
-unless cumulative drift invalidates the PR-wide contract.
+evidence-backed reason to succeed. A proportionality question local to one
+finding stops that affected remediation; independent autonomous work may
+continue unless the chain changes the overall design or cumulative drift
+invalidates the PR-wide contract. Required reconciliation of an operation with
+an unknown result and the final state capture for a human handoff remain
+permitted because they establish the current state rather than continue the
+remediation.
+
+Escalate a local proportionality question to a PR-wide freeze when selecting,
+retaining, or removing its remedy would change the accepted PR outcome, overall
+design, mutation boundary, or validity of other active work. Sharing a pull
+request, file, module, or review round does not establish that dependency.
 
 Finish when every current comment, thread, review state, merge requirement, and
 CI result has an evidence-backed disposition.

@@ -101,6 +101,20 @@ boundary; presents concrete options, consequences, and a recommendation; and
 identifies cumulative drift or deferred work. Confirm that no other executable
 autonomous work remains.
 
+When the handoff concerns remediation proportionality, also state the original
+concern and realistic impact; the applicable guarantee or quality standard and
+whether it is violated; the permanent state, coordination, lifecycle, testing,
+or maintenance responsibility already introduced or required next; and how
+later findings relate causally to earlier remedies. Present the choices to
+accept the limitation, select a smaller sufficient remedy, or fund the broader
+guarantee when those options remain viable. Required unknown-effect
+reconciliation and this final state verification precede the handoff. While the
+human decision is pending, do not continue the affected remediation chain.
+Complete independent autonomous work first when the PR-state classification
+still permits it. Once a PR-wide mutation freeze applies or the consolidated
+handoff begins, do not continue implementation, publication, replies, CI
+replay, or passive waiting.
+
 After the human answers, apply only the decisions and interventions they
 authorized, then ask whether to continue watching. A request to continue does
 not authorize merge.

@@ -16,8 +16,12 @@ results to shared handling before selecting an operation.
 
 Record the resulting cycle disposition and why the handling result and watch
 contract authorize it. When source-remediation need remains undetermined,
-select `human decision required` and preserve the affected source. Otherwise
-enter the corresponding branch below.
+select `human decision required` and preserve the affected source. When the
+shared handling cannot establish one materially reasonable proportionate
+response, also select `human decision required`, preserve the affected work,
+and either stop the affected remediation or apply the PR-wide mutation freeze
+selected by the PR-state classification. Otherwise enter the corresponding
+branch below.
 
 ## No technically required source change
 
@@ -54,15 +58,20 @@ required. Apply its scope disposition and selected remedy as follows:
   user explicitly revises it.
 - When the recorded accepted intent and trusted authority require this PR to
   act, the finding's relationship to the PR supports that application, and every
-  autonomy-gate condition passes, select `autonomous work` for the selected
-  source mutation.
+  autonomy-gate condition passes, including the shared handling's complete
+  remediation-chain and proportionality decision, select `autonomous work` for
+  the selected source mutation.
 - When the required result is known but the operation needs unavailable
   authority, access, credentials, infrastructure, or another human-only effect,
   select `human intervention required`.
-- Require a human decision for materially reasonable remedies, conflicting
-  requests, an undetermined or expanded scope, unresolved product or
-  architecture choices, compatibility or policy decisions, risk acceptance,
-  insufficient evidence, or a conflict with accepted requirements.
+- Require a human decision when materially reasonable remedies differ in a
+  product, quality, architecture, compatibility, policy, or risk choice that
+  trusted requirements do not settle; when the choice is between accepting a
+  limitation and funding a broader guarantee; or for conflicting requests, an
+  undetermined or expanded scope, risk acceptance, insufficient evidence, or a
+  conflict with accepted requirements. The Agent may select among equivalent
+  technical implementations when the ordinary autonomy gate determines the
+  required result and selection criteria.
 
 Topic alone does not make implementation human-only. The Agent may implement a
 previously selected high-impact approach, but selection of a new production
@@ -81,6 +90,13 @@ operational gate. A PR-induced regression may proceed when the gate passes;
 a valid defect requiring out-of-scope remediation freezes mutation for the
 human decision. A confirmed observation that requires no source change follows
 the no-source-change branch.
+
+For a proportionality handoff, retain the original concern and realistic
+impact, the applicable guarantee or quality standard and whether it is
+violated, the permanent responsibility already introduced or required next,
+the causal relationship among later findings and earlier remedies, the viable
+options and their consequences, and the Agent's recommendation. Preserve local
+work and do not choose rollback as a substitute for the human decision.
 
 For example, during a behavior-preserving refactor a reviewer identifies a
 pre-existing bug. Shared handling confirms it on both the trusted base and

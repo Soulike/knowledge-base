@@ -40,21 +40,21 @@ passing or the latest comment being resolved cannot establish that an
 additional consumer, policy, or permanent coordination mechanism belongs in the
 PR.
 
-When the gate fails only for one fix unit or causal remediation chain and the
-PR-state classification does not require a PR-wide freeze, preserve and
-withhold the affected work. Prepare a new publication candidate from the
-captured source head that contains only independent admitted fix units, without
-discarding the stopped work or rewriting published history. Repeat focused and
-aggregate validation and the complete gate for that candidate. When the units
-cannot be separated without changing another disposition, preserve them and
-hand off the dependency instead of pushing.
+When that recheck changes admission, preserve the unpublished work and return
+the new evidence to classification before any dependent operation. Apply its
+stop scope to the publication candidate:
 
-When the failure changes the accepted PR outcome, overall design, mutation
-boundary, or validity of other active work, preserve every unpublished commit,
-freeze PR-wide mutation, record the fix units and evidence that produced the
-drift, and hand off the governing decision. Do not push or post replies that
-depend on the stopped commits. When the complete gate passes, the cycle
-publishes all admitted prepared commits together with one push.
+- For a local stop, withhold the affected units. Prepare a new candidate from
+  the captured source head containing only independent admitted fix units,
+  without discarding stopped work or rewriting published history. Repeat
+  focused and aggregate validation and the complete gate for this candidate.
+  If the units cannot be separated without changing another disposition,
+  preserve them and return the dependency to classification.
+- For a PR-wide freeze, preserve every unpublished commit and perform no push
+  or dependent reply. Return to the main workflow with the governing cause.
+
+When the complete gate passes, publish all admitted prepared commits together
+with one push. Publication outcomes do not independently terminate the watch.
 
 ## Run the pre-push check
 
@@ -68,7 +68,7 @@ Immediately before every push attempt:
    complete PR observation, and understand the remote changes before deciding
    whether the fix still applies.
 5. If the ref is missing, do not recreate it. Retrieve the complete PR state
-   and hand off the deleted source branch as human intervention unless the PR
+   and return the deleted source branch as human intervention unless the PR
    has become terminal.
 6. If they match, perform one ordinary non-force push of the prepared commits
    to that exact existing ref.

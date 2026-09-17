@@ -1,8 +1,13 @@
 # Pull request review readiness
 
-Use this reference when a contribution or pull-request watch must decide
+Use this reference when a workflow must decide
 whether a draft pull request may enter review and how to publish that state
 safely.
+
+Return the operation result, consumed authority, and any mutation freeze to
+the consuming workflow. That workflow owns continued observation, waiting, and
+handoff timing; a frozen readiness result forbids further mutation until the
+human resolves it, but does not itself end safe observation.
 
 ## Establish review-progression authority
 
@@ -62,7 +67,7 @@ Immediately before publication, retrieve the exact target and source refs
 again, then retrieve the pull request's draft state and complete base and source
 identity. When any value differs from the readiness snapshot, do not invoke the
 operation. Leave the one-shot authority unconsumed, freeze every further
-mutation, and return the mismatch to the caller for immediate human handoff.
+mutation, and return the mismatch as human intervention required.
 Otherwise invoke the provider's dedicated ready-for-review operation exactly
 once. Mark the one-shot authority consumed immediately before invoking it.
 
@@ -73,23 +78,23 @@ and compare its state and complete identity with the expected ready state:
   SHAs establishes success. Return the verified ready state and consumed
   authority to the caller for its workflow-specific completion path.
 - A ready pull request with an unexpected base or source repository, ref, or
-  SHA is an unexpected external effect. Freeze every further mutation and hand
-  off the observed state to a human; do not convert it back to draft, push,
-  reply, request review, or retry.
+  SHA is an unexpected external effect. Freeze every further mutation and return
+  the observed state as human intervention required; do not convert it back to
+  draft, push, reply, request review, or retry.
 - After a known successful response, any other state indicates a concurrent
-  change or inconsistent result. Freeze every further mutation and hand off
-  immediately; do not continue otherwise independent work before the human
-  resolves the state.
+  change or inconsistent result. Freeze every further mutation and return human
+  intervention required; do not continue otherwise independent mutations before
+  the human resolves the state.
 - A definitive provider rejection or other known failure ends the readiness
-  attempt. Record the failure, freeze every further mutation, and hand off
-  immediately; do not invoke the ready operation again or continue otherwise
-  independent work before the human responds.
+  attempt. Record the failure, freeze every further mutation, and return human
+  intervention required; do not invoke the ready operation again or continue
+  otherwise independent mutations before the human responds.
 - After a timeout, lost response, or other unknown result, the exact expected
   ready state establishes completion. Any other observation, including an
   unchanged draft, is ambiguous because the operation may have completed and
-  then been reversed. Freeze every further mutation and hand off immediately;
-  do not retry or continue with otherwise independent work before the human
-  resolves the state.
+  then been reversed. Freeze every further mutation and return human
+  intervention required; do not retry or continue with otherwise independent
+  mutations before the human resolves the state.
 
 The post-publication check limits further Agent effects; it cannot undo review,
 CI, or notifications already triggered during the accepted race window.

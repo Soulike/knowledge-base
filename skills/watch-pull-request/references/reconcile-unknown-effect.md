@@ -48,5 +48,6 @@ inconclusive visibility as human intervention required rather than risking a
 duplicate.
 
 Finish only when the mutation has one known result: completed, proven not to
-have completed and safe to reconsider from fresh state, or unreconcilable and
-handed to a human.
+have completed and safe to reconsider from fresh state, or unreconcilable with
+the evidence preserved. Return that result to the watch; it owns classification
+and the timing and kind of handoff.

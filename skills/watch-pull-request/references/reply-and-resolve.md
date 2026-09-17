@@ -9,8 +9,9 @@ limitation. When no code change was appropriate, state the disposition, its
 supporting evidence and applicable head, and any remaining limitation.
 
 Do not post a holding reply merely to announce that a human decision is
-pending. Hand off the decision and reply after it is available unless the
-active project requires an interim status.
+pending. Retain that item for the main workflow's consolidated handoff and
+reply after the decision is available unless the active project requires an
+interim status.
 
 ## Resolve a review thread
 

@@ -3,10 +3,11 @@
 ## Scope
 
 This document defines project-independent principles for coordinating Promises
-in JavaScript and TypeScript when concurrent work must finish before a dependent
-side effect, or when Promise settlement is controlled outside the operation
-that creates it. It is not a Promise API catalog or a general guide to
-asynchronous application design.
+in JavaScript and TypeScript when code must choose between rejecting an
+aggregate on an input failure and collecting every input outcome, when
+concurrent work must finish before a dependent side effect, or when Promise
+settlement is controlled outside the operation that creates it. It is not a
+Promise API catalog or a general guide to asynchronous application design.
 
 ## When to update
 
@@ -14,6 +15,27 @@ Update this document when ECMAScript changes the relevant Promise semantics,
 target runtimes or TypeScript library definitions materially change the
 available standard operations, or a recurring Promise-coordination failure
 exposes a missing completion, compensation, or external-settlement principle.
+
+## Choose aggregation by failure policy
+
+`Promise.all()` fulfills with the inputs' fulfillment values after every input
+fulfills.
+`Promise.allSettled()` fulfills with status-bearing outcome objects after every
+input settles. Their control-flow difference appears when an input rejects:
+
+- Use `Promise.all()` when the aggregate result is useful only if every input
+  fulfills and rejection handling may begin without assuming that the other
+  inputs have finished. The aggregate rejects with the first input rejection
+  it observes.
+- Use `Promise.allSettled()` when the caller needs one outcome for every input,
+  including failures, or when it must not continue until every input has
+  settled. The aggregate fulfills with every outcome, so the caller must inspect
+  rejected results and apply the owning error policy explicitly.
+
+Neither operation cancels or stops sibling operations when an input rejects.
+Choose between them from the required result shape, rejection behavior, and the
+boundary the next phase may assume, rather than from the fact that the work runs
+concurrently.
 
 ## Wait for started work before dependent side effects
 

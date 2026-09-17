@@ -1,6 +1,6 @@
 ---
 name: watch-pull-request
-description: Watch or resume watching a trusted or verified pull request across ongoing review comments, review threads, and CI activity; autonomously perform bounded remediation; and hand off after relevant automation has settled and no autonomous work remains. Report terminal PRs and interrupted execution separately. Use when the user requests continued monitoring and handling rather than a one-time inspection, review, diagnosis, or bounded fix.
+description: Watch or resume watching a trusted or verified pull request across ongoing review comments, review threads, and CI activity; autonomously perform bounded remediation; and hand off after relevant automation has settled and no autonomous work remains executable. Report terminal PRs and interrupted execution separately. Use when the user requests continued monitoring and handling rather than a one-time inspection, review, diagnosis, or bounded fix.
 ---
 
 # Watch a pull request
@@ -44,34 +44,37 @@ Start or resume with an immediate complete observation, then repeat:
    before selecting a write.
 4. Read [Classify the PR state](references/classify-pr-state.md). Record each
    item's disposition and dependencies, any PR-wide mutation freeze, and which
-   relevant automatic processes are settled, progressing, or blocked. Classify
-   the complete snapshot before executing any selected mutation.
+   admitted operations remain executable after applying those dependencies and
+   freezes, and which relevant automatic processes are settled, progressing, or
+   blocked. Classify the complete snapshot before executing any selected
+   mutation.
 
 ## Choose the cycle action
 
 Use the first applicable row. The classification owns action admission and
 freeze scope; this table owns watch scheduling and completion.
 
-| Current state                                                                                                                                                                                              | Next action                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The PR is merged or closed.                                                                                                                                                                                | Verify and report the terminal state through [Hand off](references/hand-off.md).                                                                           |
-| Safe observation of the watched PR cannot continue because its identity, required visibility, or runtime is unusable and cannot be restored autonomously.                                                  | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                     |
-| Admitted autonomous work remains.                                                                                                                                                                          | Execute the selected operations below. A PR-wide freeze defers all mutations; a local stop withholds only dependent work.                                  |
-| Relevant automation can still produce an expected result without human intervention.                                                                                                                       | Read [Wait for results](references/wait-for-results.md), wait, then return to complete observation. Retain human-owned and deferred items during the wait. |
-| All relevant automation has ended with definite, retrieved results, those results have been classified, no admitted autonomous work remains, and no unknown operation outcome prevents final verification. | Verify and report normal completion through [Hand off](references/hand-off.md).                                                                            |
-| A relevant automatic result or operation outcome needed for final verification remains unsettled, obtaining it requires human intervention, and no independent work or expected result can advance.        | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                     |
+| Current state                                                                                                                                                                                                | Next action                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The PR is merged or closed.                                                                                                                                                                                  | Verify and report the terminal state through [Hand off](references/hand-off.md).                                                                           |
+| Safe observation of the watched PR cannot continue because its identity, required visibility, or runtime is unusable and cannot be restored autonomously.                                                    | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                     |
+| Currently executable autonomous work remains after applying dependencies and freeze scope.                                                                                                                   | Execute the selected operations below.                                                                                                                     |
+| Relevant automation can still produce an expected result without human intervention.                                                                                                                         | Read [Wait for results](references/wait-for-results.md), wait, then return to complete observation. Retain human-owned and deferred items during the wait. |
+| All relevant automation has ended with definite, retrieved results, those results have been classified, no autonomous work remains executable, and no unknown operation outcome prevents final verification. | Verify and report normal completion through [Hand off](references/hand-off.md).                                                                            |
+| A relevant automatic result or operation outcome needed for final verification remains unsettled, obtaining it requires human intervention, and no independent work or expected result can advance.          | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                     |
 
-Normal completion requires both settled current-head automation and no
-remaining autonomous work. A failed, cancelled, or timed-out run supplies a
-definite result; classify its resulting work before deciding to finish. When
-only human remediation of that ended failure remains, normal completion applies.
-Required human approvals and decisions do not bypass the waiting row. Missing
-evidence does not establish completion: investigate it or identify the concrete
+Normal completion requires both settled current-head automation and no work
+that can proceed autonomously under the current dependencies and freeze scope.
+A failed, cancelled, or timed-out run supplies a definite result; classify its
+resulting work before deciding to finish. When only human remediation or work
+deferred by a human-owned freeze remains, normal completion applies. Required
+human approvals and decisions do not bypass the waiting row. Missing evidence
+does not establish completion: investigate it or identify the concrete
 interruption.
 
 ## Execute the selected operations
 
-Apply only the operations admitted by classification:
+Apply only the operations classified as currently executable:
 
 - **Source remediation:** use the active project's implementation and validation
   workflows. For review-driven changes, apply shared feedback verification and

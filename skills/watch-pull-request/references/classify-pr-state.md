@@ -23,6 +23,13 @@ item withholds only work that depends on its unresolved choice or result.
 Neither kind of stop forbids safe observation or reconciliation. The main
 workflow selects execution, waiting, or handoff from these separate records.
 
+After recording dispositions, derive the currently executable set. Include an
+autonomous operation only when its dependencies are satisfied and neither a
+local stop nor a PR-wide freeze withholds it. Keep an admitted but withheld
+operation recorded as deferred, together with the dependency or freeze that
+prevents execution; do not let it select the main workflow's execution row or
+block normal completion after relevant automation settles.
+
 ## Apply the autonomy gate
 
 An operation is autonomous only when every condition holds:

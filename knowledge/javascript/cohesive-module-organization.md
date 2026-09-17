@@ -56,8 +56,7 @@ assuming the two provide the same guarantee.
 describes that distinction.
 
 For example, this queue owns pending task IDs and the rule that IDs are
-trimmed. Its tests additionally need to inspect and seed normalized pending
-IDs; those specific needs account for the two `ForTesting` extensions:
+trimmed:
 
 ```ts
 export class TaskQueue {
@@ -73,14 +72,6 @@ export class TaskQueue {
 
   private normalizeTaskId(taskId: string): string {
     return taskId.trim();
-  }
-
-  public getPendingTaskIdsForTesting(): readonly string[] {
-    return [...this.pending];
-  }
-
-  public setPendingTaskIdsForTesting(taskIds: readonly string[]): void {
-    this.pending = taskIds.map((taskId) => this.normalizeTaskId(taskId));
   }
 }
 ```
@@ -144,8 +135,10 @@ judgment: a test should expose a realistic contract violation while tolerating
 changes the contract permits. Prefer normal production interfaces when they
 can construct and observe the scenario effectively. Add a testing extension
 when a concrete test needs observation, state setup, or process access that
-those interfaces do not adequately provide; do not generate an extension for
-every private member.
+those interfaces do not adequately provide. Establish a stable testing seam:
+name a semantic testing capability that should survive permitted implementation
+changes, rather than exposing the current field layout or private call sequence.
+Do not generate an extension for every private member.
 
 Keep the original methods and state private. Add separate public methods whose
 names end in `ForTesting`; use the same suffix for testing operations returned
@@ -161,20 +154,89 @@ That source describes a C++ project convention; the naming rule here is a
 JS/TS design convention, not a language-enforced restriction. A public method
 remains callable by production code unless a separate check prevents it.
 
+For example, suppose a scheduled queue exposes enqueueing and background
+execution to production callers. Its scheduling decision is exercised when a
+real timer fires, while its normal interface deliberately provides no manual
+dispatch operation or pending-state access. After the project establishes a
+need to test that owned decision directly without waiting for the real timer,
+the class can add bounded semantic testing operations. This example assumes
+that observation and direct process access are each required; a real module
+should add only the subset established by its tests:
+
+```ts
+export class ScheduledTaskQueue {
+  private pending: Array<{ id: string; readyAt: number }> = [];
+  private timer: ReturnType<typeof setInterval> | undefined;
+
+  public constructor(private readonly dispatch: (taskId: string) => void) {}
+
+  public enqueue(taskId: string, delayMs: number): void {
+    this.pending.push({
+      id: this.normalizeTaskId(taskId),
+      readyAt: Date.now() + delayMs,
+    });
+  }
+
+  public start(): void {
+    this.timer ??= setInterval(() => this.dispatchReadyTasks(), 1_000);
+  }
+
+  public stop(): void {
+    if (this.timer !== undefined) {
+      clearInterval(this.timer);
+      this.timer = undefined;
+    }
+  }
+
+  private normalizeTaskId(taskId: string): string {
+    return taskId.trim();
+  }
+
+  private dispatchReadyTasks(): void {
+    const now = Date.now();
+    const ready = this.pending.filter((task) => task.readyAt <= now);
+    this.pending = this.pending.filter((task) => task.readyAt > now);
+
+    for (const task of ready) {
+      this.dispatch(task.id);
+    }
+  }
+
+  public getPendingTaskIdsForTesting(): readonly string[] {
+    return this.pending.map((task) => task.id);
+  }
+
+  public dispatchReadyTasksForTesting(): void {
+    this.dispatchReadyTasks();
+  }
+}
+```
+
+The testing interface names pending tasks and readiness rather than exposing
+the backing entries or their absolute timestamps. A test can enqueue work due
+immediately and work due later, invoke the real scheduling decision once, and
+assert dispatched output and the remaining task IDs without sleeping. Normal
+execution still reaches the same private process through the timer callback.
+If dependency injection, a fake clock or timer, or a separate test-only adapter
+or export already supplies an equally clear seam, use that narrower access
+instead of expanding the public class.
+
 Design the capability for the particular need:
 
 - **Observation:** return the necessary values or a suitably isolated snapshot.
-  The example's getter copies an array of strings, so mutating the returned
-  array cannot change the queue. Returning the internal array or map would
-  expose a mutation route. A `Readonly<T>` annotation does not create runtime
-  isolation, and a shallow copy still shares nested mutable objects.
+  The example's getter returns a new array containing only task IDs, so callers
+  receive neither the backing array nor its scheduling representation. A
+  `Readonly<T>` annotation does not create runtime isolation, and a shallow
+  copy still shares nested mutable objects.
   [TypeScript's readonly-property documentation](https://www.typescriptlang.org/docs/handbook/2/objects.html#readonly-properties)
   explains the type-system limit.
 - **State setup:** provide a named, bounded setter or setup operation for the
-  required scenario. The example copies and normalizes input through the real
-  helper, establishing a state reachable by enqueueing the same IDs without
-  retaining the caller's mutable array. A testing setter does not make an
-  otherwise unsupported state part of the production contract.
+  required scenario only when normal operations cannot establish it adequately.
+  Express the semantic state, such as `setRetryExhaustedForTesting()`, rather
+  than exposing an incidental counter or replacing a backing collection. Let
+  the extension translate that request into the current private representation.
+  A testing setter does not make an otherwise unsupported state part of the
+  production contract.
 - **Process access:** add a forwarding method that calls the existing private
   process when that access is necessary for the test. Keep the original process
   private and keep normal execution calling it directly. The forwarding method

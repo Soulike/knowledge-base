@@ -120,14 +120,17 @@ restore context that growth has pushed away. The GOV.UK Design System likewise
 recommends [pagination](https://design-system.service.gov.uk/components/pagination/)
 only when dividing content improves usability or performance.
 
-Do not silently truncate a valid collection. When the initial view is bounded,
-make the existence and scale of the remaining items clear and provide an
-understandable way to reach the complete set. A bounded view may prioritize
-failed, changed, selected, risky, or otherwise relevant items, but apply
+Do not silently remove items from a collection the surface promises to present.
+When the initial view is bounded and users need or the surface promises the
+complete collection, make the existence and scale of the remaining items clear
+and provide an understandable way to reach them. An aggregate, top-ranked, or
+policy-filtered surface may intentionally represent less; identify that scope so
+the visible subset does not appear to be the complete underlying collection. A
+bounded view may prioritize failed, changed, selected, risky, or otherwise
+relevant items, but apply
 [user-centered information hierarchy](user-centered-information-hierarchy.md)
-to establish that relevance and do not imply that the visible subset is the
-whole collection. When a control reveals or collapses the remaining items,
-preserve its state and follow the WAI-ARIA
+to establish that relevance. When a control reveals or collapses the remaining
+items, preserve its state and follow the WAI-ARIA
 [disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
 
 Collection growth must not make task-critical warnings, permissions,
@@ -166,25 +169,26 @@ not by itself create a large-fixture obligation.
 
 Choose an environment by what the claim requires. Semantic or component tests
 can establish computed names, totals, ordering, roles, states, interaction
-wiring, disclosure behavior, and access to the complete set. Font measurement,
-intrinsic sizing, composed height, sticky or fixed regions, scrolling, clipping,
-popup placement, and responsive layout need a real rendering engine. A component
-test can run in a real browser; layout evidence does not automatically require a
-full application E2E journey. Add a representative composed journey when the
-fault depends on application wiring or presentation that the narrower environment
-cannot exercise.
+wiring, disclosure behavior, and access to any promised complete set. Font
+measurement, intrinsic sizing, composed height, sticky or fixed regions,
+scrolling, clipping, popup placement, and responsive layout need a real rendering
+engine. A component test can run in a real browser; layout evidence does not
+automatically require a full application E2E journey. Add a representative
+composed journey when the fault depends on application wiring or presentation
+that the narrower environment cannot exercise.
 
 Use [independent oracles](../software-testing/test-effectiveness.md#use-an-independent-oracle)
 for the required outcome rather than asserting only a selected CSS class or
-attribute. For a bounded collection, verify the displayed total or remaining-item
-indication, the initial bound, access to the complete set, preservation of state
-while expanding, collapsing, filtering, paging, or scrolling, and continued
-access to task-critical context and actions. Check the complete relevant bounds
-against the owning surface, the visibility and usability of adjacent controls,
-and client versus scroll dimensions where they describe the intended overflow
-policy. Partial viewport intersection does not prove containment. Conversely, a
-deliberately truncated label can correctly have a scroll width larger than its
-client width; that alone is not a defect.
+attribute. For a bounded view, verify that any total, remaining-item, or
+represented-scope indication is accurate; the initial bound and selected ordering
+behave as designed; any promised complete set can be reached; expanding,
+collapsing, filtering, paging, or scrolling preserves the promised state; and
+task-critical context and actions remain accessible. Check the complete relevant
+bounds against the owning surface, the visibility and usability of adjacent
+controls, and client versus scroll dimensions where they describe the intended
+overflow policy. Partial viewport intersection does not prove containment.
+Conversely, a deliberately truncated label can correctly have a scroll width
+larger than its client width; that alone is not a defect.
 
 Screenshots can detect paint and appearance regressions. Use geometry assertions
 for specific containment thresholds and semantic or interaction assertions for

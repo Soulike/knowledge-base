@@ -95,9 +95,27 @@ Treat ordinary PR validation triggered by an authorized push as an expected
 effect. Require a human decision for a known deployment, release, spending,
 external commitment, or other high-impact effect outside the accepted PR
 intent. When the actual change introduces or updates Git LFS or another
-side-band payload, use the trusted project-supported publication path or hand
-off when that path cannot be established.
+side-band payload, use the trusted project-supported publication path. If it
+cannot be established, return publication as human intervention required;
+the main workflow owns continued observation and handoff timing.
+
+## Preserve and resume the watch
+
+Keep a checkpoint of the contract, last complete PR identity, safe workspace
+and local work, published commits and replies, handled item identities,
+validation evidence, remaining item dispositions and dependencies, PR-wide
+freeze, awaited automatic results, readiness transition history and consumed
+one-shot authority, and every operation with an unknown result.
+
+On resume, verify workspace ownership and reconcile unknown effects before
+dependent work, then enter a complete observation immediately. Preserve local
+state whose ownership or publication result cannot be established. Classify an
+unusable workspace or unreconcilable effect as human intervention required and
+withhold dependent work. Continue independent safe observation and reconciliation;
+return any loss of necessary watch visibility to the main workflow for its
+interruption decision. Retain existing authorization, accepted decisions, and
+consumed one-shot effects; resuming does not renew them.
 
 Finish when the watched subject, trusted control revision, accepted intent,
 safe workspace, credentials, standing authority, and human-only boundary are
-explicit.
+explicit, and any resumed work has a verified starting boundary.

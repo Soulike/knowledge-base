@@ -16,7 +16,10 @@ Retrieve one complete current snapshot from every applicable PR surface:
   outdated state;
 - top-level PR comments;
 - required and optional CI checks, conclusions, details, attempts, and the head
-  SHA each result applies to; and
+  SHA each result applies to;
+- relevant queued or running automation, known expected runs, and automated
+  review publication state, including the expected final result and any known
+  human prerequisite for obtaining it; and
 - provider mergeability and conflicts, merge queue or auto-merge state, and
   every visible branch or merge requirement.
 
@@ -53,6 +56,13 @@ specific visibility or operational blocker was recorded.
 
 Treat unavailable visibility into applicable review or merge requirements as
 human intervention required rather than evidence that the PR is ready.
+
+Capture enough of each relevant automatic process to distinguish an internal
+stage from its complete published result. Use trusted triggers and observed
+activity to identify expected runs; a stale head's success or absence of a
+visible check does not establish that current-head work finished. Record a
+concrete missing-result or visibility blocker when settlement cannot be
+established.
 
 The snapshot is the baseline for one observation cycle. It does not promise
 that remote state remains unchanged after retrieval.

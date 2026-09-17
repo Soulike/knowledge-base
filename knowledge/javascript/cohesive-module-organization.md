@@ -140,9 +140,17 @@ name a semantic testing capability that should survive permitted implementation
 changes, rather than exposing the current field layout or private call sequence.
 Do not generate an extension for every private member.
 
-Keep the original methods and state private. Add separate public methods whose
-names end in `ForTesting`; use the same suffix for testing operations returned
-by a factory. These are newly added testing capabilities, not production
+Choose the narrowest access mechanism that fits the module and its packaging.
+When a separate test-only adapter or export can legitimately reach the
+implementation and remain unavailable to production consumers, prefer that
+smaller external interface. When an exported class used across package
+boundaries needs a small amount of stable testing access and the project cannot
+provide that separate surface cleanly, keep the original methods and state
+private and add separate public methods whose names end in `ForTesting`; use the
+same suffix for testing operations returned by a factory.
+
+Public `ForTesting` methods intentionally expand the runtime and type-visible
+class interface even though they are testing capabilities rather than production
 features. Production callers and the module's own normal execution paths must
 not call or depend on them. The extensions may access private state and invoke
 real private implementations; they must not duplicate business logic or switch
@@ -154,26 +162,33 @@ That source describes a C++ project convention; the naming rule here is a
 JS/TS design convention, not a language-enforced restriction. A public method
 remains callable by production code unless a separate check prevents it.
 
-For example, suppose a scheduled queue exposes enqueueing and background
-execution to production callers. Its scheduling decision is exercised when a
-real timer fires, while its normal interface deliberately provides no manual
-dispatch operation or pending-state access. After the project establishes a
-need to test that owned decision directly without waiting for the real timer,
-the class can add bounded semantic testing operations. This example assumes
-that observation and direct process access are each required; a real module
-should add only the subset established by its tests:
+For example, suppose a scheduled queue is exported across package boundaries
+and exposes enqueueing and background execution to production callers. Its
+scheduling decision is exercised when a real timer fires, while its normal
+interface deliberately provides no manual dispatch operation or pending-state
+access. The project cannot provide a test-only export without duplicating
+access logic, and it establishes a need to test that owned decision directly
+without waiting for the real timer. The class can then add bounded semantic
+testing operations. This example assumes that observation and direct process
+access are each required; a real module should add only the subset established
+by its tests. Current time is a real input to the scheduling decision, so the
+class accepts it as an ordinary production dependency with `Date.now` as its
+default; this dependency is not a testing extension:
 
 ```ts
 export class ScheduledTaskQueue {
   private pending: Array<{ id: string; readyAt: number }> = [];
   private timer: ReturnType<typeof setInterval> | undefined;
 
-  public constructor(private readonly dispatch: (taskId: string) => void) {}
+  public constructor(
+    private readonly dispatch: (taskId: string) => void,
+    private readonly now: () => number = Date.now,
+  ) {}
 
   public enqueue(taskId: string, delayMs: number): void {
     this.pending.push({
       id: this.normalizeTaskId(taskId),
-      readyAt: Date.now() + delayMs,
+      readyAt: this.now() + delayMs,
     });
   }
 
@@ -193,7 +208,7 @@ export class ScheduledTaskQueue {
   }
 
   private dispatchReadyTasks(): void {
-    const now = Date.now();
+    const now = this.now();
     const ready = this.pending.filter((task) => task.readyAt <= now);
     this.pending = this.pending.filter((task) => task.readyAt > now);
 
@@ -213,13 +228,13 @@ export class ScheduledTaskQueue {
 ```
 
 The testing interface names pending tasks and readiness rather than exposing
-the backing entries or their absolute timestamps. A test can enqueue work due
-immediately and work due later, invoke the real scheduling decision once, and
-assert dispatched output and the remaining task IDs without sleeping. Normal
-execution still reaches the same private process through the timer callback.
-If dependency injection, a fake clock or timer, or a separate test-only adapter
-or export already supplies an equally clear seam, use that narrower access
-instead of expanding the public class.
+the backing entries or their absolute timestamps. A test applies
+[Trustworthy test execution](../software-testing/trustworthy-test-execution.md)
+by supplying a controlled `now` function, enqueueing work at a fixed instant,
+advancing that time, invoking the real scheduling decision once, and asserting
+dispatched output and the remaining task IDs. Normal execution still reaches
+the same private process through the timer callback. When timer registration
+itself needs protection, test `start()` separately with a controlled timer.
 
 Design the capability for the particular need:
 
@@ -231,12 +246,13 @@ Design the capability for the particular need:
   [TypeScript's readonly-property documentation](https://www.typescriptlang.org/docs/handbook/2/objects.html#readonly-properties)
   explains the type-system limit.
 - **State setup:** provide a named, bounded setter or setup operation for the
-  required scenario only when normal operations cannot establish it adequately.
-  Express the semantic state, such as `setRetryExhaustedForTesting()`, rather
-  than exposing an incidental counter or replacing a backing collection. Let
-  the extension translate that request into the current private representation.
-  A testing setter does not make an otherwise unsupported state part of the
-  production contract.
+  required scenario only when the state can arise through a supported
+  production path but normal operations cannot establish it adequately in the
+  test. Express the semantic state, such as
+  `setRetryExhaustedForTesting()`, rather than exposing an incidental counter or
+  replacing a backing collection. Let the extension translate that request into
+  the current private representation. A testing setter does not make an
+  unreachable state supported or establish a production responsibility.
 - **Process access:** add a forwarding method that calls the existing private
   process when that access is necessary for the test. Keep the original process
   private and keep normal execution calling it directly. The forwarding method

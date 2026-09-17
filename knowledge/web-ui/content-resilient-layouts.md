@@ -14,19 +14,27 @@ failures reveals a missing case within this scope.
 
 ## Treat content and available space as joint state
 
-An accepted data contract defines possible content, not its rendered dimensions.
-A character-count limit cannot establish pixel width: fonts, glyphs, casing,
-spacing, and wrapping opportunities affect the space text needs. Translation can
-change both width and height, and no one script is always the widest. The W3C's
+An accepted data contract defines possible content and collection size, not their
+rendered dimensions. A character-count limit cannot establish pixel width: fonts,
+glyphs, casing, spacing, and wrapping opportunities affect the space text needs.
+Translation can change both width and height, and no one script is always the
+widest. The W3C's
 [text-size guidance](https://www.w3.org/International/articles/article-text-size)
 explains these localization effects.
 
-Derive a content envelope from the values the interface admits. Include ordinary
-content and adverse valid cases relevant to its layout: long labels, unbroken
-identifiers or paths, and localized or mixed-script text where supported. Account
-for icons, indicators, adjacent actions, padding, and nested indentation that
-compete for the same space. A layout repair should accommodate the accepted
-contract; shortening that contract requires a separate product decision.
+Derive a content envelope from the values and quantities the interface admits.
+Include ordinary content and adverse valid cases relevant to its layout: long
+labels, unbroken identifiers or paths, and localized or mixed-script text where
+supported. For a collection without an enforced small bound, include an ordinary
+collection and a large but valid collection. Account for icons, indicators,
+adjacent actions, padding, and nested indentation that compete for the same
+space. A layout repair should accommodate the accepted contract; shortening that
+contract requires a separate product decision.
+
+Item dimensions and collection cardinality can compound. A surface that survives
+long labels in a small collection and many short labels separately can still fail
+when many difficult items appear together in the most constrained supported
+presentation.
 
 Pair content with the presentation that must hold it. A narrow viewport with a
 short label and a spacious layout with a long label can both pass while their
@@ -93,6 +101,43 @@ be truncated when users can still identify the item and inspect its full value
 when needed. Preserve distinguishing context where practical; many identical
 visible prefixes can make a contained list unusable.
 
+Choose a large-collection treatment from what users need to do with the complete
+set:
+
+- Use a bounded preview with a visible total and a direct path to the complete
+  set when users mainly need to understand the collection's consequence before
+  acting.
+- Use deliberate scrolling, pagination, or virtualization when users need to
+  browse the complete collection.
+- Add grouping, filtering, or search when users need to locate, compare, or
+  select items rather than read them sequentially.
+- Use a summary when aggregate meaning changes the decision more than individual
+  rows, while preserving access to underlying items that remain material.
+
+These mechanisms serve different tasks. A collection does not require
+virtualization merely because it can grow, and a scroll container does not
+restore context that growth has pushed away. The GOV.UK Design System likewise
+recommends [pagination](https://design-system.service.gov.uk/components/pagination/)
+only when dividing content improves usability or performance.
+
+Do not silently remove items from a collection the surface promises to present.
+When the initial view is bounded and users need or the surface promises the
+complete collection, make the existence and scale of the remaining items clear
+and provide an understandable way to reach them. An aggregate, top-ranked, or
+policy-filtered surface may intentionally represent less; identify that scope so
+the visible subset does not appear to be the complete underlying collection. A
+bounded view may prioritize failed, changed, selected, risky, or otherwise
+relevant items, but apply
+[user-centered information hierarchy](user-centered-information-hierarchy.md)
+to establish that relevance. When a control reveals or collapses the remaining
+items, preserve its state and follow the WAI-ARIA
+[disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+
+Collection growth must not make task-critical warnings, permissions,
+relationships, recovery information, or the primary action inaccessible. Decide
+which regions may grow or scroll and which context must remain visible or
+immediately reachable for the promised task.
+
 Visual containment, accessible naming, and access to the complete value are
 separate contracts. For an item whose full value identifies the action or
 destination, preserve and verify the complete accessible name. CSS-only ellipsis
@@ -116,22 +161,34 @@ sole carrier of essential information.
 
 ## Verify the rendered and semantic outcomes
 
-Choose an environment by what the claim requires. Semantic tests can establish
-computed names, roles, states, and interaction wiring. Font measurement,
-intrinsic sizing, popup placement, clipping, and composed responsive layout need
-a real rendering engine. A component test can run in a real browser; layout
-evidence does not automatically require a full application E2E journey. Add a
-representative composed journey when the fault depends on application wiring or
-presentation that the narrower environment cannot exercise.
+When collection size participates in the layout contract, retain an ordinary
+case as a control and add the smallest large valid case that challenges the
+chosen treatment. Combine high cardinality with difficult item content only when
+the combination exposes a distinct reachable fault. Accepting a collection does
+not by itself create a large-fixture obligation.
+
+Choose an environment by what the claim requires. Semantic or component tests
+can establish computed names, totals, ordering, roles, states, interaction
+wiring, disclosure behavior, and access to any promised complete set. Font
+measurement, intrinsic sizing, composed height, sticky or fixed regions,
+scrolling, clipping, popup placement, and responsive layout need a real rendering
+engine. A component test can run in a real browser; layout evidence does not
+automatically require a full application E2E journey. Add a representative
+composed journey when the fault depends on application wiring or presentation
+that the narrower environment cannot exercise.
 
 Use [independent oracles](../software-testing/test-effectiveness.md#use-an-independent-oracle)
 for the required outcome rather than asserting only a selected CSS class or
-attribute. Check the complete relevant bounds against the owning surface, the
-visibility and usability of adjacent controls, and client versus scroll
-dimensions where they describe the intended overflow policy. Partial viewport
-intersection does not prove containment. Conversely, a deliberately truncated
-label can correctly have a scroll width larger than its client width; that
-alone is not a defect.
+attribute. For a bounded view, verify that any total, remaining-item, or
+represented-scope indication is accurate; the initial bound and selected ordering
+behave as designed; any promised complete set can be reached; expanding,
+collapsing, filtering, paging, or scrolling preserves the promised state; and
+task-critical context and actions remain accessible. Check the complete relevant
+bounds against the owning surface, the visibility and usability of adjacent
+controls, and client versus scroll dimensions where they describe the intended
+overflow policy. Partial viewport intersection does not prove containment.
+Conversely, a deliberately truncated label can correctly have a scroll width
+larger than its client width; that alone is not a defect.
 
 Screenshots can detect paint and appearance regressions. Use geometry assertions
 for specific containment thresholds and semantic or interaction assertions for

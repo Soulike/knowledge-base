@@ -107,14 +107,17 @@ validation evidence, remaining item dispositions and dependencies, PR-wide
 freeze, awaited automatic results, readiness transition history and consumed
 one-shot authority, and every operation with an unknown result.
 
-On resume, verify workspace ownership and reconcile unknown effects before
-dependent work, then enter a complete observation immediately. Preserve local
-state whose ownership or publication result cannot be established. Classify an
-unusable workspace or unreconcilable effect as human intervention required and
-withhold dependent work. Continue independent safe observation and reconciliation;
-return any loss of necessary watch visibility to the main workflow for its
-interruption decision. Retain existing authorization, accepted decisions, and
-consumed one-shot effects; resuming does not renew them.
+On resume from this checkpoint after the earlier execution stopped, verify
+workspace ownership and reconcile unknown effects before dependent work, then
+enter a complete observation immediately. A runtime yield, tool return, or
+execution continuation during an active waiting round is not checkpoint resume
+and does not enter this procedure. Preserve local state whose ownership or
+publication result cannot be established. Classify an unusable workspace or
+unreconcilable effect as human intervention required and withhold dependent
+work. Continue independent safe observation and reconciliation; return any loss
+of necessary watch visibility to the main workflow for its interruption
+decision. Retain existing authorization, accepted decisions, and consumed
+one-shot effects; resuming does not renew them.
 
 Finish when the watched subject, trusted control revision, accepted intent,
 safe workspace, credentials, standing authority, and human-only boundary are

@@ -59,20 +59,24 @@ of the change effect, but do not authorize changes to independent behavior.
    parent-selected operation. Reclassify any material that a branch returns.
    For mixed material, analyze the Knowledge part first, then the Skill part,
    then its references.
-8. Using the completed artifact-specific analysis, design the final artifact
-   set by responsibility, retrieval or invocation timing, consumers, and
-   maintenance lifecycle rather than by the requested operation or current file
-   layout.
-9. For every affected responsibility unit, compare making no change, deleting,
-   rewriting, adding, merging, splitting, and moving the material. Complete this
-   comparison before adding content at any location. Do not add by default when
-   the material corrects, duplicates, or supersedes existing content; needs a
-   widened pre-edit responsibility or trigger to fit; adds another qualification
-   to accumulated exceptions; or exposes multiple independently retrieved,
-   invoked, or maintained responsibilities. Also examine whether deletion or
-   movement preserves the required outcome with less maintained content and
-   whether branch-only detail belongs behind progressive disclosure. Select the
-   operation that leaves the smallest complete and coherent current model.
+8. Using the completed artifact-specific analysis, design the final content and
+   artifact set by responsibility, reader task, retrieval or invocation timing,
+   consumers, and maintenance lifecycle. Before substantive editing, state the
+   structural judgment in a work update using
+   [Keep revisions coherent](../../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+   and proceed within the existing authorization. For purely mechanical edits,
+   confirm that meaning and structure are unchanged without a full structural
+   assessment.
+9. For each substantive revision, choose the operations that realize that
+   structure across the complete affected responsibility units. Compare making
+   no change, deleting, rewriting, adding, merging, splitting, and moving before
+   editing. Prefer replacement or consolidation when material corrects,
+   duplicates, or supersedes existing content; separate responsibilities when
+   fitting them together would widen an owner's pre-edit responsibility or
+   trigger. Use progressive disclosure for branch-only detail when it improves
+   the reader's path. Select for the clarity and coherence of the final content;
+   diff size does not constrain the necessary rewrite within the authorized
+   responsibility boundary.
 10. Resume each applicable artifact workflow and apply the selected operations.
     For each Knowledge part, use
     [`references/maintain-knowledge.md`](references/maintain-knowledge.md) and
@@ -94,11 +98,14 @@ of the change effect, but do not authorize changes to independent behavior.
     Review of coverage, an existing or proposed test, or test execution uses
     [`review-and-improve-tests`](../../../skills/review-and-improve-tests/SKILL.md),
     which retains any coverage work selected by that review.
-11. When the final diff changes root `knowledge/**`, `references/**`, or
+11. When new requirements or feedback invalidate the structural judgment under
+    the loaded Knowledge's criteria, return to steps 7–9 and assess the
+    cumulative change before further editing.
+12. When the final diff changes root `knowledge/**`, `references/**`, or
     `skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)
     after the content stabilizes.
-12. When meaning or structure changed, use a fresh Agent or isolated context for
+13. When meaning or structure changed, use a fresh Agent or isolated context for
     a read-only semantic comparison of the trusted pre-change state, accepted
     requirements, and every final affected artifact. Require the comparison to
     account for every semantic change and verify that retained, moved, split,
@@ -106,11 +113,12 @@ of the change effect, but do not authorize changes to independent behavior.
     point. Resolve every unexplained loss, distortion, duplicate authority, or
     route failure and repeat the comparison after each fix. Treat unavailable
     independent comparison as an incomplete result.
-13. Review the combined result and report the classification, affected
+14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated primary-plugin version when applicable, and mechanical and
-    semantic validation performed. Explain a plausible structural alternative
-    only when rejecting it materially affected the result.
+    semantic validation performed. Include the final structural judgment for
+    substantive revisions and the concrete reason for retaining or changing
+    the organization.
 
 ## Completion criteria
 

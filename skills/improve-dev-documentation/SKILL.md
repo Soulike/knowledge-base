@@ -43,15 +43,14 @@ description: Audit and improve maintained software-development documentation, in
 4. When edits are authorized, use the agreed findings as the scope. Report newly
    discovered problems and unresolved project choices before expanding it.
 
-## Delete, correct, then move
+## Assess the content and structure
 
-Unless the user requested a different order, work through these stages in
-order:
+Unless the user requested a different order, assess deletion, correction, and
+placement in that order before applying the revision:
 
 1. **Delete.** Evaluate complete removal first. Retain the document or an
-   individual unit only when current evidence supports an ongoing need. Remove
-   everything else, then repair prose, links, indexes, prompts, and navigation
-   affected by the deletion. Defer a decision only when correctness or form
+   individual unit only when current evidence supports an ongoing need. Select
+   the rest for removal. Defer a decision only when correctness or form
    must be established before necessity can be judged, and resolve it in the
    relevant later stage. Apply the loaded Knowledge's boundary between
    authoring evidence and reader-facing content; material that only records how
@@ -62,19 +61,35 @@ order:
    of existing requirements before preserving them, including promises that
    examples or other artifacts stay synchronized. Distinguish interface
    obligations from recommendations and recipe-specific choices. Classify each
-   claim as **Keep**, **Correct**, **Delete**, or **Unverified**, and resolve each
-   correction or deletion. Keep uncertain claims unresolved. When confusion
+   claim as **Keep**, **Correct**, **Delete**, or **Unverified**, and establish the
+   intended meaning of each correction or deletion. Keep uncertain claims
+   unresolved. When confusion
    exposes a design problem, report it within scope; retain explanations of
-   necessary complexity. Rewrite the retained content as one clear current
-   account. When its useful role is routing readers to scattered authorities,
-   replace copied explanations with a focused source index.
-3. **Move.** Apply the loaded Knowledge to every corrected, surviving unit.
-   Split units with distinct responsibilities and move content whose form or
-   current location is unsuitable. Resolve each required destination and
-   navigation choice before moving it.
-4. After each stage, update the affected-artifact set and reconcile every
-   affected heading, link, index, prompt, example, comment, document, Agent
-   instruction, Skill, and navigation entry before continuing.
+   necessary complexity. When the retained content's useful role is routing
+   readers to scattered authorities, select a focused source index to replace
+   copied explanations.
+3. **Structure.** Before substantive editing, state the structural judgment in
+   a work update using
+   [Keep revisions coherent](../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+   for the surviving content. Determine which responsibilities belong together,
+   resolve each required destination and navigation choice, and proceed within
+   the existing authorization. For purely mechanical edits, confirm that meaning
+   and structure are unchanged without a full structural assessment.
+
+## Apply the selected revision
+
+1. Apply the selected deletions, corrections, rewrites, splits, and moves as one
+   coherent revision of the complete affected content. Complete the necessary
+   rewrite within the agreed scope regardless of diff size, while preserving
+   meaning outside the accepted semantic change.
+2. Update the affected-artifact set and reconcile every affected heading, link,
+   index, prompt, example, comment, document, Agent instruction, Skill, and
+   navigation entry.
+3. When new requirements or feedback invalidate the structural judgment under
+   the loaded Knowledge's criteria, return to
+   [Assess the content and structure](#assess-the-content-and-structure) and
+   assess the cumulative revision before further editing. Apply the existing
+   scope boundary to newly discovered problems and unresolved project choices.
 
 ## Verify the result
 

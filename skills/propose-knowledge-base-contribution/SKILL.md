@@ -1,6 +1,6 @@
 ---
 name: propose-knowledge-base-contribution
-description: Use when a substantive task reaches a stable stopping point with potentially non-obvious, evidence-backed, downstream-project-independent learning that could improve future work; a pull request becoming ready for merge is one such stopping point. Also use when the user asks whether learning is worth proposing, directly requests a proposal, or accepts an earlier offer to prepare one. Do not use for a private assessment that explicitly excludes proposal preparation.
+description: Use when a substantive task reaches a stable stopping point with potentially non-obvious, evidence-backed, downstream-project-independent learning that could improve future work; a pull request becoming ready for merge is one such stopping point. Also use when the user asks whether learning is worth proposing, directly requests a proposal, or accepts an earlier offer to prepare one.
 ---
 
 # Propose a knowledge-base contribution
@@ -12,13 +12,11 @@ base.
 
 ## Select the interaction stage
 
-- When the user requests only a private assessment and explicitly excludes
-  proposal preparation, this Skill is inapplicable. Return to the accepted task
-  without offering or drafting a contribution.
 - When the user asks whether available learning is worth proposing but does not
   request the full proposal, follow
   [Identify and offer a candidate](#identify-and-offer-a-candidate) and answer
-  that assessment before any offer.
+  that assessment. Respect any instruction to stop without offering or drafting
+  a contribution.
 - When the user directly requests a proposal or clearly accepts an earlier
   offer, continue at [Prepare the proposal](#prepare-the-proposal). Treat that
   request or acceptance as permission to prepare the proposal only. Clarify an
@@ -52,7 +50,8 @@ base.
    earlier.
 6. After completing the task's normal result or handoff, answer a directly
    requested assessment with the qualified candidate and the evidence basis for
-   proposing it. Then append one concise, sanitized question that names the
+   proposing it. When the user excluded proposal preparation, stop after that
+   answer. Otherwise, append one concise, sanitized question that names the
    candidate's general topic without presenting the proposal. For an ordinary
    stable-point offer, append only the question. Use this shape:
 
@@ -109,8 +108,10 @@ Stop after the question and wait for the user's response.
 The offer stage is complete only when the normal task outcome has been reported
 and the workflow either finishes silently for an ordinary no-candidate result,
 reports a directly requested no-candidate assessment, or asks one concise
-proposal question after answering any directly requested positive assessment.
-The proposal stage is complete only when every candidate has been independently
+proposal question after answering any directly requested positive assessment
+that permits proposal preparation. A positive assessment that excludes proposal
+preparation finishes after reporting the qualified candidate and evidence. The
+proposal stage is complete only when every candidate has been independently
 verified, checked against existing material, generalized, and either rejected
 with the reason stated or presented as a clearly delimited sanitized public
 issue that satisfies the loaded issue contract. The knowledge base must remain

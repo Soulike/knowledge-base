@@ -19,8 +19,9 @@ repository. Treat installed plugin files as read-only context.
    then establish the proposed contribution and publication authority. Accept
    either a proposal already selected in the conversation or a direct request
    that still needs a publishable proposal. An explicit request to publish a
-   clearly delimited sanitized public issue draft the user has already reviewed
-   authorizes publication that preserves the complete approved draft and
+   clearly delimited sanitized public issue draft that already satisfies the
+   loaded contract and that the user has reviewed authorizes publication that
+   preserves the complete approved title and body exactly and applies the
    requested `needs-triage` label. Otherwise, prepare the exact public text in
    the steps below and obtain confirmation before publishing it.
 3. Inspect the canonical repository remotely without creating a checkout. Use
@@ -67,11 +68,11 @@ repository. Treat installed plugin files as read-only context.
    premises, new evidence, or distinct reusable content justifies a new issue;
    cite the prior issue when creating one. Do not decide equivalence from the
    title, suggested category, or example alone.
-8. Unless step 2 established authority for an issue draft that differs only by
-   the permitted mechanical structure, show the final repository, title, body
-   or comment, and requested labels, then wait for confirmation. One
-   confirmation may cover multiple independently shown drafts. Any other change
-   to public text after confirmation requires another confirmation.
+8. Unless step 2 established authority to publish an already contract-compliant
+   issue draft unchanged, show the final repository, title, body or comment, and
+   requested labels, then wait for confirmation. One confirmation may cover
+   multiple independently shown drafts. Any change to public text after
+   confirmation requires another confirmation.
 9. Publish each confirmed issue or comment with the corresponding `gh issue`
    operation against the explicit canonical repository. Create an issue before
    separately requesting the `needs-triage` label so a label-permission failure

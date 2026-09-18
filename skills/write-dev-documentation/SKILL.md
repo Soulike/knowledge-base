@@ -47,7 +47,7 @@ description: Write or update maintained software-development documentation, incl
    identified information need has a disposition. The absence of a
    documentation diff is not a disposition.
 
-## Decide and carry out the response
+## Decide the response and structure
 
 1. Apply the loaded Knowledge to choose one response for each information need:
    make no documentation change, update an existing document, create the
@@ -61,16 +61,33 @@ description: Write or update maintained software-development documentation, incl
 3. Before drafting, establish the basis and scope of reader obligations,
    recommendations, and example-specific choices. Resolve the project decisions
    required by the chosen response, including any promise to keep artifacts
-   synchronized. Apply the matching project standards and loaded Knowledge to
-   write each resolved target as one coherent current account.
-4. Apply the loaded Knowledge's boundary between authoring evidence and
+   synchronized.
+4. Before substantive editing, state the structural judgment in a work update
+   using
+   [Keep revisions coherent](../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+   for the complete affected content. Resolve whether to retain or reshape its
+   organization before selecting insertion points, then proceed within the
+   existing authorization. For purely mechanical edits, confirm that meaning
+   and structure are unchanged without a full structural assessment.
+
+## Write and reconcile
+
+1. Apply the selected structure and matching project standards to write each
+   resolved target as one clear current account. Complete the necessary rewrite
+   within the authorized responsibility boundary regardless of diff size, while
+   preserving meaning outside the accepted semantic change.
+2. Apply the loaded Knowledge's boundary between authoring evidence and
    reader-facing content. Treat research, source collection, review evidence,
    rejected alternatives, drafts, and task history as working inputs; carry
    them into a maintained target only when they serve its reader-facing
    responsibility.
-5. Reconcile every affected document, comment, example, index, prompt, Agent
+3. Reconcile every affected document, comment, example, index, prompt, Agent
    instruction, Skill, link, and navigation entry. When a documented invariant
    changes, reconcile its enforcement and evidence as well.
+4. When new requirements or feedback invalidate the structural judgment under
+   the loaded Knowledge's criteria, return to
+   [Decide the response and structure](#decide-the-response-and-structure) and
+   assess the cumulative revision before further editing.
 
 ## Verify the result
 

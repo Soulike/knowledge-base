@@ -98,13 +98,47 @@ example when the contrast materially clarifies it. Keep every example
 illustrative: it must not silently narrow the rule, impose a technology-specific
 requirement, or turn one incident into universal guidance.
 
-## Maintain and validate the result
+## Keep revisions coherent
 
-Give maintained information an owner or update path, observable change
-triggers, applicable versions or conditions, and a way to revise, consolidate,
-redirect, archive, or retire it. Describe one coherent current account. Keep
-historical status in records meant to preserve history rather than layering old
-and new behavior into the current explanation.
+Judge a revision by the clarity and coherence of the complete resulting
+content. The size of its diff does not establish quality or justify retaining
+an unsuitable structure. Preserve an existing organization when it serves the
+revised reader task; reshape the complete affected unit when that produces a
+clearer current account. Keep historical status in records meant to preserve
+history rather than layering old and new behavior into the current explanation.
+
+Structure follows the relationships the reader needs to understand or use.
+Explanations need concepts and prerequisites in a comprehensible order;
+procedures need clear decision ownership, branch entry and return points, and
+completion conditions; references need predictable lookup and unambiguous
+claim ownership. Assess those relationships across the affected content and
+its routes, not just the heading hierarchy or the paragraph receiving new text.
+
+A structural change can be justified by a concrete reduction in understanding
+or maintenance cost even when the old account remains correct. Scattered
+conditions that readers must assemble into one decision, repeated rules that
+must be patched together, or later qualifications that overturn earlier
+instructions indicate such costs. Several changed files, greater length, or a
+preference for a neater layout do not establish the need. Clear ownership with
+explicit references can make content across several files coherent.
+
+A substantive revision needs a brief, reviewable structural judgment before
+editing: the intended organization, whether the existing structure supports
+it, and the reason to retain or change that structure. Keep this evidence in
+the authoring work record, without requiring a separate maintained document,
+diagram, or template. Reassess the cumulative revision when new requirements
+or feedback change its relationships, branches, scope, or completion
+conditions. Purely mechanical edits need only confirm that meaning and
+structure are unchanged.
+
+Structural changes must preserve meaning outside the authorized semantic
+change. Rewrite as much of the affected responsibility as clarity requires,
+while keeping independent responsibilities outside the change boundary. Give
+maintained information an owner or update path, observable change triggers,
+applicable versions or conditions, and a way to revise, consolidate, redirect,
+archive, or retire it.
+
+## Validate the result
 
 Validate the quality claim with evidence capable of supporting it. Author and
 peer review can find many low-risk defects, but they do not by themselves prove

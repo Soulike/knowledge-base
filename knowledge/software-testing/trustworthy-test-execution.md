@@ -169,8 +169,16 @@ when they depend on real timers.
 
 Treat supported platforms as separate environments. Accidental path spelling,
 shell behavior, permissions, process trees, timestamp resolution, and case
-sensitivity are execution inputs, not portable constants. For filesystem
-namespace races, use the forced-interleaving techniques in
+sensitivity are execution inputs, not portable constants. When a test claims
+to verify a host utility, interpreter, filesystem, or process behavior on a
+supported platform, exercise the production integration path with the real
+component on that platform and the supported interpreter version. A fake
+command, injected platform value, alternate shell, or modeled error can test
+application-owned decisions, but cannot establish the host behavior it
+replaces. If that platform is unavailable, report its behavior as unverified
+instead of writing a simulated-platform test and treating its pass as platform
+evidence. For filesystem namespace races, use the forced-interleaving
+techniques in
 [Pathnames and filesystem resource identity](../filesystems/pathnames-and-resource-identity.md).
 
 ## Treat timeout retries as overlapping executions

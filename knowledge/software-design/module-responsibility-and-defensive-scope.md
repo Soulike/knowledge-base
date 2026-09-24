@@ -2,11 +2,11 @@
 
 ## Scope
 
-This document defines a responsibility-based model for deciding which behavior belongs in a software module, where its interface and seams should live, how adapters divide external translation from domain policy, and when defensive or future-facing behavior is supported by current scope. It evaluates module depth through caller leverage and hidden complexity without prescribing module size or requiring every adapter to be deep.
+This document defines a responsibility-based model for deciding which behavior belongs in a software module, how its interfaces and seams keep changes local, behavior testable, and implementations replaceable, how adapters divide external translation from domain policy, and when defensive or future-facing behavior is supported by current scope. It evaluates module depth through caller leverage and hidden complexity without prescribing module size or requiring every adapter to be deep.
 
 ## When to update
 
-Update this document when evidence from real module decompositions, external integrations, defensive failures, staged changes, or testing practice changes the relationship among semantic ownership, reasons to change, interface depth, seam placement, reachable runtime states, and production-behavior ownership.
+Update this document when evidence from real module decompositions, replacements, external integrations, defensive failures, staged changes, or testing practice changes the relationship among semantic ownership, reasons to change, interface depth, seam placement, change locality, testability, reachable runtime states, and production-behavior ownership.
 
 ## Organize a module around owned meaning
 
@@ -27,6 +27,16 @@ Use these concepts separately when drawing a design:
 - An **adapter** is an implementation role at a seam that translates between the interface on one side and an external technology or contract on the other.
 
 These concepts do not impose one physical shape. A module can expose several purpose-specific interfaces, and an adapter can be justified even when only one production implementation currently exists. The design question is whether the seam isolates a real contract or source of change, not how many classes, methods, or implementations have been created.
+
+## Design for local change, testability, and replacement
+
+A change is local when the module that owns a decision can revise its implementation without making unrelated callers understand or coordinate that decision. Give state, derived values, stored data, and side effects clear owners, and trace what crosses each interface. Putting code in one file or component does not create locality if callers depend on its hidden state or update order.
+
+Design the contract so required behavior can be exercised and observed at the owning seam with controllable inputs and dependencies. If tests must coordinate unrelated global state or reach through callers into private implementation, inspect ownership and dependency direction. Testability does not require turning every helper into a public interface.
+
+An implementation is replaceable to the extent that its actual consumers can keep relying on the same contract while it changes. Before claiming replacement is cheap, walk through a plausible rewrite and identify the callers, persisted data, observable failures, and material performance constraints that must stay valid. A file boundary or component tree alone does not establish replaceability.
+
+Good boundaries do not make internal quality optional. Code that is hard to understand or modify can hide defects and make testing, maintenance, and eventual replacement costly even when callers are insulated. Keep the implementation correct and comprehensible for its current use. Treat a rough edge as an explicit, bounded tradeoff only after checking its effects; do not defer a known correctness, data, performance, or platform-contract defect on the assumption that the component can later be rewritten.
 
 ## Measure depth by caller leverage
 
@@ -99,3 +109,4 @@ Keep the behavior in the proposed module only when the answers identify one cohe
 - [John Ousterhout, _A Philosophy of Software Design_](https://web.stanford.edu/~ouster/cgi-bin/book.php)
 - [Alistair Cockburn, “Hexagonal Architecture: The Original 2005 Article”](https://alistair.cockburn.us/hexagonal-architecture)
 - [Martin Fowler, “Yagni”](https://martinfowler.com/bliki/Yagni.html)
+- [underreacted, “slop lasagna”](https://underreacted.leaflet.pub/3mdjygm2p5s2c)

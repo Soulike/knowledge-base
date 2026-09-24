@@ -1,9 +1,10 @@
 # Maintain Knowledge
 
-1. Read [`knowledge/index.md`](../../../../knowledge/index.md), then search the
-   existing `knowledge/` tree. Compare every affected responsibility with
-   existing document Scopes and `When to Read` conditions for overlapping
-   ownership.
+1. Read [`knowledge/index.md`](../../../../knowledge/index.md) and
+   [Design selection triggers](../../../../references/agents/selection-triggers.md),
+   then search the existing `knowledge/` tree. Compare every affected
+   responsibility with existing document Scopes and `When to Read` conditions
+   for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
@@ -163,13 +164,8 @@ as a substantive claim. Classify the index as `time-sensitive` when ordinary
 external changes can move, replace, or invalidate those sources, even if the
 method of consulting current authoritative sources is durable.
 
-**When to Read.** Write a compact trigger beginning with `Read when` and name
-the concrete tasks, decisions, or artifacts that require this material. Base
-the trigger on facts observable before retrieval. When the document helps
-determine whether a risk, diagnosis, exception, or other condition applies,
-route on the preceding task or artifact and let the document make that
-determination after loading. Cover each distinct trigger branch while avoiding
-topic summaries or vague phrases such as “when relevant.” Make a
+**When to Read.** Write a compact root-index trigger beginning with `Read when`
+for the leaf's independently useful reading responsibility. Make a
 single-responsibility request select one canonical document, and compare the
 condition with every other row. Multiple conditions may match a compound task
 only when their documents contribute distinct, non-duplicated Knowledge. If

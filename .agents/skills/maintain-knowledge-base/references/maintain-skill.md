@@ -9,10 +9,12 @@
      `skills/` directory.
 2. Read
    [Agent Skill authoring](../../../../references/agents/skill-authoring.md) and
-   determine whether the change is material. Before the parent selects an
-   operation, use the reference to define the real task and assign knowledge and
-   execution responsibilities. After selection, resume here to write the
-   executable workflow and prove its behavior.
+   [Design selection triggers](../../../../references/agents/selection-triggers.md),
+   then determine whether the change is material. Before the parent selects an
+   operation, use the references to define the real task, compare invocation
+   conditions, and assign knowledge and execution responsibilities. After
+   selection, resume here to write the executable workflow and prove its
+   behavior.
 3. Establish the real task before preserving or changing the current Skill
    boundary. Record the professional questions that require research, but do not
    treat the repository's current contents as a complete domain model.

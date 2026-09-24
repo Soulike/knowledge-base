@@ -28,7 +28,9 @@ description: Audit and improve maintained software-development documentation, in
    [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md)
    when Knowledge or a Skill is a possible form. Read
    [Agent Skill authoring](../../references/agents/skill-authoring.md) whenever
-   a Skill is being reviewed or changed.
+   a Skill is being reviewed or changed. When reviewing or revising its
+   invocation condition, also read
+   [Design selection triggers](../../references/agents/selection-triggers.md).
 6. Maintain the complete set of affected artifacts. Load the active project's
    matching instructions and standards whenever that set expands.
 

@@ -1,6 +1,6 @@
 ---
 name: review-security
-description: Review code, configuration, dependencies, and security fixes for vulnerabilities. Use when performing a security review; investigating a suspected vulnerability or trust-boundary failure; triaging scanner, audit, or dependency-security findings; reviewing authentication, authorization, permissions, secrets, sensitive data, telemetry, or privileged side effects; or validating a security remediation.
+description: Review code, configuration, dependencies, and security fixes for vulnerabilities. Use when reviewing security-sensitive behavior or a security finding, investigating a suspected vulnerability or trust-boundary failure, or validating a security remediation.
 ---
 
 # Review security

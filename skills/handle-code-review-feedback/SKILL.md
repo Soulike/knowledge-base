@@ -1,6 +1,6 @@
 ---
 name: handle-code-review-feedback
-description: Handle received code review feedback on work under change, including subsequent review rounds and feedback discovered while continuing or resuming a task. Use when deciding whether and how to address that feedback, with or without a pull request.
+description: Use when deciding whether and how to address received code review feedback on work under change, with or without a pull request.
 ---
 
 # Handle code review feedback

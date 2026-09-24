@@ -1,6 +1,6 @@
 ---
 name: evaluate-library-adoption
-description: Evaluate established solutions before creating or extending reusable, domain-independent functionality. Use when planning or implementing a general technical capability that may already be provided by an installed package, standard or platform library, official SDK, or mature third-party package.
+description: Evaluate established solutions before creating or extending reusable, domain-independent functionality. Use when planning or implementing a reusable technical capability that could be provided by an established solution.
 ---
 
 # Evaluate library adoption

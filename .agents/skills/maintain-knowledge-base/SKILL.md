@@ -1,6 +1,6 @@
 ---
 name: maintain-knowledge-base
-description: Maintain content in this knowledge-base repository. Use when an authorized change must add, correct, rewrite, split, merge, move, or remove Knowledge, an Agent workflow, a Skill reference, or maintained Agent instructions and prompts that govern them.
+description: Maintain content in this knowledge-base repository. Use when an authorized change must modify its Knowledge, Agent workflows, Skill references, or maintained Agent instructions and prompts.
 ---
 
 # Maintain the knowledge base

@@ -1,6 +1,6 @@
 ---
 name: propose-knowledge-base-contribution
-description: Use when a substantive task reaches a stable stopping point with potentially non-obvious, evidence-backed, downstream-project-independent learning that could improve future work; a pull request becoming ready for merge is one such stopping point. Also use when the user asks whether learning is worth proposing, directly requests a proposal, or accepts an earlier offer to prepare one.
+description: Use at a substantive task's stable stopping point to assess whether its evidence supports a reusable knowledge-base contribution, or when the user asks for that assessment, requests a proposal, or accepts an offer to prepare one.
 ---
 
 # Propose a knowledge-base contribution

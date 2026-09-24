@@ -1,6 +1,6 @@
 ---
 name: watch-pull-request
-description: Watch or resume watching a trusted or verified pull request across ongoing review comments, review threads, and CI activity; autonomously perform bounded remediation; and hand off after relevant automation has settled and no autonomous work remains executable. Report terminal PRs and interrupted execution separately. Use when the user requests continued monitoring and handling rather than a one-time inspection, review, diagnosis, or bounded fix.
+description: Use when the user asks to watch or resume watching a pull request through ongoing review and CI activity.
 ---
 
 # Watch a pull request

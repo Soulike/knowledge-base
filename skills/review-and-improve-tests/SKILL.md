@@ -1,6 +1,6 @@
 ---
 name: review-and-improve-tests
-description: Review, diagnose, and improve existing or proposed automated tests and their execution. Use when reviewing coverage in a change; auditing ineffective, redundant, misleading, flaky, undiscovered, skipped, or slow tests; diagnosing test failures or harness and runner problems; or reviewing a proposed test change. Determine whether the defect belongs to production, the test, the harness, or infrastructure before changing it.
+description: Review, diagnose, and improve existing or proposed automated tests and their execution. Use when the user asks to review, diagnose, or improve those tests or their execution, or to review coverage in a change. Determine whether the defect belongs to production, the test, the harness, or infrastructure before changing it.
 ---
 
 # Review and improve tests

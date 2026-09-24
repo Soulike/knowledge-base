@@ -1,6 +1,6 @@
 ---
 name: remediate-npm-security
-description: Remediate npm dependency-security findings through supported upgrades or removal of proven-unused dependency chains. Use for Dependabot alerts, npm audit findings, npm security advisories, vulnerable transitive packages, or security-driven npm dependency updates.
+description: Remediate npm dependency-security findings through supported upgrades or removal of proven-unused dependency chains. Use when the user asks to fix a security finding in an npm dependency graph.
 ---
 
 # Remediate npm dependency security

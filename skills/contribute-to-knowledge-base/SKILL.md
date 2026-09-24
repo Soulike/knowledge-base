@@ -1,6 +1,6 @@
 ---
 name: contribute-to-knowledge-base
-description: Publish a sanitized contribution proposal to the canonical knowledge base from outside its source checkout. Use when the user wants to submit a proposed addition, correction, rewrite, split, merge, move, or removal of Knowledge, Skills, Skill references, or maintained Agent instructions and prompts through the installed plugin.
+description: Publish a sanitized contribution proposal to the canonical knowledge base from outside its source checkout. Use when the user wants to submit a proposed change to its Knowledge, Skills, references, or Agent guidance through the installed plugin.
 ---
 
 # Contribute to knowledge base

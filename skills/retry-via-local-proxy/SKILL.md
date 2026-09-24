@@ -1,6 +1,6 @@
 ---
 name: retry-via-local-proxy
-description: Retry failed proxy-capable network requests, including retrievals, API mutations, uploads, and downloads, through a detected local HTTP or SOCKS5 proxy on 127.0.0.1 ports 1087 and 1080. Use when a direct request fails with a connection, DNS, timeout, TLS, or HTTP 403 error, or when cloning an HTTP(S) Git repository times out.
+description: Retry failed proxy-capable network requests through a detected local HTTP or SOCKS5 proxy. Use when a direct proxy-capable request fails with a connection, DNS, timeout, TLS, or HTTP 403 error; for an HTTP(S) Git clone, use only after a timeout.
 ---
 
 # Retry Via Local Proxy

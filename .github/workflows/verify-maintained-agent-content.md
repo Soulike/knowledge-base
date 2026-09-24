@@ -95,9 +95,12 @@ Preserve every exact selected target `id` in notes and safe outputs.
 2. For each Skill bundle, independently reconstruct its current task and reason
    through representative risk-derived invocation, workflow, and output
    scenarios, including one likely to expose a shortcut or omitted professional
-   responsibility. Check invocation and routing, decisions, tool use, failure
-   handling, completion criteria, progressive disclosure, portability, package
-   boundaries, and current tool or API assumptions.
+   responsibility. Apply
+   [Design selection triggers](references/agents/selection-triggers.md) when
+   checking Skill invocation conditions. Check invocation and routing,
+   decisions, tool use, failure handling, completion criteria, progressive
+   disclosure, portability, package boundaries, and current tool or API
+   assumptions.
 3. Confirm that `SKILL.md` retains the primary workflow and completion criteria,
    every disclosed reference has an explicit selecting step, independently
    invocable responsibilities are not hidden as references, and supporting

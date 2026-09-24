@@ -28,7 +28,9 @@ description: Write or update maintained software-development documentation, incl
    [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md)
    when Knowledge or a Skill is a possible form. Read
    [Agent Skill authoring](../../references/agents/skill-authoring.md) whenever
-   a Skill is being created or changed.
+   a Skill is being created or changed. When writing or reviewing its
+   invocation condition, also read
+   [Design selection triggers](../../references/agents/selection-triggers.md).
 
 ## Account for documentation impact
 

@@ -86,10 +86,10 @@ coincide. File length, step count, and reference count are not structural rules.
 
 ## Write the executable workflow
 
-Put the complete general task condition and every distinct trigger branch in
-the frontmatter description. Add examples only after the general condition and
-only when they distinguish a boundary. A user should not need to know the Skill
-name or repeat the description's terminology to invoke it.
+Put the Skill's complete task-based invocation condition in the frontmatter
+description.
+A user should not need to know the Skill name or repeat the description's
+terminology to invoke it.
 
 Write the main path as ordered, direct, imperative task instructions. Keep the
 invocation contract, primary states and decisions, reference selectors, failure

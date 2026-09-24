@@ -17,6 +17,9 @@ the [knowledge-base maintenance workflow](.agents/skills/maintain-knowledge-base
 to evaluate changes to Knowledge, Skills, Skill references, maintained Agent
 instructions, and prompts.
 
+When reviewing a Knowledge reading trigger or Skill invocation condition,
+apply [Design selection triggers](references/agents/selection-triggers.md).
+
 Review every applicable repository-specific dimension:
 
 1. Classification, ownership, retrieval routes, maintenance lifecycle, package

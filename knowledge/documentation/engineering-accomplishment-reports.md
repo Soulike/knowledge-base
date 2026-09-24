@@ -11,8 +11,9 @@ a fixed report format.
 ## When to update
 
 Update this document when representative report reviews or stronger evidence
-change how engineering contributions, capability availability, observed use,
-outcomes, or shared ownership should be distinguished for decision-makers.
+change how engineering contributions, catalog listings, capability
+availability, observed use, outcomes, or shared ownership should be
+distinguished for decision-makers.
 
 ## Start with the beneficiary's work or risk
 
@@ -31,12 +32,13 @@ scope rather than inventing an outcome.
 
 ## Match each claim to its evidence
 
-| Claim                                           | Evidence that can support it                                                                               | Boundary                                                                                                  |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| A change entered the codebase                   | Merged change records and the changes themselves                                                           | Check the contributor's actual part; a merge does not establish release, use, or benefit.                 |
-| A capability is available within a stated scope | Release or deployment records, a live catalog entry, or access checks that establish the relevant exposure | A catalog entry shows discoverability there; it does not by itself establish successful execution or use. |
-| A capability was used                           | Run records or attributable feedback describing a concrete use                                             | Observed cases do not establish broad adoption or an improved outcome.                                    |
-| A measured outcome improved                     | Comparable baseline and follow-up measurements for the stated population, period, and measure              | A measured difference alone does not attribute the change to one contribution.                            |
+| Claim                                      | Evidence that can support it                                                                                                   | Boundary                                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| A change entered the codebase              | Merged change records and the changes themselves                                                                               | Check the contributor's actual part; a merge does not establish release, use, or benefit.  |
+| A capability is discoverable in a catalog  | A current entry visible in that catalog                                                                                        | Listing does not establish access to or successful execution of the underlying capability. |
+| A capability is accessible to stated users | Release or deployment records, or access checks, that establish access for those users in the reported version and environment | Access within that scope does not establish use or benefit.                                |
+| A capability was used                      | Run records or attributable feedback describing a concrete use                                                                 | Observed cases do not establish broad adoption or an improved outcome.                     |
+| A measured outcome improved                | Comparable baseline and follow-up measurements for the stated population, period, and measure                                  | A measured difference alone does not attribute the change to one contribution.             |
 
 Give each metric its unit, population or scope, time window, and comparison
 basis. Investigate other changes that could explain a difference before making

@@ -86,7 +86,8 @@ coincide. File length, step count, and reference count are not structural rules.
 
 ## Write the executable workflow
 
-Put the Skill's complete invocation condition in the frontmatter description.
+Put the Skill's complete task-based invocation condition in the frontmatter
+description.
 A user should not need to know the Skill name or repeat the description's
 terminology to invoke it.
 

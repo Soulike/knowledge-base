@@ -14,13 +14,15 @@ missing or incorrect shared rule for selection, coverage, or precision.
 
 ## Write the condition
 
-Start with the target's responsibility and identify the earliest task, decision,
-technical subject, or available artifact that creates a reason to select it.
-State that condition using information available before selection. If the
-target helps determine whether a risk, exception, or diagnosis applies, route
-from the preceding task or artifact; do not require the conclusion to be known
-before loading the target. A bounded technical subject may establish the need,
-but a topic summary or phrase such as “when relevant” does not define a
+Start with the target's responsibility. For Knowledge, identify the earliest
+task, decision, technical subject, or available artifact that creates an
+independently useful reason to read it. For a Skill, identify the user task or
+desired result that calls for its workflow; a subject or artifact may delimit
+that task but does not establish an invocation by itself. State the condition
+using information available before selection. If the target helps determine
+whether a risk, exception, or diagnosis applies, route from the preceding task
+or artifact; do not require the conclusion to be known before loading the
+target. A topic summary or phrase such as “when relevant” does not define a
 selection condition.
 
 Express cases with the same selection reason as one general condition. Add a

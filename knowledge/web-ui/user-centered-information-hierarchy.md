@@ -9,8 +9,9 @@ coherent visual and semantic hierarchy.
 ## When to update
 
 Update when stronger evidence changes how user tasks, necessary context,
-causal relationships, progressive disclosure, visual emphasis, semantic
-structure, accessibility, or task-based validation interact within this scope.
+causal relationships, scanning and reading behavior, content grouping, visual
+emphasis, progressive disclosure, semantic structure, accessibility, or
+task-based validation interact within this scope.
 
 ## Start from the user's task
 
@@ -78,6 +79,52 @@ those relationships before adding decoration. Repeated cards, borders, badges,
 or headings can flatten the hierarchy when every item receives equivalent
 prominence.
 
+## Make the first scan informative
+
+On task-oriented surfaces, people may look first for words and areas that match
+their immediate goal and leave much of the rest unread. Longer articles and
+reports may receive sustained reading, often mixed with scanning. Design for
+the expected task and verify what people actually notice rather than assuming
+that every word will be read or that no one will read closely.
+
+Give regions distinct purposes and labels so a person can identify where to
+focus and what can be ignored. Headings should reveal the content they govern,
+be visually distinct at different levels, and sit closer to the material they
+introduce than to the preceding section. Grouping must convey the true
+relationship: a heading placed over unrelated areas can falsely imply that
+they belong to the same section.
+
+Use familiar conventions for the location, appearance, and behavior of common
+page regions when they help people orient quickly. If a different arrangement
+better serves the task, make its purpose and boundaries recognizable. Check the
+intended audience and device context rather than treating one page layout as a
+universal convention.
+
+Break dense prose at meaningful topic boundaries. Use lists for parallel items
+that people need to compare or locate, and emphasize a few discriminating terms
+when that helps them find a relevant passage. A wall of prose or a page where
+everything is highlighted makes the useful part harder to find. Keep necessary
+details available for deliberate reading; scannability does not justify
+removing information needed for an informed decision.
+
+## Keep task copy purposeful
+
+On a task page or section landing page, copy should serve the reader's task:
+for example, by identifying the target or current state, helping people locate
+what they need, distinguishing an option, explaining a consequence, or
+supporting the next step. Remove greetings, empty promotional claims, and
+introductions that merely announce content already visible. When a claim
+matters, replace praise with a concrete fact that helps the user decide. Less
+incidental copy reduces visual noise and lets more useful content appear in the
+initial view.
+
+Do not use a word-count target as a substitute for deciding what the user
+needs. Keep time estimates, eligibility conditions, material consequences, and
+alternative routes when they affect a decision. Put details near the point
+where people can use them, before the choice they inform. Long-form articles
+and explanations may require more text; judge them by their reading purpose
+instead of applying a task-page limit.
+
 ## Combine visual channels deliberately
 
 Type size and weight, position, spacing, color, borders, and icons can each
@@ -97,6 +144,10 @@ Icons can reinforce a kind, action, or state when they improve recognition, but
 they do not replace a necessary label or explanation. Keep supporting metadata
 visually quieter while preserving required readability and contrast. Do not
 make color, shape, size, or location the sole carrier of required information.
+
+Competing animation, promotions, decorative treatments, and uniformly strong
+emphasis can obscure the task's signal. Reduce or relocate them according to
+the reader's purpose instead of asking every element to attract attention.
 
 ## Preserve meaning outside the visual presentation
 
@@ -130,7 +181,9 @@ scan, but should not conceal information most users need.
 ## Validate the information hierarchy
 
 Give a reviewer or participant a realistic task without coaching the expected
-answer. Ask them to identify the surface's purpose, primary object or state,
+answer. Observe which words or regions they notice first and whether they can
+find the relevant area without reading everything. Ask them to identify the
+surface's purpose, primary object or state,
 important consequence, required relationships, permissions or risks, and next
 action where those elements apply. If they must first reconstruct the
 implementation model, the surface may expose the wrong information or give it
@@ -151,3 +204,8 @@ author review can expose appearance defects, but it does not establish that
 users can find, understand, or act on the information. Record the environments,
 participants or reviewers, tasks, and observed decisions that support each
 validation claim.
+
+## Source
+
+- Steve Krug, _Don't Make Me Think, Revisited: A Common Sense Approach to Web
+  Usability_ (New Riders, 2014), Chapters 2–3 and 5.

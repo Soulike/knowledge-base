@@ -2,18 +2,19 @@
 
 ## Scope
 
-This document explains how to make available actions and the path through an
-interface understandable from the user's task. It covers recognizable action
-labels, perceivable controls, input expectations, and feedback during an
-interaction so people can proceed without guessing how the interface works. It
-applies to user interfaces and multi-step flows without prescribing a platform,
-widget, or visual style.
+This document explains how to make choices, available actions, and the path
+through an interface understandable from the user's task. It covers meaningful
+alternatives, recognizable action labels, perceivable controls, input
+expectations, and feedback so people can proceed without guessing how the
+interface works. It applies to user interfaces and multi-step flows without
+prescribing a platform, widget, or visual style.
 
 ## When to update
 
-Update when evidence changes how user expectations, action naming, control
-recognition, input interpretation, flow orientation, action feedback, and
-task-based observation contribute to an understandable interaction path.
+Update when evidence changes how user expectations, choice effort, action
+naming, control recognition, input interpretation, flow orientation, action
+feedback, and task-based observation contribute to an understandable
+interaction path.
 
 ## Start from the user's next action
 
@@ -23,9 +24,18 @@ available action, distinguish it from surrounding content, anticipate its
 effect, and tell whether the system accepted their input. A screen can present
 the right facts yet still make people guess how to use it.
 
+People often take the first plausible route rather than compare every option,
+and may finish a task while misunderstanding how the interface works. Design
+for that likely first pass, then check it with real tasks. Eventual completion
+after guesses or backtracking does not establish that the path was clear. A
+workaround that succeeds once may become a habit, leaving a clearer route or
+useful capability undiscovered.
+
 After a step changes, make the user's place in the flow and the available next
-step recognizable. If the task calls for revisiting an earlier choice, make the
-way back clear without requiring the user to reconstruct the route.
+step recognizable. The resulting screen should confirm that the chosen route
+advances the task rather than introduce an unexplained new category. If the
+task calls for revisiting an earlier choice, make the way back clear without
+requiring the user to reconstruct the route.
 
 Reduce interpretation that serves only the interface. A consequential choice
 may require careful thought; removing its explanation, risk, or confirmation
@@ -53,6 +63,28 @@ Keep the terms for the same action and object coherent as the user moves through
 the flow. Verify unfamiliar or domain-specific wording with people who know the
 task but do not know the product's internal vocabulary.
 
+## Make each choice answerable
+
+Offer alternatives that users can distinguish from facts they know at the
+moment of choice. A branch based on an internal category may force a guess when
+one person plausibly fits several options. Ask a more concrete question or
+explain the distinction at the decision point; make the destination of each
+option predictable and provide a recognizable way to correct a wrong turn.
+
+For example, a device-support flow that first asks whether a device is for
+“personal” or “business” use leaves someone using a personal device for work
+uncertain. If the support contract determines the route, ask which contract
+covers the device and explain how to identify it. Show contract-specific fields
+after that choice, while keeping any consequential difference visible before
+the user commits to a path.
+
+Judge a path by the thought and uncertainty required at each choice as well as
+the number of steps. Several clear steps can be easier than one crowded screen
+that requires comparing irrelevant details. Repeated use, slow transitions,
+costly wrong turns, and irreversible outcomes raise the value of fewer steps or
+earlier clarification. Reveal branch-specific questions when they become
+relevant without concealing material terms or consequences before commitment.
+
 ## Make actions recognizable and operable
 
 Present interactive elements so users can tell what can be acted on and what is
@@ -65,7 +97,10 @@ necessary action.
 
 Use familiar interaction patterns when they fit the task, while checking the
 composed result rather than assuming that a conventional-looking control will
-be understood in its actual context.
+be understood in its actual context. When departing from a familiar pattern,
+check that the alternative is self-explanatory or brings enough task value to
+justify learning it. Consistency helps people reuse what they know, but a small
+inconsistency can be justified when it removes a material ambiguity.
 
 ## Make input expectations and responses legible
 
@@ -101,20 +136,26 @@ still pending.
 
 An unfamiliar or inherently complex step may not be obvious at a glance. Use a
 well-chosen name, perceivable structure, and a small amount of specific help
-near the choice to explain what the user needs to do and what will happen. Keep
-material consequences visible before action. More instructions are not a repair
-for a confusing label or an input rule the interface could express directly.
+near the choice to explain what the user needs to do and what will happen. Make
+the help brief, available when the question arises, and easy to notice through
+the supported interaction paths. Keep material consequences visible before
+action. Remove generic instructions that repeat what clear labels and controls
+already show. Put any essential direction at the point where the user can act
+on it, before an avoidable error. More instructions are not a repair for a
+confusing label or an input rule the interface could express directly.
 
 ## Validate the action path with a task
 
 Give a participant or fresh reviewer a realistic goal without coaching the
-expected next step. Observe whether they find the action, interpret its label,
-recognize it as operable, predict its effect, provide accepted input, and
-understand the resulting state. Follow a transition to see whether they know
-where they are, how to continue or return when needed, and whether a delayed
-action is still in progress. Hesitation, repeated guesses, inert-element
-attempts, and late correction loops help locate avoidable ambiguity; they do
-not by themselves prescribe a particular widget or wording.
+expected next step. Observe the first plausible choice they take, whether they
+can distinguish alternatives, find the action, interpret its label, recognize
+it as operable, predict its effect, provide accepted input, and understand the
+resulting state. Follow a transition to see whether they know where they are,
+how to continue or return when needed, and whether a delayed action is still
+in progress. Record uncertainty, guesses, attempts to act on inert content,
+wrong turns, late corrections, and the cost of recovery alongside step count;
+these observations help locate avoidable ambiguity but do not prescribe a
+particular widget or number of steps.
 
 Check the supported input and assistive-technology paths that the claim covers.
 A screenshot or author review can reveal a visual problem, but cannot establish
@@ -124,4 +165,4 @@ necessary decision as a usability defect merely because it is measurable.
 ## Source
 
 - Steve Krug, _Don't Make Me Think, Revisited: A Common Sense Approach to Web
-  Usability_ (New Riders, 2014), Chapter 1.
+  Usability_ (New Riders, 2014), Chapters 1–5.

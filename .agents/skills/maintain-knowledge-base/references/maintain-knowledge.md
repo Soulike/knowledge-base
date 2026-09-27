@@ -41,7 +41,11 @@
    [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
    retained dependency where it is applied and include the local context needed
    to use the current document.
-10. Add, update, or remove the root-index row for every affected leaf document
+10. Before writing a new or changed root-index row, form reader requests and
+    expected selections using [Design selection triggers](../../../../references/agents/selection-triggers.md#check-selection-from-requests).
+    Include a broad request that does not name the leaf's concepts, a direct
+    request, and a nearby negative when those cases apply. Keep the cases and
+    expected selections in the work record. Then add, update, or remove the row
     using the fields below, including its Knowledge Type. Repair every route
     and inline dependency affected by a move, merge, split, rename, or removal.
 11. Verify that every remaining leaf document is listed exactly once with one
@@ -165,9 +169,9 @@ external changes can move, replace, or invalidate those sources, even if the
 method of consulting current authoritative sources is durable.
 
 **When to Read.** Write a compact root-index trigger beginning with `Read when`
-for the leaf's independently useful reading responsibility. Make a
-single-responsibility request select one canonical document, and compare the
-condition with every other row. Multiple conditions may match a compound task
-only when their documents contribute distinct, non-duplicated Knowledge. If
-two conditions route the same responsibility, merge the documents or redraw
-their Scopes and conditions before indexing them.
+for the leaf's independently useful reading responsibility. A request about one
+specific responsibility should select its canonical document; a broad user
+task can select several documents when each contributes distinct,
+non-duplicated Knowledge. Compare the condition with every other row. If two
+conditions route the same responsibility, merge the documents or redraw their
+Scopes and conditions before indexing them.

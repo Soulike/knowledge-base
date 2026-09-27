@@ -107,12 +107,17 @@ of the change effect, but do not authorize changes to independent behavior.
     after the content stabilizes.
 13. When meaning or structure changed, use a fresh Agent or isolated context for
     a read-only semantic comparison of the trusted pre-change state, accepted
-    requirements, and every final affected artifact. Require the comparison to
-    account for every semantic change and verify that retained, moved, split,
-    and merged responsibilities remain reachable from each required starting
-    point. Resolve every unexplained loss, distortion, duplicate authority, or
-    route failure and repeat the comparison after each fix. Treat unavailable
-    independent comparison as an incomplete result.
+    requirements, and every final affected artifact. For changed selection
+    routes, apply [Design selection triggers](../../../references/agents/selection-triggers.md#check-selection-from-requests):
+    have the reviewer choose from natural requests and the real candidate set
+    before seeing the author's expected selections or target contents, then
+    compare those choices with the old routes and final responsibilities.
+    Require the comparison to account for every semantic change and verify
+    that retained, moved, split, and merged responsibilities remain reachable
+    from each required starting point. Resolve every unexplained loss,
+    distortion, duplicate authority, or route failure and repeat the
+    comparison after each fix. Treat unavailable independent comparison as an
+    incomplete result.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated primary-plugin version when applicable, and mechanical and

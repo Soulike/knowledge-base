@@ -20,10 +20,19 @@ Watch a participant attempt the task without coaching the next action. Record wh
 
 Keep observed behavior distinct from the participant's explanation and from the observer's proposed cause. Questions after the attempt can clarify an observation; leading questions during it can change the route being observed. Start with an early design or prototype when it supports the question, then repeat after meaningful changes. A partially interactive artifact can support only the tasks and outcomes it actually exposes.
 
+For a touch-screen task, choose a setup that lets the participant hold and use
+the device naturally while showing enough of the screen and their touches or
+gestures to interpret attempted actions. A screen-only recording may show a
+transition without showing the tap or swipe that caused it; a restrictive
+camera setup may change how the participant uses the device. Record the device
+and relevant conditions, and include a later return task when relearning or
+remembering an interaction is the question. Choose the capture method for the
+observation needed rather than prescribing particular recording hardware.
+
 ## Interpret a small study as discovery
 
 A few sessions can reveal concrete problems in the tested tasks. They do not measure how often all users encounter a problem or prove that unobserved paths are clear. Report the task, participant context, observed action and result, and uncertainty behind each finding. Rank findings by the blocked goal, consequence of an error, recovery cost, and clarity of evidence; use repetition within the sessions as context, not a population rate. Decisions about a remedy follow from the observed problem and product constraints, and should be checked in a later observation.
 
 ## Source
 
-- Steve Krug, _Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability_ (New Riders, 2014), Chapters 8–9.
+- Steve Krug, _Don't Make Me Think, Revisited: A Common Sense Approach to Web Usability_ (New Riders, 2014), Chapters 8–10.

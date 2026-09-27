@@ -86,12 +86,15 @@ assistive technology consistent.
 
 ## Preserve operation across input and display conditions
 
-Work through each important task with a keyboard. Every necessary function
-must be operable without a pointer, focus must follow a meaningful order and
-remain visible, and a user must be able to leave each component. Sticky bars,
-dialogs, and other overlays must not entirely obscure the focused control.
-These are distinct checks under [Keyboard](https://www.w3.org/TR/WCAG22/#keyboard),
-[No Keyboard Trap](https://www.w3.org/TR/WCAG22/#no-keyboard-trap), [Focus
+Work through each important task with a keyboard. [Keyboard](https://www.w3.org/TR/WCAG22/#keyboard)
+requires functionality to work through a keyboard interface without specific
+keystroke timing, except where the underlying function itself depends on the
+movement path rather than only its endpoints, such as freehand drawing. The
+remaining task steps must still be keyboard operable. Focus must follow a
+meaningful order and remain visible, and a user must be able to leave each
+component. Sticky bars, dialogs, and other overlays must not entirely obscure
+the focused control. These are distinct checks under [No Keyboard
+Trap](https://www.w3.org/TR/WCAG22/#no-keyboard-trap), [Focus
 Order](https://www.w3.org/TR/WCAG22/#focus-order), [Focus
 Visible](https://www.w3.org/TR/WCAG22/#focus-visible), and [Focus Not
 Obscured](https://www.w3.org/TR/WCAG22/#focus-not-obscured-minimum). Check

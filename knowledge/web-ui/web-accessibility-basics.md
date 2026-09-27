@@ -67,9 +67,10 @@ for the chosen pattern, and verify the actual interaction.
 
 Give each input a visible, programmatically associated label. State a required
 format or constraint before submission when it affects the user's answer.
-Identify detected errors in text, connect them to the affected input, and offer
-a correction when one is known. These decisions implement the applicable
-[Labels or Instructions](https://www.w3.org/TR/WCAG22/#labels-or-instructions),
+Identify automatically detected input errors in text and connect them to the
+affected input. Offer known correction suggestions unless doing so would
+jeopardize security or the content's purpose. These decisions implement
+applicable [Labels or Instructions](https://www.w3.org/TR/WCAG22/#labels-or-instructions),
 [Error Identification](https://www.w3.org/TR/WCAG22/#error-identification), and
 [Error Suggestion](https://www.w3.org/TR/WCAG22/#error-suggestion) criteria; the
 [WAI forms tutorial](https://www.w3.org/WAI/tutorials/forms/) and [GOV.UK error
@@ -124,12 +125,6 @@ structured accessibility snapshots. It follows that a correctly named button
 or labelled field can be easier for such an Agent to identify than an unnamed
 custom control. This is an inference about these automation channels, not a
 WCAG requirement or a guarantee that an Agent can complete a task.
-
-Check the actual tool and task path. An Agent using screenshots may depend more
-on visible wording and layout, while semantic tools depend on the exposed
-structure and state. Keep both representations accurate and consistent; do not
-substitute an Agent run for checks with the supported human input and
-assistive-technology paths.
 
 ## Verify the rendered task, not only the markup
 

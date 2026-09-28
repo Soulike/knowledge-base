@@ -373,6 +373,23 @@ describe("Copilot release selection", () => {
       }),
       new Map([["version", "1.2.3"]]),
     );
+    assert.deepEqual(
+      await resolveRelease({
+        tag_name: "v1.0.87",
+        draft: false,
+        prerelease: false,
+      }),
+      new Map([["version", "1.0.87"]]),
+    );
+  });
+
+  it("rejects a Copilot release without native web search", async () => {
+    for (const tag_name of ["v1.0.86", "v0.99.999"]) {
+      await assert.rejects(
+        resolveRelease({ tag_name, draft: false, prerelease: false }),
+        /Copilot CLI 1\.0\.87 or later is required/u,
+      );
+    }
   });
 
   it("fails closed when the publisher query fails or cannot identify a stable release", async () => {
@@ -703,7 +720,7 @@ describe("compiled content-verification publication boundary", () => {
         `${file} conclusion dependencies`,
       );
 
-      assert.deepEqual(permissions, { actions: "write", issues: "write" });
+      assert.deepEqual(permissions, { actions: "read", issues: "write" });
       for (const dependency of [
         "content_verification_gate",
         "content_verification_publish",

@@ -31,10 +31,11 @@ Every scheduled run resolves the latest stable release from the official
 `github/copilot-cli` repository before engine installation. Both the Agent and
 threat-detection jobs pass that concrete version to gh-aw through
 `engine.version`; only an exact-version cache entry can be reused. Resolution
-errors, prereleases, and malformed or empty versions fail instead of falling
-back to gh-aw's default or a cached older CLI. The Agent also checks the
-installed executable's reported version before its task starts. This is version
-selection and verification, not a model-capability preflight.
+errors, prereleases, versions below the 1.0.87 native web search minimum, and
+malformed or empty versions fail instead of falling back to gh-aw's default or
+a cached older CLI. The Agent also checks the installed executable's reported
+version before its task starts. This is version selection and verification,
+not a model-capability preflight.
 
 Repository variables select the model and concrete reasoning effort for the
 scheduled workflows, whose local preflight validates those values. The AI review
@@ -54,7 +55,8 @@ The three scheduled tasks import
 - the pinned local GitHub MCP server for pull-request threads, Actions runs,
   checks, artifacts, logs, and other GitHub reads;
 - unrestricted Bash commands inside the Agent sandbox;
-- the remote Tavily MCP service, exposing only search and extraction;
+- Copilot native web search for external source discovery;
+- the remote Tavily MCP service, exposing only page extraction;
 - a sandbox network boundary;
 - the latest LTS Node.js release;
 - one resolved stable Copilot CLI version shared by Agent and threat detection,
@@ -160,7 +162,7 @@ parser or persistent aggregator.
 The [caller](ai-review.yml) invokes the public reusable workflow for the
 repository's `pull_request_target` lifecycle and cancels superseded work for the
 same pull request. It passes the selected model, required reasoning effort,
-Tavily secret, and the
+Tavily extraction secret, and the
 [repository review criteria](../scripts/ai-review/prompts/review.md). Those
 criteria cover the repository's Knowledge, Skill, plugin, documentation, and
 delivery responsibilities.
@@ -186,7 +188,9 @@ Set these Actions variables:
 | `AI_REVIEW_MODEL`                       | Model value passed to the upstream review interface.                                    |
 | `AI_REVIEW_REASONING_EFFORT`            | Required reasoning value passed to the upstream review interface.                       |
 
-All four tasks use the `TAVILY_API_KEY` Actions secret. Set it directly in the repository's Actions secrets UI or enter it through GitHub CLI without placing the value on the command line:
+All four tasks use the `TAVILY_API_KEY` Actions secret for page extraction. Set
+it directly in the repository's Actions secrets UI or enter it through GitHub
+CLI without placing the value on the command line:
 
 ```bash
 gh secret set TAVILY_API_KEY --repo Soulike/knowledge-base
@@ -199,15 +203,16 @@ labels.
 
 ## Compile and validate
 
-The repository pins gh-aw `v0.88.7` for the three scheduled workflows. Install
+The repository pins gh-aw `v0.89.21` for the three scheduled workflows. Install
 that exact compiler and regenerate their sources with:
 
 ```bash
-gh extension install github/gh-aw --pin v0.88.7
+gh extension install github/gh-aw --pin v0.89.21
 pnpm agentic:compile
 ```
 
-For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The wrapper rejects every compiler version except `v0.88.7`.
+For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The
+wrapper rejects every compiler version except `v0.89.21`.
 
 Run:
 

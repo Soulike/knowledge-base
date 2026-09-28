@@ -118,8 +118,9 @@ Preserve every exact selected target `id` in notes and safe outputs.
    coherent current account rather than obsolete, orphaned, duplicated,
    patch-layered, or shaped by edit history instead of responsibility,
    retrieval or invocation timing, consumers, and maintenance lifecycle. Use
-   Tavily search and extraction when current authoritative evidence is required;
-   a reachable URL or search snippet is not sufficient evidence.
+   Copilot native web search and `tavily_extract` when current authoritative
+   evidence is required; a reachable URL or search snippet is not sufficient
+   evidence.
 6. Identify each current `modification-required` or
    `verification-inconclusive` finding. A required correction must identify the
    reasoning or evidence, the smallest coherent deletion, rewrite, merge,

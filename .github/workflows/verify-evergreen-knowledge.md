@@ -92,9 +92,9 @@ exact `id` in all notes and safe outputs.
 2. For every target, verify its reasoning, scope, internal consistency,
    continued necessity, and `evergreen` classification. Check whether ordinary
    external evolution has introduced an evolving dependency that now requires
-   time-sensitive maintenance. Use Tavily search and extraction when a current
-   authoritative source is necessary to decide that question; a reachable URL
-   or search snippet is not sufficient evidence.
+   time-sensitive maintenance. Use Copilot native web search and
+   `tavily_extract` when a current authoritative source is necessary to decide
+   that question; a reachable URL or search snippet is not sufficient evidence.
 3. Check that the Knowledge leaf's Scope, When to update, index routing entry,
    and body still agree. Also assess whether the leaf is one coherent current
    account rather than accumulated obsolete wording, duplicated authority,

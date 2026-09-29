@@ -132,6 +132,26 @@ action takes time, distinguish acceptance from completion and show when the
 next action is available. Do not imply that a result is complete while it is
 still pending.
 
+Choose validation timing from the correction the person can make. State known
+constraints before they invest work, allow an answer to be completed before
+judging rules that need the complete answer, and present a rejected submission
+where its affected inputs can be found and corrected. Keep usable answers
+available for correction instead of requiring the person to reconstruct them.
+The [GOV.UK validation pattern](https://design-system.service.gov.uk/patterns/validation/)
+uses retained form answers and generally waits for submission before showing
+validation errors; that form pattern is not a universal rule for delayed or
+multi-step operations.
+
+For a multi-step or delayed action, keep consequential feedback attached to the
+affected work and available until the person can understand the result and act.
+Reflect completed, failed, pending, and unconfirmed parts distinctly when the
+[operation outcome](../software-design/operation-failure-and-recovery.md#distinguish-outcomes-by-consequence)
+requires it. Match the feedback's interruption and persistence to the
+consequence rather than putting every failure in the same notification.
+[Carbon's notification guidance](https://carbondesignsystem.com/patterns/notification-pattern/)
+distinguishes brief feedback from critical messages that need continuing
+attention.
+
 ## Explain necessary complexity near the decision
 
 An unfamiliar or inherently complex step may not be obvious at a glance. Use a

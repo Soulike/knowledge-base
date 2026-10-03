@@ -6,7 +6,10 @@ import {
   type FindingIssue,
   type FindingIssueRepository,
 } from "./finding-publication.ts";
-import type { VerificationFinding } from "./finding-events.ts";
+import {
+  reduceFindingEvents,
+  type VerificationFinding,
+} from "./finding-events.ts";
 import type { VerificationManifest } from "./manifest.ts";
 
 const revision = "a".repeat(40);
@@ -78,6 +81,27 @@ const context = {
 };
 
 describe("publishVerificationFindings", () => {
+  it("completes a validated noop without querying or creating issues", async () => {
+    const noActionFindings = reduceFindingEvents(manifest, {
+      errors: [],
+      items: [{ type: "noop", message: "Review completed with no findings." }],
+    });
+    const result = await publishVerificationFindings(
+      manifest,
+      noActionFindings,
+      context,
+      {
+        async createIssue() {
+          assert.fail("A no-action result must not create an issue.");
+        },
+        async listOpenIssues() {
+          assert.fail("A no-action result has no publication to deduplicate.");
+        },
+      },
+    );
+    assert.deepEqual(result, { created: [], suppressed: [] });
+  });
+
   it("constructs and publishes one trusted issue per final finding", async () => {
     const repository = new FakeIssueRepository();
 

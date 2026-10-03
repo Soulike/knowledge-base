@@ -81,12 +81,18 @@ async function runIsolatedGate(items: unknown[]): Promise<void> {
 }
 
 describe("content verification findings gate CLI", () => {
-  it("accepts an empty downloaded event stream", async () => {
-    await assert.doesNotReject(() => runGate([]));
+  it("accepts a downloaded no-action completion", async () => {
+    await assert.doesNotReject(() =>
+      runGate([
+        { type: "noop", message: "Review completed with no findings." },
+      ]),
+    );
   });
 
   it("runs without installed workspace dependencies", async () => {
-    await assert.doesNotReject(() => runIsolatedGate([]));
+    await assert.doesNotReject(() =>
+      runIsolatedGate([{ type: "noop", message: "No action is needed." }]),
+    );
   });
 
   it("exits nonzero for downloaded incomplete work", async () => {
@@ -102,10 +108,10 @@ describe("content verification findings gate CLI", () => {
     );
   });
 
-  it("rejects the runtime's system noop instead of treating it as coverage", async () => {
+  it("rejects a missing completion signal", async () => {
     await assert.rejects(
-      () => runGate([{ type: "noop", message: "No findings." }]),
-      /unexpected safe output type 'noop'/u,
+      () => runGate([]),
+      /empty finding result requires a terminal noop/u,
     );
   });
 });

@@ -172,10 +172,10 @@ contract.
 
 ## Make generated audio conditional
 
-Native synchronized audio is not a common capability across image-to-video
-systems. Establish whether audio belongs to the intended artifact before
-researching or specifying it, and condition the usage contract on target-model
-support.
+Native synchronized audio support varies by image-to-video model and product
+mode. Establish whether audio belongs to the intended artifact before
+researching or specifying it. When audio is selected, confirm that the chosen
+model and mode support it and align the invocation controls with that choice.
 
 When audio is included, bind dialogue, action sounds, ambience, off-screen
 sources, and music to the same temporal progression as the visuals. Exact

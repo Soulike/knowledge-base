@@ -90,7 +90,7 @@ A coordinator handles behavior that is primarily composition: creating, starting
 
 ### Commands and the Dispatcher
 
-Each `Browser` owns a `CommandDispatcher`. Coordinators register targets for selectors or required protocol methods. Callers that need to issue commands receive only an `id<Protocol>` obtained with `HandlerForProtocol`, which provides compile-time protocol typing and checks at runtime that the dispatcher currently handles that protocol.
+Regular, incognito, and inactive browsers own a `CommandDispatcher`; temporary browsers are created without one. Coordinators register targets for selectors or required protocol methods. Callers that need to issue commands receive only an `id<Protocol>` obtained with `HandlerForProtocol`, which provides compile-time protocol typing and checks at runtime that the dispatcher currently handles that protocol.
 
 Use commands for requests such as presenting settings, starting another browser flow, or otherwise crossing a UI ownership boundary. Do not use the Dispatcher to emulate delegation, state observation, or notifications. Those interactions have different lifetime and data-flow semantics.
 
@@ -112,7 +112,7 @@ The UI architecture sits within Chromium iOS's application object model:
   instances through weak pointers; it does not own their lifetime. A regular
   profile and its off-the-record counterpart share one list.
 - `Browser` models a UI-facing container of tabs. A window can have several browsers, such as regular, incognito, inactive, or temporary browsers.
-- `Browser` owns a `WebStateList` and `CommandDispatcher`, while a coordinator owns the `Browser` instance used by its UI. Fullscreen's broadcaster belongs to the browser-attached controller, with the availability and lifetime described under [Broadcaster and observation](#broadcaster-and-observation).
+- `Browser` owns a `WebStateList`; regular, incognito, and inactive browsers also own a `CommandDispatcher`, while temporary browsers do not. A coordinator owns the `Browser` instance used by its UI. Fullscreen's broadcaster belongs to the browser-attached controller, with the availability and lifetime described under [Broadcaster and observation](#broadcaster-and-observation).
 - `WebStateList` owns and observes the ordered tabs; each `WebState` represents a tab and wraps its web view and tab helpers.
 
 This context determines dependency lifetime. Process-wide behavior belongs under `ApplicationContext`; profile behavior belongs in profile-keyed services; per-browser UI state follows `Browser`; tab state follows `WebState`. A feature should request the narrowest object whose lifetime and responsibility match the work.

@@ -649,7 +649,7 @@ describe("compiled content-verification publication boundary", () => {
         `${file} update-finding tool`,
       );
       const deleteFinding = object(
-        safeConfig.delete_finding,
+        safeConfig["delete-finding"],
         `${file} delete-finding tool`,
       );
       const addInputs = object(addFinding.inputs, `${file} add-finding inputs`);
@@ -677,8 +677,6 @@ describe("compiled content-verification publication boundary", () => {
       );
       assert.match(source, /Review phase/u);
       assert.match(source, /History phase/u);
-      assert.match(source, /empty event stream/u);
-      assert.match(source, /finish without[\s\S]+`noop`/u);
       const validationConfig = object(
         JSON.parse(
           String(

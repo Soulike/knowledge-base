@@ -2,7 +2,10 @@
 
 ## Status
 
-Accepted
+Accepted. The empty-stream no-action completion rule is superseded by the
+explicit `noop` rule in the
+[shared content-verification contract](../../.github/workflows/shared/content-verification.md).
+The finding-event and publication decisions remain accepted.
 
 ## Context
 

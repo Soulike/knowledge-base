@@ -87,8 +87,44 @@ describe("reduceFindingEvents", () => {
     );
   });
 
-  it("accepts an empty event stream as a successful no-action result", () => {
-    assert.deepEqual(reduceFindingEvents(manifest, output([])), []);
+  it("accepts a terminal noop when review has no active findings", () => {
+    const noop = {
+      type: "noop",
+      message: "Review completed with no findings.",
+    };
+    assert.deepEqual(reduceFindingEvents(manifest, output([noop])), []);
+    assert.deepEqual(
+      reduceFindingEvents(
+        manifest,
+        output([
+          add(),
+          add({ finding_id: "covered-by-history" }),
+          { type: "delete_finding", finding_id: "duplicate-owner" },
+          { type: "delete_finding", finding_id: "covered-by-history" },
+          noop,
+        ]),
+      ),
+      [],
+    );
+  });
+
+  it("rejects missing, conflicting, malformed, or nonterminal noop declarations", () => {
+    const noop = { type: "noop", message: "No action is needed." };
+    for (const items of [
+      [],
+      [add(), { type: "delete_finding", finding_id: "duplicate-owner" }],
+      [add(), noop],
+      [noop, add()],
+      [noop, noop],
+      [{ type: "noop", message: " " }],
+      [{ ...noop, target_id: "knowledge/a.md" }],
+      [{ type: "missing_tool", tool: "Required source reader" }, noop],
+    ]) {
+      assert.throws(
+        () => reduceFindingEvents(manifest, output(items)),
+        /Content verification findings/u,
+      );
+    }
   });
 
   it("rejects targets outside the trusted manifest boundaries", () => {
@@ -164,7 +200,7 @@ describe("reduceFindingEvents", () => {
     for (const candidate of [
       { errors: ["invalid item"], items: [] },
       output([{ type: "report_incomplete", reason: "Source unavailable." }]),
-      output([{ type: "noop", message: "No findings." }]),
+      output([{ type: "noop" }]),
       output([{ ...add(), unsupported: true }]),
       { errors: [], items: "not-an-array" },
     ]) {

@@ -157,8 +157,12 @@ export function reduceFindingEvents(
   );
   const findings = new Map<string, VerificationFinding>();
   const addedFindingIds = new Set<string>();
+  let noopReported = false;
 
   for (const itemValue of output.items) {
+    if (noopReported) {
+      fail("safe output follows a terminal noop.");
+    }
     const item = object(itemValue, "safe output item");
     const type = boundedString(item.type, "safe output type", 120);
     if (
@@ -167,6 +171,15 @@ export function reduceFindingEvents(
       type === "missing_data"
     ) {
       fail(`Agent reported incomplete work through '${type}'.`);
+    }
+    if (type === "noop") {
+      exactKeys(item, ["type", "message"], "noop");
+      boundedString(item.message, "noop message", 65000);
+      if (findings.size > 0) {
+        fail("noop conflicts with active findings.");
+      }
+      noopReported = true;
+      continue;
     }
     if (type === "delete_finding") {
       exactKeys(item, ["type", "finding_id"], "delete_finding");
@@ -197,5 +210,8 @@ export function reduceFindingEvents(
     findings.set(finding.findingId, finding);
   }
 
+  if (findings.size === 0 && !noopReported) {
+    fail("empty finding result requires a terminal noop.");
+  }
   return [...findings.values()];
 }

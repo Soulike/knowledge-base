@@ -27,17 +27,21 @@ permissions:
   copilot-requests: write
 
 safe-outputs:
-  noop: false
-  scripts:
+  jobs:
     delete-finding:
       description: Delete one active finding after review or issue history shows that it should not be published.
+      max: 100
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
       inputs:
         finding_id:
           description: Exact run-local identifier chosen in the earlier add_finding call.
           required: true
           type: string
-      script: |
-        return { accepted: true, finding_id: item.finding_id };
+      steps:
+        - name: Record delete-finding events
+          run: ":"
 
 concurrency:
   group: content-verification-time-sensitive-knowledge

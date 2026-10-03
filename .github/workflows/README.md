@@ -103,12 +103,24 @@ evidence establishes a content defect and coherent correction, from
 `verification-inconclusive`, when the required analysis completed but available
 evidence cannot confirm or invalidate the finding.
 
+The main Agent is the sole safe-output producer. It may delegate investigation
+to the tool-restricted `content-verification-researcher` profile defined in the
+[shared contract](shared/content-verification.md). Researchers return evidence
+and limitations to the main Agent and have no shell execution, safe-output
+tools, or further delegation. The main Agent consolidates their reports,
+assigns finding ids, compares issue history, and decides the complete run's
+result.
+
 Each workflow adds and fully replaces findings during review, then updates or
 deletes them while comparing issue history. Each finding has one primary review
 target and may name related targets from the same revision's repository catalog
-when one remediation affects several responsibilities. An empty event stream
-is a successful no-action result and does not claim mechanically proven
-per-target coverage.
+when one remediation affects several responsibilities. Add, update, and delete
+each allow up to 100 events per run. When completed review leaves no active
+findings, including after deleting every finding, the main Agent declares
+`noop` exactly once as the final safe output. A no-action declaration with
+active findings, any output after `noop`, or an empty stream without a
+completion declaration fails validation. These results do not claim
+mechanically proven per-target coverage.
 
 The [finding reducer](../scripts/content-verification/finding-events.ts)
 validates that append-only stream after Agent completion. The
@@ -122,21 +134,22 @@ identity. The Agent has no issue-write credential.
 The pinned gh-aw runtime uploads the same Agent output in a dedicated fallback
 artifact and its broader Agent artifact. The gate keeps those artifacts
 separate and requires every discovered copy to be byte-identical before
-reduction. gh-aw also continues to advertise its system `noop` facility because
-threat detection is imported from the shared runtime; the content-verification
-contract requires an empty stream instead, and the reducer rejects `noop`.
+reduction. The task accepts gh-aw's `noop` completion signal for the whole
+run, with a maximum of one call and issue reporting disabled. A research
+assignment cannot declare no action for the complete run.
 
-The pinned gh-aw compiler does not merge imported safe-output scripts and injects a
-default `create_issue` tool when every custom tool comes only from imports. The
-shared contract therefore owns the larger add and update schemas, while each
-task source repeats only the one-parameter delete script as a thin compiler
-adapter. Generated-workflow tests require the same three finding tools and no
-`create_issue` tool in every task.
+The pinned gh-aw compiler injects a default `create_issue` tool when every
+custom tool comes only from imports. The shared contract therefore owns the
+larger add and update schemas, while each task source repeats the
+one-parameter delete job as a thin compiler adapter. All three finding tools
+use job-based recording handlers, which support explicit event limits; the
+pinned compiler's script handlers do not. Generated-workflow tests require the
+same three finding tools and no `create_issue` tool in every task.
 
 ### Status and failure issues
 
 Actions status represents the health of the verification mechanism, not whether
-content needs attention. An empty result, published findings, and exact
+content needs attention. A valid `noop`, published findings, and exact
 publication duplicates complete successfully. `report_incomplete`, malformed
 or unauthenticated output, threat-detection failure, the repository gate, the
 trusted publisher, issue publication, artifact handling, and other unexpected

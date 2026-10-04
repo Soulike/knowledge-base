@@ -32,22 +32,22 @@ risk.
 ## Decision
 
 Use a fixed stable `gh-aw` compiler and its generated lock workflows as the
-shared [Agentic workflow runtime](../../CONTEXT.md#agentic-workflow-runtime).
+shared [Agentic workflow runtime](../../GLOSSARY.md#agentic-workflow-runtime).
 Commit the generated workflows and action lock data, and update them through
 reviewed changes rather than allowing the runtime definition to drift between
 runs.
 
 Keep content verification and pull-request review as separate
-[task contracts](../../CONTEXT.md#task-contract). Share engine invocation,
+[task contracts](../../GLOSSARY.md#task-contract). Share engine invocation,
 sandboxing, remote research and GitHub read tools, retry infrastructure, and
 safe-output transport only where their responsibilities genuinely coincide.
 
 The Agent never receives GitHub write permission for the selected effects.
 Issue creation, pull-request review submission, and similar effects use
-[safe outputs](../../CONTEXT.md#safe-output). Repository-specific validation
+[safe outputs](../../GLOSSARY.md#safe-output). Repository-specific validation
 remains outside the shared runtime; in particular, the required exact-head
 conclusion remains owned by a trusted
-[publication gate](../../CONTEXT.md#publication-gate).
+[publication gate](../../GLOSSARY.md#publication-gate).
 
 Keep runtime pinning intentionally narrow. The `gh-aw` compiler and generated
 action references are fixed. GitHub Copilot CLI, external review-reference

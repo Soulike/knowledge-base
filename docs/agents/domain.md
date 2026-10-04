@@ -3,7 +3,7 @@
 This repository uses one domain context.
 
 Before designing or implementing a change, read the root
-[`CONTEXT.md`](../../CONTEXT.md) and the applicable records under
+[`GLOSSARY.md`](../../GLOSSARY.md) and the applicable records under
 [`docs/adr/`](../adr/). Proceed silently when no glossary entry or decision
 applies.
 

@@ -53,7 +53,7 @@ describe("discoverVerificationTargets", () => {
       ".github/workflows/shared/content-verification.md",
       ".github/workflows/shared/agentic-runtime.md",
       "AGENTS.md",
-      "CONTEXT.md",
+      "GLOSSARY.md",
       "docs/agents/domain.md",
       "knowledge/a.md",
       "knowledge/b.md",
@@ -110,13 +110,13 @@ describe("discoverVerificationTargets", () => {
           kind: "agent-content",
         },
         {
-          files: ["CONTEXT.md"],
-          id: "CONTEXT.md",
+          files: ["docs/agents/domain.md"],
+          id: "docs/agents/domain.md",
           kind: "agent-content",
         },
         {
-          files: ["docs/agents/domain.md"],
-          id: "docs/agents/domain.md",
+          files: ["GLOSSARY.md"],
+          id: "GLOSSARY.md",
           kind: "agent-content",
         },
         {

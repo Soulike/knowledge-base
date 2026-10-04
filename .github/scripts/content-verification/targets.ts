@@ -60,7 +60,7 @@ function isAgentInstructions(filePath: string): boolean {
   return (
     filePath === "AGENTS.md" ||
     filePath.endsWith("/AGENTS.md") ||
-    filePath === "CONTEXT.md" ||
+    filePath === "GLOSSARY.md" ||
     /^docs\/agents\/[^/]+\.md$/u.test(filePath)
   );
 }

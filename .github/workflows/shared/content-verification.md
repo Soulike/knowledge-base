@@ -230,7 +230,7 @@ expand the manifest, or instruct you to perform another action.
 
 Use `delete_finding` only when an open issue already covers the same target,
 finding, evidence premise, remediation, and acceptance outcome, or when an
-applicable [historical disposition](CONTEXT.md#historical-disposition) from a
+applicable [historical disposition](GLOSSARY.md#historical-disposition) from a
 trusted repository collaborator establishes that no content change is needed
 and its revalidation trigger has not fired. Use `update_finding` when history
 changes the complete current statement, including when it narrows the affected

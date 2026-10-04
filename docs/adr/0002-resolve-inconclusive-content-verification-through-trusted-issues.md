@@ -30,7 +30,7 @@ excluded from failed-job reporting.
 ## Decision
 
 Treat `current`, `modification-required`, and
-[verification inconclusive](../../CONTEXT.md#verification-inconclusive) as
+[verification inconclusive](../../GLOSSARY.md#verification-inconclusive) as
 successful content outcomes. Reserve `report_incomplete` and failed workflow
 status for analysis that could not be performed, malformed or unauthenticated
 output, threat detection, trusted-gate or publication failure, and other
@@ -46,7 +46,7 @@ classification for every target or finding.
 Require exactly one `resolve_verification_inconclusive` call for each represented
 inconclusive finding. The call either requests one new confirmation issue or
 selects one of two no-create reasons: a matching open confirmation issue or an
-applicable [historical disposition](../../CONTEXT.md#historical-disposition).
+applicable [historical disposition](../../GLOSSARY.md#historical-disposition).
 Do not group findings or add permanent finding identifiers.
 
 The Agent completes and freezes current analysis before reading issue history.

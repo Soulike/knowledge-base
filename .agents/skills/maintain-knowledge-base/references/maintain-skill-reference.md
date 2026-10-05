@@ -8,7 +8,7 @@
    boundary shared by those consumers. Read the entire reference and every
    consumer needed to judge those relationships.
 3. Read
-   [Agent Skill authoring](../../../../references/agents/skill-authoring.md) and
+   [Agent Skill authoring](../../../../plugins/knowledge-base/references/agents/skill-authoring.md) and
    apply its bundle-structure, selection, and split-or-merge tests. Confirm that
    a separate reference still earns its retrieval and maintenance cost. Delete
    or inline a reference that no longer has a distinct selection point or

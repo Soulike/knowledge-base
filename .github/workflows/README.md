@@ -14,7 +14,7 @@ records the current findings architecture and supersedes
 [ADR 0002](../../docs/adr/0002-resolve-inconclusive-content-verification-through-trusted-issues.md)
 without rewriting that record's historical context. The general state and trust
 invariants are maintained as
-[Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
+[Agent run-state Knowledge](../../plugins/knowledge-base/knowledge/github-actions/agent-run-state-and-reruns.md).
 [ADR 0004](../../docs/adr/0004-delegate-pull-request-review.md) records the
 pull-request review delegation and consumer boundary.
 
@@ -85,12 +85,14 @@ Repository content under review, issue and pull-request text, and external pages
 
 ## Scheduled content verification
 
-Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
+Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../plugins/knowledge-base/knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
 
 Task-specific sources own what to analyze. All three import the
 [shared content-verification contract](shared/content-verification.md).
 
-A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root `GLOSSARY.md`, and file under `docs/agents/` is an instruction target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
+A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root or plugin `GLOSSARY.md` and
+`GLOSSARY-MAP.md`, and file under root or plugin `docs/agents/` is an instruction
+target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
 
 The three tasks apply different review standards:
 

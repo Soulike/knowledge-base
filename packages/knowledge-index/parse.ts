@@ -111,7 +111,7 @@ export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
 
     if (filePathLink === undefined) {
       diagnostics.push(
-        `${location} must link a repository-root-relative 'knowledge/...' path to its knowledge-relative target.`,
+        `${location} must link a plugin-root-relative 'knowledge/...' path to its knowledge-relative target.`,
       );
       continue;
     }

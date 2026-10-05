@@ -15,14 +15,18 @@ const index = `# Knowledge index
 
 describe("discoverVerificationTargets", () => {
   it("selects Knowledge through the parsed index type", () => {
-    const tracked = ["knowledge/index.md", "knowledge/a.md", "knowledge/b.md"];
+    const tracked = [
+      "plugins/knowledge-base/knowledge/index.md",
+      "plugins/knowledge-base/knowledge/a.md",
+      "plugins/knowledge-base/knowledge/b.md",
+    ];
 
     assert.deepEqual(
       discoverVerificationTargets("time-sensitive-knowledge", tracked, index),
       [
         {
-          files: ["knowledge/a.md"],
-          id: "knowledge/a.md",
+          files: ["plugins/knowledge-base/knowledge/a.md"],
+          id: "plugins/knowledge-base/knowledge/a.md",
           kind: "knowledge",
           knowledgeType: "time-sensitive",
         },
@@ -32,8 +36,8 @@ describe("discoverVerificationTargets", () => {
       discoverVerificationTargets("evergreen-knowledge", tracked, index),
       [
         {
-          files: ["knowledge/b.md"],
-          id: "knowledge/b.md",
+          files: ["plugins/knowledge-base/knowledge/b.md"],
+          id: "plugins/knowledge-base/knowledge/b.md",
           kind: "knowledge",
           knowledgeType: "evergreen",
         },
@@ -55,14 +59,14 @@ describe("discoverVerificationTargets", () => {
       "AGENTS.md",
       "GLOSSARY.md",
       "docs/agents/domain.md",
-      "knowledge/a.md",
-      "knowledge/b.md",
-      "knowledge/index.md",
+      "plugins/knowledge-base/knowledge/a.md",
+      "plugins/knowledge-base/knowledge/b.md",
+      "plugins/knowledge-base/knowledge/index.md",
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
       "plugins/example/skills/check/SKILL.md",
-      "references/shared.md",
-      "skills/root/SKILL.md",
+      "plugins/knowledge-base/references/shared.md",
+      "plugins/knowledge-base/skills/root/SKILL.md",
     ];
 
     assert.deepEqual(
@@ -133,13 +137,13 @@ describe("discoverVerificationTargets", () => {
           kind: "skill",
         },
         {
-          files: ["references/shared.md"],
-          id: "references/shared.md",
+          files: ["plugins/knowledge-base/references/shared.md"],
+          id: "plugins/knowledge-base/references/shared.md",
           kind: "shared-reference",
         },
         {
-          files: ["skills/root/SKILL.md"],
-          id: "skills/root/SKILL.md",
+          files: ["plugins/knowledge-base/skills/root/SKILL.md"],
+          id: "plugins/knowledge-base/skills/root/SKILL.md",
           kind: "skill",
         },
       ],
@@ -151,7 +155,11 @@ describe("discoverVerificationTargets", () => {
       () =>
         discoverVerificationTargets(
           "evergreen-knowledge",
-          ["knowledge/index.md", "knowledge/a.md", "knowledge/c.md"],
+          [
+            "plugins/knowledge-base/knowledge/index.md",
+            "plugins/knowledge-base/knowledge/a.md",
+            "plugins/knowledge-base/knowledge/c.md",
+          ],
           index,
         ),
       new Error(
@@ -159,6 +167,33 @@ describe("discoverVerificationTargets", () => {
           "The index lists 'knowledge/b.md', but that leaf document does not exist.\n" +
           "Knowledge leaf 'knowledge/c.md' must be listed exactly once in the index.",
       ),
+    );
+  });
+
+  it("keeps repository and plugin domain instructions in verification", () => {
+    const instructions = [
+      "GLOSSARY-MAP.md",
+      "plugins/knowledge-base/AGENTS.md",
+      "plugins/knowledge-base/docs/agents/domain.md",
+      "plugins/knowledge-base/GLOSSARY.md",
+    ];
+    const targets = discoverVerificationTargets(
+      "maintained-agent-content",
+      [
+        ...instructions,
+        "plugins/knowledge-base/knowledge/index.md",
+        "plugins/knowledge-base/knowledge/a.md",
+        "plugins/knowledge-base/knowledge/b.md",
+      ],
+      index,
+    );
+    assert.deepEqual(
+      targets,
+      instructions.map((id) => ({
+        files: [id],
+        id,
+        kind: "agent-content",
+      })),
     );
   });
 });

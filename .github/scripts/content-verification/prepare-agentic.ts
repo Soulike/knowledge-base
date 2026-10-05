@@ -31,7 +31,10 @@ const [{ stdout: revisionOutput }, { stdout: trackedOutput }, indexMarkdown] =
       encoding: "buffer",
       maxBuffer: 10 * 1024 * 1024,
     }),
-    readFile(join(workspace, "knowledge/index.md"), "utf8"),
+    readFile(
+      join(workspace, "plugins/knowledge-base/knowledge/index.md"),
+      "utf8",
+    ),
   ]);
 
 const trackedPaths = trackedOutput

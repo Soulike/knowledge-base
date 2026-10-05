@@ -1,14 +1,18 @@
 # Maintain Knowledge
 
-1. Read [`knowledge/index.md`](../../../../knowledge/index.md) and
-   [Design selection triggers](../../../../references/agents/selection-triggers.md),
+All content paths in this workflow are relative to the
+[knowledge-base plugin](../../../../plugins/knowledge-base/), except commands
+explicitly run from the repository root.
+
+1. Read [`knowledge/index.md`](../../../../plugins/knowledge-base/knowledge/index.md) and
+   [Design selection triggers](../../../../plugins/knowledge-base/references/agents/selection-triggers.md),
    then search the existing `knowledge/` tree. Compare every affected
    responsibility with existing document Scopes and `When to Read` conditions
    for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
-   [Classifying Knowledge and Skill material](../../../../references/agents/knowledge-and-skills.md)
+   [Classifying Knowledge and Skill material](../../../../plugins/knowledge-base/references/agents/knowledge-and-skills.md)
    before editing `knowledge/`. Return material that does not qualify as
    Knowledge to the parent as Skill or Skill-reference content.
 4. Confirm that each remaining Knowledge part remains correct without access
@@ -33,7 +37,7 @@
    under `knowledge/` with the smallest useful document structure.
 8. Give every Markdown document under `knowledge/`, including the root index,
    the required preface described below.
-9. Keep [`knowledge/index.md`](../../../../knowledge/index.md) as the only
+9. Keep [`knowledge/index.md`](../../../../plugins/knowledge-base/knowledge/index.md) as the only
    routing catalog. Organize leaf documents in domain directories, but list
    every remaining leaf directly in the root index and do not create nested
    indexes or leaf-level `Related Knowledge`, `See also`, or similar routing
@@ -42,7 +46,7 @@
    retained dependency where it is applied and include the local context needed
    to use the current document.
 10. Before writing a new or changed root-index row, form reader requests and
-    expected selections using [Design selection triggers](../../../../references/agents/selection-triggers.md#check-selection-from-requests).
+    expected selections using [Design selection triggers](../../../../plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests).
     Include a broad request that does not name the leaf's concepts, a direct
     request, and a nearby negative when those cases apply. Keep the cases and
     expected selections in the work record. Then add, update, or remove the row
@@ -138,9 +142,9 @@ lists of editing steps.
 
 ## Index fields
 
-**File Path.** Use the repository-root-relative path as the link text and a
+**File Path.** Use the plugin-root-relative path as the link text and a
 relative Markdown link from
-[`knowledge/index.md`](../../../../knowledge/index.md) as its target. Point
+[`knowledge/index.md`](../../../../plugins/knowledge-base/knowledge/index.md) as its target. Point
 directly to a leaf Knowledge document, list it exactly once, and confirm that
 the target exists.
 

@@ -3,13 +3,11 @@
 1. Choose the Skill audience before choosing its path:
    - Put repository-authoring workflows in `.agents/skills/`. These Skills
      maintain, organize, or validate the knowledge-base source repository.
-   - Put primary-plugin usage workflows in `skills/`. These Skills are used
-     after the `knowledge-base` plugin is installed.
-   - Put an independent plugin's usage workflows inside that plugin's own
-     `skills/` directory.
+   - Put installed usage workflows in the owning plugin's `skills/` directory.
+     The knowledge-base package is `plugins/knowledge-base/`.
 2. Read
-   [Agent Skill authoring](../../../../references/agents/skill-authoring.md) and
-   [Design selection triggers](../../../../references/agents/selection-triggers.md),
+   [Agent Skill authoring](../../../../plugins/knowledge-base/references/agents/skill-authoring.md) and
+   [Design selection triggers](../../../../plugins/knowledge-base/references/agents/selection-triggers.md),
    then determine whether the change is material. Before the parent selects an
    operation, use the references to define the real task, compare invocation
    conditions, and assign knowledge and execution responsibilities. After
@@ -24,18 +22,20 @@
    hard-coding a particular project. Product, platform, protocol, and
    engineering-domain specificity are valid. Return workflows that cannot be
    made independent of their source project to the parent as neither.
-5. Read [`knowledge/index.md`](../../../../knowledge/index.md). Compare the task
-   model with every `When to Read` condition, read every matching leaf not
-   already loaded, and search `knowledge/` for subject understanding the Skill
-   would otherwise explain. Then complete the authoring standard's professional
+5. Read
+   [`knowledge/index.md`](../../../../plugins/knowledge-base/knowledge/index.md).
+   Compare the task model with every `When to Read` condition, read every
+   matching leaf not already loaded, and search
+   `plugins/knowledge-base/knowledge/` for subject understanding the Skill would
+   otherwise explain. Then complete the authoring standard's professional
    research using the loaded Knowledge and any necessary current authoritative
-   sources. Repository-authoring and primary-plugin Skills reference applicable
-   canonical root Knowledge rather than reproducing it, and return missing
-   independently retrievable understanding to the parent as mixed material so
-   the Knowledge branch completes first. For an independent plugin, use the
-   comparison only to identify root-owned or out-of-package material: do not
-   reference root files, and return that material to the parent for
-   reclassification or package-ownership reconsideration.
+   sources. Repository-authoring workflows and knowledge-base usage Skills
+   reference applicable canonical Knowledge rather than reproducing it, and
+   return missing independently retrievable understanding to the parent as
+   mixed material so the Knowledge branch completes first. For another plugin,
+   use the comparison only to identify knowledge-base-owned or out-of-package
+   material: do not reference another plugin's files, and return that material
+   to the parent for reclassification or package-ownership reconsideration.
 6. Search the selected Skill scope for workflows with the same or overlapping
    task. Compare their invocation conditions, accepted input states,
    user-visible results, decisions, privileged effects, failure and completion

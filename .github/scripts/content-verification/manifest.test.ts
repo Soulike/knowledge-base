@@ -20,9 +20,9 @@ describe("buildVerificationManifest", () => {
       "AGENTS.md",
       ".agents/skills/check/SKILL.md",
       ".agents/skills/check/references/detail.md",
-      "knowledge/b.md",
-      "knowledge/a.md",
-      "knowledge/index.md",
+      "plugins/knowledge-base/knowledge/b.md",
+      "plugins/knowledge-base/knowledge/a.md",
+      "plugins/knowledge-base/knowledge/index.md",
     ];
 
     assert.deepEqual(
@@ -34,7 +34,7 @@ describe("buildVerificationManifest", () => {
       ),
       {
         revision,
-        reviewTargetIds: ["knowledge/a.md"],
+        reviewTargetIds: ["plugins/knowledge-base/knowledge/a.md"],
         scope: "time-sensitive-knowledge",
         targetCatalog: [
           {
@@ -47,14 +47,14 @@ describe("buildVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge/a.md"],
-            id: "knowledge/a.md",
+            files: ["plugins/knowledge-base/knowledge/a.md"],
+            id: "plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge/b.md"],
-            id: "knowledge/b.md",
+            files: ["plugins/knowledge-base/knowledge/b.md"],
+            id: "plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -70,7 +70,7 @@ describe("buildVerificationManifest", () => {
       ),
       {
         revision,
-        reviewTargetIds: ["knowledge/b.md"],
+        reviewTargetIds: ["plugins/knowledge-base/knowledge/b.md"],
         scope: "evergreen-knowledge",
         targetCatalog: [
           {
@@ -83,14 +83,14 @@ describe("buildVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge/a.md"],
-            id: "knowledge/a.md",
+            files: ["plugins/knowledge-base/knowledge/a.md"],
+            id: "plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge/b.md"],
-            id: "knowledge/b.md",
+            files: ["plugins/knowledge-base/knowledge/b.md"],
+            id: "plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -119,14 +119,14 @@ describe("buildVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge/a.md"],
-            id: "knowledge/a.md",
+            files: ["plugins/knowledge-base/knowledge/a.md"],
+            id: "plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge/b.md"],
-            id: "knowledge/b.md",
+            files: ["plugins/knowledge-base/knowledge/b.md"],
+            id: "plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -141,7 +141,11 @@ describe("buildVerificationManifest", () => {
         buildVerificationManifest(
           "time-sensitive-knowledge",
           "main",
-          ["knowledge/index.md", "knowledge/a.md", "knowledge/b.md"],
+          [
+            "plugins/knowledge-base/knowledge/index.md",
+            "plugins/knowledge-base/knowledge/a.md",
+            "plugins/knowledge-base/knowledge/b.md",
+          ],
           index,
         ),
       /lowercase 40-character Git SHA/u,

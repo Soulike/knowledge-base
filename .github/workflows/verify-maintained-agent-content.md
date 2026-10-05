@@ -81,7 +81,7 @@ At the exact revision named by
 `reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
 this manifest read-only inside the Agent sandbox. It was derived
 deterministically from tracked files and the parsed
-[Knowledge index](knowledge/index.md); the selected ids are the complete
+[Knowledge index](plugins/knowledge-base/knowledge/index.md); the selected ids are the complete
 required scope. A selected target is one Skill bundle, shared reference, Agent
 instruction, Agentic workflow source, or repository-owned prompt bundle.
 Preserve every exact selected target `id` in notes and safe outputs.
@@ -90,7 +90,7 @@ Preserve every exact selected target `id` in notes and safe outputs.
 
 1. Read the root [repository instructions](AGENTS.md), the target
    manifest, and every file named by every selected target. Read
-   [Agent Skill authoring](references/agents/skill-authoring.md) as the
+   [Agent Skill authoring](plugins/knowledge-base/references/agents/skill-authoring.md) as the
    repository's current authoring standard, while keeping this task contract
    authoritative. When that reference is itself a target, verify it instead of
    assuming it is correct. If a target is missing, duplicated, unreadable, or
@@ -100,7 +100,7 @@ Preserve every exact selected target `id` in notes and safe outputs.
    through representative risk-derived invocation, workflow, and output
    scenarios, including one likely to expose a shortcut or omitted professional
    responsibility. Apply
-   [Design selection triggers](references/agents/selection-triggers.md) when
+   [Design selection triggers](plugins/knowledge-base/references/agents/selection-triggers.md) when
    checking Skill invocation conditions. Check invocation and routing,
    decisions, tool use, failure handling, completion criteria, progressive
    disclosure, portability, package boundaries, and current tool or API

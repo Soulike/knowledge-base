@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rename, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
@@ -22,18 +22,30 @@ function git(
 async function createRepository(
   t: test.TestContext,
   baseVersion: string,
+  pluginDirectory = "plugins/knowledge-base",
 ): Promise<string> {
   const repository = await mkdtemp(join(tmpdir(), "plugin-version-check-"));
   t.after(() => rm(repository, { force: true, recursive: true }));
   git(repository, ["init", "--initial-branch=main"]);
   git(repository, ["config", "user.name", "Plugin Version Test"]);
   git(repository, ["config", "user.email", "plugin-version@example.com"]);
+  await mkdir(join(repository, pluginDirectory), { recursive: true });
+  await mkdir(join(repository, ".claude-plugin"));
   await writeFile(
-    join(repository, "plugin.json"),
+    join(repository, ".claude-plugin/marketplace.json"),
+    JSON.stringify({
+      plugins: [{ name: "knowledge-base", source: `./${pluginDirectory}` }],
+    }),
+  );
+  await writeFile(
+    join(repository, pluginDirectory, "plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: baseVersion }, null, 2)}\n`,
   );
-  await mkdir(join(repository, "knowledge"));
-  await writeFile(join(repository, "knowledge", "index.md"), "# Index\n");
+  await mkdir(join(repository, pluginDirectory, "knowledge"));
+  await writeFile(
+    join(repository, pluginDirectory, "knowledge", "index.md"),
+    "# Index\n",
+  );
   git(repository, ["add", "."]);
   git(repository, ["commit", "-m", "base"]);
   return repository;
@@ -70,11 +82,11 @@ test("uses the rebased head committer date instead of the author date", async (t
   const repository = await createRepository(t, "2026.8.15-1");
   const base = git(repository, ["rev-parse", "HEAD"]);
   await writeFile(
-    join(repository, "plugin.json"),
+    join(repository, "plugins/knowledge-base/plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: "2026.8.18-1" }, null, 2)}\n`,
   );
   await writeFile(
-    join(repository, "knowledge", "index.md"),
+    join(repository, "plugins/knowledge-base/knowledge/index.md"),
     "# Updated index\n",
   );
   const head = commit(
@@ -93,11 +105,11 @@ test("uses the rebased head committer date instead of the author date", async (t
   assert.equal(result.stdout, "Primary plugin version is 2026.8.18-1.\n");
 });
 
-test("requires a bump when root Knowledge changes", async (t) => {
+test("requires a bump when plugin Knowledge changes", async (t) => {
   const repository = await createRepository(t, "2026.8.15-1");
   const base = git(repository, ["rev-parse", "HEAD"]);
   await writeFile(
-    join(repository, "knowledge", "index.md"),
+    join(repository, "plugins/knowledge-base/knowledge/index.md"),
     "# Updated index\n",
   );
   const head = commit(
@@ -115,14 +127,17 @@ test("requires a bump when root Knowledge changes", async (t) => {
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /Expected primary plugin version '2026\.8\.15-2'/u,
+    /Expected knowledge-base plugin version '2026\.8\.15-2'/u,
   );
 });
 
-test("requires a bump when a root Skill reference changes", async (t) => {
+test("requires a bump when a plugin Skill reference changes", async (t) => {
   const repository = await createRepository(t, "2026.8.15-1");
   const base = git(repository, ["rev-parse", "HEAD"]);
-  const referenceDirectory = join(repository, "references", "testing");
+  const referenceDirectory = join(
+    repository,
+    "plugins/knowledge-base/references/testing",
+  );
   await mkdir(referenceDirectory, { recursive: true });
   await writeFile(
     join(referenceDirectory, "effectiveness.md"),
@@ -143,7 +158,7 @@ test("requires a bump when a root Skill reference changes", async (t) => {
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /Expected primary plugin version '2026\.8\.15-2'/u,
+    /Expected knowledge-base plugin version '2026\.8\.15-2'/u,
   );
 });
 
@@ -169,11 +184,66 @@ test("does not version an independent plugin change", async (t) => {
   assert.match(result.stdout, /no versioned content changed/u);
 });
 
+test("checks a package move using each revision's marketplace", async (t) => {
+  const repository = await createRepository(t, "2026.8.15-1", ".");
+  const base = git(repository, ["rev-parse", "HEAD"]);
+  const destination = join(repository, "plugins/knowledge-base");
+  await mkdir(destination, { recursive: true });
+  await rename(
+    join(repository, "plugin.json"),
+    join(destination, "plugin.json"),
+  );
+  await rename(join(repository, "knowledge"), join(destination, "knowledge"));
+  await writeFile(
+    join(repository, ".claude-plugin/marketplace.json"),
+    JSON.stringify({
+      plugins: [{ name: "knowledge-base", source: "./plugins/knowledge-base" }],
+    }),
+  );
+  const unversioned = commit(
+    repository,
+    "move package",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+  const missingBump = spawnSync(
+    process.execPath,
+    [checkerPath, base, unversioned],
+    {
+      cwd: repository,
+      encoding: "utf8",
+    },
+  );
+  assert.equal(missingBump.status, 1);
+  assert.match(
+    missingBump.stderr,
+    /Expected knowledge-base plugin version '2026\.8\.15-2'/u,
+  );
+
+  await writeFile(
+    join(destination, "plugin.json"),
+    JSON.stringify({ name: "knowledge-base", version: "2026.8.15-2" }),
+  );
+  const head = commit(
+    repository,
+    "version package move",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+  // The comparison must use the captured revisions, not an unrelated working tree.
+  await writeFile(join(repository, ".claude-plugin/marketplace.json"), "{}");
+  const result = spawnSync(process.execPath, [checkerPath, base, head], {
+    cwd: repository,
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+});
+
 test("rejects a version-only release after date versions are established", async (t) => {
   const repository = await createRepository(t, "2026.8.15-1");
   const base = git(repository, ["rev-parse", "HEAD"]);
   await writeFile(
-    join(repository, "plugin.json"),
+    join(repository, "plugins/knowledge-base/plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-2" }, null, 2)}\n`,
   );
   const head = commit(
@@ -191,7 +261,7 @@ test("rejects a version-only release after date versions are established", async
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /version changed, but root Knowledge, Skill references, and usage Skills did not/u,
+    /version changed, but its Knowledge, Skill references, and usage Skills did not/u,
   );
 });
 
@@ -199,7 +269,7 @@ test("allows the one-time migration from a legacy version", async (t) => {
   const repository = await createRepository(t, "0.1.0");
   const base = git(repository, ["rev-parse", "HEAD"]);
   await writeFile(
-    join(repository, "plugin.json"),
+    join(repository, "plugins/knowledge-base/plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-1" }, null, 2)}\n`,
   );
   const head = commit(

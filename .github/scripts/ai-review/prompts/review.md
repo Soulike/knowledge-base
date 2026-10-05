@@ -12,13 +12,13 @@ rules and review dimensions.
 
 For a new or materially changed Skill, reconstruct the user task and verify that
 the pull-request description provides the design and behavioral evidence
-required by [Agent Skill authoring](references/agents/skill-authoring.md). Use
+required by [Agent Skill authoring](plugins/knowledge-base/references/agents/skill-authoring.md). Use
 the [knowledge-base maintenance workflow](.agents/skills/maintain-knowledge-base/SKILL.md)
 to evaluate changes to Knowledge, Skills, Skill references, maintained Agent
 instructions, and prompts.
 
 When reviewing a Knowledge reading trigger or Skill invocation condition,
-apply [Design selection triggers](references/agents/selection-triggers.md).
+apply [Design selection triggers](plugins/knowledge-base/references/agents/selection-triggers.md).
 
 Review every applicable repository-specific dimension:
 

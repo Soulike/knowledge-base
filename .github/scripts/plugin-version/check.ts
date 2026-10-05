@@ -1,10 +1,10 @@
-import { resolve } from "node:path";
+import { posix, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
   listChangedFiles,
   readCommitterTimestamp,
-  readFileAtRevision,
+  readKnowledgeBasePluginAtRevision,
 } from "./repository.ts";
 import {
   nextPluginVersion,
@@ -24,11 +24,10 @@ export interface CheckPluginVersionResult {
   version: string;
 }
 
-function isVersionedContent(path: string): boolean {
-  return (
-    path.startsWith("knowledge/") ||
-    path.startsWith("references/") ||
-    path.startsWith("skills/")
+function isVersionedContent(path: string, manifestPath: string): boolean {
+  const pluginDirectory = posix.dirname(manifestPath);
+  return ["knowledge", "references", "skills"].some((directory) =>
+    path.startsWith(`${posix.join(pluginDirectory, directory)}/`),
   );
 }
 
@@ -37,26 +36,28 @@ export function checkPluginVersion({
   baseRevision,
   headRevision,
 }: CheckPluginVersionOptions): CheckPluginVersionResult {
-  const baseContent = readFileAtRevision(
+  const basePlugin = readKnowledgeBasePluginAtRevision(
     repository,
     baseRevision,
-    "plugin.json",
   );
-  const headContent = readFileAtRevision(
+  const headPlugin = readKnowledgeBasePluginAtRevision(
     repository,
     headRevision,
-    "plugin.json",
   );
   const baseVersion = readManifestVersion(
-    baseContent,
-    `plugin.json at ${baseRevision}`,
+    basePlugin.content,
+    `${basePlugin.manifestPath} at ${baseRevision}`,
   );
   const headVersion = readManifestVersion(
-    headContent,
-    `plugin.json at ${headRevision}`,
+    headPlugin.content,
+    `${headPlugin.manifestPath} at ${headRevision}`,
   );
   const changedFiles = listChangedFiles(repository, baseRevision, headRevision);
-  const contentChanged = changedFiles.some(isVersionedContent);
+  const contentChanged = changedFiles.some(
+    (path) =>
+      isVersionedContent(path, basePlugin.manifestPath) ||
+      isVersionedContent(path, headPlugin.manifestPath),
+  );
   const versionChanged = headVersion !== baseVersion;
 
   if (!contentChanged && !versionChanged) {
@@ -69,7 +70,7 @@ export function checkPluginVersion({
     parsePluginVersion(baseVersion) !== undefined
   ) {
     throw new Error(
-      "The primary plugin version changed, but root Knowledge, Skill references, and usage Skills did not.",
+      "The knowledge-base plugin version changed, but its Knowledge, Skill references, and usage Skills did not.",
     );
   }
 
@@ -82,7 +83,7 @@ export function checkPluginVersion({
       ? "Versioned content changed."
       : "The version field changed.";
     throw new Error(
-      `${reason} Expected primary plugin version '${expectedVersion}' from base '${baseVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
+      `${reason} Expected knowledge-base plugin version '${expectedVersion}' from base '${baseVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
     );
   }
 

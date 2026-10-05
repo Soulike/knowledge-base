@@ -11,7 +11,7 @@
     "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm test && pnpm knowledge:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts knowledge",
+    "knowledge:check": "node .github/scripts/check-knowledge-format/check.ts plugins/knowledge-base/knowledge",
     "links:check": "remark . --frail --quiet --ignore-pattern '.github/scripts/*/prompts/**' --ignore-pattern '.github/workflows/verify-*.md' --ignore-pattern '.github/workflows/shared/*.md' --use remark-validate-links",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",

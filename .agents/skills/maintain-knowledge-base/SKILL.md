@@ -17,7 +17,8 @@ of the change effect, but do not authorize changes to independent behavior.
 
 1. Resolve repository paths relative to this `SKILL.md`; the repository root is
    `../../..`. Treat the user's requested change as the mutation boundary. Read
-   enough surrounding content to judge the complete effect, but request an
+   the affected plugin's authoring rules and enough surrounding content to
+   judge the complete effect, but request an
    expanded scope before changing an independent responsibility, public trigger,
    or consumer not required to leave the authorized change coherent.
 2. Apply the downstream-project-independence gate from
@@ -26,7 +27,7 @@ of the change effect, but do not authorize changes to independent behavior.
    without its source project; classify non-generalizable parts as neither and
    leave them in that project.
 3. Read
-   [`references/agents/knowledge-and-skills.md`](../../../references/agents/knowledge-and-skills.md),
+   [`references/agents/knowledge-and-skills.md`](../../../plugins/knowledge-base/references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance
    lifecycle, and retrieval source. Apply its retrieval-origin,
    workflow-removal, routing-order, and lifecycle tests. A Knowledge candidate
@@ -48,11 +49,11 @@ of the change effect, but do not authorize changes to independent behavior.
    remainder, and report why no existing owner fits it.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
-   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md)
+   [Maintained document quality](../../../plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md)
    and apply it throughout the applicable authoring workflow. When that
    documentation describes software behavior, interfaces, implementation,
    operation, or decisions, or a software change may invalidate it, also read
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
+   [Software-development documentation](../../../plugins/knowledge-base/knowledge/documentation/software-development-documentation.md).
 7. Read each affected artifact as a whole together with the routes and
    consumers needed to judge it. Read every applicable artifact workflow named
    below and complete its analysis up to, but not including, application of a
@@ -63,7 +64,7 @@ of the change effect, but do not authorize changes to independent behavior.
    artifact set by responsibility, reader task, retrieval or invocation timing,
    consumers, and maintenance lifecycle. Before substantive editing, state the
    structural judgment in a work update using
-   [Keep revisions coherent](../../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+   [Keep revisions coherent](../../../plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
    and proceed within the existing authorization. For purely mechanical edits,
    confirm that meaning and structure are unchanged without a full structural
    assessment.
@@ -94,21 +95,21 @@ of the change effect, but do not authorize changes to independent behavior.
     responsibility. Before editing tests, route by the responsibility that
     started the work. Direct selection of new protection for a production
     behavior or bounded coverage need uses
-    [`write-effective-tests`](../../../skills/write-effective-tests/SKILL.md).
+    [`write-effective-tests`](../../../plugins/knowledge-base/skills/write-effective-tests/SKILL.md).
     Review of coverage, an existing or proposed test, or test execution uses
-    [`review-and-improve-tests`](../../../skills/review-and-improve-tests/SKILL.md),
+    [`review-and-improve-tests`](../../../plugins/knowledge-base/skills/review-and-improve-tests/SKILL.md),
     which retains any coverage work selected by that review.
 11. When new requirements or feedback invalidate the structural judgment under
     the loaded Knowledge's criteria, return to steps 7–9 and assess the
     cumulative change before further editing.
-12. When the final diff changes root `knowledge/**`, `references/**`, or
-    `skills/**`, follow
+12. When the final diff changes `plugins/knowledge-base/knowledge/**`,
+    `plugins/knowledge-base/references/**`, or `plugins/knowledge-base/skills/**`, follow
     [`references/update-plugin-version.md`](references/update-plugin-version.md)
     after the content stabilizes.
 13. When meaning or structure changed, use a fresh Agent or isolated context for
     a read-only semantic comparison of the trusted pre-change state, accepted
     requirements, and every final affected artifact. For changed selection
-    routes, apply [Design selection triggers](../../../references/agents/selection-triggers.md#check-selection-from-requests):
+    routes, apply [Design selection triggers](../../../plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests):
     have the reviewer choose from natural requests and the real candidate set
     before seeing the author's expected selections or target contents, then
     compare those choices with the old routes and final responsibilities.
@@ -120,7 +121,7 @@ of the change effect, but do not authorize changes to independent behavior.
     incomplete result.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
-    generated primary-plugin version when applicable, and mechanical and
+    generated knowledge-base plugin version when applicable, and mechanical and
     semantic validation performed. Include the final structural judgment for
     substantive revisions and the concrete reason for retaining or changing
     the organization.
@@ -148,6 +149,6 @@ The resulting diff must preserve the Knowledge-versus-workflow boundary and
 must not change an independent responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.
-The independent semantic comparison must find no unexplained change. When root
+The independent semantic comparison must find no unexplained change. When knowledge-base plugin
 Knowledge, Skill references, or usage Skills changed, also require the
-PR-scoped primary-plugin version and its validation to be current.
+PR-scoped knowledge-base plugin version and its validation to be current.

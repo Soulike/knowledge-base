@@ -55,7 +55,7 @@ jobs:
         run: pnpm prompt-links:check
 
       - name: Check knowledge document format
-        run: pnpm --dir .github/scripts/check-knowledge-format check "${{ github.workspace }}/knowledge"
+        run: pnpm knowledge:check
 
       - name: Test
         run: pnpm test

@@ -23,11 +23,17 @@ async function createRepository(
   t: test.TestContext,
   baseVersion: string,
 ): Promise<string> {
-  const repository = await mkdtemp(join(tmpdir(), "plugin-version-check-"));
+  const repository = await mkdtemp(
+    join(tmpdir(), "knowledge-base-version-check-"),
+  );
   t.after(() => rm(repository, { force: true, recursive: true }));
   git(repository, ["init", "--initial-branch=main"]);
   git(repository, ["config", "user.name", "Plugin Version Test"]);
-  git(repository, ["config", "user.email", "plugin-version@example.com"]);
+  git(repository, [
+    "config",
+    "user.email",
+    "knowledge-base-version@example.com",
+  ]);
   await writeFile(
     join(repository, "plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: baseVersion }, null, 2)}\n`,
@@ -90,7 +96,10 @@ test("uses the rebased head committer date instead of the author date", async (t
   });
 
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout, "Primary plugin version is 2026.8.18-1.\n");
+  assert.equal(
+    result.stdout,
+    "Knowledge-base plugin version is 2026.8.18-1.\n",
+  );
 });
 
 test("requires a bump when root Knowledge changes", async (t) => {
@@ -115,7 +124,7 @@ test("requires a bump when root Knowledge changes", async (t) => {
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /Expected primary plugin version '2026\.8\.15-2'/u,
+    /Expected knowledge-base plugin version '2026\.8\.15-2'/u,
   );
 });
 
@@ -143,7 +152,7 @@ test("requires a bump when a root Skill reference changes", async (t) => {
   assert.equal(result.status, 1);
   assert.match(
     result.stderr,
-    /Expected primary plugin version '2026\.8\.15-2'/u,
+    /Expected knowledge-base plugin version '2026\.8\.15-2'/u,
   );
 });
 
@@ -215,5 +224,8 @@ test("allows the one-time migration from a legacy version", async (t) => {
   });
 
   assert.equal(result.status, 0, result.stderr);
-  assert.equal(result.stdout, "Primary plugin version is 2026.8.15-1.\n");
+  assert.equal(
+    result.stdout,
+    "Knowledge-base plugin version is 2026.8.15-1.\n",
+  );
 });

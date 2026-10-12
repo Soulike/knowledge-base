@@ -88,7 +88,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/knowledge-index
 
-  .github/scripts/plugin-version: {}
+  .github/scripts/knowledge-base-version: {}
 
   .github/scripts/smoke-plugin-install: {}
 

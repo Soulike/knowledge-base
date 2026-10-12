@@ -69,7 +69,7 @@ export function checkPluginVersion({
     parsePluginVersion(baseVersion) !== undefined
   ) {
     throw new Error(
-      "The primary plugin version changed, but root Knowledge, Skill references, and usage Skills did not.",
+      "The knowledge-base plugin version changed, but root Knowledge, Skill references, and usage Skills did not.",
     );
   }
 
@@ -82,7 +82,7 @@ export function checkPluginVersion({
       ? "Versioned content changed."
       : "The version field changed.";
     throw new Error(
-      `${reason} Expected primary plugin version '${expectedVersion}' from base '${baseVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
+      `${reason} Expected knowledge-base plugin version '${expectedVersion}' from base '${baseVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
     );
   }
 
@@ -110,13 +110,15 @@ function run(arguments_: string[]): number {
       headRevision,
     });
     const message = result.checked
-      ? `Primary plugin version is ${result.version}.`
-      : `Primary plugin version remains ${result.version}; no versioned content changed.`;
+      ? `Knowledge-base plugin version is ${result.version}.`
+      : `Knowledge-base plugin version remains ${result.version}; no versioned content changed.`;
     process.stdout.write(`${message}\n`);
     return 0;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    process.stderr.write(`Plugin version check failed: ${message}\n`);
+    process.stderr.write(
+      `Knowledge-base plugin version check failed: ${message}\n`,
+    );
     return 1;
   }
 }

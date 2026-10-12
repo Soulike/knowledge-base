@@ -14,11 +14,17 @@ function git(repository: string, arguments_: string[]): string {
 }
 
 test("repeated updates keep one version for the PR", async (t) => {
-  const repository = await mkdtemp(join(tmpdir(), "plugin-version-update-"));
+  const repository = await mkdtemp(
+    join(tmpdir(), "knowledge-base-version-update-"),
+  );
   t.after(() => rm(repository, { force: true, recursive: true }));
   git(repository, ["init", "--initial-branch=main"]);
   git(repository, ["config", "user.name", "Plugin Version Test"]);
-  git(repository, ["config", "user.email", "plugin-version@example.com"]);
+  git(repository, [
+    "config",
+    "user.email",
+    "knowledge-base-version@example.com",
+  ]);
   await writeFile(
     join(repository, "plugin.json"),
     `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-1" }, null, 2)}\n`,

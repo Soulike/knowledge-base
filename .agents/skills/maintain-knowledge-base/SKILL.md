@@ -103,7 +103,7 @@ of the change effect, but do not authorize changes to independent behavior.
     cumulative change before further editing.
 12. When the final diff changes root `knowledge/**`, `references/**`, or
     `skills/**`, follow
-    [`references/update-plugin-version.md`](references/update-plugin-version.md)
+    [`references/update-knowledge-base-version.md`](references/update-knowledge-base-version.md)
     after the content stabilizes.
 13. When meaning or structure changed, use a fresh Agent or isolated context for
     a read-only semantic comparison of the trusted pre-change state, accepted

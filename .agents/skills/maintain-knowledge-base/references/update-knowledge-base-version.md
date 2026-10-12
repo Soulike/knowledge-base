@@ -1,16 +1,16 @@
-# Update the primary plugin version
+# Update the knowledge-base plugin version
 
-Treat one pull request as one primary-plugin release. Changes within the pull
+Treat one pull request as one knowledge-base plugin release. Changes within the pull
 request do not create additional releases.
 
 Apply this workflow when the final diff changes root `knowledge/**`,
 `references/**`, or `skills/**`. Independent content under `plugins/**`,
 repository-authoring Skills and references under `.agents/**`, and repository
-documentation do not belong to the primary plugin version.
+documentation do not belong to the knowledge-base plugin version.
 
 1. Stabilize the pull request's intended content and integrate the latest PR
    base before generating the version.
-2. Refresh the base ref, then run `pnpm plugin-version:update`. The command
+2. Refresh the base ref, then run `pnpm knowledge-base-version:update`. The command
    reads `origin/main` by default; pass another base ref as its only argument
    when the pull request targets a different ref.
 3. Treat the generated [`plugin.json`](../../../../plugin.json) version as the

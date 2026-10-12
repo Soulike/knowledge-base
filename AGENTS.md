@@ -175,7 +175,7 @@ Use this layout:
 │               ├── maintain-knowledge.md
 │               ├── maintain-skill.md
 │               ├── maintain-skill-reference.md
-│               └── update-plugin-version.md
+│               └── update-knowledge-base-version.md
 ├── knowledge/
 │   ├── index.md
 │   └── chromium/

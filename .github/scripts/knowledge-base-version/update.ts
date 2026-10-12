@@ -57,11 +57,13 @@ async function run(arguments_: string[]): Promise<number> {
 
   try {
     const version = await updatePluginVersion({ repository, baseRevision });
-    process.stdout.write(`Primary plugin version: ${version}\n`);
+    process.stdout.write(`Knowledge-base plugin version: ${version}\n`);
     return 0;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    process.stderr.write(`Plugin version update failed: ${message}\n`);
+    process.stderr.write(
+      `Knowledge-base plugin version update failed: ${message}\n`,
+    );
     return 1;
   }
 }

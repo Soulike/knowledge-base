@@ -16,9 +16,13 @@ Open an authoritative source during the task. For an action, consult its publish
 
 ## Select in repository context
 
-Treat the latest verified release as an input to version selection, not as an unconditional target. Follow requirements and version policy in the active working directory, including compatibility constraints, supported runner environments, runtime declarations, immutable-SHA or moving-tag conventions, and intentional pins. Check breaking changes before crossing a major or support boundary.
+Treat the latest verified release as an input to version selection, not as an unconditional target. Follow requirements and version policy in the active working directory, including compatibility constraints, supported runner environments, runtime declarations, reference-form policy, and intentional pins. Check breaking changes before crossing a major or support boundary.
 
-Use the latest verified compatible version when the repository does not impose a different constraint. Preserve the repository's reference style and explain any deliberate choice not to use the latest available release. A version already present in the workflow is evidence of repository state, not proof that the upstream reference remains current or supported.
+Use the latest verified compatible version when the repository does not impose a different constraint, and explain any deliberate choice not to use the latest available release. A version already present in the workflow is evidence of repository state, not proof that the upstream reference remains current or supported.
+
+For a third-party action, select the workflow reference form separately from the upstream release. Follow an explicit repository policy or an established intentional convention for reference mutability and update behavior. Existing workflow references can provide evidence of a convention, but one incidental literal does not establish one.
+
+When neither the repository nor the task establishes that choice, consult [GitHub's current security guidance for third-party actions](https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions) and use the reference form it recommends as safest. Verify that the exact reference belongs to the action's official repository and resolves to the selected release. When the action has no usable release, establish and explain the supported official revision that replaces the release selection before choosing its reference. Keep a readable release identifier beside an opaque reference when that helps review and updates. Choose a mutable reference only when an explicit update requirement justifies its movement. The absence of a local policy is not itself a blocker; inability to verify the current guidance or exact reference is.
 
 ## Handle verification failure
 

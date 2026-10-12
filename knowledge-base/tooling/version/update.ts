@@ -2,7 +2,11 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { readFileAtRevision } from "./repository.ts";
+import {
+  knowledgeBaseManifestPath,
+  marketplacePath,
+  readKnowledgeBasePluginAtRevision,
+} from "./repository.ts";
 import {
   nextPluginVersion,
   readManifestVersion,
@@ -21,25 +25,34 @@ export async function updatePluginVersion({
   baseRevision,
   now = new Date(),
 }: UpdatePluginVersionOptions): Promise<string> {
-  const manifestPath = resolve(repository, "plugin.json");
-  const baseContent = readFileAtRevision(
+  const relativeManifestPath = knowledgeBaseManifestPath(
+    await readFile(resolve(repository, marketplacePath), "utf8"),
+  );
+  const manifestPath = resolve(repository, relativeManifestPath);
+  const basePlugin = readKnowledgeBasePluginAtRevision(
     repository,
     baseRevision,
-    "plugin.json",
   );
   const currentContent = await readFile(manifestPath, "utf8");
   const baseVersion = readManifestVersion(
-    baseContent,
-    `plugin.json at ${baseRevision}`,
+    basePlugin.content,
+    `${basePlugin.manifestPath} at ${baseRevision}`,
   );
-  const currentVersion = readManifestVersion(currentContent, "plugin.json");
+  const currentVersion = readManifestVersion(
+    currentContent,
+    relativeManifestPath,
+  );
   const releaseDate = releaseDateForTimestamp(now);
   const targetVersion = nextPluginVersion(baseVersion, releaseDate);
 
   if (currentVersion !== targetVersion) {
     await writeFile(
       manifestPath,
-      replaceManifestVersion(currentContent, "plugin.json", targetVersion),
+      replaceManifestVersion(
+        currentContent,
+        relativeManifestPath,
+        targetVersion,
+      ),
     );
   }
 

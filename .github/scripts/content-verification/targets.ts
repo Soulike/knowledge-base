@@ -44,7 +44,7 @@ function isSkillEntrypoint(filePath: string): boolean {
 }
 
 function sharedReferencePackage(filePath: string): boolean {
-  if (filePath.startsWith("references/")) {
+  if (filePath.startsWith("knowledge-base/plugin/references/")) {
     return true;
   }
   if (filePath.startsWith(".agents/references/")) {
@@ -61,6 +61,11 @@ function isAgentInstructions(filePath: string): boolean {
     filePath === "AGENTS.md" ||
     filePath.endsWith("/AGENTS.md") ||
     filePath === "GLOSSARY.md" ||
+    filePath === "GLOSSARY-MAP.md" ||
+    /^knowledge-base\/GLOSSARY(?:-MAP)?\.md$/u.test(filePath) ||
+    /^knowledge-base\/docs\/agents\/[^/]+\.md$/u.test(filePath) ||
+    /^plugins\/[^/]+\/GLOSSARY(?:-MAP)?\.md$/u.test(filePath) ||
+    /^plugins\/[^/]+\/docs\/agents\/[^/]+\.md$/u.test(filePath) ||
     /^docs\/agents\/[^/]+\.md$/u.test(filePath)
   );
 }
@@ -98,15 +103,16 @@ function knowledgeTargets(
   trackedPaths: string[],
   indexMarkdown: string,
 ): VerificationTarget[] {
+  const directory = "knowledge-base/plugin/knowledge";
   const leafFilePaths = trackedPaths
     .filter(
       (filePath) =>
-        filePath.startsWith("knowledge/") &&
+        filePath.startsWith(`${directory}/`) &&
         filePath.endsWith(".md") &&
-        filePath !== "knowledge/index.md" &&
+        filePath !== `${directory}/index.md` &&
         !filePath.endsWith("/index.md"),
     )
-    .map((filePath) => filePath.slice("knowledge/".length));
+    .map((filePath) => filePath.slice(directory.length + 1));
   let entries: KnowledgeIndexEntry[];
   try {
     entries = validateKnowledgeIndex(indexMarkdown, leafFilePaths);
@@ -122,7 +128,7 @@ function knowledgeTargets(
 
   return entries
     .map<VerificationTarget>((entry) => {
-      const filePath = `knowledge/${entry.filePath}`;
+      const filePath = `${directory}/${entry.filePath}`;
       return {
         files: [filePath],
         id: filePath,

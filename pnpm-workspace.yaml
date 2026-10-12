@@ -1,5 +1,7 @@
 packages:
   - ".github/scripts/*"
-  - "packages/*"
+  - "knowledge-base/packages/*"
+  - "knowledge-base/tooling/*"
+  - "plugins/*"
 
 minimumReleaseAge: 20160

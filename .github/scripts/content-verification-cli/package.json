@@ -1,0 +1,15 @@
+{
+  "name": "@knowledge-base/content-verification-cli",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Adapt GitHub Actions and gh-aw artifacts to the content-verification contract and publisher.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test *.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@knowledge-base/content-verification-contract": "workspace:*",
+    "@knowledge-base/content-verification-publication": "workspace:*"
+  }
+}

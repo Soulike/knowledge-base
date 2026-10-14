@@ -62,19 +62,27 @@ async function runIsolatedGate(items: unknown[]): Promise<void> {
     join(tmpdir(), "content-verification-findings-runtime-"),
   );
   try {
+    const cliDirectory = join(directory, "content-verification-cli");
+    const contractDirectory = join(directory, "content-verification-contract");
+    await Promise.all([mkdir(cliDirectory), mkdir(contractDirectory)]);
+    for (const file of ["artifacts.ts", "findings-gate-cli.ts"]) {
+      await copyFile(
+        new URL(`./${file}`, import.meta.url),
+        join(cliDirectory, file),
+      );
+    }
     for (const file of [
-      "artifacts.ts",
       "finding-events.ts",
-      "findings-gate-cli.ts",
       "manifest-validation.ts",
+      "result.ts",
       "scope.ts",
     ]) {
       await copyFile(
-        new URL(`./${file}`, import.meta.url),
-        join(directory, file),
+        new URL(`../content-verification-contract/${file}`, import.meta.url),
+        join(contractDirectory, file),
       );
     }
-    await runGate(items, join(directory, "findings-gate-cli.ts"));
+    await runGate(items, join(cliDirectory, "findings-gate-cli.ts"));
   } finally {
     await rm(directory, { force: true, recursive: true });
   }

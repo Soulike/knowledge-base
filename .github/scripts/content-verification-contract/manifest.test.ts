@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { buildVerificationManifest } from "./manifest.ts";
+import { createVerificationManifest } from "./manifest.ts";
 
 const catalog = `# Knowledge catalog
 
@@ -13,7 +13,7 @@ const catalog = `# Knowledge catalog
 | [knowledge/b.md](b.md) | evergreen | Read when checking B. |
 `;
 
-describe("buildVerificationManifest", () => {
+describe("createVerificationManifest", () => {
   it("derives stable manifests for every scheduled verification scope", () => {
     const revision = "a".repeat(40);
     const tracked = [
@@ -26,12 +26,12 @@ describe("buildVerificationManifest", () => {
     ];
 
     assert.deepEqual(
-      buildVerificationManifest(
-        "time-sensitive-knowledge",
+      createVerificationManifest({
+        scope: "time-sensitive-knowledge",
         revision,
-        tracked,
-        catalog,
-      ),
+        trackedPaths: tracked,
+        catalogMarkdown: catalog,
+      }),
       {
         revision,
         reviewTargetIds: ["knowledge-base/plugin/knowledge/a.md"],
@@ -62,12 +62,12 @@ describe("buildVerificationManifest", () => {
       },
     );
     assert.deepEqual(
-      buildVerificationManifest(
-        "evergreen-knowledge",
+      createVerificationManifest({
+        scope: "evergreen-knowledge",
         revision,
-        tracked,
-        catalog,
-      ),
+        trackedPaths: tracked,
+        catalogMarkdown: catalog,
+      }),
       {
         revision,
         reviewTargetIds: ["knowledge-base/plugin/knowledge/b.md"],
@@ -98,12 +98,12 @@ describe("buildVerificationManifest", () => {
       },
     );
     assert.deepEqual(
-      buildVerificationManifest(
-        "maintained-agent-content",
+      createVerificationManifest({
+        scope: "maintained-agent-content",
         revision,
-        tracked,
-        catalog,
-      ),
+        trackedPaths: tracked,
+        catalogMarkdown: catalog,
+      }),
       {
         revision,
         reviewTargetIds: [".agents/skills/check/SKILL.md", "AGENTS.md"],
@@ -138,16 +138,16 @@ describe("buildVerificationManifest", () => {
   it("rejects a mutable revision instead of publishing an ambiguous manifest", () => {
     assert.throws(
       () =>
-        buildVerificationManifest(
-          "time-sensitive-knowledge",
-          "main",
-          [
+        createVerificationManifest({
+          scope: "time-sensitive-knowledge",
+          revision: "main",
+          trackedPaths: [
             "knowledge-base/plugin/knowledge/index.md",
             "knowledge-base/plugin/knowledge/a.md",
             "knowledge-base/plugin/knowledge/b.md",
           ],
-          catalog,
-        ),
+          catalogMarkdown: catalog,
+        }),
       /lowercase 40-character Git SHA/u,
     );
   });

@@ -1,0 +1,17 @@
+{
+  "name": "@knowledge-base/content-verification-publication",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Convert authenticated content-verification findings into trusted GitHub issues.",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "test": "node --test *.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@knowledge-base/content-verification-contract": "workspace:*"
+  }
+}

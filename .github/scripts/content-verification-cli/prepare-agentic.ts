@@ -1,10 +1,11 @@
 import { execFile } from "node:child_process";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, isAbsolute, resolve } from "node:path";
 import { promisify } from "node:util";
 
-import { buildVerificationManifest } from "./manifest.ts";
-import { parseVerificationScope } from "./scope.ts";
+import { readKnowledgeBaseCatalog } from "../content-verification-contract/adapters/knowledge-base-targets.ts";
+import { createVerificationManifest } from "../content-verification-contract/manifest.ts";
+import { parseVerificationScope } from "../content-verification-contract/scope.ts";
 
 const executeFile = promisify(execFile);
 
@@ -31,22 +32,19 @@ const [{ stdout: revisionOutput }, { stdout: trackedOutput }, catalogMarkdown] =
       encoding: "buffer",
       maxBuffer: 10 * 1024 * 1024,
     }),
-    readFile(
-      join(workspace, "knowledge-base/plugin/knowledge/index.md"),
-      "utf8",
-    ),
+    readKnowledgeBaseCatalog(workspace),
   ]);
 
 const trackedPaths = trackedOutput
   .toString("utf8")
   .split("\0")
   .filter((filePath) => filePath.length > 0);
-const manifest = buildVerificationManifest(
+const manifest = createVerificationManifest({
   scope,
-  revisionOutput.trim(),
+  revision: revisionOutput.trim(),
   trackedPaths,
   catalogMarkdown,
-);
+});
 
 await mkdir(dirname(outputPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, {

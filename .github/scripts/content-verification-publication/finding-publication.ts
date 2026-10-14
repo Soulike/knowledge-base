@@ -1,9 +1,9 @@
 import type {
   FindingClassification,
   VerificationFinding,
-} from "./finding-events.ts";
-import type { VerificationManifest } from "./manifest.ts";
-import type { VerificationScope } from "./scope.ts";
+  VerificationManifest,
+  VerificationScope,
+} from "@knowledge-base/content-verification-contract";
 
 const WORKFLOW_IDS = {
   "evergreen-knowledge": "verify-evergreen-knowledge",

@@ -62,7 +62,7 @@ pre-agent-steps:
     env:
       CONTENT_VERIFICATION_SCOPE: time-sensitive-knowledge
       CONTENT_VERIFICATION_TARGET_MANIFEST: ${{ runner.temp }}/gh-aw/content-verification-targets.json
-    run: node .github/scripts/content-verification/prepare-agentic.ts
+    run: node .github/scripts/content-verification-cli/prepare-agentic.ts
 
 post-steps:
   - name: Upload trusted target manifest

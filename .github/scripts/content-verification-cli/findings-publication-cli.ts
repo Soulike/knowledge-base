@@ -1,9 +1,10 @@
 import { readContentVerificationArtifacts } from "./artifacts.ts";
-import { reduceFindingEvents } from "./finding-events.ts";
-import { publishVerificationFindings } from "./finding-publication.ts";
-import { GitHubIssueRepository } from "./github-issues.ts";
-import { parseVerificationManifest } from "./manifest-validation.ts";
-import { parseVerificationScope } from "./scope.ts";
+import { authenticateVerificationResult } from "../content-verification-contract/result.ts";
+import { parseVerificationScope } from "../content-verification-contract/scope.ts";
+import {
+  GitHubIssueRepository,
+  publishVerificationFindings,
+} from "../content-verification-publication/index.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();
@@ -28,12 +29,12 @@ const expectedScope = parseVerificationScope(
 const { manifestValue, outputValue } = await readContentVerificationArtifacts(
   required("CONTENT_VERIFICATION_ARTIFACT_DIRECTORY"),
 );
-const manifest = parseVerificationManifest(
+const { findings, manifest } = authenticateVerificationResult({
   manifestValue,
+  outputValue,
   expectedRevision,
   expectedScope,
-);
-const findings = reduceFindingEvents(manifest, outputValue);
+});
 const repositoryParts = required("GITHUB_REPOSITORY").split("/");
 if (
   repositoryParts.length !== 2 ||

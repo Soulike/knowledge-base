@@ -66,11 +66,26 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
-  .github/scripts/content-verification:
+  .github/scripts/content-verification-cli:
+    dependencies:
+      "@knowledge-base/content-verification-contract":
+        specifier: workspace:*
+        version: link:../content-verification-contract
+      "@knowledge-base/content-verification-publication":
+        specifier: workspace:*
+        version: link:../content-verification-publication
+
+  .github/scripts/content-verification-contract:
     dependencies:
       "@knowledge-base/knowledge-catalog-validation":
         specifier: workspace:*
         version: link:../../../knowledge-base/lib/knowledge-catalog-validation
+
+  .github/scripts/content-verification-publication:
+    dependencies:
+      "@knowledge-base/content-verification-contract":
+        specifier: workspace:*
+        version: link:../content-verification-contract
 
   .github/scripts/smoke-plugin-install: {}
 

@@ -2,8 +2,8 @@ import type { VerificationScope } from "./scope.ts";
 import {
   discoverVerificationTargetCatalog,
   selectVerificationTargets,
-  type VerificationTarget,
 } from "./targets.ts";
+import type { VerificationTarget } from "./types.ts";
 
 const SHA_PATTERN = /^[0-9a-f]{40}$/u;
 
@@ -14,12 +14,13 @@ export type VerificationManifest = {
   targetCatalog: VerificationTarget[];
 };
 
-export function buildVerificationManifest(
-  scope: VerificationScope,
-  revision: string,
-  trackedPaths: string[],
-  catalogMarkdown: string,
-): VerificationManifest {
+export function createVerificationManifest(input: {
+  catalogMarkdown: string;
+  revision: string;
+  scope: VerificationScope;
+  trackedPaths: readonly string[];
+}): VerificationManifest {
+  const { catalogMarkdown, revision, scope, trackedPaths } = input;
   if (!SHA_PATTERN.test(revision)) {
     throw new Error("Revision must be a lowercase 40-character Git SHA.");
   }

@@ -1,7 +1,6 @@
 import { readContentVerificationArtifacts } from "./artifacts.ts";
-import { reduceFindingEvents } from "./finding-events.ts";
-import { parseVerificationManifest } from "./manifest-validation.ts";
-import { parseVerificationScope } from "./scope.ts";
+import { authenticateVerificationResult } from "../content-verification-contract/result.ts";
+import { parseVerificationScope } from "../content-verification-contract/scope.ts";
 
 function required(name: string): string {
   const value = process.env[name]?.trim();
@@ -24,12 +23,12 @@ const expectedScope = parseVerificationScope(
 const { manifestValue, outputValue } = await readContentVerificationArtifacts(
   required("CONTENT_VERIFICATION_ARTIFACT_DIRECTORY"),
 );
-const manifest = parseVerificationManifest(
+const { findings } = authenticateVerificationResult({
   manifestValue,
+  outputValue,
   expectedRevision,
   expectedScope,
-);
-const findings = reduceFindingEvents(manifest, outputValue);
+});
 process.stdout.write(
   `Content verification findings passed the gate: ${String(findings.length)} finding(s).\n`,
 );

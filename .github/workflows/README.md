@@ -85,7 +85,7 @@ Repository content under review, issue and pull-request text, and external pages
 
 ## Scheduled content verification
 
-Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge catalog](../../knowledge-base/plugin/knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
+Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge catalog](../../knowledge-base/plugin/knowledge/index.md), and the checked-out revision. The [content-verification contract](../scripts/content-verification-contract/targets.ts) owns target discovery and result authentication. Its internal adapters distinguish primary-product Knowledge from repository-wide maintained Agent content.
 
 Task-specific sources own what to analyze. All three import the
 [shared content-verification contract](shared/content-verification.md).
@@ -124,14 +124,19 @@ active findings, any output after `noop`, or an empty stream without a
 completion declaration fails validation. These results do not claim
 mechanically proven per-target coverage.
 
-The [finding reducer](../scripts/content-verification/finding-events.ts)
+The [finding reducer](../scripts/content-verification-contract/finding-events.ts)
 validates that append-only stream after Agent completion. The
-[trusted finding publisher](../scripts/content-verification/finding-publication.ts)
+[trusted finding publisher](../scripts/content-verification-publication/finding-publication.ts)
 runs only after Agent success, the canonical gate, and threat detection. It
 constructs all issue identity and boilerplate, publishes one issue per remaining
 finding, and suppresses only an exact open publication race. Run-local finding
 IDs coordinate add, update, and delete calls but are not durable publication
 identity. The Agent has no issue-write credential.
+
+The [content-verification CLI adapters](../scripts/content-verification-cli/findings-gate-cli.ts)
+translate GitHub Actions environment variables and gh-aw artifacts into the
+contract and publication interfaces. The gate and publisher remain runnable
+from a checkout without installing workspace dependencies.
 
 The pinned gh-aw runtime uploads the same Agent output in a dedicated fallback
 artifact and its broader Agent artifact. The gate keeps those artifacts

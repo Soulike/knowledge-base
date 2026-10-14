@@ -1,6 +1,6 @@
 import type { VerificationManifest } from "./manifest.ts";
 import type { VerificationScope } from "./scope.ts";
-import type { VerificationTarget } from "./targets.ts";
+import type { VerificationTarget } from "./types.ts";
 
 type JsonObject = Record<string, unknown>;
 

@@ -1,0 +1,57 @@
+import { execFile } from "node:child_process";
+import { mkdir, writeFile } from "node:fs/promises";
+import { dirname, isAbsolute, resolve } from "node:path";
+import { promisify } from "node:util";
+
+import { readKnowledgeBaseCatalog } from "../content-verification-contract/adapters/knowledge-base-targets.ts";
+import { createVerificationManifest } from "../content-verification-contract/manifest.ts";
+import { parseVerificationScope } from "../content-verification-contract/scope.ts";
+
+const executeFile = promisify(execFile);
+
+function required(name: string): string {
+  const value = process.env[name]?.trim();
+  if (!value) {
+    throw new Error(`${name} is required.`);
+  }
+  return value;
+}
+
+const workspace = resolve(required("GITHUB_WORKSPACE"));
+const outputPath = required("CONTENT_VERIFICATION_TARGET_MANIFEST");
+const scope = parseVerificationScope(required("CONTENT_VERIFICATION_SCOPE"));
+if (!isAbsolute(outputPath)) {
+  throw new Error("CONTENT_VERIFICATION_TARGET_MANIFEST must be absolute.");
+}
+
+const [{ stdout: revisionOutput }, { stdout: trackedOutput }, catalogMarkdown] =
+  await Promise.all([
+    executeFile("git", ["rev-parse", "HEAD"], { cwd: workspace }),
+    executeFile("git", ["ls-files", "-z"], {
+      cwd: workspace,
+      encoding: "buffer",
+      maxBuffer: 10 * 1024 * 1024,
+    }),
+    readKnowledgeBaseCatalog(workspace),
+  ]);
+
+const trackedPaths = trackedOutput
+  .toString("utf8")
+  .split("\0")
+  .filter((filePath) => filePath.length > 0);
+const manifest = createVerificationManifest({
+  scope,
+  revision: revisionOutput.trim(),
+  trackedPaths,
+  catalogMarkdown,
+});
+
+await mkdir(dirname(outputPath), { recursive: true });
+await writeFile(outputPath, `${JSON.stringify(manifest, null, 2)}\n`, {
+  encoding: "utf8",
+  flag: "wx",
+  mode: 0o600,
+});
+process.stdout.write(
+  `Prepared ${String(manifest.reviewTargetIds.length)} review targets from a ${String(manifest.targetCatalog.length)}-target catalog at ${outputPath}.\n`,
+);

@@ -14,7 +14,7 @@ records the current findings architecture and supersedes
 [ADR 0002](../../docs/adr/0002-resolve-inconclusive-content-verification-through-trusted-issues.md)
 without rewriting that record's historical context. The general state and trust
 invariants are maintained as
-[Agent run-state Knowledge](../../knowledge/github-actions/agent-run-state-and-reruns.md).
+[Agent run-state Knowledge](../../knowledge-base/plugin/knowledge/github-actions/agent-run-state-and-reruns.md).
 [ADR 0004](../../docs/adr/0004-delegate-pull-request-review.md) records the
 pull-request review delegation and consumer boundary.
 
@@ -22,8 +22,8 @@ pull-request review delegation and consumer boundary.
 
 | Task                     | Trigger and subject                                                              | Maintained configuration                                                                            |
 | ------------------------ | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Time-sensitive Knowledge | Monthly, every Knowledge leaf indexed as `time-sensitive`                        | [Source](verify-time-sensitive-knowledge.md), [generated](verify-time-sensitive-knowledge.lock.yml) |
-| Evergreen Knowledge      | Quarterly, every Knowledge leaf indexed as `evergreen`                           | [Source](verify-evergreen-knowledge.md), [generated](verify-evergreen-knowledge.lock.yml)           |
+| Time-sensitive Knowledge | Monthly, every Knowledge leaf listed as `time-sensitive`                         | [Source](verify-time-sensitive-knowledge.md), [generated](verify-time-sensitive-knowledge.lock.yml) |
+| Evergreen Knowledge      | Quarterly, every Knowledge leaf listed as `evergreen`                            | [Source](verify-evergreen-knowledge.md), [generated](verify-evergreen-knowledge.lock.yml)           |
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
 | AI review                | Ready pull requests and later pushes                                             | [Caller](ai-review.yml), [repository criteria](../scripts/ai-review/prompts/review.md)              |
 
@@ -85,12 +85,14 @@ Repository content under review, issue and pull-request text, and external pages
 
 ## Scheduled content verification
 
-Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge index](../../knowledge/index.md), and the checked-out revision. Target discovery is implemented in [the content-verification scripts](../scripts/content-verification/targets.ts).
+Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge catalog](../../knowledge-base/plugin/knowledge/index.md), and the checked-out revision. The [content-verification contract](../scripts/content-verification-contract/targets.ts) owns target discovery and result authentication. Its internal adapters distinguish primary-product Knowledge from repository-wide maintained Agent content.
 
 Task-specific sources own what to analyze. All three import the
 [shared content-verification contract](shared/content-verification.md).
 
-A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root `GLOSSARY.md`, and file under `docs/agents/` is an instruction target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid index, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
+A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked files below the same directory. Package-level references and `.github/workflows/shared/*.md` components are independent shared-reference targets. Each otherwise unowned `AGENTS.md`, root or plugin `GLOSSARY.md` and
+`GLOSSARY-MAP.md`, and file under root or plugin `docs/agents/` is an instruction
+target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid catalog, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
 
 The three tasks apply different review standards:
 
@@ -122,14 +124,19 @@ active findings, any output after `noop`, or an empty stream without a
 completion declaration fails validation. These results do not claim
 mechanically proven per-target coverage.
 
-The [finding reducer](../scripts/content-verification/finding-events.ts)
+The [finding reducer](../scripts/content-verification-contract/finding-events.ts)
 validates that append-only stream after Agent completion. The
-[trusted finding publisher](../scripts/content-verification/finding-publication.ts)
+[trusted finding publisher](../scripts/content-verification-publication/finding-publication.ts)
 runs only after Agent success, the canonical gate, and threat detection. It
 constructs all issue identity and boilerplate, publishes one issue per remaining
 finding, and suppresses only an exact open publication race. Run-local finding
 IDs coordinate add, update, and delete calls but are not durable publication
 identity. The Agent has no issue-write credential.
+
+The [content-verification CLI adapters](../scripts/content-verification-cli/findings-gate-cli.ts)
+translate GitHub Actions environment variables and gh-aw artifacts into the
+contract and publication interfaces. The gate and publisher remain runnable
+from a checkout without installing workspace dependencies.
 
 The pinned gh-aw runtime uploads the same Agent output in a dedicated fallback
 artifact and its broader Agent artifact. The gate keeps those artifacts

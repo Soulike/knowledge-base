@@ -1,0 +1,20 @@
+{
+  "name": "@knowledge-base/content-verification-contract",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Authenticate content-verification subjects and Agent findings against the repository task contract.",
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./manifest": "./manifest.ts",
+    "./result": "./result.ts",
+    "./scope": "./scope.ts"
+  },
+  "scripts": {
+    "test": "node --test *.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@knowledge-base/knowledge-catalog-validation": "workspace:*"
+  }
+}

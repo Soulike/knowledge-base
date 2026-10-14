@@ -50,22 +50,6 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
-  .github/scripts/check-knowledge-format:
-    dependencies:
-      "@knowledge-base/knowledge-index":
-        specifier: workspace:*
-        version: link:../../../packages/knowledge-index
-      mdast-util-from-markdown:
-        specifier: ^2.0.3
-        version: 2.0.3(supports-color@9.0.0)
-      mdast-util-to-string:
-        specifier: ^4.0.0
-        version: 4.0.0
-    devDependencies:
-      "@types/mdast":
-        specifier: ^4.0.4
-        version: 4.0.4
-
   .github/scripts/check-prompt-links:
     dependencies:
       github-slugger:
@@ -82,17 +66,30 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
-  .github/scripts/content-verification:
+  .github/scripts/content-verification-cli:
     dependencies:
-      "@knowledge-base/knowledge-index":
+      "@knowledge-base/content-verification-contract":
         specifier: workspace:*
-        version: link:../../../packages/knowledge-index
+        version: link:../content-verification-contract
+      "@knowledge-base/content-verification-publication":
+        specifier: workspace:*
+        version: link:../content-verification-publication
 
-  .github/scripts/plugin-version: {}
+  .github/scripts/content-verification-contract:
+    dependencies:
+      "@knowledge-base/knowledge-catalog-validation":
+        specifier: workspace:*
+        version: link:../../../knowledge-base/lib/knowledge-catalog-validation
+
+  .github/scripts/content-verification-publication:
+    dependencies:
+      "@knowledge-base/content-verification-contract":
+        specifier: workspace:*
+        version: link:../content-verification-contract
 
   .github/scripts/smoke-plugin-install: {}
 
-  packages/knowledge-index:
+  knowledge-base/lib/knowledge-catalog-validation:
     dependencies:
       mdast-util-from-markdown:
         specifier: ^2.0.3
@@ -110,6 +107,24 @@ importers:
       "@types/mdast":
         specifier: ^4.0.4
         version: 4.0.4
+
+  knowledge-base/tools/check-knowledge-format:
+    dependencies:
+      "@knowledge-base/knowledge-catalog-validation":
+        specifier: workspace:*
+        version: link:../../lib/knowledge-catalog-validation
+      mdast-util-from-markdown:
+        specifier: ^2.0.3
+        version: 2.0.3(supports-color@9.0.0)
+      mdast-util-to-string:
+        specifier: ^4.0.0
+        version: 4.0.0
+    devDependencies:
+      "@types/mdast":
+        specifier: ^4.0.4
+        version: 4.0.4
+
+  knowledge-base/tools/version: {}
 
 packages:
   "@babel/code-frame@7.29.7":

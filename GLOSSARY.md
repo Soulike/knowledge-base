@@ -1,4 +1,4 @@
-# Domain context
+# Repository maintenance
 
 ## Glossary
 

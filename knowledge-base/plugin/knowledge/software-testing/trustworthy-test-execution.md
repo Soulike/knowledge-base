@@ -104,9 +104,9 @@ old path's protection. Apply
 completion paths separate coverage dispositions, retaining each only when it
 catches a distinct live fault.
 
-Synchronize a retained path on evidence specific to that path. When its elapsed
-duration is contractual and its timer can be controlled safely, advance a
-controlled clock and observe the state immediately before and at the boundary;
+Synchronize a retained path on evidence specific to that path. When a timer's
+logical threshold is contractual and its clock can be controlled safely,
+advance that clock and observe the state immediately before and at the boundary;
 use a path-specific temporary mutation when the protected branch remains
 ambiguous. For example, an eventual-removal test
 in a harness that never emits `animationend` can be exercising a 400 ms timeout
@@ -122,11 +122,14 @@ other barrier proving that an incorrect event would already have occurred.
 
 ### Choose time control for the protected contract
 
-Distinguish a contractual duration, an operation's timeout completion path,
-and a diagnostic deadline that bounds test execution. If elapsed duration is
-part of the protected contract, retain evidence for that interval and boundary.
-When only the timeout path is protected, the production duration can instead be
-operational policy; exercising that path need not pay the default interval.
+Distinguish a contractual timer threshold or elapsed duration, an operation's
+timeout completion path, and a diagnostic deadline that bounds test execution.
+A logical timer threshold can be protected with controlled time. An actual
+elapsed-time or performance guarantee needs measurement from the observed
+trigger with a real monotonic clock and the relevant production work; advancing
+simulated time cannot establish it. When only the timeout path is protected,
+the production duration can instead be operational policy; exercising that
+path need not pay the default interval.
 
 Use a controlled clock when it can safely drive the relevant production timer.
 Flush asynchronous work between clock steps, and establish the real I/O phase

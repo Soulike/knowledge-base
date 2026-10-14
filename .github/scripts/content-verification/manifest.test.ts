@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 
 import { buildVerificationManifest } from "./manifest.ts";
 
-const index = `# Knowledge index
+const catalog = `# Knowledge catalog
 
 ## Documents
 
@@ -30,7 +30,7 @@ describe("buildVerificationManifest", () => {
         "time-sensitive-knowledge",
         revision,
         tracked,
-        index,
+        catalog,
       ),
       {
         revision,
@@ -66,7 +66,7 @@ describe("buildVerificationManifest", () => {
         "evergreen-knowledge",
         revision,
         tracked,
-        index,
+        catalog,
       ),
       {
         revision,
@@ -102,7 +102,7 @@ describe("buildVerificationManifest", () => {
         "maintained-agent-content",
         revision,
         tracked,
-        index,
+        catalog,
       ),
       {
         revision,
@@ -146,7 +146,7 @@ describe("buildVerificationManifest", () => {
             "knowledge-base/plugin/knowledge/a.md",
             "knowledge-base/plugin/knowledge/b.md",
           ],
-          index,
+          catalog,
         ),
       /lowercase 40-character Git SHA/u,
     );

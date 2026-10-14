@@ -23,7 +23,7 @@ to apply matching prompt guidance. If the user has not chosen a target or does
 not want target-specific adaptation, recommend continuing with a portable
 prompt and do not select a model for them.
 
-Carry an established target into the root Knowledge index's `When to Read`
+Carry an established target into the Knowledge catalog's `When to Read`
 evaluation. Apply target-specific Knowledge only when its stated conditions
 match the known target and image. A product surface that may route among
 several models supports only surface-level conclusions unless the exact model

@@ -18,14 +18,14 @@ export function buildVerificationManifest(
   scope: VerificationScope,
   revision: string,
   trackedPaths: string[],
-  indexMarkdown: string,
+  catalogMarkdown: string,
 ): VerificationManifest {
   if (!SHA_PATTERN.test(revision)) {
     throw new Error("Revision must be a lowercase 40-character Git SHA.");
   }
   const targets = discoverVerificationTargetCatalog(
     trackedPaths,
-    indexMarkdown,
+    catalogMarkdown,
   );
   return {
     revision,

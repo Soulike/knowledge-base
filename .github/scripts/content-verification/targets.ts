@@ -1,11 +1,11 @@
 import { posix } from "node:path";
 
 import {
-  KnowledgeIndexError,
-  type KnowledgeIndexEntry,
+  KnowledgeCatalogValidationError,
+  type KnowledgeCatalogEntry,
   type KnowledgeType,
-  validateKnowledgeIndex,
-} from "@knowledge-base/knowledge-index";
+  validateKnowledgeCatalog,
+} from "@knowledge-base/knowledge-catalog-validation";
 import type { VerificationScope } from "./scope.ts";
 
 type MaintainedAgentContentTarget = {
@@ -101,7 +101,7 @@ function normalizedTrackedPaths(trackedPaths: string[]): string[] {
 
 function knowledgeTargets(
   trackedPaths: string[],
-  indexMarkdown: string,
+  catalogMarkdown: string,
 ): VerificationTarget[] {
   const directory = "knowledge-base/plugin/knowledge";
   const leafFilePaths = trackedPaths
@@ -113,15 +113,15 @@ function knowledgeTargets(
         !filePath.endsWith("/index.md"),
     )
     .map((filePath) => filePath.slice(directory.length + 1));
-  let entries: KnowledgeIndexEntry[];
+  let entries: KnowledgeCatalogEntry[];
   try {
-    entries = validateKnowledgeIndex(indexMarkdown, leafFilePaths);
+    entries = validateKnowledgeCatalog(catalogMarkdown, leafFilePaths);
   } catch (error) {
-    if (!(error instanceof KnowledgeIndexError)) {
+    if (!(error instanceof KnowledgeCatalogValidationError)) {
       throw error;
     }
     throw new Error(
-      `Cannot select Knowledge from an invalid index:\n${error.diagnostics.join("\n")}`,
+      `Cannot select Knowledge from an invalid catalog:\n${error.diagnostics.join("\n")}`,
       { cause: error },
     );
   }
@@ -198,11 +198,11 @@ function agentContentTargets(trackedPaths: string[]): VerificationTarget[] {
 export function discoverVerificationTargets(
   scope: VerificationScope,
   trackedPaths: string[],
-  indexMarkdown: string,
+  catalogMarkdown: string,
 ): VerificationTarget[] {
   return selectVerificationTargets(
     scope,
-    discoverVerificationTargetCatalog(trackedPaths, indexMarkdown),
+    discoverVerificationTargetCatalog(trackedPaths, catalogMarkdown),
   );
 }
 
@@ -226,11 +226,11 @@ export function selectVerificationTargets(
 
 export function discoverVerificationTargetCatalog(
   trackedPaths: string[],
-  indexMarkdown: string,
+  catalogMarkdown: string,
 ): VerificationTarget[] {
   const paths = normalizedTrackedPaths(trackedPaths);
   const targets = [
-    ...knowledgeTargets(paths, indexMarkdown),
+    ...knowledgeTargets(paths, catalogMarkdown),
     ...agentContentTargets(paths),
   ].sort((left, right) => left.id.localeCompare(right.id));
 

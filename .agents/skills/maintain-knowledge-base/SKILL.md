@@ -31,8 +31,9 @@ of the change effect, but do not authorize changes to independent behavior.
    then identify every distinct part's intended consumers, maintenance
    lifecycle, and retrieval source. Apply its retrieval-origin,
    workflow-removal, routing-order, and lifecycle tests. A Knowledge candidate
-   must support a root-index `When to Read` condition that is observable from an
-   installed-plugin task, subject, or artifact before any workflow is selected.
+   must support a `When to Read` condition in the Knowledge catalog that is
+   observable from an installed-plugin task, subject, or artifact before any
+   workflow is selected.
 4. Classify every new, changed, moved, or removed affected responsibility unit
    as Knowledge, Skill, Skill reference, mixed, or another repository-owned
    artifact using that model. Keep explanation selected only by a workflow step
@@ -138,14 +139,14 @@ timing, consumers, and maintenance lifecycles rather than edit history, while
 remaining no more complex than the required behavior and explanation demand.
 
 Every new artifact must own a responsibility that no existing artifact owns.
-The root Knowledge index and all references must resolve, every user-facing
+The Knowledge catalog and all references must resolve, every user-facing
 part must preserve downstream-project independence, and every Knowledge part
 must have an independent installed-use reading responsibility that survives
 removal of every consuming Skill, precedes workflow selection, and has a valid
 Knowledge Type. Each Knowledge leaf must serve that responsibility without
-requiring another leaf as a prerequisite, and the root index must remain the
-only Knowledge routing catalog. Every Skill reference must be selected only by
-its consuming workflow steps and live at the smallest common package boundary.
+requiring another leaf as a prerequisite, and the Knowledge catalog must remain
+the only Knowledge routing catalog. Every Skill reference must be selected only
+by its consuming workflow steps and live at the smallest common package boundary.
 The resulting diff must preserve the Knowledge-versus-workflow boundary and
 must not change an independent responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its

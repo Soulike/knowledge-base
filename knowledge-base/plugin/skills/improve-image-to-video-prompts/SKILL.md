@@ -79,7 +79,7 @@ camera behavior into text; do not package it as a target-model input.
 
 ## Critique and diagnose the attempt
 
-Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
+Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
 condition to the intended shot and available artifacts, and read only the
 matching Knowledge documents. Treat them as supplemental guidance; follow
 instructions, Skills, requirements, project-specific information, and

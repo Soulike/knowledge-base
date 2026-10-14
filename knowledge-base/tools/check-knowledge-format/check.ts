@@ -3,9 +3,9 @@ import { basename, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  KnowledgeIndexError,
-  validateKnowledgeIndex,
-} from "@knowledge-base/knowledge-index";
+  KnowledgeCatalogValidationError,
+  validateKnowledgeCatalog,
+} from "@knowledge-base/knowledge-catalog-validation";
 import { validateKnowledgeDocument } from "./validate.ts";
 
 export interface KnowledgeFormatDiagnostic {
@@ -50,7 +50,7 @@ export async function checkKnowledgeDirectory(
   const relativeMarkdownFiles = markdownFiles.map((filePath) =>
     toPortablePath(relative(knowledgeDirectory, filePath)),
   );
-  let indexMarkdown: string | undefined;
+  let catalogMarkdown: string | undefined;
 
   for (const [index, filePath] of markdownFiles.entries()) {
     const markdown = await readFile(filePath, "utf8");
@@ -65,7 +65,7 @@ export async function checkKnowledgeDirectory(
     );
 
     if (relativeFilePath === "index.md") {
-      indexMarkdown = markdown;
+      catalogMarkdown = markdown;
     }
 
     if (
@@ -75,7 +75,7 @@ export async function checkKnowledgeDirectory(
       diagnostics.push({
         filePath: displayPath,
         message:
-          "Nested knowledge indexes are not allowed; list leaf documents directly in 'knowledge/index.md'.",
+          "Nested Knowledge catalogs are not allowed; list leaf documents directly in 'knowledge/index.md'.",
       });
     }
 
@@ -84,27 +84,27 @@ export async function checkKnowledgeDirectory(
     }
   }
 
-  const indexDisplayPath = toPortablePath(
+  const catalogDisplayPath = toPortablePath(
     join(basename(knowledgeDirectory), "index.md"),
   );
 
-  if (indexMarkdown === undefined) {
+  if (catalogMarkdown === undefined) {
     diagnostics.push({
-      filePath: indexDisplayPath,
-      message: "The root Knowledge index is required.",
+      filePath: catalogDisplayPath,
+      message: "The Knowledge catalog is required.",
     });
   } else {
     const leafFilePaths = relativeMarkdownFiles.filter(
       (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
     );
     try {
-      validateKnowledgeIndex(indexMarkdown, leafFilePaths);
+      validateKnowledgeCatalog(catalogMarkdown, leafFilePaths);
     } catch (error) {
-      if (!(error instanceof KnowledgeIndexError)) {
+      if (!(error instanceof KnowledgeCatalogValidationError)) {
         throw error;
       }
       for (const message of error.diagnostics) {
-        diagnostics.push({ filePath: indexDisplayPath, message });
+        diagnostics.push({ filePath: catalogDisplayPath, message });
       }
     }
   }

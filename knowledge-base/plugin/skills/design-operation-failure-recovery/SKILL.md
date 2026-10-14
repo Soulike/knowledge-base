@@ -10,7 +10,7 @@ review. Resolve bundled paths relative to this `SKILL.md`. Follow instructions,
 requirements, and project-specific contracts in the active working directory;
 use packaged Knowledge as supplemental guidance.
 
-1. Read the [Knowledge index](../../knowledge/index.md) and its matching leaves.
+1. Read the [Knowledge catalog](../../knowledge/index.md) and its matching leaves.
    For this workflow, read [Failure and recovery in externally observable
    operations](../../knowledge/software-design/operation-failure-and-recovery.md),
    [User-facing failure

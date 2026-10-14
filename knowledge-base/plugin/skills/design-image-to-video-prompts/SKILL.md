@@ -59,7 +59,7 @@ before final shot design and prompt construction.
 
 ## Research the shot
 
-Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
+Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
 condition to the current task, and read only the matching Knowledge documents.
 Treat them as supplemental guidance; follow instructions, Skills, requirements,
 project-specific information, and documentation standards from the Agent's

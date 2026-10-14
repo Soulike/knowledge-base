@@ -4,12 +4,12 @@ import { toString } from "mdast-util-to-string";
 import { gfmTable } from "micromark-extension-gfm-table";
 import type { Heading, Link, RootContent, Table, TableCell } from "mdast";
 
-import type { KnowledgeIndexEntry, KnowledgeType } from "./types.ts";
+import type { KnowledgeCatalogEntry, KnowledgeType } from "./types.ts";
 
-export interface ParsedKnowledgeIndex {
+export interface ParsedKnowledgeCatalog {
   diagnostics: string[];
-  entries: KnowledgeIndexEntry[];
-  indexedFilePaths: string[] | null;
+  entries: KnowledgeCatalogEntry[];
+  listedFilePaths: string[] | null;
 }
 
 const expectedColumns = [
@@ -49,11 +49,13 @@ function isKnowledgeType(value: string): value is KnowledgeType {
   return knowledgeTypes.some((knowledgeType) => knowledgeType === value);
 }
 
-function structuralFailure(diagnostic: string): ParsedKnowledgeIndex {
-  return { diagnostics: [diagnostic], entries: [], indexedFilePaths: null };
+function structuralFailure(diagnostic: string): ParsedKnowledgeCatalog {
+  return { diagnostics: [diagnostic], entries: [], listedFilePaths: null };
 }
 
-export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
+export function parseKnowledgeCatalog(
+  markdown: string,
+): ParsedKnowledgeCatalog {
   const document = fromMarkdown(markdown, {
     extensions: [gfmTable()],
     mdastExtensions: [gfmTableFromMarkdown()],
@@ -64,7 +66,7 @@ export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
 
   if (documentsHeadingIndex === -1) {
     return structuralFailure(
-      "The index must contain a '## Documents' section.",
+      "The catalog must contain a '## Documents' section.",
     );
   }
 
@@ -90,8 +92,8 @@ export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
   }
 
   const diagnostics: string[] = [];
-  const entries: KnowledgeIndexEntry[] = [];
-  const indexedFilePaths: string[] = [];
+  const entries: KnowledgeCatalogEntry[] = [];
+  const listedFilePaths: string[] = [];
 
   for (const row of table.children.slice(1)) {
     const cells = row.children;
@@ -138,7 +140,7 @@ export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
       continue;
     }
 
-    indexedFilePaths.push(targetPath);
+    listedFilePaths.push(targetPath);
 
     const knowledgeType = toString(knowledgeTypeCell);
 
@@ -168,5 +170,5 @@ export function parseKnowledgeIndex(markdown: string): ParsedKnowledgeIndex {
     entries.push({ filePath: targetPath, knowledgeType, whenToRead });
   }
 
-  return { diagnostics, entries, indexedFilePaths };
+  return { diagnostics, entries, listedFilePaths };
 }

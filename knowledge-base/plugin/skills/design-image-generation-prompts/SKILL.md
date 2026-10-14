@@ -44,7 +44,7 @@ the user to reconfirm a decision merely because another process collected it.
 
 Read
 [Establish the prompt execution target](../../references/generative-media/prompt-execution-target.md)
-and complete it before evaluating the Knowledge index. Use an already selected
+and complete it before evaluating the Knowledge catalog. Use an already selected
 target only to route matching Knowledge and portable prompt mitigations; do not
 choose or configure an image model as part of this workflow.
 
@@ -58,7 +58,7 @@ image model will receive it.
 
 ## Research the image
 
-Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
+Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
 condition to the current task, and read only the matching Knowledge documents.
 Treat them as supplemental guidance; follow instructions, requirements,
 Skills, and project-specific information from the Agent's active working

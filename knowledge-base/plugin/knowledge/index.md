@@ -1,12 +1,12 @@
-# Knowledge index
+# Knowledge catalog
 
 ## Scope
 
-This index is the only routing catalog for Knowledge stored in the primary `knowledge-base` plugin and lists every leaf document directly with its Knowledge Type and reading trigger; subdirectories organize files by domain, while detailed subject matter belongs in the linked documents rather than here.
+This catalog is the only routing catalog for Knowledge stored in the primary `knowledge-base` plugin and lists every leaf document directly with its Knowledge Type and reading trigger; subdirectories organize files by domain, while detailed subject matter belongs in the linked documents rather than here.
 
 ## When to update
 
-Update this index when a leaf Knowledge document is added, removed, renamed, or assigned a different canonical responsibility, Knowledge Type, or `When to Read` condition.
+Update this catalog when a leaf Knowledge document is added, removed, renamed, or assigned a different canonical responsibility, Knowledge Type, or `When to Read` condition.
 
 ## Documents
 

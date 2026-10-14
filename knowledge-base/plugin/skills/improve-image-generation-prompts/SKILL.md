@@ -64,13 +64,13 @@ next handoff.
 
 Read
 [Establish the prompt execution target](../../references/generative-media/prompt-execution-target.md)
-and complete it before evaluating the Knowledge index. Use an established
+and complete it before evaluating the Knowledge catalog. Use an established
 target as evidence for matching Knowledge and bounded execution diagnosis; do
 not choose or configure an image model as part of this workflow.
 
 ## Critique and diagnose the attempt
 
-Read the [Knowledge index](../../knowledge/index.md), apply every `When to Read`
+Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
 condition to the intended image and available attempt artifacts, and read only
 the matching Knowledge documents. Treat them as supplemental guidance; follow
 instructions, requirements, Skills, and project-specific information from the

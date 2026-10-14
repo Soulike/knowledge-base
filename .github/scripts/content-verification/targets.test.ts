@@ -3,7 +3,7 @@ import { describe, it } from "node:test";
 
 import { discoverVerificationTargets } from "./targets.ts";
 
-const index = `# Knowledge index
+const catalog = `# Knowledge catalog
 
 ## Documents
 
@@ -14,7 +14,7 @@ const index = `# Knowledge index
 `;
 
 describe("discoverVerificationTargets", () => {
-  it("selects Knowledge through the parsed index type", () => {
+  it("selects Knowledge through the validated catalog type", () => {
     const tracked = [
       "knowledge-base/plugin/knowledge/index.md",
       "knowledge-base/plugin/knowledge/a.md",
@@ -22,7 +22,7 @@ describe("discoverVerificationTargets", () => {
     ];
 
     assert.deepEqual(
-      discoverVerificationTargets("time-sensitive-knowledge", tracked, index),
+      discoverVerificationTargets("time-sensitive-knowledge", tracked, catalog),
       [
         {
           files: ["knowledge-base/plugin/knowledge/a.md"],
@@ -33,7 +33,7 @@ describe("discoverVerificationTargets", () => {
       ],
     );
     assert.deepEqual(
-      discoverVerificationTargets("evergreen-knowledge", tracked, index),
+      discoverVerificationTargets("evergreen-knowledge", tracked, catalog),
       [
         {
           files: ["knowledge-base/plugin/knowledge/b.md"],
@@ -70,7 +70,7 @@ describe("discoverVerificationTargets", () => {
     ];
 
     assert.deepEqual(
-      discoverVerificationTargets("maintained-agent-content", tracked, index),
+      discoverVerificationTargets("maintained-agent-content", tracked, catalog),
       [
         {
           files: [".agents/references/authoring.md"],
@@ -150,7 +150,7 @@ describe("discoverVerificationTargets", () => {
     );
   });
 
-  it("fails when the parsed index and tracked Knowledge differ", () => {
+  it("fails when the validated catalog and tracked Knowledge differ", () => {
     assert.throws(
       () =>
         discoverVerificationTargets(
@@ -160,12 +160,12 @@ describe("discoverVerificationTargets", () => {
             "knowledge-base/plugin/knowledge/a.md",
             "knowledge-base/plugin/knowledge/c.md",
           ],
-          index,
+          catalog,
         ),
       new Error(
-        "Cannot select Knowledge from an invalid index:\n" +
-          "The index lists 'knowledge/b.md', but that leaf document does not exist.\n" +
-          "Knowledge leaf 'knowledge/c.md' must be listed exactly once in the index.",
+        "Cannot select Knowledge from an invalid catalog:\n" +
+          "The catalog lists 'knowledge/b.md', but that leaf document does not exist.\n" +
+          "Knowledge leaf 'knowledge/c.md' must be listed exactly once in the catalog.",
       ),
     );
   });
@@ -185,7 +185,7 @@ describe("discoverVerificationTargets", () => {
         "knowledge-base/plugin/knowledge/a.md",
         "knowledge-base/plugin/knowledge/b.md",
       ],
-      index,
+      catalog,
     );
     assert.deepEqual(
       targets,

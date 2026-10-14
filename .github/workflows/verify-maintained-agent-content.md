@@ -81,7 +81,7 @@ At the exact revision named by
 `reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
 this manifest read-only inside the Agent sandbox. It was derived
 deterministically from tracked files and the parsed
-[Knowledge index](knowledge-base/plugin/knowledge/index.md); the selected ids are the complete
+[Knowledge catalog](knowledge-base/plugin/knowledge/index.md); the selected ids are the complete
 required scope. A selected target is one Skill bundle, shared reference, Agent
 instruction, Agentic workflow source, or repository-owned prompt bundle.
 Preserve every exact selected target `id` in notes and safe outputs.

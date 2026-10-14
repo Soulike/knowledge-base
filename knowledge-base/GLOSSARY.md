@@ -9,6 +9,11 @@ workflows that select and apply it.
 Understanding with a concrete reading reason arising from the task or subject,
 independent of any consuming workflow.
 
+**Knowledge catalog**:
+The canonical routing table at
+[knowledge/index.md](plugin/knowledge/index.md) that lists every Knowledge leaf
+with its Knowledge Type and task-facing `When to Read` condition.
+
 **Skill**:
 An Agent workflow that owns the decisions, steps, and completion criteria for a
 user task.

@@ -71,7 +71,7 @@ Stop after the question and wait for the user's response.
    contradictory; do not turn uncertainty into durable guidance.
 3. Resolve paths relative to this `SKILL.md`, then read
    [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md),
-   [the Knowledge index](../../knowledge/index.md), and only the Knowledge
+   [the Knowledge catalog](../../knowledge/index.md), and only the Knowledge
    documents whose `When to Read` conditions match the candidate. Inventory
    plausible Skills and references in this plugin. Use applicable instructions
    and accepted requirements in the active workspace to establish facts about

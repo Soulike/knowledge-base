@@ -1,18 +1,21 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { KnowledgeIndexError, validateKnowledgeIndex } from "./index.ts";
+import {
+  KnowledgeCatalogValidationError,
+  validateKnowledgeCatalog,
+} from "./index.ts";
 
-function indexWithRows(rows: string): string {
-  return `# Knowledge index
+function catalogWithRows(rows: string): string {
+  return `# Knowledge catalog
 
 ## Scope
 
-This index lists Knowledge.
+This catalog lists Knowledge.
 
 ## When to update
 
-Update this index when Knowledge changes.
+Update this catalog when Knowledge changes.
 
 ## Documents
 
@@ -21,14 +24,14 @@ Update this index when Knowledge changes.
 ${rows}`;
 }
 
-const validIndex =
-  indexWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
+const validCatalog =
+  catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 | [knowledge/provider/config.md](provider/config.md) | time-sensitive | Read when configuring a provider. |
 `);
 
-test("returns entries when the index matches the available Knowledge files", () => {
+test("returns entries when the catalog matches the available Knowledge files", () => {
   assert.deepEqual(
-    validateKnowledgeIndex(validIndex, [
+    validateKnowledgeCatalog(validCatalog, [
       "agents/model.md",
       "provider/config.md",
     ]),
@@ -47,15 +50,18 @@ test("returns entries when the index matches the available Knowledge files", () 
   );
 });
 
-test("rejects index and file inventory mismatches in both directions", () => {
+test("rejects catalog and file inventory mismatches in both directions", () => {
   assert.throws(
     () =>
-      validateKnowledgeIndex(validIndex, ["agents/model.md", "security.md"]),
+      validateKnowledgeCatalog(validCatalog, [
+        "agents/model.md",
+        "security.md",
+      ]),
     (error: unknown) => {
-      assert.ok(error instanceof KnowledgeIndexError);
+      assert.ok(error instanceof KnowledgeCatalogValidationError);
       assert.deepEqual(error.diagnostics, [
-        "The index lists 'knowledge/provider/config.md', but that leaf document does not exist.",
-        "Knowledge leaf 'knowledge/security.md' must be listed exactly once in the index.",
+        "The catalog lists 'knowledge/provider/config.md', but that leaf document does not exist.",
+        "Knowledge leaf 'knowledge/security.md' must be listed exactly once in the catalog.",
       ]);
       return true;
     },
@@ -63,25 +69,25 @@ test("rejects index and file inventory mismatches in both directions", () => {
 });
 
 test("reports row, duplicate, and inventory diagnostics together", () => {
-  const invalidIndex =
-    indexWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
+  const invalidCatalog =
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 | [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 | [knowledge/missing.md](missing.md) | static | Read when reading missing Knowledge. |
 `);
 
   assert.throws(
     () =>
-      validateKnowledgeIndex(invalidIndex, [
+      validateKnowledgeCatalog(invalidCatalog, [
         "agents/model.md",
         "security/auth.md",
       ]),
     (error: unknown) => {
-      assert.ok(error instanceof KnowledgeIndexError);
+      assert.ok(error instanceof KnowledgeCatalogValidationError);
       assert.deepEqual(error.diagnostics, [
         "Knowledge Type for 'knowledge/missing.md' must be 'time-sensitive' or 'evergreen'.",
         "Knowledge document 'knowledge/agents/model.md' must be listed exactly once, but it appears 2 times.",
-        "The index lists 'knowledge/missing.md', but that leaf document does not exist.",
-        "Knowledge leaf 'knowledge/security/auth.md' must be listed exactly once in the index.",
+        "The catalog lists 'knowledge/missing.md', but that leaf document does not exist.",
+        "Knowledge leaf 'knowledge/security/auth.md' must be listed exactly once in the catalog.",
       ]);
       return true;
     },

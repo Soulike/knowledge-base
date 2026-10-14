@@ -1,7 +1,8 @@
 {
-  "name": "@knowledge-base/knowledge-index",
+  "name": "@knowledge-base/knowledge-catalog-validation",
   "version": "0.0.0",
   "private": true,
+  "description": "Validate the Knowledge catalog and return trusted catalog entries.",
   "type": "module",
   "exports": {
     ".": "./index.ts"

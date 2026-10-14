@@ -23,7 +23,7 @@ if (!isAbsolute(outputPath)) {
   throw new Error("CONTENT_VERIFICATION_TARGET_MANIFEST must be absolute.");
 }
 
-const [{ stdout: revisionOutput }, { stdout: trackedOutput }, indexMarkdown] =
+const [{ stdout: revisionOutput }, { stdout: trackedOutput }, catalogMarkdown] =
   await Promise.all([
     executeFile("git", ["rev-parse", "HEAD"], { cwd: workspace }),
     executeFile("git", ["ls-files", "-z"], {
@@ -45,7 +45,7 @@ const manifest = buildVerificationManifest(
   scope,
   revisionOutput.trim(),
   trackedPaths,
-  indexMarkdown,
+  catalogMarkdown,
 );
 
 await mkdir(dirname(outputPath), { recursive: true });

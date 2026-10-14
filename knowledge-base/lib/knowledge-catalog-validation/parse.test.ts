@@ -1,18 +1,21 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { KnowledgeIndexError, validateKnowledgeIndex } from "./index.ts";
+import {
+  KnowledgeCatalogValidationError,
+  validateKnowledgeCatalog,
+} from "./index.ts";
 
-function indexWithRows(rows: string): string {
-  return `# Knowledge index
+function catalogWithRows(rows: string): string {
+  return `# Knowledge catalog
 
 ## Scope
 
-This index lists Knowledge.
+This catalog lists Knowledge.
 
 ## When to update
 
-Update this index when Knowledge changes.
+Update this catalog when Knowledge changes.
 
 ## Documents
 
@@ -27,23 +30,26 @@ function assertDiagnostics(
   expectedDiagnostics: string[],
 ): void {
   assert.throws(
-    () => validateKnowledgeIndex(markdown, availableFilePaths),
+    () => validateKnowledgeCatalog(markdown, availableFilePaths),
     (error: unknown) => {
-      assert.ok(error instanceof KnowledgeIndexError);
+      assert.ok(error instanceof KnowledgeCatalogValidationError);
       assert.deepEqual(error.diagnostics, expectedDiagnostics);
       return true;
     },
   );
 }
 
-test("returns the parsed Knowledge index entries", () => {
+test("returns validated Knowledge catalog entries", () => {
   const markdown =
-    indexWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 | [knowledge/provider/config.md](provider/config.md) | time-sensitive | Read when configuring a provider. |
 `);
 
   assert.deepEqual(
-    validateKnowledgeIndex(markdown, ["agents/model.md", "provider/config.md"]),
+    validateKnowledgeCatalog(markdown, [
+      "agents/model.md",
+      "provider/config.md",
+    ]),
     [
       {
         filePath: "agents/model.md",
@@ -60,7 +66,7 @@ test("returns the parsed Knowledge index entries", () => {
 });
 
 test("rejects an unknown Knowledge Type", () => {
-  const markdown = indexWithRows(
+  const markdown = catalogWithRows(
     "| [knowledge/agents/model.md](agents/model.md) | static | Read when modeling Agents. |\n",
   );
 
@@ -75,7 +81,7 @@ test("rejects an unknown Knowledge Type", () => {
 
 test("rejects duplicate Knowledge paths", () => {
   const markdown =
-    indexWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 | [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
 `);
 
@@ -89,7 +95,7 @@ test("rejects duplicate Knowledge paths", () => {
 });
 
 test("requires the canonical Documents table columns", () => {
-  const markdown = indexWithRows("").replace(
+  const markdown = catalogWithRows("").replace(
     "| File Path | Knowledge Type | When to Read |\n| --- | --- | --- |",
     "| File Path | When to Read |\n| --- | --- |",
   );
@@ -105,7 +111,7 @@ test("requires the canonical Documents table columns", () => {
 
 test("requires task-facing When to Read conditions", () => {
   const markdown =
-    indexWithRows(`| [knowledge/empty.md](empty.md) | evergreen | |
+    catalogWithRows(`| [knowledge/empty.md](empty.md) | evergreen | |
 | [knowledge/wrong-prefix.md](wrong-prefix.md) | evergreen | Use when reviewing a document. |
 `);
 

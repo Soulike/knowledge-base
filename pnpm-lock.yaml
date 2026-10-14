@@ -68,13 +68,13 @@ importers:
 
   .github/scripts/content-verification:
     dependencies:
-      "@knowledge-base/knowledge-index":
+      "@knowledge-base/knowledge-catalog-validation":
         specifier: workspace:*
-        version: link:../../../knowledge-base/packages/knowledge-index
+        version: link:../../../knowledge-base/lib/knowledge-catalog-validation
 
   .github/scripts/smoke-plugin-install: {}
 
-  knowledge-base/packages/knowledge-index:
+  knowledge-base/lib/knowledge-catalog-validation:
     dependencies:
       mdast-util-from-markdown:
         specifier: ^2.0.3
@@ -93,11 +93,11 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
-  knowledge-base/tooling/check-knowledge-format:
+  knowledge-base/tools/check-knowledge-format:
     dependencies:
-      "@knowledge-base/knowledge-index":
+      "@knowledge-base/knowledge-catalog-validation":
         specifier: workspace:*
-        version: link:../../packages/knowledge-index
+        version: link:../../lib/knowledge-catalog-validation
       mdast-util-from-markdown:
         specifier: ^2.0.3
         version: 2.0.3(supports-color@9.0.0)
@@ -109,7 +109,7 @@ importers:
         specifier: ^4.0.4
         version: 4.0.4
 
-  knowledge-base/tooling/version: {}
+  knowledge-base/tools/version: {}
 
 packages:
   "@babel/code-frame@7.29.7":

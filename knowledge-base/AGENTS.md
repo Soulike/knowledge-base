@@ -13,14 +13,14 @@ A leaf's concrete reading trigger must follow from the user's task, technical
 subject, or current engineering artifact before selecting a workflow. Removing
 every consuming Skill must not remove that reason to read it.
 
-Keep [plugin/knowledge/index.md](plugin/knowledge/index.md) as the only Knowledge index.
+Keep [plugin/knowledge/index.md](plugin/knowledge/index.md) as the only Knowledge catalog.
 List every leaf directly with its `time-sensitive` or `evergreen` Knowledge
-Type. Index link labels use plugin-root-relative paths; their targets resolve
-relative to the index. Use subdirectories for organization rather than nested
-indexes.
+Type. Catalog link labels use plugin-root-relative paths; their targets resolve
+relative to the catalog file. Use subdirectories for organization rather than
+nested catalogs.
 
 Each leaf must supply enough context for its `When to Read` condition without
-requiring another leaf first. Keep routing in the index rather than adding
+requiring another leaf first. Keep routing in the catalog rather than adding
 `Related Knowledge`, `See also`, or similar leaf appendices. When a claim
 actually depends on another leaf, link it inline where the dependency is
 applied and state the necessary context there.
@@ -29,8 +29,8 @@ applied and state the necessary context there.
 
 [plugin/skills/](plugin/skills/) owns installed workflows. Resolve packaged file references
 relative to each Skill's `SKILL.md`; for example, a Skill reaches the
-[Knowledge index](plugin/knowledge/index.md) through `../../knowledge/index.md`.
-Read the index, then only matching documents. Read shared files directly;
+[Knowledge catalog](plugin/knowledge/index.md) through `../../knowledge/index.md`.
+Read the catalog, then only matching documents. Read shared files directly;
 Skill-to-Skill invocation is not a portable execution contract.
 
 [plugin/references/](plugin/references/) holds non-indexed supporting material shared by
@@ -41,8 +41,9 @@ it; reuse does not turn workflow-selected material into Knowledge.
 
 ## Development support
 
-[tooling/](tooling/) contains checks and release tooling whose behavior changes
-with the knowledge-base product. [packages/](packages/) contains libraries
-shared by that tooling and repository automation. These source-only facilities
-may inspect canonical plugin content, but files under [plugin/](plugin/) must not
+[lib/](lib/) contains source-only modules consumed through imports.
+[tools/](tools/) contains executable development and release entrypoints. Tools
+may import libraries, while libraries must not depend on tools. Repository
+automation may import libraries or call tools. These source-only facilities may
+inspect canonical plugin content, but files under [plugin/](plugin/) must not
 depend on them.

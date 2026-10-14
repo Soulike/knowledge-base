@@ -19,16 +19,16 @@ This document defines the authentication guarantees shared by every client.
 Update this document when an authentication guarantee or supported client changes.
 `;
 
-function validIndex(rows: string): string {
-  return `# Knowledge index
+function validCatalog(rows: string): string {
+  return `# Knowledge catalog
 
 ## Scope
 
-This index lists Knowledge.
+This catalog lists Knowledge.
 
 ## When to update
 
-Update this index when Knowledge changes.
+Update this catalog when Knowledge changes.
 
 ## Documents
 
@@ -57,7 +57,7 @@ test("recursively checks Markdown files through the CLI", async (t) => {
   await Promise.all([
     writeFile(
       join(knowledgeDirectory, "index.md"),
-      validIndex(
+      validCatalog(
         "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n",
       ),
     ),
@@ -106,7 +106,7 @@ test("exits nonzero with file-relative diagnostics", async (t) => {
   );
 });
 
-test("rejects nested knowledge indexes", async (t) => {
+test("rejects nested Knowledge catalogs", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const knowledgeDirectory = join(temporaryRoot, "knowledge");
   const nestedDirectory = join(knowledgeDirectory, "security");
@@ -114,7 +114,7 @@ test("rejects nested knowledge indexes", async (t) => {
 
   await mkdir(nestedDirectory, { recursive: true });
   await Promise.all([
-    writeFile(join(knowledgeDirectory, "index.md"), validIndex("")),
+    writeFile(join(knowledgeDirectory, "index.md"), validCatalog("")),
     writeFile(join(nestedDirectory, "index.md"), validDocument),
   ]);
 
@@ -130,7 +130,7 @@ test("rejects nested knowledge indexes", async (t) => {
   assert.equal(result.stdout, "");
   assert.match(
     result.stderr,
-    /knowledge\/security\/index\.md: Nested knowledge indexes are not allowed; list leaf documents directly in 'knowledge\/index\.md'\./,
+    /knowledge\/security\/index\.md: Nested Knowledge catalogs are not allowed; list leaf documents directly in 'knowledge\/index\.md'\./,
   );
 });
 
@@ -144,7 +144,7 @@ test("reports Knowledge inventory mismatches in both directions", async (t) => {
   await Promise.all([
     writeFile(
       join(knowledgeDirectory, "index.md"),
-      validIndex(
+      validCatalog(
         "| [knowledge/missing.md](missing.md) | evergreen | Read when checking missing Knowledge. |\n",
       ),
     ),
@@ -161,7 +161,7 @@ test("reports Knowledge inventory mismatches in both directions", async (t) => {
   assert.equal(result.stdout, "");
   assert.equal(
     result.stderr,
-    "knowledge/index.md: The index lists 'knowledge/missing.md', but that leaf document does not exist.\n" +
-      "knowledge/index.md: Knowledge leaf 'knowledge/security/authentication.md' must be listed exactly once in the index.\n",
+    "knowledge/index.md: The catalog lists 'knowledge/missing.md', but that leaf document does not exist.\n" +
+      "knowledge/index.md: Knowledge leaf 'knowledge/security/authentication.md' must be listed exactly once in the catalog.\n",
   );
 });

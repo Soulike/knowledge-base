@@ -6,7 +6,7 @@ Install the `knowledge-base` plugin and work normally. Its catalog Skill checks 
 
 ## How it works
 
-- **Knowledge** records understanding with a reading reason independent of any workflow. [`knowledge/index.md`](knowledge/index.md) is its only routing catalog.
+- **Knowledge** records understanding with a reading reason independent of any workflow. The [Knowledge catalog](knowledge/index.md) is its only routing catalog.
 - **Skills** tell an Agent when and how to perform a task.
 - **Skill references** support particular workflow steps. Shared references live in a package-level `references/` directory and are routed directly by their consuming Skills rather than by the Knowledge catalog.
 

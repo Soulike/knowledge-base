@@ -62,7 +62,7 @@ pre-agent-steps:
     env:
       CONTENT_VERIFICATION_SCOPE: evergreen-knowledge
       CONTENT_VERIFICATION_TARGET_MANIFEST: ${{ runner.temp }}/gh-aw/content-verification-targets.json
-    run: node .github/scripts/content-verification/prepare-agentic.ts
+    run: node .github/scripts/content-verification-cli/prepare-agentic.ts
 
 post-steps:
   - name: Upload trusted target manifest
@@ -81,14 +81,15 @@ At the exact revision named by
 `reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
 this manifest read-only inside the Agent sandbox. It was derived
 deterministically from tracked files and the parsed
-[Knowledge index](knowledge/index.md); the selected ids are the complete
+[Knowledge catalog](knowledge-base/plugin/knowledge/index.md); the selected ids are the complete
 required scope. Treat every selected target independently and preserve its
 exact `id` in all notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the
-   [Knowledge index](knowledge/index.md), the target manifest, and every
+   [plugin content rules](knowledge-base/AGENTS.md), the
+   [Knowledge catalog](knowledge-base/plugin/knowledge/index.md), the target manifest, and every
    file named by every selected target. If a target is missing, duplicated, or
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`
@@ -99,7 +100,7 @@ exact `id` in all notes and safe outputs.
    time-sensitive maintenance. Use Copilot native web search and
    `tavily_extract` when a current authoritative source is necessary to decide
    that question; a reachable URL or search snippet is not sufficient evidence.
-3. Check that the Knowledge leaf's Scope, When to update, index routing entry,
+3. Check that the Knowledge leaf's Scope, When to update, catalog routing entry,
    and body still agree. Also assess whether the leaf is one coherent current
    account rather than accumulated obsolete wording, duplicated authority,
    patch-layered exceptions, or edit-history structure.

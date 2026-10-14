@@ -1,14 +1,18 @@
 # Maintain Knowledge
 
-1. Read [`knowledge/index.md`](../../../../knowledge/index.md) and
-   [Design selection triggers](../../../../references/agents/selection-triggers.md),
+All content paths in this workflow are relative to the
+[knowledge-base plugin](../../../../knowledge-base/plugin/), except commands
+explicitly run from the repository root.
+
+1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) and
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
    then search the existing `knowledge/` tree. Compare every affected
    responsibility with existing document Scopes and `When to Read` conditions
    for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
-   [Classifying Knowledge and Skill material](../../../../references/agents/knowledge-and-skills.md)
+   [Classifying Knowledge and Skill material](../../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
    before editing `knowledge/`. Return material that does not qualify as
    Knowledge to the parent as Skill or Skill-reference content.
 4. Confirm that each remaining Knowledge part remains correct without access
@@ -21,9 +25,9 @@
    destination or operation. Use the resulting claim scopes and document
    boundaries throughout the remaining steps.
 6. Compare each affected responsibility with every candidate document's
-   pre-edit Scope, root-index `When to Read` condition, and `When to update`
-   trigger. Select that document only when all three describe the same
-   responsibility; otherwise select a separate owner.
+   pre-edit Scope, Knowledge catalog `When to Read` condition, and `When to update`
+   trigger. Select that document only when all three describe the
+   same responsibility; otherwise select a separate owner.
 7. Apply the parent-selected disposition to each affected responsibility unit.
    When an existing document owns the concept, rewrite the complete affected
    block in place, remove superseded wording, and leave one coherent current
@@ -31,18 +35,18 @@
    split documents only when the ownership tests below require it. Create a new
    document only for a distinct responsibility, placing it in a clear domain
    under `knowledge/` with the smallest useful document structure.
-8. Give every Markdown document under `knowledge/`, including the root index,
-   the required preface described below.
-9. Keep [`knowledge/index.md`](../../../../knowledge/index.md) as the only
+8. Give every Markdown document under `knowledge/`, including the Knowledge
+   catalog, the required preface described below.
+9. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) as the only
    routing catalog. Organize leaf documents in domain directories, but list
-   every remaining leaf directly in the root index and do not create nested
-   indexes or leaf-level `Related Knowledge`, `See also`, or similar routing
+   every remaining leaf directly in the catalog and do not create nested
+   catalogs or leaf-level `Related Knowledge`, `See also`, or similar routing
    appendices. Before linking one leaf from another, apply the
    [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
    retained dependency where it is applied and include the local context needed
    to use the current document.
-10. Before writing a new or changed root-index row, form reader requests and
-    expected selections using [Design selection triggers](../../../../references/agents/selection-triggers.md#check-selection-from-requests).
+10. Before writing a new or changed catalog row, form reader requests and
+    expected selections using [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
     Include a broad request that does not name the leaf's concepts, a direct
     request, and a nearby negative when those cases apply. Keep the cases and
     expected selections in the work record. Then add, update, or remove the row
@@ -65,11 +69,11 @@
 
 An inline link between Knowledge leaves records that a source claim depends on
 the target's canonical responsibility; it does not make the target prerequisite
-reading. The source must still state enough context to serve its own root-index
+reading. The source must still state enough context to serve its own catalog
 route. Apply this deletion test before adding or retaining a link:
 
 First fix the comparison boundary for both leaves. For an existing leaf, use
-its trusted pre-edit Scope, root-index `When to Read` condition, and
+its trusted pre-edit Scope, Knowledge catalog `When to Read` condition, and
 responsibility. For a new leaf, use the responsibility, retrieval condition,
 consumers, and maintenance lifecycle established by classification before its
 content or links are drafted; its proposed Scope must express rather than widen
@@ -86,7 +90,7 @@ that boundary.
    sentence or branch whose only contribution is related reading, an optional
    technique, or an independently retrievable language-, platform-, product-,
    or implementation-specific specialization fails this check and should rely
-   on the target's root-index `When to Read` condition.
+   on the target's `When to Read` condition in the Knowledge catalog.
 
 Keep the link only when all three checks establish a dependency within the
 source responsibility. Related reading, optional techniques, and independently
@@ -136,11 +140,11 @@ tasks and decisions that cause an Agent to read the document. Write one
 cohesive paragraph; avoid vague phrases such as “update as needed” and avoid
 lists of editing steps.
 
-## Index fields
+## Catalog fields
 
-**File Path.** Use the repository-root-relative path as the link text and a
+**File Path.** Use the plugin-root-relative path as the link text and a
 relative Markdown link from
-[`knowledge/index.md`](../../../../knowledge/index.md) as its target. Point
+[`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) as its target. Point
 directly to a leaf Knowledge document, list it exactly once, and confirm that
 the target exists.
 
@@ -168,10 +172,10 @@ as a substantive claim. Classify the index as `time-sensitive` when ordinary
 external changes can move, replace, or invalidate those sources, even if the
 method of consulting current authoritative sources is durable.
 
-**When to Read.** Write a compact root-index trigger beginning with `Read when`
+**When to Read.** Write a compact catalog trigger beginning with `Read when`
 for the leaf's independently useful reading responsibility. A request about one
 specific responsibility should select its canonical document; a broad user
 task can select several documents when each contributes distinct,
 non-duplicated Knowledge. Compare the condition with every other row. If two
 conditions route the same responsibility, merge the documents or redraw their
-Scopes and conditions before indexing them.
+Scopes and conditions before adding them to the catalog.

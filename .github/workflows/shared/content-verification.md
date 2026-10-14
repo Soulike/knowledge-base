@@ -41,7 +41,7 @@ jobs:
           CONTENT_VERIFICATION_ARTIFACT_DIRECTORY: ${{ runner.temp }}/content-verification-gate
           CONTENT_VERIFICATION_EXPECTED_REVISION: ${{ github.sha }}
           CONTENT_VERIFICATION_SCOPE: ${{ github.aw.import-inputs.scope }}
-        run: node .github/scripts/content-verification/findings-gate-cli.ts
+        run: node .github/scripts/content-verification-cli/findings-gate-cli.ts
 
   content_verification_publish:
     name: Publish content verification findings
@@ -80,7 +80,7 @@ jobs:
           CONTENT_VERIFICATION_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           CONTENT_VERIFICATION_SCOPE: ${{ github.aw.import-inputs.scope }}
           GITHUB_TOKEN: ${{ github.token }}
-        run: node .github/scripts/content-verification/findings-publication-cli.ts
+        run: node .github/scripts/content-verification-cli/findings-publication-cli.ts
 
 sandbox:
   agent:

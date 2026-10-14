@@ -95,8 +95,8 @@ exact `id` in all notes and safe outputs.
    you cannot inspect the complete scope, stop and call `report_incomplete`
    exactly once.
 2. For every target, verify each substantive externally dependent claim against
-   current authoritative sources. Use Copilot native web search to locate
-   candidates and `tavily_extract` to inspect the source that supports the
+   current authoritative sources. Use `tavily_search` to locate candidates and
+   `tavily_extract` to inspect the source that supports the
    conclusion. A reachable URL or search snippet is not sufficient evidence.
 3. Check that the Knowledge leaf's Scope, When to update, catalog routing entry,
    and body still agree. Also assess whether the leaf remains necessary and is

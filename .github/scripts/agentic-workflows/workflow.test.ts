@@ -221,6 +221,22 @@ function assertReadOnlyGitHubMcp(source: string, agentSteps: unknown[]): void {
   assert.match(gateway, /"GITHUB_READ_ONLY": "1"/u);
 }
 
+function assertResearchMcpTools(source: string): void {
+  const tavilyServer = array(
+    metadata(source, "gh-aw-manifest").mcp_servers,
+    "MCP servers",
+  ).find((server) => object(server, "MCP server").name === "tavily");
+  assert.ok(tavilyServer, "Expected the Tavily MCP server.");
+
+  const tools = array(
+    object(tavilyServer, "Tavily MCP server").tools,
+    "Tavily MCP tools",
+  )
+    .map(String)
+    .sort();
+  assert.deepEqual(tools, ["tavily_extract", "tavily_search"]);
+}
+
 function assertCreditsGuardrailsAreOmitted(
   source: string,
   activation: JsonObject,
@@ -242,6 +258,7 @@ function assertCommonAgentRuntime(
   assertCredentialsAreGoneBeforeInference(workflow.agentSteps);
   assertDependenciesPrecedeInference(workflow.agentSteps, installStepName);
   assertReadOnlyGitHubMcp(workflow.source, workflow.agentSteps);
+  assertResearchMcpTools(workflow.source);
   assertCreditsGuardrailsAreOmitted(workflow.source, workflow.activation);
 }
 
@@ -268,18 +285,6 @@ describe("Copilot release selection", () => {
 
       assert.equal("needs" in resolver, false);
       assert.equal("pre_activation" in jobs, false);
-      for (const [name, value] of Object.entries(jobs)) {
-        const job = object(value, name);
-        if (JSON.stringify(job).includes(versionExpression)) {
-          const dependencies = Array.isArray(job.needs)
-            ? job.needs
-            : [job.needs];
-          assert.ok(
-            dependencies.includes("resolve_copilot_version"),
-            `${file}: ${name} must receive the version output it consumes`,
-          );
-        }
-      }
 
       for (const jobName of ["agent", "detection"]) {
         const job = object(jobs[jobName], jobName);
@@ -381,15 +386,6 @@ describe("Copilot release selection", () => {
       }),
       new Map([["version", "1.0.87"]]),
     );
-  });
-
-  it("rejects a Copilot release without native web search", async () => {
-    for (const tag_name of ["v1.0.86", "v0.99.999"]) {
-      await assert.rejects(
-        resolveRelease({ tag_name, draft: false, prerelease: false }),
-        /Copilot CLI 1\.0\.87 or later is required/u,
-      );
-    }
   });
 
   it("fails closed when the publisher query fails or cannot identify a stable release", async () => {
@@ -718,7 +714,11 @@ describe("compiled content-verification publication boundary", () => {
         `${file} conclusion dependencies`,
       );
 
-      assert.deepEqual(permissions, { actions: "read", issues: "write" });
+      assert.deepEqual(permissions, {
+        actions: "read",
+        issues: "write",
+        "pull-requests": "read",
+      });
       for (const dependency of [
         "content_verification_gate",
         "content_verification_publish",

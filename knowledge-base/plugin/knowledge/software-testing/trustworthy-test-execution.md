@@ -104,10 +104,11 @@ old path's protection. Apply
 completion paths separate coverage dispositions, retaining each only when it
 catches a distinct live fault.
 
-Synchronize a retained path on evidence specific to that path. For a time-driven
-fallback, advance a controlled clock and observe the state immediately before
-and at the contractual boundary; use a path-specific temporary mutation when
-the protected branch remains ambiguous. For example, an eventual-removal test
+Synchronize a retained path on evidence specific to that path. When a timer's
+logical threshold is contractual and its clock can be controlled safely,
+advance that clock and observe the state immediately before and at the boundary;
+use a path-specific temporary mutation when the protected branch remains
+ambiguous. For example, an eventual-removal test
 in a harness that never emits `animationend` can be exercising a 400 ms timeout
 fallback. Dispatching `animationend` makes the test faster but stops protecting
 that fallback, while a controlled-clock test that observes presence through
@@ -118,6 +119,59 @@ A polling condition must imply the assertion that follows. Waiting for one call
 before asserting exactly three races an intermediate state. Negative assertions
 need an ordering guarantee, acknowledgement, queue drain, lifecycle event, or
 other barrier proving that an incorrect event would already have occurred.
+
+### Choose time control for the protected contract
+
+Distinguish a contractual timer threshold or elapsed duration, an operation's
+timeout completion path, and a diagnostic deadline that bounds test execution.
+A logical timer threshold can be protected with controlled time. An actual
+elapsed-time or performance guarantee needs measurement from the observed
+trigger with a real monotonic clock and the relevant production work; advancing
+simulated time cannot establish it. When only the timeout path is protected,
+the production duration can instead be operational policy; exercising that
+path need not pay the default interval.
+
+Use a controlled clock when it can safely drive the relevant production timer.
+Flush asynchronous work between clock steps, and establish the real I/O phase
+on which the timeout depends before advancing time. Real sockets, streams,
+processes, and framework polling can depend on real time even when an
+application timer is controlled. Advancing one clock does not establish
+progress on another. Mixed clocks are usable only when the intended path,
+required phase barriers, and resource settlement remain observable without
+clock interference.
+
+When controlled time cannot safely exercise a retained real-I/O timeout path,
+use a shorter nonzero duration at the boundary that owns the timeout policy.
+Reuse an existing configuration or construction seam where possible; expose a
+missing policy seam at its owner rather than adding test-only switches across
+callers. Keep the production default unchanged and execute the real operation
+and timeout handler. Protect default selection or the original duration
+separately when either is a requirement; a short-policy case does not establish
+them.
+
+Select the shorter value through bounded focused executions and the owning
+aggregate under relevant concurrency and load. Leave enough margin to establish
+the intended I/O phase reliably, and keep the governing diagnostic deadline
+large enough for timeout propagation, settlement, and applicable cleanup. No
+duration is universally suitable. Apply [Test execution cost](test-execution-cost.md)
+to comparable measurements; reducing one case's wait does not establish a
+reduction in the complete suite's wall-clock duration.
+
+Assert evidence specific to the timeout path, its outcome, the contract-required
+attempt count, and any forbidden retry or side effect. A timeout result or
+cancellation request does not establish that owned work stopped. Observe the
+operation's true completion and resource-settlement boundaries before cleanup
+or asserting that no later effect can occur. Use a path-specific temporary
+mutation when the same outcome could conceal a different completion path.
+
+For example, a client has a long production response timeout and must return an
+unconfirmed result without retrying when its peer remains silent. Keep a real
+loopback server that receives the request and sends no response. Use a shorter
+request policy, prove receipt occurred before timeout, observe the real timeout
+outcome and one attempt, and confirm request and server resources have settled
+before cleanup. An immediate synthetic error bypasses the silent-peer path;
+timeout before receipt can instead test connection establishment. Neither
+establishes the intended response-timeout protection.
 
 ## Own execution inputs
 
@@ -162,10 +216,7 @@ cleanup also fails, retain the cleanup failure as secondary diagnostic evidence,
 and verify that the resource is absent or that the declared baseline is
 observable before another test reuses its owner or name.
 
-Use controlled clocks for behavior defined by time, advance them through
-asynchronous APIs when queued work must settle, and always restore the real
-clock. Keep real I/O and framework polling outside the controlled-clock scope
-when they depend on real timers.
+Always restore the real clock after using a controlled clock.
 
 Treat supported platforms as separate environments. Accidental path spelling,
 shell behavior, permissions, process trees, timestamp resolution, and case
@@ -254,8 +305,8 @@ relevant conditions and record when a pre-change sample is unavailable.
 
 ## Budget diagnostic deadline hierarchies
 
-A timeout is a diagnostic bound, not evidence that an awaited condition is
-ready or that elapsed time is itself the protected behavior. Increase one only
+A diagnostic timeout bounds an awaited condition or test execution; it does not
+establish readiness or make elapsed time the protected behavior. Increase one only
 when valuable behavior is protected, the real integration seam is
 already minimal, no production or harness defect explains the delay, avoidable
 setup work is absent, and measurements show a bounded runtime distribution

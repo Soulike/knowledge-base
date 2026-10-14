@@ -54,6 +54,63 @@ and isolation boundary that must remain intact. Apply
 [Test effectiveness](test-effectiveness.md) when a proposed reduction changes
 coverage, assertions, ownership, doubles, or test inventory.
 
+## Separate journey phases by their evidence
+
+Before optimizing a slow integration or end-to-end test, divide its journey
+into precondition and state establishment, the protected transition, observation
+and assertions, and cleanup. For each phase, identify the named fault it can
+expose or the later evidence it only supports. Review expensive boundary
+crossings and repeated phases rather than inferring cost from test length or
+count alone.
+
+Establish supporting preconditions through the least expensive stable seam
+that preserves the relevant contract. An application API or fixture can replace
+UI navigation when that navigation is only setup. Keep the setup path when its
+routing, validation, persistence, hydration, or other wiring participates in
+the fault. A fixture's type correctness alone does not establish that it
+preserves those semantics. Keep the production collaborators and observable
+outcomes needed by the protected transition and its assertions.
+
+Match interaction fidelity to the protection. Exercise keyboard, pointer,
+drag-and-drop, focus, or popup mechanics when the mechanism or its integration
+with the resulting action is part of the contract. Otherwise use a stable
+direct operation and retain distinct mechanism coverage at its owning seam.
+Invoking an internal callback is not a substitute when event delivery or
+cross-boundary wiring is what the test protects.
+
+Synchronization changes must preserve the production completion path the test
+is intended to exercise. Apply
+[Trustworthy test execution](trustworthy-test-execution.md#synchronize-on-evidence)
+to timers, polling, fallbacks, wake signals, and lifecycle barriers; reaching
+the same final state through a different path can discard protection.
+
+## Repeat only the phases a matrix dimension can change
+
+Treat theme, viewport, locale, role, platform, and input mechanism as candidate
+dimensions. Establish which phases and interactions each dimension can change
+before multiplying a costly journey across its values. Presentation settings
+can alter composition or lifecycle, roles can alter authorization, and locale
+or platform can alter behavior. Their names alone do not establish independence.
+
+When a dimension changes only presentation, protect the business transition in
+a representative composed case and exercise the presentation matrix against
+immutable or independently recreated established state. Keep the actual
+renderer and any hydration or lifecycle behavior required by those assertions.
+Repeat an affected transition for dimensions that can change its behavior or
+integration, and retain combinations that expose distinct interaction faults.
+Use [Test effectiveness](test-effectiveness.md) to decide which combinations
+provide independent protection rather than requiring an exhaustive product.
+
+For example, a response card is checked in two themes and at desktop and mobile
+widths. If those settings cannot alter submission or completion, one composed
+case can establish that transition while independently recreated response state
+supports the four presentation cases. A supporting setting can be established
+through the real application API, and a focused keyboard case can protect
+selection reachability. If the mobile composition changes recipient selection,
+submission, or completion, retain that affected composed transition at the
+mobile width. Sharing the output of a live test with later cases would instead
+create an ordering dependency.
+
 ## Preserve isolation while sharing cost
 
 Batching or reusing an external process, database, filesystem, container, or
@@ -72,3 +129,13 @@ separate effects on test-body work, worker time, wall clock, and other measured
 resources when they differ. A valid reduction also preserves the named
 behavioral protection and the completeness, outcome integrity, and controlled
 execution required to trust the result.
+
+Removing actions, waits, or repeated transitions establishes which work was
+eliminated. Passing cases support only their exercised protection. Neither
+establishes a runtime improvement or its size without a comparable measurement;
+report unmeasured savings as an expected cost reduction.
+
+## References
+
+- [Playwright API testing: establish server-side preconditions](https://playwright.dev/docs/api-testing)
+- [Playwright best practices: test isolation](https://playwright.dev/docs/best-practices#make-tests-as-isolated-as-possible)

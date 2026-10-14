@@ -172,6 +172,25 @@ unclassified-input failure. If current and historical fixtures instead produce
 the same decision, the expected result cannot establish which value was
 forwarded.
 
+For [human decision authorization](../software-design/human-decision-authorization.md)
+that binds a later command to reviewed content, use a supersession fixture.
+Create decision A, replace it with B under the same stable request and logical
+action identifiers, and change content that matters to the approval. Submit a
+command for A through the supported path and assert rejection at the decision
+owner before protected callbacks, persistence, effects, or decision consumption.
+Assert that B remains current and unchanged, then use a positive control to
+prove that a valid response for B can proceed. Different request identifiers
+would avoid the substitution fault rather than expose it.
+
+Schema parsing and stale dismissal coverage do not prove that a separately
+implemented check or execution handler enforces freshness. Exercise each
+independently implemented admission path that can omit the comparison. Keep
+detailed cases at the owner and a representative composed case when transport
+can discard or substitute the identity. A schema-valid stale value must change
+the semantic outcome; an assertion that a field was accepted or forwarded is
+insufficient. Keep this stale-command case distinct from a test that holds old
+work and proves its late completion cannot overwrite a replacement.
+
 Cover detailed state combinations at the narrowest seam that owns the decision.
 Add a representative composed or end-to-end scenario when the fault depends on
 cross-boundary wiring, selecting the highest-risk user-observable state supported

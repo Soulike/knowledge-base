@@ -1,6 +1,8 @@
 ---
 name: Verify maintained Agent content
 
+timeout-minutes: 60
+
 on:
   schedule:
     - cron: "11 4 15 1,4,7,10 *"

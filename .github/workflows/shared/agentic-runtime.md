@@ -69,6 +69,7 @@ jobs:
 
   agent:
     needs: [resolve_copilot_version]
+    timeout-minutes: 75
 
   detection:
     needs: [resolve_copilot_version]

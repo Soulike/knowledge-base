@@ -181,6 +181,13 @@ profile has file reading, search, and read-only GitHub and Tavily tools, with no
 shell execution, safe-output tools, or further delegation. Do not delegate to
 built-in Agents or other profiles that can emit into the run's output stream.
 
+Track background assignments by their returned Agent ids. Before each wait,
+use `read_agent` to collect current status and any available report for each
+outstanding assignment. Reconcile completed reports while the others run, and
+wait only on assignments still running. Once every assigned report is collected,
+finish the remaining review before continuing to issue-history comparison,
+without another research wait.
+
 Researchers return evidence and limitations in their report. The main Agent
 reconciles their reports, assigns finding ids, performs issue-history comparison,
 and emits every finding event and completion or failure signal. A research

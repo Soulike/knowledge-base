@@ -67,6 +67,13 @@ The three scheduled tasks import
 - required reasoning-effort validation; and
 - fail-closed threat detection before safe-output publication.
 
+Each scheduled task sets a 60-minute Agent execution timeout in its frontmatter;
+the shared runtime sets a separate 75-minute Agent job timeout. The job budget
+includes setup and artifact collection as well as inference. The execution
+timeout stays in each task because the pinned compiler does not inherit that
+field from imports. The reusable pull-request review workflow owns its own
+execution budgets.
+
 The shared source disables gh-aw per-run, threat-detection, and daily AI Credits
 guardrails with `-1`. This removes the runtime dependency on gh-aw model-pricing
 tables; it does not disable Copilot provider billing or token reporting.

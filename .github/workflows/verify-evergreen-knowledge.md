@@ -1,6 +1,8 @@
 ---
 name: Verify evergreen Knowledge
 
+timeout-minutes: 60
+
 on:
   schedule:
     - cron: "43 3 8 1,4,7,10 *"

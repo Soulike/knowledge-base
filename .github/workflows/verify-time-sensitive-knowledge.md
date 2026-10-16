@@ -1,6 +1,8 @@
 ---
 name: Verify time-sensitive Knowledge
 
+timeout-minutes: 60
+
 on:
   schedule:
     - cron: "17 3 1 * *"

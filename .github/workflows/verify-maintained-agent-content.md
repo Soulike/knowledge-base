@@ -1,6 +1,7 @@
 ---
 name: Verify maintained Agent content
 
+strict: false
 timeout-minutes: 60
 
 on:

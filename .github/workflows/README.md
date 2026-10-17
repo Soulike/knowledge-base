@@ -87,6 +87,23 @@ removed from every checkout. Authenticated GitHub reads remain behind the
 read-only MCP server, and GitHub publication remains behind safe outputs and
 repository-owned gates.
 
+The GitHub read policy uses `allowed-repos: all`, `min-integrity: approved`, and
+an explicit `github.token` credential. This keeps public upstream research
+available while limiting private access to this repository through the run
+token's permissions; it does not adopt a cross-repository token from Actions
+secrets. Reassess the repository scope before replacing that credential.
+
+gh-aw treats paths under `.github/workflows/` as private data even in public
+repositories. The shared runtime sets `private-to-public-flows: allow` so public
+upstream workflow files can be read and contribute to this repository's logs
+and findings. This explicitly disables the gateway's forced public-only scope
+and default sink-visibility enforcement for all MCP servers. The run token's
+access boundary, read-only server, credential isolation, threat detection, and
+publication gates remain in force. Read access does not make upstream content
+trusted instructions. If required evidence remains inaccessible, the Agent
+must report incomplete work and the gate must reject publication; repair the
+access prerequisite before dispatching another verification run.
+
 Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the three verification scopes.
 
 ## Scheduled content verification
@@ -239,6 +256,13 @@ pnpm agentic:compile
 
 For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The
 wrapper rejects every compiler version except `v0.91.12`.
+
+Each scheduled source explicitly sets `strict: false` because gh-aw rejects
+`private-to-public-flows` in strict mode. The wrapper retains schema and action
+validation while allowing each source to select its strictness; new sources
+keep gh-aw's strict default unless they explicitly opt out. Do not pass
+`--strict` when regenerating the scheduled workflows, because it overrides their
+frontmatter and rejects the configured upstream reading policy.
 
 Run:
 

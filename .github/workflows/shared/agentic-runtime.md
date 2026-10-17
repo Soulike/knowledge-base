@@ -13,6 +13,12 @@ tools:
     mode: local
     read-only: true
     toolsets: [all, dependabot]
+    # The run token limits private access to this repository while retaining
+    # public upstream research. Reassess scope before changing this credential.
+    github-token: ${{ github.token }}
+    min-integrity: approved
+    allowed-repos: all
+    private-to-public-flows: allow
 
 mcp-servers:
   tavily:

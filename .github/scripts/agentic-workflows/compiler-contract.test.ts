@@ -17,7 +17,6 @@ describe("compilerInvocation", () => {
       "release",
       "--action-tag",
       runtimeActionSha,
-      "--strict",
       "--validate",
       "--no-check-update",
     ];

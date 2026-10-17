@@ -1,6 +1,7 @@
 ---
 name: Verify evergreen Knowledge
 
+strict: false
 timeout-minutes: 60
 
 on:

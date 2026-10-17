@@ -6,6 +6,7 @@ import {
   knowledgeBaseManifestPath,
   marketplacePath,
   readKnowledgeBasePluginAtRevision,
+  readMergeBase,
 } from "./repository.ts";
 import {
   nextPluginVersion,
@@ -29,21 +30,22 @@ export async function updatePluginVersion({
     await readFile(resolve(repository, marketplacePath), "utf8"),
   );
   const manifestPath = resolve(repository, relativeManifestPath);
-  const targetPlugin = readKnowledgeBasePluginAtRevision(
+  const comparisonBase = readMergeBase(repository, targetRevision, "HEAD");
+  const comparisonPlugin = readKnowledgeBasePluginAtRevision(
     repository,
-    targetRevision,
+    comparisonBase,
   );
   const currentContent = await readFile(manifestPath, "utf8");
-  const targetVersion = readManifestVersion(
-    targetPlugin.content,
-    `${targetPlugin.manifestPath} at ${targetRevision}`,
+  const comparisonVersion = readManifestVersion(
+    comparisonPlugin.content,
+    `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
   );
   const currentVersion = readManifestVersion(
     currentContent,
     relativeManifestPath,
   );
   const releaseDate = releaseDateForTimestamp(now);
-  const nextVersion = nextPluginVersion(targetVersion, releaseDate);
+  const nextVersion = nextPluginVersion(comparisonVersion, releaseDate);
 
   if (currentVersion !== nextVersion) {
     await writeFile(

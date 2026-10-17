@@ -95,7 +95,7 @@ test("repeated updates across a package move keep one version for the PR", async
   );
 });
 
-test("derives the release from the explicit target as that target advances", async (t) => {
+test("keeps the local PR release stable while the target advances", async (t) => {
   const repository = await createRepository(t);
   git(repository, ["switch", "--create", "topic"]);
   await writeFile(join(repository, "knowledge.md"), "# Topic content\n");
@@ -115,7 +115,7 @@ test("derives the release from the explicit target as that target advances", asy
     targetRevision: "target-base",
     now: new Date("2026-08-15T10:00:00+08:00"),
   };
-  assert.equal(await updatePluginVersion(options), "2026.8.15-3");
+  assert.equal(await updatePluginVersion(options), "2026.8.15-2");
   git(repository, ["add", "."]);
   git(repository, ["commit", "-m", "version topic content"]);
   const afterFirstUpdate = await readFile(
@@ -132,8 +132,8 @@ test("derives the release from the explicit target as that target advances", asy
   git(repository, ["commit", "-m", "another target release"]);
   git(repository, ["switch", "topic"]);
 
-  assert.equal(await updatePluginVersion(options), "2026.8.15-4");
-  assert.notEqual(
+  assert.equal(await updatePluginVersion(options), "2026.8.15-2");
+  assert.equal(
     await readFile(join(repository, "plugin.json"), "utf8"),
     afterFirstUpdate,
   );

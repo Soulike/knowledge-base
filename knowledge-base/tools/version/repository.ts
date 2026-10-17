@@ -73,16 +73,25 @@ export function readCommitterTimestamp(
   return git(repository, ["show", "-s", "--format=%cI", revision]).trim();
 }
 
+export function readMergeBase(
+  repository: string,
+  targetRevision: string,
+  headRevision: string,
+): string {
+  return git(repository, ["merge-base", targetRevision, headRevision]).trim();
+}
+
 export function listChangedFiles(
   repository: string,
-  baseRevision: string,
-  headRevision: string,
+  fromRevision: string,
+  toRevision: string,
 ): string[] {
   const output = git(repository, [
     "diff",
     "--name-only",
     "-z",
-    `${baseRevision}...${headRevision}`,
+    fromRevision,
+    toRevision,
     "--",
   ]);
   return output.split("\0").filter((path) => path.length > 0);

@@ -5,6 +5,7 @@ import {
   listChangedFiles,
   readCommitterTimestamp,
   readKnowledgeBasePluginAtRevision,
+  readMergeBase,
 } from "./repository.ts";
 import {
   nextPluginVersion,
@@ -15,7 +16,7 @@ import {
 
 export interface CheckPluginVersionOptions {
   repository: string;
-  baseRevision: string;
+  targetRevision: string;
   headRevision: string;
 }
 
@@ -33,32 +34,49 @@ function isVersionedContent(path: string, manifestPath: string): boolean {
 
 export function checkPluginVersion({
   repository,
-  baseRevision,
+  targetRevision,
   headRevision,
 }: CheckPluginVersionOptions): CheckPluginVersionResult {
-  const basePlugin = readKnowledgeBasePluginAtRevision(
+  const comparisonBase = readMergeBase(
     repository,
-    baseRevision,
+    targetRevision,
+    headRevision,
+  );
+  const comparisonPlugin = readKnowledgeBasePluginAtRevision(
+    repository,
+    comparisonBase,
+  );
+  const targetPlugin = readKnowledgeBasePluginAtRevision(
+    repository,
+    targetRevision,
   );
   const headPlugin = readKnowledgeBasePluginAtRevision(
     repository,
     headRevision,
   );
-  const baseVersion = readManifestVersion(
-    basePlugin.content,
-    `${basePlugin.manifestPath} at ${baseRevision}`,
+  const comparisonVersion = readManifestVersion(
+    comparisonPlugin.content,
+    `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
+  );
+  const targetVersion = readManifestVersion(
+    targetPlugin.content,
+    `${targetPlugin.manifestPath} at ${targetRevision}`,
   );
   const headVersion = readManifestVersion(
     headPlugin.content,
     `${headPlugin.manifestPath} at ${headRevision}`,
   );
-  const changedFiles = listChangedFiles(repository, baseRevision, headRevision);
+  const changedFiles = listChangedFiles(
+    repository,
+    comparisonBase,
+    headRevision,
+  );
   const contentChanged = changedFiles.some(
     (path) =>
-      isVersionedContent(path, basePlugin.manifestPath) ||
+      isVersionedContent(path, comparisonPlugin.manifestPath) ||
       isVersionedContent(path, headPlugin.manifestPath),
   );
-  const versionChanged = headVersion !== baseVersion;
+  const versionChanged = headVersion !== comparisonVersion;
 
   if (!contentChanged && !versionChanged) {
     return { checked: false, version: headVersion };
@@ -67,7 +85,7 @@ export function checkPluginVersion({
   if (
     !contentChanged &&
     versionChanged &&
-    parsePluginVersion(baseVersion) !== undefined
+    parsePluginVersion(comparisonVersion) !== undefined
   ) {
     throw new Error(
       "The knowledge-base plugin version changed, but its Knowledge, Skill references, and usage Skills did not.",
@@ -76,14 +94,14 @@ export function checkPluginVersion({
 
   const committerTimestamp = readCommitterTimestamp(repository, headRevision);
   const releaseDate = releaseDateForTimestamp(committerTimestamp);
-  const expectedVersion = nextPluginVersion(baseVersion, releaseDate);
+  const expectedVersion = nextPluginVersion(targetVersion, releaseDate);
 
   if (headVersion !== expectedVersion) {
     const reason = contentChanged
       ? "Versioned content changed."
       : "The version field changed.";
     throw new Error(
-      `${reason} Expected knowledge-base plugin version '${expectedVersion}' from base '${baseVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
+      `${reason} Expected knowledge-base plugin version '${expectedVersion}' from target '${targetVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
     );
   }
 
@@ -93,21 +111,21 @@ export function checkPluginVersion({
 function run(arguments_: string[]): number {
   if (arguments_.length !== 2) {
     process.stderr.write(
-      "Usage: node check.ts <base-revision> <head-revision>\n",
+      "Usage: node check.ts <target-revision> <head-revision>\n",
     );
     return 2;
   }
 
-  const [baseRevision, headRevision] = arguments_;
+  const [targetRevision, headRevision] = arguments_;
 
-  if (baseRevision === undefined || headRevision === undefined) {
+  if (targetRevision === undefined || headRevision === undefined) {
     return 2;
   }
 
   try {
     const result = checkPluginVersion({
       repository: process.cwd(),
-      baseRevision,
+      targetRevision,
       headRevision,
     });
     const message = result.checked

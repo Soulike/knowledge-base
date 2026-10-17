@@ -6,6 +6,7 @@ import {
   knowledgeBaseManifestPath,
   marketplacePath,
   readKnowledgeBasePluginAtRevision,
+  readMergeBase,
 } from "./repository.ts";
 import {
   nextPluginVersion,
@@ -16,60 +17,57 @@ import {
 
 export interface UpdatePluginVersionOptions {
   repository: string;
-  baseRevision: string;
+  targetRevision: string;
   now?: Date;
 }
 
 export async function updatePluginVersion({
   repository,
-  baseRevision,
+  targetRevision,
   now = new Date(),
 }: UpdatePluginVersionOptions): Promise<string> {
   const relativeManifestPath = knowledgeBaseManifestPath(
     await readFile(resolve(repository, marketplacePath), "utf8"),
   );
   const manifestPath = resolve(repository, relativeManifestPath);
-  const basePlugin = readKnowledgeBasePluginAtRevision(
+  const comparisonBase = readMergeBase(repository, targetRevision, "HEAD");
+  const comparisonPlugin = readKnowledgeBasePluginAtRevision(
     repository,
-    baseRevision,
+    comparisonBase,
   );
   const currentContent = await readFile(manifestPath, "utf8");
-  const baseVersion = readManifestVersion(
-    basePlugin.content,
-    `${basePlugin.manifestPath} at ${baseRevision}`,
+  const comparisonVersion = readManifestVersion(
+    comparisonPlugin.content,
+    `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
   );
   const currentVersion = readManifestVersion(
     currentContent,
     relativeManifestPath,
   );
   const releaseDate = releaseDateForTimestamp(now);
-  const targetVersion = nextPluginVersion(baseVersion, releaseDate);
+  const nextVersion = nextPluginVersion(comparisonVersion, releaseDate);
 
-  if (currentVersion !== targetVersion) {
+  if (currentVersion !== nextVersion) {
     await writeFile(
       manifestPath,
-      replaceManifestVersion(
-        currentContent,
-        relativeManifestPath,
-        targetVersion,
-      ),
+      replaceManifestVersion(currentContent, relativeManifestPath, nextVersion),
     );
   }
 
-  return targetVersion;
+  return nextVersion;
 }
 
 async function run(arguments_: string[]): Promise<number> {
-  if (arguments_.length > 1) {
-    process.stderr.write("Usage: node update.ts [base-revision]\n");
+  const [targetRevision] = arguments_;
+  if (arguments_.length !== 1 || targetRevision === undefined) {
+    process.stderr.write("Usage: node update.ts <target-revision>\n");
     return 2;
   }
 
   const repository = fileURLToPath(new URL("../../../", import.meta.url));
-  const baseRevision = arguments_[0] ?? "origin/main";
 
   try {
-    const version = await updatePluginVersion({ repository, baseRevision });
+    const version = await updatePluginVersion({ repository, targetRevision });
     process.stdout.write(`Knowledge-base plugin version: ${version}\n`);
     return 0;
   } catch (error) {

@@ -15,9 +15,13 @@ embedding, or when new evidence changes the tested syntax or environment scope.
 ## Establish support on the PR description surface
 
 Markdown capabilities belong to the surface that renders them. Microsoft's
+[Sprint 274 release notes](https://learn.microsoft.com/en-us/azure/devops/release-notes/2026/wiki/sprint-274-update)
+announced support for standard fenced `mermaid` code blocks in Azure DevOps
+Markdown editors, explicitly mentioning pull requests and work items alongside
+Wiki pages. This documents native support; it does not verify rendering in a
+particular PR description. The
 [Mermaid guidance](https://learn.microsoft.com/en-us/azure/devops/project/wiki/markdown-guidance?view=azure-devops#work-with-mermaid-diagrams)
-describes Wiki support; it does not establish the same support in a pull request
-description.
+describes Wiki behavior and is not by itself evidence for the PR surface.
 
 A [contribution report verified on 2026-10-16](https://github.com/Soulike/knowledge-base/issues/186)
 records fenced `mermaid` code blocks appearing as source code in a PR

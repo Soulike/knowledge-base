@@ -10,7 +10,6 @@ const compileArguments = [
   "release",
   "--action-tag",
   runtimeActionSha,
-  "--strict",
   "--validate",
   "--no-check-update",
 ] as const;

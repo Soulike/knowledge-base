@@ -1,6 +1,7 @@
 ---
 name: Verify time-sensitive Knowledge
 
+strict: false
 timeout-minutes: 60
 
 on:

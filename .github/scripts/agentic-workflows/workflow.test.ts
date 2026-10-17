@@ -477,6 +477,24 @@ describe("Copilot release selection", () => {
 });
 
 describe("compiled Agent runtime boundaries", () => {
+  it("allows public upstream workflow reads with only the read-only run token", () => {
+    for (const file of contentVerificationFiles) {
+      const { agentSteps } = loadCompiledWorkflow(file);
+      const gatewayStep = stepByName(agentSteps, "Start MCP Gateway");
+      const gateway = String(gatewayStep.run);
+      const environment = object(
+        gatewayStep.env,
+        `${file} gateway environment`,
+      );
+      assert.equal(environment.GITHUB_MCP_SERVER_TOKEN, "${{ github.token }}");
+      assert.match(gateway, /"repos": "all"/u);
+      assert.match(gateway, /"forcePublicRepos": false/u);
+      assert.match(gateway, /"min-integrity": "approved"/u);
+      assert.match(gateway, /"GITHUB_READ_ONLY": "1"/u);
+      assert.doesNotMatch(gateway, /"sink-visibility"/u);
+    }
+  });
+
   it("preserves the shared runtime contract in every Agent workflow", () => {
     for (const file of contentVerificationFiles) {
       assertCommonAgentRuntime(

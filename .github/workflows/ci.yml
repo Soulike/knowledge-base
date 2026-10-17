@@ -35,9 +35,9 @@ jobs:
 
       - name: Check knowledge-base plugin version
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          TARGET_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: node knowledge-base/tools/version/check.ts "$BASE_SHA" "$HEAD_SHA"
+        run: node knowledge-base/tools/version/check.ts "$TARGET_SHA" "$HEAD_SHA"
 
   required:
     name: CI

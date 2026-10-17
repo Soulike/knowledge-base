@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import {
   mkdir,
   mkdtemp,
@@ -11,8 +11,19 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
+import { fileURLToPath } from "node:url";
 
 import { updatePluginVersion } from "./update.ts";
+
+test("requires an explicit PR target revision", () => {
+  const updaterPath = fileURLToPath(new URL("./update.ts", import.meta.url));
+  const result = spawnSync(process.execPath, [updaterPath], {
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 2);
+  assert.equal(result.stderr, "Usage: node update.ts <target-revision>\n");
+});
 
 function git(repository: string, arguments_: string[]): string {
   return execFileSync("git", ["-C", repository, ...arguments_], {
@@ -20,7 +31,7 @@ function git(repository: string, arguments_: string[]): string {
   }).trim();
 }
 
-test("repeated updates across a package move keep one version for the PR", async (t) => {
+async function createRepository(t: test.TestContext): Promise<string> {
   const repository = await mkdtemp(
     join(tmpdir(), "knowledge-base-version-update-"),
   );
@@ -43,6 +54,11 @@ test("repeated updates across a package move keep one version for the PR", async
   );
   git(repository, ["add", "."]);
   git(repository, ["commit", "-m", "base"]);
+  return repository;
+}
+
+test("repeated updates across a package move keep one version for the PR", async (t) => {
+  const repository = await createRepository(t);
   const base = git(repository, ["rev-parse", "HEAD"]);
 
   await mkdir(join(repository, "knowledge-base", "plugin"), {
@@ -61,7 +77,7 @@ test("repeated updates across a package move keep one version for the PR", async
 
   const options = {
     repository,
-    baseRevision: base,
+    targetRevision: base,
     now: new Date("2026-08-15T10:00:00+08:00"),
   };
   assert.equal(await updatePluginVersion(options), "2026.8.15-2");
@@ -75,6 +91,50 @@ test("repeated updates across a package move keep one version for the PR", async
       join(repository, "knowledge-base/plugin/plugin.json"),
       "utf8",
     ),
+    afterFirstUpdate,
+  );
+});
+
+test("derives the release from the explicit target as that target advances", async (t) => {
+  const repository = await createRepository(t);
+  git(repository, ["switch", "--create", "topic"]);
+  await writeFile(join(repository, "knowledge.md"), "# Topic content\n");
+  git(repository, ["add", "."]);
+  git(repository, ["commit", "-m", "update content"]);
+  git(repository, ["switch", "--create", "target-base", "main"]);
+  await writeFile(
+    join(repository, "plugin.json"),
+    JSON.stringify({ name: "knowledge-base", version: "2026.8.15-2" }),
+  );
+  git(repository, ["add", "."]);
+  git(repository, ["commit", "-m", "release on target"]);
+  git(repository, ["switch", "topic"]);
+
+  const options = {
+    repository,
+    targetRevision: "target-base",
+    now: new Date("2026-08-15T10:00:00+08:00"),
+  };
+  assert.equal(await updatePluginVersion(options), "2026.8.15-3");
+  git(repository, ["add", "."]);
+  git(repository, ["commit", "-m", "version topic content"]);
+  const afterFirstUpdate = await readFile(
+    join(repository, "plugin.json"),
+    "utf8",
+  );
+
+  git(repository, ["switch", "target-base"]);
+  await writeFile(
+    join(repository, "plugin.json"),
+    JSON.stringify({ name: "knowledge-base", version: "2026.8.15-3" }),
+  );
+  git(repository, ["add", "."]);
+  git(repository, ["commit", "-m", "another target release"]);
+  git(repository, ["switch", "topic"]);
+
+  assert.equal(await updatePluginVersion(options), "2026.8.15-4");
+  assert.notEqual(
+    await readFile(join(repository, "plugin.json"), "utf8"),
     afterFirstUpdate,
   );
 });

@@ -72,6 +72,27 @@ function commit(
   return git(repository, ["rev-parse", "HEAD"]);
 }
 
+async function advanceTarget(
+  repository: string,
+  commonAncestor: string,
+): Promise<string> {
+  git(repository, ["switch", "--create", "target-base", commonAncestor]);
+  await writeFile(
+    join(repository, "knowledge-base/plugin/plugin.json"),
+    `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-2" }, null, 2)}\n`,
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugin/knowledge/index.md"),
+    "# Target branch release\n",
+  );
+  return commit(
+    repository,
+    "release on target branch",
+    "2026-08-15T11:00:00+08:00",
+    "2026-08-15T11:00:00+08:00",
+  );
+}
+
 test("requires base and head revisions", () => {
   const result = spawnSync(process.execPath, [checkerPath], {
     encoding: "utf8",
@@ -80,7 +101,112 @@ test("requires base and head revisions", () => {
   assert.equal(result.status, 2);
   assert.equal(
     result.stderr,
-    "Usage: node check.ts <base-revision> <head-revision>\n",
+    "Usage: node check.ts <target-revision> <head-revision>\n",
+  );
+});
+
+test("ignores target-only releases when the PR changes only automation", async (t) => {
+  const repository = await createRepository(t, "2026.8.15-1");
+  const commonAncestor = git(repository, ["rev-parse", "HEAD"]);
+  git(repository, ["switch", "--create", "topic"]);
+  await mkdir(join(repository, ".github/workflows"), { recursive: true });
+  await writeFile(
+    join(repository, ".github/workflows/runtime.yml"),
+    "name: Runtime\n",
+  );
+  const head = commit(
+    repository,
+    "update automation",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+  const target = await advanceTarget(repository, commonAncestor);
+
+  const result = spawnSync(process.execPath, [checkerPath, target, head], {
+    cwd: repository,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(
+    result.stdout,
+    "Knowledge-base plugin version remains 2026.8.15-1; no versioned content changed.\n",
+  );
+});
+
+test("detects PR content from the common ancestor and versions from the target", async (t) => {
+  const repository = await createRepository(t, "2026.8.15-1");
+  const commonAncestor = git(repository, ["rev-parse", "HEAD"]);
+  git(repository, ["switch", "--create", "topic"]);
+  await writeFile(
+    join(repository, "knowledge-base/plugin/knowledge/index.md"),
+    "# Topic branch content\n",
+  );
+  const missingVersion = commit(
+    repository,
+    "update knowledge without a bump",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugin/plugin.json"),
+    `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-3" }, null, 2)}\n`,
+  );
+  const head = commit(
+    repository,
+    "version the PR content",
+    "2026-08-15T10:01:00+08:00",
+    "2026-08-15T10:01:00+08:00",
+  );
+  const target = await advanceTarget(repository, commonAncestor);
+
+  const missingBump = spawnSync(
+    process.execPath,
+    [checkerPath, target, missingVersion],
+    { cwd: repository, encoding: "utf8" },
+  );
+  assert.equal(missingBump.status, 1);
+  assert.match(
+    missingBump.stderr,
+    /Expected knowledge-base plugin version '2026\.8\.15-3'/u,
+  );
+
+  const result = spawnSync(process.execPath, [checkerPath, target, head], {
+    cwd: repository,
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(
+    result.stdout,
+    "Knowledge-base plugin version is 2026.8.15-3.\n",
+  );
+});
+
+test("rejects a PR version-only change even when the target has that version", async (t) => {
+  const repository = await createRepository(t, "2026.8.15-1");
+  const commonAncestor = git(repository, ["rev-parse", "HEAD"]);
+  git(repository, ["switch", "--create", "topic"]);
+  await writeFile(
+    join(repository, "knowledge-base/plugin/plugin.json"),
+    `${JSON.stringify({ name: "knowledge-base", version: "2026.8.15-2" }, null, 2)}\n`,
+  );
+  const head = commit(
+    repository,
+    "bump version only",
+    "2026-08-15T10:00:00+08:00",
+    "2026-08-15T10:00:00+08:00",
+  );
+  const target = await advanceTarget(repository, commonAncestor);
+
+  const result = spawnSync(process.execPath, [checkerPath, target, head], {
+    cwd: repository,
+    encoding: "utf8",
+  });
+
+  assert.equal(result.status, 1);
+  assert.match(
+    result.stderr,
+    /version changed, but its Knowledge, Skill references, and usage Skills did not/u,
   );
 });
 

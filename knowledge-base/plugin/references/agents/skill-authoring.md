@@ -124,11 +124,17 @@ Include quality review or feasibility checks when a competent practitioner
 would use them before delivery. Keep output requirements close enough to the
 completion gate that later branches cannot silently bypass them.
 
-Read the finished bundle as one selection graph. Remove obsolete routes,
-superseded behavior, duplicated rules, patch-layered qualifications, and
-references that no current workflow step selects. The result should present one
-coherent current workflow without requiring the reader to reconstruct its edit
-history.
+Review the proposed and finished bundle as one selection graph using
+[Maintained document quality](../../knowledge/documentation/maintained-document-quality.md#validate-the-result).
+From realistic requests and starting states, trace each materially affected
+path's selection decision, instructions loaded at that point, actions, stopping
+behavior, and completion. Establish whether a path can proceed with the
+instructions it needs at the time it needs them. Account for instructions it
+must filter out and for information hidden until after its selecting decision.
+Remove obsolete routes, superseded behavior, duplicated rules, patch-layered
+qualifications, and references that no current workflow step selects. Confirm
+both suitability of the resulting workflow and intentional semantic change;
+one conclusion does not establish the other.
 
 ## Prove the behavior
 

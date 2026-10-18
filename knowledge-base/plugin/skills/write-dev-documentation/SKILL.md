@@ -57,59 +57,52 @@ description: Write or update maintained software-development documentation, incl
    unresolved. Determine whether reader confusion needs information or exposes
    a design problem; report design findings within the authorized scope while
    retaining explanations of necessary complexity.
-2. For an assessment-only request, report each response, its supporting
-   evidence, the fitting form and destination selected by the project or user
-   when applicable, and every unresolved decision without editing.
-3. Before drafting, establish the basis and scope of reader obligations,
-   recommendations, and example-specific choices. Resolve the project decisions
-   required by the chosen response, including any promise to keep artifacts
-   synchronized.
-4. Before substantive editing, state the structural judgment in a work update
+2. Establish the basis and scope of reader obligations, recommendations, and
+   example-specific choices. Identify the project decisions required by the
+   chosen response, including any promise to keep artifacts synchronized.
+   Record unresolved decisions for an assessment; resolve those required by an
+   authorized delivery before drafting.
+3. Assess the complete proposed result for the selected responses, including
+   its reader tasks and routes. State the structural judgment in a work update
    using
    [Keep revisions coherent](../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
    for the complete affected content. Resolve whether to retain or reshape its
-   organization before selecting insertion points, then proceed within the
-   existing authorization. For purely mechanical edits, confirm that meaning
-   and structure are unchanged without a full structural assessment.
+   organization before selecting insertion points. For purely mechanical edits,
+   confirm that meaning and structure are unchanged without a full structural
+   assessment.
 
-## Write and reconcile
+## Select the task path
 
-1. Apply the selected structure and matching project standards to write each
-   resolved target as one clear current account. Complete the necessary rewrite
-   within the authorized responsibility boundary regardless of diff size, while
-   preserving meaning outside the accepted semantic change.
-2. Apply the loaded Knowledge's boundary between authoring evidence and
-   reader-facing content. Treat research, source collection, review evidence,
-   rejected alternatives, drafts, and task history as working inputs; carry
-   them into a maintained target only when they serve its reader-facing
-   responsibility.
-3. Reconcile every affected document, comment, example, index, prompt, Agent
-   instruction, Skill, link, and navigation entry. When a documented invariant
-   changes, reconcile its enforcement and evidence as well.
-4. When new requirements or feedback invalidate the structural judgment under
-   the loaded Knowledge's criteria, return to
+1. For an assessment-only request, report each impact disposition and selected
+   response with its supporting evidence, proposed action, fitting form and
+   destination when applicable, and unresolved decisions. Include the
+   structural judgment and the limits of the investigation and validation.
+   End at the assessment completion gate below without editing or claiming
+   remediation.
+2. When delivery is authorized and its required project decisions are resolved,
+   read [Deliver the documentation](references/deliver-documentation.md) and
+   complete its drafting, reconciliation, and verification procedures for the
+   selected responses. If the composed result, new requirements, or feedback
+   invalidate the structural judgment under the loaded Knowledge's criteria, return to
    [Decide the response and structure](#decide-the-response-and-structure) and
    assess the cumulative revision before further editing.
 
-## Verify the result
+## Report and complete
 
-1. Account for every changed file, changed meaning, information need, impact
-   finding, and affected artifact. Confirm that each has the recorded
-   disposition, each described claim agrees with its authority in meaning and
-   scope, each mandatory mechanism has a basis beyond its desired outcome, and
-   examples preserve choices the underlying contract permits.
-2. Apply the loaded Knowledge's reader review and risk-proportionate validation
-   to every new or retained document. Confirm that no unexplained competing copy
-   or authoring-only material remains.
-3. Check every changed route from the reader's starting point. Confirm its label
-   or condition lets the reader choose the destination before opening it.
-   Search for stale terminology, paths, headings, examples, prompts, and
-   superseded prose.
-4. Run the project's formatter, link or anchor checks, Skill validation, and
-   other applicable checks. Treat a failed or unavailable required check as an
-   incomplete result.
+An assessment is complete when every changed file, changed meaning, and
+identified information need has an evidence-backed impact disposition and
+response, with proposed actions, unresolved decisions, and explicit evidence
+and validation limits. Identify incomplete investigation rather than claiming
+that proposed updates or repairs have been delivered.
 
-Finish when every change and information need has a disposition, every required
-update and route is complete, reader obligations have an established basis,
-described claims agree with their respective authorities, and every required
-check passes.
+For authorized delivery, report every change and information need's
+disposition, the updates and routes delivered or the evidence-backed no-change
+conclusions, validation performed, and any remaining limitation. Report the
+final-content suitability conclusion with the examined reader task and relevant
+final locations, separately from semantic correctness and project-check results.
+Finish only when every change and information need has a disposition, every
+required update and route is complete, reader obligations have an established
+basis, described claims agree with their respective authorities, the final-content suitability
+review establishes a usable organization for the reader tasks, and every
+required check passes. A failed or unavailable required check leaves delivery
+incomplete.

@@ -61,10 +61,10 @@ of the change effect, but do not authorize changes to independent behavior.
    parent-selected operation. Reclassify any material that a branch returns.
    For mixed material, analyze the Knowledge part first, then the Skill part,
    then its references.
-8. Using the completed artifact-specific analysis, design the final content and
-   artifact set by responsibility, reader task, retrieval or invocation timing,
-   consumers, and maintenance lifecycle. Before substantive editing, state the
-   structural judgment in a work update using
+8. Using the completed artifact-specific analysis, design the complete proposed
+   result and artifact set by responsibility, reader task, retrieval or
+   invocation timing, consumers, and maintenance lifecycle. When proposing a
+   substantive revision, state the structural judgment in a work update using
    [Keep revisions coherent](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
    and proceed within the existing authorization. For purely mechanical edits,
    confirm that meaning and structure are unchanged without a full structural
@@ -100,8 +100,11 @@ of the change effect, but do not authorize changes to independent behavior.
     Review of coverage, an existing or proposed test, or test execution uses
     [`review-and-improve-tests`](../../../knowledge-base/plugin/skills/review-and-improve-tests/SKILL.md),
     which retains any coverage work selected by that review.
-11. When new requirements or feedback invalidate the structural judgment under
-    the loaded Knowledge's criteria, return to steps 7–9 and assess the
+11. Review the composed result using the loaded Knowledge's
+    [suitability review](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result).
+    Record the reader task, relevant locations, and outcome separately from
+    semantic correctness. When that result, new requirements, or feedback
+    invalidate the structural judgment, return to steps 7–9 and assess the
     cumulative change before further editing.
 12. When the final diff changes `knowledge-base/plugin/knowledge/**`,
     `knowledge-base/plugin/references/**`, or
@@ -109,24 +112,29 @@ of the change effect, but do not authorize changes to independent behavior.
     [`references/update-knowledge-base-version.md`](references/update-knowledge-base-version.md)
     after the content stabilizes.
 13. When meaning or structure changed, use a fresh Agent or isolated context for
-    a read-only semantic comparison of the trusted pre-change state, accepted
-    requirements, and every final affected artifact. For changed selection
-    routes, apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
+    one read-only review with distinct suitability and semantic conclusions.
+    Supply active instructions, applicable standards, accepted requirements,
+    and raw artifacts without the author's conclusions. For changed selection
+    routes, first apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
     have the reviewer choose from natural requests and the real candidate set
-    before seeing the author's expected selections or target contents, then
-    compare those choices with the old routes and final responsibilities.
-    Require the comparison to account for every semantic change and verify
-    that retained, moved, split, and merged responsibilities remain reachable
-    from each required starting point. Resolve every unexplained loss,
-    distortion, duplicate authority, or route failure and repeat the
-    comparison after each fix. Treat unavailable independent comparison as an
-    incomplete result.
+    before opening target contents or seeing expected selections. Then apply
+    the loaded Knowledge's suitability review to the reader task and complete
+    final content. Finally compare the trusted pre-change state to account for
+    every semantic change, attribute defects to the revision, and compare any
+    observed selections with the old routes and final responsibilities.
+    Verify that retained, moved, split, and merged responsibilities remain
+    reachable and usable from each required starting point. Resolve every
+    introduced suitability defect, unexplained loss, distortion, duplicate
+    authority, or route failure and repeat the affected independent review after
+    each fix. Treat unavailable independent review as an incomplete result.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated knowledge-base plugin version when applicable, and mechanical and
     semantic validation performed. Include the final structural judgment for
     substantive revisions and the concrete reason for retaining or changing
-    the organization.
+    the organization. Report the final-content suitability conclusion with the
+    examined reader task and relevant final locations, separately from semantic
+    correctness and project-check results.
 
 ## Completion criteria
 
@@ -151,7 +159,9 @@ The resulting diff must preserve the Knowledge-versus-workflow boundary and
 must not change an independent responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.
-The independent semantic comparison must find no unexplained change. When
+The final-content suitability review must establish a usable organization, and
+the independent review must find no introduced suitability defect or
+unexplained semantic change. When
 knowledge-base plugin Knowledge, Skill references, or usage Skills changed,
 also require the PR-scoped knowledge-base plugin version and its validation to
 be current.

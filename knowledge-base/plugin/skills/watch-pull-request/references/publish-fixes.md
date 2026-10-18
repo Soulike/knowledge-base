@@ -73,17 +73,34 @@ Immediately before every push attempt:
 6. If they match, perform one ordinary non-force push of the prepared commits
    to that exact existing ref.
 
-Every push attempt requires a new pre-push check. A rejected push means the
-source changed after the check; do not retry from the stale cycle. Return to a
-complete observation and classification.
+Every push attempt requires a new pre-push check.
 
-After a source change, the Agent may revise, rebase, or regenerate unpublished
-local work on the new head only after reviewing the new state, checking the
-resulting diff, and repeating relevant validation. Never rewrite published
-history. Do not recreate a deleted source ref, use force or force-with-lease,
-or bypass a non-fast-forward rejection.
+## Handle the push outcome
 
-An ordinary successful push proceeds directly to the next applicable cycle
-step; it does not require an intervening complete PR retrieval. When the push
-result is unknown, reconcile that exact effect before replying or attempting
-another push.
+Select the next action from the established cause and certainty of the effect:
+
+- **Ordinary success:** proceed directly to the next applicable cycle step
+  without an intervening complete PR retrieval.
+- **Established concurrent-ref conflict or non-fast-forward rejection:**
+  preserve the unpublished fixes and return to complete observation and
+  classification. Diagnose the conflict from the actual source state and local
+  history before selecting a remedy. A non-fast-forward rejection alone does
+  not establish that the remote advanced. Revise, rebase, or regenerate
+  unpublished work only when the fresh evidence makes that remedy applicable;
+  inspect the resulting diff, repeat relevant validation, and reapply the
+  autonomy gate before another attempt.
+- **Known hook, policy, or access rejection:** retain the unpublished fixes and
+  return the established cause to classification under the existing autonomy
+  gate. Proceed only with an independently authorized remedy that passes that
+  gate; otherwise classify publication as human intervention required. Do not
+  retry the unchanged blocked push or bypass the rejecting control.
+- **Unknown result:** read
+  [Reconcile an unknown effect](reconcile-unknown-effect.md) and reconcile the
+  exact push before replying, replaying it, or advancing dependent work.
+
+For a definite rejection whose cause is not yet established, preserve the fixes
+and investigate before selecting a remedy or another attempt.
+
+Never rewrite published history, recreate a deleted source ref, use force or
+force-with-lease, or bypass a non-fast-forward rejection. Return every changed
+admission or unresolved outcome to the watch for classification.

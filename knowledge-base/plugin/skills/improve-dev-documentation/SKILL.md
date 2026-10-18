@@ -70,10 +70,11 @@ placement in that order before selecting the task path:
    necessary complexity. When the retained content's useful role is routing
    readers to scattered authorities, select a focused source index to replace
    copied explanations.
-3. **Structure.** State the structural judgment for the surviving content in a
-   work update using
+3. **Structure.** Assess the complete proposed result after the selected
+   deletions and corrections, including its reader tasks and routes. State the
+   structural judgment in a work update using
    [Keep revisions coherent](../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent).
-   Determine which responsibilities belong together and the fitting
+   Determine which resulting responsibilities belong together and the fitting
    destinations and navigation. Record unresolved choices for an assessment;
    resolve choices required by an authorized revision before editing. For purely
    mechanical edits, confirm that meaning and structure are unchanged without a
@@ -89,8 +90,9 @@ placement in that order before selecting the task path:
 2. When revision is authorized and its required choices are resolved, read
    [Apply and verify the selected revision](references/apply-revision.md).
    Complete that procedure within the agreed scope before reporting delivery.
-   If new requirements or feedback invalidate the structural judgment, return
-   to [Assess the content and structure](#assess-the-content-and-structure) and
+   If the composed result, new requirements, or feedback invalidate the
+   structural judgment, return to
+   [Assess the content and structure](#assess-the-content-and-structure) and
    reconsider the cumulative revision before further editing. Apply the existing
    scope boundary to newly discovered problems and unresolved project choices.
 
@@ -104,10 +106,14 @@ repairs.
 
 For authorized delivery, report the disposition of every agreed finding and
 affected artifact, the resulting structure and routes, validation performed,
-and any remaining limitation. Finish only when every agreed finding and
-affected artifact has been reconciled, the final documents present one coherent
-current account with justified reader obligations, every required route
-preserves reader access, the independent original-to-final comparison finds no
-unexplained semantic change or unsupported retained constraint, and every
-required check passes. A failed or unavailable required check or independent
-comparison leaves delivery incomplete.
+and any remaining limitation. Report the final-content suitability conclusion
+with the examined reader task and relevant final locations, separately from
+semantic correctness and project-check results. Finish only when every agreed
+finding and affected artifact has been reconciled, the final documents present
+one coherent current account with justified reader obligations, the
+final-content suitability review establishes a usable organization for the
+reader tasks, every required
+route preserves reader access, the independent original-to-final comparison
+finds no introduced suitability defect, unexplained semantic change, or
+unsupported retained constraint, and every required check passes. A failed or
+unavailable required check or independent comparison leaves delivery incomplete.

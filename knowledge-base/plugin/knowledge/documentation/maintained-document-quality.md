@@ -122,14 +122,16 @@ instructions indicate such costs. Several changed files, greater length, or a
 preference for a neater layout do not establish the need. Clear ownership with
 explicit references can make content across several files coherent.
 
-A substantive revision needs a brief, reviewable structural judgment before
-editing: the intended organization, whether the existing structure supports
-it, and the reason to retain or change that structure. Keep this evidence in
-the authoring work record, without requiring a separate maintained document,
-diagram, or template. Reassess the cumulative revision when new requirements
-or feedback change its relationships, branches, scope, or completion
-conditions. Purely mechanical edits need only confirm that meaning and
-structure are unchanged.
+A substantive revision needs a brief, reviewable structural judgment when
+proposing the revision, before selecting insertion points: the complete
+intended content and reader use, whether the existing structure supports that
+result, and the reason to retain or change it. A request to update existing
+content identifies a responsibility to maintain; it does not establish that its
+organization will still fit after the update. Keep this evidence in the
+authoring work record, without requiring a separate maintained document,
+diagram, or template. Reassess the cumulative revision when new requirements,
+feedback, or the composed result invalidate the judgment. Purely mechanical
+edits need only confirm that meaning and structure are unchanged.
 
 Structural changes must preserve meaning outside the authorized semantic
 change. Rewrite as much of the affected responsibility as clarity requires,
@@ -139,6 +141,29 @@ applicable versions or conditions, and a way to revise, consolidate, redirect,
 archive, or retire it.
 
 ## Validate the result
+
+Establish semantic correctness and suitability for reader use as distinct
+conclusions. Correct individual edits and preservation of intended meaning do
+not establish that the complete resulting content is appropriately organized.
+Evaluate a proposal's intended result and a delivered revision's actual result;
+the pre-edit structural judgment is a design hypothesis to check against the
+composed content.
+
+Start the suitability review from the reader's task and final content, including
+the routes needed to use the affected responsibility. For explanations, follow
+the concepts and prerequisites needed to understand the answer; for procedures,
+trace applicable decisions, actions, and completion from realistic starting
+states; for references, find the answer and its authority from the lookup need.
+Identify concrete places where readers must assemble scattered conditions,
+filter instructions for another path, or revise an earlier understanding to
+apply a later qualification. Judge those costs against a clearer organization
+within the authorized responsibility boundary. Retain a compact single file
+when it serves the task, and consolidate fragmentation that adds lookup cost.
+Record the task, relevant locations, and result of the review in the work record.
+When reviewing a change, then compare the trusted pre-change content and
+accepted requirements to establish semantic changes and attribute defects to
+the revision. Resolve an unsuitable result and repeat the affected review
+before claiming delivery complete.
 
 Validate the quality claim with evidence capable of supporting it. Author and
 peer review can find many low-risk defects, but they do not by themselves prove

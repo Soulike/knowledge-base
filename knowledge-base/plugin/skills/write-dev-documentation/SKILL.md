@@ -62,7 +62,9 @@ description: Write or update maintained software-development documentation, incl
    chosen response, including any promise to keep artifacts synchronized.
    Record unresolved decisions for an assessment; resolve those required by an
    authorized delivery before drafting.
-3. State the structural judgment in a work update using
+3. Assess the complete proposed result for the selected responses, including
+   its reader tasks and routes. State the structural judgment in a work update
+   using
    [Keep revisions coherent](../../knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
    for the complete affected content. Resolve whether to retain or reshape its
    organization before selecting insertion points. For purely mechanical edits,
@@ -80,8 +82,8 @@ description: Write or update maintained software-development documentation, incl
 2. When delivery is authorized and its required project decisions are resolved,
    read [Deliver the documentation](references/deliver-documentation.md) and
    complete its drafting, reconciliation, and verification procedures for the
-   selected responses. If new requirements or feedback invalidate the
-   structural judgment under the loaded Knowledge's criteria, return to
+   selected responses. If the composed result, new requirements, or feedback
+   invalidate the structural judgment under the loaded Knowledge's criteria, return to
    [Decide the response and structure](#decide-the-response-and-structure) and
    assess the cumulative revision before further editing.
 
@@ -95,8 +97,12 @@ that proposed updates or repairs have been delivered.
 
 For authorized delivery, report every change and information need's
 disposition, the updates and routes delivered or the evidence-backed no-change
-conclusions, validation performed, and any remaining limitation. Finish only
-when every change and information need has a disposition, every required update
-and route is complete, reader obligations have an established basis, described
-claims agree with their respective authorities, and every required check
-passes. A failed or unavailable required check leaves delivery incomplete.
+conclusions, validation performed, and any remaining limitation. Report the
+final-content suitability conclusion with the examined reader task and relevant
+final locations, separately from semantic correctness and project-check results.
+Finish only when every change and information need has a disposition, every
+required update and route is complete, reader obligations have an established
+basis, described claims agree with their respective authorities, the final-content suitability
+review establishes a usable organization for the reader tasks, and every
+required check passes. A failed or unavailable required check leaves delivery
+incomplete.

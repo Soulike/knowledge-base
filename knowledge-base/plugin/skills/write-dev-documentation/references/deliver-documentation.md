@@ -17,7 +17,8 @@ Use this procedure only for authorized delivery selected by
 3. Reconcile every affected document, comment, example, index, prompt, Agent
    instruction, Skill, link, and navigation entry. When a documented invariant
    changes, reconcile its enforcement and evidence as well.
-4. When new requirements or feedback invalidate the structural judgment, return
+4. When the composed result, new requirements, or feedback invalidate the
+   structural judgment, return
    to the main workflow's
    [response and structure decision](../SKILL.md#decide-the-response-and-structure)
    before further editing.
@@ -45,8 +46,13 @@ Use this procedure only for authorized delivery selected by
    agrees with its authority in meaning and scope, every mandatory mechanism has
    a basis beyond its desired outcome, and examples preserve choices the
    underlying contract permits.
-3. Apply the loaded Knowledge's reader review and risk-proportionate validation
-   to every new or retained document. Confirm that no unexplained competing copy
+3. Apply the loaded Knowledge's
+   [suitability review](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and risk-proportionate reader validation to the complete final content and
+   required routes. Record the reader task, relevant locations, and outcome
+   separately from semantic correctness. Return an unsuitable result to the
+   main workflow's structure decision before claiming delivery complete.
+   Confirm that no unexplained competing copy
    or authoring-only material remains.
 4. Check every changed route from the reader's starting point. Confirm its label
    or condition lets the reader choose the destination before opening it.
@@ -56,5 +62,6 @@ Use this procedure only for authorized delivery selected by
    other applicable checks. Treat a failed or unavailable required check as an
    incomplete result.
 
-Return the final impact and affected-artifact account, reconciled routes, and
-check results to [Report and complete](../SKILL.md#report-and-complete).
+Return the final impact and affected-artifact account, suitability review,
+reconciled routes, and check results to
+[Report and complete](../SKILL.md#report-and-complete).

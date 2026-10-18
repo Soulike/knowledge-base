@@ -69,8 +69,9 @@
 11. Run `pnpm check`, `git diff --check`, and every additional validator or
     focused test selected by the changed artifacts. Produce the authoring
     standard's required behavioral evidence in a fresh or isolated context. The
-    parent workflow owns the single independent semantic comparison; do not run
-    a duplicate here or disclose the author's conclusions to its evaluator.
+    parent workflow owns the single independent review of final-content
+    suitability and semantic change; do not run a duplicate here or disclose
+    the author's conclusions to its evaluator.
 12. Report the authoring standard's design and behavioral evidence. Identify a
     mechanical change explicitly when the reduced evidence path applies, and
     disclose unresolved limitations.

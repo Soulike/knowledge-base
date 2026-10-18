@@ -28,8 +28,19 @@ Review every applicable repository-specific dimension:
    authority, progressive disclosure, tool use, failure handling, output
    contracts, and completion criteria.
 3. The smallest coherent current model for every affected responsibility unit.
-   Check whether deletion, rewriting, merging, splitting, or movement is more
-   appropriate than adding another qualification or competing authority.
+   Apply the final-content suitability review in
+   [Maintained document quality](knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   independently of semantic preservation. First reconstruct reader use from
+   the task and complete final affected content and required routes, then use
+   the trusted pre-change state and diff to account for semantic changes and
+   attribute defects. For Skills, trace materially affected paths using
+   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md#write-the-executable-workflow).
+   Check whether deletion, rewriting, merging, splitting, or movement would
+   remove concrete use costs introduced by the revision. A structural finding
+   must identify the affected task or path, relevant locations, the obstacle to
+   understanding, selection, or execution, and an actionable remedy. Accept
+   clear single-file organization and useful separation; file length, file
+   count, and a preferred layout do not establish a defect.
 4. Packaging and delivery completeness across affected plugin, marketplace,
    manifest, version, reference, installation, and automation paths.
 5. Historical dispositions recorded by trusted collaborators in closed issues.

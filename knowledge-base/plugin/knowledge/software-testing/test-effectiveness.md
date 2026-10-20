@@ -298,6 +298,16 @@ ownership, ambient state, time, ordering, or cleanup affects the result.
 
 ## Remove spent migration scaffolding
 
+Migration comparison tests, fixtures, and test-only adapters can establish that
+a cutover is safe without earning a permanent place in the target system.
+Reassess their protection as the comparison obligation ends. A fixture that
+reconstructs an obsolete entry path solely to compare old and new behavior can
+retire together with its adapter when no supported contract needs that path.
+Retain effective protection for the current contract, including any supported
+older clients or persisted formats; the comparison itself is not a substitute
+for that protection. Preserve scaffolding whose potentially live obligation
+remains unresolved.
+
 A temporary test proving that old behavior is gone can expose an incomplete
 migration. It should not automatically become permanent. Remove it when retained
 new-contract protection strictly implies the old behavior is absent and no live

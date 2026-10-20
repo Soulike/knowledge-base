@@ -39,7 +39,8 @@ change may contain tests with different concerns and dispositions.
      reachability or owning module, when current producer or consumer conventions
      appear to exclude values representable by a reusable module's call signature
      or data shape, or when test structure suggests mixed module responsibilities
-     or a missing seam.
+     or a missing seam; also read it when reassessing retained code and test
+     support as a migration obligation changes or ends.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
      for collection, selection, skips, fixtures, time, ordering, retries,
@@ -48,7 +49,12 @@ change may contain tests with different concerns and dispositions.
    - Read
      [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
      when runtime or resource cost is claimed or changed.
-5. Read
+5. When the review includes tests or support affected by a changed migration
+   obligation, or forms part of a final migration assessment, read and apply
+   [Migration retirement assessment](../../references/software-design/migration-retirement-assessment.md).
+   Carry its dispositions into the review and apply its verification and
+   completion gate before reporting the result.
+6. Read
    [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
    when a test harness creates, stores, or transports credentials or
    authenticates local peers.
@@ -179,4 +185,6 @@ change, and validation still required without editing.
 Finish only when every item's own disposition is completed or explicitly
 blocked, unauthorized, review-only, or inconclusive; completion of one branch
 does not satisfy another. Report each disposition, diagnosed owner, performed
-and skipped checks, and remaining evidence gaps.
+and skipped checks, and remaining evidence gaps. When the migration assessment
+was selected, include its artifact dispositions and completion status within
+the accepted task boundary.

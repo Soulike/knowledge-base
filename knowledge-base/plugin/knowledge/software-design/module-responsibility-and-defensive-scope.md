@@ -68,11 +68,19 @@ Keep the behavior when that trace reaches the module's current contract. Uncheck
 
 Defer the behavior when the producer is hypothetical, the interface cannot admit the value, the supported execution path excludes it, an upstream contract already owns the decision, or another domain module would have to choose the policy. A test that can construct an impossible value does not make the value part of the production interface.
 
-## Distinguish staged scope from speculative scope
+## Justify responsibilities throughout staged changes
 
 A current requirement need not already have a production caller. An explicitly approved stage can establish a module, interface, or compatibility path before a later stage switches consumers. The current stage must define the responsibility being established, the intended consumer or cutover, and the contract that this work must leave ready.
 
 A merely possible future consumer supplies none of those constraints. Do not pre-implement its presumed validation, migration, trust, presentation, or compatibility policy. Revisit the design when an accepted requirement identifies the real consumer and decision owner.
+
+As a stage changes or ends an obligation, reassess whether the related code belongs in the supported target system. Ask: given current business requirements and supported operating conditions, if the system had started with the migrated design, what requirement would justify this code existing? Establish the requirement independently of the implementation, its callers, and its tests. Semantic compatibility preserves current commitments; an inherited arrangement needs its own continuing justification.
+
+Include related active code and unchanged support artifacts in that assessment. A wrapper can still execute because a comparison fixture reconstructs an obsolete entry path, or a selection layer can still have callers after the system has committed to one implementation. References establish usage, but a chain whose members only sustain one another does not establish a current capability. Trace the chain to a supported consumer or explicit obligation before deciding what remains necessary.
+
+Remove behavior and support whose only obligation has ended. When the capability remains required but its inherited arrangement does not, simplify or collapse that arrangement while preserving the current contract. Retain a module or seam when it still isolates a live decision or external contract; one current implementation does not by itself make an adapter unnecessary.
+
+The diagnostic question does not prove that an obligation has ended. Supported older clients, persisted formats, security, reliability, and operational commitments remain requirements. Rollback and approved intermediate stages can require transitional behavior while those obligations remain live. Preserve affected code when a potentially real obligation is unresolved, and identify the missing evidence or decision. Bound the assessment by the changed obligation and its affected dependencies rather than unrelated opportunities to redesign the system.
 
 ## Let tests follow production ownership
 
@@ -109,4 +117,6 @@ Keep the behavior in the proposed module only when the answers identify one cohe
 - [John Ousterhout, _A Philosophy of Software Design_](https://web.stanford.edu/~ouster/cgi-bin/book.php)
 - [Alistair Cockburn, “Hexagonal Architecture: The Original 2005 Article”](https://alistair.cockburn.us/hexagonal-architecture)
 - [Martin Fowler, “Yagni”](https://martinfowler.com/bliki/Yagni.html)
+- [Danilo Sato, “Parallel Change”](https://martinfowler.com/bliki/ParallelChange.html)
+- [Ian Cartwright, Rob Horn, and James Lewis, “Transitional Architecture”](https://martinfowler.com/articles/patterns-legacy-displacement/transitional-architecture.html)
 - [underreacted, “slop lasagna”](https://underreacted.leaflet.pub/3mdjygm2p5s2c)

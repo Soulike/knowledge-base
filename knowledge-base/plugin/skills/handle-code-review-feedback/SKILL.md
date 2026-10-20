@@ -40,7 +40,13 @@ handling of later feedback.
    disposition for every proposed change. Read
    [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
    when those criteria require it.
-3. Select the supported technical handling. Proceed to implementation only
+3. When the feedback concerns retained code after a migration obligation changes
+   or ends, or the accepted task includes a final migration assessment, read
+   and apply
+   [Migration retirement assessment](../../references/software-design/migration-retirement-assessment.md).
+   Use its artifact investigation and dispositions before selecting remedies,
+   and carry its verification and completion gate into the handling result.
+4. Select the supported technical handling. Proceed to implementation only
    when the result is inside the accepted task and the task authorizes the
    exact change. Report a settled no-change result with its evidence; preserve
    affected work and expose unresolved decisions when the gate cannot pass.
@@ -69,6 +75,7 @@ concise technical conclusions rather than performative agreement.
 
 Complete only when every supplied concern is accounted for, every accepted
 change is verified within scope, and remaining decisions or evidence gaps are
-explicit. Leave commit, push, published reply, thread resolution, monitoring,
+explicit. Include the selected migration assessment's artifact dispositions and
+completion status when applicable. Leave commit, push, published reply, thread resolution, monitoring,
 and human-routing decisions to the surrounding task and its established
 authority.

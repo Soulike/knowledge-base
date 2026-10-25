@@ -21,6 +21,11 @@ description: Evaluate established solutions before creating or extending reusabl
 4. Record the required behavior and the constraints that can distinguish a
    suitable solution, including compatibility, performance, security, and
    operational limits that matter to the task.
+   When the capability uses an external command or an external command is a
+   candidate, read
+   [Runtime APIs and external commands](../../knowledge/software-design/runtime-apis-and-external-commands.md)
+   to assess the required semantics and command-boundary costs before selecting
+   a solution.
 
 Finish this step when the reusable capability and its project-specific
 constraints are explicit.

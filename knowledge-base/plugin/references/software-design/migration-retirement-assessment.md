@@ -31,6 +31,11 @@ be established within a consuming workflow.
    documentation that participate in the affected chain. Bound discovery by the
    changed obligation; record artifacts outside the task's edit authority
    without treating discovery as permission to change them.
+   When the affected chain contains external command invocations, or the stage
+   moves shell automation into a language runtime, read
+   [Runtime APIs and external commands](../../knowledge/software-design/runtime-apis-and-external-commands.md)
+   to assess the required capabilities and whether the command interfaces
+   remain justified before assigning dispositions.
 
 ## Decide and apply dispositions
 

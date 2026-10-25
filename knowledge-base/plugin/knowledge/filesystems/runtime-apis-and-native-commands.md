@@ -2,11 +2,10 @@
 
 ## Scope
 
-This document explains how to choose between a language runtime's filesystem
-API and a native command-line utility for a filesystem effect. It owns the
-additional interpretation boundary of command execution, the conditions for
-preferring a structured API, and the precautions needed when a native command
-remains necessary.
+This document explains the filesystem-specific API choices and host semantics
+needed when selecting a runtime filesystem API or a native utility for a
+filesystem effect. It owns the pathname, permission, and resource-identity
+limits that remain after selecting the invocation interface.
 
 ## When to update
 
@@ -14,16 +13,13 @@ Update this document when runtime filesystem capabilities, native utility
 invocation contracts, or observed cross-platform command behavior changes the
 choice or its limits.
 
-## Prefer an operation the runtime already provides
+## Select the filesystem operation
 
-When the runtime exposes an operation with the required semantics on the
-supported platforms, use it directly rather than spawning a native utility.
-The pathname remains an API value instead of becoming part of a command line.
-A command adds executable lookup, utility-specific options and operands,
-environment and locale effects, and exit-status handling. Constructing a shell
-command also adds shell parsing and quoting. Removing that extra boundary
-reduces compatibility work; it does not make the underlying filesystem
-operation platform-independent.
+Apply [Runtime APIs and external commands](../software-design/runtime-apis-and-external-commands.md)
+to the required filesystem effect: prefer the runtime operation when its
+semantics fit the supported hosts. A structured pathname argument avoids
+utility-option interpretation while leaving filesystem behavior dependent on
+the operation and platform.
 
 For example, Node.js offers [`fsPromises.chmod(path, mode)` and
 `filehandle.chmod(mode)`](https://nodejs.org/api/fs.html) for changing file
@@ -33,16 +29,15 @@ These APIs avoid handing an option-like pathname to a `chmod` command. Choose
 the pathname or handle form according to the operation's identity requirement,
 and verify availability and permission semantics on the supported hosts.
 
-## When a native command is necessary
+## Verify a retained native utility
 
-Use a native utility when the runtime lacks the required operation or the
-utility's behavior is itself part of the contract. Pass an argument vector
-without constructing shell text where the runtime permits it. This removes
-shell interpretation, but the utility still parses its own options and
-operands. Do not assume that a flag or option terminator accepted by one
-implementation has the same position or meaning in another. Verify the exact
-utility grammar and error behavior on each supported platform whose behavior
-the application promises.
+When retaining a native filesystem utility, verify its exact pathname grammar,
+metadata effect, and error behavior on each supported host. A flag or option
+terminator accepted by one implementation may have a different position or
+meaning in another; an option-like pathname must still reach the intended
+filesystem object as an operand.
+
+## Preserve identity and permission requirements
 
 Choosing a runtime API does not pin the object named by a pathname. When
 separate observations and changes must concern the same object, use the

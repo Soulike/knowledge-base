@@ -25,26 +25,19 @@ imports:
     with:
       scope: time-sensitive-knowledge
 
+sandbox:
+  agent:
+    version: v0.29.1
+    checksums-sha256: "8a27270a7980f9c5070c9e55ed8a9b6abb9cb7cb98f811b0861420c15df19d46"
+    images:
+      squid: ghcr.io/github/gh-aw-firewall/squid:0.29.1@sha256:575f5c30c08cfb195bad95363b8f50705dbf0c371082074425389230ec7061e0
+      agent: ghcr.io/github/gh-aw-firewall/agent:0.29.1@sha256:564d747d7ca15fa9cc20b3694d3c4b6aa82efdd6965b8835de5456344662a08b
+      api-proxy: ghcr.io/github/gh-aw-firewall/api-proxy:0.29.1@sha256:2600d581c3ba6c5846480ee371015c4ab9bfaa5508b2601c3497dbf9e1ebd5e1
+      cli-proxy: ghcr.io/github/gh-aw-firewall/cli-proxy:0.29.1@sha256:a294dc213a2a74ef8e87e0648545e8250fa541e5b566c1a8bfae385009208036
+
 permissions:
   all: read
   copilot-requests: write
-
-safe-outputs:
-  jobs:
-    delete-finding:
-      description: Delete one active finding after review or issue history shows that it should not be published.
-      max: 100
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-      inputs:
-        finding_id:
-          description: Exact run-local identifier chosen in the earlier add_finding call.
-          required: true
-          type: string
-      steps:
-        - name: Record delete-finding events
-          run: ":"
 
 concurrency:
   group: content-verification-time-sensitive-knowledge

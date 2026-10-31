@@ -104,16 +104,26 @@ describe("content verification findings gate CLI", () => {
   });
 
   it("exits nonzero for downloaded incomplete work", async () => {
-    await assert.rejects(
-      () =>
-        runGate([
-          {
-            type: "report_incomplete",
-            reason: "Source unavailable.",
-          },
-        ]),
-      /Content verification findings/u,
-    );
+    for (const type of [
+      "report_incomplete",
+      "report_missing_tool",
+      "report_missing_data",
+    ]) {
+      await assert.rejects(
+        () =>
+          runGate([
+            {
+              type: "add_finding",
+              finding_id: "earlier-finding",
+              target_id: "knowledge/a.md",
+              classification: "modification-required",
+              finding: "A finding recorded before review became incomplete.",
+            },
+            { type, reason: "Source unavailable." },
+          ]),
+        /Agent reported incomplete work/u,
+      );
+    }
   });
 
   it("rejects a missing completion signal", async () => {

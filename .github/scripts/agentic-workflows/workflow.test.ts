@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
@@ -237,11 +238,7 @@ function assertResearchMcpTools(source: string): void {
   assert.deepEqual(tools, ["tavily_extract", "tavily_search"]);
 }
 
-function assertCreditsGuardrailsAreOmitted(
-  source: string,
-  activation: JsonObject,
-): void {
-  assert.doesNotMatch(source, /"maxAiCredits"|enableTokenSteering/u);
+function assertDailyCreditsGuardrailIsOmitted(activation: JsonObject): void {
   assert.equal(
     "GH_AW_MAX_DAILY_AI_CREDITS" in
       object(activation.env, "activation environment"),
@@ -259,7 +256,7 @@ function assertCommonAgentRuntime(
   assertDependenciesPrecedeInference(workflow.agentSteps, installStepName);
   assertReadOnlyGitHubMcp(workflow.source, workflow.agentSteps);
   assertResearchMcpTools(workflow.source);
-  assertCreditsGuardrailsAreOmitted(workflow.source, workflow.activation);
+  assertDailyCreditsGuardrailIsOmitted(workflow.activation);
 }
 
 const contentVerificationFiles = [
@@ -268,6 +265,44 @@ const contentVerificationFiles = [
   "verify-maintained-agent-content",
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
+
+function renderedFirewallConfig(
+  steps: unknown[],
+  execution: string,
+): JsonObject {
+  const command = String(stepByName(steps, execution).run);
+  const lines = command.split("\n");
+  const start = lines.findIndex((line) =>
+    line.startsWith("GH_AW_MAX_AI_CREDITS="),
+  );
+  const end = lines.findIndex(
+    (line, index) =>
+      index > start &&
+      line.startsWith("printf ") &&
+      line.includes("/awf-config.json"),
+  );
+  assert.ok(start >= 0 && end > start, "Expected the AWF config generation.");
+
+  const root = mkdtempSync(join(tmpdir(), "awf-config-test-"));
+  try {
+    mkdirSync(join(root, "gh-aw"));
+    const result = spawnSync(
+      "bash",
+      ["-e", "-c", lines.slice(start, end + 1).join("\n")],
+      {
+        encoding: "utf8",
+        env: { PATH: process.env.PATH, RUNNER_TEMP: root },
+      },
+    );
+    assert.equal(result.status, 0, result.stderr);
+    return object(
+      JSON.parse(readFileSync(join(root, "gh-aw", "awf-config.json"), "utf8")),
+      "rendered AWF config",
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+}
 
 describe("Copilot release selection", () => {
   const versionExpression =
@@ -477,6 +512,54 @@ describe("Copilot release selection", () => {
 });
 
 describe("compiled Agent runtime boundaries", () => {
+  it("uses a compatible pinned firewall for the disabled Agent and detection budgets", () => {
+    const version = "v0.29.1";
+    const checksum =
+      "8a27270a7980f9c5070c9e55ed8a9b6abb9cb7cb98f811b0861420c15df19d46";
+    for (const file of contentVerificationFiles) {
+      const { jobs } = loadCompiledWorkflow(file);
+      for (const [jobName, execution] of [
+        ["agent", "Execute GitHub Copilot CLI"],
+        ["detection", "Execute threat detection with AWF"],
+      ] as const) {
+        const job = object(jobs[jobName], `${file} ${jobName}`);
+        const steps = array(job.steps, `${file} ${jobName} steps`);
+        const install = String(stepByName(steps, "Install AWF binary").run);
+        assert.ok(
+          install.includes(`${version} --checksums-sha256 ${checksum}`),
+        );
+
+        const config = renderedFirewallConfig(steps, execution);
+        assert.equal(
+          config.$schema,
+          `https://github.com/github/gh-aw-firewall/releases/download/${version}/awf-config.schema.json`,
+        );
+        const proxy = object(config.apiProxy, "AWF API proxy");
+        assert.equal(proxy.maxAiCredits, -1);
+        assert.equal("enableTokenSteering" in proxy, false);
+
+        const images = object(
+          object(config.container, "AWF container").images,
+          "AWF container images",
+        );
+        for (const [field, image] of [
+          ["agent", "agent"],
+          ["apiProxy", "api-proxy"],
+          ["cliProxy", "cli-proxy"],
+          ["squid", "squid"],
+        ] as const) {
+          assert.match(
+            String(images[field]),
+            new RegExp(
+              `^ghcr\\.io/github/gh-aw-firewall/${image}:0\\.29\\.1@sha256:[a-f0-9]{64}$`,
+              "u",
+            ),
+          );
+        }
+      }
+    }
+  });
+
   it("allows public upstream workflow reads with only the read-only run token", () => {
     for (const file of contentVerificationFiles) {
       const { agentSteps } = loadCompiledWorkflow(file);
@@ -577,8 +660,11 @@ describe("compiled content-verification publication boundary", () => {
           stepIndex(agentSteps, "Upload trusted target manifest"),
       );
 
-      assert.equal(gate.if, "always()");
-      assert.equal(gate.needs, "agent");
+      assert.deepEqual(gate.needs, ["agent", "detection"]);
+      assert.match(
+        String(gate.if),
+        /^\$\{\{ needs\.detection\.result == 'success' && needs\.detection\.outputs\.detection_success == 'true' && \(always\(\)\) \}\}$/u,
+      );
       assert.deepEqual(gate.permissions, { contents: "read" });
       const downloadInputs = object(
         stepByName(gateSteps, "Download Agent output and target manifest").with,
@@ -628,6 +714,10 @@ describe("compiled content-verification publication boundary", () => {
         /needs\.detection\.result == 'success'/u,
       );
       assert.match(
+        String(publisher.if),
+        /needs\.detection\.outputs\.detection_success == 'true'/u,
+      );
+      assert.match(
         String(
           stepByName(publisherSteps, "Publish content verification findings")
             .run,
@@ -666,6 +756,12 @@ describe("compiled content-verification publication boundary", () => {
         safeConfig["delete-finding"],
         `${file} delete-finding tool`,
       );
+      for (const findingTool of [addFinding, updateFinding, deleteFinding]) {
+        assert.equal(findingTool.max, 100);
+      }
+      for (const name of ["report_missing_tool", "report_missing_data"]) {
+        assert.ok(name in safeConfig);
+      }
       const addInputs = object(addFinding.inputs, `${file} add-finding inputs`);
       assert.match(
         String(object(addInputs.finding_id, `${file} finding id`).description),
@@ -734,6 +830,7 @@ describe("compiled content-verification publication boundary", () => {
 
       assert.deepEqual(permissions, {
         actions: "read",
+        checks: "read",
         issues: "write",
         "pull-requests": "read",
       });
@@ -746,12 +843,25 @@ describe("compiled content-verification publication boundary", () => {
       }
       assert.match(String(conclusion.if), /^always\(\)/u);
 
+      const failureEnvironment = object(
+        stepByName(steps, "Handle agent failure").env,
+        `${file} agent-failure environment`,
+      );
+      assert.equal(failureEnvironment.GH_AW_FAILURE_REPORT_AS_ISSUE, "true");
+      assert.equal(
+        failureEnvironment.GH_AW_MISSING_TOOL_REPORT_AS_FAILURE,
+        "true",
+      );
+      assert.equal(
+        failureEnvironment.GH_AW_MISSING_DATA_REPORT_AS_FAILURE,
+        "true",
+      );
       assert.equal(
         object(
-          stepByName(steps, "Handle agent failure").env,
-          `${file} agent-failure environment`,
-        ).GH_AW_FAILURE_REPORT_AS_ISSUE,
-        "true",
+          stepByName(steps, "Record missing tool").env,
+          `${file} missing-tool environment`,
+        ).GH_AW_MISSING_TOOL_CREATE_ISSUE,
+        "false",
       );
       assert.equal(
         object(

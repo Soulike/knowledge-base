@@ -167,8 +167,8 @@ export function reduceFindingEvents(
     const type = boundedString(item.type, "safe output type", 120);
     if (
       type === "report_incomplete" ||
-      type === "missing_tool" ||
-      type === "missing_data"
+      type === "report_missing_tool" ||
+      type === "report_missing_data"
     ) {
       fail(`Agent reported incomplete work through '${type}'.`);
     }

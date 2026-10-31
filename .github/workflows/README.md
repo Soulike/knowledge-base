@@ -51,8 +51,8 @@ The three scheduled tasks import
 [the shared runtime](shared/agentic-runtime.md). It provides:
 
 - all GitHub read toolsets with read-only server credentials;
-- the pinned local GitHub MCP server for pull-request threads, Actions runs,
-  checks, artifacts, logs, and other GitHub reads;
+- the local GitHub MCP server selected by the pinned gh-aw compiler for
+  pull-request threads, Actions runs, checks, artifacts, logs, and other GitHub reads;
 - unrestricted Bash commands inside the Agent sandbox;
 - the remote Tavily MCP service for external source discovery and page
   extraction;

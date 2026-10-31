@@ -156,9 +156,23 @@ safe-outputs:
       steps:
         - name: Record update-finding events
           run: ":"
-  missing-tool:
+    delete-finding:
+      description: Delete one active finding after review or issue history shows that it should not be published.
+      max: 100
+      runs-on: ubuntu-latest
+      permissions:
+        contents: read
+      inputs:
+        finding_id:
+          description: Exact run-local identifier chosen in the earlier add_finding call.
+          required: true
+          type: string
+      steps:
+        - name: Record delete-finding events
+          run: ":"
+  report-missing-tool:
     create-issue: false
-  missing-data:
+  report-missing-data:
     create-issue: false
   report-incomplete:
     create-issue: false
@@ -280,8 +294,8 @@ workflow completion.
 
 Do not delegate, execute shell commands, modify state, or invoke safe-output
 tools or the `safeoutputs` CLI. Do not emit finding events, `noop`,
-`missing_tool`, `missing_data`, or `report_incomplete`; report limitations in
-your response so the main Agent can decide the complete run's result. Finish
-with your report even when no defect was found.
+`report_missing_tool`, `report_missing_data`, or `report_incomplete`; report
+limitations in your response so the main Agent can decide the complete run's
+result. Finish with your report even when no defect was found.
 
 ## end agent: `content-verification-researcher`

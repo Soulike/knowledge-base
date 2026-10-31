@@ -32,11 +32,13 @@ jobs:
       - name: Install fixed gh-aw compiler
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh extension install github/gh-aw --pin v0.91.12
+          XDG_DATA_HOME: ${{ runner.temp }}/gh-aw-data
+        run: gh extension install github/gh-aw --pin v1.0.1
 
       - name: Check generated Agentic workflows
         env:
           GH_TOKEN: ${{ github.token }}
+          XDG_DATA_HOME: ${{ runner.temp }}/gh-aw-data
         run: pnpm agentic:check
 
       - name: Typecheck

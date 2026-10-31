@@ -51,8 +51,8 @@ The three scheduled tasks import
 [the shared runtime](shared/agentic-runtime.md). It provides:
 
 - all GitHub read toolsets with read-only server credentials;
-- the pinned local GitHub MCP server for pull-request threads, Actions runs,
-  checks, artifacts, logs, and other GitHub reads;
+- the local GitHub MCP server selected by the pinned gh-aw compiler for
+  pull-request threads, Actions runs, checks, artifacts, logs, and other GitHub reads;
 - unrestricted Bash commands inside the Agent sandbox;
 - the remote Tavily MCP service for external source discovery and page
   extraction;
@@ -74,9 +74,18 @@ timeout stays in each task because the pinned compiler does not inherit that
 field from imports. The reusable pull-request review workflow owns its own
 execution budgets.
 
-The shared source disables gh-aw per-run, threat-detection, and daily AI Credits
-guardrails with `-1`. This removes the runtime dependency on gh-aw model-pricing
-tables; it does not disable Copilot provider billing or token reporting.
+The shared source sets the per-run, threat-detection, and daily AI Credits
+budgets to `-1`. Each scheduled workflow pins AWF `v0.29.1`, its release
+checksum, and immutable container images: the AWF version bundled with gh-aw
+`v1.0.1` [rejects the disabled budget](https://github.com/github/gh-aw/issues/72523),
+whereas [`v0.29.1` accepts it](https://github.com/github/gh-aw-firewall/pull/10828).
+gh-aw does not inherit these sandbox version and image settings from imports,
+so each workflow must declare them. Recheck the override when upgrading gh-aw.
+
+AWF treats `-1` as no configured budget, removing the dependency on known
+model prices for that budget. AWF still enforces a 10,000-credit hard cap on
+accounted usage, but unpriced usage is excluded from that total. Copilot
+provider billing and token reporting still apply.
 
 The Agent does not receive the credential used for issue or review publication. It requests an allowed effect through safe-output tools. A separate job with only the required write permission validates and applies that request. Repository-owned gates then enforce task-specific subject, shape, verdict, or completion policy.
 
@@ -148,8 +157,12 @@ completion declaration fails validation. These results do not claim
 mechanically proven per-target coverage.
 
 The [finding reducer](../scripts/content-verification-contract/finding-events.ts)
-validates that append-only stream after Agent completion. The
-[trusted finding publisher](../scripts/content-verification-publication/finding-publication.ts)
+validates that append-only stream after Agent completion. The compiler runs the
+gate only after the detection job succeeds and reports `detection_success: true`.
+A failed detection job skips the gate and publisher, and Actions reports the
+failure.
+
+The [trusted finding publisher](../scripts/content-verification-publication/finding-publication.ts)
 runs only after Agent success, the canonical gate, and threat detection. It
 constructs all issue identity and boilerplate, publishes one issue per remaining
 finding, and suppresses only an exact open publication race. Run-local finding
@@ -168,13 +181,10 @@ reduction. The task accepts gh-aw's `noop` completion signal for the whole
 run, with a maximum of one call and issue reporting disabled. A research
 assignment cannot declare no action for the complete run.
 
-The pinned gh-aw compiler injects a default `create_issue` tool when every
-custom tool comes only from imports. The shared contract therefore owns the
-larger add and update schemas, while each task source repeats the
-one-parameter delete job as a thin compiler adapter. All three finding tools
-use job-based recording handlers, which support explicit event limits; the
-pinned compiler's script handlers do not. Generated-workflow tests require the
-same three finding tools and no `create_issue` tool in every task.
+The shared contract defines all three finding tools as job-based recording
+handlers, which support explicit event limits; the pinned compiler's script
+handlers do not. Generated-workflow tests require the same three finding tools
+and no `create_issue` tool in every task.
 
 ### Status and failure issues
 
@@ -189,16 +199,17 @@ Each workflow enables gh-aw's global failure-issue reporter and failed-job
 reporter. Agent and framework failures, including `report_incomplete`, use the
 runtime's failure identity and 24-hour reuse window. The conclusion job also
 inspects repository-owned jobs such as the content gate and finding publisher.
-The dedicated `report-incomplete` issue handler remains disabled, so incomplete
-work does not create a second issue beside the global failure report. These
-operational issues remain separate from content findings.
+The dedicated `report-incomplete` issue handler remains disabled. When
+incomplete work also fails the repository gate, the failed-job reporter may
+create a separate operational issue in addition to the global failure report.
+These operational issues remain separate from content findings.
 
 Failure-issue publication is best effort within the fixed gh-aw runtime.
 Failed-job reports are created per run rather than using the
 Agent/framework reporter's 24-hour reuse window, and the reporter excludes the
-built-in `safe_outputs` job. Actions status and normal notifications remain the
-complete operational signal; this repository does not add a second failure
-parser or persistent aggregator.
+built-in `safe_outputs` and `detection` jobs. Actions status and normal
+notifications remain the complete operational signal; this repository does not
+add a second failure parser or persistent aggregator.
 
 ## Required pull-request review
 
@@ -246,16 +257,23 @@ labels.
 
 ## Compile and validate
 
-The repository pins gh-aw `v0.91.12` for the three scheduled workflows. Install
-that exact compiler and regenerate their sources with:
+The repository pins gh-aw `v1.0.1` for the three scheduled workflows. If gh-aw
+is already installed, remove it first; `--force` may ignore `--pin` for an
+existing extension ([GitHub CLI issue](https://github.com/cli/cli/issues/13551)):
 
 ```bash
-gh extension install github/gh-aw --pin v0.91.12
+gh extension remove gh-aw
+```
+
+Install the exact compiler and regenerate the workflows with:
+
+```bash
+gh extension install github/gh-aw --pin v1.0.1
 pnpm agentic:compile
 ```
 
 For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The
-wrapper rejects every compiler version except `v0.91.12`.
+wrapper rejects every compiler version except `v1.0.1`.
 
 Each scheduled source explicitly sets `strict: false` because gh-aw rejects
 `private-to-public-flows` in strict mode. The wrapper retains schema and action
@@ -273,6 +291,15 @@ git diff --check
 ```
 
 `pnpm agentic:check` recompiles and rejects modified, deleted, or untracked generated artifacts. Generated lock workflows are excluded from Prettier because gh-aw is their authoritative formatter.
+
+The compiler warns that `GH_AW_ENGINE_VERSION` in each finding job references
+the resolver without a direct dependency, so that metadata is empty in those
+jobs. The finding jobs only download the output and run no-op handlers; the
+Agent and detection installers depend directly on the resolver. The current
+[safe-job dependency validation](https://github.com/github/gh-aw/blob/v1.0.1/pkg/workflow/safe_jobs_needs_validation.go)
+does not accept ordinary custom jobs. Recheck this limitation when upgrading
+gh-aw. The compiler also warns about the intentional private-to-public policy
+described under [Shared runtime boundary](#shared-runtime-boundary).
 
 The reusable AI-review caller is ordinary GitHub Actions YAML and is not compiled
 by the local gh-aw toolchain. Its repository prompt is covered by the prompt-link

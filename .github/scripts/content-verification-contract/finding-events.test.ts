@@ -118,11 +118,23 @@ describe("reduceFindingEvents", () => {
       [noop, noop],
       [{ type: "noop", message: " " }],
       [{ ...noop, target_id: "knowledge/a.md" }],
-      [{ type: "missing_tool", tool: "Required source reader" }, noop],
     ]) {
       assert.throws(
         () => reduceFindingEvents(manifest, output(items)),
         /Content verification findings/u,
+      );
+    }
+  });
+
+  it("rejects earlier findings when missing tools or data make the review incomplete", () => {
+    for (const type of ["report_missing_tool", "report_missing_data"]) {
+      assert.throws(
+        () =>
+          reduceFindingEvents(
+            manifest,
+            output([add(), { type, reason: "Required evidence unavailable." }]),
+          ),
+        /Agent reported incomplete work/u,
       );
     }
   });

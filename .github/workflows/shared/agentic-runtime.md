@@ -11,9 +11,6 @@ tools:
   bash: [":*"]
   github:
     mode: local
-    # The current guard misclassifies v2 issue envelopes. Recheck on gh-aw
-    # upgrades; removal criteria: https://github.com/Soulike/ai-review-workflow/issues/23
-    version: "v1.14.0"
     read-only: true
     toolsets: [all, dependabot]
     # The run token limits private access to this repository while retaining

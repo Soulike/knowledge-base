@@ -24,10 +24,10 @@ explicitly run from the repository root.
 5. Apply the ownership and generalization rules below before choosing a
    destination or operation. Use the resulting claim scopes and document
    boundaries throughout the remaining steps.
-6. Compare each affected responsibility with every candidate document's
-   pre-edit Scope, Knowledge catalog `When to Read` condition, and `When to update`
-   trigger. Select that document only when all three describe the
-   same responsibility; otherwise select a separate owner.
+6. Complete the [ownership and retrieval assessment](#ownership-and-generalization)
+   for each affected responsibility before selecting its destination or
+   operation. Return its evidence and proposed disposition to the parent for
+   assessment-only work; resume below only when edits are authorized.
 7. Apply the parent-selected disposition to each affected responsibility unit.
    When an existing document owns the concept, rewrite the complete affected
    block in place, remove superseded wording, and leave one coherent current
@@ -45,12 +45,11 @@ explicitly run from the repository root.
    [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
    retained dependency where it is applied and include the local context needed
    to use the current document.
-10. Before writing a new or changed catalog row, form reader requests and
-    expected selections using [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
-    Include a broad request that does not name the leaf's concepts, a direct
-    request, and a nearby negative when those cases apply. Keep the cases and
-    expected selections in the work record. Then add, update, or remove the row
-    using the fields below, including its Knowledge Type. Repair every route
+10. Apply the assessed routing disposition to
+    [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
+    using the fields below, including its Knowledge Type. Check the final
+    selections against the requests established during ownership assessment,
+    including any retained route. Repair every route
     and inline dependency affected by a move, merge, split, rename, or removal.
 11. Verify that every remaining leaf document is listed exactly once with one
     valid Knowledge Type, serves its `When to Read` condition without requiring
@@ -100,7 +99,55 @@ retrievable specializations remain separate Knowledge routes.
 
 Generalize source material to the narrowest stable abstraction supported by the evidence. Separate direct observations from the invariant that explains them and the conditions it requires. Remove source-project details only when they do not affect that invariant, and retain product, platform, protocol, runtime, or environmental qualifiers that the evidence has not displaced. Authoritative contracts, documented semantics, mechanism-level reasoning, and representative observations can support a broader claim; analogy alone supports only a hypothesis.
 
-Test ownership against the pre-edit boundary. Topical overlap makes a document a candidate, while canonical ownership requires the same responsibility. Using a newly widened Scope or routing condition as proof of fit is circular. Revise a boundary when it states the same pre-edit responsibility more accurately; select a separate owner when the material introduces an independent responsibility, read trigger, or maintenance trigger. Compare the old and new routing conditions after drafting to catch a boundary widened to admit the material.
+Assess ownership and retrieval before choosing an existing or new owner,
+including during read-only contribution triage:
+
+1. State the concrete reader tasks, subject-specific decisions, and explanatory
+   model the material must support, together with the context available before
+   reading it. Use these needs to find candidate owners rather than reducing
+   the material to a shared principle.
+2. Read each candidate's actual pre-edit content alongside its Scope, catalog
+   `When to Read` condition, and `When to update` trigger. Confirm that the
+   content and these boundaries describe the same responsibility. For each
+   required decision or explanation, identify the supporting body-content
+   location and how it supports the need, a gap to correct within that established responsibility, or an independently needed
+   responsibility the candidate does not own. Justify a same-owner correction
+   by the subject decision model already present, not by broad Scope or route
+   labels alone. Topical overlap, a shared premise, and loading by a consuming
+   Skill identify candidates; they do not establish ownership of a different
+   decision model. An uncovered detail alone also does not justify a new owner.
+3. Form natural requests and expected selections using
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
+   Run selection against the real candidate catalog. Record each request and
+   the actual selected candidates, including no selection, separately from the
+   expected choices. Compare the observed selections with the content coverage
+   established above. A condition mentioning the subject or an assertion that
+   it covers the request is not a recorded selection observation.
+4. Distinguish a route that inadequately expresses an existing responsibility
+   from material that introduces a distinct subject responsibility. For the
+   former, retain the owner and propose a trigger correction; for the latter,
+   select a separate owner when the independent reading and maintenance needs
+   justify it. A missed selection alone does not justify another document.
+
+Keep a reviewable ownership and retrieval account in the work record: the
+reader needs, candidate coverage and gaps with pre-edit source locations,
+requests and expected versus observed selections, and the resulting ownership
+and route dispositions. Conclude fit only from that account. Missing selection
+observations or unexamined required decisions leave fit unresolved; report the
+missing evidence rather than claiming established fit.
+Incomplete evidence may support an explicitly provisional proposal, but not a
+settled canonical owner or no-route-change conclusion.
+
+For example, verifying identity before acting can be a shared premise in
+storage access and approval handling. A storage example exercising an already
+explained identity check can stay with that rule. A proposal explaining
+approval generations and revocation requires comparison of those decisions;
+the common identity premise does not establish that the rule owns their model.
+
+Use the pre-edit boundary throughout this comparison. A proposed Scope or
+trigger must express the established responsibility rather than widen it to
+admit the material. After drafting, compare the old and final boundaries and
+selections to verify the assessed disposition.
 
 Split a general principle from a product- or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed API choices, runtime behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
 

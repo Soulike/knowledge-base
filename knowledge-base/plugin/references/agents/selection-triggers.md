@@ -38,7 +38,15 @@ an otherwise ambiguous boundary with an adjacent route.
 
 ## Check selection from requests
 
-Before finalizing the wording, test natural requests. Include a broad task
+Check selection when writing or revising a condition, assessing a target's
+placement, or substantively changing its covered content or responsibility, even if its
+route's wording is unchanged.
+An unchanged condition mentioning the subject does not establish that readers
+will select the needed understanding. Begin during placement assessment so
+the result can inform the owner and routing decision; repeat against the final
+candidate set after drafting.
+
+Test natural requests. Include a broad task
 that does not name the target's concepts or diagnosis when its responsibility
 can arise in wider work; include direct and nearby negative requests when they
 exist. Derive cases from the target's actual responsibility rather than

@@ -1,6 +1,6 @@
 ---
 name: maintain-knowledge-base
-description: Maintain content in this knowledge-base repository. Use when an authorized change must modify its Knowledge, Agent workflows, Skill references, or maintained Agent instructions and prompts.
+description: Assess contribution classification, ownership, and placement, or maintain content in this knowledge-base repository. Use for read-only contribution triage and authorized changes to its Knowledge, Agent workflows, Skill references, or maintained Agent instructions and prompts.
 ---
 
 # Maintain the knowledge base
@@ -16,8 +16,9 @@ of the change effect, but do not authorize changes to independent behavior.
 ## Workflow
 
 1. Resolve repository paths relative to this `SKILL.md`; the repository root is
-   `../../..`. Treat the user's requested change as the mutation boundary. Read
-   the affected plugin's authoring rules and enough surrounding content to
+   `../../..`. Establish whether the request is assessment-only or authorizes
+   edits; keep assessment read-only. Treat any authorized change as the mutation
+   boundary. Read the affected plugin's authoring rules and enough surrounding content to
    judge the complete effect, but request an
    expanded scope before changing an independent responsibility, public trigger,
    or consumer not required to leave the authorized change coherent.
@@ -43,11 +44,14 @@ of the change effect, but do not authorize changes to independent behavior.
    understanding nor a reusable workflow in its actual artifact type rather
    than forcing it into Knowledge or a Skill.
 5. Inventory relevant existing Knowledge, Skills, and references in every
-   applicable package or authoring scope. Compare their pre-edit
-   responsibilities, consumers, retrieval or invocation triggers, and
-   maintenance lifecycles. Prefer an existing owner when it already owns the
-   responsibility; retain a new artifact only for an independently owned
-   remainder, and report why no existing owner fits it.
+   applicable package or authoring scope. Start from the concrete reader tasks
+   and decisions each affected part must support, then compare candidates'
+   pre-edit responsibilities, consumers, retrieval or invocation triggers, and
+   maintenance lifecycles. For Knowledge, apply the
+   [ownership and retrieval assessment](references/maintain-knowledge.md#ownership-and-generalization)
+   before concluding that an existing owner fits. Prefer an existing owner
+   when it already owns the responsibility; retain a new artifact only for an
+   independently owned remainder, and report why no existing owner fits it.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
    [Maintained document quality](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md)
@@ -69,16 +73,22 @@ of the change effect, but do not authorize changes to independent behavior.
    and proceed within the existing authorization. For purely mechanical edits,
    confirm that meaning and structure are unchanged without a full structural
    assessment.
-9. For each substantive revision, choose the operations that realize that
+9. For each substantive proposal, choose the operations that realize that
    structure across the complete affected responsibility units. Compare making
    no change, deleting, rewriting, adding, merging, splitting, and moving before
    editing. Prefer replacement or consolidation when material corrects,
    duplicates, or supersedes existing content; separate responsibilities when
-   fitting them together would widen an owner's pre-edit responsibility or
-   trigger. Use progressive disclosure for branch-only detail when it improves
+   fitting them together would widen an owner's pre-edit responsibility.
+   Use progressive disclosure for branch-only detail when it improves
    the reader's path. Select for the clarity and coherence of the final content;
    diff size does not constrain the necessary rewrite within the authorized
    responsibility boundary.
+   For assessment-only work, report the classification, structural judgment,
+   proposed operations and destinations, unresolved decisions, and validation
+   limits. Include the required
+   [ownership and retrieval account](references/maintain-knowledge.md#ownership-and-generalization)
+   for Knowledge placement conclusions. Stop here without applying operations
+   or claiming remediation.
 10. Resume each applicable artifact workflow and apply the selected operations.
     For each Knowledge part, use
     [`references/maintain-knowledge.md`](references/maintain-knowledge.md) and
@@ -114,8 +124,8 @@ of the change effect, but do not authorize changes to independent behavior.
 13. When meaning or structure changed, use a fresh Agent or isolated context for
     one read-only review with distinct suitability and semantic conclusions.
     Supply active instructions, applicable standards, accepted requirements,
-    and raw artifacts without the author's conclusions. For changed selection
-    routes, first apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
+    and raw artifacts without the author's conclusions. For affected selections,
+    first apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
     have the reviewer choose from natural requests and the real candidate set
     before opening target contents or seeing expected selections. Then apply
     the loaded Knowledge's suitability review to the reader task and complete
@@ -138,8 +148,13 @@ of the change effect, but do not authorize changes to independent behavior.
 
 ## Completion criteria
 
-Finish only when every affected part has been classified and every accepted
-part has one authoritative home. Each affected responsibility unit must present
+An assessment is complete only when its report includes the required
+[ownership and retrieval account](references/maintain-knowledge.md#ownership-and-generalization)
+for Knowledge placement conclusions and explicitly identifies unresolved
+evidence. An unsupported fit conclusion leaves the assessment incomplete.
+
+For authorized delivery, finish only when every affected part has been
+classified and every accepted part has one authoritative home. Each affected responsibility unit must present
 one coherent current model without superseded wording, duplicated authority,
 patch-layered qualifications, or unnecessary workflow branches. The final
 artifact structure must reflect responsibilities, retrieval or invocation

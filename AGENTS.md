@@ -61,11 +61,12 @@ runtime artifact. Source modification, Git refs, pull requests, and issue
 activity after the publication terminal result are outside that workflow.
 
 Use [maintain-knowledge-base](.agents/skills/maintain-knowledge-base/SKILL.md)
+when assessing a contribution's classification, ownership, or placement, and
 whenever an authorized change adds, corrects, rewrites, splits, merges, moves,
 or removes Knowledge, a Skill, a Skill reference, or maintained Agent
 instructions and prompts that govern them. It classifies every affected
 responsibility before selecting authoring workflows and the smallest coherent
-operation.
+operation; assessment alone does not authorize edits.
 
 ## Markdown references
 

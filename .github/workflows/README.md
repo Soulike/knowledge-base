@@ -151,10 +151,10 @@ evidence cannot confirm or invalidate the finding.
 The main Agent is the sole safe-output producer. It may delegate investigation
 to the tool-restricted `content-verification-researcher` profile defined in the
 [shared contract](shared/content-verification.md). Researchers return evidence
-and limitations to the main Agent and have no shell execution, safe-output
-tools, or further delegation. The main Agent consolidates their reports,
-assigns finding ids, compares issue history, and decides the complete run's
-result.
+and limitations to the main Agent, may use shell commands and Playwright for
+read-only evidence collection, and must not invoke safe outputs or further
+delegation. The main Agent consolidates their reports, assigns finding ids,
+compares issue history, and decides the complete run's result.
 
 Each workflow adds and fully replaces findings during review, then updates or
 deletes them while comparing issue history. Each finding has one primary review

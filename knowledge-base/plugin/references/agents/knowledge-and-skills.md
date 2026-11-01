@@ -12,7 +12,7 @@ Update this reference when changes in Agent capabilities or a real classificatio
 
 ### Knowledge
 
-Knowledge preserves understanding about a technical subject, product, platform, protocol, or engineering artifact. Its concrete reading trigger is observable from the task or subject before an Agent selects a workflow, and that trigger remains if every Skill that happens to use the Knowledge is removed.
+Knowledge preserves understanding about a subject with a concrete reading need arising from the task, subject, or current artifact before an Agent selects a workflow. That trigger remains if every Skill that happens to use the Knowledge is removed.
 
 ### Skill
 
@@ -24,11 +24,11 @@ A Skill reference supplies facts, criteria, examples, or decision support to a w
 
 ## Boundary
 
-Classify content by retrieval and execution responsibility rather than Markdown form or expository style. Algorithms, criteria, and principles can be Knowledge when a technical subject independently gives an Agent reason to retrieve them. The same forms are Skill references when their only route is a workflow decision.
+Classify content by retrieval and execution responsibility rather than Markdown form or expository style. Algorithms, criteria, and principles can be Knowledge when a task or subject independently gives an Agent reason to retrieve them. The same forms are Skill references when their only route is a workflow decision.
 
 Apply four tests:
 
-1. **Retrieval origin:** Does the user task, technical subject, or current artifact expose the reading need without first entering a workflow?
+1. **Retrieval origin:** Does the user task, subject, or current artifact expose the reading need without first entering a workflow?
 2. **Workflow removal:** If every consuming Skill disappeared, would a concrete reason to retrieve this material remain?
 3. **Routing order:** Can an Agent evaluate its reading trigger before choosing the workflow that may consume it?
 4. **Lifecycle:** Does the material become stale when its subject changes, or when a workflow changes how it performs a step?

@@ -20,6 +20,13 @@ instructions, and prompts.
 When reviewing a Knowledge reading trigger or Skill invocation condition,
 apply [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md).
 
+For affected content's claim scope and organization, read and apply
+[Assess contribution scope](knowledge-base/plugin/references/agents/contribution-scope-assessment.md).
+Compare its supported reader needs and applicability with the complete final
+content and trusted pre-change responsibility; existing Scope or catalog labels
+do not settle whether the organization fits. Keep any resulting finding bound
+to a concrete defect introduced by this pull request.
+
 Review every applicable repository-specific dimension:
 
 1. Classification, ownership, retrieval routes, maintenance lifecycle, package

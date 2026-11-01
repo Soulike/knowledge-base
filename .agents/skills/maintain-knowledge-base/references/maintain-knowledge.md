@@ -23,9 +23,11 @@ explicitly run from the repository root.
    and private infrastructure. Product, platform, protocol, and engineering-
    domain specificity are valid. Return material whose meaning depends on its
    source project to the parent workflow as neither.
-5. Apply the ownership and generalization rules below before choosing a
-   destination or operation. Use the resulting claim scopes and document
-   boundaries throughout the remaining steps.
+5. Use the results of
+   [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+   in the ownership assessment below before choosing a destination or
+   operation. Carry the supported claim scopes and reader needs into the
+   remaining steps.
 6. Complete the [ownership and retrieval assessment](#ownership-and-generalization)
    for each affected responsibility before selecting its destination or
    operation. Return its evidence and proposed disposition to the parent for
@@ -99,7 +101,11 @@ retrievable specializations remain separate Knowledge routes.
 
 ## Ownership and generalization
 
-Generalize source material to the narrowest stable abstraction supported by the evidence. Separate direct observations from the invariant that explains them and the conditions it requires. Remove source-project details only when they do not affect that invariant, and retain product, platform, protocol, runtime, or environmental qualifiers that the evidence has not displaced. Authoritative contracts, documented semantics, mechanism-level reasoning, and representative observations can support a broader claim; analogy alone supports only a hypothesis.
+Use the supported scopes, conditions, and reader needs established through
+[Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+to assess canonical ownership and actual retrieval. That reference owns scope
+analysis for both proposed and existing content; this assessment determines
+the Knowledge owner and catalog disposition from its results.
 
 Assess ownership and retrieval before choosing an existing or new owner,
 including during read-only contribution triage:
@@ -110,7 +116,8 @@ including during read-only contribution triage:
    the material to a shared principle.
 2. Read each candidate's actual pre-edit content alongside its Scope, catalog
    `When to Read` condition, and `When to update` trigger. Confirm that the
-   content and these boundaries describe the same responsibility. For each
+   content and these boundaries describe the same responsibility, then compare
+   the scope assessment's reader needs with that responsibility. For each
    required decision or explanation, identify the supporting body-content
    location and how it supports the need, a gap to correct within that established responsibility, or an independently needed
    responsibility the candidate does not own. Justify a same-owner correction
@@ -146,12 +153,15 @@ explained identity check can stay with that rule. A proposal explaining
 approval generations and revocation requires comparison of those decisions;
 the common identity premise does not establish that the rule owns their model.
 
-Use the pre-edit boundary throughout this comparison. A proposed Scope or
-trigger must express the established responsibility rather than widen it to
-admit the material. After drafting, compare the old and final boundaries and
-selections to verify the assessed disposition.
+Keep the trusted pre-edit Scope, trigger, and body as the comparison baseline
+throughout this assessment. Use the scope assessment and coverage evidence to
+justify retaining or extending the same responsibility, or selecting a
+different owner for an independently needed responsibility. A proposed Scope
+or trigger must express that justified disposition; changing its wording does
+not establish ownership. After drafting, compare the old and final boundaries
+and selections to verify the assessed disposition.
 
-Split a general principle from a product- or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed API choices, runtime behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
+Split a general principle from a domain-, product-, or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed decisions, behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
 
 Merge Knowledge documents when their pre-edit Scopes and reading triggers route
 the same responsibility and retaining both would preserve competing or

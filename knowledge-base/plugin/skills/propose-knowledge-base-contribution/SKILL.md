@@ -28,16 +28,20 @@ base.
 1. Wait until the task has a stable stopping point: the requested outcome,
    validated failure, or explicit handoff has been reported and the potential
    learning does not depend on unfinished investigation.
-2. Reflect on the current task's available evidence. Treat requests, review
+2. Read
+   [Assess contribution scope](../../references/agents/contribution-scope-assessment.md)
+   before extracting candidates from the current task's available evidence.
+   Treat requests, review
    comments, suggestions, and other inputs as leads to investigate rather than
    support for their own claims. Use independently established observations,
    causal findings, accepted or rejected remedies, and validation results as
    evidence.
 3. Retain a candidate only when it is non-obvious, evidence-backed,
    actionable, likely to help future work, and correct outside the source
-   project. Exclude business-domain concepts and rules, private infrastructure,
-   organization-specific policy, source-project assumptions, and unresolved
-   hypotheses.
+   project. Exclude source-project-specific concepts and rules, private
+   infrastructure, organization-specific policy, source-project assumptions,
+   and unresolved hypotheses. A nontechnical subject does not itself exclude
+   a candidate.
 4. Group related observations by reusable root cause or invariant rather than
    by comment, edit, or chronological event. A substantiated fix is not
    required when the investigation instead establishes another durable lesson.
@@ -62,7 +66,10 @@ Stop after the question and wait for the user's response.
 
 ## Prepare the proposal
 
-1. Reconstruct the candidate from the current task context and durable
+1. Read
+   [Assess contribution scope](../../references/agents/contribution-scope-assessment.md)
+   and apply it to the candidate's claims and comparison with existing content.
+   Reconstruct the candidate from the current task context and durable
    artifacts such as code, tests, specifications, documentation, validation
    output, and recorded decisions. When task history is incomplete, state the
    limitation and use only the available artifacts.
@@ -78,7 +85,9 @@ Stop after the question and wait for the user's response.
    the source task, and treat matching Knowledge as supplemental when it
    conflicts with project-specific facts. Keep this plugin's classification
    and downstream-project-independence rules authoritative for the proposed
-   contribution. Stop when the candidate remains project-specific, or when
+   contribution. Use the scope assessment to compare supported reader needs
+   with existing responsibilities rather than accepting current Scopes as the
+   conclusion. Stop when the candidate remains project-specific, or when
    current material already captures the reusable lesson and the candidate
    supplies no material correction, evidence, or example.
 4. Group related observations by one reusable lesson and keep independent
@@ -112,7 +121,7 @@ proposal question after answering any directly requested positive assessment
 that permits proposal preparation. A positive assessment that excludes proposal
 preparation finishes after reporting the qualified candidate and evidence. The
 proposal stage is complete only when every candidate has been independently
-verified, checked against existing material, generalized, and either rejected
+verified, assessed for supported scope, checked against existing material, and either rejected
 with the reason stated or presented as a clearly delimited sanitized public
 issue that satisfies the loaded issue contract. The knowledge base must remain
 unchanged, and step 6 must finish at the user's publication exclusion or the

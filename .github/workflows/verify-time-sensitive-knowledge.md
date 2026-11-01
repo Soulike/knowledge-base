@@ -11,7 +11,6 @@ on:
 
 engine:
   id: copilot
-  copilot-sdk: true
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
     - --reasoning-effort

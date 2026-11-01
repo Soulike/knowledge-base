@@ -32,13 +32,11 @@ pull-request review delegation and consumer boundary.
 
 The fixed gh-aw compiler selects its reviewed default Copilot CLI version and
 release-manifest digest when it generates the scheduled workflows. The Agent
-jobs run through gh-aw's Copilot SDK driver, which starts the selected CLI as a
-local sidecar and registers the compiler-owned native MCP catalog. Agent and
-threat-detection jobs receive the same concrete CLI installation command. The
-installer may reuse an exact-version runner cache entry; otherwise it verifies
-the downloaded release against the generated digest. The workflows do not query
-or install a newly published CLI merely because it became the latest stable
-release.
+and threat-detection jobs receive the same concrete CLI installation command.
+The installer may reuse an exact-version runner cache entry; otherwise it
+verifies the downloaded release against the generated digest. The workflows do
+not query or install a newly published CLI merely because it became the latest
+stable release.
 
 Repository variables select the model and concrete reasoning effort for the
 scheduled workflows, whose local preflight validates those values. The AI review
@@ -55,7 +53,7 @@ The three scheduled tasks import
 [the shared runtime](shared/agentic-runtime.md). It provides:
 
 - all GitHub read toolsets with read-only server credentials;
-- the local GitHub MCP server registered as a native SDK tool for pull-request
+- the local GitHub MCP server mounted as a read-only CLI proxy for pull-request
   threads, Actions runs, checks, artifacts, logs, and other GitHub reads;
 - unrestricted Bash commands for the main Agent and delegated content researchers
   inside the Agent sandbox;
@@ -66,8 +64,8 @@ The three scheduled tasks import
 - a sandbox network boundary using gh-aw's `defaults` and `github` domain sets,
   plus Tavily, Mozilla, and Chromium Gitiles;
 - the latest LTS Node.js release;
-- one compiler-selected, checksum-authenticated Copilot CLI version used by the
-  SDK sidecar and threat detection;
+- one compiler-selected, checksum-authenticated Copilot CLI version shared by
+  Agent and threat detection;
 - repository dependencies installed from the trusted checkout before inference,
   with a lockfile-keyed pnpm store cache;
 - the knowledge-base plugin from the checked-out repository revision;
@@ -101,11 +99,10 @@ Unrestricted Bash applies only inside the disposable Agent sandbox. The runtime
 excludes the Copilot, GitHub MCP, and Tavily environment credentials from that
 container and fails before inference unless temporary Git credentials have been
 removed from every checkout. Authenticated GitHub reads remain behind the
-read-only native MCP server, and GitHub publication remains behind safe outputs
-and repository-owned gates. Delegated researchers may use shell commands and
-Playwright for read-only evidence collection; their custom-Agent tool list
-omits safe outputs, and the task contract reserves completion and publication
-requests to the main Agent.
+read-only MCP server, and GitHub publication remains behind safe outputs and
+repository-owned gates. Delegated researchers may use shell commands,
+read-only MCP CLI proxies, and Playwright for evidence collection; the task
+contract reserves completion and publication requests to the main Agent.
 
 The GitHub read policy uses `allowed-repos: all`, `min-integrity: approved`, and
 an explicit `github.token` credential. This keeps public upstream research

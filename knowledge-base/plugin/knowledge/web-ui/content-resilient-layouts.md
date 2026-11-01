@@ -2,197 +2,221 @@
 
 ## Scope
 
-This document explains how web interfaces preserve usable layout and access to
-required information when valid content and available rendering space vary.
+This document explains the browser, CSS, and accessibility decisions that keep
+web layouts and required information and actions usable across valid content,
+viewport dimensions, and user text settings. It maps those outcomes to Web
+mechanisms, applicable standards, and browser verification.
 
 ## When to update
 
-Update when CSS sizing or overflow semantics, HTML disclosure semantics, or
-accessible-name and accessibility requirements change the guidance, or when
-evidence about text rendering, information access, or realistic content-dependent
-failures reveals a missing case within this scope.
+Update when CSS sizing, overflow or text semantics, browser settings and
+rendering behavior, HTML disclosure or accessible-name semantics, or Web
+accessibility standards and their implementation guidance change these choices
+or the evidence needed to verify them.
 
-## Treat content and available space as joint state
+## Choose browser display and text conditions
 
-An accepted data contract defines possible content and collection size, not their
-rendered dimensions. A character-count limit cannot establish pixel width: fonts,
-glyphs, casing, spacing, and wrapping opportunities affect the space text needs.
-Translation can change both width and height, and no one script is always the
-widest. The W3C's
-[text-size guidance](https://www.w3.org/International/articles/article-text-size)
-explains these localization effects.
+Content, available space, and text presentation form the
+[joint state of a resilient layout](../user-interface/layout-resilience.md#treat-content-space-and-text-presentation-as-joint-state).
+In a browser, preserve access to necessary information and controls as each
+changes. Pair difficult valid text or collection size with constrained space
+and relevant text settings; separately passing each dimension does not establish
+their combination.
 
-Derive a content envelope from the values and quantities the interface admits.
-Include ordinary content and adverse valid cases relevant to its layout: long
-labels, unbroken identifiers or paths, and localized or mixed-script text where
-supported. For a collection without an enforced small bound, include an ordinary
-collection and a large but valid collection. Account for icons, indicators,
-adjacent actions, padding, and nested indentation that compete for the same
-space. A layout repair should accommodate the accepted contract; shortening that
-contract requires a separate product decision.
+Use available CSS viewport width and height rather than physical pixels or a
+device name. Include narrow, wide, tall, and short presentations relevant to the
+interface: desktop windows and portrait monitors, phones and tablets in both
+orientations, and resized or split windows can supply different space. Choose
+breakpoints from the layout's needs and test immediately around each meaningful
+transition. Exercise resizing and orientation changes during a task, checking
+input, selection, focus, and access to the next action.
 
-Item dimensions and collection cardinality can compound. A surface that survives
-long labels in a small collection and many short labels separately can still fail
-when many difficult items appear together in the most constrained supported
-presentation.
+Treat the following mechanisms separately:
 
-Pair content with the presentation that must hold it. A narrow viewport with a
-short label and a spacious layout with a long label can both pass while their
-constrained combination fails. Examine each materially different presentation,
-such as an expanded rail and a collapsed flyout, at the relevant constrained
-width or height. Include text enlargement, font changes, spacing overrides, and
-text direction when they can expose a distinct supported failure. A narrow
-viewport alone does not establish behavior under text resizing or spacing
-changes; WCAG treats [resizing](https://www.w3.org/TR/WCAG22/#resize-text),
-[reflow](https://www.w3.org/TR/WCAG22/#reflow), and
-[text spacing](https://www.w3.org/TR/WCAG22/#text-spacing) as distinct criteria.
+| Mechanism                 | Relevant effect and verification                                                                                                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Browser default font size | Changes the user-agent font-size baseline. Author-specified root or text sizes can prevent it from influencing the page. Check that representative text responds to the supported preference.           |
+| Browser minimum font size | Can enlarge smaller text without scaling all text or font-relative container dimensions proportionally. Check the rendered text and surrounding layout together.                                        |
+| Text-only resizing        | Enlarges text through a browser-specific facility while available layout space may remain different from full-page zoom. Exercise that facility where supported.                                        |
+| Full-page zoom            | Changes presentation scale and the effective CSS space used for layout. Check text enlargement, reflow, breakpoints, and composed tasks at actual browser zoom settings.                                |
+| OS text preferences       | Browser and platform support determine whether and how they affect Web content. Verify the supported mechanism on the target environment rather than assuming a system setting always changes the page. |
 
-Use a small set of reachable combinations that challenge different assumptions.
-Apply [fault-revealing scenario selection](../software-testing/test-effectiveness.md#select-fault-revealing-scenarios)
-by combining adverse valid content with constrained space and retaining an
-ordinary working case as a control. An exhaustive product of viewport sizes,
-languages, fonts, and states is unnecessary when those combinations expose the
-same fault.
+[Chrome's settings guidance](https://support.google.com/chrome/answer/96810?hl=en&co=GENIE.Platform%3DDesktop)
+distinguishes font preferences and page zoom, and notes that some sites prevent
+font preferences from taking effect.
+[Firefox's guidance](https://support.mozilla.org/en-US/kb/font-size-and-zoom-increase-size-of-web-pages)
+describes minimum font size and text-only zoom. Safari's
+[website-size control](https://support.apple.com/guide/iphone/customize-your-safari-settings-iphb3100d149/ios)
+is documented as Page Zoom. These controls are evidence of distinct browser
+facilities, not proof that the page honors every user preference.
 
-## Constrain the boundaries that determine layout
+## Preserve the user's text-size baseline
 
-Trace available space from the viewport or owning surface through the floating
-container or panel, row or grid track, interactive control and adjacent actions,
-text container, and rendered content. Identify which boundaries can grow or
-resist shrinking and decide their sizing and overflow behavior. This is an
-inspection model, not a requirement to add minimums and maximums to every wrapper.
+Prefer typography derived from the user's default size: preserve the root's
+default font size, use suitable relative sizes, and allow text-bearing regions
+to wrap or grow. Explicitly fixing the root to `16px` also fixes the basis of
+`rem`; using `rem` elsewhere then does not restore the user's default. The
+[font-size definition](https://www.w3.org/TR/css-fonts-3/#font-size-prop)
+and [font-relative lengths](https://www.w3.org/TR/css-values-4/#font-relative-lengths)
+explain these relationships. Inspect form-control fonts as well as surrounding
+text; inheritance can be appropriate when controls should share the page's
+type scale.
 
-Several mechanisms can make a locally plausible treatment incomplete:
+Font-relative dimensions help express relationships, but content must still
+have room to grow. Minimum-font restrictions can change used text sizes without
+changing the resolution of font-relative lengths in properties. A container
+with a fixed `rem` height can therefore clip text even when both use relative
+units. Prefer content-driven heights or an intentional, usable scrolling region
+and check the actual result.
+
+Fluid typography needs a user-relative baseline and verification of its effective
+enlargement. Pure viewport units can counteract zoom; W3C's
+[F94](https://www.w3.org/WAI/WCAG22/Techniques/failures/F94) describes this failure
+and its conditions. A mixed formula can respond to default font preferences
+without increasing proportionally:
+
+```css
+.heading {
+  font-size: clamp(1rem, 0.75rem + 1vw, 2rem);
+}
+```
+
+At a fixed 800 CSS px width, root sizes of 16px and 32px yield 20px and 32px
+for this example. The relative component is useful, but the formula alone does
+not establish 200% text enlargement. Check bounds, media-query overrides, and
+actual scaling throughout the supported range.
+
+For OS text settings, evaluate supported mechanisms and their fallback.
+[Chrome's OS text-scale guidance](https://developer.chrome.com/docs/modern-web-guidance/guides/accessibility/respect-os-text-scale)
+describes opting in with `<meta name="text-scale" content="scale">`.
+Its semantics are defined in the work-in-progress
+[CSS Fonts Level 5](https://www.w3.org/TR/css-fonts-5/), and
+[MDN's reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/meta/name/text-scale)
+explains changes to existing automatic text-sizing behavior. Check current
+target-browser support and the maximum effective setting before adopting it.
+On unsupported environments, continued manual zoom access does not establish
+that the OS preference is being honored.
+
+## Apply the display criteria separately
+
+Use the relevant WCAG 2.2 AA criteria as a baseline, keeping their conditions and
+exceptions distinct from broader engineering recommendations:
+
+| Criterion                                                                             | Required outcome                                                                                                                                                                                                                                                                                                                             |
+| ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Resize Text, 1.4.4](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html)    | Text can be enlarged without assistive technology up to 200% without loss of content or functionality, except captions and images of text. At least one supported scaling mechanism can satisfy this criterion; that does not establish support for every user text setting.                                                                 |
+| [Reflow, 1.4.10](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)             | Ordinary vertically scrolling content works at an equivalent width of 320 CSS px, and horizontally scrolling content at an equivalent height of 256 CSS px, without loss or required scrolling in two dimensions. Content whose meaning or use requires a two-dimensional layout has an exception.                                           |
+| [Orientation, 1.3.4](https://www.w3.org/WAI/WCAG22/Understanding/orientation.html)    | Viewing and operation are not restricted to one orientation unless that orientation is essential. Independently check usable layout at the resulting width and height.                                                                                                                                                                       |
+| [Text Spacing, 1.4.12](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html) | Without changing other styles, overriding line height to 1.5 times font size, paragraph-after spacing to 2 times, letter spacing to 0.12 times, and word spacing to 0.16 times preserves content and functionality. Apply the relevant properties for the language and script. These are override conditions, not prescribed default styles. |
+
+The Reflow conditions are not a universal 320 by 256 test rectangle. A viewport
+starting at 1280 CSS px wide becomes equivalent to 320 CSS px at 400% page zoom;
+text enlargement is a separate requirement. Maps or data tables can require
+two-dimensional scrolling, but the exception does not automatically cover the
+rest of the page or ordinary content within individual table cells. Keep such
+scrolling local where practical and check surrounding content's reflow.
+
+Respect relevant supported text preferences as an engineering goal in addition
+to these minimum criteria. A narrow viewport does not replace a text-setting
+test, and a successful zoom test does not establish default- or minimum-font
+behavior. Apply spacing overrides simultaneously and to each materially
+different responsive layout, as illustrated by
+[C36](https://www.w3.org/WAI/WCAG22/Techniques/css/C36).
+
+## Constrain CSS boundaries and preserve information access
+
+Trace viewport or owning-surface space through the panel, row or track, control,
+adjacent actions, and text. Inspect both size and placement, especially for
+popups and fixed or sticky regions. In small or zoomed viewports, persistent
+chrome may consume the space needed by the task; the
+[Reflow guidance](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html)
+recommends adapting those regions, such as using normal flow or an accessible
+way to change their display.
+
+Several CSS mechanisms can make a locally plausible repair incomplete:
 
 - A flex item's automatic minimum can be content-based on its main axis,
-  depending on its computed overflow and other size constraints. Inspect the
-  item that must shrink. An explicit zero minimum on the appropriate axis, such
-  as `min-inline-size: 0` for a horizontal row label, is one possible remedy;
-  it does not decide how the remaining content should be presented. See
+  depending on overflow and other constraints. An explicit zero minimum on the
+  axis that must shrink, such as `min-inline-size: 0` for a row label, is one
+  possible remedy. It does not decide how remaining content is presented. See
   [Flexbox automatic minimum sizing](https://www.w3.org/TR/css-flexbox-1/#min-size-auto).
 - A bare `1fr` grid track has an automatic minimum. An intentional
-  `minmax(0, 1fr)` track can remove that floor, while the grid item's minimum and
-  content overflow still need consideration. See
-  [grid track sizing](https://www.w3.org/TR/css-grid-2/#track-sizes).
-- A popup can exceed its available space even when a child has a maximum width
-  and ellipsis. Its own size must account for padding, indentation, and adjacent
-  controls. A size cap also does not establish correct placement: the popup may
-  still cross a viewport edge because of its anchor or positioning context.
+  `minmax(0, 1fr)` can remove that floor; the item minimum and content overflow
+  still matter. See [grid track sizing](https://www.w3.org/TR/css-grid-2/#track-sizes).
+- A popup needs room for its label, padding, indentation, icons, and actions.
+  A child maximum or ellipsis does not cap the composed popup or keep its anchor
+  placement inside the viewport.
 
-`text-overflow: ellipsis` controls the rendering of overflowing inline content
-in a block container whose overflow is not visible; it does not itself constrain
-the container or its ancestors, or prevent wrapping. The
-[overflow specification](https://www.w3.org/TR/css-overflow-3/#text-overflow)
-explicitly separates ellipsis rendering from layout. Choose the outer size and
-placement, allow the appropriate descendants to shrink, and select a treatment
-for the resulting content space.
+`text-overflow: ellipsis` affects rendering in a block container whose overflow
+is not visible. It does not itself constrain ancestors or prevent wrapping;
+the [overflow specification](https://www.w3.org/TR/css-overflow-3/#text-overflow)
+separates that rendering from layout. Choose the outer size and placement,
+allow appropriate descendants to shrink, and use wrapping, restructuring,
+truncation, or scrolling that preserves the required information and actions.
 
-For example, a menu's label may already be clipped to its own maximum while the
-label, indentation, icons, and actions together require more space than the
-viewport provides. Further shortening the label is insufficient evidence of a
-repair: the composed menu and its usable controls must fit the intended surface.
-
-## Preserve meaning when choosing a presentation
-
-Choose wrapping, responsive restructuring, resizing, truncation, or deliberate
-scrolling according to the user's task. Explanatory text that must be read before
-an action usually benefits from wrapping or more space. A compact item label may
-be truncated when users can still identify the item and inspect its full value
-when needed. Preserve distinguishing context where practical; many identical
-visible prefixes can make a contained list unusable.
-
-Choose a large-collection treatment from what users need to do with the complete
-set:
-
-- Use a bounded preview with a visible total and a direct path to the complete
-  set when users mainly need to understand the collection's consequence before
-  acting.
-- Use deliberate scrolling, pagination, or virtualization when users need to
-  browse the complete collection.
-- Add grouping, filtering, or search when users need to locate, compare, or
-  select items rather than read them sequentially.
-- Use a summary when aggregate meaning changes the decision more than individual
-  rows, while preserving access to underlying items that remain material.
-
-These mechanisms serve different tasks. A collection does not require
-virtualization merely because it can grow, and a scroll container does not
-restore context that growth has pushed away. The GOV.UK Design System likewise
-recommends [pagination](https://design-system.service.gov.uk/components/pagination/)
-only when dividing content improves usability or performance.
-
-Do not silently remove items from a collection the surface promises to present.
-When the initial view is bounded and users need or the surface promises the
-complete collection, make the existence and scale of the remaining items clear
-and provide an understandable way to reach them. An aggregate, top-ranked, or
-policy-filtered surface may intentionally represent less; identify that scope so
-the visible subset does not appear to be the complete underlying collection. A
-bounded view may prioritize failed, changed, selected, risky, or otherwise
-relevant items, but apply
-[user-centered information hierarchy](user-centered-information-hierarchy.md)
-to establish that relevance. When a control reveals or collapses the remaining
-items, preserve its state and follow the WAI-ARIA
+For growing collections, select a presentation that supports the task and keeps
+the represented scope and any promised complete set accessible, applying the
+[information-access model](../user-interface/layout-resilience.md#adapt-the-whole-surface-and-preserve-the-task).
+For a deliberately bounded Web preview, establish which items inform the user's
+current decision through
+[user-centered information hierarchy](user-centered-information-hierarchy.md).
+An accurate total and a usable route to remaining items preserve the preview's
+promise. Use [pagination](https://design-system.service.gov.uk/components/pagination/)
+when dividing the set improves usability or performance. For expand/collapse,
+preserve state and follow the WAI-ARIA
 [disclosure pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
 
-Collection growth must not make task-critical warnings, permissions,
-relationships, recovery information, or the primary action inaccessible. Decide
-which regions may grow or scroll and which context must remain visible or
-immediately reachable for the promised task.
-
-Visual containment, accessible naming, and access to the complete value are
-separate contracts. For an item whose full value identifies the action or
-destination, preserve and verify the complete accessible name. CSS-only ellipsis
-normally retains the full name when the control is named from its unchanged DOM
-text, but role-specific rules, hidden content, or an overriding naming source
-can change that result. Follow the
+Preserve the complete accessible name when it identifies an item's action or
+destination. CSS-only ellipsis normally retains the full name when that name
+comes from unchanged DOM text, but role-specific rules, hidden content, or an
+overriding naming source can change it. Follow
 [accessible-name computation](https://www.w3.org/TR/accname-1.2/#computation-steps)
-instead of assuming a separate `aria-label` is required. When supplying a name,
-retain the visible label wording as required by
+and retain visible label wording as required by
 [Label in Name](https://www.w3.org/TR/WCAG22/#label-in-name).
 
-A complete accessible name does not let every sighted keyboard or touch user
-inspect visually shortened content. Provide an input-appropriate way to reveal
-essential full values, and check its discoverability and operation for the
-supported input and assistive-technology paths. The HTML
+Sighted keyboard and touch users also need a usable way to inspect essential
+visually shortened values. The HTML
 [`title` attribute](https://html.spec.whatwg.org/multipage/dom.html#the-title-attribute)
-provides advisory information and may supplement that mechanism. Keep it
-optional, and establish access on the required paths before relying on a
-disclosure. A title or tooltip available only through pointing cannot be the
-sole carrier of essential information.
+is advisory and may supplement access, but a pointing-only title or tooltip
+cannot be the sole carrier of essential information. Check discoverability and
+operation on the required input and assistive-technology paths.
 
-## Verify the rendered and semantic outcomes
+## Verify browser rendering and the actual task
 
-When collection size participates in the layout contract, retain an ordinary
-case as a control and add the smallest large valid case that challenges the
-chosen treatment. Combine high cardinality with difficult item content only when
-the combination exposes a distinct reachable fault. Accepting a collection does
-not by itself create a large-fixture obligation.
+Carry display and text conditions through design, testing, and review. In
+design, establish how the page adapts and preserves required information and
+controls. Test the chosen layouts and transitions with ordinary and adverse
+valid content, constrained widths and heights, and relevant settings. In review,
+compare the promised conditions with observed rendering and task results;
+identify uncovered settings and environments before making a completion claim.
 
-Choose an environment by what the claim requires. Semantic or component tests
-can establish computed names, totals, ordering, roles, states, interaction
-wiring, disclosure behavior, and access to any promised complete set. Font
-measurement, intrinsic sizing, composed height, sticky or fixed regions,
-scrolling, clipping, popup placement, and responsive layout need a real rendering
-engine. A component test can run in a real browser; layout evidence does not
-automatically require a full application E2E journey. Add a representative
-composed journey when the fault depends on application wiring or presentation
-that the narrower environment cannot exercise.
+A semantic or component test can verify names, totals, ordering, roles, states,
+disclosure, and a route to the complete set. Intrinsic sizing, fonts, composed
+height, scrolling, clipping, popup placement, and responsive layout need a real
+rendering engine. A component test can run in a browser; add an application
+journey when wiring or surrounding presentation participates in the fault.
 
-Use [independent oracles](../software-testing/test-effectiveness.md#use-an-independent-oracle)
-for the required outcome rather than asserting only a selected CSS class or
-attribute. For a bounded view, verify that any total, remaining-item, or
-represented-scope indication is accurate; the initial bound and selected ordering
-behave as designed; any promised complete set can be reached; expanding,
-collapsing, filtering, paging, or scrolling preserves the promised state; and
-task-critical context and actions remain accessible. Check the complete relevant
-bounds against the owning surface, the visibility and usability of adjacent
-controls, and client versus scroll dimensions where they describe the intended
-overflow policy. Partial viewport intersection does not prove containment.
-Conversely, a deliberately truncated label can correctly have a scroll width
-larger than its client width; that alone is not a defect.
+Use a supported browser setting or isolated profile for font-preference tests,
+with a control showing that the preference actually took effect. Measure text
+and containers; changing an author CSS value alone does not test the browser's
+default- or minimum-font mechanism. Exercise actual zoom facilities where they
+are the subject of the claim. A resized viewport, CSS zoom, or changed device
+pixel ratio supplies different evidence and must be identified as such.
 
-Screenshots can detect paint and appearance regressions. Use geometry assertions
-for specific containment thresholds and semantic or interaction assertions for
-names, disclosure, and successful actions. Neither an attribute check nor an
-accessibility-tree snapshot establishes actual assistive-technology behavior.
-Validate the supported input and assistive-technology paths needed by the claim,
-and state which environments and cases the observations cover.
+Check relevant full bounds against the owning surface, placement, adjacent
+controls, and the intended overflow policy. Partial viewport intersection does
+not establish containment or operation. Client and scroll dimensions can detect
+unintended overflow, but a deliberately truncated label can legitimately have
+scroll width larger than client width. For bounded collections, verify totals,
+initial bounds and ordering, represented scope, complete-set access, and state
+after disclosure, filtering, paging, or scrolling.
+
+Use screenshots for appearance, geometry for specific bounds, and semantic and
+interaction assertions for names and successful actions. Account for test-tool
+automatic scrolling when investigating pointer reachability: establish whether
+the user's supported path can expose and operate the control. An attribute or
+browser accessibility-tree snapshot does not establish actual
+assistive-technology behavior. Record browser and platform, CSS dimensions,
+content, text and zoom settings, input paths, emulation, observed outcomes, and
+coverage gaps. A default desktop screenshot or one successful setting cannot
+establish the rest of the supported presentation.

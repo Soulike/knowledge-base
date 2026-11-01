@@ -1,6 +1,6 @@
 ---
 name: review-and-improve-tests
-description: Review, diagnose, and improve existing or proposed automated tests and their execution. Use when the user asks to review, diagnose, or improve those tests or their execution, or to review coverage in a change. Determine whether the defect belongs to production, the test, the harness, or infrastructure before changing it.
+description: Review and improve automated tests and their execution, diagnosing each problem at its owner. Use when reading or running automated tests to evaluate, diagnose, or improve them or their execution.
 ---
 
 # Review and improve tests

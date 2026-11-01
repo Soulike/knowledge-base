@@ -11,7 +11,6 @@ on:
 
 engine:
   id: copilot
-  version: ${{ needs.resolve_copilot_version.outputs.version }}
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
     - --reasoning-effort

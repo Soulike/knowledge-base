@@ -9,6 +9,9 @@ while this repository owns its review criteria and caller configuration.
 
 The shared runtime adoption is recorded in
 [ADR 0001](../../docs/adr/0001-use-gh-aw-for-agentic-github-workflows.md).
+[ADR 0006](../../docs/adr/0006-let-gh-aw-select-copilot-cli.md) records the
+compiler-owned Copilot CLI selection that replaced the earlier floating
+release policy.
 [ADR 0003](../../docs/adr/0003-use-mutable-finding-events-for-content-verification.md)
 records the current findings architecture and supersedes
 [ADR 0002](../../docs/adr/0002-resolve-inconclusive-content-verification-through-trusted-issues.md)
@@ -27,14 +30,13 @@ pull-request review delegation and consumer boundary.
 | Maintained Agent content | Quarterly, maintained Skills, references, Agent instructions, and prompt bundles | [Source](verify-maintained-agent-content.md), [generated](verify-maintained-agent-content.lock.yml) |
 | AI review                | Ready pull requests and later pushes                                             | [Caller](ai-review.yml), [repository criteria](../scripts/ai-review/prompts/review.md)              |
 
-Every scheduled run resolves the latest stable release from the official
-`github/copilot-cli` repository before engine installation. Both the Agent and
-threat-detection jobs pass that concrete version to gh-aw through
-`engine.version`; only an exact-version cache entry can be reused. Resolution
-errors, prereleases, and malformed or empty versions fail instead of falling
-back to gh-aw's default or a cached older CLI. The Agent also checks the
-installed executable's reported version before its task starts. This is version
-selection and verification, not a model-capability preflight.
+The fixed gh-aw compiler selects its reviewed default Copilot CLI version and
+release-manifest digest when it generates the scheduled workflows. The Agent
+and threat-detection jobs receive the same concrete installation command. The
+installer may reuse an exact-version runner cache entry; otherwise it verifies
+the downloaded release against the generated digest. The workflows do not
+query or install a newly published CLI merely because it became the latest
+stable release.
 
 Repository variables select the model and concrete reasoning effort for the
 scheduled workflows, whose local preflight validates those values. The AI review
@@ -58,8 +60,8 @@ The three scheduled tasks import
   extraction;
 - a sandbox network boundary;
 - the latest LTS Node.js release;
-- one resolved stable Copilot CLI version shared by Agent and threat detection,
-  with an installed-version check before the Agent task;
+- one compiler-selected, checksum-authenticated Copilot CLI version shared by
+  Agent and threat detection;
 - repository dependencies installed from the trusted checkout before inference,
   with a lockfile-keyed pnpm store cache;
 - the knowledge-base plugin from the checked-out repository revision;
@@ -292,14 +294,8 @@ git diff --check
 
 `pnpm agentic:check` recompiles and rejects modified, deleted, or untracked generated artifacts. Generated lock workflows are excluded from Prettier because gh-aw is their authoritative formatter.
 
-The compiler warns that `GH_AW_ENGINE_VERSION` in each finding job references
-the resolver without a direct dependency, so that metadata is empty in those
-jobs. The finding jobs only download the output and run no-op handlers; the
-Agent and detection installers depend directly on the resolver. The current
-[safe-job dependency validation](https://github.com/github/gh-aw/blob/v1.0.1/pkg/workflow/safe_jobs_needs_validation.go)
-does not accept ordinary custom jobs. Recheck this limitation when upgrading
-gh-aw. The compiler also warns about the intentional private-to-public policy
-described under [Shared runtime boundary](#shared-runtime-boundary).
+The compiler warns about the intentional private-to-public policy described
+under [Shared runtime boundary](#shared-runtime-boundary).
 
 The reusable AI-review caller is ordinary GitHub Actions YAML and is not compiled
 by the local gh-aw toolchain. Its repository prompt is covered by the prompt-link

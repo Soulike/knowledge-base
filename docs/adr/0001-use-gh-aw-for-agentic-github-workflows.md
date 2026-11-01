@@ -4,7 +4,9 @@
 
 Accepted. The pull-request review ownership described here is superseded by
 [ADR 0004](0004-delegate-pull-request-review.md); this record continues to own
-the scheduled content-verification runtime decision.
+the shared gh-aw adoption and scheduled content-verification task boundary. The
+floating Copilot CLI decision is superseded by
+[ADR 0006](0006-let-gh-aw-select-copilot-cli.md).
 
 ## Context
 

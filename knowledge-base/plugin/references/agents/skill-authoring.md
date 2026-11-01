@@ -91,6 +91,14 @@ description.
 A user should not need to know the Skill name or repeat the description's
 terminology to invoke it.
 
+By default, write the description in two parts: a concise statement of the
+user-visible capability or result, followed by a short task-facing invocation
+condition beginning with `Use when` or `Use before`. Use `Use before` when the
+Skill must be selected before a proposal or action that it evaluates or
+constrains. A single sentence is acceptable when it expresses both parts
+clearly. Keep examples and scenario lists out of the description unless they
+are necessary to distinguish an adjacent Skill.
+
 Write the main path as ordered, direct, imperative task instructions. Keep the
 invocation contract, primary states and decisions, reference selectors, failure
 and stopping behavior, output contract, and completion criteria in `SKILL.md`.

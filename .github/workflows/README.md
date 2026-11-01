@@ -32,10 +32,10 @@ pull-request review delegation and consumer boundary.
 
 The fixed gh-aw compiler selects its reviewed default Copilot CLI version and
 release-manifest digest when it generates the scheduled workflows. The Agent
-and threat-detection jobs receive the same concrete installation command. The
-installer may reuse an exact-version runner cache entry; otherwise it verifies
-the downloaded release against the generated digest. The workflows do not
-query or install a newly published CLI merely because it became the latest
+and threat-detection jobs receive the same concrete CLI installation command.
+The installer may reuse an exact-version runner cache entry; otherwise it
+verifies the downloaded release against the generated digest. The workflows do
+not query or install a newly published CLI merely because it became the latest
 stable release.
 
 Repository variables select the model and concrete reasoning effort for the
@@ -53,12 +53,16 @@ The three scheduled tasks import
 [the shared runtime](shared/agentic-runtime.md). It provides:
 
 - all GitHub read toolsets with read-only server credentials;
-- the local GitHub MCP server selected by the pinned gh-aw compiler for
-  pull-request threads, Actions runs, checks, artifacts, logs, and other GitHub reads;
-- unrestricted Bash commands inside the Agent sandbox;
+- the local GitHub MCP server mounted as a read-only CLI proxy for pull-request
+  threads, Actions runs, checks, artifacts, logs, and other GitHub reads;
+- unrestricted Bash commands for the main Agent and delegated content researchers
+  inside the Agent sandbox;
 - the remote Tavily MCP service for external source discovery and page
   extraction;
-- a sandbox network boundary;
+- Playwright for authoritative pages that require JavaScript or resist ordinary
+  extraction;
+- a sandbox network boundary using gh-aw's `defaults` and `github` domain sets,
+  plus Tavily, Mozilla, and Chromium Gitiles;
 - the latest LTS Node.js release;
 - one compiler-selected, checksum-authenticated Copilot CLI version shared by
   Agent and threat detection;
@@ -96,7 +100,9 @@ excludes the Copilot, GitHub MCP, and Tavily environment credentials from that
 container and fails before inference unless temporary Git credentials have been
 removed from every checkout. Authenticated GitHub reads remain behind the
 read-only MCP server, and GitHub publication remains behind safe outputs and
-repository-owned gates.
+repository-owned gates. Delegated researchers may use shell commands,
+read-only MCP CLI proxies, and Playwright for evidence collection; the task
+contract reserves completion and publication requests to the main Agent.
 
 The GitHub read policy uses `allowed-repos: all`, `min-integrity: approved`, and
 an explicit `github.token` credential. This keeps public upstream research
@@ -142,10 +148,10 @@ evidence cannot confirm or invalidate the finding.
 The main Agent is the sole safe-output producer. It may delegate investigation
 to the tool-restricted `content-verification-researcher` profile defined in the
 [shared contract](shared/content-verification.md). Researchers return evidence
-and limitations to the main Agent and have no shell execution, safe-output
-tools, or further delegation. The main Agent consolidates their reports,
-assigns finding ids, compares issue history, and decides the complete run's
-result.
+and limitations to the main Agent, may use shell commands and Playwright for
+read-only evidence collection, and must not invoke safe outputs or further
+delegation. The main Agent consolidates their reports, assigns finding ids,
+compares issue history, and decides the complete run's result.
 
 Each workflow adds and fully replaces findings during review, then updates or
 deletes them while comparing issue history. Each finding has one primary review

@@ -70,6 +70,13 @@ settled and workable. When evidence exposes a material conflict, missing premise
 or ineffective solution, explain its effect on the goal and propose a feasible
 next step. Establish a cause before prescribing a fix.
 
+Before proposing or starting work that introduces a distinct responsibility,
+artifact, or operation, re-evaluate the available Skills and the
+[Knowledge catalog](../../knowledge/index.md) for that part of the task. Do not
+assume guidance selected for the earlier scope remains sufficient. Retain
+guidance that still applies and load only the additional guidance required by
+the changed scope.
+
 Handle implementation choices within the task's existing authority. Return
 changes to goals, scope, or important tradeoffs to their decision owner when
 they are not already authorized. Preserve affected work while a critical

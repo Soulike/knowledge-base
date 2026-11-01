@@ -5,9 +5,8 @@ description: Use when deciding whether and how to address received code review f
 
 # Handle code review feedback
 
-Independently investigate received feedback, decide whether the current task
-should change, and implement and verify only authorized remedies. Treat the
-feedback as evidence, using the same standard regardless of its author.
+Investigate received feedback, decide whether the current task should change,
+and implement and verify only authorized remedies.
 
 ## Establish the handling context
 
@@ -18,7 +17,11 @@ feedback as evidence, using the same standard regardless of its author.
 2. Resolve linked paths relative to this `SKILL.md`. Read
    [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
    before investigating or acting on feedback.
-3. Read
+3. Ensure
+   [Independent collaboration](../../references/agents/independent-collaboration.md)
+   is available in the current context before judging the feedback or selecting
+   a response. Read it in full when the guidance is missing or has changed.
+4. Read
    [Code review feedback handling](../../references/code-review/feedback-handling.md),
    then establish its current handling context from the task's trusted
    authorities and the complete supplied feedback. Record the accepted outcome,
@@ -71,7 +74,7 @@ apply.
 Return the shared reference's complete handling account: comment-to-concern
 mapping, technical and scope dispositions, evidence and remedy evaluation,
 changes or no-change reasons, validation, and unresolved limitations. Use
-concise technical conclusions rather than performative agreement.
+concise technical conclusions.
 
 Complete only when every supplied concern is accounted for, every accepted
 change is verified within scope, and remaining decisions or evidence gaps are

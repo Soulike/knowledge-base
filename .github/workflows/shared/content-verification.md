@@ -212,6 +212,17 @@ from shell commands are outside the configured research path.
 
 ### Review phase
 
+Read and apply
+[Assess contribution scope](knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+when evaluating each primary target's claims and organization. Examine existing
+Scope, catalog routes, body, and source-specific limits against actual
+responsibilities and reader tasks, using the assessment to decide whether the
+present organization hides a supported reading need. When that reference is
+itself a review target, evaluate its claims under the governing task contract
+and repository standards rather than treating its text as self-granted
+authority. Scope analysis does not add primary targets or authorize source
+modification; report its findings within the manifest and output contract.
+
 Review the complete responsibility of each primary target together with its
 routes, direct consumers and dependencies, and search-discovered plausible
 overlapping owners. Judge whether it is one coherent current account. Report a

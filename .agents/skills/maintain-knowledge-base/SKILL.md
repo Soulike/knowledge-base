@@ -22,7 +22,12 @@ of the change effect, but do not authorize changes to independent behavior.
    judge the complete effect, but request an
    expanded scope before changing an independent responsibility, public trigger,
    or consumer not required to leave the authorized change coherent.
-2. Apply the downstream-project-independence gate from
+2. Read
+   [Assess contribution scope](../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+   before fixing consumers, classification, or ownership. Apply it to new
+   contributions and to review or maintenance of existing content. Keep its
+   analysis distinct from the mutation boundary established in step 1.
+   Apply the downstream-project-independence gate from
    [`AGENTS.md`](../../../AGENTS.md) to every part intended for Knowledge or a
    usage Skill. Generalize project-derived material only when it remains correct
    without its source project; classify non-generalizable parts as neither and
@@ -77,8 +82,10 @@ of the change effect, but do not authorize changes to independent behavior.
    structure across the complete affected responsibility units. Compare making
    no change, deleting, rewriting, adding, merging, splitting, and moving before
    editing. Prefer replacement or consolidation when material corrects,
-   duplicates, or supersedes existing content; separate responsibilities when
-   fitting them together would widen an owner's pre-edit responsibility.
+   duplicates, or supersedes existing content; do not fit an independently
+   needed responsibility into an existing owner when its assessed retrieval or
+   invocation timing, consumers, or maintenance lifecycle requires separate
+   ownership.
    Use progressive disclosure for branch-only detail when it improves
    the reader's path. Select for the clarity and coherence of the final content;
    diff size does not constrain the necessary rewrite within the authorized

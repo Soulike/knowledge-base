@@ -9,8 +9,8 @@ plugin.
 ## Knowledge
 
 [plugin/knowledge/](plugin/knowledge/) contains canonical Knowledge organized by domain.
-A leaf's concrete reading trigger must follow from the user's task, technical
-subject, or current engineering artifact before selecting a workflow. Removing
+A leaf's concrete reading trigger must follow from the user's task, subject,
+or current artifact before selecting a workflow. Removing
 every consuming Skill must not remove that reason to read it.
 
 Keep [plugin/knowledge/index.md](plugin/knowledge/index.md) as the only Knowledge catalog.

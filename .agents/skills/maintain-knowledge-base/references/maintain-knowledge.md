@@ -5,8 +5,10 @@ All content paths in this workflow are relative to the
 explicitly run from the repository root.
 
 1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) and
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
-   then search the existing `knowledge/` tree. Compare every affected
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md).
+   When assessing or maintaining Knowledge about user interfaces, also read
+   [Maintain UI Knowledge](ui-knowledge.md).
+   Then search the existing `knowledge/` tree. Compare every affected
    responsibility with existing document Scopes and `When to Read` conditions
    for overlapping ownership.
 2. Work only from the Knowledge parts identified during classification; return

@@ -107,12 +107,21 @@ Measure contrast: [WCAG Contrast
 (Minimum)](https://www.w3.org/TR/WCAG22/#contrast-minimum) sets 4.5:1 for
 ordinary text and 3:1 for large text, with stated exceptions; [Non-text
 Contrast](https://www.w3.org/TR/WCAG22/#non-text-contrast) also applies to
-required visual information in controls and graphics. Check that text can be
-enlarged to 200% without losing content or function, and that content can
-reflow at the viewport-equivalent sizes and exceptions defined by [Resize
-Text](https://www.w3.org/TR/WCAG22/#resize-text) and
-[Reflow](https://www.w3.org/TR/WCAG22/#reflow). A single browser text-size
-setting does not establish those outcomes.
+required visual information in controls and graphics.
+
+Check text enlargement without assistive technology up to 200% without losing
+content or function under
+[Resize Text](https://www.w3.org/TR/WCAG22/#resize-text), applying its exceptions.
+Check [Reflow](https://www.w3.org/TR/WCAG22/#reflow) at its viewport-equivalent
+width or height for the reading direction, including its two-dimensional-layout
+exceptions. Support both orientations unless one is essential under
+[Orientation](https://www.w3.org/TR/WCAG22/#orientation), and retain content and
+function when users apply the overrides defined by
+[Text Spacing](https://www.w3.org/TR/WCAG22/#text-spacing). These are distinct
+outcomes; a single narrow screenshot or browser text-size setting does not
+establish them. The
+[Web layout mapping](content-resilient-layouts.md#apply-the-display-criteria-separately)
+explains the conditions and browser mechanisms needed to apply these checks.
 
 ## Support semantic browser automation
 

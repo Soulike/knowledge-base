@@ -39,7 +39,10 @@ ends.
 1. Read [Capture the PR state](references/capture-pr-state.md) and retrieve one
    complete current snapshot, including the source identity, thread baselines,
    and relevant automation through its expected result publication.
-2. For each new or materially changed feedback batch, read
+2. For each new or materially changed feedback batch, ensure
+   [Independent collaboration](../../references/agents/independent-collaboration.md)
+   is available in the current context before judging the feedback. Read it in
+   full when the guidance is missing or has changed. Then read
    [Code review feedback handling](../../references/code-review/feedback-handling.md).
    Establish its context from the contract and captured work, then apply its
    investigation, scope, remedy, and verification criteria. Reassess after

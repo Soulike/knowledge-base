@@ -95,6 +95,8 @@ exact `id` in all notes and safe outputs.
    time-sensitive maintenance. Use `tavily_search` and `tavily_extract` when a
    current authoritative source is necessary to decide
    that question; a reachable URL or search snippet is not sufficient evidence.
+   Apply the [shared evidence-access and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion)
+   when sources cannot be retrieved or leave a claim or citation unresolved.
 3. Check that the Knowledge leaf's Scope, When to update, catalog routing entry,
    and body still agree. Also assess whether the leaf is one coherent current
    account rather than accumulated obsolete wording, duplicated authority,

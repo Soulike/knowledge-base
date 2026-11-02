@@ -119,7 +119,10 @@ describe("content verification findings gate CLI", () => {
               classification: "modification-required",
               finding: "A finding recorded before review became incomplete.",
             },
-            { type, reason: "Source unavailable." },
+            {
+              type,
+              reason: "Required review capability or target data unavailable.",
+            },
           ]),
         /Agent reported incomplete work/u,
       );

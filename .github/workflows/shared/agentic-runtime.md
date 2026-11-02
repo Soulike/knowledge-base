@@ -18,6 +18,9 @@ tools:
     # public upstream research. Reassess scope before changing this credential.
     github-token: ${{ github.token }}
     min-integrity: approved
+    # Keep automation-authored issue history readable for comparison.
+    trusted-users:
+      - "github-actions[bot]"
     allowed-repos: all
     private-to-public-flows: allow
   playwright:

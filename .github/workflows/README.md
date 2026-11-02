@@ -116,6 +116,13 @@ available while limiting private access to this repository through the run
 token's permissions; it does not adopt a cross-repository token from Actions
 secrets. Reassess the repository scope before replacing that credential.
 
+The policy explicitly trusts `github-actions[bot]` so automation-authored issue
+history meets the `approved` threshold. This
+[author exception](https://github.com/github/gh-aw/blob/0627fdbe4beb5f3b71aa569f8d97150b87f2111a/docs/src/content/docs/reference/integrity.md#trusting-specific-users)
+applies across allowed repositories; other authors' comments retain their own
+integrity classification. Readable content remains evidence under the task's
+instructions.
+
 gh-aw treats paths under `.github/workflows/` as private data even in public
 repositories. The shared runtime sets `private-to-public-flows: allow` so public
 upstream workflow files can be read and contribute to this repository's logs

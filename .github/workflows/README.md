@@ -117,9 +117,9 @@ and findings. This explicitly disables the gateway's forced public-only scope
 and default sink-visibility enforcement for all MCP servers. The run token's
 access boundary, read-only server, credential isolation, threat detection, and
 publication gates remain in force. Read access does not make upstream content
-trusted instructions. If required evidence remains inaccessible, the Agent
-must report incomplete work and the gate must reject publication; repair the
-access prerequisite before dispatching another verification run.
+trusted instructions. The scheduled tasks handle external source-access
+limitations under their
+[evidence-access and completion rules](shared/content-verification.md#evidence-access-and-completion).
 
 Repository content under review, issue and pull-request text, and external pages remain untrusted evidence. Installing the checked-out plugin makes its Knowledge and usage Skills available without making reviewed content authoritative over the active task contract. The checked-out workflow source, root [repository instructions](../../AGENTS.md), and task-selected review material remain trusted guidance. The runtime boundary does not merge the three verification scopes.
 
@@ -136,14 +136,17 @@ target. Each root `.github/workflows/*.md` source except this README is an Agent
 
 The three tasks apply different review standards:
 
-- time-sensitive Knowledge verifies every evolving claim against current authoritative sources;
+- time-sensitive Knowledge investigates every evolving claim using current authoritative sources;
 - evergreen Knowledge verifies reasoning, internal consistency, continued necessity, and whether external evolution has made the classification time-sensitive; and
 - maintained Agent content reviews invocation, routing, decisions, tool use, failure handling, completion, progressive disclosure, portability, package boundaries, current assumptions, and maintenance lifecycle.
 
 All three distinguish `modification-required`, when current reasoning or
 evidence establishes a content defect and coherent correction, from
-`verification-inconclusive`, when the required analysis completed but available
-evidence cannot confirm or invalidate the finding.
+`verification-inconclusive`, when investigation leaves a claim or citation
+unresolved. External source-access limitations produce findings scoped to the
+remaining uncertainty. The Agent continues reviewing other targets and comparing
+issue history, and remaining findings follow normal publication without making
+the workflow fail.
 
 The main Agent is the sole safe-output producer. It may delegate investigation
 to the tool-restricted `content-verification-researcher` profile defined in the

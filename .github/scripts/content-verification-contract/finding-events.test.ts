@@ -132,7 +132,14 @@ describe("reduceFindingEvents", () => {
         () =>
           reduceFindingEvents(
             manifest,
-            output([add(), { type, reason: "Required evidence unavailable." }]),
+            output([
+              add(),
+              {
+                type,
+                reason:
+                  "Required review capability or target data unavailable.",
+              },
+            ]),
           ),
         /Agent reported incomplete work/u,
       );
@@ -211,7 +218,9 @@ describe("reduceFindingEvents", () => {
   it("fails closed at the Agent-output artifact boundary", () => {
     for (const candidate of [
       { errors: ["invalid item"], items: [] },
-      output([{ type: "report_incomplete", reason: "Source unavailable." }]),
+      output([
+        { type: "report_incomplete", reason: "Selected target unreadable." },
+      ]),
       output([{ type: "noop" }]),
       output([{ ...add(), unsupported: true }]),
       { errors: [], items: "not-an-array" },

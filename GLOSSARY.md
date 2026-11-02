@@ -50,11 +50,13 @@ verification subject instead of creating a historical disposition.
 
 ### Verification inconclusive
 
-A successful content-verification result in which the Agent completed the
-required analysis but the available evidence cannot confirm or invalidate a
-finding. When it remains after issue-history comparison, it creates a
-human-owned issue without making the workflow fail. It is distinct from
-incomplete execution, where the Agent could not perform the required analysis.
+A successful content-verification result in which investigation leaves a claim
+or citation unresolved. This includes external source-access limitations: the
+finding records the affected uncertainty while review of other targets and
+issue-history comparison continue. Remaining findings follow normal issue
+publication without making the workflow fail. It is distinct from incomplete
+execution, such as inability to inspect a selected repository target or finish
+the review process.
 
 ### Verification target
 

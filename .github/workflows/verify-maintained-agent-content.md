@@ -120,6 +120,8 @@ Preserve every exact selected target `id` in notes and safe outputs.
    `tavily_search` and `tavily_extract` when current authoritative
    evidence is required; a reachable URL or search snippet is not sufficient
    evidence.
+   Apply the [shared evidence-access and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion)
+   when sources cannot be retrieved or leave a claim or citation unresolved.
 6. Identify each current `modification-required` or
    `verification-inconclusive` finding. A required correction must identify the
    reasoning or evidence, the smallest coherent deletion, rewrite, merge,

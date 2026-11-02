@@ -89,10 +89,12 @@ exact `id` in all notes and safe outputs.
    unreadable, the manifest revision differs from the checked-out revision, or
    you cannot inspect the complete scope, stop and call `report_incomplete`
    exactly once.
-2. For every target, verify each substantive externally dependent claim against
+2. For every target, investigate each substantive externally dependent claim using
    current authoritative sources. Use `tavily_search` to locate candidates and
    `tavily_extract` to inspect the source that supports the
    conclusion. A reachable URL or search snippet is not sufficient evidence.
+   Apply the [shared evidence-access and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion)
+   when sources cannot be retrieved or leave a claim or citation unresolved.
 3. Check that the Knowledge leaf's Scope, When to update, catalog routing entry,
    and body still agree. Also assess whether the leaf remains necessary and is
    one coherent current account rather than accumulated obsolete wording,

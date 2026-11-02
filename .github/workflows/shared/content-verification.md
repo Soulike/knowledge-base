@@ -243,17 +243,39 @@ and acceptance outcome clear without encoding them as a rigid field template.
 Omit `related_target_ids` when no related target is affected; do not pass an
 empty string.
 
+### Evidence access and completion
+
 Classify a finding as:
 
 - `modification-required` when current reasoning or evidence establishes a
   content defect and a coherent correction; or
-- `verification-inconclusive` when the required analysis completed but the
-  available evidence cannot confirm or invalidate the finding.
+- `verification-inconclusive` when investigation leaves a claim or citation
+  unresolved, including when an external source cannot be substantively
+  retrieved.
 
-An unavailable target, manifest entry, required source, tool, or analysis step
-is incomplete execution. Call `report_incomplete` exactly once. Any earlier
-finding events are then rejected with the incomplete result, so partial review
-does not publish issues.
+Use the available read-only retrieval methods and suitable alternative
+authoritative sources to investigate an access limitation. A failed request
+does not establish that the content is wrong or that the source itself is
+broken. Alternative evidence may verify a claim while leaving attribution to a
+specific cited page unresolved; scope the finding to the remaining uncertainty.
+For an unresolved source-access finding, describe the affected claims or
+citations, source URLs, observed access failures and retrieval attempts,
+available corroboration, and the evidence needed to resolve it. Do not prescribe
+a content change from an access failure alone.
+
+An external source-access limitation is a finding outcome, not incomplete
+execution. Continue reviewing the remaining targets and complete issue-history
+comparison for every active finding, including the source-access findings.
+Publish remaining findings through the normal workflow. Do not call
+`report_incomplete`, `report_missing_tool`, or `report_missing_data` solely
+because external evidence could not be retrieved.
+
+A missing, invalid, or unreadable review target or manifest, an unavailable
+required review capability, or an unfinished review or history phase is
+incomplete execution. Call `report_incomplete` exactly once. Any earlier finding
+events are then rejected with the incomplete result, so partial review does not
+publish issues. Recording an external evidence limitation as a finding does not
+leave those phases unfinished.
 
 ### History phase
 

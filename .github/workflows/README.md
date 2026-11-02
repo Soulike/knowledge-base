@@ -169,6 +169,14 @@ read-only evidence collection, and must not invoke safe outputs or further
 delegation. The main Agent consolidates their reports, assigns finding ids,
 compares issue history, and decides the complete run's result.
 
+History comparison uses finding-scoped `search_issues` queries across open and
+closed issues, followed by reads of plausible matches and relevant comments.
+The Agent refines queries, follows relevant pagination, and retries failed
+reads. A completed search with no plausible match completes comparison without
+enumerating the repository's entire issue history. The
+[shared history rules](shared/content-verification.md#history-phase) define when
+unresolved search or reading failures make the run incomplete.
+
 Each workflow adds and fully replaces findings during review, then updates or
 deletes them while comparing issue history. Each finding has one primary review
 target and may name related targets from the same revision's repository catalog
@@ -181,7 +189,11 @@ completion declaration fails validation. These results do not claim
 mechanically proven per-target coverage.
 
 The [finding reducer](../scripts/content-verification-contract/finding-events.ts)
-validates that append-only stream after Agent completion. The compiler runs the
+validates that append-only stream after Agent completion. Its existing argument
+limits are also stated in the shared review prompt, including the 12000-unit
+limit on finding Markdown measured by JavaScript `String.length`. The finding
+tools describe the Markdown limit and the add tool's identifier rules before
+the Agent submits events. The compiler runs the
 gate only after the detection job succeeds and reports `detection_success: true`.
 A failed detection job skips the gate and publisher, and Actions reports the
 failure.

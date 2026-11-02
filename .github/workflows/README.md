@@ -147,19 +147,46 @@ A Knowledge target owns one leaf. A Skill target owns its `SKILL.md` and tracked
 `GLOSSARY-MAP.md`, and file under root or plugin `docs/agents/` is an instruction
 target. Each root `.github/workflows/*.md` source except this README is an Agentic workflow target, and each `.github/scripts/*/prompts/` directory is one prompt target. An invalid catalog, mutable revision, empty scope, duplicate target, or duplicate file ownership fails before the Agent runs.
 
-The three tasks apply different review standards:
+All three tasks review correctness, effectiveness for the reader's actual tasks,
+and appropriate organization. The Agent reads every selected target completely,
+reconstructs the reader's task independently, and uses situations, boundaries,
+and counterexamples to challenge facts, reasoning, assumptions, and practical
+consequences. Investigation depth follows risk and uncertainty; neither finding
+quotas nor executing every recommendation are required. Structural findings
+need a concrete reader or maintenance cost and a coherent correction.
 
-- time-sensitive Knowledge investigates every evolving claim using current authoritative sources;
-- evergreen Knowledge verifies reasoning, internal consistency, continued necessity, and whether external evolution has made the classification time-sensitive; and
-- maintained Agent content reviews invocation, routing, decisions, tool use, failure handling, completion, progressive disclosure, portability, package boundaries, current assumptions, and maintenance lifecycle.
+The tasks retain distinct emphases:
 
-All three distinguish `modification-required`, when current reasoning or
-evidence establishes a content defect and coherent correction, from
-`verification-inconclusive`, when investigation leaves a claim or citation
-unresolved. External source-access limitations produce findings scoped to the
-remaining uncertainty. The Agent continues reviewing other targets and comparing
-issue history, and remaining findings follow normal publication without making
-the workflow fail.
+- time-sensitive Knowledge rechecks evolving dependencies and the current facts,
+  guarantees, or empirical claims needed to judge its advice;
+- evergreen Knowledge emphasizes reasoning, applicability, and whether external
+  evolution requires time-sensitive maintenance; and
+- maintained Agent content examines whether invocation, decisions, execution,
+  failure handling, completion, and organization can achieve the intended task.
+
+The [shared review and evidence rules](shared/content-verification.md#review-phase)
+select evidence for the question: contracts for requirements, implementation or
+observations for behavior, and reasoning or counterexamples for explanations
+and applicability. Empirical effectiveness, recurrence, and causation need
+suitable evidence; a bounded suggestion is not invalid merely because official
+documentation or measured benefits are absent. Source agreement alone does not
+establish content correctness or usefulness.
+
+`modification-required` identifies an established content or source defect and
+coherent correction. `verification-inconclusive` identifies a material unresolved
+claim or citation, including source-access limitations. An invalid or
+inaccessible cited source is reported even when other evidence supports the
+content. The Agent distinguishes established source defects from run-specific
+access limits, continues reviewing other targets and comparing issue history,
+and publishes remaining findings normally without making the workflow fail.
+
+Before declaring incomplete execution, the Agent diagnoses inspection or tool
+failures and attempts applicable recovery within existing permissions and
+integrity policy. A corrected invocation or recovered capability lets review
+continue. A genuinely unavailable required target, manifest, or capability, a
+revision mismatch, or unfinished required review or history work remains
+incomplete and publishes no content findings. Recovery instructions do not
+permit lower coverage, control bypasses, or invented evidence.
 
 The main Agent is the sole safe-output producer. It may delegate investigation
 to the tool-restricted `content-verification-researcher` profile defined in the
@@ -193,8 +220,10 @@ validates that append-only stream after Agent completion. Its existing argument
 limits are also stated in the shared review prompt, including the 12000-unit
 limit on finding Markdown measured by JavaScript `String.length`. The finding
 tools describe the Markdown limit and the add tool's identifier rules before
-the Agent submits events. The compiler runs the
-gate only after the detection job succeeds and reports `detection_success: true`.
+the Agent submits events. The Agent checks arguments and event state before
+submission: the reducer examines the full stream after completion, so a later
+valid call cannot erase an earlier malformed event or incomplete signal.
+The compiler runs the gate only after the detection job succeeds and reports `detection_success: true`.
 A failed detection job skips the gate and publisher, and Actions reports the
 failure.
 

@@ -73,6 +73,12 @@ The three scheduled tasks import
 - required reasoning-effort validation; and
 - fail-closed threat detection before safe-output publication.
 
+The main Agent and delegated researchers follow the same
+[Tavily → Shell → Playwright retrieval order](shared/agentic-runtime.md#external-source-retrieval)
+for external pages. Escalate only while the relevant substantive content is
+unavailable; retrieved evidence that does not support a claim is evaluated
+without repeating retrieval through every tool.
+
 Each scheduled task sets a 60-minute Agent execution timeout in its frontmatter;
 the shared runtime sets a separate 75-minute Agent job timeout. The job budget
 includes setup and artifact collection as well as inference. The execution

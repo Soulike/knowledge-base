@@ -79,10 +79,30 @@ early. Group related information, give headings and sections distinct jobs,
 order prerequisites before dependent explanations or actions, and make needed
 answers discoverable without requiring a complete linear read.
 
-Use concrete subjects and actions, familiar words, and consistent terms. Define
-specialized vocabulary before relying on it. Use lists, tables, diagrams, and
-other structures only when they make the information easier to understand or
-apply; no format is a quality requirement by itself.
+Explain the main idea through concrete subjects, actions, and causal
+relationships. Give readers the background and reasoning needed to connect a
+rule to its conditions and consequences. Retain necessary technical meaning and
+constraints, allowing more space when explanation improves understanding. Judge
+length by the reader's need, while removing repetition and irrelevant detail.
+
+Use familiar words and consistent terms. Explain a term the intended readers
+may not know before relying on it, usually at its first use. When several core
+terms recur or depend on one another, put their definitions in an early section
+that readers can reach before the dependent explanation. Define them through
+familiar concepts and concrete context; a chain of unexplained abstract nouns
+leaves the original knowledge gap unresolved. Familiar technical terms need
+explanation only when the intended readers or the document's usage require it.
+
+Give business terms and other example-specific concepts enough context to
+identify the objects and decisions involved. An example about subscription
+software can explain "product eligibility" as "whether a customer whose
+subscription has expired may download a report." Readers can then tell which
+decision the rule concerns. Readers may already have context from an earlier
+step or an entry document; provide the explanation their actual reading path
+requires.
+
+Use lists, tables, diagrams, and other structures when they make the information
+easier to understand or apply; no format is a quality requirement by itself.
 
 Use an example only when it resolves a real comprehension or application
 problem. An abstract rule benefits from one when it permits several plausible
@@ -171,6 +191,21 @@ that intended readers can find, understand, or use the information. Depending
 on risk, useful evidence may include a fresh reader's paraphrase, a realistic
 find-and-use task, execution of an example, or observation of task completion.
 Use neutral tasks and avoid coaching the expected answer.
+
+For Agent readers, a knowledgeable model can fill gaps that another model's
+background knowledge or comprehension does not cover. Assess the context
+available to the intended reader, including justified prerequisites. A reader's
+restatement and application of a rule provide evidence beyond a claim that the
+text is clear. Specific reports of confusion, ambiguity, or guessed meaning
+help locate a problem; compare them with the content and task before deciding
+whether the cause is missing explanation, misleading wording, or a reader
+capability limit.
+
+When a reader's difficulty exposes a document defect, put the necessary
+explanation into the maintained content and validate the revised result.
+An explanation given only in a review reply does not repair the document that
+later readers receive. Use a fresh reading context to check the correction
+without relying on coaching from the author.
 
 Choose validation in proportion to the document's claims, frequency of use,
 rate of change, and cost of misleading a reader. When the needed evidence is

@@ -231,6 +231,18 @@ report a material unresolved decision instead of making it for the user.
 Interleave reasoning and evidence collection as needed rather than following
 the document sentence by sentence or requiring a fixed scenario count.
 
+Read and apply
+[Maintained document quality](knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md)
+when judging reader understanding and use. For the primary plugin's Knowledge,
+Skills, and Skill references, use its
+[reader requirements](knowledge-base/AGENTS.md#reader-understanding).
+Identify unexplained terms, missing context, or omitted reasoning that creates
+a concrete understanding or application obstacle for the intended humans or
+Agents. Factually correct content can still require explanation, rewriting, or
+reorganization. Report the affected passage, the understanding it fails to
+support, and a coherent correction with an observable acceptance outcome.
+Keep this review read-only under the task contract.
+
 Review every selected responsibility; do not sample targets or restrict review
 to recent changes. Allocate investigation depth by the importance, uncertainty,
 volatility, and consequences of the claims. A target need not produce a finding,

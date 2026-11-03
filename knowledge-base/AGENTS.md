@@ -6,6 +6,22 @@ references. This directory is the primary product's source module. Its
 useful without the rest of this source module, a repository checkout, or another
 plugin.
 
+## Reader understanding
+
+Write Knowledge, Skills, and Skill references for both humans and Agents with
+different background knowledge and comprehension abilities. Assume readers have
+the subject's stated prerequisites, but have not participated in authoring and
+do not know internal terminology. Supply the context they need using
+[Maintained document quality](plugin/knowledge/documentation/maintained-document-quality.md#design-for-reader-use).
+The author's ability to understand a passage does not establish that its readers
+can understand or apply it.
+
+Every addition or substantive revision to these artifacts requires the
+cross-model reader-understanding check in the
+[maintenance workflow](../.agents/skills/maintain-knowledge-base/SKILL.md).
+Purely mechanical edits may use simplified validation after confirming that
+meaning and structure are unchanged.
+
 ## Knowledge
 
 [plugin/knowledge/](plugin/knowledge/) contains canonical Knowledge organized by domain.

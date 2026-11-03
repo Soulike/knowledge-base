@@ -2,9 +2,9 @@
 
 ## Scope
 
-This document explains how to specify and evaluate a generated video that
-develops from a supplied image, independently of a particular model or
-provider. It owns the distinction among shot design, prompt expression,
+This document explains how to specify and evaluate a generated video
+conditioned on one or more supplied images, independently of a particular model
+or provider. It owns the distinction among shot design, prompt expression,
 invocation controls, and model execution; the relationship between image
 conditions and temporal text; model-independent generation risks; and
 evidence-bounded diagnosis of unsatisfactory results.
@@ -53,20 +53,28 @@ distinguishes analysis evidence from actual model inputs and states what each
 declared image contributes. The plan must also account for capability
 differences: an intended final frame, identity reference, or style image does
 not establish that a selected model can accept that role or combine it with the
-initial image.
+other intended inputs.
 
-The required initial image is authoritative for the visible state at the start
-of the video, subject to an explicitly chosen crop or reframing. It does not
-imply that every visible property must remain frozen. Describe a transformation
-when a person, object, environment, light, weather condition, or visual state
-should change over time.
+When an image is declared as the initial frame, it is authoritative for the
+visible state at the start of the video, subject to an explicitly chosen crop
+or reframing. It does not imply that every visible property must remain frozen.
+Describe a transformation when a person, object, environment, light, weather
+condition, or visual state should change over time.
 
-Use the image rather than routinely transcribing it. Restate a visible property
-when it participates in motion or interaction, distinguishes one actor from
-another, conflicts with the requested development, or must remain stable
-through a high-risk change. A blanket prohibition on visual description can
-omit essential binding and continuity; a full recap wastes attention and can
-introduce contradictions.
+When the selected model and mode support reference-only generation, as in
+[Google's reference-image example](https://ai.google.dev/gemini-api/docs/veo#using-reference-images),
+specify the intended opening state in text without requiring an extra
+initial-frame image. Identity, wardrobe, asset, or style references constrain
+their declared properties; they do not establish opening pose, framing, or
+composition unless assigned those roles as well. A final-frame input likewise
+constrains its declared ending rather than supplying the opening state.
+
+Use each image for its declared role rather than routinely transcribing it.
+Restate a visible property when it participates in motion or interaction,
+distinguishes one actor from another, conflicts with the requested development,
+or must remain stable through a high-risk change. A blanket prohibition on
+visual description can omit essential binding and continuity; a full recap
+wastes attention and can introduce contradictions.
 
 Reference-video support is neither universal nor one coherent capability. A
 portable image-to-video prompt cannot depend on the target model receiving a
@@ -77,11 +85,13 @@ video directly.
 
 ## Write a temporal visible contract
 
-Describe one observable progression from the supplied initial state to a clear
-end state. Include the dimensions that materially control this video:
+Describe one observable progression from the intended opening state to a clear
+end state. Derive the opening from a declared initial frame when provided;
+otherwise specify it in text under the declared reference roles. Include the
+dimensions that materially control this video:
 
 - the target duration, orientation, aspect ratio, and intended continuous-shot
-  relationship to the initial image;
+  relationship to a declared initial frame when present;
 - the controlling action, change, or emotional development;
 - every important actor and affected person or object;
 - direction, trajectory, speed, magnitude, acceleration, pause, and
@@ -122,10 +132,12 @@ motion with the event it supports rather than turning every layer into a
 separate step.
 
 State the intended orientation and aspect ratio in visible terms even when the
-caller must also configure them through a provider control. The initial image's
-shape does not universally determine the output canvas. Resolve how a crop,
-extension, or reframing affects the people, action path, look room, protected
-areas, and ending composition.
+caller must also configure them through a provider control. An input image's
+shape does not universally determine the output canvas. For a declared initial
+frame, resolve how a crop, extension, or reframing affects the people, action
+path, look room, protected areas, and ending composition. For reference-only
+generation, define the opening composition on the target canvas while retaining
+the references' assigned properties and permitted adaptations.
 
 Resolution, frame rate, shutter character, slow motion, time lapse, and similar
 technical properties belong in the semantic contract only when they change the
@@ -199,8 +211,9 @@ Material risks include:
 - dense visual and audio events within a short duration.
 
 Mitigate a risk by simplifying the action budget, strengthening local bindings,
-reducing competing material roles, choosing a more suitable initial image,
-relaxing unnecessary exactness, or prioritizing one interaction or transition.
+reducing competing material roles, choosing more suitable images for their
+declared roles, relaxing unnecessary exactness, or prioritizing one interaction
+or transition.
 When mitigation changes creative intent or a hard constraint, expose the
 trade-off rather than weakening it silently.
 
@@ -213,8 +226,11 @@ cannot ensure.
 Inspect the complete accessible video and localize important evidence in time.
 Evaluate:
 
-1. **Initial-condition fidelity:** whether the video begins from the intended
-   people, pose, composition, setting, and style after any approved reframing.
+1. **Opening-state and image-role fidelity:** whether the video begins with the
+   intended people, pose, composition, setting, and style, and respects every
+   image's declared role. When an initial frame is supplied, check fidelity
+   after any approved reframing; for reference-only generation, check the
+   specified opening without importing undeclared composition from a reference.
 2. **Intent and prompt alignment:** whether the requested action, performance,
    camera, visual treatment, and applicable sound occur.
 3. **Actor and interaction binding:** whether each action, property, and contact
@@ -240,8 +256,8 @@ Classify the smallest supported cause:
   or end state is weak or internally incompatible.
 - **Research gap:** a factual, cultural, physical, performance, photographic,
   animation, or reference decision was guessed or left unresolved.
-- **Source-material gap:** the initial image or another declared input conflicts
-  with the intended motion, crop, identity, interaction, or continuity.
+- **Source-material gap:** a declared input conflicts with the intended motion,
+  crop, identity, interaction, or continuity.
 - **Specification gap:** the prompt omits, contradicts, misbinds, or obscures a
   material temporal decision.
 - **Invocation gap:** model inputs or external controls do not match the

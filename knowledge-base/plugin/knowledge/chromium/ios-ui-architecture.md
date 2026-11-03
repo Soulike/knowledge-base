@@ -2,11 +2,11 @@
 
 ## Scope
 
-This document explains Chromium's iOS UI architecture for day-to-day feature development in Chromium and Chromium-derived iOS browsers: its model, view-controller, mediator, coordinator, command, and observation roles; the intended dependency and message directions between them; and the application-level objects that provide their context. It covers the durable design principles from Chromium's foundational architecture document together with the patterns present in current upstream code, but excludes Chromium's non-UI architecture, general UIKit guidance, and feature-specific behavior.
+This document explains Chromium's iOS UI architecture for day-to-day feature development in Chromium and Chromium-derived iOS browsers: its model, view-controller, mediator, coordinator, command, and observation roles; the intended dependency and message directions between them; and the application-level objects that provide their context. It covers current upstream design guidance and the durable principles from Chromium's foundational architecture document, with version-bounded examples of existing code, but excludes Chromium's non-UI architecture, general UIKit guidance, and feature-specific behavior.
 
 ## When to update
 
-Update this document when Chromium changes the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer or mutator protocols, the fullscreen ownership or broadcasting paths, the legacy or current feature layouts, the shared-library layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
+Update this document when Chromium changes its architectural guidance, the responsibilities or interfaces of `ChromeCoordinator`, `Browser`, `CommandDispatcher`, `ChromeBroadcaster`, consumer, mutator, or command protocols, the fullscreen ownership or broadcasting paths, the legacy or current feature layouts, the shared-library layout, or the documented iOS application object model. Also update it when representative upstream features adopt a different message direction or composition pattern.
 
 ## Design principles
 
@@ -20,39 +20,41 @@ Decoupling makes components replaceable; encapsulation keeps replacement from le
 
 ## Feature roles
 
-| Role                            | Owns                                                                                                                 | Does not own                                                                       |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Model or service                | Domain state, rules, persistence, and non-UI behavior                                                                | View state, presentation, or navigation                                            |
-| View controller                 | Rendering, local UIKit behavior, accessibility, and user interaction for one UI region                               | Model access, feature orchestration, or creation of concrete peer view controllers |
-| Consumer protocol               | UI-facing updates that a mediator can push into a view controller                                                    | User intent or model types                                                         |
-| Mutator protocol                | Feature-local user intent that a view controller sends to a mediator                                                 | Cross-feature presentation or application-wide routing                             |
-| Mediator                        | Adapting model and service state into UI-ready values, observing model changes, and applying feature-local mutations | UIKit composition, navigation ownership, or child-flow lifecycle                   |
-| Coordinator                     | Object creation and wiring, presentation, start/stop lifecycle, and child coordinators                               | Domain rules or sustained model manipulation                                       |
-| Command protocol and dispatcher | Cross-feature or application-level UI requests routed to registered handlers                                         | State observation, data binding, or arbitrary notifications                        |
-| Broadcaster                     | Lightweight synchronization of selected UI-object properties without exposing the observed object's identity         | Commands, general-purpose observation, or model events                             |
+| Role                           | Owns                                                                                                                 | Does not own                                                                       |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Model or service               | Domain state, rules, persistence, and non-UI behavior                                                                | View state, presentation, or navigation                                            |
+| View controller                | Rendering, local UIKit behavior, accessibility, and user interaction for one UI region                               | Model access, feature orchestration, or creation of concrete peer view controllers |
+| Consumer protocol              | UI-facing updates that a mediator can push into a view controller                                                    | User intent or model types                                                         |
+| Mutator protocol               | Model-dependent user intent sent to a mediator, including UI requests that need model data                           | Pure UI requests that the view controller can fully specify                        |
+| Mediator                       | Adapting model and service state into UI-ready values, observing model changes, and applying feature-local mutations | UIKit composition, navigation ownership, or child-flow lifecycle                   |
+| Coordinator                    | Object creation and wiring, presentation, start/stop lifecycle, and child coordinators                               | Domain rules or sustained model manipulation                                       |
+| Shared commands and dispatcher | Cross-feature or application-level UI requests routed to registered handlers                                         | State observation, data binding, or arbitrary notifications                        |
+| Local command protocol         | Feature-internal UI requests sent directly to the owning coordinator through an injected handler                     | Dispatcher registration or cross-feature routing                                   |
+| Broadcaster                    | Lightweight synchronization of selected UI-object properties without exposing the observed object's identity         | Commands, general-purpose observation, or model events                             |
 
 The view controller remains the UIKit composition primitive, but the coordinator is the composition root for the feature. A container view controller may place supplied children, while a coordinator chooses the concrete children, wires them, and owns their lifecycle.
 
 ## Message directions
 
-Current Chromium features use different protocols for state, feature-local intent, and application-level commands:
+Current upstream guidance distinguishes state updates, model-dependent intent, feature-internal UI requests, and cross-feature UI requests:
 
 ```text
 model or service -> mediator -> consumer protocol -> view controller
 view controller -> mutator protocol -> mediator -> model or service
-view controller or mediator -> command protocol -> dispatcher -> coordinator
-mediator -> delegate -> coordinator, for events that require composition
+view controller -> mutator protocol -> mediator -> command handler, when model data is needed
+view controller or mediator -> local command handler -> owning coordinator
+view controller or mediator -> shared command handler -> dispatcher -> target coordinator
 coordinator -> constructs, injects, starts, stops, and disconnects the graph
 ```
 
 The distinctions are semantic:
 
 - A **consumer** receives UI state. It does not expose the model to the view controller.
-- A **mutator** accepts feature-local intent whose implementation belongs with the mediator's model adaptation.
-- A **command** asks the application to perform a coordinated UI action, often across a feature boundary.
-- A **mediator delegate** reports an event whose consequence belongs to the coordinator, such as updating composition or presentation.
+- A **mutator** accepts model-dependent intent. The mediator changes model state or resolves model data needed to issue a UI command.
+- A **local command** requests UI work within the same feature. The coordinator implements the protocol and is injected directly as its handler.
+- A **shared command** requests UI work across a feature boundary through the `CommandDispatcher`.
 
-The foundational design routed view-controller output only through commands. Current upstream code also uses mutators and mediator delegates, so new work should choose the narrow protocol matching the interaction rather than treating the Dispatcher as the only output channel.
+Existing Omnibox and Manual Fill implementations contain mediator delegates for composition events. Those are descriptions of the inspected code, not the default for new work. The upstream architecture overview explicitly warns that existing code can predate or deviate from its design guidance. Use a local command protocol for a feature's view controller or mediator to request UI work from its own coordinator; do not introduce a generic mediator delegate or global dispatcher registration for that path.
 
 ## Layer responsibilities
 
@@ -60,7 +62,7 @@ The foundational design routed view-controller output only through commands. Cur
 
 A view controller should render UI-ready values, own local interaction behavior, and translate user gestures into calls on a protocol-typed collaborator. It should not import model types, locate services, or directly create and coordinate feature peers.
 
-Inputs normally arrive through one or more consumer protocols. Outputs use a mutator for feature-local changes or a command handler for cross-feature UI work. Keep both interfaces narrow: methods should express UI state or user intent, not expose the mediator's internal API.
+Inputs normally arrive through one or more consumer protocols. Outputs use a mutator when the action depends on model state, or a command handler when the view controller can fully specify the UI request. The command handler may be local or shared. Keep these interfaces narrow: methods should express UI state or user intent, not expose the mediator's internal API.
 
 UIKit work and consumer updates belong on the main thread. If a model callback can occur elsewhere, the mediator must consolidate and deliver the corresponding UI update on the main thread.
 
@@ -68,7 +70,7 @@ UIKit work and consumer updates belong on the main thread. If a model callback c
 
 A mediator is the boundary between model semantics and UI semantics. It observes explicitly supplied services, converts their state into values the consumer can render, and implements feature-local mutations without making the view controller understand the model.
 
-Inject each required service or handler explicitly. Do not make a mediator discover dependencies through global singletons or retain an aggregate `Browser` merely to reach a small subset of its capabilities. Pass the specific model service, browser agent, consumer, mutator, command handler, or delegate required by the feature.
+Inject each required service or handler explicitly. Do not make a mediator discover dependencies through global singletons or retain an aggregate `Browser` merely to reach a small subset of its capabilities. Pass the specific model service, browser agent, consumer, or command handler required by the feature. When UI work needs model data, the view controller sends intent through a mutator; the mediator resolves that data and issues the appropriate command without taking over presentation or navigation ownership.
 
 Consumer methods should carry UI-ready values rather than model objects whose identity, lifetime, threading, or representation would leak across the boundary. Disconnect observations and clear weak relationships when the coordinator stops the feature.
 
@@ -80,8 +82,8 @@ During `start`, a feature coordinator typically:
 
 1. creates the view controller and mediator;
 2. obtains specific services from the profile or browser;
-3. obtains protocol-typed command handlers from the browser's dispatcher;
-4. wires the consumer, mutator, delegate, and command-handler relationships; and
+3. obtains shared command handlers from the browser's dispatcher and supplies itself directly as the handler for its feature's local commands;
+4. wires the consumer, mutator, and command-handler relationships, plus delegates required by an existing implementation; and
 5. starts any child coordinator and presents or embeds the resulting UI.
 
 During `stop`, it stops children, disconnects observers and mediators, clears delegates or handlers as required, releases the graph, and removes UI it owns.
@@ -90,9 +92,12 @@ A coordinator handles behavior that is primarily composition: creating, starting
 
 ### Commands and the Dispatcher
 
-Regular, incognito, and inactive browsers own a `CommandDispatcher`; temporary browsers are created without one. Coordinators register targets for selectors or required protocol methods. Callers that need to issue commands receive only an `id<Protocol>` obtained with `HandlerForProtocol`, which provides compile-time protocol typing and checks at runtime that the dispatcher currently handles that protocol.
+Commands express UI requests through narrow protocol-typed handlers. Their wiring depends on whether the request stays within one feature or crosses a feature boundary:
 
-Use commands for requests such as presenting settings, starting another browser flow, or otherwise crossing a UI ownership boundary. Do not use the Dispatcher to emulate delegation, state observation, or notifications. Those interactions have different lifetime and data-flow semantics.
+- **Shared commands:** Regular, incognito, and inactive browsers own a `CommandDispatcher`; temporary browsers are created without one. Coordinators register targets for selectors or required protocol methods. Callers receive an `id<Protocol>` obtained with `HandlerForProtocol`, which provides compile-time protocol typing and checks at runtime that the dispatcher currently handles that protocol. Use this path for presenting settings, starting another feature's flow, or commands between coordinators.
+- **Local commands:** Define the protocol in the feature's `ui/` directory and inject the owning coordinator directly as an `id<Protocol>` handler. Do not register it with `CommandDispatcher` or obtain it with `HandlerForProtocol`. Use this path for feature-internal dismissal or navigation that the view controller or mediator requests from its own coordinator.
+
+A UI-only request that the view controller can fully specify goes directly to its command handler. A request that needs model data first goes through a mutator to the mediator, which resolves that data and invokes the command. Do not use the Dispatcher to emulate state observation, data binding, or notifications.
 
 ### Broadcaster and observation
 
@@ -185,16 +190,17 @@ These examples are representative rather than a required or exhaustive inventory
 
 ## Daily design decisions
 
-| Need                                                                       | Preferred owner or mechanism                                |
-| -------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| Render state or handle local UIKit behavior                                | View controller                                             |
-| Transform model state into display state                                   | Mediator to consumer protocol                               |
-| Apply feature-local user intent to model-facing behavior                   | Mutator protocol implemented by mediator                    |
-| Present, dismiss, replace, or compose a flow                               | Coordinator or child coordinator                            |
-| Request a UI action across feature boundaries                              | Command protocol through `CommandDispatcher`                |
-| Synchronize UI properties on an existing broadcaster-based fullscreen path | `ChromeBroadcaster` from the attached fullscreen controller |
-| Observe domain state                                                       | Model observer owned or adapted by the mediator             |
-| Hold process, profile, browser, or tab state                               | Object matching that lifetime in the application model      |
+| Need                                                                       | Preferred owner or mechanism                                       |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| Render state or handle local UIKit behavior                                | View controller                                                    |
+| Transform model state into display state                                   | Mediator to consumer protocol                                      |
+| Apply model-dependent intent or obtain model data for a UI request         | Mutator protocol implemented by mediator, then command when needed |
+| Present, dismiss, replace, or compose a flow                               | Coordinator or child coordinator                                   |
+| Request UI work from the feature's own coordinator                         | Local command protocol with directly injected coordinator          |
+| Request a UI action across feature boundaries                              | Command protocol through `CommandDispatcher`                       |
+| Synchronize UI properties on an existing broadcaster-based fullscreen path | `ChromeBroadcaster` from the attached fullscreen controller        |
+| Observe domain state                                                       | Model observer owned or adapted by the mediator                    |
+| Hold process, profile, browser, or tab state                               | Object matching that lifetime in the application model             |
 
 When two choices seem plausible, follow ownership and lifetime. If the behavior survives without UI, it belongs below the UI layer. If it changes how objects are assembled or presented, it belongs to a coordinator. If it translates state across the model/UI boundary, it belongs to a mediator.
 
@@ -206,8 +212,9 @@ Reconsider a design when:
 - a coordinator accumulates domain decisions or becomes the permanent conduit for model changes;
 - a mediator depends on an aggregate context instead of its actual services;
 - a consumer protocol exposes model objects instead of UI-ready values;
-- the Dispatcher carries observations, callbacks, or feature-local mutations;
-- a mutator starts unrelated presentation flows instead of issuing a command;
+- the Dispatcher carries observations, callbacks, feature-local mutations, or UI requests intended only for the feature's own coordinator;
+- a new feature uses a generic mediator delegate for local UI requests;
+- a mutator merely forwards a UI-only request that the view controller can fully specify, or a mediator takes over presentation instead of issuing a command;
 - observers survive `stop` or a coordinator leaves command targets registered; or
 - code is moved into `shared/public` only to bypass a `DEPS` boundary.
 
@@ -215,7 +222,7 @@ These are not merely style issues. Each one collapses a dependency, lifetime, or
 
 ## Sources
 
-The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document. The general architecture references use Chromium commit [`1b33fac5`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d), and the directory examples were checked at [`df717de0`](https://chromium.googlesource.com/chromium/src/+/df717de0896b2f65a2043e54652bae0a9b827371). Browser attachment, broadcaster ownership and lifetime, and fullscreen integration were verified at [`341a2ce6`](https://chromium.googlesource.com/chromium/src/+/341a2ce649d7971be32a549389dee5f24d3c2755):
+The principles originate in Chromium's final foundational [iOS architecture document](https://chromium.googlesource.com/chromium/src/+show/bdfa2db95bf15d76d2ebb4ec13fe437a5c75e7c9/ios/clean/README.md). Its final snapshot is identical to Chromium tag `63.0.3239.59`; upstream later removed the document. Current message-direction guidance follows the [architecture overview](https://chromium.googlesource.com/chromium/src/+/a53841c09ccfc5acb903bf002dd201f64a845ee0/ios/architecture/README.md), [coordinator and local-command guidance](https://chromium.googlesource.com/chromium/src/+/a53841c09ccfc5acb903bf002dd201f64a845ee0/ios/architecture/coordinators.md#local-commands), [shared and local command protocols](https://chromium.googlesource.com/chromium/src/+/a53841c09ccfc5acb903bf002dd201f64a845ee0/ios/architecture/commands.md#shared-vs-local-command-protocols), and [model-dependent intent through mutators](https://chromium.googlesource.com/chromium/src/+/a53841c09ccfc5acb903bf002dd201f64a845ee0/ios/architecture/mediators.md#model-updates-through-the-mediator), all at commit `a53841c0`. The earlier implementation references use Chromium commit [`1b33fac5`](https://chromium.googlesource.com/chromium/src/+/1b33fac500b1e2524813c1ccd5dbaee342e1af9d), and the directory examples were checked at [`df717de0`](https://chromium.googlesource.com/chromium/src/+/df717de0896b2f65a2043e54652bae0a9b827371). Browser attachment, broadcaster ownership and lifetime, and fullscreen integration were verified at [`341a2ce6`](https://chromium.googlesource.com/chromium/src/+/341a2ce649d7971be32a549389dee5f24d3c2755):
 
 - [iOS application objects](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/docs/ios/objects.md) for process, profile, and tab context; browser-related ownership follows the implementation references here.
 - [`Browser` interface](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/shared/model/browser/browser.h), [`BrowserImpl` ownership and teardown](https://chromium.googlesource.com/chromium/src/+show/341a2ce649d7971be32a549389dee5f24d3c2755/ios/chrome/browser/main/model/browser_impl.mm), and the weak-tracking [`BrowserList`](https://chromium.googlesource.com/chromium/src/+show/1b33fac500b1e2524813c1ccd5dbaee342e1af9d/ios/chrome/browser/shared/model/browser/browser_list.h)

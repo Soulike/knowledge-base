@@ -54,8 +54,16 @@ assumes that every started operation has stopped mutating the affected state:
    to the owning error contract.
 3. Re-read mutable external state when another actor can change whether the
    dependent side effect is still valid.
-4. Compensate only the state that the current component owns and observed before
-   the operation.
+4. Compensate only proven effects owned by the current operation or component.
+   Use known prior state when restoring an existing value. When compensation
+   can affect mutable external state, establish that the current identity and
+   authorization still permit undoing that effect rather than modifying a
+   replacement or unowned state.
+
+For example, an operation can remove a temporary resource whose exclusive
+creation and identity it established; the resource need not have existed before
+the operation. A pathname precheck alone establishes neither that identity nor
+ownership.
 
 `Promise.allSettled()` is a barrier only for the input Promises. Each operation
 must itself settle after the side effects and cleanup on which its caller relies

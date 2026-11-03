@@ -84,27 +84,28 @@ exact `id` in all notes and safe outputs.
 
 1. Read the root [repository instructions](AGENTS.md), the
    [plugin content rules](knowledge-base/AGENTS.md), the
-   [Knowledge catalog](knowledge-base/plugin/knowledge/index.md), the target manifest, and every
-   file named by every selected target. If a target is missing, duplicated, or
-   unreadable, the manifest revision differs from the checked-out revision, or
-   you cannot inspect the complete scope, stop and call `report_incomplete`
-   exactly once.
-2. For every target, verify its reasoning, scope, internal consistency,
-   continued necessity, and `evergreen` classification. Check whether ordinary
-   external evolution has introduced an evolving dependency that now requires
-   time-sensitive maintenance. Use `tavily_search` and `tavily_extract` when a
-   current authoritative source is necessary to decide
-   that question; a reachable URL or search snippet is not sufficient evidence.
-   Apply the [shared evidence-access and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion)
-   when sources cannot be retrieved or leave a claim or citation unresolved.
-3. Check that the Knowledge leaf's Scope, When to update, catalog routing entry,
-   and body still agree. Also assess whether the leaf is one coherent current
-   account rather than accumulated obsolete wording, duplicated authority,
-   patch-layered exceptions, or edit-history structure.
+   [Knowledge catalog](knowledge-base/plugin/knowledge/index.md), the target
+   manifest, and every file named by every selected target. Apply the
+   [shared review criteria](.github/workflows/shared/content-verification.md#review-phase)
+   and [evidence, recovery, and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion).
+   Recover an inspection failure where possible; if the required scope or
+   revision still cannot be established, call `report_incomplete` exactly once.
+2. For every target, evaluate its reasoning, assumptions, applicability,
+   internal consistency, and usefulness for the reader's tasks. Challenge the
+   explanation and recommendations with relevant situations and counterexamples.
+   Check whether ordinary external evolution has introduced a dependency that
+   requires time-sensitive maintenance. Investigate external facts when needed
+   under the shared evidence rules; source agreement alone does not establish
+   the explanation's correctness or usefulness.
+3. Check the leaf's continued necessity, organization, `evergreen`
+   classification, and agreement among Scope, When to update, catalog route,
+   and body. Investigate whether these boundaries conceal a supported reading
+   need or impose an unsupported limit; apply the shared structural-finding
+   criteria.
 4. Identify each current `modification-required` or
-   `verification-inconclusive` finding. A required correction must identify the
-   reasoning or evidence, the smallest coherent change, and acceptance
-   criteria. Never turn uncertainty into a proposed change.
+   `verification-inconclusive` finding under the shared rules. A correction must
+   identify its reasoning or evidence, the smallest coherent change, and
+   acceptance criteria. Never turn uncertainty into a proposed change.
 
-Every evidence-backed issue must retain the repository paths and authoritative
-source URLs needed by a maintainer to evaluate the finding.
+Retain the repository paths and source URLs needed to evaluate each finding,
+including cited sources whose validity or accessibility is itself at issue.

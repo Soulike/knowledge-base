@@ -44,8 +44,8 @@ Treat the following mechanisms separately:
 [Chrome's settings guidance](https://support.google.com/chrome/answer/96810?hl=en&co=GENIE.Platform%3DDesktop)
 distinguishes font preferences and page zoom, and notes that some sites prevent
 font preferences from taking effect.
-[Firefox's guidance](https://support.mozilla.org/en-US/kb/font-size-and-zoom-increase-size-of-web-pages)
-describes minimum font size and text-only zoom. Safari's
+[W3C's Resize Text guidance](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html)
+identifies text-only resizing as a user-agent scaling mechanism. Safari's
 [website-size control](https://support.apple.com/guide/iphone/customize-your-safari-settings-iphb3100d149/ios)
 is documented as Page Zoom. These controls are evidence of distinct browser
 facilities, not proof that the page honors every user preference.
@@ -63,8 +63,10 @@ text; inheritance can be appropriate when controls should share the page's
 type scale.
 
 Font-relative dimensions help express relationships, but content must still
-have room to grow. Minimum-font restrictions can change used text sizes without
-changing the resolution of font-relative lengths in properties. A container
+have room to grow. The
+[font-relative sizing rules](https://www.w3.org/TR/css-values-4/#font-relative-lengths)
+apply minimum-font restrictions to used sizes without changing the resolution
+of font-relative lengths in properties. A container
 with a fixed `rem` height can therefore clip text even when both use relative
 units. Prefer content-driven heights or an intentional, usable scrolling region
 and check the actual result.

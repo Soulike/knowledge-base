@@ -81,13 +81,21 @@ made explicit.
 
 ## Diagnose the next result from the evidence
 
-Use the distinction among specification and generator execution in
+Use the distinction between specification and generator execution in
 [Natural-language prompting for generated still images](still-image-prompting.md#separate-the-picture-its-specification-and-its-execution).
-When visibly relevant nails were absent from the prompt, treat their omission as
-a specification gap and add the complete positive requirement. When the prompt
-already states the requirement clearly but the result still omits the nails,
-treat that result as generator-execution evidence rather than repeatedly
-inflating the wording.
+Assess the intended anatomy and style, the complete meaning of the prompt, and
+the declared image inputs before assigning a cause. An anatomically accurate
+photographic hand or an authoritative character-design reference can already
+require visible nails without a separate nail sentence. Their absence from an
+enumerated description alone does not establish a specification gap.
+
+When visibly relevant nails are genuinely unspecified or ambiguous in that
+complete contract, clarify them with the positive requirement above. When the
+contract already establishes them but the result omits them, report the observed
+rendering failure and the limits of the causal evidence. Making the detail
+explicit can still be a useful model-facing mitigation without proving that the
+earlier specification was defective. Avoid repeatedly inflating an already
+clear requirement.
 
 For a recurring execution failure, preserve the coherent prompt and compare
 another generation through the same Gemini App surface and App-visible mode

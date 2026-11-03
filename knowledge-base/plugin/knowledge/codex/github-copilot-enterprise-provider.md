@@ -46,13 +46,15 @@ wire_api = "responses"
 http_headers = { "Copilot-Integration-Id" = "copilot-developer-cli", "Editor-Version" = "CopilotCLI/1.0" }
 ```
 
-Use this block in place of the provider block in the main example rather than declaring `[model_providers.github-copilot-enterprise]` twice. These headers identify the integration but do not authenticate the request or change entitlement, model availability, endpoint, or protocol requirements; keep the command-backed `auth` table and the other provider settings unchanged. Omit `http_headers` when Copilot CLI identification is not intended.
+Use this block in place of the provider block in the main example rather than declaring `[model_providers.github-copilot-enterprise]` twice. These headers identify the integration but do not authenticate the request or independently grant subscription entitlement. Keep the command-backed `auth` table, endpoint, and protocol settings. Omit `http_headers` when Copilot CLI identification is not intended.
+
+Integration identity can affect routing, quota attribution, and the model allowlist. GitHub's [SDK integration-ID guidance](https://docs.github.com/en/copilot/how-tos/copilot-sdk/setup/multi-tenancy#integration-id) describes attribution and routing; its [AWF request-header implementation](https://github.com/github/gh-aw-firewall/blob/v0.29.5/containers/api-proxy/request-headers.js#L108-L125) identifies the quota bucket and model allowlist as integration-sensitive. These are reasons to validate availability under the intended identity, not to treat an identification header as an entitlement bypass.
 
 ## Select a model from current availability
 
-Treat model identifiers as dynamic provider and account state. Resolve the model from current GitHub Copilot model availability and the enterprise policy applied to the authenticated account; do not infer it from Codex defaults, remembered model names, or another account's access. Keep the placeholder in reusable examples rather than turning a model that worked once into a durable recommendation.
+Treat model identifiers as dynamic provider, account, and integration state. Discover and validate models using the same intended integration identity and account policy as the actual request. A model list or successful request obtained under another integration ID does not establish availability under the illustrated headers. Resolve the model from current GitHub Copilot availability and the enterprise policy applied to the authenticated account; do not infer it from Codex defaults, remembered model names, or another account's access. Keep the placeholder in reusable examples rather than turning a model that worked once into a durable recommendation.
 
-A provider connection can authenticate successfully while rejecting the configured model. Classify a model-not-found or model-access error separately from endpoint and authentication failures, then verify the identifier, subscription availability, and enterprise policy before changing the provider configuration.
+A provider connection can authenticate successfully while rejecting the configured model. Classify a model-not-found or model-access error separately from endpoint and authentication failures, then verify the identifier, integration identity, subscription availability, and enterprise policy before changing the provider configuration.
 
 ## Protect the credential boundary
 
@@ -66,7 +68,7 @@ After changing the configuration, start a new Codex session and make a small req
 
 - A command execution or empty-credential error belongs to GitHub CLI authentication.
 - An HTTP `401` or `403` belongs to credential, entitlement, policy, or endpoint authorization.
-- A model-not-found or model-access error belongs to current model availability or enterprise policy.
+- A model-not-found or model-access error belongs to current model availability under the intended integration identity or enterprise policy.
 - A request-shape or unsupported-protocol error belongs to Responses API compatibility and `wire_api` configuration.
 - Connection stability, retry counts, timeouts, and WebSocket support are separate transport concerns and should not be added to this provider setup without independent evidence.
 

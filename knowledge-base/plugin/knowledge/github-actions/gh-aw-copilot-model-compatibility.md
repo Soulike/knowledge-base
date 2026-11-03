@@ -6,7 +6,7 @@ This document explains how to determine whether a gh-aw workflow using the Copil
 
 ## When to update
 
-Update this document when gh-aw or its Agent Workflow Firewall (AWF) changes model discovery, alias resolution, protocol selection, or CLI installation; when Copilot CLI or SDK changes BYOK capability resolution, reasoning or context handling, or effective-configuration inspection; or when GitHub changes the authentication and model-metadata contracts used by workflows. Recheck the applicable execution path after changing any of those components rather than assuming an earlier model compatibility result still holds.
+Update this document when gh-aw or its Agent Workflow Firewall (AWF) changes model discovery, alias resolution, protocol selection, model-pricing admission or accounting, or CLI installation; when Copilot CLI or SDK changes BYOK capability resolution, reasoning or context handling, or effective-configuration inspection; or when GitHub changes the authentication and model-metadata contracts used by workflows. Recheck the applicable execution path after changing any of those components rather than assuming an earlier model compatibility result still holds.
 
 ## Define what model compatibility means
 
@@ -14,7 +14,7 @@ A model being available to an account, a workflow completing successfully, and t
 
 For example, provider and model-selection metadata may recognize a model while the client uses generic capacity defaults. A successful request then proves callability, not that an expected larger context tier was used. Conversely, a model with known client configuration can still be unavailable to the workflow's credential. Treat model names as candidates to evaluate, not a portable whitelist.
 
-The implementation details below were checked on 2026-09-05 against gh-aw v0.87.10/v0.88.2, AWF v0.28.10/v0.28.12, and Copilot CLI v1.0.80/v1.0.83. The catalog and capacity example was checked on 2026-09-12 against gh-aw v0.88.7 and checksummed macOS arm64 Copilot CLI v1.0.79/v1.0.80/v1.0.83 release packages. The CLI package observations were reproduced on 2026-10-03; the [offline reproduction record](https://github.com/Soulike/knowledge-base/pull/167) provides exact assets and hashes, native catalog probes with a positive control, shipped resolver inspection, and provider-help commands and results. These are evidence boundaries, not recommended version pins or a promise about other platforms or later releases.
+Unless a different version is identified locally, the implementation details below were checked on 2026-09-05 against gh-aw v0.87.10/v0.88.2, AWF v0.28.10/v0.28.12, and Copilot CLI v1.0.80/v1.0.83. The catalog and capacity example was checked on 2026-09-12 against gh-aw v0.88.7 and checksummed macOS arm64 Copilot CLI v1.0.79/v1.0.80/v1.0.83 release packages. The CLI package observations were reproduced on 2026-10-03; the [offline reproduction record](https://github.com/Soulike/knowledge-base/pull/167) provides exact assets and hashes, native catalog probes with a positive control, shipped resolver inspection, and provider-help commands and results. These are evidence boundaries, not recommended version pins or a promise about other platforms or later releases.
 
 ## Identify the actual execution path
 
@@ -70,9 +70,14 @@ The BYOK overrides `COPILOT_PROVIDER_MAX_PROMPT_TOKENS` and `COPILOT_PROVIDER_MA
 
 ### AIC admission is a separate check
 
-Missing an entry in gh-aw's catalog does not necessarily mean missing AI Credits (AIC) pricing. The inspected AWF implementation can use provider-supplied runtime pricing, other catalog data, or configured fallback prices. When its per-run AIC limit is active, required pricing cannot be resolved, and no default pricing is configured, it rejects the model with `unknown_model_ai_credits` instead of permitting unaccounted inference. [Pricing resolution and rejection](https://github.com/github/gh-aw-firewall/blob/v0.28.12/containers/api-proxy/guards/ai-credits-guard.js).
+Missing an entry in gh-aw's catalog does not necessarily mean missing AI Credits (AIC) pricing. AWF can resolve pricing from provider-supplied runtime data, other catalogs, or configured fallback prices. The outcome when required pricing remains unresolved depends on the applicable AWF version:
 
-Passing that check establishes neither protocol nor context compatibility. Disabling a budget check does not repair either one. Diagnose a missing-pricing rejection separately from a request-format error or a client warning followed by continued execution.
+- In v0.28.12, an active per-run AIC limit with unresolved pricing and no configured default causes a rejection with `unknown_model_ai_credits`. [Pricing resolution and rejection](https://github.com/github/gh-aw-firewall/blob/v0.28.12/containers/api-proxy/guards/ai-credits-guard.js).
+- In v0.29.5, the active guard calls `checkModelPricing`, which warns and returns without blocking unpriced inference. Without resolved or configured default pricing, that usage is excluded from AI-credit totals and budget enforcement can undercount spending. [Pricing check and accounting](https://github.com/github/gh-aw-firewall/blob/v0.29.5/containers/api-proxy/guards/ai-credits-guard.js#L306-L333), [guard consumer](https://github.com/github/gh-aw-firewall/blob/v0.29.5/containers/api-proxy/proxy-guards.js#L154-L180).
+
+When an AIC budget matters, inspect the launched version's guard and pricing completeness for the models and pricing tiers the run can use. An active limit or continued execution does not prove that every inference is priced or that missing pricing is rejected. Keep unknown-pricing warnings and accounting gaps visible rather than interpreting them as successful budget validation.
+
+Passing a pricing check establishes neither protocol nor context compatibility. Disabling a budget check does not repair either one. Diagnose a missing-pricing rejection or an unpriced-usage warning separately from a request-format error or a client-capacity warning followed by continued execution.
 
 ## Interpret validation evidence narrowly
 

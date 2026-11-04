@@ -161,7 +161,7 @@ the represented scope and any promised complete set accessible, applying the
 [information-access model](../user-interface/layout-resilience.md#adapt-the-whole-surface-and-preserve-the-task).
 For a deliberately bounded Web preview, establish which items inform the user's
 current decision through
-[user-centered information hierarchy](user-centered-information-hierarchy.md).
+[user-centered information hierarchy](../user-interface/user-centered-information-hierarchy.md).
 An accurate total and a usable route to remaining items preserve the preview's
 promise. Use [pagination](https://design-system.service.gov.uk/components/pagination/)
 when dividing the set improves usability or performance. For expand/collapse,

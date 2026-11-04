@@ -42,6 +42,7 @@ network:
     - mcp.tavily.com
     - https://mozilla.org
     - https://chromium.googlesource.com
+    - https://www.w3.org
 
 runtimes:
   node:

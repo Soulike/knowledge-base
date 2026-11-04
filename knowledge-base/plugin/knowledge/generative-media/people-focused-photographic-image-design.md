@@ -67,10 +67,18 @@ the portrait.
 
 State what must be in focus. For one person, this may be the nearer eye, the
 whole face, the full body, or a significant object. For a group, determine
-whether every important face must share an acceptable focus plane. Depth of
-field depends on aperture, focus distance, focal length, format, and
-subject-background separation, so extreme blur is not automatically desirable.
-Preserving environmental context may require more depth rather than less.
+whether every important face must be acceptably sharp. Depth of field is the
+range of distances around the focus distance that appears acceptably sharp.
+Its extent depends on aperture, focus distance, focal length, sensor or film
+size, and the image's viewing size and distance. A smaller aperture (higher
+f-number) can increase that range; focus placement and group arrangement
+determine which faces it covers.
+
+Background separation affects background blur. With the camera, aperture,
+focus, and viewing conditions fixed, moving only the background farther away
+can make it blurrier without changing which stationary faces are acceptably
+sharp. Extreme blur is not automatically desirable: preserving environmental
+context may require more depth of field rather than less.
 
 Use foreground and background blur, sharpness, contrast, and detail to support
 hierarchy. Do not combine a demand for a fully legible environment with an
@@ -148,6 +156,7 @@ to visible effects rather than unsupported metadata.
 - [ZEISS: Harnessing wide-angle lenses, perspective, and impact](https://lenspire.zeiss.com/photo/en/article/harnessing-wide-angle-lenses-perspective-and-impact)
 - [Nikon: Understanding focal length](https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/understanding-focal-length)
 - [Nikon: Understanding maximum aperture](https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/understanding-maximum-aperture)
+- [Nikon: What is aperture?](https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/what-is-aperture)
 - [Nikon: Quick tips for taking better portraits](https://www.nikonusa.com/learn-and-explore/c/tips-and-techniques/quick-tips-for-taking-better-portraits)
 - [Sony: Portrait photography guidance](https://www.sony.com/electronics/support/articles/00206555)
 - [Sony: How lighting direction changes a photograph](https://www.sony.com/electronics/support/articles/00267922)

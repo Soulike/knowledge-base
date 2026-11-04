@@ -62,7 +62,7 @@ The three scheduled tasks import
 - Playwright for authoritative pages that require JavaScript or resist ordinary
   extraction;
 - a sandbox network boundary using gh-aw's `defaults` and `github` domain sets,
-  plus Tavily, Mozilla, and Chromium Gitiles;
+  plus Tavily, Mozilla, Chromium Gitiles, and `https://www.w3.org`;
 - the latest LTS Node.js release;
 - one compiler-selected, checksum-authenticated Copilot CLI version shared by
   Agent and threat detection;

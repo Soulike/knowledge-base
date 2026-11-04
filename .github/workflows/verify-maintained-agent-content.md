@@ -13,6 +13,7 @@ engine:
   id: copilot
   model: ${{ vars.CONTENT_VERIFICATION_MODEL || 'auto' }}
   args:
+    - --allow-all-urls
     - --reasoning-effort
     - ${{ vars.CONTENT_VERIFICATION_REASONING_EFFORT }}
 

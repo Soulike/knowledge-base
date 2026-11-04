@@ -143,7 +143,13 @@ of the change effect, but do not authorize changes to independent behavior.
     reachable and usable from each required starting point. Resolve every
     introduced suitability defect, unexplained loss, distortion, duplicate
     authority, or route failure and repeat the affected independent review after
-    each fix. Treat unavailable independent review as an incomplete result.
+    each fix. For new or substantively changed Knowledge, Skills, and Skill
+    references, also complete
+    [Review reader understanding](references/review-reader-understanding.md)
+    as part of this review. Reuse the capable review and existing behavioral
+    runs when they supply the required understanding observations. Treat
+    unavailable independent review or required cross-model understanding
+    evidence as an incomplete result.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated knowledge-base plugin version when applicable, and mechanical and
@@ -183,7 +189,10 @@ Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.
 The final-content suitability review must establish a usable organization, and
 the independent review must find no introduced suitability defect or
-unexplained semantic change. When
+unexplained semantic change. New and substantively revised Knowledge, Skills,
+and Skill references must also have the required cross-model understanding
+evidence. Confirmed understanding defects must be corrected in the content and
+checked again in a fresh context before delivery is complete. When
 knowledge-base plugin Knowledge, Skill references, or usage Skills changed,
 also require the PR-scoped knowledge-base plugin version and its validation to
 be current.

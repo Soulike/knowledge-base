@@ -48,6 +48,11 @@ Review every applicable repository-specific dimension:
    understanding, selection, or execution, and an actionable remedy. Accept
    clear single-file organization and useful separation; file length, file
    count, and a preferred layout do not establish a defect.
+   For primary-plugin Knowledge, Skills, and Skill references, apply the
+   [reader requirements](knowledge-base/AGENTS.md#reader-understanding) and check
+   that required cross-model understanding evidence supports the revised
+   content. Include concrete understanding obstacles introduced by the change,
+   even when its individual factual claims remain correct.
 4. Packaging and delivery completeness across affected plugin, marketplace,
    manifest, version, reference, installation, and automation paths.
 5. Historical dispositions recorded by trusted collaborators in closed issues.

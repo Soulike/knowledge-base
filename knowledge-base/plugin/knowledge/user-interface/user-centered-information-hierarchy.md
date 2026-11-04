@@ -1,9 +1,9 @@
-# User-centered web interface information hierarchy
+# User-centered information hierarchy
 
 ## Scope
 
 This document explains how to select, relate, and emphasize information so a
-web interface supports the user's current task, question, or decision through a
+user interface supports the user's current task, question, or decision through a
 coherent visual and semantic hierarchy.
 
 ## When to update
@@ -60,7 +60,7 @@ For example, an installation surface can identify the selected item, state that
 it requires the listed dependencies and that they will also be installed, then
 present requested permissions separately. Cache state, plan identifiers, and
 execution ordering remain secondary unless they change the decision. For
-irreversible or unchangeable actions, W3C's
+irreversible or unchangeable actions in Web content, W3C's
 [confirmation technique](https://www.w3.org/WAI/WCAG22/Techniques/general/G168)
 likewise calls for identifying the selected action and the consequence of
 proceeding.
@@ -95,21 +95,21 @@ relationship: a heading placed over unrelated areas can falsely imply that
 they belong to the same section.
 
 Use familiar conventions for the location, appearance, and behavior of common
-page regions when they help people orient quickly. If a different arrangement
-better serves the task, make its purpose and boundaries recognizable. Check the
-intended audience and device context rather than treating one page layout as a
-universal convention.
+interface regions when they help people orient quickly. If a different
+arrangement better serves the task, make its purpose and boundaries recognizable.
+Check the intended audience and device context rather than treating one layout as
+a universal convention.
 
 Break dense prose at meaningful topic boundaries. Use lists for parallel items
 that people need to compare or locate, and emphasize a few discriminating terms
-when that helps them find a relevant passage. A wall of prose or a page where
+when that helps them find a relevant passage. A wall of prose or a surface where
 everything is highlighted makes the useful part harder to find. Keep necessary
 details available for deliberate reading; scannability does not justify
 removing information needed for an informed decision.
 
 ## Keep task copy purposeful
 
-On a task page or section landing page, copy should serve the reader's task:
+On a task-oriented surface, copy should serve the reader's task:
 for example, by identifying the target or current state, helping people locate
 what they need, distinguishing an option, explaining a consequence, or
 supporting the next step. Remove greetings, empty promotional claims, and
@@ -153,11 +153,12 @@ the reader's purpose instead of asking every element to attract attention.
 
 Visual and semantic hierarchy are separate contracts that should express the
 same relationships. Use headings, lists, groups, labels, descriptions, and
-logical source and focus order so the interface remains understandable when a
+logical reading and focus order so the interface remains understandable when a
 user does not perceive its spacing, position, color, or iconography.
 
 When presentation communicates a relationship, state, or consequence, make the
-same meaning programmatically determinable or available in text. WCAG's
+same meaning programmatically determinable or available in text. For Web
+content, WCAG's
 [Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html)
 guidance applies this requirement to structure expressed through visual
 formatting, while
@@ -198,7 +199,7 @@ status view with no immediate action. Retain an ordinary case as a control.
 Check the composed result with realistic content, constrained width, supported
 themes, text enlargement, keyboard navigation, and relevant assistive
 technology. Verify that muted information remains readable, emphasized
-information is actually more prominent, source and focus order remain logical,
+information is actually more prominent, reading and focus order remain logical,
 and required distinctions survive without color or icons. A screenshot or
 author review can expose appearance defects, but it does not establish that
 users can find, understand, or act on the information. Record the environments,
@@ -209,3 +210,4 @@ validation claim.
 
 - Steve Krug, _Don't Make Me Think, Revisited: A Common Sense Approach to Web
   Usability_ (New Riders, 2014), Chapters 2–3 and 5.
+- [Apple Human Interface Guidelines: Layout](https://developer.apple.com/design/human-interface-guidelines/layout)

@@ -176,7 +176,7 @@ moving layers, and motion direction or velocity at the join. Do not promise a
 seamless loop when the controlling event is irreversible or the starting state
 cannot recur naturally.
 
-When generated audio is selected, establish each important sound's source,
+When audio belongs to the shot, establish each important sound's source,
 timing, spatial or off-screen relationship, and synchronization. Exact dialogue
 needs a speaker, wording, language, delivery, and feasible duration. Music and
 ambience should support the shot's rhythm and point of view rather than becoming

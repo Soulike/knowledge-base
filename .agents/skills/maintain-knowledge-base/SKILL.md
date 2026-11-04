@@ -57,6 +57,10 @@ of the change effect, but do not authorize changes to independent behavior.
    before concluding that an existing owner fits. Prefer an existing owner
    when it already owns the responsibility; retain a new artifact only for an
    independently owned remainder, and report why no existing owner fits it.
+   For affected reading or invocation conditions, complete
+   [Establish coverage before drafting](../../../knowledge-base/plugin/references/agents/selection-triggers.md#establish-coverage-before-drafting)
+   before proposing wording or rewriting the target. Carry its coverage
+   boundaries and request cases into the artifact-specific workflows below.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
    [Maintained document quality](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md)
@@ -133,8 +137,9 @@ of the change effect, but do not authorize changes to independent behavior.
     Supply active instructions, applicable standards, accepted requirements,
     and raw artifacts without the author's conclusions. For affected selections,
     first apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
-    have the reviewer choose from natural requests and the real candidate set
-    before opening target contents or seeing expected selections. Then apply
+    have the reviewer choose from the request cases established before drafting
+    and the real candidate set before opening target contents or seeing
+    expected selections. Then apply
     the loaded Knowledge's suitability review to the reader task and complete
     final content. Finally compare the trusted pre-change state to account for
     every semantic change, attribute defects to the revision, and compare any

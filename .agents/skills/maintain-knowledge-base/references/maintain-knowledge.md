@@ -112,26 +112,43 @@ including during read-only contribution triage:
 
 1. State the concrete reader tasks, subject-specific decisions, and explanatory
    model the material must support, together with the context available before
-   reading it. Use these needs to find candidate owners rather than reducing
-   the material to a shared principle.
+   reading it. Use these needs to find candidate owners. For each candidate,
+   state the question its existing document helps the reader answer and the
+   question the proposed material must answer before choosing a destination.
+   Describe each question through the choice the reader must make and the
+   conditions used to make it, rather than a broad activity or shared artifact.
 2. Read each candidate's actual pre-edit content alongside its Scope, catalog
    `When to Read` condition, and `When to update` trigger. Confirm that the
    content and these boundaries describe the same responsibility, then compare
    the scope assessment's reader needs with that responsibility. For each
    required decision or explanation, identify the supporting body-content
-   location and how it supports the need, a gap to correct within that established responsibility, or an independently needed
-   responsibility the candidate does not own. Justify a same-owner correction
-   by the subject decision model already present, not by broad Scope or route
-   labels alone. Topical overlap, a shared premise, and loading by a consuming
-   Skill identify candidates; they do not establish ownership of a different
-   decision model. An uncovered detail alone also does not justify a new owner.
+   location and whether it already satisfies the reader need, needs a correction
+   or clarification within the same responsibility, or leaves an independently
+   needed responsibility the candidate does not own. For a same-owner change,
+   identify the particular choice in the existing explanation and show how the
+   new reasoning changes or justifies that choice. A document can mention a
+   capability, cost, limitation, or prerequisite without owning how to fulfill
+   it. Keep the explanation needed to assess it in the original decision;
+   evaluate the reasoning needed to fulfill it as a separate candidate when
+   readers need that reasoning after the original choice has been settled.
+   Shared vocabulary, broad Scope labels, or a consuming Skill do not supply
+   this connection. Prefer an existing owner only after the comparison supports
+   the same responsibility. If the existing explanation already answers the
+   reader's question, retain it unless new evidence or a demonstrated
+   application gap justifies a change; an unillustrated input alone is not a
+   gap. An uncovered detail or a separately worded question alone does not
+   justify another document; compare independent reading and maintenance needs
+   before separating it.
 3. Form natural requests and expected selections using
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
    Run selection against the real candidate catalog. Record each request and
    the actual selected candidates, including no selection, separately from the
    expected choices. Compare the observed selections with the content coverage
-   established above. A condition mentioning the subject or an assertion that
-   it covers the request is not a recorded selection observation.
+   established above. Selection identifies where the current catalog sends a
+   reader; it does not by itself establish that the selected document owns the
+   needed explanation. The closest available selection can expose a missing
+   owner or route. A condition mentioning the subject or an assertion that it
+   covers the request is not a recorded selection observation.
 4. Distinguish a route that inadequately expresses an existing responsibility
    from material that introduces a distinct subject responsibility. For the
    former, retain the owner and propose a trigger correction; for the latter,
@@ -139,27 +156,33 @@ including during read-only contribution triage:
    justify it. A missed selection alone does not justify another document.
 
 Keep a reviewable ownership and retrieval account in the work record: the
-reader needs, candidate coverage and gaps with pre-edit source locations,
-requests and expected versus observed selections, and the resulting ownership
-and route dispositions. Conclude fit only from that account. Missing selection
-observations or unexamined required decisions leave fit unresolved; report the
-missing evidence rather than claiming established fit.
+reader questions, candidate coverage and gaps with pre-edit source locations,
+the reason for retaining or separating responsibilities, requests and expected
+versus observed selections, and the resulting ownership and route dispositions.
+Conclude fit only from that account. Missing selection observations or
+unexamined required decisions leave fit unresolved; report the missing evidence
+rather than claiming established fit.
 Incomplete evidence may support an explicitly provisional proposal, but not a
 settled canonical owner or no-route-change conclusion.
 
-For example, verifying identity before acting can be a shared premise in
-storage access and approval handling. A storage example exercising an already
-explained identity check can stay with that rule. A proposal explaining
-approval generations and revocation requires comparison of those decisions;
-the common identity premise does not establish that the rule owns their model.
+For example, a comparison of storage backends can list access control as a
+cost. An example showing how that cost affects backend choice supports the
+same reader question. An explanation of permission grants, expiry, and
+revocation answers how to enforce access after a backend has been chosen.
+Assess those independently needed decisions and their reading and maintenance
+needs instead of placing their complete model under the cost comparison.
 
 Keep the trusted pre-edit Scope, trigger, and body as the comparison baseline
-throughout this assessment. Use the scope assessment and coverage evidence to
-justify retaining or extending the same responsibility, or selecting a
-different owner for an independently needed responsibility. A proposed Scope
-or trigger must express that justified disposition; changing its wording does
-not establish ownership. After drafting, compare the old and final boundaries
-and selections to verify the assessed disposition.
+throughout this assessment. Before choosing insertion points, assess whether
+the complete proposed content still serves the same reader task or joins
+independently needed decision models. Reassess that relationship when new
+requirements or feedback change the proposed result instead of accumulating
+material under the first selected destination. Use the scope assessment and
+coverage evidence to justify retaining or extending the same responsibility,
+or selecting a different owner. A proposed Scope or trigger must express that
+justified disposition; changing its wording does not establish ownership.
+After drafting, compare the old and final boundaries and selections to verify
+the assessed disposition.
 
 Split a general principle from a domain-, product-, or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed decisions, behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
 

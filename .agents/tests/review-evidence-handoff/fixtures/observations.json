@@ -1,0 +1,54 @@
+{
+  "source": "All records refer to the same supplied final source snapshot.",
+  "reviewer": "reviewer-one",
+  "selection_phase": "Recorded independently before bodies and expected selections were exposed.",
+  "cases": [
+    {
+      "id": "alpha",
+      "contract": "Explain and apply the principle: confirm the current target before editing; stop when the target cannot be established. Report confusion.",
+      "observations": {
+        "paraphrase": "先确认当前要修改的对象；不能确认时应停止并报告缺少的证据。",
+        "application": "如果无法确认目标，我会停止修改、说明缺少什么证据，等确认后再继续。",
+        "confusion": "没有不清楚的术语或需要猜测的前提。"
+      },
+      "accepted_judgments": {
+        "reviewer": "reviewer-one",
+        "paraphrase": "pass",
+        "application": "pass",
+        "confusion": "pass"
+      },
+      "attempts": [
+        {
+          "id": "alpha-1",
+          "outcome": "pass"
+        },
+        {
+          "id": "alpha-2",
+          "outcome": "pass",
+          "reason": "A prior coordinator repeated the already sufficient observations."
+        }
+      ]
+    },
+    {
+      "id": "beta",
+      "contract": "Explain and apply the principle: confirm the current target before editing; stop when the target cannot be established. Report confusion.",
+      "observations": {
+        "paraphrase": "修改对象需要先确认，不能根据猜测直接动手。",
+        "application": "目标身份不清时，先报告无法确认的部分并暂停修改。",
+        "confusion": null
+      },
+      "accepted_judgments": {
+        "reviewer": "reviewer-one",
+        "paraphrase": "pass",
+        "application": "pass"
+      },
+      "attempts": [
+        {
+          "id": "beta-1",
+          "outcome": "incomplete",
+          "reason": "No confusion observation was captured."
+        }
+      ]
+    }
+  ]
+}

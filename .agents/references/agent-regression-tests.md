@@ -112,6 +112,15 @@ the protected fault while preserving its real decision or integration boundary.
 
 Before authorized content edits, case maintenance, or replay:
 
+Use `pnpm agent-tests:list` to obtain the statically validated repository case
+inventory, including nonignored untracked source cases. The checker at
+[check-agent-regression-tests](../../knowledge-base/tools/check-agent-regression-tests/check.ts)
+uses parsed Markdown for required sections, identities, covered links, nearest
+placement, and material references. `pnpm agent-tests:check` is part of the free
+repository check; neither command selects cases, dispatches Agents, or judges
+behavior. A failed inventory command is an incomplete discovery, not an empty
+suite. Inspect the selected case assets to prepare the actual replay inputs.
+
 1. Identify the changed or requested files and affected responsibilities. Include
    consumers of a changed reference and catalogs or descriptions whose route
    changes can affect other guidance. Record old and new paths for moves.

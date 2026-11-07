@@ -32,6 +32,9 @@ use the repository's applicable testing workflows.
    selecting replays. Map changed content and responsibilities to existing
    coverage, including joint cases and competing selection routes. Record each selected or excluded
    case's reason; distinguish a confirmed empty inventory from failed discovery.
+   Run `pnpm agent-tests:list` for a statically validated inventory of IDs, kinds,
+   source paths, and covered targets. It includes tracked and nonignored new
+   working-tree cases and does not select tests or call models.
 
 ## Write or maintain cases
 
@@ -88,6 +91,7 @@ use the repository's applicable testing workflows.
 
 11. Check the final case inventory, stable identities, covered links, material
     references, and dispositions. Run available case-specific static checks and
+    `pnpm agent-tests:check`, then
     the repository's required checks for the changed artifacts, including
     `pnpm check` and `git diff --check`. Static validity does not establish Agent
     behavior. Content changes additionally follow the content-maintenance

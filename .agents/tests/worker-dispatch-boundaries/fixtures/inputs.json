@@ -1,0 +1,33 @@
+{
+  "worker_model": "gpt-6-luna",
+  "worker_history": "none",
+  "worker_allowance": "Three minutes of wall-clock time per inner task; record actual enforcement limits.",
+  "items": [
+    {
+      "key": "alpha",
+      "kind": "selection",
+      "task": "把已经验证过的知识改进场景保存成以后可以重放的案例，这次不修改知识正文。",
+      "starting_state": {
+        "candidate_metadata": "Use the complete current metadata supplied separately.",
+        "action_boundary": "Choose only; no bodies, edits, or substantive execution."
+      },
+      "expected_behavior": "PRIVATE_ALPHA_EXPECTATION",
+      "protected_behavior": "PRIVATE_ALPHA_FAULT",
+      "covered_objects": ["PRIVATE_ALPHA_COVERAGE"],
+      "source": "PRIVATE_ALPHA_SOURCE"
+    },
+    {
+      "key": "beta",
+      "kind": "application",
+      "task": "解释当前指导要求如何处理一次执行缺少必要观察的情况。",
+      "starting_state": {
+        "guidance": "Use the complete current replay reference supplied separately.",
+        "action_boundary": "Answer only; no file changes or nested dispatch."
+      },
+      "expected_behavior": "PRIVATE_BETA_EXPECTATION",
+      "protected_behavior": "PRIVATE_BETA_FAULT",
+      "covered_objects": ["PRIVATE_BETA_COVERAGE"],
+      "source": "PRIVATE_BETA_SOURCE"
+    }
+  ]
+}

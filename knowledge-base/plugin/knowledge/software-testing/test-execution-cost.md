@@ -12,6 +12,21 @@ Update this document when real test-performance work exposes a missing
 measurement distinction, comparability requirement, cost owner, isolation
 constraint, or proof needed to accept a test-cost reduction.
 
+## Choose the feedback goal
+
+Execution cost matters because it affects how often useful protection can run
+and how long a developer waits for actionable feedback. Choose a cost goal from
+the intended use: a local edit-and-check loop, a commit gate, and a broader
+integration run can have different budgets and required evidence. There is no
+universal duration that makes every test appropriate for each use.
+
+A fast test that removes the protected behavior is a poor trade. Keep necessary
+real integration evidence, and reduce avoidable setup, repeated journeys, and
+waiting where the contract permits it. Simple test construction can favor
+readability over small production-style optimizations while still respecting
+the suite's measured resource needs. Set the goal before attributing cost or
+claiming an improvement.
+
 ## Define the cost being compared
 
 "Faster" is not one metric. Distinguish wall-clock duration, summed worker time,
@@ -137,5 +152,6 @@ report unmeasured savings as an expected cost reduction.
 
 ## References
 
+- Robert C. Martin, “Unit Tests,” chapter 9 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8. The feedback goal is retained without a universal test duration or environment guarantee.
 - [Playwright API testing: establish server-side preconditions](https://playwright.dev/docs/api-testing)
 - [Playwright best practices: test isolation](https://playwright.dev/docs/best-practices#make-tests-as-isolated-as-possible)

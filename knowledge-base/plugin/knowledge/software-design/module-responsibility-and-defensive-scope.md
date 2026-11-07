@@ -28,6 +28,81 @@ Use these concepts separately when drawing a design:
 
 These concepts do not impose one physical shape. A module can expose several purpose-specific interfaces, and an adapter can be justified even when only one production implementation currently exists. The design question is whether the seam isolates a real contract or source of change, not how many classes, methods, or implementations have been created.
 
+## Choose what an interface exposes
+
+Distinguish an object that owns behavior from a record intended to expose data.
+A behavior-owning object offers operations through which callers use its
+meaning without coordinating its internal representation. A data record makes
+an agreed shape available for inspection, transfer, or transformation. Either
+can use classes, accessors, immutable values, or other language mechanisms;
+choose from the contract, not the syntax.
+
+Private fields and automatically generated getters and setters do not alone
+hide a representation. If callers must know which stored quantities to read,
+how to combine them, and which setters to sequence, they still depend on that
+representation. Expose the capability callers need and the facts the contract
+actually promises. An accessor is useful when that fact is part of the intended
+contract, including a computed value that need not match a stored field.
+
+For example, an inventory object can own reserving available stock and report
+the resulting availability without letting callers edit its storage counters.
+When several values must satisfy one invariant—a condition that must remain
+true—offer an operation that establishes a valid combination rather than
+making each caller coordinate independent setters through invalid states.
+This interface shape does not itself establish synchronization under concurrent
+access; the promised state transitions still need an implementation that
+preserves the invariant.
+
+A record used to transfer an inventory snapshot can deliberately expose its
+quantities. Its consumer needs the agreed data, not authority to mutate the
+live inventory. Construction checks or serialization support do not turn that
+record into the owner of inventory policy. Establish which values are a
+snapshot and which operations affect live state so the two contracts are not
+confused.
+
+### Compare the changes the design must support
+
+Consider both adding a new kind of value and adding a new operation over the
+existing kinds. In a conventional design with behavior implemented by each
+object kind, adding a kind can leave existing operations alone, while adding
+an operation can require updating every kind. With explicit data cases and
+separate functions over them, adding an operation can leave the data definitions
+alone, while adding a case can require updating the functions that interpret
+those cases.
+
+These are design pressures, not guarantees for every language or pattern.
+Visitors, dispatch tables, extensible case mechanisms, and other arrangements
+can move the cost and introduce their own coordination. Choose the arrangement
+from actual extension needs, required coverage, and understandable ownership;
+inspect the affected callers and implementations before claiming that either
+axis can change without edits or verification. Keeping data transparent for
+several independent transformations can be useful, just as hiding a live
+state transition behind an object can be useful.
+
+### Keep internal navigation out of callers' responsibilities
+
+If a caller traverses an object's internal collaborators to assemble a result
+or carry out an operation, it can become coupled to the object's topology: how
+those collaborators are connected. Ask what capability the caller actually
+needs and which module should own the traversal. A report writer that must
+discover an output store through several configuration objects may instead
+need an operation that opens the intended report destination, with the
+destination policy kept at its established owner.
+
+Count dependencies on hidden relationships rather than dots in an expression.
+Splitting a call chain into local variables does not remove those dependencies.
+Navigating an intentionally exposed data record or using a documented fluent
+API—a sequence of supported calls that builds or performs one operation—does
+not inherently expose hidden internals. Judge the relationships the public
+contract promises, not the expression's visual length.
+
+Combining public data and behavior deserves inspection when callers can bypass
+the very invariants the behavior claims to own. It is not a universal ban on
+accessors or persistence models. For example, [Active Record](https://martinfowler.com/eaaCatalog/activeRecord.html)
+explicitly combines database access with domain behavior. Decide whether its
+contract and coupling fit the current responsibility rather than treating the
+pattern name as proof that it is a passive transfer record or a design defect.
+
 ## Design for local change, testability, and replacement
 
 A change is local when the module that owns a decision can revise its implementation without making unrelated callers understand or coordinate that decision. Give state, derived values, stored data, and side effects clear owners, and trace what crosses each interface. Putting code in one file or component does not create locality if callers depend on its hidden state or update order.
@@ -118,6 +193,8 @@ Keep the behavior in the proposed module only when the answers identify one cohe
 
 ## References
 
+- Robert C. Martin, “Objects and Data Structures,” chapter 6 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8.
+- [Philip Wadler, “The Expression Problem”](https://homepages.inf.ed.ac.uk/wadler/papers/expression/expression.txt)
 - [David L. Parnas, “On the Criteria To Be Used in Decomposing Systems into Modules”](https://doi.org/10.1145/361598.361623)
 - [John Ousterhout, _A Philosophy of Software Design_](https://web.stanford.edu/~ouster/cgi-bin/book.php)
 - [Alistair Cockburn, “Hexagonal Architecture: The Original 2005 Article”](https://alistair.cockburn.us/hexagonal-architecture)

@@ -85,7 +85,23 @@ they can hold up other work or introduce a waiting cycle. If work moves outside
 the region, revalidate any assumptions that can change before committing its
 result, using the protocol the shared-state owner supports.
 
-## Account for waiting and shutdown
+## Bound demand on shared resources
+
+Choose resource limits from the accepted work and operating contract. Count
+executing work and accepted waiting work separately: a fixed number of workers
+does not establish a bounded backlog. Queued work can retain request data,
+connections, or other resources even before a worker starts it. Check where each
+limit is enforced and what happens when it is reached, including whether the
+caller waits or receives the contract's non-admission outcome. Do not infer a
+bound from the scheduler's name or from one successful load test.
+
+For example, four workers can execute at most four tasks at once while an
+unbounded queue continues accepting thousands of tasks. The execution limit has
+not limited the memory retained by waiting tasks. Use the required queue or
+admission bound and resource ownership to keep demand within the established
+budget; changing the worker count alone does not fulfill that requirement.
+
+## Make resource acquisition support progress
 
 A deadlock leaves participants blocked by dependencies on one another, such as
 each holding a resource the other needs. Starvation
@@ -101,6 +117,48 @@ different queue states. The queue protocol must
 make the relevant state changes visible and wake or complete the appropriate
 waits. Fairness and cancellation behavior depend on the chosen implementation;
 do not infer them from the name of a lock or queue.
+
+Include worker capacity in this trace. For example, four tasks occupy all four
+workers in a fixed-capacity pool. Each task queues another task to that same pool
+and keeps its worker occupied while waiting for the new task's result. The queued
+tasks have no free worker to run them. Adding a timeout can expose or limit waiting without proving
+that the required work can progress or that timed-out work has stopped.
+
+In the usual allocation model for reusable exclusive resources, these conditions
+together permit a resource deadlock:
+
+| Condition             | Meaning                                                               |
+| --------------------- | --------------------------------------------------------------------- |
+| Mutual exclusion      | A resource cannot be held by competing participants at once.          |
+| Hold and wait         | A participant keeps a resource while waiting for another.             |
+| No forced reclamation | The allocation protocol cannot reclaim a resource from its holder.    |
+| Circular wait         | Participants form a cycle, each awaiting a resource held by the next. |
+
+Break a necessary condition while preserving the resource's correctness contract.
+A common choice is one strict acquisition order followed by every participating
+path, including indirect calls. Two operations that acquire resources `A` then
+`B` and `B` then `A` can each hold the resource the other needs. Acquiring them in
+the same strict order removes that cycle. The order must cover the actual
+resources acquired; adding a few more connections or checking availability before
+a separate acquisition does not establish this guarantee.
+
+Another choice is a supported acquisition operation that grants the required set
+together without holding a partial set while waiting. Alternatively, release a
+partial set before retrying instead of retaining it while waiting. Establish that
+acquisition and release really have those semantics.
+Retries can still cause starvation or livelock, and more concurrency can increase
+contention. Removing one resource cycle is not a proof of fairness, capacity, or
+all other progress properties.
+
+Releasing resources does not undo an earlier external effect. Before restarting an
+attempt that may have written data, use the
+[operation's outcome and recovery contract](operation-failure-and-recovery.md#make-recovery-a-supported-path)
+to establish what happened and whether repetition is safe. The component controlling the resource
+must also support any proposed cancellation or reclamation; taking a resource
+away while its previous owner can still use it can replace a progress problem
+with a safety violation.
+
+## Complete blocked participants during shutdown
 
 Shutdown must include blocked participants. Decide whether accepted work drains
 or is abandoned, stop admission accordingly, and provide a completion path for
@@ -133,4 +191,6 @@ passes.
 ## Sources
 
 - Brett L. Schuchert, “Concurrency,” chapter 13 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8. Its shared-state, compound-call, execution-model, and shutdown examples inform this account; historical Java performance comparisons, exact bytecode-path counts, and tool recommendations are not portable guarantees.
+- Brett L. Schuchert, “Concurrency II,” appendix A in the same editions: bounded resource demand, compound operations, resource deadlock conditions, and acquisition strategies, with their correctness and progress limits.
 - [Java Language Specification, chapter 17: Threads and Locks](https://docs.oracle.com/javase/specs/jls/se26/html/jls-17.html): a concrete language model distinguishing synchronization and visibility; other runtimes require their own supported contracts.
+- [Java `Executors` documentation](https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Executors.html): a concrete counterexample to assuming a fixed worker count also bounds queued work.

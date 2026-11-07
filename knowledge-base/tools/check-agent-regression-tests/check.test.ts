@@ -3,7 +3,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { test } from "node:test";
+import { test, type TestContext } from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { caseEntrypoints, checkCases, parseCaseDocument } from "./check.ts";
@@ -32,13 +32,32 @@ function example(
     .join("\n\n")}\n`;
 }
 
-test("resolves reference-style coverage and rejects missing task inputs", () => {
+async function temporaryDirectory(context: TestContext): Promise<string> {
+  const root = await mkdtemp(join(tmpdir(), "case-check-"));
+  context.after(() => rm(root, { recursive: true, force: true }));
+  return root;
+}
+
+async function writeCaseWithDocument(
+  root: string,
+  directory: string,
+  id: string,
+): Promise<void> {
+  await mkdir(join(root, directory, "tests", id), { recursive: true });
+  await writeFile(join(root, directory, "document.md"), "# Subject\n");
+  await writeFile(join(root, directory, "tests", id, "case.md"), example(id));
+}
+
+test("resolves reference-style coverage", () => {
   const valid = parseCaseDocument(
     `${example("reader", "- [Document][subject]")}\n[subject]: ../../document.md\n`,
     "tests/reader/case.md",
   );
   assert.deepEqual(valid.record?.covers, ["document.md"]);
   assert.deepEqual(valid.diagnostics, []);
+});
+
+test("rejects missing task or expectation sections", () => {
   for (const missing of ["Task", "Expected behavior"]) {
     const invalid = parseCaseDocument(
       example("reader", "[Document](../../document.md)", missing),
@@ -47,6 +66,7 @@ test("resolves reference-style coverage and rejects missing task inputs", () => 
     assert.equal(invalid.record, null);
     assert.ok(
       invalid.diagnostics.includes(`Missing or empty section: ${missing}`),
+      `Missing ${missing} must be diagnosed.`,
     );
   }
 });
@@ -70,6 +90,9 @@ test("discovers common-ancestor cases without treating nested fixture cases as e
     ]),
     [".agents/tests/local/case.md", "tests/joint/case.md"],
   );
+});
+
+test("rejects cases outside the nearest common directory", () => {
   const misplaced = parseCaseDocument(
     example(
       "joint",
@@ -85,63 +108,58 @@ test("discovers common-ancestor cases without treating nested fixture cases as e
   );
 });
 
-test("rejects global duplicate IDs and missing linked material", async () => {
-  const root = await mkdtemp(join(tmpdir(), "case-check-"));
-  try {
-    for (const directory of ["a", "b"]) {
-      await mkdir(join(root, directory, "tests/same"), { recursive: true });
-      await writeFile(join(root, directory, "document.md"), "# Subject\n");
-      await writeFile(
-        join(root, directory, "tests/same/case.md"),
-        example("same"),
-      );
-    }
-    const result = await checkCases(root, [
-      "a/tests/same/case.md",
-      "b/tests/same/case.md",
-    ]);
-    assert.ok(
-      result.diagnostics.some((message) => message.includes("also belongs")),
-    );
-    await rm(join(root, "a/document.md"));
-    const missing = await checkCases(root, ["a/tests/same/case.md"]);
-    assert.ok(
-      missing.diagnostics.some((message) =>
-        message.includes("Referenced file is missing"),
-      ),
-    );
-  } finally {
-    await rm(root, { recursive: true, force: true });
+test("rejects global duplicate IDs", async (context) => {
+  const root = await temporaryDirectory(context);
+  for (const directory of ["a", "b"]) {
+    await writeCaseWithDocument(root, directory, "same");
   }
+  const result = await checkCases(root, [
+    "a/tests/same/case.md",
+    "b/tests/same/case.md",
+  ]);
+  assert.ok(
+    result.diagnostics.some((message) => message.includes("also belongs")),
+  );
 });
 
-test("CLI includes untracked cases and fails discovery outside a repository", async () => {
-  const root = await mkdtemp(join(tmpdir(), "case-cli-"));
+test("rejects missing linked material", async (context) => {
+  const root = await temporaryDirectory(context);
+  await writeCaseWithDocument(root, "a", "same");
+  await rm(join(root, "a/document.md"));
+  const missing = await checkCases(root, ["a/tests/same/case.md"]);
+  assert.ok(
+    missing.diagnostics.some((message) =>
+      message.includes("Referenced file is missing"),
+    ),
+  );
+});
+
+test("CLI fails discovery outside a repository", async (context) => {
+  const root = await temporaryDirectory(context);
   const executable = fileURLToPath(new URL("check.ts", import.meta.url));
-  try {
-    const absent = spawnSync(process.execPath, [executable, root, "--json"], {
-      encoding: "utf8",
-    });
-    assert.equal(absent.status, 1);
-    assert.match(absent.stderr, /Cannot discover regression cases/u);
-    execFileSync("git", ["init", "--quiet", root]);
-    await mkdir(join(root, "tests/reader"), { recursive: true });
-    await writeFile(join(root, "document.md"), "# Subject\n");
-    await writeFile(join(root, "tests/reader/case.md"), example("reader"));
-    const result = spawnSync(process.execPath, [executable, root, "--json"], {
-      encoding: "utf8",
-    });
-    assert.equal(result.status, 0, result.stderr);
-    const entries: unknown = JSON.parse(result.stdout);
-    assert.deepEqual(entries, [
-      {
-        id: "reader",
-        kind: "application",
-        filePath: "tests/reader/case.md",
-        covers: ["document.md"],
-      },
-    ]);
-  } finally {
-    await rm(root, { recursive: true, force: true });
-  }
+  const absent = spawnSync(process.execPath, [executable, root, "--json"], {
+    encoding: "utf8",
+  });
+  assert.equal(absent.status, 1);
+  assert.match(absent.stderr, /Cannot discover regression cases/u);
+});
+
+test("CLI includes untracked cases", async (context) => {
+  const root = await temporaryDirectory(context);
+  const executable = fileURLToPath(new URL("check.ts", import.meta.url));
+  execFileSync("git", ["init", "--quiet", root]);
+  await writeCaseWithDocument(root, "", "reader");
+  const result = spawnSync(process.execPath, [executable, root, "--json"], {
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const entries: unknown = JSON.parse(result.stdout);
+  assert.deepEqual(entries, [
+    {
+      id: "reader",
+      kind: "application",
+      filePath: "tests/reader/case.md",
+      covers: ["document.md"],
+    },
+  ]);
 });

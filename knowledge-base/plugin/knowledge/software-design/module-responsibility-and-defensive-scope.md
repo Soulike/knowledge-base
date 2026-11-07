@@ -28,6 +28,39 @@ Use these concepts separately when drawing a design:
 
 These concepts do not impose one physical shape. A module can expose several purpose-specific interfaces, and an adapter can be justified even when only one production implementation currently exists. The design question is whether the seam isolates a real contract or source of change, not how many classes, methods, or implementations have been created.
 
+## Diagnose cohesion before splitting
+
+Cohesion is the extent to which a module's operations and state support one
+meaning. In a class, examine which methods need which fields and why those
+relationships exist. Operations that maintain the same valid state or implement
+the same rule can belong together even when each method uses only some fields.
+Making every method touch every field does not prove that the class has one
+responsibility.
+
+Disjoint groups of fields and methods can reveal independent responsibilities,
+but they can also represent legitimate phases of one operation. Trace the
+rules and reasons to change before splitting. A class with a few methods can
+still combine a calculation rule, presentation format, and destination-writing
+policy that have different owners. A longer class can remain coherent when its
+operations serve the same contract.
+
+For example, changing a report's numerical calculation need not change its page
+layout, and changing its destination need not change either. Separate those
+decisions when their current contracts and callers establish that independence;
+keep a coordinating operation when it owns the complete report task. Choosing
+smaller classes should let a reader understand and change one needed decision
+without reconstructing unrelated details, not merely move each method behind
+another interface.
+
+Shared fields deserve a lifetime reason as well as a cohesion reason. Moving
+per-call values into class fields solely to shorten helper parameter lists can
+make calls depend on hidden initialization order and interfere with one another.
+Keep such values local or pass a coherent value group unless the object actually
+owns that state across the relevant lifetime. Assess a proposed split by the
+caller concepts and coordination it removes and introduces; class count, method
+count, and a short class description are diagnostics rather than correctness
+criteria.
+
 ## Choose what an interface exposes
 
 Distinguish an object that owns behavior from a record intended to expose data.
@@ -108,6 +141,16 @@ pattern name as proof that it is a passive transfer record or a design defect.
 A change is local when the module that owns a decision can revise its implementation without making unrelated callers understand or coordinate that decision. Give state, derived values, stored data, and side effects clear owners, and trace what crosses each interface. Putting code in one file or component does not create locality if callers depend on its hidden state or update order.
 
 Design the contract so required behavior can be exercised and observed at the owning seam with controllable inputs and dependencies. If tests must coordinate unrelated global state or reach through callers into private implementation, inspect ownership and dependency direction. Testability does not require turning every helper into a public interface.
+
+Use dependency inversion to express the capability a policy module needs in a
+contract that concrete dependency code supplies. This keeps the policy from
+carrying technology-specific details. A calculation using changing external
+rates can depend on a rate-provider contract: controlled rates exercise the
+calculation, while the real adapter and integration need their own relevant
+verification. The seam earns its place by isolating an established source of
+change or unpredictable input. Adding an interface to every method does not
+provide that isolation; choose the contract and supported substitution mechanism
+from the actual need.
 
 An implementation is replaceable to the extent that its actual consumers can keep relying on the same contract while it changes. Before claiming replacement is cheap, walk through a plausible rewrite and identify the callers, persisted data, observable failures, and material performance constraints that must stay valid. A file boundary or component tree alone does not establish replaceability.
 
@@ -242,6 +285,7 @@ Keep the behavior in the proposed module only when the answers identify one cohe
 
 - Robert C. Martin, “Objects and Data Structures,” chapter 6 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8.
 - James Grenning, “Boundaries,” chapter 8 in _Clean Code: A Handbook of Agile Software Craftsmanship_ (same editions).
+- Robert C. Martin with Jeff Langr, “Classes,” chapter 10 in _Clean Code: A Handbook of Agile Software Craftsmanship_ (same editions).
 - [Philip Wadler, “The Expression Problem”](https://homepages.inf.ed.ac.uk/wadler/papers/expression/expression.txt)
 - [David L. Parnas, “On the Criteria To Be Used in Decomposing Systems into Modules”](https://doi.org/10.1145/361598.361623)
 - [John Ousterhout, _A Philosophy of Software Design_](https://web.stanford.edu/~ouster/cgi-bin/book.php)

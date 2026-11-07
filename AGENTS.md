@@ -68,6 +68,12 @@ instructions and prompts that govern them. It classifies every affected
 responsibility before selecting authoring workflows and the smallest coherent
 operation; assessment alone does not authorize edits.
 
+Use [maintain-knowledge-base-tests](.agents/skills/maintain-knowledge-base-tests/SKILL.md)
+for directly creating, replaying, reviewing, or maintaining behavioral regression
+cases for knowledge-base content. Before authorized content edits, follow the
+maintenance workflow's case discovery, including reverse lookup of covered file
+links so that editing any member of a joint case finds its protection.
+
 ## Markdown references
 
 Outside `.github/scripts/*/prompts/`, write every prose reference to another

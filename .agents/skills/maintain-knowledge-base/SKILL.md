@@ -61,6 +61,13 @@ of the change effect, but do not authorize changes to independent behavior.
    [Establish coverage before drafting](../../../knowledge-base/plugin/references/agents/selection-triggers.md#establish-coverage-before-drafting)
    before proposing wording or rewriting the target. Carry its coverage
    boundaries and request cases into the artifact-specific workflows below.
+   For authorized maintenance, also apply
+   [Discover and select regression cases](../../references/agent-regression-tests.md#discover-and-select)
+   before editing. Check nearby cases and reverse coverage links across the
+   complete repository inventory, including joint cases, reference consumers,
+   and affected competing routes. Carry the selected historical cases and
+   selection reasons into final validation; a placement assessment alone does
+   not require replay.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
    [Maintained document quality](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md)
@@ -114,7 +121,10 @@ of the change effect, but do not authorize changes to independent behavior.
     standards. Before finalizing any resulting document, apply the loaded
     Knowledge's boundary between authoring evidence and reader-facing content;
     keep an authoring input only when it serves the final document's maintained
-    responsibility. Before editing tests, route by the responsibility that
+    responsibility. For creation or maintenance of Agent-behavior regression
+    cases within the authorized task, follow
+    [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md).
+    Before editing other tests, route by the responsibility that
     started the work. Direct selection of new protection for a production
     behavior or bounded coverage need uses
     [`write-effective-tests`](../../../knowledge-base/plugin/skills/write-effective-tests/SKILL.md).
@@ -155,6 +165,14 @@ of the change effect, but do not authorize changes to independent behavior.
     runs when they supply the required understanding observations. Treat
     unavailable independent review or required cross-model understanding
     evidence as an incomplete result.
+    Replay selected historical cases against the final content using the shared
+    [replay and evidence protocol](../../references/agent-regression-tests.md#replay-and-evidence)
+    and [result rules](../../references/agent-regression-tests.md#judge-and-report).
+    Reuse its capable judgments and executor observations for existing review
+    requirements only when they supply the required evidence; obtain missing
+    observations. Historical passes do not replace independent final-content
+    review. Investigate failures, retain every attempt, and leave affected
+    maintenance incomplete when a selected case fails or lacks trusted evidence.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated knowledge-base plugin version when applicable, and mechanical and
@@ -163,6 +181,12 @@ of the change effect, but do not authorize changes to independent behavior.
     the organization. Report the final-content suitability conclusion with the
     examined reader task and relevant final locations, separately from semantic
     correctness and project-check results.
+    Include the regression inventory and selection account, selected case IDs,
+    tested source and models, actual observations, all attempt outcomes, and
+    remaining gaps. Record a confirmed empty inventory explicitly; failed
+    discovery is incomplete. Preserve distinct effective validation cases through
+    the case-maintenance workflow when case authoring is within the authorized
+    task, rather than treating every temporary trial as permanent protection.
 
 ## Completion criteria
 
@@ -198,6 +222,9 @@ unexplained semantic change. New and substantively revised Knowledge, Skills,
 and Skill references must also have the required cross-model understanding
 evidence. Confirmed understanding defects must be corrected in the content and
 checked again in a fresh context before delivery is complete. When
+historical regression cases are selected, also require trusted passing evidence
+for every selected case; failure or incomplete execution prevents completion of
+the affected maintenance. When
 knowledge-base plugin Knowledge, Skill references, or usage Skills changed,
 also require the PR-scoped knowledge-base plugin version and its validation to
 be current.

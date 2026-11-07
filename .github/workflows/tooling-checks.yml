@@ -56,6 +56,9 @@ jobs:
       - name: Check prompt links
         run: pnpm prompt-links:check
 
+      - name: Check Agent regression cases
+        run: pnpm agent-tests:check
+
       - name: Check knowledge document format
         run: pnpm knowledge:check
 

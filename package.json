@@ -8,7 +8,9 @@
   "scripts": {
     "agentic:check": "node .github/scripts/agentic-workflows/check.ts",
     "agentic:compile": "node .github/scripts/agentic-workflows/compile.ts",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm test && pnpm knowledge:check",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm agent-tests:check && pnpm test && pnpm knowledge:check",
+    "agent-tests:check": "node knowledge-base/tools/check-agent-regression-tests/check.ts .",
+    "agent-tests:list": "node knowledge-base/tools/check-agent-regression-tests/check.ts . --json",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "knowledge:check": "node knowledge-base/tools/check-knowledge-format/check.ts knowledge-base/plugin/knowledge",

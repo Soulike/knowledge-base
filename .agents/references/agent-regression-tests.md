@@ -210,6 +210,98 @@ do not derive a pass or a content-regression failure from that run. Fix the
 exposure boundary before a new run in an uncontaminated context. Allowed task
 guidance is not contamination merely because it teaches the required behavior.
 
+### Dispatch templates
+
+Prepare executor inputs from the case's `Task` and necessary `Starting state`;
+do not send the case file itself. Replace every placeholder below before
+dispatch. Insert the full guard from [Executor instructions](#executor-instructions)
+where indicated, without its coordinator notes. An unexpanded guard placeholder
+or a link asking the worker to find the guard is not a prepared prompt. The
+guard has one authoritative copy; the templates do not redefine it.
+
+Explicitly select the supported lower-capability model and a fresh executor
+context. For a dispatcher exposing `fork_turns` and `model`, use
+`fork_turns: "none"` and the selected model rather than inheriting conversation
+history or a default model. Confirm equivalent settings from another
+dispatcher's available interface; report unavailable prerequisites. These
+settings do not remove inherited instructions or restrict filesystem access.
+
+For a selection case, supply current candidate metadata and stop at the choice:
+
+```text
+<Insert the complete executor guard here.>
+
+Task request:
+<The case's request, without expected selections or target hints.>
+
+Permitted starting materials and tools:
+<Only the initial facts, materials, and tool boundary required by this task.>
+
+Current candidate metadata:
+<The real candidate identifiers, descriptions, and normal catalog metadata;
+no candidate bodies or evaluator-only annotations.>
+
+Choose the relevant guidance from this metadata, or choose none. During this
+selection step, do not open candidate bodies or perform the substantive task.
+Return your chosen identifiers and reasons tied to the request. Report any
+missing input, unintended body exposure, or uncertainty. This response records
+your choice; do not claim that a client loaded or read the chosen guidance.
+```
+
+For an application case, name the allowed current guidance and perform the task:
+
+```text
+<Insert the complete executor guard here.>
+
+Task request:
+<The case's request, without evaluator criteria or a reference answer.>
+
+Permitted starting state, materials, tools, and action boundary:
+<The initial state and necessary task materials; include required reset or
+cleanup mechanics and a concrete resource allowance.>
+
+Required current guidance:
+<Complete current content, or explicit permitted paths and reading routes
+that provide the complete content. Identify the supplied source snapshot.>
+
+Read the required guidance and its necessary routes before taking the task
+actions it governs. Perform the assigned task within the permitted boundary.
+Return the actual result and artifact locations, with the decisions that
+explain the result. Distinguish completed actions from proposed work, and link
+available observations rather than inventing tool or reading evidence. Report
+uncertainty, missing prerequisites, or an explicit stop with its reason.
+```
+
+For a journey, retain the natural task path and capture the choice before
+reading and application; do not substitute the selection-only stop for the
+whole task. Reuse task decisions and artifacts for reader-understanding checks
+when they supply the required observations. Obtain missing paraphrase,
+application, or confusion observations through a neutral follow-up after the
+task observation, without supplying author conclusions or expected answers.
+
+After any required blind selection has been recorded, prepare the capable
+reviewer's input separately. It receives evaluator-only material that workers
+must not see. When content maintenance is also being reviewed, include these
+inputs in that review using the parent's
+[final validation schedule](../skills/maintain-knowledge-base/SKILL.md#final-validation):
+
+```text
+Review subject and standards:
+<Task and scope, active instructions, applicable standards, accepted
+requirements, exact final artifacts, and trusted pre-change artifacts.>
+
+Case contracts and evidence:
+<Case IDs, independent criteria and their sources, covered responsibilities,
+actual executor inputs and source/model identities, inherited context limits,
+every attempt's raw observations, and program-assertion results. Mark missing
+evidence explicitly; omit the author's or coordinator's proposed verdict.>
+
+Judge each required criterion as pass, fail, or incomplete, citing actual
+evidence and unresolved gaps. Keep case judgments, semantic correctness,
+reader suitability, and reader-understanding observations separate. A missing
+observation is not supplied by a plausible explanation or a worker's claim.
+```
+
 ### Record execution
 
 Bind observations to the actual content supplied: commit or exact source

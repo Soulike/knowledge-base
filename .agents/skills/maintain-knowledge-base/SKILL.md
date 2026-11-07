@@ -142,37 +142,11 @@ of the change effect, but do not authorize changes to independent behavior.
     `knowledge-base/plugin/skills/**`, follow
     [`references/update-knowledge-base-version.md`](references/update-knowledge-base-version.md)
     after the content stabilizes.
-13. When meaning or structure changed, use a fresh Agent or isolated context for
-    one read-only review with distinct suitability and semantic conclusions.
-    Supply active instructions, applicable standards, accepted requirements,
-    and raw artifacts without the author's conclusions. For affected selections,
-    first apply [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
-    have the reviewer choose from the request cases established before drafting
-    and the real candidate set before opening target contents or seeing
-    expected selections. Then apply
-    the loaded Knowledge's suitability review to the reader task and complete
-    final content. Finally compare the trusted pre-change state to account for
-    every semantic change, attribute defects to the revision, and compare any
-    observed selections with the old routes and final responsibilities.
-    Verify that retained, moved, split, and merged responsibilities remain
-    reachable and usable from each required starting point. Resolve every
-    introduced suitability defect, unexplained loss, distortion, duplicate
-    authority, or route failure and repeat the affected independent review after
-    each fix. For new or substantively changed Knowledge, Skills, and Skill
-    references, also complete
-    [Review reader understanding](references/review-reader-understanding.md)
-    as part of this review. Reuse the capable review and existing behavioral
-    runs when they supply the required understanding observations. Treat
-    unavailable independent review or required cross-model understanding
-    evidence as an incomplete result.
-    Replay selected historical cases against the final content using the shared
-    [replay and evidence protocol](../../references/agent-regression-tests.md#replay-and-evidence)
-    and [result rules](../../references/agent-regression-tests.md#judge-and-report).
-    Reuse its capable judgments and executor observations for existing review
-    requirements only when they supply the required evidence; obtain missing
-    observations. Historical passes do not replace independent final-content
-    review. Investigate failures, retain every attempt, and leave affected
-    maintenance incomplete when a selected case fails or lacks trusted evidence.
+13. Follow [Final validation](#final-validation) to replay selected historical
+    cases and, when meaning or structure changed, complete the independent
+    final-content review and required reader-understanding checks. Coordinate
+    their observations and judgments rather than scheduling separate reviews
+    for evidence that the same reviewer can assess.
 14. Review the combined result and report the classification, affected
     responsibility units, operations performed, changed routes and consumers,
     generated knowledge-base plugin version when applicable, and mechanical and
@@ -187,6 +161,51 @@ of the change effect, but do not authorize changes to independent behavior.
     discovery is incomplete. Preserve distinct effective validation cases through
     the case-maintenance workflow when case authoring is within the authorized
     task, rather than treating every temporary trial as permanent protection.
+
+## Final validation
+
+Use the following order. Selected regression cases require replay; a change of
+meaning or structure also requires independent final-content review. New or
+substantively changed Knowledge, Skills, and Skill references additionally
+require [Review reader understanding](references/review-reader-understanding.md).
+Mechanical changes retain their existing reduced-evidence path.
+
+1. Prepare a fresh capable reviewer or isolated review context when independent
+   judgment is required. For affected selections, first apply
+   [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
+   give that reviewer the request cases established before drafting and the real
+   candidate set, and record its choices before it sees target contents or
+   expected selections. Keep this observation separate from the later judgment.
+2. Gather execution evidence against the final content using the shared
+   [replay protocol](../../references/agent-regression-tests.md#replay-and-evidence)
+   and [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates).
+   Run selected historical cases and applicable lower-capability behavioral or
+   reader-understanding checks in fresh executor contexts. Reuse existing runs
+   only when they observed the same final content and supply the required
+   evidence. Collect raw observations and applicable program-assertion results
+   before requesting their semantic judgments. The reviewer may inspect the
+   explanation during preparation, but defer the combined verdict until the
+   required execution observations are available or explicitly incomplete.
+3. Supply that same capable reviewer with active instructions, applicable
+   standards, accepted requirements, raw final artifacts, the trusted pre-change
+   state, case contracts, and actual observations without the author's
+   conclusions. Combine open case judgments with the required final-content and
+   reader-understanding review. Apply the loaded Knowledge's suitability review
+   to the reader task and complete final content. Account for every semantic
+   change, attribute defects to the revision, compare observed selections with
+   old routes and final responsibilities, and verify that retained, moved,
+   split, and merged responsibilities remain reachable and usable from every
+   required starting point. Keep suitability, semantic correctness,
+   reader-understanding observations, and each case's judgment distinct.
+4. Investigate failures and missing evidence at their owners. Obtain missing
+   observations rather than repeating sufficient runs. Resolve introduced
+   suitability defects, unexplained losses, distortions, duplicate authority,
+   and route failures; after a repair, repeat the affected execution observations
+   and independent review against the revised content. Preserve every attempt
+   and use the shared [result rules](../../references/agent-regression-tests.md#judge-and-report).
+   Historical passes do not replace independent final-content review.
+   Unavailable required review or cross-model evidence, and selected cases that
+   fail or lack trusted evidence, leave affected maintenance incomplete.
 
 ## Completion criteria
 

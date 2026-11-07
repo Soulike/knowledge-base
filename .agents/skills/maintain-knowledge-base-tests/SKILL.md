@@ -66,14 +66,17 @@ use the repository's applicable testing workflows.
    task-appropriate lower-capability model, observation methods, and bounded
    resource allowance before dispatch. Report missing prerequisites explicitly.
 9. Give each independent case a fresh lower-capability Agent context containing
-   only the permitted task inputs. Include the shared
-   [executor instructions](../../references/agent-regression-tests.md#executor-instructions)
-   in every dispatched prompt; a rule read only by the coordinator does not
-   constrain the worker's supplied instructions. Collect its actual choices, artifacts, and
-   available action evidence. Execute applicable program assertions and pass
-   open semantic criteria with the contract and raw observations to an
-   independent capable reviewer. The reviewer may evaluate several independent
-   runs together; do not let their executor contexts teach one another.
+   only the permitted task inputs. Build its prompt using the shared
+   [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates),
+   including the expanded executor instructions. Collect actual choices,
+   artifacts, available action evidence, and applicable program-assertion
+   results. Give open semantic criteria, contracts, and raw observations to an
+   independent capable reviewer. When this task forms part of content
+   maintenance, use the parent's [final validation](../maintain-knowledge-base/SKILL.md#final-validation)
+   reviewer for the combined judgment; do not commission a separate case verdict
+   before its scheduled review. The reviewer may evaluate several independent
+   runs together; do not let their executor contexts teach one another. Pending
+   judgments remain incomplete until the review supplies trusted evidence.
 10. Attribute failures to tested content, case, fixture, execution boundary,
     model suitability, or evaluation before repairing the authorized owner.
     Retain every attempt and investigate instability with a bounded protocol.

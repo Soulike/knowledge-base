@@ -69,16 +69,61 @@ and supported architectural distinctions; needing an explanation does not by
 itself establish a design defect. Reporting a design finding does not authorize
 an implementation change.
 
-Source comments instead explain non-obvious local intent, assumptions,
-invariants, ownership, synchronization, lifetime, tradeoffs, or failure modes.
-Place them beside the smallest implementation boundary that supplies their
-context and can make them stale. Do not restate mechanics already apparent from
-the code.
-
 A docstring can serve either responsibility. Its location beside a declaration
 does not decide whether it is a public contract, generated-reference input, or
 maintainer explanation; the language and active project's contract do. Update
 or remove commentary when the implementation or public contract invalidates it.
+
+### Keep implementation comments useful and local
+
+Source comments explain non-obvious local intent, assumptions, invariants,
+ownership, synchronization, lifetime, tradeoffs, or failure modes. Place them
+beside the smallest implementation boundary that supplies their context and
+can make them stale. Do not restate mechanics already apparent from the code.
+
+Choose a comment by the information its reader needs:
+
+| Situation                                                                          | Response                                                                                           |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| The comment only translates an obscure name or a tangled expression.               | Prefer making the code express that intent when an authorized change can do so clearly.            |
+| The code shows what happens but not why a constraint or unusual step is necessary. | Explain the constraint, reason, and consequence of removing it.                                    |
+| A dependency's required interpretation cannot be expressed clearly at the call.    | State the relevant interpretation and verify it against that dependency's actual contract.         |
+| The information describes a default or policy owned elsewhere.                     | Keep the authoritative explanation at its owner; describe only the local relationship needed here. |
+| The text records obsolete implementation, authorship, or a sequence of edits.      | Use the maintained change record or version history instead of retaining source clutter.           |
+
+Make warnings concrete enough to guide a decision. For example, “the caller
+owns this file handle, so this helper must leave it open” identifies the
+resource, owner, and forbidden effect. “Be careful here” leaves the next reader
+guessing. A rationale explains the intended constraint; it does not prove that
+the implementation currently satisfies it. Check that separately.
+
+An accurate explanation can still be too far from the code or too ambiguous to
+use. Identify which value, step, or relationship it describes. Do not promise
+that an unrelated setter chooses a default, or imply that all failures mean a
+missing file when other failure causes remain possible. A name, public API
+summary, and implementation comment may serve different readers: repeating a
+declaration can be wasteful locally while a systematic public reference still
+needs that declaration's caller-facing contract.
+
+Treat TODOs as outstanding work, not evidence that a missing capability exists.
+State the unresolved condition and enough context to find its tracked decision
+when one exists. Revisit the TODO when that condition changes; remove or update
+it when the work is completed or no longer required. A comment about a possible
+future improvement does not authorize speculative behavior today.
+
+Remove commented-out abandoned implementations when version history preserves
+their legitimate recovery need. Keep an intentional example or explanation
+only when it helps the current reader understand a live decision. Decorative
+banners, closing-brace labels, repeated signatures, and unrelated historical
+essays rarely supply that help. Preserve required notices and tool-consumed
+annotations according to their actual contracts rather than treating them as
+ordinary prose noise.
+
+Use the markup supported by the documentation consumer, and check both the
+source reading experience and any generated presentation. Neither a blanket
+ban on markup nor a rule to document every private member establishes usefulness.
+During code changes, review the associated commentary as a whole for outdated
+claims, misleading timing or failure descriptions, and lost local context.
 
 ## Derive and test documentation carefully
 
@@ -140,3 +185,11 @@ views can become false. For each affected facet:
 Deliver documentation with the behavior when readers can encounter the change
 immediately. Versioned products or staged releases may need separate publication
 mechanics, but they still require an explicit synchronization point.
+
+## Source for implementation-comment judgment
+
+Robert C. Martin, “Comments,” chapter 4 in _Clean Code: A Handbook of Agile
+Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_,
+translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8. Its comment
+examples inform the local judgment above; the document's claim-authority model
+also preserves the independently useful role of public contracts and rationale.

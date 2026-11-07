@@ -273,13 +273,21 @@ export async function runCheck(
   json: boolean,
 ): Promise<number> {
   try {
+    const deleted = new Set(
+      execFileSync("git", ["ls-files", "--deleted", "-z"], {
+        cwd: repositoryRoot,
+        encoding: "utf8",
+      })
+        .split("\0")
+        .filter(Boolean),
+    );
     const files = execFileSync(
       "git",
       ["ls-files", "--cached", "--others", "--exclude-standard", "-z"],
       { cwd: repositoryRoot, encoding: "utf8" },
     )
       .split("\0")
-      .filter(Boolean);
+      .filter((filePath) => filePath.length > 0 && !deleted.has(filePath));
     const result = await checkCases(repositoryRoot, files);
     if (result.diagnostics.length > 0) {
       console.error(result.diagnostics.join("\n"));

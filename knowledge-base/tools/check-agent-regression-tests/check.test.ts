@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, rename, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test, type TestContext } from "node:test";
@@ -162,4 +162,58 @@ test("CLI includes untracked cases", async (context) => {
       covers: ["document.md"],
     },
   ]);
+});
+
+test("CLI excludes an unstaged case deletion", async (context) => {
+  const root = await temporaryDirectory(context);
+  const executable = fileURLToPath(new URL("check.ts", import.meta.url));
+  execFileSync("git", ["init", "--quiet", root]);
+  await writeCaseWithDocument(root, "", "reader");
+  execFileSync("git", ["-C", root, "add", "."]);
+  await rm(join(root, "tests/reader/case.md"));
+  const result = spawnSync(process.execPath, [executable, root, "--json"], {
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const entries: unknown = JSON.parse(result.stdout);
+  assert.deepEqual(entries, []);
+});
+
+test("CLI inventories an unstaged move at its new location", async (context) => {
+  const root = await temporaryDirectory(context);
+  const executable = fileURLToPath(new URL("check.ts", import.meta.url));
+  execFileSync("git", ["init", "--quiet", root]);
+  await writeCaseWithDocument(root, "old", "reader");
+  execFileSync("git", ["-C", root, "add", "."]);
+  await rename(join(root, "old"), join(root, "new"));
+  const result = spawnSync(process.execPath, [executable, root, "--json"], {
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 0, result.stderr);
+  const entries: unknown = JSON.parse(result.stdout);
+  assert.deepEqual(entries, [
+    {
+      id: "reader",
+      kind: "application",
+      filePath: "new/tests/reader/case.md",
+      covers: ["new/document.md"],
+    },
+  ]);
+});
+
+test("CLI rejects an unstaged deletion still referenced by a surviving case", async (context) => {
+  const root = await temporaryDirectory(context);
+  const executable = fileURLToPath(new URL("check.ts", import.meta.url));
+  execFileSync("git", ["init", "--quiet", root]);
+  await writeCaseWithDocument(root, "", "reader");
+  execFileSync("git", ["-C", root, "add", "."]);
+  await rm(join(root, "document.md"));
+  const result = spawnSync(process.execPath, [executable, root, "--json"], {
+    encoding: "utf8",
+  });
+  assert.equal(result.status, 1);
+  assert.match(
+    result.stderr,
+    /Referenced file is missing or not a file: document\.md/u,
+  );
 });

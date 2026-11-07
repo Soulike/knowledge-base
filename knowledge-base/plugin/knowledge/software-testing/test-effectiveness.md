@@ -47,6 +47,15 @@ database, file, or deserializer is not runtime validation. Parsing,
 normalization, compatibility handling, and rejection at those seams are
 behavior and can require tests.
 
+Consider a fault-revealing scenario and how to exercise it while establishing
+the production interface. Discovering that inputs cannot be controlled or
+effects cannot be observed at the owning seam can improve the design before
+dependencies become difficult to change. Test-first development can supply
+this early feedback by writing a test that initially fails before implementing
+the behavior that makes it pass. Its timing alone does not make the scenario
+realistic or the oracle independent.
+Choose the protection from the contract and existing evidence.
+
 ## Establish the owned behavior
 
 A project test must exercise behavior owned by code that the project's declared
@@ -296,6 +305,37 @@ rather than incidental complexity.
 Apply [Trustworthy test execution](trustworthy-test-execution.md) when fixture
 ownership, ambient state, time, ordering, or cleanup affects the result.
 
+## Make the protected behavior readable
+
+Maintained tests are software that later readers must understand and change.
+Make the situation, the operation under test, and the expected consequence
+recognizable. A test that technically detects a fault can become costly to
+maintain when readers cannot tell which contract it protects or which fixture
+facts matter.
+
+Keep setup, action, and checking distinguishable without imposing a particular
+framework or exactly three labelled blocks. Use helpers that name meaningful
+test operations and remove incidental construction or transport details. Keep
+the values and conditions that make the scenario fault-revealing visible;
+do not bury an independently meaningful input, hidden mutable state, or the
+only explanation of the expected result in a generic helper. Inspect whether
+large setup indicates a missing seam before merely hiding it.
+
+Use expected representations that make the required state and any mismatch
+easy to recognize. One compact string or one assertion is not automatically
+clearer than several named expectations. For a rejected update, checking both
+the rejection and the absence of a write can jointly define one contract.
+Splitting those checks solely to achieve one assertion per test can repeat
+setup while obscuring that joint requirement. Keep independent operations
+with different expected consequences diagnosable as separate cases.
+
+Refactor helpers and fixtures as the supported behavior evolves, preserving
+their independent expectations and the faults they reveal. Test code can use
+simpler, less optimized construction than production code when that improves
+understanding and stays within the suite's resource needs. It still needs
+correctness, isolation, reliable outcomes, and meaningful protection; fewer
+lines or a passing command alone do not establish those properties.
+
 ## Remove spent migration scaffolding
 
 Migration comparison tests, fixtures, and test-only adapters can establish that
@@ -328,3 +368,7 @@ restatement, or the absence of a live contract can establish redundancy
 directly. When retained coverage is claimed to catch the same fault, a realistic
 mutation can prove it. A surviving mutation identifies either an unprotected
 behavior or an assertion without teeth.
+
+## Source for early feedback and test readability
+
+Robert C. Martin, “Unit Tests,” chapter 9 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8.

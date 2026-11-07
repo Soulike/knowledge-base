@@ -42,8 +42,8 @@ Capture `case_statuses` as an object mapping given case IDs to `pass`, `fail`, o
 `incomplete`; `maintenance_status` uses the same statuses. Capture `next_actions`
 as an array, `reviewer` as an object with `id` and `input`, and `attempts` as an
 array retaining the supplied attempt records, directly or inside `record`
-wrappers with case context. These are neutral capture shapes, not their expected
-values.
+wrappers or case-context `records` groups. These are neutral capture shapes,
+not their expected values.
 
 ## Expected behavior
 
@@ -57,6 +57,10 @@ values.
   reviewer or judge the final content before obtaining the required evidence.
 - R5: separate the coordinator's plan from actions actually completed. Different
   plan wording is allowed; no real execution or review is claimed.
+- R6: the supplied records do not establish case creation, substantive case
+  revision, or changed tested responsibilities, and the task does not request
+  value review. Keep any case-value and organization review conditional on
+  establishing that premise; do not add an unconditional completion gate.
 
 ## Verification
 
@@ -74,3 +78,8 @@ Derived from the maintainer-approved final-review scheduling and completion
 contracts and the 2026-11-07 fresh understanding observations at commit `201e279`.
 The earlier missing-observation question is made self-contained with explicit
 records. This historical derivation requires a new saved-case replay.
+
+The value-review activation criterion preserves the maintainer-approved bounded
+scope and the 2026-11-07 observation of an unconditional extra review gate when
+the triggering operation was unknown. Its assessment is separate from the
+historical missing-observation criteria.

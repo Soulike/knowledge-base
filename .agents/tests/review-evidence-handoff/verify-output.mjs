@@ -24,12 +24,10 @@ assert.equal(
   "R1: do not complete maintenance yet.",
 );
 const expected = input.cases.flatMap((entry) => entry.attempts);
-assert.equal(
-  result.attempts.length,
-  expected.length,
-  "R2: retain all attempts.",
+const retained = result.attempts.flatMap((entry) =>
+  Array.isArray(entry.records) ? entry.records : [entry.record ?? entry],
 );
-const retained = result.attempts.map((entry) => entry.record ?? entry);
+assert.equal(retained.length, expected.length, "R2: retain all attempts.");
 for (const attempt of expected) {
   const matches = retained.filter((actual) => actual.id === attempt.id);
   assert.equal(matches.length, 1, "R2: retain each supplied attempt once.");

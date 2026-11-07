@@ -66,7 +66,9 @@ of the change effect, but do not authorize changes to independent behavior.
    before editing. Check nearby cases and reverse coverage links across the
    complete repository inventory, including joint cases, reference consumers,
    and affected competing routes. Carry the selected historical cases and
-   selection reasons into final validation; a placement assessment alone does
+   selection reasons and any required
+   [case-value and organization review](../maintain-knowledge-base-tests/SKILL.md#review-case-value-and-organization)
+   scope into final validation; a placement assessment alone does
    not require replay.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
@@ -190,7 +192,11 @@ Mechanical changes retain their existing reduced-evidence path.
    standards, accepted requirements, raw final artifacts, the trusted pre-change
    state, case contracts, and actual observations without the author's
    conclusions. Combine open case judgments with the required final-content and
-   reader-understanding review. Apply the loaded Knowledge's suitability review
+   reader-understanding review. Include any required
+   [case-value and organization review](../maintain-knowledge-base-tests/SKILL.md#review-case-value-and-organization)
+   in that same review, supplying affected cases and related coverage and support
+   evidence. Keep its judgments and dispositions separate from execution
+   results. Apply the loaded Knowledge's suitability review
    to the reader task and complete final content. Account for every semantic
    change, attribute defects to the revision, compare observed selections with
    old routes and final responsibilities, and verify that retained, moved,
@@ -243,7 +249,8 @@ evidence. Confirmed understanding defects must be corrected in the content and
 checked again in a fresh context before delivery is complete. When
 historical regression cases are selected, also require trusted passing evidence
 for every selected case; failure or incomplete execution prevents completion of
-the affected maintenance. When
+the affected maintenance. Any required case-value and organization review and
+necessary authorized case or support cleanup must also be complete. When
 knowledge-base plugin Knowledge, Skill references, or usage Skills changed,
 also require the PR-scoped knowledge-base plugin version and its validation to
 be current.

@@ -1,0 +1,57 @@
+{
+  "operation": {
+    "proposed_case_addition": true,
+    "tested_responsibility_changed": true,
+    "allowed_actions": "Assessment and handoff only; no discovery, execution, or file mutation."
+  },
+  "discovery": "The complete inventory for this controlled maintenance subject and its affected responsibilities has already been established.",
+  "current_requirements": {
+    "current": "The maintenance coordinator must preserve incomplete status when required observations are missing.",
+    "retired": "The one-time old/new comparison obligation has ended. No supported old client, persisted format, rollback path, security boundary, or continuing comparison obligation remains.",
+    "unrelated": "Image-prompt wording quality remains a separate unchanged responsibility."
+  },
+  "cases": [
+    {
+      "id": "current-case",
+      "responsibility": "current",
+      "fault": "Reporting maintenance passed when a required observation is missing.",
+      "observation": "A controlled missing-observation input produces incomplete status. The executor task, starting state, and assertions are exactly identical to proposed-case; case titles are not executor inputs.",
+      "execution": "Sufficient observations independently judged pass."
+    },
+    {
+      "id": "proposed-case",
+      "responsibility": "current",
+      "fault": "Reporting maintenance passed when a required observation is missing.",
+      "observation": "The executor task, starting state, and assertions are exactly identical to current-case. Only the displayed case title is different; the title is not given to the executor.",
+      "execution": "Sufficient observations independently judged pass."
+    },
+    {
+      "id": "retired-case",
+      "responsibility": "retired",
+      "fault": "Old and new implementations disagree during the completed one-time comparison.",
+      "support": "comparison-fixture",
+      "execution": "Sufficient current observations independently judged pass; the comparison also passed historically."
+    },
+    {
+      "id": "unrelated-case",
+      "responsibility": "unrelated",
+      "fault": "Losing a required subject description in an image prompt.",
+      "execution": "Sufficient observations independently judged pass."
+    }
+  ],
+  "support": {
+    "id": "comparison-fixture",
+    "consumer": "retired-case",
+    "purpose": "Reconstruct only the obsolete comparison path; no other consumer or current obligation exists."
+  },
+  "reviewer": {
+    "id": "reviewer-one",
+    "capability_status": "Independence and capability have already been established for this bounded review task.",
+    "completed_scope": "Execution observations only; case value and organization have not been independently reviewed."
+  },
+  "cleanup": {
+    "subject": "retired-case and comparison-fixture",
+    "authorized": true,
+    "state": "Pending; neither asset has been removed."
+  }
+}

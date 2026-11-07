@@ -60,6 +60,27 @@ use the repository's applicable testing workflows.
    retiring protection. Apply the testing workflow's dispositions; a failure
    alone does not justify deletion or a weaker expectation.
 
+## Review case value and organization
+
+1. Establish whether this review is required: the task requests a value or
+   organization review, adds or substantively revises cases, or changes their
+   tested responsibilities. Ordinary replay alone does not add this completion
+   gate. If the triggering operation is unknown, report that missing premise
+   and make the review conditional rather than assuming it is required.
+2. When required, include case value and organization explicitly in the
+   [test-review workflow](../../../knowledge-base/plugin/skills/review-and-improve-tests/SKILL.md)'s
+   scope. Use its selected Knowledge to assess the affected case group,
+   overlapping protection, and fixtures or test-only support. Record
+   evidence-backed dispositions and limit the assessment to affected
+   responsibilities and related protection.
+3. Carry that required scope and the raw case, contract, coverage, and support
+   evidence into the same independent capable review used below. Distinguish
+   the coordinator's proposed dispositions from the reviewer's judgments, and
+   keep both separate from case execution results. Before delivery, complete
+   necessary case or support cleanup within the authorized scope. A review
+   request alone does not authorize edits; report out-of-scope proposals and
+   unresolved protection explicitly.
+
 ## Replay and judge
 
 8. Read the shared
@@ -102,7 +123,10 @@ use the repository's applicable testing workflows.
     concise evidence in the PR or handoff; keep case assets focused on replay.
 
 For assessment, complete the scoped dispositions and identify missing evidence.
-For delivery, complete every authorized case disposition and required check.
+For delivery, complete every authorized case disposition and required check,
+including any required case-value and organization review and necessary
+authorized cleanup. Passing replays do not satisfy an unfinished review or
+disposition.
 Historical regression replay is complete only when all selected cases have
 trusted passing evidence; unresolved failures or incomplete cases leave the
 affected maintenance unfinished. Preserve protection whose value remains

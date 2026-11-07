@@ -125,11 +125,52 @@ As a diagnostic, imagine removing the module. If required knowledge and coordina
 
 At an external integration seam, start from the current local and upstream contracts. An adapter may invoke the external interface, translate representations, decode unchecked output, map relevant failures, and handle protocol details required by its local callers. It owns only the translation its interface promises; this list is not a mandatory checklist for every adapter.
 
+### Expose the capability local callers need
+
+A provider's interface can serve many uses beyond the application's current
+need. Exposing the whole interface to local callers makes them carry its types,
+configuration, and capabilities even when they only need one operation. For
+example, returning a live mutable collection to a caller that only needs lookup
+can also give that caller a way to clear the collection. Constraining the element
+type does not remove its deletion operations.
+
+Use a local interface, suitable restricted view, or other supported mechanism
+when it isolates a real mismatch in capability or contract. Check the actual
+operations and effects callers can reach when prevention matters. Passing a
+provider object through several modules can spread representation conversion
+and vendor assumptions; concentrate that translation at the established seam.
+An extra wrapper is not justified for every container or dependency. A stable
+standard representation or intentionally public record may already be the
+appropriate caller contract.
+
+### Rely on the supported contract and establish uncertain assumptions
+
 Compare validation ownership constraint by constraint on each supported execution path. Rely on a dependency to enforce a constraint when its configured, supported behavior satisfies the local requirement on that path before any interpretation or effect that would violate the local contract. Retain local checks for stricter requirements, different coercion or normalization rules, or paths that bypass that enforcement. When the original input's type or value matters, enforce that rule before the dependency can coerce or normalize it. A stricter local contract does not justify reimplementing every upstream check.
 
 Translate recognized dependency validation failures into the caller's required result when that mapping satisfies the local failure contract; a different response format alone does not require duplicate validation beforehand. Reproducing an upstream accepted-input language creates a second authority that can reject supported inputs, accept unsupported inputs, or drift as the dependency evolves. Keep local validation where dependency enforcement and failure translation cannot satisfy an owned requirement.
 
 Do not model missing methods or version states merely because a dynamic language could express them; establish that the supported runtime, loading path, or compatibility contract can actually produce the state.
+
+When documentation leaves a relevant dependency behavior uncertain, a focused
+experiment can separate learning the API from integrating it into production
+code. Exercise the operation and observable result the application needs under
+an identified version, configuration, and initial state. This learning evidence
+can reveal required setup, defaults, or an incorrect interpretation; a successful
+probe establishes only the behavior it actually exercised under those conditions.
+It does not prove the dependency's entire contract or every supported deployment.
+
+An exploratory probe does not automatically earn permanent suite membership.
+Retained boundary protection should exercise the application's actual invocation
+and the outputs, failures, or effects its local contract relies on.
+[Test effectiveness](../software-testing/test-effectiveness.md#test-at-the-owning-seam)
+keeps the protected behavior real and selects representative integration cases
+for distinct faults; mocking the provider cannot prove that the real provider
+accepts the application's call. A retained relevant case can expose an
+incompatible dependency update, while a green result still covers only its
+observed contract. Learning and retained protection both have maintenance and
+execution costs.
+
+### Keep domain policy at its semantic owner
 
 Keep product eligibility, trust classification, migration normalization, presentation, and other domain policy with the modules whose contracts make those decisions. An adapter should carry such policy only when translation into or out of the external system is itself the current owned decision. Sharing a domain object or anticipating a future caller does not transfer ownership.
 
@@ -152,6 +193,12 @@ Defer the behavior when the producer is hypothetical, the interface cannot admit
 A current requirement need not already have a production caller. An explicitly approved stage can establish a module, interface, or compatibility path before a later stage switches consumers. The current stage must define the responsibility being established, the intended consumer or cutover, and the contract that this work must leave ready.
 
 A merely possible future consumer supplies none of those constraints. Do not pre-implement its presumed validation, migration, trust, presentation, or compatibility policy. Revisit the design when an accepted requirement identifies the real consumer and decision owner.
+
+When the local need is established but an external API is not yet available,
+the local interface can express that need while the eventual adapter remains
+unfinished. A test substitute can exercise local behavior against this agreed
+contract. It cannot establish that the eventual provider supports the interface;
+that translation and real integration still need verification when available.
 
 As a stage changes or ends an obligation, reassess whether the related code belongs in the supported target system. Ask: given current business requirements and supported operating conditions, if the system had started with the migrated design, what requirement would justify this code existing? Establish the requirement independently of the implementation, its callers, and its tests. Semantic compatibility preserves current commitments; an inherited arrangement needs its own continuing justification.
 
@@ -194,6 +241,7 @@ Keep the behavior in the proposed module only when the answers identify one cohe
 ## References
 
 - Robert C. Martin, “Objects and Data Structures,” chapter 6 in _Clean Code: A Handbook of Agile Software Craftsmanship_, ISBN 978-0-13-235088-4. Chinese edition: _代码整洁之道_, translated by 韩磊, 人民邮电出版社, 2010, ISBN 978-7-115-21687-8.
+- James Grenning, “Boundaries,” chapter 8 in _Clean Code: A Handbook of Agile Software Craftsmanship_ (same editions).
 - [Philip Wadler, “The Expression Problem”](https://homepages.inf.ed.ac.uk/wadler/papers/expression/expression.txt)
 - [David L. Parnas, “On the Criteria To Be Used in Decomposing Systems into Modules”](https://doi.org/10.1145/361598.361623)
 - [John Ousterhout, _A Philosophy of Software Design_](https://web.stanford.edu/~ouster/cgi-bin/book.php)

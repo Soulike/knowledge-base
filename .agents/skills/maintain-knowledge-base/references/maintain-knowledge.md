@@ -4,19 +4,22 @@ All content paths in this workflow are relative to the
 [knowledge-base plugin](../../../../knowledge-base/plugin/), except commands
 explicitly run from the repository root.
 
-1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) and
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md).
-   When assessing or maintaining Knowledge about user interfaces, also read
-   [Maintain UI Knowledge](ui-knowledge.md).
-   Then search the existing `knowledge/` tree. Compare every affected
-   responsibility with existing document Scopes and `When to Read` conditions
-   for overlapping ownership.
+1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
+   and the installed Handbook entrypoints that can route the affected user
+   work. When assessing or maintaining Knowledge about user interfaces, also
+   read [Maintain UI Knowledge](ui-knowledge.md). Then search the existing
+   `knowledge/` tree. Start from the user's work, required reader decisions, and
+   necessary understanding. Compare every affected responsibility with existing
+   document Scopes, compatibility `When to Read` conditions, and Handbook
+   reading scenes without treating those bundles as Knowledge ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
    [Classifying Knowledge and Skill material](../../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
    before editing `knowledge/`. Return material that does not qualify as
-   Knowledge to the parent as Skill or Skill-reference content.
+   Knowledge to the parent as Workflow Skill, Handbook Skill, or Skill-reference
+   content.
 4. Confirm that each remaining Knowledge part remains correct without access
    to its source project. Remove dependencies on named downstream repositories,
    fixed project paths or layouts, project domain models, organization policies,
@@ -41,43 +44,52 @@ explicitly run from the repository root.
    under `knowledge/` with the smallest useful document structure.
 8. Give every Markdown document under `knowledge/`, including the Knowledge
    catalog, the required preface described below.
-9. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) as the only
-   routing catalog. Organize leaf documents in domain directories, but list
-   every remaining leaf directly in the catalog and do not create nested
+9. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
+   as the complete maintenance inventory. Organize leaf documents in domain
+   directories, list every remaining leaf directly, and do not create nested
    catalogs or leaf-level `Related Knowledge`, `See also`, or similar routing
-   appendices. Before linking one leaf from another, apply the
+   appendices. During migration, preserve its existing `When to Read` column as
+   the active compatibility route and coverage evidence. Before linking one
+   leaf from another, apply the
    [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
    retained dependency where it is applied and include the local context needed
    to use the current document.
-10. Apply the assessed routing disposition to
-    [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
-    using the fields below, including its Knowledge Type. Check the final
-    selections against the requests established during ownership assessment,
-    including any retained route. Repair every route
-    and inline dependency affected by a move, merge, split, rename, or removal.
+10. Apply the assessed disposition to the Catalog fields below, including
+    Knowledge Type and the compatibility `When to Read` condition while it
+    remains active. Separately select the existing Handbook scene and package
+    routes that must read the Knowledge; return a justified new Handbook
+    responsibility to the Skill branch only when no existing task family,
+    technical domain, or stable platform context fits. Check Catalog,
+    description, and package selections against the natural requests established
+    during ownership assessment. Repair every route and inline dependency
+    affected by a move, merge, split, rename, or removal.
 11. Verify that every remaining leaf document is listed exactly once with one
-    valid Knowledge Type, serves its `When to Read` condition without requiring
-    another leaf as a prerequisite, contains no routing appendix, and resolves
-    every changed relative link. Confirm that every added or materially changed
+    valid Knowledge Type, serves its independent responsibility without another
+    leaf as a prerequisite, contains no routing appendix, and resolves every
+    changed relative link. While the Catalog compatibility route remains,
+    confirm its condition still covers historical tasks. For each available
+    Handbook route, confirm direct complete-file or context-sufficient-section
+    reading without hidden Handbook dependencies. Confirm that every added or materially changed
     inline link between Knowledge leaves passes the inline-dependency test and
     that its target fits the scope of the source claim. Confirm that each
     concept has one canonical owner and each revised document presents one
-    coherent current model. Compare every changed Scope and routing trigger
-    with its pre-edit form; keep additions that express the same responsibility
-    and route independent responsibilities separately. Confirm that removed
-    leaves and obsolete routes no longer remain.
+    coherent current model. Compare every changed Scope, compatibility route,
+    and Handbook route with its pre-edit form; keep additions that express the
+    same responsibility and route independent responsibilities separately.
+    Confirm that removed leaves and obsolete routes no longer remain.
 12. Run `pnpm knowledge:check` from the repository root.
 
 ## Admit inline Knowledge dependencies
 
 An inline link between Knowledge leaves records that a source claim depends on
 the target's canonical responsibility; it does not make the target prerequisite
-reading. The source must still state enough context to serve its own catalog
-route. Apply this deletion test before adding or retaining a link:
+reading or replace a Handbook's direct route. The source must still state enough
+context to serve its independent responsibility. Apply this deletion test
+before adding or retaining a link:
 
 First fix the comparison boundary for both leaves. For an existing leaf, use
-its trusted pre-edit Scope, Knowledge catalog `When to Read` condition, and
-responsibility. For a new leaf, use the responsibility, retrieval condition,
+its trusted pre-edit Scope, responsibility, compatibility Catalog condition,
+and Handbook routes. For a new leaf, use the responsibility, reading need,
 consumers, and maintenance lifecycle established by classification before its
 content or links are drafted; its proposed Scope must express rather than widen
 that boundary.
@@ -93,7 +105,7 @@ that boundary.
    sentence or branch whose only contribution is related reading, an optional
    technique, or an independently retrievable language-, platform-, product-,
    or implementation-specific specialization fails this check and should rely
-   on the target's `When to Read` condition in the Knowledge catalog.
+   on the target's independent Catalog or Handbook route.
 
 Keep the link only when all three checks establish a dependency within the
 source responsibility. Related reading, optional techniques, and independently
@@ -104,8 +116,9 @@ retrievable specializations remain separate Knowledge routes.
 Use the supported scopes, conditions, and reader needs established through
 [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
 to assess canonical ownership and actual retrieval. That reference owns scope
-analysis for both proposed and existing content; this assessment determines
-the Knowledge owner and catalog disposition from its results.
+analysis for both proposed and existing content; this assessment determines the
+Knowledge owner separately from Catalog compatibility and Handbook reading
+routes.
 
 Assess ownership and retrieval before choosing an existing or new owner,
 including during read-only contribution triage:
@@ -117,9 +130,10 @@ including during read-only contribution triage:
    question the proposed material must answer before choosing a destination.
    Describe each question through the choice the reader must make and the
    conditions used to make it, rather than a broad activity or shared artifact.
-2. Read each candidate's actual pre-edit content alongside its Scope, catalog
-   `When to Read` condition, and `When to update` trigger. Confirm that the
-   content and these boundaries describe the same responsibility, then compare
+2. Read each candidate's actual pre-edit content alongside its Scope,
+   compatibility Catalog condition, applicable Handbook routes, and maintenance
+   trigger. Confirm that the content, Scope, and update trigger describe
+   one subject responsibility, then compare
    the scope assessment's reader needs with that responsibility. For each
    required decision or explanation, identify the supporting body-content
    location and whether it already satisfies the reader need, needs a correction
@@ -131,9 +145,9 @@ including during read-only contribution triage:
    it. Keep the explanation needed to assess it in the original decision;
    evaluate the reasoning needed to fulfill it as a separate candidate when
    readers need that reasoning after the original choice has been settled.
-   Shared vocabulary, broad Scope labels, or a consuming Skill do not supply
-   this connection. Prefer an existing owner only after the comparison supports
-   the same responsibility. If the existing explanation already answers the
+   Shared vocabulary, broad Scope labels, or a consuming Workflow or Handbook
+   do not supply this connection. Prefer an existing owner only after the
+   comparison supports the same responsibility. If the existing explanation already answers the
    reader's question, retain it unless new evidence or a demonstrated
    application gap justifies a change; an unillustrated input alone is not a
    gap. An uncovered detail or a separately worded question alone does not
@@ -141,24 +155,26 @@ including during read-only contribution triage:
    before separating it.
 3. Form natural requests and expected selections using
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
-   Run selection against the real candidate catalog. Record each request and
-   the actual selected candidates, including no selection, separately from the
-   expected choices. Compare the observed selections with the content coverage
-   established above. Selection identifies where the current catalog sends a
-   reader; it does not by itself establish that the selected document owns the
-   needed explanation. The closest available selection can expose a missing
-   owner or route. A condition mentioning the subject or an assertion that it
-   covers the request is not a recorded selection observation.
+   During migration, run them against both the real Catalog conditions and the
+   real installed Skill descriptions. For a selected Handbook, separately
+   observe package choices from current work. Record every actual choice,
+   including no selection, before expected choices are revealed. Compare the
+   observations with the content coverage established above. Routing identifies
+   where a reader is sent; it does not establish that the selected document owns
+   the explanation, that the file was read, or that its guidance was applied.
+   The closest available selection can expose a missing owner or route.
 4. Distinguish a route that inadequately expresses an existing responsibility
    from material that introduces a distinct subject responsibility. For the
-   former, retain the owner and propose a trigger correction; for the latter,
-   select a separate owner when the independent reading and maintenance needs
-   justify it. A missed selection alone does not justify another document.
+   former, retain the owner and propose a route correction; for the latter,
+   select a separate owner when independent reading and maintenance needs
+   justify it. A missed selection alone justifies neither another Knowledge
+   document nor another Handbook.
 
 Keep a reviewable ownership and retrieval account in the work record: the
 reader questions, candidate coverage and gaps with pre-edit source locations,
 the reason for retaining or separating responsibilities, requests and expected
-versus observed selections, and the resulting ownership and route dispositions.
+versus observed Catalog, Handbook, and package selections, and the resulting
+ownership and route dispositions.
 Conclude fit only from that account. Missing selection observations or
 unexamined required decisions leave fit unresolved; report the missing evidence
 rather than claiming established fit.
@@ -172,25 +188,31 @@ revocation answers how to enforce access after a backend has been chosen.
 Assess those independently needed decisions and their reading and maintenance
 needs instead of placing their complete model under the cost comparison.
 
-Keep the trusted pre-edit Scope, trigger, and body as the comparison baseline
+Keep the trusted pre-edit Scope, reading routes, and body as the comparison baseline
 throughout this assessment. Before choosing insertion points, assess whether
 the complete proposed content still serves the same reader task or joins
 independently needed decision models. Reassess that relationship when new
 requirements or feedback change the proposed result instead of accumulating
 material under the first selected destination. Use the scope assessment and
 coverage evidence to justify retaining or extending the same responsibility,
-or selecting a different owner. A proposed Scope or trigger must express that
+or selecting a different owner. A proposed Scope or route must express that
 justified disposition; changing its wording does not establish ownership.
 After drafting, compare the old and final boundaries and selections to verify
 the assessed disposition.
 
-Split a general principle from a domain-, product-, or platform-specific mapping only when each has a distinct canonical responsibility, an independently useful `When to Read` condition, an independent `When to update` trigger, and enough substance to stand alone. Keep specific material with the general principle when it only demonstrates or translates it. Use paired documents when the mapping owns independently needed decisions, behavior, limitations, or maintenance triggers, and make the mapping reference rather than restate the principle.
+Split a general principle from a domain-, product-, or platform-specific mapping
+only when each has a distinct canonical responsibility, an independently useful
+reading need, an independent `When to update` trigger, and enough substance to
+stand alone. Keep specific material with the general principle when it only
+demonstrates or translates it. Use paired documents when the mapping owns
+independently needed decisions, behavior, limitations, or maintenance triggers,
+and make the mapping reference rather than restate the principle.
 
-Merge Knowledge documents when their pre-edit Scopes and reading triggers route
+Merge Knowledge documents when their pre-edit Scopes and reading needs express
 the same responsibility and retaining both would preserve competing or
 duplicated authority. Preserve separate documents when their responsibilities,
-reading triggers, or maintenance lifecycles remain independently useful even
-when their subjects overlap.
+reading needs, or maintenance lifecycles remain independently useful even when
+one Handbook reads them together.
 
 ## Knowledge document preface
 
@@ -224,6 +246,11 @@ lists of editing steps.
 
 ## Catalog fields
 
+The target Catalog owns file identity and Knowledge Type as maintenance
+metadata. During the expand and migrate stages it also retains `When to Read`
+for the old runtime and historical coverage. Do not remove that field until the
+coordinated contract stage has migrated every consumer.
+
 **File Path.** Use the plugin-root-relative path as the link text and a
 relative Markdown link from
 [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) as its target. Point
@@ -254,10 +281,28 @@ as a substantive claim. Classify the index as `time-sensitive` when ordinary
 external changes can move, replace, or invalidate those sources, even if the
 method of consulting current authoritative sources is durable.
 
-**When to Read.** Write a compact catalog trigger beginning with `Read when`
-for the leaf's independently useful reading responsibility. A request about one
-specific responsibility should select its canonical document; a broad user
-task can select several documents when each contributes distinct,
-non-duplicated Knowledge. Compare the condition with every other row. If two
-conditions route the same responsibility, merge the documents or redraw their
-Scopes and conditions before adding them to the catalog.
+**When to Read.** While this compatibility field remains, write a compact
+trigger beginning with `Read when` for the leaf's independently useful reading
+responsibility. A request about one responsibility should select its canonical
+document; a broad user task can select several documents when each contributes
+distinct Knowledge. Compare the condition with every other row and preserve
+historical natural-task coverage. If two conditions route the same
+responsibility, merge the documents or redraw their Scopes and conditions before
+adding them to the Catalog.
+
+## Handbook routes
+
+After choosing the Knowledge owner, choose reading bundles independently. Use
+the user work and reader decisions to compare existing Handbook scenes. Route
+the Knowledge from every applicable existing Handbook through a direct link to
+the complete file or a complete context-sufficient section. Place it in the
+foundation only when it is required for the Handbook's primary artifact work;
+otherwise select it from an observable conditional package.
+
+The same Knowledge may appear in several Handbooks when distinct scenes need it.
+That reuse does not merge owners. Return a proposed new Handbook to the Skill
+branch only when no existing task family, technical domain, or stable platform
+context provides a recognizable native entry. Apply
+[Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
+and do not create a Handbook for one leaf, hide the route through another
+Handbook, or copy the Knowledge into the entrypoint.

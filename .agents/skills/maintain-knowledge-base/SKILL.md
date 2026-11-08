@@ -1,6 +1,6 @@
 ---
 name: maintain-knowledge-base
-description: Assess contribution classification, ownership, and placement, or maintain content in this knowledge-base repository. Use for read-only contribution triage and authorized changes to its Knowledge, Agent workflows, Skill references, or maintained Agent instructions and prompts.
+description: Assess contribution classification, ownership, and placement, or maintain content in this knowledge-base repository. Use for read-only contribution triage and authorized changes to its Knowledge, Workflow Skills, Handbook Skills, Skill references, or maintained Agent instructions and prompts.
 ---
 
 # Maintain the knowledge base
@@ -8,10 +8,11 @@ description: Assess contribution classification, ownership, and placement, or ma
 Classify every affected responsibility before choosing its final artifact or
 operation.
 
-An **affected responsibility unit** is the smallest complete block of meaning
-or workflow behavior owned by one responsibility that the authorized change
-can make stale or incoherent. Its required route and consumer repairs are part
-of the change effect, but do not authorize changes to independent behavior.
+An **affected responsibility unit** is the smallest complete block of meaning,
+reading-route behavior, or task execution owned by one responsibility that the
+authorized change can make stale or incoherent. Its required route and consumer
+repairs are part of the change effect, but do not authorize changes to
+independent behavior.
 
 ## Workflow
 
@@ -35,28 +36,34 @@ of the change effect, but do not authorize changes to independent behavior.
 3. Read
    [`references/agents/knowledge-and-skills.md`](../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance
-   lifecycle, and retrieval source. Apply its retrieval-origin,
-   workflow-removal, routing-order, and lifecycle tests. A Knowledge candidate
-   must support a `When to Read` condition in the Knowledge catalog that is
-   observable from an installed-plugin task, subject, or artifact before any
-   workflow is selected.
+   lifecycle, and retrieval source. Apply its reading-origin, workflow-removal,
+   owned-behavior, and lifecycle tests. A Knowledge candidate must have an
+   independent reading need observable from installed-plugin user work, subject,
+   or current material before Workflow decisions that it informs. During the
+   migration, it must also retain a compatible Catalog `When to Read` route
+   until the contract stage removes that runtime.
 4. Classify every new, changed, moved, or removed affected responsibility unit
-   as Knowledge, Skill, Skill reference, mixed, or another repository-owned
-   artifact using that model. Keep explanation selected only by a workflow step
-   in that Skill or an appropriately scoped reference even when the prose
-   sounds general or several Skills use it. Keep repository instructions,
-   prompts, implementation, and other material that owns neither retrievable
-   understanding nor a reusable workflow in its actual artifact type rather
-   than forcing it into Knowledge or a Skill.
-5. Inventory relevant existing Knowledge, Skills, and references in every
-   applicable package or authoring scope. Start from the concrete reader tasks
-   and decisions each affected part must support, then compare candidates'
-   pre-edit responsibilities, consumers, retrieval or invocation triggers, and
-   maintenance lifecycles. For Knowledge, apply the
+   as Knowledge, Workflow Skill, Handbook Skill, Skill reference, mixed, or
+   another repository-owned artifact using that model. Keep subject
+   understanding in Knowledge, task execution in a Workflow, coherent
+   required-reading selection in a Handbook, and step-selected support in the
+   Skill or an appropriately scoped reference. Keep repository instructions,
+   prompts, implementation, and other material that owns none of those
+   responsibilities in its actual artifact type.
+5. Inventory relevant existing Knowledge, Workflow Skills, Handbook Skills, and
+   references in every applicable package or authoring scope. Start from the
+   user's work, concrete reader decisions, and required understanding. Keep
+   Knowledge ownership separate from the reading bundles that need several
+   documents together, then compare candidates' pre-edit responsibilities,
+   consumers, reading or invocation triggers, and maintenance lifecycles. For
+   Knowledge, apply the
    [ownership and retrieval assessment](references/maintain-knowledge.md#ownership-and-generalization)
-   before concluding that an existing owner fits. Prefer an existing owner
-   when it already owns the responsibility; retain a new artifact only for an
-   independently owned remainder, and report why no existing owner fits it.
+   before concluding that an existing owner fits. For Handbook placement,
+   compare existing task families, technical domains, and stable platform
+   contexts before adding an entry; retain a new Handbook only for a distinct
+   native scene, not for each Knowledge leaf. Prefer an existing owner when it
+   already owns the responsibility and report why no existing owner fits every
+   new artifact.
    For affected reading or invocation conditions, complete
    [Establish coverage before drafting](../../../knowledge-base/plugin/references/agents/selection-triggers.md#establish-coverage-before-drafting)
    before proposing wording or rewriting the target. Carry its coverage
@@ -81,11 +88,11 @@ of the change effect, but do not authorize changes to independent behavior.
    consumers needed to judge it. Read every applicable artifact workflow named
    below and complete its analysis up to, but not including, application of a
    parent-selected operation. Reclassify any material that a branch returns.
-   For mixed material, analyze the Knowledge part first, then the Skill part,
-   then its references.
+   For mixed material, analyze the Knowledge part first, then the Workflow or
+   Handbook part, then its references.
 8. Using the completed artifact-specific analysis, design the complete proposed
-   result and artifact set by responsibility, reader task, retrieval or
-   invocation timing, consumers, and maintenance lifecycle. When proposing a
+   result and artifact set by subject responsibility, user task, reading bundle,
+   retrieval or invocation timing, consumers, and maintenance lifecycle. When proposing a
    substantive revision, state the structural judgment in a work update using
    [Keep revisions coherent](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
    and proceed within the existing authorization. For purely mechanical edits,
@@ -112,13 +119,13 @@ of the change effect, but do not authorize changes to independent behavior.
 10. Resume each applicable artifact workflow and apply the selected operations.
     For each Knowledge part, use
     [`references/maintain-knowledge.md`](references/maintain-knowledge.md) and
-    complete that workflow. For each Skill part, use
+    complete that workflow. For each Workflow or Handbook part, use
     [`references/maintain-skill.md`](references/maintain-skill.md) and complete
     that workflow. For each Skill-reference part, use
     [`references/maintain-skill-reference.md`](references/maintain-skill-reference.md)
     and complete that workflow. For mixed material, finish the Knowledge branch
-    first, then stabilize the Skill responsibilities before finalizing their
-    references. Maintain other repository-owned explanatory or instructional
+    first, then stabilize the Workflow and Handbook responsibilities before
+    finalizing their references. Maintain other repository-owned explanatory or instructional
     artifacts directly under the parent quality gate and their governing project
     standards. Before finalizing any resulting document, apply the loaded
     Knowledge's boundary between authoring evidence and reader-facing content;
@@ -150,9 +157,10 @@ of the change effect, but do not authorize changes to independent behavior.
     their observations and judgments rather than scheduling separate reviews
     for evidence that the same reviewer can assess.
 14. Review the combined result and report the classification, affected
-    responsibility units, operations performed, changed routes and consumers,
-    generated knowledge-base plugin version when applicable, and mechanical and
-    semantic validation performed. Include the final structural judgment for
+    responsibility units, operations performed, changed Catalog, Handbook,
+    Workflow, and reference routes and consumers, generated knowledge-base
+    plugin version when applicable, and mechanical and semantic validation
+    performed. Include the final structural judgment for
     substantive revisions and the concrete reason for retaining or changing
     the organization. Report the final-content suitability conclusion with the
     examined reader task and relevant final locations, separately from semantic
@@ -168,7 +176,7 @@ of the change effect, but do not authorize changes to independent behavior.
 
 Use the following order. Selected regression cases require replay; a change of
 meaning or structure also requires independent final-content review. New or
-substantively changed Knowledge, Skills, and Skill references additionally
+substantively changed Knowledge, Workflow Skills, Handbook Skills, and Skill references additionally
 require [Review reader understanding](references/review-reader-understanding.md).
 Mechanical changes retain their existing reduced-evidence path.
 
@@ -177,7 +185,9 @@ Mechanical changes retain their existing reduced-evidence path.
    [Design selection triggers](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
    give that reviewer the request cases established before drafting and the real
    candidate set, and record its choices before it sees target contents or
-   expected selections. Keep this observation separate from the later judgment.
+   expected selections. For a selected Handbook, separately record every
+   package choice from current work before revealing expected packages. Keep
+   both observations separate from later reading, application, and judgment.
 2. Gather execution evidence against the final content using the shared
    [replay protocol](../../references/agent-regression-tests.md#replay-and-evidence)
    and [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates).
@@ -229,15 +239,19 @@ timing, consumers, and maintenance lifecycles rather than edit history, while
 remaining no more complex than the required behavior and explanation demand.
 
 Every new artifact must own a responsibility that no existing artifact owns.
-The Knowledge catalog and all references must resolve, every user-facing
-part must preserve downstream-project independence, and every Knowledge part
-must have an independent installed-use reading responsibility that survives
-removal of every consuming Skill, precedes workflow selection, and has a valid
-Knowledge Type. Each Knowledge leaf must serve that responsibility without
-requiring another leaf as a prerequisite, and the Knowledge catalog must remain
-the only Knowledge routing catalog. Every Skill reference must be selected only
-by its consuming workflow steps and live at the smallest common package boundary.
-The resulting diff must preserve the Knowledge-versus-workflow boundary and
+The Knowledge Catalog and all references must resolve, every user-facing part
+must preserve downstream-project independence, and every Knowledge part must
+have an independent installed-use reading responsibility that survives removal
+of every consuming Workflow and Handbook, precedes the Workflow decisions it
+informs, and has a valid Knowledge Type. Each Knowledge leaf must serve that
+responsibility without requiring another leaf as a prerequisite. The Catalog
+must remain the complete maintenance inventory; during migration its existing
+runtime conditions and loader must remain usable until the coordinated contract
+stage. Every Handbook route must read canonical Knowledge directly, and a new
+Handbook must own a distinct task family, technical domain, or stable platform
+context. Every Skill reference must be selected only by its consuming Skill
+steps and live at the smallest common package boundary. The resulting diff must
+preserve the boundaries among Knowledge, reading routes, and task execution and
 must not change an independent responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.

@@ -14,9 +14,10 @@ Give the body exactly these semantic sections:
 - `Proposed content`: state the reusable addition, correction, removal, rule,
   or workflow behavior in enough detail for maintainer evaluation without
   drafting the final maintained artifact.
-- `Suggested category`: suggest Knowledge, Skill, Skill reference, or maintained
-  Agent instruction or prompt, explain why it fits, and name the plausible
-  categories when the distinction remains uncertain.
+- `Suggested category`: suggest Knowledge, Workflow Skill, Handbook Skill,
+  Skill reference, or maintained Agent instruction or prompt, explain why it
+  fits, and name the plausible categories when the distinction remains
+  uncertain.
 - `Evidence`: report established observations, sources or validation method,
   causal basis, material limits, and unresolved uncertainty.
 - `Example`: give one sanitized, generalized scenario showing the problem and

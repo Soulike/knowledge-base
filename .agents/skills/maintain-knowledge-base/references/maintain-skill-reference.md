@@ -1,9 +1,9 @@
 # Maintain a Skill reference
 
 1. Work only from the Skill-reference parts identified during classification.
-   Return independently retrievable understanding or executable workflow
-   responsibility to the parent as Knowledge or Skill content.
-2. Identify the complete consumer set, the exact workflow step that selects
+   Return independently retrievable understanding, required-reading routing, or
+   task execution to the parent as Knowledge, Handbook, or Workflow content.
+2. Identify the complete consumer set, the exact Skill step that selects
    the material for each consumer, its maintenance lifecycle, and the package
    boundary shared by those consumers. Read the entire reference and every
    consumer needed to judge those relationships.
@@ -23,7 +23,7 @@
    boundary.
 6. Keep each reference focused on one cohesive supporting responsibility. Do
    not create a reference index. Route the file directly from the consuming
-   workflow steps, and avoid reference chains that hide the selection decision
+   Skill steps, and avoid reference chains that hide the selection decision
    from the Skill that owns it.
 7. After adding, rewriting, splitting, merging, moving, or removing a
    reference, inspect every consumer, update only affected routes or semantics,
@@ -31,7 +31,7 @@
    old location, copied wording, or an implicit filesystem convention.
 8. Run repository formatting, link validation, and every relevant Skill or
    behavioral check. Forward-test representative consumers when static checks
-   cannot establish that each workflow selects the right material at the right
+   cannot establish that each Skill selects the right material at the right
    time.
 
 Finish only when the reference has a justified selection point, one

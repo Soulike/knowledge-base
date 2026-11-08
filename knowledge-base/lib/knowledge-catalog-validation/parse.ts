@@ -12,11 +12,7 @@ export interface ParsedKnowledgeCatalog {
   listedFilePaths: string[] | null;
 }
 
-const expectedColumns = [
-  "File Path",
-  "Knowledge Type",
-  "When to Read",
-] as const;
+const expectedColumns = ["File Path", "Knowledge Type"] as const;
 const knowledgeTypes: readonly KnowledgeType[] = [
   "time-sensitive",
   "evergreen",
@@ -87,7 +83,7 @@ export function parseKnowledgeCatalog(
     headerCells.some((column, index) => column !== expectedColumns[index])
   ) {
     return structuralFailure(
-      "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
+      "The Documents table must have the columns 'File Path' and 'Knowledge Type' in that order.",
     );
   }
 
@@ -104,11 +100,11 @@ export function parseKnowledgeCatalog(
         : `Documents table line ${lineNumber}`;
 
     if (cells.length !== expectedColumns.length) {
-      diagnostics.push(`${location} must contain exactly three columns.`);
+      diagnostics.push(`${location} must contain exactly two columns.`);
       continue;
     }
 
-    const [filePathCell, knowledgeTypeCell, whenToReadCell] = cells;
+    const [filePathCell, knowledgeTypeCell] = cells;
     const filePathLink = onlyLink(filePathCell);
 
     if (filePathLink === undefined) {
@@ -151,23 +147,7 @@ export function parseKnowledgeCatalog(
       continue;
     }
 
-    const whenToRead = toString(whenToReadCell).trim();
-
-    if (whenToRead.length === 0) {
-      diagnostics.push(
-        `When to Read for 'knowledge/${targetPath}' must not be empty.`,
-      );
-      continue;
-    }
-
-    if (!whenToRead.startsWith("Read when ")) {
-      diagnostics.push(
-        `When to Read for 'knowledge/${targetPath}' must begin with 'Read when'.`,
-      );
-      continue;
-    }
-
-    entries.push({ filePath: targetPath, knowledgeType, whenToRead });
+    entries.push({ filePath: targetPath, knowledgeType });
   }
 
   return { diagnostics, entries, listedFilePaths };

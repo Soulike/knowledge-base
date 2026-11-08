@@ -126,9 +126,8 @@ candidate bodies or perform the substantive tasks.
 Build the target-model candidate set from every direct installed entrypoint
 whose registered name begins with `handbook-` or `workflow-` under
 `knowledge-base/plugin/skills/*/SKILL.md`. Confirm that this produces all 15
-Handbooks and 20 Workflows, for 35 candidates. Keep the transitional
-`load-knowledge-catalog` entrypoint installed and usable, but exclude it from
-this target-model migration selection set. Supply all requests and candidate
+Handbooks and 20 Workflows, for 35 candidates, with no other installed
+entrypoint. Supply all requests and candidate
 names and descriptions without expected choices, target hints, this case, or
 evaluator conclusions. Use a fresh supported lower-capability model with the
 expanded executor guard and an eight-minute wall-clock allowance. A tool-free

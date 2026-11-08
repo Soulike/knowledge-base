@@ -65,7 +65,7 @@ export function validateKnowledgeDocument(markdown: string): string[] {
 
   if (routingAppendix) {
     return [
-      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; keep routing in 'knowledge/index.md' and necessary links inline.",
+      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; route required reading from installed Handbooks or Workflows and keep necessary claim dependencies inline.",
     ];
   }
 

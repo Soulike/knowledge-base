@@ -89,8 +89,8 @@ Compare the proposed reading scene with every existing Handbook. Reuse or extend
 an existing owner when it already covers the same user task family, technical
 domain, or stable platform context. Add a Handbook only for a distinct native
 entry that readers can recognize before opening another Skill. Do not create
-one Handbook per Knowledge leaf, narrow scenario, or Catalog condition, and do
-not use Handbook-to-Handbook orchestration to compensate for a weak boundary.
+one Handbook per Knowledge leaf or narrow scenario, and do not use
+Handbook-to-Handbook orchestration to compensate for a weak boundary.
 
 A Handbook body may contain:
 
@@ -152,10 +152,10 @@ the directory. In the target model, installed Workflow names begin with
 responsibility visible; do not add custom kind metadata or a prefix-kind checker.
 
 Repository-authoring Skills remain in `.agents/skills/` and use names suited to
-their authoring task. During the expand stage of an installed migration, keep
-existing names, Catalog routes, and consumers usable until the coordinated
-cutover. Do not introduce aliases, wrapper Skills, duplicate workflows, or
-piecemeal renames as compatibility layers.
+their authoring task. When an authorized change renames, replaces, or removes an
+installed Skill, update every invocation pointer and consumer, then remove the
+obsolete entrypoint. Do not introduce aliases, wrapper Skills, or duplicate
+Workflows as compatibility layers.
 
 ## Write the description
 

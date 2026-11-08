@@ -27,7 +27,5 @@ create an independent Knowledge reading responsibility.
 **Knowledge Catalog**:
 The complete maintenance inventory at
 [knowledge/index.md](plugin/knowledge/index.md), listing every Knowledge leaf
-and its Knowledge Type. During the Workflow-and-Handbook migration, the Catalog
-temporarily retains its task-facing `When to Read` conditions and remains usable
-by the existing loader; those conditions are compatibility and migration
-coverage until the coordinated runtime cutover removes them.
+and its Knowledge Type. The Catalog does not select runtime reading; installed
+Handbook and Workflow Skills own those routes.

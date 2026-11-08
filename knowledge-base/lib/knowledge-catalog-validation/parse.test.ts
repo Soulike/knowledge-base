@@ -19,8 +19,8 @@ Update this catalog when Knowledge changes.
 
 ## Documents
 
-| File Path | Knowledge Type | When to Read |
-| --- | --- | --- |
+| File Path | Knowledge Type |
+| --- | --- |
 ${rows}`;
 }
 
@@ -41,8 +41,8 @@ function assertDiagnostics(
 
 test("returns validated Knowledge catalog entries", () => {
   const markdown =
-    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
-| [knowledge/provider/config.md](provider/config.md) | time-sensitive | Read when configuring a provider. |
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen |
+| [knowledge/provider/config.md](provider/config.md) | time-sensitive |
 `);
 
   assert.deepEqual(
@@ -54,12 +54,10 @@ test("returns validated Knowledge catalog entries", () => {
       {
         filePath: "agents/model.md",
         knowledgeType: "evergreen",
-        whenToRead: "Read when modeling Agents.",
       },
       {
         filePath: "provider/config.md",
         knowledgeType: "time-sensitive",
-        whenToRead: "Read when configuring a provider.",
       },
     ],
   );
@@ -67,7 +65,7 @@ test("returns validated Knowledge catalog entries", () => {
 
 test("rejects an unknown Knowledge Type", () => {
   const markdown = catalogWithRows(
-    "| [knowledge/agents/model.md](agents/model.md) | static | Read when modeling Agents. |\n",
+    "| [knowledge/agents/model.md](agents/model.md) | static |\n",
   );
 
   assertDiagnostics(
@@ -81,8 +79,8 @@ test("rejects an unknown Knowledge Type", () => {
 
 test("rejects duplicate Knowledge paths", () => {
   const markdown =
-    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
-| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen |
+| [knowledge/agents/model.md](agents/model.md) | evergreen |
 `);
 
   assertDiagnostics(
@@ -94,33 +92,78 @@ test("rejects duplicate Knowledge paths", () => {
   );
 });
 
-test("requires the canonical Documents table columns", () => {
+test("requires exactly the final two-column Documents schema", () => {
   const markdown = catalogWithRows("").replace(
+    "| File Path | Knowledge Type |\n| --- | --- |",
     "| File Path | Knowledge Type | When to Read |\n| --- | --- | --- |",
-    "| File Path | When to Read |\n| --- | --- |",
   );
 
   assertDiagnostics(
     markdown,
     [],
     [
-      "The Documents table must have the columns 'File Path', 'Knowledge Type', and 'When to Read' in that order.",
+      "The Documents table must have the columns 'File Path' and 'Knowledge Type' in that order.",
     ],
   );
 });
 
-test("requires task-facing When to Read conditions", () => {
-  const markdown =
-    catalogWithRows(`| [knowledge/empty.md](empty.md) | evergreen | |
-| [knowledge/wrong-prefix.md](wrong-prefix.md) | evergreen | Use when reviewing a document. |
-`);
+test("requires exactly two cells in every Documents row", () => {
+  const markdown = catalogWithRows(
+    "| [knowledge/agents/model.md](agents/model.md) | evergreen | obsolete runtime condition |\n",
+  );
 
   assertDiagnostics(
     markdown,
-    ["empty.md", "wrong-prefix.md"],
+    [],
+    ["Documents table line 15 must contain exactly two columns."],
+  );
+});
+
+test("requires one direct Markdown link in the File Path cell", () => {
+  const markdown = catalogWithRows(
+    "| knowledge/agents/model.md | evergreen |\n",
+  );
+
+  assertDiagnostics(
+    markdown,
+    [],
     [
-      "When to Read for 'knowledge/empty.md' must not be empty.",
-      "When to Read for 'knowledge/wrong-prefix.md' must begin with 'Read when'.",
+      "Documents table line 15 must link a plugin-root-relative 'knowledge/...' path to its knowledge-relative target.",
     ],
   );
 });
+
+test("requires matching plugin-root-relative link text", () => {
+  const markdown = catalogWithRows(
+    "| [Model](agents/model.md) | evergreen |\n",
+  );
+
+  assertDiagnostics(
+    markdown,
+    ["agents/model.md"],
+    [
+      "Documents table line 15 link text and target must identify the same Knowledge document.",
+    ],
+  );
+});
+
+for (const [label, target] of [
+  ["absolute", "/agents/model.md"],
+  ["current-directory", "./agents/model.md"],
+  ["parent-directory", "../agents/model.md"],
+  ["non-Markdown", "agents/model.txt"],
+] as const) {
+  test(`rejects an invalid ${label} Knowledge target`, () => {
+    const markdown = catalogWithRows(
+      `| [knowledge/${target}](${target}) | evergreen |\n`,
+    );
+
+    assertDiagnostics(
+      markdown,
+      [],
+      [
+        "Documents table line 15 must target a knowledge-relative Markdown leaf path.",
+      ],
+    );
+  });
+}

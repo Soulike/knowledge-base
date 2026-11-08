@@ -24,14 +24,14 @@ task execution, and scenario-based reading obligations. A proposed installed
 reading entry must become or join a Handbook Skill without absorbing the
 Knowledge it routes or inventing a Workflow procedure. Protect cumulative
 conditional reading, direct canonical routes, portable placement, and the
-Catalog migration boundary while allowing different Handbook names, prose,
-package labels, and plan structure.
+maintenance-only Catalog and strict reachability contract while allowing
+different Handbook names, prose, package labels, and plan structure.
 
 ## Task
 
-维护者提议为自动化测试工作增加一个可安装的可复用 Skill。用户编写、审查、排查具体自动化测试或解释其行为与执行时，它应要求阅读测试有效性与可信测试执行的权威 Knowledge；测量、分析或改进测试运行时间或资源成本时，还要阅读测试执行成本。单独学习或解释测试执行成本时，只读匹配的成本包，不强制无关的具体测试工作基础；具体测试工作同时涉及成本时，三份材料累积必读。这个 Skill 只提供理解与必读路由，不接管用户的测试编写或审查流程。现有 Knowledge Catalog loader 及其 `When to Read` 条件必须保持可用，直到以后统一切换。
+维护者提议为自动化测试工作增加一个可安装的可复用 Skill。用户编写、审查、排查具体自动化测试或解释其行为与执行时，它应要求阅读测试有效性与可信测试执行的权威 Knowledge；测量、分析或改进测试运行时间或资源成本时，还要阅读测试执行成本。单独学习或解释测试执行成本时，只读匹配的成本包，不强制无关的具体测试工作基础；具体测试工作同时涉及成本时，三份材料累积必读。这个 Skill 只提供理解与必读路由，不接管用户的测试编写或审查流程。Knowledge Catalog 只保留文件路径和 Knowledge Type；运行时阅读必须由安装后的 Handbook 或 Workflow 直接路由，并通过严格可达性检查。
 
-请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与重新评估、包与路径约束、迁移兼容、验证证据，以及任何停止条件或未决点。不要修改文件。
+请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与重新评估、包与路径约束、Catalog 清单与严格可达性、验证证据，以及任何停止条件或未决点。不要修改文件。
 
 ## Starting state
 
@@ -72,12 +72,13 @@ and available action observations.
   earlier reading basis is no longer available.
 - R5: keep the installed Handbook as a flat immediate child of the package
   Skill directory with matching `handbook-` registered and directory names.
-  Leave existing names and runtime consumers for the coordinated migration
-  rather than adding aliases or performing a partial rename.
-- R6 (critical): preserve the Catalog loader and current `When to Read`
-  conditions during the expand stage as runtime compatibility and migration
-  coverage evidence. Do not remove the Catalog route or present Handbook
-  authoring as proof that the new client behavior already works.
+  Update every invocation pointer and consumer for an authorized rename or
+  removal, delete the obsolete entrypoint, and do not add aliases or wrappers.
+- R6 (critical): keep the Catalog as a two-column file-and-type maintenance
+  inventory with no runtime condition or loader. Require every Knowledge leaf
+  to remain reachable from an installed Workflow or Handbook through the
+  accepted package-local graph. Do not present static reachability or Handbook
+  authoring as proof that client selection, reading, or application occurred.
 - R7: plan distinct evidence for native description selection, internal package
   choice, actual reading and application, later-stage supplementary reading,
   adjacent negative loading, and relevant historical case replay. Static links
@@ -93,16 +94,15 @@ verdict. Judge every criterion separately and retain every attempt.
 
 For rubric calibration, a controlled faulty plan that calls the proposal a
 Workflow, replaces the three Knowledge files with copied prose, treats the
-cost package as optional, or removes the Catalog during this expand stage must
-fail the corresponding critical criterion. These copies test the reviewer;
-they are not additional Agent runs or evidence about maintained guidance.
+cost package as optional, adds a runtime condition to the Catalog, or leaves a
+Knowledge leaf without an installed Skill route must fail the corresponding
+critical criterion. These copies test the reviewer; they are not additional
+Agent runs or evidence about maintained guidance.
 
 ## Source
 
-GitHub issues #242 and #243 establish the Workflow and Handbook responsibility
-model, cumulative reading contract, migration sequence, and required evidence.
-The 2026-11-08 accepted implementation scope assigns the expand-stage authoring
-model to #243 while reserving installed Handbook creation, Workflow renames,
-runtime cutover, and orphan checking for later tickets. A pre-change replay at
-commit `740842b` supplies the TDD baseline; the saved case requires fresh final
-evidence against the completed content.
+GitHub issues #242 and #251 establish the final Workflow and Handbook
+responsibility model, cumulative reading contract, maintenance-only Catalog,
+strict reachability gate, and required evidence. A pre-change replay at commit
+`740842b` supplies the historical TDD baseline; the revised case requires fresh
+final evidence against the completed contract.

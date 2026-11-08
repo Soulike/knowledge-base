@@ -85,8 +85,8 @@ the complete report, and available action observations.
   material.
 - R6: retain the Catalog as inventory and type authority. Apply evergreen
   reasoning and applicability review to evergreen leaves and current-fact or
-  evolving-dependency review to `current-renderer.md`; do not use the Catalog's
-  `When to Read` text as a runtime consumer route.
+  evolving-dependency review to `current-renderer.md`; reject any attempt to
+  infer a runtime consumer or selection condition from Catalog membership.
 
 ## Verification
 

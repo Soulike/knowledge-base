@@ -14,7 +14,8 @@
 
 An interactive mobile-browser operation must receive the product-experience
 foundation plus mobile and Web packages, and its operation Workflow must read
-the corresponding direct recovery routes without the Catalog loader. When the
+the corresponding direct recovery routes without consulting the maintenance
+Catalog. When the
 same task later becomes usability evaluation, the applicable observation and
 Agent-evidence reading must be added without loading home-page or navigation
 guidance for an isolated product flow.
@@ -36,8 +37,7 @@ Supply active project instructions and the current 35-candidate Handbook and
 Workflow metadata. Reveal the evaluation phase only after the implementation
 selection, reading choices, direct reads, and artifact are captured.
 
-Make the transitional `load-knowledge-catalog` Skill and
-`knowledge/index.md` unavailable. Permit normal access to selected current Skill
+Make `knowledge/index.md` unavailable as a runtime input. Permit normal access to selected current Skill
 bodies and their direct packaged routes. Use a fresh supported lower-capability
 model with the expanded executor guard and a bounded writable allowance limited
 to the prototype. Keep evaluator-only materials private. Record source identity,
@@ -56,8 +56,8 @@ evidence, evaluation method, and later re-evaluation.
 - P3 (critical): through the operation Workflow's direct routes, read operation
   failure and recovery, user-facing failure communication, test effectiveness,
   interaction clarity, user goodwill, mobile-interface usability,
-  content-resilient Web layouts, and Web accessibility while the Catalog loader
-  and catalog file are unavailable.
+  content-resilient Web layouts, and Web accessibility while the maintenance
+  Catalog is unavailable as a runtime route.
 - P4: exclude home-page purpose and site-navigation reading because the task is
   an isolated product flow rather than a website entry-point or navigation
   restructuring task.

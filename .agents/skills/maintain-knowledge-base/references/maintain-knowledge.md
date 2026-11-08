@@ -6,13 +6,13 @@ explicitly run from the repository root.
 
 1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
-   and the installed Handbook entrypoints that can route the affected user
-   work. When assessing or maintaining Knowledge about user interfaces, also
-   read [Maintain UI Knowledge](ui-knowledge.md). Then search the existing
+   and the installed Handbook and Workflow entrypoints that can route the
+   affected user work. When assessing or maintaining Knowledge about user
+   interfaces, also read [Maintain UI Knowledge](ui-knowledge.md). Then search the existing
    `knowledge/` tree. Start from the user's work, required reader decisions, and
    necessary understanding. Compare every affected responsibility with existing
-   document Scopes, compatibility `When to Read` conditions, and Handbook
-   reading scenes without treating those bundles as Knowledge ownership.
+   document Scopes, actual Handbook and Workflow reading routes and consumers,
+   and reading scenes without treating those bundles as Knowledge ownership.
 2. Work only from the Knowledge parts identified during classification; return
    the remaining material to the parent workflow.
 3. Reapply every boundary test in
@@ -48,36 +48,34 @@ explicitly run from the repository root.
    as the complete maintenance inventory. Organize leaf documents in domain
    directories, list every remaining leaf directly, and do not create nested
    catalogs or leaf-level `Related Knowledge`, `See also`, or similar routing
-   appendices. During migration, preserve its existing `When to Read` column as
-   the active compatibility route and coverage evidence. Before linking one
-   leaf from another, apply the
+   appendices. Before linking one leaf from another, apply the
    [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
    retained dependency where it is applied and include the local context needed
    to use the current document.
-10. Apply the assessed disposition to the Catalog fields below, including
-    Knowledge Type and the compatibility `When to Read` condition while it
-    remains active. Separately select the existing Handbook scene and package
-    routes that must read the Knowledge; return a justified new Handbook
-    responsibility to the Skill branch only when no existing task family,
-    technical domain, or stable platform context fits. Check Catalog,
-    description, and package selections against the natural requests established
-    during ownership assessment. Repair every route and inline dependency
-    affected by a move, merge, split, rename, or removal.
+10. Apply the assessed disposition to the Catalog fields below. Separately
+    select the existing Handbook or Workflow routes that must read the
+    Knowledge; return a justified new Handbook responsibility to the Skill
+    branch only when no existing task family, technical domain, or stable
+    platform context fits. Check Skill-description and package selections
+    against the natural requests established during ownership assessment.
+    Repair every route and inline dependency affected by a move, merge, split,
+    rename, or removal.
 11. Verify that every remaining leaf document is listed exactly once with one
     valid Knowledge Type, serves its independent responsibility without another
     leaf as a prerequisite, contains no routing appendix, and resolves every
-    changed relative link. While the Catalog compatibility route remains,
-    confirm its condition still covers historical tasks. For each available
-    Handbook route, confirm direct complete-file or context-sufficient-section
-    reading without hidden Handbook dependencies. Confirm that every added or materially changed
-    inline link between Knowledge leaves passes the inline-dependency test and
-    that its target fits the scope of the source claim. Confirm that each
-    concept has one canonical owner and each revised document presents one
-    coherent current model. Compare every changed Scope, compatibility route,
-    and Handbook route with its pre-edit form; keep additions that express the
-    same responsibility and route independent responsibilities separately.
-    Confirm that removed leaves and obsolete routes no longer remain.
-12. Run `pnpm knowledge:check` from the repository root.
+    changed relative link. Confirm that every leaf is reachable from an
+    installed Workflow or Handbook through the accepted package-local graph.
+    For each available route, confirm direct complete-file or
+    context-sufficient-section reading without hidden Handbook dependencies.
+    Confirm that every added or materially changed inline link between Knowledge
+    leaves passes the inline-dependency test and that its target fits the scope
+    of the source claim. Confirm that each concept has one canonical owner and
+    each revised document presents one coherent current model. Compare every
+    changed Scope and installed route with its pre-edit form; keep additions
+    that express the same responsibility and route independent responsibilities
+    separately. Confirm that removed leaves and obsolete routes no longer
+    remain.
+12. Run the strict `pnpm knowledge:check` from the repository root.
 
 ## Admit inline Knowledge dependencies
 
@@ -88,11 +86,11 @@ context to serve its independent responsibility. Apply this deletion test
 before adding or retaining a link:
 
 First fix the comparison boundary for both leaves. For an existing leaf, use
-its trusted pre-edit Scope, responsibility, compatibility Catalog condition,
-and Handbook routes. For a new leaf, use the responsibility, reading need,
-consumers, and maintenance lifecycle established by classification before its
-content or links are drafted; its proposed Scope must express rather than widen
-that boundary.
+its trusted pre-edit Scope, responsibility, installed reading routes, and
+consumers. For a new leaf, use the responsibility, reading need, consumers, and
+maintenance lifecycle established by classification before its content or
+links are drafted; its proposed Scope must express rather than widen that
+boundary.
 
 1. Remove the link and its asserted dependency while preserving the source's
    local explanation. Name the exact claim whose correctness, authority, or
@@ -105,7 +103,7 @@ that boundary.
    sentence or branch whose only contribution is related reading, an optional
    technique, or an independently retrievable language-, platform-, product-,
    or implementation-specific specialization fails this check and should rely
-   on the target's independent Catalog or Handbook route.
+   on the target's independent Handbook or Workflow route.
 
 Keep the link only when all three checks establish a dependency within the
 source responsibility. Related reading, optional techniques, and independently
@@ -117,8 +115,7 @@ Use the supported scopes, conditions, and reader needs established through
 [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
 to assess canonical ownership and actual retrieval. That reference owns scope
 analysis for both proposed and existing content; this assessment determines the
-Knowledge owner separately from Catalog compatibility and Handbook reading
-routes.
+Knowledge owner separately from installed Handbook and Workflow reading routes.
 
 Assess ownership and retrieval before choosing an existing or new owner,
 including during read-only contribution triage:
@@ -131,7 +128,7 @@ including during read-only contribution triage:
    Describe each question through the choice the reader must make and the
    conditions used to make it, rather than a broad activity or shared artifact.
 2. Read each candidate's actual pre-edit content alongside its Scope,
-   compatibility Catalog condition, applicable Handbook routes, and maintenance
+   applicable Handbook and Workflow routes and consumers, and maintenance
    trigger. Confirm that the content, Scope, and update trigger describe
    one subject responsibility, then compare
    the scope assessment's reader needs with that responsibility. For each
@@ -155,14 +152,14 @@ including during read-only contribution triage:
    before separating it.
 3. Form natural requests and expected selections using
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
-   During migration, run them against both the real Catalog conditions and the
-   real installed Skill descriptions. For a selected Handbook, separately
-   observe package choices from current work. Record every actual choice,
-   including no selection, before expected choices are revealed. Compare the
-   observations with the content coverage established above. Routing identifies
-   where a reader is sent; it does not establish that the selected document owns
-   the explanation, that the file was read, or that its guidance was applied.
-   The closest available selection can expose a missing owner or route.
+   Run them against the real installed Skill descriptions. For a selected
+   Handbook, separately observe package choices from current work. Record every
+   actual choice, including no selection, before expected choices are revealed.
+   Compare the observations with the content coverage established above.
+   Routing identifies where a reader is sent; it does not establish that the
+   selected document owns the explanation, that the file was read, or that its
+   guidance was applied. The closest available selection can expose a missing
+   owner or route.
 4. Distinguish a route that inadequately expresses an existing responsibility
    from material that introduces a distinct subject responsibility. For the
    former, retain the owner and propose a route correction; for the latter,
@@ -173,7 +170,7 @@ including during read-only contribution triage:
 Keep a reviewable ownership and retrieval account in the work record: the
 reader questions, candidate coverage and gaps with pre-edit source locations,
 the reason for retaining or separating responsibilities, requests and expected
-versus observed Catalog, Handbook, and package selections, and the resulting
+versus observed Workflow, Handbook, and package selections, and the resulting
 ownership and route dispositions.
 Conclude fit only from that account. Missing selection observations or
 unexamined required decisions leave fit unresolved; report the missing evidence
@@ -246,10 +243,8 @@ lists of editing steps.
 
 ## Catalog fields
 
-The target Catalog owns file identity and Knowledge Type as maintenance
-metadata. During the expand and migrate stages it also retains `When to Read`
-for the old runtime and historical coverage. Do not remove that field until the
-coordinated contract stage has migrated every consumer.
+The Catalog owns file identity and Knowledge Type as maintenance metadata. It
+does not own runtime selection or reading conditions.
 
 **File Path.** Use the plugin-root-relative path as the link text and a
 relative Markdown link from
@@ -280,15 +275,6 @@ For a source index, treat each question-to-source mapping, including its link,
 as a substantive claim. Classify the index as `time-sensitive` when ordinary
 external changes can move, replace, or invalidate those sources, even if the
 method of consulting current authoritative sources is durable.
-
-**When to Read.** While this compatibility field remains, write a compact
-trigger beginning with `Read when` for the leaf's independently useful reading
-responsibility. A request about one responsibility should select its canonical
-document; a broad user task can select several documents when each contributes
-distinct Knowledge. Compare the condition with every other row and preserve
-historical natural-task coverage. If two conditions route the same
-responsibility, merge the documents or redraw their Scopes and conditions before
-adding them to the Catalog.
 
 ## Handbook routes
 

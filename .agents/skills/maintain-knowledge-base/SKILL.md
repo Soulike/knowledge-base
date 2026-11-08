@@ -39,9 +39,7 @@ independent behavior.
    lifecycle, and retrieval source. Apply its reading-origin, workflow-removal,
    owned-behavior, and lifecycle tests. A Knowledge candidate must have an
    independent reading need observable from installed-plugin user work, subject,
-   or current material before Workflow decisions that it informs. During the
-   migration, it must also retain a compatible Catalog `When to Read` route
-   until the contract stage removes that runtime.
+   or current material before Workflow decisions that it informs.
 4. Classify every new, changed, moved, or removed affected responsibility unit
    as Knowledge, Workflow Skill, Handbook Skill, Skill reference, mixed, or
    another repository-owned artifact using that model. Keep subject
@@ -245,14 +243,15 @@ have an independent installed-use reading responsibility that survives removal
 of every consuming Workflow and Handbook, precedes the Workflow decisions it
 informs, and has a valid Knowledge Type. Each Knowledge leaf must serve that
 responsibility without requiring another leaf as a prerequisite. The Catalog
-must remain the complete maintenance inventory; during migration its existing
-runtime conditions and loader must remain usable until the coordinated contract
-stage. Every Handbook route must read canonical Knowledge directly, and a new
-Handbook must own a distinct task family, technical domain, or stable platform
-context. Every Skill reference must be selected only by its consuming Skill
-steps and live at the smallest common package boundary. The resulting diff must
-preserve the boundaries among Knowledge, reading routes, and task execution and
-must not change an independent responsibility outside the authorized scope.
+must remain the complete file-and-type maintenance inventory, and every
+Knowledge leaf must remain reachable from an installed Workflow or Handbook
+through the accepted package-local graph. Every Handbook route must read
+canonical Knowledge directly, and a new Handbook must own a distinct task
+family, technical domain, or stable platform context. Every Skill reference
+must be selected only by its consuming Skill steps and live at the smallest
+common package boundary. The resulting diff must preserve the boundaries among
+Knowledge, reading routes, and task execution and must not change an independent
+responsibility outside the authorized scope.
 Every other affected repository artifact must remain in the form that owns its
 responsibility and satisfy the same coherent-current-model quality gate.
 The final-content suitability review must establish a usable organization, and

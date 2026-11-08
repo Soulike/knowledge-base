@@ -16,7 +16,7 @@
 A non-AI people-focused continuous shot whose medium is undecided must read only
 general shot design. When source imagery and an anime production method appear,
 the design Workflow must add direct image-to-video and anime reading without the
-Catalog loader. A later improvement request must select the improvement Workflow,
+maintenance Catalog. A later improvement request must select the improvement Workflow,
 reuse current reading, preserve prompt-only evidence limits, and keep
 live-action guidance out.
 
@@ -41,8 +41,7 @@ design-Workflow choice before opening its body. After the design result is
 captured, reveal message 3 with the complete existing prompt, then record the
 improvement-Workflow choice before body access.
 
-Make the transitional `load-knowledge-catalog` Skill and
-`knowledge/index.md` unavailable to the executor. Permit read-only access to
+Make `knowledge/index.md` unavailable as a runtime input to the executor. Permit read-only access to
 selected current Skill bodies and their direct packaged routes. The opening
 frame is available for both Workflow phases; the final phase evaluates a prompt
 without claiming observations from an unavailable generated video.
@@ -72,14 +71,14 @@ observation limits.
   available opening frame.
 - V6: exclude photographic or live-action video design in the anime phases,
   preserve the source-frame contract, avoid claiming a generated-video finding,
-  and complete both Workflow phases without the Catalog loader or catalog file.
+  and complete both Workflow phases without consulting the maintenance Catalog.
 
 ## Verification
 
 Capture each blind selection before body access and reading choices before
 expected routes. Inspect observable reads and application separately. Confirm
-that required Workflow reads followed direct links while the Catalog loader and
-catalog file remained unavailable. Give the capable reviewer this contract and
+that required Workflow reads followed direct links while the maintenance
+Catalog remained unavailable as a runtime route. Give the capable reviewer this contract and
 raw observations without the coordinator's verdict. Judge selection, reading,
 application, evidence limits, and phase re-evaluation separately.
 

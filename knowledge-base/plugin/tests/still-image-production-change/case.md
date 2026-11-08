@@ -17,7 +17,7 @@
 Focused still-image learning must not force people, medium, or product-specific
 reading. When the task becomes people-focused prompt design and later prompt
 improvement, the applicable Workflows must read general and matching canonical
-Knowledge directly without the Catalog loader, clarify an ambiguous Gemini
+Knowledge directly without consulting the maintenance Catalog, clarify an ambiguous Gemini
 target, distinguish direct API use from the Gemini App, and re-evaluate medium,
 target, and task-stage conditions while reusing current reading.
 
@@ -44,8 +44,7 @@ result is captured, supply message 4 with a concise existing prompt, its intende
 composition, and the user's criticism; then record the improvement-Workflow
 choice before body access.
 
-Make the transitional `load-knowledge-catalog` Skill and
-`knowledge/index.md` unavailable to the executor. Permit read-only access to the
+Make `knowledge/index.md` unavailable as a runtime input to the executor. Permit read-only access to the
 selected current Skill bodies, the prompt-target reference, and their direct
 packaged routes. No source image is required; the last phase evaluates an
 existing prompt rather than claiming visual findings from an unavailable result.
@@ -71,7 +70,7 @@ clarification exchange, each result, and observation limits.
   product-specific guidance.
 - I5 (critical): after message 3, exclude Gemini App people-image prompting and
   produce a portable, photorealistic, people-focused prompt package without the
-  Catalog loader or a Handbook body being necessary to supply the Workflow's
+  maintenance Catalog or a Handbook body being necessary to supply the Workflow's
   required reading.
 - I6 (critical): for message 4, select
   `workflow-improve-image-generation-prompts`, reuse current general and
@@ -85,7 +84,7 @@ clarification exchange, each result, and observation limits.
 
 Capture each blind selection before body access and each reading choice before
 showing expected routes. Inspect observable reads and application separately.
-Confirm that the Catalog loader and catalog file remained unavailable and that
+Confirm that the maintenance Catalog remained unavailable as a runtime route and that
 the required Workflow reads followed direct links from the current bodies. Give
 the capable reviewer this contract and raw observations without the
 coordinator's verdict. Judge every phase, the ambiguity stop, direct reading,

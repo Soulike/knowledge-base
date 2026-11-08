@@ -37,12 +37,12 @@ maintenance inventory of Knowledge. List every leaf directly with its
 plugin-root-relative paths; their targets resolve relative to the catalog file.
 Use subdirectories for organization rather than nested catalogs.
 
-During the Workflow-and-Handbook migration, preserve every existing Catalog
-`When to Read` condition and the installed Catalog loader as a usable runtime
-contract and as migration coverage evidence. Do not remove, narrow, or replace
-those conditions merely because a Handbook route has been designed. The
-coordinated contract stage removes runtime conditions only after all installed
-routes and consumers have migrated.
+Every leaf must remain reachable from at least one installed Workflow or
+Handbook through direct package-local Markdown links and eligible packaged
+references. Runtime traversal stops at Knowledge; Catalog membership,
+repository-authoring content, tests, research, README files, and links between
+Knowledge leaves do not establish an installed reading route. The required
+`pnpm knowledge:check` command enforces this contract.
 
 Each leaf must supply enough context for its independent reading responsibility
 and for every complete-file or context-sufficient-section route that selects
@@ -56,9 +56,9 @@ applied and state the necessary context there.
 entrypoints. Keep each entrypoint in an immediate child directory with one
 `SKILL.md`, and match the directory name to its frontmatter `name`. The target
 model uses `workflow-` and `handbook-` prefixes without custom kind metadata,
-aliases, wrapper Skills, or a prefix-kind checker. Existing installed names stay
-unchanged until their coordinated migration; do not rename them piecemeal while
-the Catalog runtime remains active.
+aliases, wrapper Skills, or a prefix-kind checker. When an authorized change
+renames, replaces, or removes an entrypoint, update every consumer and remove
+the obsolete registered name rather than preserving a compatibility route.
 
 A Workflow Skill owns an independently invoked user task's decisions, actions,
 failure and stopping behavior, outputs, and completion criteria. Its description

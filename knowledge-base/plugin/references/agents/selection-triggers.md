@@ -2,16 +2,16 @@
 
 ## Scope
 
-Use this reference when writing or reviewing a Catalog reading condition, a
-Workflow or Handbook description, or a Handbook-internal package condition. It
-owns the shared reasoning for coverage, earliest useful selection, precision,
-and independent checks; consuming artifacts own their required format and route.
+Use this reference when writing or reviewing a Workflow or Handbook description
+or a Handbook-internal package condition. It owns the shared reasoning for
+coverage, earliest useful selection, precision, and independent checks;
+consuming artifacts own their required format and route.
 
 ## When to update
 
-Update this reference when a real Knowledge, Workflow, Handbook, or package
-routing case reveals a missing or incorrect shared rule for selection, coverage,
-or precision.
+Update this reference when a real Workflow, Handbook, or package-routing case
+reveals a missing or incorrect shared rule for selection, coverage, or
+precision.
 
 ## Establish coverage before drafting
 
@@ -36,10 +36,6 @@ or precision.
    stable platform context; package conditions select the Knowledge required for
    the current work inside that scene. Do not copy every old leaf condition into
    descriptions or create one Handbook per leaf.
-5. During the Workflow-and-Handbook migration, keep existing Catalog reading
-   conditions as runtime compatibility and coverage evidence until the
-   coordinated contract stage removes them. Designing a new route does not by
-   itself authorize narrowing or deleting an old one.
 
 Finish by selecting only justified coverage changes. If a restriction's basis
 remains unresolved, retain the existing coverage and report the question
@@ -62,19 +58,6 @@ separate branch only when a request presenting that need alone should select the
 target and the general condition does not already cover it. Lists of techniques,
 examples, outcomes, or linked documents do not substitute for a semantic
 condition.
-
-### Catalog Knowledge conditions
-
-While the compatibility Catalog remains active, write each `When to Read`
-condition from the leaf's independent reading responsibility and the earliest
-user work or current material that exposes it. The route must precede Workflow
-decisions that the Knowledge should inform. Preserve historical conditions as
-migration evidence; they do not become Handbook descriptions automatically.
-
-For example, implementing a file upload can require failure-and-recovery
-Knowledge before timeouts, partial uploads, and retries are designed. The
-condition should start from the implementation work rather than requiring the
-reader to have already diagnosed a partial-upload problem.
 
 ### Workflow descriptions
 

@@ -16,7 +16,7 @@ A broad multi-step automation request whose outcome is visible to operators must
 select both the automation reading scene and the operation-failure execution
 Workflow. The Handbook must supply its complete foundation and Git-comparison
 package. The Workflow must directly read its three core Knowledge owners without
-the Catalog loader, map non-success and recovery for the background operation,
+consulting the maintenance-only Catalog, map non-success and recovery for the background operation,
 and avoid interface-only reading when no person interacts with the flow.
 
 ## Task
@@ -31,11 +31,10 @@ what evidence they will have for investigation.
 ## Starting state
 
 Build the current 35-candidate Handbook and Workflow set from frontmatter under
-`knowledge-base/plugin/skills/*/SKILL.md`, excluding the transitional Catalog
-loader from this target-model selection set. Supply the natural task request and
+`knowledge-base/plugin/skills/*/SKILL.md`. Supply the natural task request and
 candidate names and descriptions without expected choices, target hints, this
-case, or evaluator conclusions. Make the `load-knowledge-catalog` Skill and
-`knowledge/index.md` unavailable during execution.
+case, or evaluator conclusions. Make `knowledge/index.md` unavailable as a
+runtime input during execution.
 
 Use a fresh supported lower-capability model with the expanded executor guard,
 read-only access to the supplied repository snapshot, and a six-minute
@@ -54,7 +53,7 @@ files read, final result, and available action observations.
   as a replacement for the foundation or choose only the closest reading.
 - R3 (critical): through the Workflow's direct routes, read operation failure
   and recovery, user-facing failure communication, and test effectiveness while
-  the Catalog loader and catalog file are unavailable.
+  the maintenance Catalog is unavailable as a runtime route.
 - R4: exclude interaction clarity, user goodwill, mobile, Web, home-page,
   navigation, and usability-evaluation reading because this background flow has
   no interactive interface and the task does not perform usability evaluation.

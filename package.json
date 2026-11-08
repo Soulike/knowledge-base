@@ -13,7 +13,7 @@
     "agent-tests:list": "node knowledge-base/tools/check-agent-regression-tests/check.ts . --json",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "knowledge:check": "node knowledge-base/tools/check-knowledge-format/check.ts knowledge-base/plugin/knowledge",
+    "knowledge:check": "node knowledge-base/tools/check-knowledge-format/check.ts knowledge-base/plugin/knowledge --enforce-reachability",
     "links:check": "remark . --frail --quiet --ignore-pattern '.github/scripts/*/prompts/**' --ignore-pattern '.github/workflows/verify-*.md' --ignore-pattern '.github/workflows/shared/*.md' --use remark-validate-links",
     "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint . --fix",

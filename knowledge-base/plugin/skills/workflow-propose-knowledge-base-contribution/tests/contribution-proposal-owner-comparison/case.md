@@ -31,8 +31,8 @@ already capture it. Do not publish anything.
 
 Provide a fresh downstream workspace containing a concise evidence note for the
 completed task and read-only access to the installed plugin snapshot. Supply the
-current contribution-proposal Workflow as required guidance. Make
-`load-knowledge-catalog` and `knowledge/index.md` unavailable, while permitting
+current contribution-proposal Workflow as required guidance. Make the
+maintenance Catalog at `knowledge/index.md` unavailable, while permitting
 the Workflow's fixed references and concrete plugin files that the executor
 identifies as plausible owners. Do not preselect or name those candidate owners
 in the executor prompt.

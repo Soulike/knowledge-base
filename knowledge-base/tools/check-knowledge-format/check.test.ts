@@ -32,8 +32,8 @@ Update this catalog when Knowledge changes.
 
 ## Documents
 
-| File Path | Knowledge Type | When to Read |
-| --- | --- | --- |
+| File Path | Knowledge Type |
+| --- | --- |
 ${rows}`;
 }
 
@@ -61,7 +61,7 @@ test("recursively checks Markdown files through the CLI", async (t) => {
     writeFile(
       join(knowledgeDirectory, "index.md"),
       validCatalog(
-        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n",
+        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen |\n",
       ),
     ),
     writeFile(join(nestedDirectory, "authentication.md"), validDocument),
@@ -147,9 +147,7 @@ test("reports Knowledge inventory mismatches in both directions", async (t) => {
   await Promise.all([
     writeFile(
       join(knowledgeDirectory, "index.md"),
-      validCatalog(
-        "| [knowledge/missing.md](missing.md) | evergreen | Read when checking missing Knowledge. |\n",
-      ),
+      validCatalog("| [knowledge/missing.md](missing.md) | evergreen |\n"),
     ),
     writeFile(join(nestedDirectory, "authentication.md"), validDocument),
   ]);
@@ -169,7 +167,7 @@ test("reports Knowledge inventory mismatches in both directions", async (t) => {
   );
 });
 
-test("reports Skill reachability without enforcing migration orphans", async (t) => {
+test("reports Skill reachability in diagnostic mode without enforcing orphans", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const pluginDirectory = join(temporaryRoot, "plugin");
   const knowledgeDirectory = join(pluginDirectory, "knowledge");
@@ -189,8 +187,8 @@ test("reports Skill reachability without enforcing migration orphans", async (t)
     writeFile(
       join(knowledgeDirectory, "index.md"),
       validCatalog(
-        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n" +
-          "| [knowledge/security/authorization.md](security/authorization.md) | evergreen | Read when authorizing. |\n",
+        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen |\n" +
+          "| [knowledge/security/authorization.md](security/authorization.md) | evergreen |\n",
       ),
     ),
     writeFile(join(topicDirectory, "authentication.md"), validDocument),
@@ -253,10 +251,10 @@ test("follows used reference links through package references and terminates cyc
     writeFile(
       join(knowledgeDirectory, "index.md"),
       validCatalog(
-        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n" +
-          "| [knowledge/security/image-only.md](security/image-only.md) | evergreen | Read when checking images. |\n" +
-          "| [knowledge/security/inline-image-only.md](security/inline-image-only.md) | evergreen | Read when checking inline images. |\n" +
-          "| [knowledge/security/unused.md](security/unused.md) | evergreen | Read when checking unused definitions. |\n",
+        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen |\n" +
+          "| [knowledge/security/image-only.md](security/image-only.md) | evergreen |\n" +
+          "| [knowledge/security/inline-image-only.md](security/inline-image-only.md) | evergreen |\n" +
+          "| [knowledge/security/unused.md](security/unused.md) | evergreen |\n",
       ),
     ),
     writeFile(join(topicDirectory, "authentication.md"), validDocument),
@@ -372,7 +370,7 @@ test("excludes non-runtime sources and stops traversal at Knowledge", async (t) 
         leafNames
           .map(
             (leafName) =>
-              `| [knowledge/security/${leafName}.md](security/${leafName}.md) | evergreen | Read when checking ${leafName}. |`,
+              `| [knowledge/security/${leafName}.md](security/${leafName}.md) | evergreen |`,
           )
           .join("\n") + "\n",
       ),
@@ -457,7 +455,7 @@ test("reports actionable diagnostics for broken Skill routes", async (t) => {
     writeFile(
       join(knowledgeDirectory, "index.md"),
       validCatalog(
-        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n",
+        "| [knowledge/security/authentication.md](security/authentication.md) | evergreen |\n",
       ),
     ),
     writeFile(join(topicDirectory, "authentication.md"), validDocument),

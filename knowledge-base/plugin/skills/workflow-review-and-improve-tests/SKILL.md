@@ -1,6 +1,6 @@
 ---
 name: workflow-review-and-improve-tests
-description: Use when evaluating, diagnosing, or improving automated tests or their execution.
+description: Use when evaluating, diagnosing, or improving existing automated tests or their execution.
 ---
 
 # Review and improve tests

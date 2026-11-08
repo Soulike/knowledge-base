@@ -1,6 +1,6 @@
 ---
 name: handbook-collaboration
-description: Required for every task: use alongside all task-specific Skills at task start and after interruption to guide evaluation, decisions, and collaboration with the user.
+description: "Required for every task: use alongside all task-specific Skills at task start and after interruption to guide evaluation, decisions, and collaboration with the user."
 ---
 
 # Collaboration Handbook

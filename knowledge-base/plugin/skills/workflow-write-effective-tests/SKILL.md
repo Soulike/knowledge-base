@@ -1,6 +1,6 @@
 ---
 name: workflow-write-effective-tests
-description: Use before proposing, adding, or expanding automated tests.
+description: Use when deciding whether behavior needs new or expanded automated protection and writing effective tests when it does.
 ---
 
 # Write effective tests

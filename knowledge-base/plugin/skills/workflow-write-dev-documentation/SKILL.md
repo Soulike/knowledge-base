@@ -1,6 +1,6 @@
 ---
 name: workflow-write-dev-documentation
-description: Use when a known need calls for creating or updating maintained software-development documentation or Agent guidance, or when an engineering change requires documentation impact to be assessed and addressed.
+description: Use when a known need calls for creating or updating maintained software-development documentation or Skills, or when an engineering change requires documentation impact to be assessed and addressed.
 ---
 
 # Write development documentation

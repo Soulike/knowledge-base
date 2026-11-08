@@ -136,6 +136,7 @@ requests the expected route.
 - R9 (critical): select `workflow-retry-via-local-proxy` for requests 16 and 18
   and exclude it for the reachable HTTP 403 Git-clone failure in request 17.
 - R10 (critical): select `workflow-write-effective-tests` for request 19 and
+  exclude the existing-test review Workflow there; select
   `workflow-review-and-improve-tests` for request 20. Exclude both for routine
   unchanged test execution in request 21.
 - R11 (critical): select `workflow-wait-for-user-answer` for request 22 and

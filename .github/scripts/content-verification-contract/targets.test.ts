@@ -50,6 +50,7 @@ describe("discoverVerificationTargets", () => {
       ".agents/references/authoring.md",
       ".agents/skills/add/references/local.md",
       ".agents/skills/add/SKILL.md",
+      ".agents/skills/add/tests/local/case.md",
       ".github/scripts/ai-review/prompts/review.md",
       ".github/scripts/ai-review/prompts/skills.md",
       ".github/workflows/README.md",
@@ -65,8 +66,10 @@ describe("discoverVerificationTargets", () => {
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
       "plugins/example/skills/check/SKILL.md",
+      "plugins/example/skills/check/tests/local/case.md",
       "knowledge-base/plugin/references/shared.md",
       "knowledge-base/plugin/skills/root/SKILL.md",
+      "knowledge-base/plugin/skills/root/tests/local/case.md",
     ];
 
     assert.deepEqual(

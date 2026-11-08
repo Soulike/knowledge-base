@@ -247,15 +247,18 @@ test("follows used reference links through package references and terminates cyc
       validCatalog(
         "| [knowledge/security/authentication.md](security/authentication.md) | evergreen | Read when authenticating. |\n" +
           "| [knowledge/security/image-only.md](security/image-only.md) | evergreen | Read when checking images. |\n" +
+          "| [knowledge/security/inline-image-only.md](security/inline-image-only.md) | evergreen | Read when checking inline images. |\n" +
           "| [knowledge/security/unused.md](security/unused.md) | evergreen | Read when checking unused definitions. |\n",
       ),
     ),
     writeFile(join(topicDirectory, "authentication.md"), validDocument),
     writeFile(join(topicDirectory, "image-only.md"), validDocument),
+    writeFile(join(topicDirectory, "inline-image-only.md"), validDocument),
     writeFile(join(topicDirectory, "unused.md"), validDocument),
     writeFile(
       join(skillDirectory, "SKILL.md"),
       "Read the [local route][route].\n\n" +
+        "![Inline diagram](../../knowledge/security/inline-image-only.md)\n\n" +
         "![Diagram][image]\n\n" +
         "[route]: references/start.md\n" +
         "[image]: ../../knowledge/security/image-only.md\n" +
@@ -284,27 +287,27 @@ test("follows used reference links through package references and terminates cyc
     },
   );
 
-  assert.equal(result.status, 0, result.stderr);
-  assert.equal(
-    result.stdout,
-    "Checked 4 knowledge Markdown files. " +
-      "1 of 3 Knowledge leaves are reachable from 1 installed Skill entrypoint; " +
-      "2 are not yet reachable.\n",
-  );
-  assert.equal(result.stderr, "");
-
   const enforcedResult = spawnSync(
     process.execPath,
     [checkerPath, knowledgeDirectory, "--enforce-reachability"],
     { encoding: "utf8" },
   );
 
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stderr, "");
   assert.equal(enforcedResult.status, 1);
   assert.equal(enforcedResult.stdout, "");
   assert.equal(
     enforcedResult.stderr,
     "knowledge/security/image-only.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n" +
+      "knowledge/security/inline-image-only.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n" +
       "knowledge/security/unused.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n",
+  );
+  assert.equal(
+    result.stdout,
+    "Checked 5 knowledge Markdown files. " +
+      "1 of 4 Knowledge leaves are reachable from 1 installed Skill entrypoint; " +
+      "3 are not yet reachable.\n",
   );
 });
 

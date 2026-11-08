@@ -1,0 +1,45 @@
+---
+name: handbook-automation
+description: Use when building, maintaining, reviewing, diagnosing, or understanding CI/CD, scheduled jobs, and multi-step automated workflows.
+---
+
+# Automation handbook
+
+Use this Handbook to load the understanding required for automated workflow
+work. It owns required-reading selection, not the procedure or completion of
+the user's task. Resolve every packaged link relative to this `SKILL.md`, and
+apply the selected Knowledge as supplemental guidance under the instructions,
+requirements, Skills, and project-specific decisions in the active working
+directory.
+
+## Read the required material
+
+For primary automation work, including building, maintaining, reviewing, or
+diagnosing a CI/CD pipeline, scheduled job, or other multi-step automated
+workflow, read this complete foundation:
+
+- [Outcome integrity in automated
+  workflows](../../knowledge/automation/workflow-outcome-integrity.md)
+- [Failure and recovery in externally observable
+  operations](../../knowledge/software-design/operation-failure-and-recovery.md)
+- [Evidence for investigating check findings and
+  failures](../../knowledge/software-design/failure-diagnostic-evidence.md)
+
+Then evaluate every condition below. Every match is required and cumulative
+with the foundation and any other matching package.
+
+- When an automated decision compares branches, pull requests, or Git
+  revisions, or when the user asks to learn or explain how such a comparison
+  should work, read [Git change-comparison
+  semantics](../../knowledge/git/change-comparison-semantics.md).
+
+A focused learning or explanation request that matches only the conditional
+package requires that package without the primary-work foundation. Do not copy
+or infer rules in place of reading the linked canonical material.
+
+Re-evaluate this Handbook and every package condition when the task stage,
+platform, artifact, or available reading basis changes. Reuse a reading unit
+that is still current and available; reread it when it changed or its necessary
+context is no longer available. If required material cannot be read, report the
+gap and its effect on the task instead of inventing or silently omitting the
+guidance.

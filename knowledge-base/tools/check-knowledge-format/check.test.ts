@@ -292,6 +292,20 @@ test("follows used reference links through package references and terminates cyc
       "2 are not yet reachable.\n",
   );
   assert.equal(result.stderr, "");
+
+  const enforcedResult = spawnSync(
+    process.execPath,
+    [checkerPath, knowledgeDirectory, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(enforcedResult.status, 1);
+  assert.equal(enforcedResult.stdout, "");
+  assert.equal(
+    enforcedResult.stderr,
+    "knowledge/security/image-only.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n" +
+      "knowledge/security/unused.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n",
+  );
 });
 
 test("excludes non-runtime sources and stops traversal at Knowledge", async (t) => {

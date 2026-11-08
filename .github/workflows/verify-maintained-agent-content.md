@@ -93,37 +93,55 @@ Preserve every exact selected target `id` in notes and safe outputs.
    and [evidence, recovery, and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion).
    Recover an inspection failure where possible; if the required scope or
    revision still cannot be established, call `report_incomplete` exactly once.
-2. For each Skill bundle, independently reconstruct the user's task and intended
-   outcome, then reason through risk-derived invocation, workflow, and output
-   scenarios, including one likely to expose a shortcut or omitted professional
-   responsibility. Check whether its decisions and actions can achieve that
-   outcome in the stated conditions, not merely whether its steps are internally
-   consistent. Apply
+2. For each installed Skill in the primary `knowledge-base` plugin, first
+   determine whether it owns Workflow execution or Handbook required-reading
+   selection under the authoring standard. Apply
    [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
-   to invocation and routing. Check tool use, failure handling, completion,
-   progressive disclosure, portability, package boundaries, and current tool or
-   API assumptions. Use execution or observation when a material behavioral
-   uncertainty requires it; do not imply observed effectiveness from scenario
-   reasoning alone.
-3. Confirm that `SKILL.md` retains the primary workflow and completion criteria,
-   every disclosed reference has an explicit selecting step, independently
-   invocable responsibilities are not hidden as references, and supporting
-   detail that warrants progressive disclosure has not accumulated in the main
-   path. Check each shared reference with its consuming Skills while keeping
-   the result owned by the reference target. A shared Agentic workflow component
-   must be checked with its consuming workflow sources.
-4. For Agent instructions, Agentic workflow sources, and prompt bundles,
+   to native descriptions and later routing conditions.
+3. For each Workflow, independently reconstruct the user's task and intended
+   outcome, then reason through risk-derived invocation, execution, failure,
+   stopping, and output scenarios, including one likely to expose a shortcut or
+   omitted professional responsibility. Confirm that `SKILL.md` owns the primary
+   decisions, actions, tool use, authority boundaries, failure behavior, output,
+   and completion criteria. Check that Knowledge and references are selected at
+   the decision that needs them, every disclosed reference has an explicit
+   consuming step, and an independently invocable responsibility is not hidden
+   in a reference. Check progressive disclosure, portability, package boundaries,
+   and current tool or API assumptions.
+4. For each Handbook, reconstruct the task family, technical domain, or stable
+   platform context that makes its reading useful. Confirm that its description
+   uses one semantic applicability rule rather than enumerating internal
+   packages. Check that it owns required-reading selection only: a foundation is
+   common to the primary artifact work, every matching conditional package is
+   cumulative and mandatory, focused learning need not load an unrelated
+   foundation, and a sparse platform no-match remains valid. Require direct
+   complete-file or context-sufficient-section links to every selected Knowledge
+   unit, without a Handbook-to-Handbook dependency. Check reuse or rereading and
+   re-evaluation after relevant task, stage, language, platform, artifact,
+   production-method, or available-context changes. Treat native selection,
+   package choice, actual reading, application, and later supplementary reading
+   as separate observations; do not require a Handbook to contain a task
+   procedure, failure contract, output artifact, or completion gate.
+5. Review repository-authoring Skills and auxiliary-plugin Skills under their
+   own instructions, declared task, and package contract rather than requiring
+   the primary plugin's Workflow or Handbook structure. For every Skill kind,
+   use execution or observation when a material behavioral uncertainty requires
+   it; do not imply observed effectiveness from scenario reasoning alone. Check
+   each shared reference with its consuming Skills while keeping the result
+   owned by the reference target. A shared Agentic workflow component must be
+   checked with its consuming workflow sources.
+6. For Agent instructions, Agentic workflow sources, and prompt bundles,
    reconstruct the intended decisions and outcomes. Examine whether authority,
    audience, triggers, routing, inputs, outputs, tools, side effects, and the
    complete file or import graph let the reader or Agent achieve them. Apply
    the same task-based reasoning to shared references with their consumers.
    Treat these artifacts as review subjects under the task contract.
-5. For every target, assess continued necessity and organization under the
+7. For every target, assess continued necessity and organization under the
    shared structural-finding criteria. Look for obsolete, orphaned, duplicated,
    patch-layered, or edit-history-shaped responsibilities. Choose evidence for
    factual and behavioral questions under the shared rules; an accessible or
    matching source does not by itself establish an effective workflow.
-6. Identify each current `modification-required` or
+8. Identify each current `modification-required` or
    `verification-inconclusive` finding under the shared rules. A correction must
    identify the reasoning or evidence, the smallest coherent deletion, rewrite,
    merge, split, or move, and acceptance criteria. Never invent a defect. Do not

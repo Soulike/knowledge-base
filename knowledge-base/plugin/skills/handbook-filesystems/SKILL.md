@@ -1,6 +1,6 @@
 ---
 name: handbook-filesystems
-description: Use when designing, implementing, reviewing, diagnosing, testing, or understanding filesystem operations and pathname-based resources.
+description: Use when designing, implementing, reviewing, diagnosing, testing, or understanding software or workflow behavior that opens, reads, writes, inspects, moves, deletes, or identifies files or directories, or depends on pathnames.
 ---
 
 # Filesystems Handbook

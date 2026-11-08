@@ -17,7 +17,9 @@ use packaged Knowledge as supplemental guidance.
    and [Test
    effectiveness](../../knowledge/software-testing/test-effectiveness.md) in
    full before mapping the operation.
-   - When a person interacts with the flow, also read [Interaction
+   - When a person starts an operation, inspects its status or result, or
+     chooses or performs a recovery action, including through operator controls
+     for background work, also read [Interaction
      clarity](../../knowledge/user-interface/interaction-clarity.md) and [User
      goodwill](../../knowledge/user-interface/user-goodwill.md).
    - When the interface is used on a small touch screen, also read [Mobile

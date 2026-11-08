@@ -1,5 +1,5 @@
 ---
-name: propose-knowledge-base-contribution
+name: workflow-propose-knowledge-base-contribution
 description: Use at a substantive task's stable stopping point to assess whether its evidence supports a reusable knowledge-base contribution, or when the user asks for that assessment, requests a proposal, or accepts an offer to prepare one.
 ---
 
@@ -77,19 +77,26 @@ Stop after the question and wait for the user's response.
    no qualified contribution remains when evidence is insufficient or
    contradictory; do not turn uncertainty into durable guidance.
 3. Resolve paths relative to this `SKILL.md`, then read
-   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md),
-   [the Knowledge catalog](../../knowledge/index.md), and only the Knowledge
-   documents whose `When to Read` conditions match the candidate. Inventory
-   plausible Skills and references in this plugin. Use applicable instructions
-   and accepted requirements in the active workspace to establish facts about
-   the source task, and treat matching Knowledge as supplemental when it
-   conflicts with project-specific facts. Keep this plugin's classification
-   and downstream-project-independence rules authoritative for the proposed
-   contribution. Use the scope assessment to compare supported reader needs
-   with existing responsibilities rather than accepting current Scopes as the
-   conclusion. Stop when the candidate remains project-specific, or when
-   current material already captures the reusable lesson and the candidate
-   supplies no material correction, evidence, or example.
+   [Classifying Knowledge and Skill
+   material](../../references/agents/knowledge-and-skills.md). From the
+   candidate's subject, reader need, lifecycle, proposed behavior, and retrieval
+   timing, identify plausible current owners among this plugin's installed
+   canonical Knowledge, Skills, and references. Read each plausible concrete
+   canonical Knowledge file directly before deciding that the lesson is new,
+   corrective, duplicated, or already covered, and inspect the plausible Skill
+   or reference owners needed for the same comparison. Record the concrete
+   owners inspected; do not scan the Knowledge catalog, treat filenames or
+   current scope statements as the conclusion, copy a Handbook's package rules,
+   or invoke another Skill to perform this assessment. Use applicable
+   instructions and accepted requirements in the active workspace to establish
+   facts about the source task, and treat packaged Knowledge as supplemental
+   when it conflicts with project-specific facts. Keep this plugin's
+   classification and downstream-project-independence rules authoritative for
+   the proposed contribution. Use the scope assessment to compare supported
+   reader needs with existing responsibilities. Stop when the candidate remains
+   project-specific, or when current material already captures the reusable
+   lesson and the candidate supplies no material correction, evidence, or
+   example.
 4. Group related observations by one reusable lesson and keep independent
    lessons separately selectable. For each retained candidate, state the
    concrete addition, correction, removal, guidance, or workflow behavior that

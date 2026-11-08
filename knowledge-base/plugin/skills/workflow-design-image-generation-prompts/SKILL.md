@@ -1,5 +1,5 @@
 ---
-name: design-image-generation-prompts
+name: workflow-design-image-generation-prompts
 description: Design a new image-generation prompt for a people-focused still image. Use when the user wants to create a drawing or image-generation prompt and no existing prompt or generated result is being evaluated.
 ---
 
@@ -44,9 +44,9 @@ the user to reconfirm a decision merely because another process collected it.
 
 Read
 [Establish the prompt execution target](../../references/generative-media/prompt-execution-target.md)
-and complete it before evaluating the Knowledge catalog. Use an already selected
-target only to route matching Knowledge and portable prompt mitigations; do not
-choose or configure an image model as part of this workflow.
+and complete it before reading target-specific Knowledge. Use an already
+selected target only to route applicable Knowledge and portable prompt
+mitigations; do not choose or configure an image model as part of this workflow.
 
 ## Establish image inputs
 
@@ -58,11 +58,34 @@ image model will receive it.
 
 ## Research the image
 
-Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
-condition to the current task, and read only the matching Knowledge documents.
-Treat them as supplemental guidance; follow instructions, requirements,
-Skills, and project-specific information from the Agent's active working
-directory when they conflict.
+Read [People-focused still-image
+design](../../knowledge/generative-media/people-focused-still-image-design.md)
+and [Natural-language prompting for generated still
+images](../../knowledge/generative-media/still-image-prompting.md) in full before
+research and the decisions they inform.
+
+When the intended medium is known, read every matching medium-specific document
+before dependent research or design:
+
+- for a photographic or photorealistic image, read [People-focused
+  photographic-image
+  design](../../knowledge/generative-media/people-focused-photographic-image-design.md);
+- for an anime- or manga-influenced illustration, read [People-focused anime
+  illustration
+  design](../../knowledge/generative-media/people-focused-anime-illustration-design.md).
+
+After the prompt execution target is established, read [Gemini App people-image
+prompting](../../knowledge/generative-media/gemini-app-people-image-prompting.md)
+only when this people-focused image will be generated in the Gemini App. Direct
+Gemini model or API use does not match that product-specific route; establish
+the execution path before applying it when the user says only "Gemini."
+
+Re-evaluate these reading conditions when the medium, execution target,
+artifact, or task stage changes. Add newly applicable reading before dependent
+work, and reuse a reading that remains current and available. Treat all packaged
+Knowledge as supplemental guidance; follow instructions, requirements, Skills,
+and project-specific information from the Agent's active working directory when
+they conflict.
 
 Use the matching Knowledge to identify what is already settled and what remains
 to be researched. Separate two kinds of missing information:

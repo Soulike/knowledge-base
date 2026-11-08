@@ -1,5 +1,5 @@
 ---
-name: design-image-to-video-prompts
+name: workflow-design-image-to-video-prompts
 description: Design a new image-to-video prompt for a people-focused continuous shot. Use when the user wants to generate a video from an image and no existing prompt or generated video is being evaluated.
 ---
 
@@ -59,11 +59,27 @@ before final shot design and prompt construction.
 
 ## Research the shot
 
-Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
-condition to the current task, and read only the matching Knowledge documents.
-Treat them as supplemental guidance; follow instructions, Skills, requirements,
-project-specific information, and documentation standards from the Agent's
-active working directory when they conflict.
+Read [People-focused continuous-shot
+design](../../knowledge/generative-media/people-focused-continuous-shot-design.md)
+and [Natural-language prompting for image-to-video
+generation](../../knowledge/generative-media/image-to-video-prompting.md) in
+full before research and the decisions they inform.
+
+When the production medium is known, read every matching medium-specific
+document before dependent research or shot design:
+
+- for a live-action or photorealistic shot, read [People-focused photographic
+  video
+  design](../../knowledge/generative-media/people-focused-photographic-video-design.md);
+- for an anime- or manga-influenced shot, read [People-focused anime animation
+  design](../../knowledge/generative-media/people-focused-anime-animation-design.md).
+
+Re-evaluate these reading conditions when the production method, visual medium,
+source material, artifact, or task stage changes. Add newly applicable reading
+before dependent work, and reuse a reading that remains current and available.
+Treat all packaged Knowledge as supplemental guidance; follow instructions,
+Skills, requirements, project-specific information, and documentation standards
+from the Agent's active working directory when they conflict.
 
 Use the matching Knowledge to identify what is already settled and what remains
 to be researched. Separate two kinds of missing information:

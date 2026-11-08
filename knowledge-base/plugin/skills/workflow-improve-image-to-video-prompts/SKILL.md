@@ -1,5 +1,5 @@
 ---
-name: improve-image-to-video-prompts
+name: workflow-improve-image-to-video-prompts
 description: Improve an image-to-video generation attempt for a people-focused continuous shot. Use when the user wants to review, diagnose, or improve an existing image-to-video prompt, generated video, or both.
 ---
 
@@ -79,10 +79,26 @@ camera behavior into text; do not package it as a target-model input.
 
 ## Critique and diagnose the attempt
 
-Read the [Knowledge catalog](../../knowledge/index.md), apply every `When to Read`
-condition to the intended shot and available artifacts, and read only the
-matching Knowledge documents. Treat them as supplemental guidance; follow
-instructions, Skills, requirements, project-specific information, and
+Read [People-focused continuous-shot
+design](../../knowledge/generative-media/people-focused-continuous-shot-design.md)
+and [Natural-language prompting for image-to-video
+generation](../../knowledge/generative-media/image-to-video-prompting.md) in
+full before critique and the decisions they inform.
+
+When the production medium is known, read every matching medium-specific
+document before dependent critique or redesign:
+
+- for a live-action or photorealistic shot, read [People-focused photographic
+  video
+  design](../../knowledge/generative-media/people-focused-photographic-video-design.md);
+- for an anime- or manga-influenced shot, read [People-focused anime animation
+  design](../../knowledge/generative-media/people-focused-anime-animation-design.md).
+
+Re-evaluate these reading conditions when the intended production method,
+visual medium, source material, artifact, or task stage changes. Add newly
+applicable reading before dependent work, and reuse a reading that remains
+current and available. Treat all packaged Knowledge as supplemental guidance;
+follow instructions, Skills, requirements, project-specific information, and
 documentation standards from the Agent's active working directory when they
 conflict.
 

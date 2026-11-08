@@ -1,5 +1,5 @@
 ---
-name: design-operation-failure-recovery
+name: workflow-design-operation-failure-recovery
 description: Use when designing, implementing, substantively changing, or reviewing an operation or workflow whose outcome an external consumer can observe, including background work. Establish non-success outcomes and recovery even when the request only describes success.
 ---
 
@@ -10,19 +10,43 @@ review. Resolve bundled paths relative to this `SKILL.md`. Follow instructions,
 requirements, and project-specific contracts in the active working directory;
 use packaged Knowledge as supplemental guidance.
 
-1. Read the [Knowledge catalog](../../knowledge/index.md) and its matching leaves.
-   For this workflow, read [Failure and recovery in externally observable
+1. Read [Failure and recovery in externally observable
    operations](../../knowledge/software-design/operation-failure-and-recovery.md),
    [User-facing failure
    communication](../../knowledge/software-design/user-facing-failure-communication.md),
    and [Test
-   effectiveness](../../knowledge/software-testing/test-effectiveness.md).
-   Read [Interaction clarity](../../knowledge/user-interface/interaction-clarity.md)
-   and [User goodwill](../../knowledge/user-interface/user-goodwill.md) when a
-   person interacts with the flow. Read the matching platform-specific
-   Knowledge when an interface exists. If inspection shows no externally
-   observable outcome, continue the original task at its responsible internal
-   boundary without a full consumer recovery map.
+   effectiveness](../../knowledge/software-testing/test-effectiveness.md) in
+   full before mapping the operation.
+   - When a person interacts with the flow, also read [Interaction
+     clarity](../../knowledge/user-interface/interaction-clarity.md) and [User
+     goodwill](../../knowledge/user-interface/user-goodwill.md).
+   - When the interface is used on a small touch screen, also read [Mobile
+     interface usability
+     tradeoffs](../../knowledge/user-interface/mobile-interface-usability.md).
+   - When the consumer uses a browser interface, also read [Content-resilient
+     web layouts](../../knowledge/web-ui/content-resilient-layouts.md) and
+     [Baseline accessibility for web
+     interfaces](../../knowledge/web-ui/web-accessibility-basics.md).
+   - When the task changes a website's home page, overall entry points,
+     multi-page structure, or navigation, also read [Home page purpose and entry
+     points](../../knowledge/web-ui/home-page-purpose-and-entry-points.md) and
+     [Website navigation and
+     orientation](../../knowledge/web-ui/site-navigation.md).
+   - When the task also evaluates product usability, read [Task-based usability
+     observation](../../knowledge/user-interface/task-based-usability-observation.md).
+     When that evaluation uses or interprets Agent trials, also read [Evidence
+     from Agent usability risk
+     probes](../../knowledge/user-interface/agent-usability-evidence.md). Do not
+     load either evaluation document merely because the recovery path is
+     interactive.
+
+   Re-evaluate these observable conditions when the consumer, interface,
+   platform, artifact, or task stage changes. Reuse a reading that remains
+   current and available, and add newly applicable reading before dependent
+   work. If inspection shows no externally observable outcome, continue the
+   original task at its responsible internal boundary without a full consumer
+   recovery map.
+
 2. Establish the consumer's goal, the operation's actual or proposed effects,
    prerequisites, roles, and completion signal. For existing behavior, inspect
    the producing model and the path to each affected consumer rather than

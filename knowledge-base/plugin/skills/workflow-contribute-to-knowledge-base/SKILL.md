@@ -1,6 +1,6 @@
 ---
 name: workflow-contribute-to-knowledge-base
-description: Use when publishing a sanitized knowledge-base contribution from outside its canonical source checkout.
+description: Use when publishing a sanitized knowledge-base contribution proposal from outside its canonical source checkout.
 ---
 
 # Contribute to knowledge base

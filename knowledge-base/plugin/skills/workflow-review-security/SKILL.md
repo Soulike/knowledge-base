@@ -1,6 +1,6 @@
 ---
 name: workflow-review-security
-description: Use when reviewing security-sensitive behavior, investigating a suspected vulnerability, or validating a security remediation.
+description: Use when conducting a security review, investigating a suspected vulnerability or trust-boundary failure, or validating a security remediation.
 ---
 
 # Review security

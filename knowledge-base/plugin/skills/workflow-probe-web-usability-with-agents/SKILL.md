@@ -1,6 +1,6 @@
 ---
 name: workflow-probe-web-usability-with-agents
-description: Use when an operable interactive web task path needs Agent-based usability risk evidence.
+description: Use when Agents should probe an interactive web task path for usability risks, or when a critical flow under design or change has become operable end to end.
 ---
 
 # Probe web usability risks with Agents

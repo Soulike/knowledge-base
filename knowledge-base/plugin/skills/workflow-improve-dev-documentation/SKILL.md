@@ -1,6 +1,6 @@
 ---
 name: workflow-improve-dev-documentation
-description: Use when auditing and improving maintained software-development documentation from an open-ended concern or agreed quality goal.
+description: Use when an open-ended concern or quality goal calls for auditing and improving maintained software-development documentation or Agent guidance.
 ---
 
 # Improve development documentation

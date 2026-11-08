@@ -1,6 +1,6 @@
 ---
 name: workflow-resolve-invoked-codex-skill
-description: Use in Codex before reporting that an exactly named invoked or required Skill is unavailable.
+description: Use in Codex before reporting an exactly named invoked or required Skill unavailable when its instructions are missing from the current context.
 ---
 
 # Resolve an invoked Codex Skill

@@ -1,6 +1,6 @@
 ---
 name: workflow-wait-for-user-answer
-description: Use in Codex when dependent work requires asking or resuming an unanswered user question.
+description: Use only in Codex whenever the Agent is about to ask the user a question or resumes while a user question remains unanswered.
 ---
 
 # Wait for a user answer

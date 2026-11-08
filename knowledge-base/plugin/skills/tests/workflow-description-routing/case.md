@@ -38,7 +38,7 @@ installed guidance from the current candidate metadata, or choose none:
 1. I developed reusable Agent guidance in another project and want to submit a
    sanitized proposal to the canonical knowledge base without cloning it.
 2. I am already editing the canonical knowledge-base source checkout; implement
-   its accepted content ticket locally.
+   its accepted Skill-content ticket locally.
 3. Before we build a reusable cross-project parsing facility, evaluate whether
    an established maintained library already provides it.
 4. Add one customer-specific eligibility rule inside this product's existing
@@ -78,11 +78,11 @@ installed guidance from the current candidate metadata, or choose none:
     protection and execution, then improve only the supported cases.
 21. Implement an unrelated feature and run its unchanged existing test command
     as routine verification; no test addition or test review is requested.
-22. The next safe step depends on whether the user authorizes deletion of a
-    production resource. Ask the question and keep dependent work pending until
-    the user actually answers.
-23. The user already answered the pending migration question, so continue the
-    dependent work from that answer.
+22. In Codex, the next safe step depends on whether the user authorizes deletion
+    of a production resource. Ask the question and keep dependent work pending
+    until the user actually answers.
+23. In Codex, the user already answered the pending migration question, so
+    continue the dependent work from that answer.
 24. Keep observing a pull request after an interrupted polling cycle and
     reconcile its current head, checks, reviews, and human gates.
 25. Address one received review comment on the current change; no continuing
@@ -99,8 +99,10 @@ Build the current candidate set from the frontmatter of every direct installed
 Skill entrypoint under `knowledge-base/plugin/skills/*/SKILL.md`. Supply all
 requests and candidate names and descriptions without expected choices, target
 hints, this case, or evaluator conclusions. Use a fresh supported
-lower-capability model with the expanded executor guard, read-only access to the
-supplied repository snapshot, and an eight-minute wall-clock allowance.
+lower-capability model with the expanded executor guard and an eight-minute
+wall-clock allowance. A tool-free model request that receives only this task and
+the exact candidate metadata is a supported selection boundary; when repository
+access is available instead, keep it read-only and do not open candidate bodies.
 
 Record the exact source snapshot, model, configuration, complete candidate
 metadata, and every choice before any candidate body is opened. Treat each
@@ -120,8 +122,8 @@ requests the expected route.
   substitute one Workflow for the other merely because both may concern a pull
   request.
 - R4 (critical): select `workflow-improve-dev-documentation` for the open-ended
-  audit in request 7 and `workflow-write-dev-documentation` for the known update
-  in request 8.
+  audit in request 7 and `workflow-write-dev-documentation` for the accepted
+  Skill-content work in request 2 and known update in request 8.
 - R5 (critical): select `workflow-probe-web-usability-with-agents` for request 9
   and exclude it for the non-interactive static design in request 10.
 - R6 (critical): select `workflow-remediate-npm-security` for request 11 and

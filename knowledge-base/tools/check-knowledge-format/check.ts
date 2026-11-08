@@ -6,6 +6,10 @@ import {
   KnowledgeCatalogValidationError,
   validateKnowledgeCatalog,
 } from "@knowledge-base/knowledge-catalog-validation";
+import {
+  checkKnowledgeReachability,
+  type KnowledgeReachabilityResult,
+} from "./reachability.ts";
 import { validateKnowledgeDocument } from "./validate.ts";
 
 export interface KnowledgeFormatDiagnostic {
@@ -16,6 +20,11 @@ export interface KnowledgeFormatDiagnostic {
 export interface KnowledgeFormatCheckResult {
   checkedFileCount: number;
   diagnostics: KnowledgeFormatDiagnostic[];
+  reachability: KnowledgeReachabilityResult;
+}
+
+export interface KnowledgeFormatCheckOptions {
+  enforceReachability?: boolean;
 }
 
 async function findMarkdownFiles(directory: string): Promise<string[]> {
@@ -43,6 +52,7 @@ function toPortablePath(filePath: string): string {
 
 export async function checkKnowledgeDirectory(
   directory: string,
+  options: KnowledgeFormatCheckOptions = {},
 ): Promise<KnowledgeFormatCheckResult> {
   const knowledgeDirectory = resolve(directory);
   const markdownFiles = await findMarkdownFiles(knowledgeDirectory);
@@ -88,15 +98,16 @@ export async function checkKnowledgeDirectory(
     join(basename(knowledgeDirectory), "index.md"),
   );
 
+  const leafFilePaths = relativeMarkdownFiles.filter(
+    (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
+  );
+
   if (catalogMarkdown === undefined) {
     diagnostics.push({
       filePath: catalogDisplayPath,
       message: "The Knowledge catalog is required.",
     });
   } else {
-    const leafFilePaths = relativeMarkdownFiles.filter(
-      (filePath) => filePath !== "index.md" && !filePath.endsWith("/index.md"),
-    );
     try {
       validateKnowledgeCatalog(catalogMarkdown, leafFilePaths);
     } catch (error) {
@@ -109,14 +120,36 @@ export async function checkKnowledgeDirectory(
     }
   }
 
-  return { checkedFileCount: markdownFiles.length, diagnostics };
+  const pluginDirectory = resolve(knowledgeDirectory, "..");
+  const reachability = await checkKnowledgeReachability(
+    pluginDirectory,
+    leafFilePaths.map((filePath) => `knowledge/${filePath}`),
+  );
+  diagnostics.push(...reachability.diagnostics);
+
+  if (options.enforceReachability === true) {
+    for (const filePath of reachability.unreachableKnowledgeFilePaths) {
+      diagnostics.push({
+        filePath,
+        message:
+          "Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.",
+      });
+    }
+  }
+
+  return {
+    checkedFileCount: markdownFiles.length,
+    diagnostics,
+    reachability,
+  };
 }
 
 export async function runKnowledgeFormatCheck(
   directory: string,
+  options: KnowledgeFormatCheckOptions = {},
 ): Promise<number> {
   try {
-    const result = await checkKnowledgeDirectory(directory);
+    const result = await checkKnowledgeDirectory(directory, options);
 
     if (result.diagnostics.length > 0) {
       for (const diagnostic of result.diagnostics) {
@@ -126,8 +159,22 @@ export async function runKnowledgeFormatCheck(
       return 1;
     }
 
+    const reachableCount =
+      result.reachability.reachableKnowledgeFilePaths.length;
+    const unreachableCount =
+      result.reachability.unreachableKnowledgeFilePaths.length;
+    const leafCount = reachableCount + unreachableCount;
+    const entrypointLabel =
+      result.reachability.entrypointCount === 1
+        ? "installed Skill entrypoint"
+        : "installed Skill entrypoints";
+    const unreachableVerb = unreachableCount === 1 ? "is" : "are";
+
     process.stdout.write(
-      `Checked ${result.checkedFileCount} knowledge Markdown files.\n`,
+      `Checked ${result.checkedFileCount} knowledge Markdown files. ` +
+        `${reachableCount} of ${leafCount} Knowledge leaves are reachable from ` +
+        `${result.reachability.entrypointCount} ${entrypointLabel}; ` +
+        `${unreachableCount} ${unreachableVerb} not yet reachable.\n`,
     );
     return 0;
   } catch (error) {
@@ -144,11 +191,21 @@ if (
   resolve(invokedPath) === resolve(fileURLToPath(import.meta.url))
 ) {
   const knowledgeDirectory = process.argv[2];
+  const option = process.argv[3];
 
   if (knowledgeDirectory === undefined) {
-    process.stderr.write("Usage: node check.ts <knowledge-directory>\n");
+    process.stderr.write(
+      "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n",
+    );
+    process.exitCode = 2;
+  } else if (option !== undefined && option !== "--enforce-reachability") {
+    process.stderr.write(
+      "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n",
+    );
     process.exitCode = 2;
   } else {
-    process.exitCode = await runKnowledgeFormatCheck(knowledgeDirectory);
+    process.exitCode = await runKnowledgeFormatCheck(knowledgeDirectory, {
+      enforceReachability: option === "--enforce-reachability",
+    });
   }
 }

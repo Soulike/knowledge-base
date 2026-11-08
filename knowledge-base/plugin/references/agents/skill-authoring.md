@@ -2,10 +2,13 @@
 
 ## Scope
 
-Use this reference when writing or reviewing a reusable Agent Skill. It defines
-how to author either a Workflow Skill that produces a user result or a Handbook
-Skill that routes required understanding, while keeping both portable,
-reliably selected, and supported by behavioral evidence.
+Use this reference when writing or reviewing a reusable Agent Skill. A
+**Workflow Skill** owns the decisions and actions that produce a user's result.
+A **Handbook Skill** owns mandatory reading for a recognizable work context but
+does not execute the user's task. **Knowledge** is canonical subject guidance
+maintained independently of either Skill. This reference explains how to author
+both kinds while keeping them portable, reliably selected, and supported by
+behavioral evidence.
 
 ## When to update
 
@@ -143,19 +146,19 @@ reference only when its selecting decision, consumers, responsibility, or
 lifecycle differs; merge references when those properties coincide. File
 length, step count, and reference count are not structural rules.
 
-## Name and place the entrypoint
+## Name and assemble the entrypoint
 
-Place installed Skills as immediate child directories of the owning plugin's
-flat `skills/` directory, with one `SKILL.md` and a frontmatter `name` matching
-the directory. In the target model, installed Workflow names begin with
-`workflow-` and Handbook names begin with `handbook-`. The prefix makes the
-responsibility visible; do not add custom kind metadata or a prefix-kind checker.
+Follow the owning package and target clients' established entrypoint location,
+manifest, frontmatter, and naming conventions. Choose a stable, descriptive
+registered name that makes the owned user task or reading context recognizable
+without requiring readers to know the bundle's internal organization.
 
-Repository-authoring Skills remain in `.agents/skills/` and use names suited to
-their authoring task. When an authorized change renames, replaces, or removes an
-installed Skill, update every invocation pointer and consumer, then remove the
-obsolete entrypoint. Do not introduce aliases, wrapper Skills, or duplicate
-Workflows as compatibility layers.
+Keep the entrypoint and its supporting resources self-contained under the
+distribution boundary that will travel together. When an authorized change
+renames, replaces, or removes an entrypoint, update every known invocation and
+consumer, remove superseded authoritative copies, and handle any compatibility
+obligation through the owning package's explicit contract rather than assuming
+one universal directory or naming scheme.
 
 ## Write the description
 

@@ -23,9 +23,10 @@ Knowledge-base maintenance must distinguish canonical subject understanding,
 task execution, and scenario-based reading obligations. A proposed installed
 reading entry must become or join a Handbook Skill without absorbing the
 Knowledge it routes or inventing a Workflow procedure. Protect cumulative
-conditional reading, direct canonical routes, portable placement, and the
-maintenance-only Catalog and strict reachability contract while allowing
-different Handbook names, prose, package labels, and plan structure.
+conditional reading, direct canonical routes, downstream portability, the
+repository-owned product placement policy, and the maintenance-only Catalog and
+strict reachability contract while allowing different Handbook names, prose,
+package labels, and plan structure.
 
 ## Task
 
@@ -71,9 +72,13 @@ and available action observations.
   task stage, language, platform, artifact, or production method changes or the
   earlier reading basis is no longer available.
 - R5: keep the installed Handbook as a flat immediate child of the package
-  Skill directory with matching `handbook-` registered and directory names.
-  Update every invocation pointer and consumer for an authorized rename or
-  removal, delete the obsolete entrypoint, and do not add aliases or wrappers.
+  Skill directory with matching `handbook-` registered and directory names
+  because the repository's product rules and maintenance workflow require that
+  target layout. Attribute this placement and naming policy to those
+  repository-owned sources rather than presenting it as a universal rule for
+  reusable Agent Skills. Update every invocation pointer and consumer for an
+  authorized rename or removal, delete the obsolete entrypoint, and do not add
+  aliases or wrappers.
 - R6 (critical): keep the Catalog as a two-column file-and-type maintenance
   inventory with no runtime condition or loader. Require every Knowledge leaf
   to remain reachable from an installed Workflow or Handbook through the
@@ -83,6 +88,13 @@ and available action observations.
   choice, actual reading and application, later-stage supplementary reading,
   adjacent negative loading, and relevant historical case replay. Static links
   or a plausible final answer alone must not be reported as behavioral proof.
+- R8 (critical): keep the installed reusable authoring reference understandable
+  without repository history and portable to another project. It may define
+  generic Workflow and Handbook responsibilities and bundle ownership, but it
+  must not prescribe this repository's
+  [repository-authoring Skill location](../../AGENTS.md#repository-architecture),
+  primary plugin flat layout, or `workflow-` and `handbook-` naming convention
+  to an unrelated downstream project.
 
 ## Verification
 
@@ -96,8 +108,11 @@ For rubric calibration, a controlled faulty plan that calls the proposal a
 Workflow, replaces the three Knowledge files with copied prose, treats the
 cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
-critical criterion. These copies test the reviewer; they are not additional
-Agent runs or evidence about maintained guidance.
+critical criterion. A plan that cites the portable authoring reference as
+universal authority for the
+[repository-authoring Skill location](../../AGENTS.md#repository-architecture)
+or the product's prefixes must fail R8. These copies test the reviewer; they are
+not additional Agent runs or evidence about maintained guidance.
 
 ## Source
 

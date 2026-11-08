@@ -1,6 +1,6 @@
 ---
 name: handbook-software-engineering
-description: Use when developing, maintaining, restructuring, reviewing, diagnosing, or understanding software code, APIs, architecture, and runtime behavior.
+description: Use when software work requires reasoning about behavior, state or effect contracts, source code, APIs, architecture, runtime design, or the semantic change set between revisions, including during review or test design.
 ---
 
 # Software engineering Handbook
@@ -98,11 +98,19 @@ explaining its lifecycle and coordination, read these complete documents:
 
 ### Human authorization
 
-When implementing or reviewing an approval, consent, confirmation, or
-preview-before-effect flow, or directly learning or explaining software
-authorization by a human decision, read
+When designing, implementing, testing, or reviewing an approval, consent,
+confirmation, or preview-before-effect flow, or directly learning or explaining
+software authorization by a human decision, read
 [Human decisions that authorize software effects](../../knowledge/software-design/human-decision-authorization.md)
 in full.
+
+### Source-change comparisons
+
+When designing, implementing, reviewing, or diagnosing a pull-request or
+Git-revision comparison used by a script, workflow, review, or analysis, or
+directly learning or explaining which revisions answer that comparison, read
+[Git change-comparison
+semantics](../../knowledge/git/change-comparison-semantics.md) in full.
 
 ### External commands
 

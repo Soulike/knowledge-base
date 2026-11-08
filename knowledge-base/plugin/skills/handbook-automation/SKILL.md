@@ -25,17 +25,34 @@ workflow, read this complete foundation:
 - [Evidence for investigating check findings and
   failures](../../knowledge/software-design/failure-diagnostic-evidence.md)
 
+For focused learning or explanation without a concrete automation artifact,
+read every matching foundation subject without forcing the other foundation
+files:
+
+- When the request concerns whether required work, evidence, skips, and final
+  status honestly establish an automated workflow's outcome, read [Outcome
+  integrity in automated
+  workflows](../../knowledge/automation/workflow-outcome-integrity.md).
+- When the request concerns non-success outcomes, effect certainty, retry,
+  continuation, reconciliation, or repair for an externally observable
+  automated operation, read [Failure and recovery in externally observable
+  operations](../../knowledge/software-design/operation-failure-and-recovery.md).
+- When the request concerns which evidence an automated check or workflow must
+  preserve for later investigation, read [Evidence for investigating check
+  findings and
+  failures](../../knowledge/software-design/failure-diagnostic-evidence.md).
+
 Then evaluate every condition below. Every match is required and cumulative
-with the foundation and any other matching package.
+with the applicable foundation reading and any other matching package.
 
 - When an automated decision compares branches, pull requests, or Git
   revisions, or when the user asks to learn or explain how such a comparison
   should work, read [Git change-comparison
   semantics](../../knowledge/git/change-comparison-semantics.md).
 
-A focused learning or explanation request that matches only the conditional
-package requires that package without the primary-work foundation. Do not copy
-or infer rules in place of reading the linked canonical material.
+A focused learning or explanation request reads only its matching foundation
+subjects and conditional packages when no primary automation work is present.
+Do not copy or infer rules in place of reading the linked canonical material.
 
 Re-evaluate this Handbook and every package condition when the task stage,
 platform, artifact, or available reading basis changes. Reuse a reading unit

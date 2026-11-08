@@ -20,6 +20,11 @@ GitHub Actions or gh-aw workflow, read [Outcome integrity in automated
 workflows](../../knowledge/automation/workflow-outcome-integrity.md) as the
 foundation.
 
+For focused learning or explanation about whether required work, skips,
+evidence, and final status honestly establish a GitHub Actions or gh-aw
+workflow's outcome, read that foundation without requiring a concrete workflow
+artifact.
+
 Then evaluate every condition below. Every match is required and cumulative
 with the foundation when it applies and with every other matching package.
 
@@ -41,11 +46,11 @@ with the foundation when it applies and with every other matching package.
   asks to learn or explain that model compatibility, read [gh-aw Copilot model
   compatibility](../../knowledge/github-actions/gh-aw-copilot-model-compatibility.md).
 
-A focused learning or explanation request that matches a package requires that
-package without an unrelated primary-work foundation. If neither the
-foundation nor any current package matches, continue the task without applying
-unrelated narrow material or implying that this Handbook documents all of
-GitHub Actions or gh-aw. Do not copy or infer rules in place of reading the
+A focused learning or explanation request reads the foundation or packages
+whose subjects match without an unrelated primary-work foundation. If neither
+the foundation nor any current package matches, continue the task without
+applying unrelated narrow material or implying that this Handbook documents all
+of GitHub Actions or gh-aw. Do not copy or infer rules in place of reading the
 linked canonical material.
 
 Re-evaluate this Handbook and every package condition when the task stage,

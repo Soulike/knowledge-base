@@ -29,7 +29,9 @@ previous response and observations are recorded:
 1. `Explain how to write a useful AI-generation prompt for an empty misty landscape with no people.`
 2. `Now prepare a new photorealistic portrait prompt for a ceramic artist. I plan to use Gemini.`
 3. When asked which Gemini execution path will receive the prompt: `Use a Gemini image model directly through its API, not the Gemini App.`
-4. `A separate photorealistic portrait prompt was used in the Gemini App and did not preserve the intended observational composition. Diagnose that existing prompt and prepare an improved replacement.`
+4. After the executor presents its proposed canvas and creative direction:
+   `I accept the proposed canvas and creative direction. Complete the portable portrait prompt package.`
+5. `A separate photorealistic portrait prompt was used in the Gemini App and did not preserve the intended observational composition. Diagnose that existing prompt and prepare an improved replacement.`
 
 Do not invoke an image-generation service.
 
@@ -39,8 +41,10 @@ Supply the first natural request and the current 35-candidate Handbook and
 Workflow metadata without bodies or expected choices. After the focused-learning
 selection, package choice, read, and explanation are captured, reveal message 2.
 Record the later Workflow choice before opening its body. Reveal message 3 only
-after the executor identifies the execution-path ambiguity. After the design
-result is captured, supply message 4 with a concise existing prompt, its intended
+after the executor identifies the execution-path ambiguity. Reveal message 4
+only after the executor requests confirmation of the proposed canvas and
+creative direction. After the completed design prompt package is captured,
+supply message 5 with a concise existing prompt, its intended
 composition, and the user's criticism; then record the improvement-Workflow
 choice before body access.
 
@@ -68,11 +72,11 @@ clarification exchange, each result, and observation limits.
   design, still-image prompting, and photographic-image design through its
   direct routes, and ask which Gemini execution path applies before using
   product-specific guidance.
-- I5 (critical): after message 3, exclude Gemini App people-image prompting and
+- I5 (critical): after messages 3 and 4, exclude Gemini App people-image prompting and
   produce a portable, photorealistic, people-focused prompt package without the
   maintenance Catalog or a Handbook body being necessary to supply the Workflow's
   required reading.
-- I6 (critical): for message 4, select
+- I6 (critical): for message 5, select
   `workflow-improve-image-generation-prompts`, reuse current general and
   photographic reading when available, add Gemini App people-image prompting,
   and apply it to the diagnosis and replacement prompt.

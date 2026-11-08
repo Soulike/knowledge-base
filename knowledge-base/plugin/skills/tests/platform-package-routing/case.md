@@ -17,7 +17,8 @@ Each sparse platform Handbook must route its current narrow package directly
 when observable work matches it, without borrowing another Handbook or treating
 that package as comprehensive platform guidance. Protect direct package
 selection and useful application while allowing future independent packages
-and different answer wording.
+and different answer wording. The replay must not require an external
+publication effect that its starting state does not supply or authorize.
 
 ## Task
 
@@ -46,6 +47,12 @@ author conclusions. Use a fresh supported lower-capability model with the
 expanded executor guard, read-only access to the supplied repository snapshot,
 and an eight-minute wall-clock allowance.
 
+No Azure DevOps pull request, renderer, attachment endpoint, or publication
+authorization is supplied. The Azure request prepares editable source and the
+verification procedure. The executor must distinguish that preparation from
+unperformed rendering, attachment, stored-description, and reviewer-surface
+observations instead of claiming those effects.
+
 Ask the executor to record every selected and excluded package before reading,
 then read the required current material and answer each request. Record the
 exact source snapshot, model, configuration, package choices, files read, final
@@ -59,10 +66,12 @@ answers, and available action observations.
   boundary, and boundary-specific diagnosis without presenting a remembered
   model as a durable recommendation.
 - R2 (critical): select and read the Azure DevOps pull-request diagram package
-  only for the Azure request. Preserve Mermaid as editable source, publish an
-  inspected PNG attachment and embed its returned download URL, and distinguish
-  local inspection, attachment verification, stored Markdown, and observed
-  reviewer rendering.
+  only for the Azure request. Preserve Mermaid as editable source and explain
+  that publication requires an inspected PNG attachment and its returned
+  download URL. Distinguish local rendering and inspection, attachment
+  verification, stored Markdown, and observed reviewer rendering. Do not claim
+  any of those unavailable observations occurred without a supplied renderer
+  and publication target.
 - R3 (critical): select and read the Chromium iOS UI architecture package only
   for the Chromium request. Move profile-service access and model adaptation to
   an injected mediator boundary, keep composition and presentation in the
@@ -83,7 +92,7 @@ without the coordinator's verdict. Judge every criterion independently and
 retain every attempt.
 
 Controlled faulty answers that hard-code a stale Codex model, publish raw
-Mermaid without the specified verification boundaries, or keep model access in
+Mermaid or claim publication without the specified verification boundaries, or keep model access in
 the Chromium view controller must fail the corresponding critical criterion.
 These copies calibrate the reviewer and are not additional Agent runs.
 

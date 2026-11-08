@@ -54,9 +54,10 @@ files read, final result, and available action observations.
 - R3 (critical): through the Workflow's direct routes, read operation failure
   and recovery, user-facing failure communication, and test effectiveness while
   the maintenance Catalog is unavailable as a runtime route.
-- R4: exclude interaction clarity, user goodwill, mobile, Web, home-page,
-  navigation, and usability-evaluation reading because this background flow has
-  no interactive interface and the task does not perform usability evaluation.
+- R4: because operators inspect the result and choose recovery actions, read
+  interaction clarity and user goodwill for that person-operated boundary.
+  Exclude mobile, Web, home-page, navigation, and usability-evaluation reading
+  because no matching platform or evaluation work is present.
 - R5: make required outcomes, non-success and recovery, diagnostic evidence,
   safe retry or continuation, and effect certainty explicit before artifact
   publication can depend on the run. Preserve failed, cancelled, skipped,

@@ -27,7 +27,9 @@ previous response and observations are recorded:
 
 1. `Plan one continuous shot centered on a dancer as a non-AI preproduction concept. We have not decided whether it will be filmed or animated, and the visual style is undecided.`
 2. `Use the supplied opening-frame image to prepare an anime-influenced image-to-video version of the same action.`
-3. `An existing anime image-to-video prompt for this opening frame leaves the dancer's turn and the camera move ambiguously ordered. Diagnose that prompt and prepare an improved replacement.`
+3. After the executor presents its proposed canvas and creative direction:
+   `I accept the proposed canvas and creative direction. Complete the image-to-video prompt package.`
+4. `An existing anime image-to-video prompt for this opening frame leaves the dancer's turn and the camera move ambiguously ordered. Diagnose that prompt and prepare an improved replacement.`
 
 Do not invoke a video-generation service.
 
@@ -37,8 +39,10 @@ Supply message 1 and the current 35-candidate Handbook and Workflow metadata
 without bodies or expected choices. After the initial selection, package choice,
 reads, and shot plan are captured, provide the accessible [anime dancer opening
 frame](fixtures/anime-dancer-opening-frame.png) and reveal message 2. Record the
-design-Workflow choice before opening its body. After the design result is
-captured, reveal message 3 with the complete existing prompt, then record the
+design-Workflow choice before opening its body. Reveal message 3 only after the
+executor requests confirmation of its proposed canvas and creative direction.
+After the completed design prompt package is captured, reveal message 4 with
+the complete existing prompt, then record the
 improvement-Workflow choice before body access.
 
 Make `knowledge/index.md` unavailable as a runtime input to the executor. Permit read-only access to
@@ -64,14 +68,15 @@ observation limits.
   `workflow-design-image-to-video-prompts` and directly read or reuse
   people-focused continuous-shot design, then read image-to-video prompting and
   people-focused anime-animation design before dependent shot and prompt work.
-- V5 (critical): for message 3, select
+- V5 (critical): for message 4, select
   `workflow-improve-image-to-video-prompts`, reuse current generic,
   image-to-video, and anime reading when available, apply it to the diagnosis,
   and produce a replacement only within the evidence supported by the prompt and
   available opening frame.
 - V6: exclude photographic or live-action video design in the anime phases,
   preserve the source-frame contract, avoid claiming a generated-video finding,
-  and complete both Workflow phases without consulting the maintenance Catalog.
+  and complete both Workflow phases after the supplied confirmation without
+  consulting the maintenance Catalog.
 
 ## Verification
 

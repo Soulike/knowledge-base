@@ -174,7 +174,11 @@ test("reports Skill reachability without enforcing migration orphans", async (t)
   const pluginDirectory = join(temporaryRoot, "plugin");
   const knowledgeDirectory = join(pluginDirectory, "knowledge");
   const topicDirectory = join(knowledgeDirectory, "security");
-  const skillDirectory = join(pluginDirectory, "skills", "review-security");
+  const skillDirectory = join(
+    pluginDirectory,
+    "skills",
+    "workflow-review-security",
+  );
   t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
 
   await Promise.all([
@@ -231,7 +235,11 @@ test("follows used reference links through package references and terminates cyc
   const pluginDirectory = join(temporaryRoot, "plugin");
   const knowledgeDirectory = join(pluginDirectory, "knowledge");
   const topicDirectory = join(knowledgeDirectory, "security");
-  const skillDirectory = join(pluginDirectory, "skills", "review-security");
+  const skillDirectory = join(
+    pluginDirectory,
+    "skills",
+    "workflow-review-security",
+  );
   const skillReferencesDirectory = join(skillDirectory, "references");
   const sharedReferencesDirectory = join(pluginDirectory, "references");
   t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
@@ -316,7 +324,11 @@ test("excludes non-runtime sources and stops traversal at Knowledge", async (t) 
   const pluginDirectory = join(temporaryRoot, "plugin");
   const knowledgeDirectory = join(pluginDirectory, "knowledge");
   const topicDirectory = join(knowledgeDirectory, "security");
-  const skillDirectory = join(pluginDirectory, "skills", "review-security");
+  const skillDirectory = join(
+    pluginDirectory,
+    "skills",
+    "workflow-review-security",
+  );
   const authoringSkillDirectory = join(
     temporaryRoot,
     ".agents",

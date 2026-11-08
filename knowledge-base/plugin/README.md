@@ -67,7 +67,7 @@ Browse the [Knowledge catalog](knowledge/index.md) or the complete [Skills direc
 
 ## Contribute
 
-The easiest route is to ask an Agent to submit a contribution proposal. The installed [`contribute-to-knowledge-base`](skills/contribute-to-knowledge-base/SKILL.md) Skill locates the canonical repository, removes source-project and sensitive details, and publishes a triage-ready issue for maintainers.
+The easiest route is to ask an Agent to submit a contribution proposal. The installed [`workflow-contribute-to-knowledge-base`](skills/workflow-contribute-to-knowledge-base/SKILL.md) Skill locates the canonical repository, removes source-project and sensitive details, and publishes a triage-ready issue for maintainers.
 
 For source development, follow the contributor instructions in the
 [source repository](https://github.com/Soulike/knowledge-base). The repository

@@ -19,10 +19,10 @@ use the repository's applicable testing workflows.
    [maintain-knowledge-base](../maintain-knowledge-base/SKILL.md).
 2. Identify the content, live behavior, requested operation, and available
    evidence. For selecting new protection, read and follow
-   [write-effective-tests](../../../knowledge-base/plugin/skills/write-effective-tests/SKILL.md).
+   [workflow-write-effective-tests](../../../knowledge-base/plugin/skills/workflow-write-effective-tests/SKILL.md).
    For review of proposed or existing cases, coverage, execution, failures,
    cost, or retirement, read and follow
-   [review-and-improve-tests](../../../knowledge-base/plugin/skills/review-and-improve-tests/SKILL.md).
+   [workflow-review-and-improve-tests](../../../knowledge-base/plugin/skills/workflow-review-and-improve-tests/SKILL.md).
    Apply their selected Knowledge and dispositions to Agent behavior as to
    other tested behavior; these cases have no separate test-quality standard.
 3. Read the shared
@@ -68,7 +68,7 @@ use the repository's applicable testing workflows.
    gate. If the triggering operation is unknown, report that missing premise
    and make the review conditional rather than assuming it is required.
 2. When required, include case value and organization explicitly in the
-   [test-review workflow](../../../knowledge-base/plugin/skills/review-and-improve-tests/SKILL.md)'s
+   [test-review workflow](../../../knowledge-base/plugin/skills/workflow-review-and-improve-tests/SKILL.md)'s
    scope. Use its selected Knowledge to assess the affected case group,
    overlapping protection, and fixtures or test-only support. Record
    evidence-backed dispositions and limit the assessment to affected

@@ -136,9 +136,9 @@ independent behavior.
     Before editing other tests, route by the responsibility that
     started the work. Direct selection of new protection for a production
     behavior or bounded coverage need uses
-    [`write-effective-tests`](../../../knowledge-base/plugin/skills/write-effective-tests/SKILL.md).
+    [`workflow-write-effective-tests`](../../../knowledge-base/plugin/skills/workflow-write-effective-tests/SKILL.md).
     Review of coverage, an existing or proposed test, or test execution uses
-    [`review-and-improve-tests`](../../../knowledge-base/plugin/skills/review-and-improve-tests/SKILL.md),
+    [`workflow-review-and-improve-tests`](../../../knowledge-base/plugin/skills/workflow-review-and-improve-tests/SKILL.md),
     which retains any coverage work selected by that review.
 11. Review the composed result using the loaded Knowledge's
     [suitability review](../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result).

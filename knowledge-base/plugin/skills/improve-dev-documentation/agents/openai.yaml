@@ -1,4 +1,0 @@
-interface:
-  display_name: "Improve Dev Documentation"
-  short_description: "Audit docs, comments, and Agent guidance"
-  default_prompt: "Use $improve-dev-documentation to audit and improve these documents, source comments, or docstrings."

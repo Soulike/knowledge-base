@@ -38,13 +38,14 @@ the claim's applicable range, readers, or final home. For each responsibility:
    document or separation of general and specific material. Possible future
    reuse alone does not justify either operation.
 
-When reviewing existing content, actively test whether its Scope, catalog
-route, body, and source-specific limits conceal an independently needed
-responsibility or impose an unsupported restriction. Use them as comparison
-evidence, not as a ceiling on the analysis. Scope/body agreement alone does not
-establish appropriate organization. Report an organizational defect only with
-a concrete reader need, supporting evidence, and coherent remedy; an analogous
-scenario or speculative reuse is insufficient.
+When reviewing existing content, actively test whether its Scope, installed
+reading routes and consumers, body, and source-specific limits conceal an
+independently needed responsibility or impose an unsupported restriction. Use
+them as comparison evidence, not as a ceiling on the analysis. Scope/body
+agreement alone does not establish appropriate organization. Report an
+organizational defect only with a concrete reader need, supporting evidence,
+and coherent remedy; an analogous scenario or speculative reuse is
+insufficient.
 
 Finish with the supported scope and conditions, evidence for retaining or
 changing the organization, and unresolved hypotheses clearly distinguished.

@@ -7,10 +7,10 @@ const catalog = `# Knowledge catalog
 
 ## Documents
 
-| File Path | Knowledge Type | When to Read |
-| --- | --- | --- |
-| [knowledge/a.md](a.md) | time-sensitive | Read when checking A. |
-| [knowledge/b.md](b.md) | evergreen | Read when checking B. |
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/a.md](a.md) | time-sensitive |
+| [knowledge/b.md](b.md) | evergreen |
 `;
 
 describe("createVerificationManifest", () => {

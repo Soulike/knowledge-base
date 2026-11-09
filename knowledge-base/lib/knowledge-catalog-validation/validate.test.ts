@@ -19,14 +19,14 @@ Update this catalog when Knowledge changes.
 
 ## Documents
 
-| File Path | Knowledge Type | When to Read |
-| --- | --- | --- |
+| File Path | Knowledge Type |
+| --- | --- |
 ${rows}`;
 }
 
 const validCatalog =
-  catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
-| [knowledge/provider/config.md](provider/config.md) | time-sensitive | Read when configuring a provider. |
+  catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen |
+| [knowledge/provider/config.md](provider/config.md) | time-sensitive |
 `);
 
 test("returns entries when the catalog matches the available Knowledge files", () => {
@@ -39,12 +39,10 @@ test("returns entries when the catalog matches the available Knowledge files", (
       {
         filePath: "agents/model.md",
         knowledgeType: "evergreen",
-        whenToRead: "Read when modeling Agents.",
       },
       {
         filePath: "provider/config.md",
         knowledgeType: "time-sensitive",
-        whenToRead: "Read when configuring a provider.",
       },
     ],
   );
@@ -70,9 +68,9 @@ test("rejects catalog and file inventory mismatches in both directions", () => {
 
 test("reports row, duplicate, and inventory diagnostics together", () => {
   const invalidCatalog =
-    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
-| [knowledge/agents/model.md](agents/model.md) | evergreen | Read when modeling Agents. |
-| [knowledge/missing.md](missing.md) | static | Read when reading missing Knowledge. |
+    catalogWithRows(`| [knowledge/agents/model.md](agents/model.md) | evergreen |
+| [knowledge/agents/model.md](agents/model.md) | evergreen |
+| [knowledge/missing.md](missing.md) | static |
 `);
 
   assert.throws(

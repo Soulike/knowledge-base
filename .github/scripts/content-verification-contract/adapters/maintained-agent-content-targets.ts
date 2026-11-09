@@ -11,6 +11,10 @@ function isSkillEntrypoint(filePath: string): boolean {
   );
 }
 
+function isSkillTestAsset(filePath: string, skillDirectory: string): boolean {
+  return filePath.startsWith(`${skillDirectory}/tests/`);
+}
+
 function sharedReferencePackage(filePath: string): boolean {
   if (filePath.startsWith("knowledge-base/plugin/references/")) {
     return true;
@@ -59,7 +63,9 @@ export function discoverMaintainedAgentContentTargets(
       entrypoint,
       ...trackedPaths.filter(
         (filePath) =>
-          filePath !== entrypoint && filePath.startsWith(`${directory}/`),
+          filePath !== entrypoint &&
+          filePath.startsWith(`${directory}/`) &&
+          !isSkillTestAsset(filePath, directory),
       ),
     ];
     return {

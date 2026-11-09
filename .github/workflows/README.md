@@ -158,11 +158,22 @@ need a concrete reader or maintenance cost and a coherent correction.
 The tasks retain distinct emphases:
 
 - time-sensitive Knowledge rechecks evolving dependencies and the current facts,
-  guarantees, or empirical claims needed to judge its advice;
+  guarantees, or empirical claims needed to judge its advice, together with its
+  actual installed Workflow and Handbook consumers;
 - evergreen Knowledge emphasizes reasoning, applicability, and whether external
-  evolution requires time-sensitive maintenance; and
-- maintained Agent content examines whether invocation, decisions, execution,
-  failure handling, completion, and organization can achieve the intended task.
+  evolution requires time-sensitive maintenance, together with its actual
+  installed Workflow and Handbook consumers; and
+- maintained Agent content distinguishes Workflow invocation and execution from
+  Handbook applicability and required-reading selection, while reviewing
+  repository-authoring and auxiliary-plugin Skills under their own contracts.
+
+Knowledge route review starts from an installed primary-plugin consumer. A
+Workflow may read Knowledge directly or through a reference selected by one of
+its steps; a Handbook links required Knowledge directly. The verifier checks
+the selecting condition or task stage and whether the route supplies a complete
+file or context-sufficient section. Catalog inventory and static reachability
+show that content and a path exist; behavioral evidence separately establishes
+whether an Agent selected, read, and applied the material.
 
 The [shared review and evidence rules](shared/content-verification.md#review-phase)
 select evidence for the question: contracts for requirements, implementation or

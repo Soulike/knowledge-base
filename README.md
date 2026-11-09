@@ -35,7 +35,7 @@ Domain vocabulary and decision ownership are routed through the
 
 To propose a Knowledge or Skill contribution from the installed primary plugin,
 use
-[contribute-to-knowledge-base](knowledge-base/plugin/skills/contribute-to-knowledge-base/SKILL.md).
+[workflow-contribute-to-knowledge-base](knowledge-base/plugin/skills/workflow-contribute-to-knowledge-base/SKILL.md).
 It locates the canonical repository and publishes a sanitized issue for review.
 
 For a source checkout, use Node.js 24 or later and pnpm 11:

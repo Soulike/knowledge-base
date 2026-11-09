@@ -1,4 +1,0 @@
-interface:
-  display_name: "Retry via Local Proxy"
-  short_description: "Retry failed requests through a local proxy"
-  default_prompt: "Use $retry-via-local-proxy to retry this failed network request through a detected local proxy with replay-safety checks."

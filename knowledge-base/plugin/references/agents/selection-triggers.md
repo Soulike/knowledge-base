@@ -2,97 +2,120 @@
 
 ## Scope
 
-Use this reference when writing or reviewing a condition that selects a
-Knowledge document or invokes an Agent Skill. It owns the reasoning shared by
-those conditions; the consuming workflows own their required format and
-artifact-specific routing rules.
+Use this reference when writing or reviewing a Workflow or Handbook description
+or a Handbook-internal package condition. It owns the shared reasoning for
+coverage, earliest useful selection, precision, and independent checks;
+consuming artifacts own their required format and route.
 
 ## When to update
 
-Update this reference when a real Knowledge or Skill routing case reveals a
-missing or incorrect shared rule for selection, coverage, or precision.
+Update this reference when a real Workflow, Handbook, or package-routing case
+reveals a missing or incorrect shared rule for selection, coverage, or
+precision.
 
 ## Establish coverage before drafting
 
-1. Establish the target's responsibility from reader needs and the accepted
-   task. For an existing condition, record the condition itself, its pre-change
-   coverage, which dimensions the task requires changing, and which must stay
-   unchanged. A move, rename, or body revision alone does not justify changing
-   the selection boundary.
-2. Before proposing wording, prepare natural request cases from those reader
-   needs and coverage boundaries. Include a plain broad task that neither names
-   the target's concepts nor already diagnoses the concern when the target is
-   useful in wider work; include direct and nearby negative requests when they
-   exist. Record why each case needs or excludes the target. A broad task may
-   select several targets when each contributes a distinct responsibility.
-   Keep these cases for the final check; add cases when new reader needs emerge
-   rather than replacing them to fit a candidate condition.
-3. For each proposed restriction, identify the previously covered tasks it
-   would exclude. Establish that this coverage change belongs to the accepted
-   task and that those tasks no longer need the target's understanding or
-   workflow, or are no longer supported. A request's failure to name the
-   target's concern does not establish that it is unnecessary; neither does
-   closer resemblance between a condition and the target's contents.
+1. Establish the target responsibility from user work and reader decisions. For
+   an existing condition, record its wording, pre-change coverage, which
+   dimensions the accepted task changes, and which must stay unchanged. A move,
+   rename, grouping change, or body revision alone does not justify changing the
+   selection boundary.
+2. Prepare natural request cases before proposing wording. Include a plain broad
+   task that neither names the target concepts nor already diagnoses the concern
+   when the target is useful in wider work; include direct, focused-learning,
+   overlap, phase-change, and nearby negative requests when they exist. Record
+   why each case needs or excludes the target. A broad task may select several
+   independent Skills or packages.
+3. For each proposed restriction, identify every previously covered task it
+   would exclude. Establish that the accepted change removes that task from the
+   target's responsibility or that another authoritative route now owns it. A
+   request's failure to name the concern does not establish that it is
+   unnecessary.
+4. For a Handbook, separate native description coverage from internal package
+   coverage. The description selects one task family, technical domain, or
+   stable platform context; package conditions select the Knowledge required for
+   the current work inside that scene. Do not copy every old leaf condition into
+   descriptions or create one Handbook per leaf.
 
 Finish by selecting only justified coverage changes. If a restriction's basis
-remains unresolved, retain that part of the existing coverage and report the
-question separately. A narrower candidate awaiting justification is not a
-completed coverage decision.
+remains unresolved, retain the existing coverage and report the question
+separately.
 
 ## Write the condition
 
 For an existing condition, start from its recorded wording and apply only the
 coverage changes established above.
 
-Draft from the earliest useful point in the reader's task: the user's requested
-work, a decision to make, an available artifact, or an observed workflow state.
-Ask when an Agent with only that context would need the target. Use the
-target's responsibility to establish its usefulness at that point. A specialized
-responsibility can be needed during a broader task; its content vocabulary
-need not become a prerequisite for selection. For Knowledge, this reading point
-must precede workflow selection. For a Skill, identify the user task or desired
-result that calls for its workflow; a subject or artifact may delimit that task
-but does not establish invocation by itself.
-
-For example, a reader asked to implement a file upload needs applicable
-failure-and-recovery Knowledge before deciding how timeouts, partial uploads,
-and retries should behave. The request need not mention those concerns.
-A condition requiring the reader to already be designing partial-upload
-recovery would delay selection until after a decision the Knowledge should
-help uncover. Start from the implementation task and use the Knowledge's
-responsibility to check its contribution to that task.
-
-If the target helps determine whether a risk, exception, or diagnosis applies,
-route from the preceding task or artifact; do not require the conclusion to be
-known before loading the target. A topic summary or phrase such as “when
-relevant” does not define a selection condition.
+Draft from the earliest observable point in the reader's work: the requested
+result, a decision to make, current material, language, platform, production
+method, or task stage. Ask when an Agent with only that context needs the target.
+If the target helps discover a risk, exception, or diagnosis, route from the
+preceding work or artifact rather than requiring the conclusion to be known.
+A topic summary or phrase such as “when relevant” does not define a condition.
 
 Express cases with the same selection reason as one general condition. Add a
-separate branch only when a request presenting that need alone should select
-the target and the general condition does not already cover it. A list of
-techniques, examples, or outcomes is not a substitute for the condition.
-Delete illustrative clauses, including `including ...` lists, when the general
-condition already routes those cases. Keep an example only when it clarifies
-an otherwise ambiguous boundary with an adjacent route.
+separate branch only when a request presenting that need alone should select the
+target and the general condition does not already cover it. Lists of techniques,
+examples, outcomes, or linked documents do not substitute for a semantic
+condition.
+
+### Workflow descriptions
+
+Identify the independently invoked user task and promised result. A subject or
+artifact may delimit that task, but does not establish invocation by itself.
+Keep the complete task boundary in the description without listing internal
+steps or every scenario. Select the Workflow before proposals or actions it must
+constrain.
+
+### Handbook descriptions
+
+Write one short semantic applicability rule based on the user's work or current
+material. It must identify the task family, technical domain, or stable platform
+context that makes the Handbook useful without enumerating its foundation,
+packages, Knowledge topics, or internal conditions. A platform Handbook may
+route only the curated guidance currently available; its description must not
+claim exhaustive platform coverage.
+
+### Handbook package conditions
+
+Select packages from observable user work, current materials, language,
+platform, production method, or task stage. Conditions are mandatory: evaluate
+all of them and read every match cumulatively rather than choosing the closest
+one. Do not require the reader to know a risk or diagnosis that the selected
+Knowledge helps uncover.
+
+Cover focused learning and explanation directly. A request to learn or explain
+one package's subject is its own matching condition even when no current
+artifact work activates the package's other condition. Select that package
+without forcing an unrelated Handbook foundation. A Handbook may have no
+foundation when no current Knowledge is genuinely common to its primary scene.
+
+Re-evaluate package conditions whenever the task stage, language, platform,
+artifact, production method, or available reading basis changes. Reuse an
+already loaded current reading unit; reread it when the content changed or the
+Agent cannot establish that its necessary basis remains available.
 
 ## Check selection from requests
 
-Check selection when writing or revising a condition, assessing a target's
-placement, or substantively changing its covered content or responsibility, even if its
-route's wording is unchanged.
-An unchanged condition mentioning the subject does not establish that readers
-will select the needed understanding. Begin during placement assessment so
-the result can inform the owner and routing decision; repeat against the final
-candidate set after drafting.
+Check selection when writing or revising a condition, assessing placement, or
+substantively changing covered content or responsibility, even when route text
+is unchanged. Begin during placement assessment and repeat against the final
+candidate set.
 
-Use the request cases established before drafting against the real candidate
-set. Compare existing conditions with their proposed replacements, accounting
-for every added restriction and its excluded tasks. Successful positive
-selections alone do not justify a narrower boundary.
+For a Workflow or Handbook description, give a fresh reader the natural request,
+available artifacts, and the real candidate metadata. Record its choices before
+showing target bodies or expected selections. Compare existing and proposed
+conditions, account for every excluded old task, and resolve missed or unrelated
+choices.
 
-For an independent check, give a fresh reader the requests, available artifacts,
-and real candidate catalog or Skill descriptions. Have the reader choose before
-showing the target's contents or the author's expected selection. Then compare
-the choices with target responsibilities, the previous routes, and neighboring
-routes. Resolve missed and unrelated selections; keep illustrative cases in the
-review evidence rather than expanding the published trigger into a case list.
+After a Handbook is selected, give a fresh reader its complete current body and
+the task context, then record every selected and excluded package before
+revealing expected choices. Check cumulative matches, focused learning, valid
+no-match platform work, overlaps, and stage changes. Package choice is distinct
+from native Skill selection.
+
+Record actual reading and application separately from both choices. Metadata
+selection does not prove client loading; static links do not prove a file was
+read; a plausible final answer does not prove the required Knowledge was
+applied or later-stage reading was added. Keep each observation and its limits
+separate in behavioral evidence.

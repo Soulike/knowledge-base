@@ -129,7 +129,7 @@ Update this document when an authentication guarantee or supported client change
 `;
 
     assert.deepEqual(validateKnowledgeDocument(markdown), [
-      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; keep routing in 'knowledge/index.md' and necessary links inline.",
+      "Knowledge documents must not contain 'Related Knowledge' or 'See also' routing sections; route required reading from installed Handbooks or Workflows and keep necessary claim dependencies inline.",
     ]);
   });
 }

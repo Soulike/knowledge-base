@@ -23,11 +23,10 @@ to apply matching prompt guidance. If the user has not chosen a target or does
 not want target-specific adaptation, recommend continuing with a portable
 prompt and do not select a model for them.
 
-Carry an established target into the Knowledge catalog's `When to Read`
-evaluation. Apply target-specific Knowledge only when its stated conditions
-match the known target and image. A product surface that may route among
-several models supports only surface-level conclusions unless the exact model
-can be established.
+Return the established target to the consuming Workflow. That Workflow applies
+target-specific Knowledge only when its direct route matches the known target
+and image. A product surface that may route among several models supports only
+surface-level conclusions unless the exact model can be established.
 
 Translate an applicable target-specific mitigation into the observable visual
 state needed in the image. Keep the copyable prompt in ordinary natural

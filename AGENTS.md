@@ -41,8 +41,8 @@ and installed usage Skills under the marketplace-selected package's
 `skills/<skill-name>/` directory.
 A reference used by one Skill belongs in that Skill's `references/` directory.
 A reference shared by Skills in the same plugin belongs under that plugin's
-`references/<domain>/`. Route directly from the consuming workflow step and do
-not create reference indexes. Sharing across plugin packages requires
+`references/<domain>/`. Route directly from the consuming Skill step and do not
+create reference indexes. Sharing across plugin packages requires
 reconsidering ownership rather than adding a repository-global route.
 
 Knowledge and installed usage Skills must preserve **downstream-project
@@ -63,10 +63,10 @@ activity after the publication terminal result are outside that workflow.
 Use [maintain-knowledge-base](.agents/skills/maintain-knowledge-base/SKILL.md)
 when assessing a contribution's classification, ownership, or placement, and
 whenever an authorized change adds, corrects, rewrites, splits, merges, moves,
-or removes Knowledge, a Skill, a Skill reference, or maintained Agent
-instructions and prompts that govern them. It classifies every affected
-responsibility before selecting authoring workflows and the smallest coherent
-operation; assessment alone does not authorize edits.
+or removes Knowledge, a Workflow Skill, a Handbook Skill, a Skill reference, or
+maintained Agent instructions and prompts that govern them. It classifies every
+affected responsibility before selecting authoring workflows and the smallest
+coherent operation; assessment alone does not authorize edits.
 
 Use [maintain-knowledge-base-tests](.agents/skills/maintain-knowledge-base-tests/SKILL.md)
 for directly creating, replaying, reviewing, or maintaining behavioral regression

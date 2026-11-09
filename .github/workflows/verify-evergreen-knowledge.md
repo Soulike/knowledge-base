@@ -99,11 +99,20 @@ exact `id` in all notes and safe outputs.
    under the shared evidence rules; source agreement alone does not establish
    the explanation's correctness or usefulness.
 3. Check the leaf's continued necessity, organization, `evergreen`
-   classification, and agreement among Scope, When to update, catalog route,
-   and body. Investigate whether these boundaries conceal a supported reading
-   need or impose an unsupported limit; apply the shared structural-finding
-   criteria.
-4. Identify each current `modification-required` or
+   classification, and agreement among Scope, When to update, and body.
+   Investigate whether these boundaries conceal a supported reading need or
+   impose an unsupported limit; apply the shared structural-finding criteria.
+4. Use the catalog as the complete leaf inventory and Knowledge Type authority,
+   then search for actual incoming routes from installed primary-plugin
+   Workflows and Handbooks. A Workflow may select the leaf directly or through
+   an explicitly selected same-package reference; a Handbook must link it
+   directly. Trace the consumer, selecting condition or step, task stage, and
+   complete file or context-sufficient section. A catalog entry,
+   repository-authoring Skill, README or research document, test or fixture,
+   another plugin, or another Knowledge leaf does not establish an installed
+   runtime consumer. Report static reachability separately from observations of
+   selection, reading, and application.
+5. Identify each current `modification-required` or
    `verification-inconclusive` finding under the shared rules. A correction must
    identify its reasoning or evidence, the smallest coherent change, and
    acceptance criteria. Never turn uncertainty into a proposed change.

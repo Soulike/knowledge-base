@@ -7,10 +7,10 @@ const catalog = `# Knowledge catalog
 
 ## Documents
 
-| File Path | Knowledge Type | When to Read |
-| --- | --- | --- |
-| [knowledge/a.md](a.md) | time-sensitive | Read when checking A. |
-| [knowledge/b.md](b.md) | evergreen | Read when checking B. |
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/a.md](a.md) | time-sensitive |
+| [knowledge/b.md](b.md) | evergreen |
 `;
 
 describe("discoverVerificationTargets", () => {
@@ -50,6 +50,7 @@ describe("discoverVerificationTargets", () => {
       ".agents/references/authoring.md",
       ".agents/skills/add/references/local.md",
       ".agents/skills/add/SKILL.md",
+      ".agents/skills/add/tests/local/case.md",
       ".github/scripts/ai-review/prompts/review.md",
       ".github/scripts/ai-review/prompts/skills.md",
       ".github/workflows/README.md",
@@ -65,8 +66,10 @@ describe("discoverVerificationTargets", () => {
       "plugins/example/references/plugin.md",
       "plugins/example/skills/check/assets/example.json",
       "plugins/example/skills/check/SKILL.md",
+      "plugins/example/skills/check/tests/local/case.md",
       "knowledge-base/plugin/references/shared.md",
       "knowledge-base/plugin/skills/root/SKILL.md",
+      "knowledge-base/plugin/skills/root/tests/local/case.md",
     ];
 
     assert.deepEqual(

@@ -43,6 +43,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/javascript/promises.md](javascript/promises.md)                                                                             | time-sensitive |
 | [knowledge/nodejs/filesystem-identity-primitives.md](nodejs/filesystem-identity-primitives.md)                                         | time-sensitive |
 | [knowledge/npm/clean-install-cache.md](npm/clean-install-cache.md)                                                                     | time-sensitive |
+| [knowledge/powershell/native-process-arguments.md](powershell/native-process-arguments.md)                                             | time-sensitive |
 | [knowledge/programming/exhaustive-branching.md](programming/exhaustive-branching.md)                                                   | evergreen      |
 | [knowledge/programming/failure-signals-and-handling.md](programming/failure-signals-and-handling.md)                                   | evergreen      |
 | [knowledge/programming/function-design.md](programming/function-design.md)                                                             | evergreen      |

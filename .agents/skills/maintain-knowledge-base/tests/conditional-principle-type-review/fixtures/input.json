@@ -1,0 +1,37 @@
+{
+  "instruction": "Assess the supplied repository snapshot and proposed review finding. Return a justified content-ownership and Knowledge Type plan, including retained claims, necessary routes, evidence limits, and any unresolved decision. This task is read-only. The snapshot is complete for this assessment; use it rather than the live checkout Knowledge inventory or issue history. The supplied source records are task facts, not claims about a runtime installed here.",
+  "snapshot": {
+    "catalog": [
+      {
+        "file": "knowledge/software-design/runtime-apis-and-external-commands.md",
+        "type": "evergreen"
+      }
+    ],
+    "documents": [
+      {
+        "file": "knowledge/software-design/runtime-apis-and-external-commands.md",
+        "before": "# Runtime APIs and external commands\n\n## Scope\n\nChoose between a runtime or platform API and an external command for a required capability. Own the semantic-fit assessment, command-boundary costs, and justification for retaining that interface when code is introduced, reviewed, or migrated into a language runtime.\n\n## When to update\n\nUpdate when evidence changes the criteria for semantic fit, command-boundary cost, justified retention, or verification of the selected interface.\n\n## Compare interfaces\n\nStart from required inputs, outputs, failures, lifetime, and supported environments. Prefer a runtime API when it supplies the required semantics and removes an unnecessary command boundary. An external system can be reached through more than one interface; requiring that system does not itself require its CLI.\n\n## Account for arguments\n\nConstructed shell text adds parsing and quoting. Pass separate argument values without a shell where the interface permits it; the target utility still interprets its own grammar.\n",
+        "proposed_addition": "An array-shaped parameter does not itself establish separate-argument transport. If a launch interface joins elements into command-line text, preserve intended value boundaries under its documented contract. Source-language string delimiters are not proof of child receipt. Verify the actual child argument count and values through the application's launch path. Apply this reasoning to any supported runtime and platform."
+      }
+    ],
+    "installed_routes": [
+      {
+        "owner": "Software engineering Handbook",
+        "applicability": "Code, API, and runtime behavior work or focused explanation",
+        "package": "External commands",
+        "condition": "Calling command-line tools from code, migrating shell behavior into a language runtime, or directly explaining those choices",
+        "reads": [
+          "knowledge/software-design/runtime-apis-and-external-commands.md"
+        ]
+      }
+    ]
+  },
+  "reader_tasks": [
+    "Review Go code calling a native converter with caller-supplied values.",
+    "Explain whether an array-shaped launch parameter proves the child receives separate values."
+  ],
+  "review_finding": {
+    "proposal": "The addition has runtime and platform conditions, so change the existing Catalog entry from evergreen to time-sensitive.",
+    "basis": "Conditional applicability and launch-interface differences."
+  }
+}

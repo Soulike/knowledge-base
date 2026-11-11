@@ -56,7 +56,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/software-design/module-responsibility-and-defensive-scope.md](software-design/module-responsibility-and-defensive-scope.md) | evergreen      |
 | [knowledge/software-design/operation-failure-and-recovery.md](software-design/operation-failure-and-recovery.md)                       | evergreen      |
 | [knowledge/software-design/overlapping-mutation-admission.md](software-design/overlapping-mutation-admission.md)                       | evergreen      |
-| [knowledge/software-design/runtime-apis-and-external-commands.md](software-design/runtime-apis-and-external-commands.md)               | evergreen      |
+| [knowledge/software-design/runtime-apis-and-external-commands.md](software-design/runtime-apis-and-external-commands.md)               | time-sensitive |
 | [knowledge/software-design/shared-state-concurrency.md](software-design/shared-state-concurrency.md)                                   | evergreen      |
 | [knowledge/software-design/user-facing-failure-communication.md](software-design/user-facing-failure-communication.md)                 | evergreen      |
 | [knowledge/software-testing/test-effectiveness.md](software-testing/test-effectiveness.md)                                             | evergreen      |

@@ -29,18 +29,24 @@ For focused learning or explanation without a concrete automation artifact,
 read every matching foundation subject without forcing the other foundation
 files:
 
-- When the request concerns whether required work, evidence, skips, and final
-  status honestly establish an automated workflow's outcome, read [Outcome
-  integrity in automated
+- When the request concerns whether a workflow's reported completion or
+  authorization is justified by required work and its successful execution
+  evidence, including applicability decisions, skips, and missing check
+  results, read [Outcome integrity in automated
   workflows](../../knowledge/automation/workflow-outcome-integrity.md).
-- When the request concerns non-success outcomes, effect certainty, retry,
-  continuation, reconciliation, or repair for an externally observable
-  automated operation, read [Failure and recovery in externally observable
+- When the request concerns an externally observable automated operation's
+  effects or retained work after non-success, or safe retry, continuation,
+  reconciliation, or repair, read [Failure and recovery in externally observable
   operations](../../knowledge/software-design/operation-failure-and-recovery.md).
 - When the request concerns which evidence an automated check or workflow must
   preserve for later investigation, read [Evidence for investigating check
   findings and
   failures](../../knowledge/software-design/failure-diagnostic-evidence.md).
+
+For example, explaining why a cancelled check cannot establish successful
+validation selects outcome integrity. Explaining which effects a cancelled
+publication left behind, or whether it can be retried safely, selects failure
+and recovery. A request about both questions requires both files.
 
 Then evaluate every condition below. Every match is required and cumulative
 with the applicable foundation reading and any other matching package.

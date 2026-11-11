@@ -81,10 +81,11 @@ and every matching package cumulatively. A valid Handbook may have no
 foundation when no current Knowledge is common to the family. Give a direct
 learning or explanation request about a package's subject its own matching
 route, without forcing an unrelated artifact-work foundation. Use complete canonical files or complete
-context-sufficient sections as reading units, reuse material that is still
-available and current, and re-evaluate applicable Handbooks and packages when
-the task phase, language, platform, artifact, or production method changes or
-the earlier reading basis can no longer be established.
+context-sufficient sections as reading units. The collaboration Handbook's
+required [shared reading lifecycle](plugin/references/agents/independent-collaboration.md#keep-guidance-current)
+owns reuse, rereading, and reassessment as work or context changes. Keep that
+policy at its shared owner rather than copying it into each subject Handbook;
+verify its independent selection and application alongside them.
 
 Resolve packaged links relative to each Skill's `SKILL.md`. Handbooks and
 Workflows read canonical packaged files directly; a Handbook must not invoke,

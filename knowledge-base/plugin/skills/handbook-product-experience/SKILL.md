@@ -19,11 +19,6 @@ they inform; do not choose only the nearest match. A focused request to learn or
 explain a package subject matches that package directly without forcing an
 unrelated foundation.
 
-Reuse a reading unit that is already loaded, current, and available. Re-evaluate
-the foundation and all packages when the interface, platform, artifact,
-production method, or task stage changes. Reread a unit when it changed or its
-necessary basis can no longer be established.
-
 ## Foundation
 
 When designing, implementing, reviewing, diagnosing, or evaluating an
@@ -65,8 +60,7 @@ read both files in full:
 
 When evaluating product usability, selecting or explaining an evaluation
 method, prioritizing improvements from task evidence, or using or interpreting
-Agent trials, read this complete six-file package. Reuse any current foundation
-files rather than reading them again:
+Agent trials, read this complete six-file package:
 
 - [User-centered information hierarchy](../../knowledge/user-interface/user-centered-information-hierarchy.md)
 - [Interaction clarity in user interfaces](../../knowledge/user-interface/interaction-clarity.md)

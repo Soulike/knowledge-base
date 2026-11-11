@@ -1,9 +1,9 @@
-# Re-evaluate documentation reading as the task changes
+# Apply documentation guidance to distinct audiences
 
 ## Identity
 
 - ID: documentation-stage-change
-- Kind: journey
+- Kind: application
 
 ## Covered objects
 
@@ -11,69 +11,73 @@
 
 ## Protected behavior
 
-Documentation work must select the Handbook from natural requests, read general
-maintained-document and software-documentation guidance together when code and
-its explanations change, and add accomplishment-report guidance only when the
-task later turns to decision-maker communication. The journey protects package
-accumulation and re-evaluation without fixing package labels or Handbook prose.
+The Documentation Handbook owns which Knowledge applies to maintained software
+documentation and to an engineering accomplishment report. Protect those
+domain conditions, their direct routes, and their application without requiring
+the same task to transition between them.
 
 ## Task
 
-A command-line option changed from `--cache` to `--cache-dir`. Update the
-maintained setup guide, its executable example, and the affected source
-docstring so they describe the current behavior. After that work is reviewed,
-the engineering lead asks for a short account of what the change accomplished
-and why it matters for the next planning meeting.
+Handle these independent requests using the supplied facts:
+
+1. A command-line option changed from `--cache` to `--cache-dir`. Update the
+   maintained setup guide, its executable example, and the affected source
+   docstring so they describe the current behavior.
+2. The option rename is complete, the guide/example/docstring agree with the
+   implementation, and the documented command was verified. Prepare a short
+   account of what that change accomplished and why it matters for the
+   engineering lead's next planning meeting. No maintained-document edit is
+   requested for this second task.
 
 ## Starting state
 
-Create a small temporary project containing a command implementation, a setup
-guide with the old option and example, and a docstring that explains the old
-behavior. Supply active project instructions, the current real candidate
-metadata, and normal access to selected Skill bodies and their direct packaged
-routes. Reveal the leadership-report request only after the initial
-documentation update and its reading observations are captured.
+Create a small temporary project with the current command implementation and
+the old setup guide/example/docstring for request 1. Supply the verified facts
+for request 2 as ordinary task material, independently of request 1's result.
+Permit writes only to the temporary project.
 
+Supply all requests and necessary task facts up front, the complete current
+covered guidance, and normal read-only access to its direct packaged routes.
 Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded writable allowance limited to the temporary project. Keep the
-case, expected behavior, prior outputs, and evaluator discussion private.
-Record source identity, selection before body access, every package choice,
-observable file reads, artifact changes, and the later re-evaluation.
+and a task-appropriate bounded allowance established before dispatch. Keep the
+case, expected choices, previous outputs, and evaluator discussion private.
+
+Before opening Knowledge, record selected and excluded reading units separately
+for each independent request. Then permit the union of required direct reads
+and perform the tasks. Record source identity, model/configuration, choices,
+actual file or section reads, outputs, and action limits. The per-request
+choices test domain conditions; a shared executor's union of reads does not
+prove that a document was never loaded in another request. Do not stage a task
+change or score reassessment, reading reuse, or rereading in this case.
 
 ## Expected behavior
 
-- D1 (critical): select `handbook-collaboration` and
-  `handbook-documentation` from the initial natural request before reading their
-  bodies.
-- D2 (critical): for the initial change, choose and read both maintained-document
-  quality and software-development documentation, and do not choose the
-  accomplishment-report package yet.
+- D1 (critical): for request 1, select and read maintained-document quality
+  and software-development documentation through the Handbook's direct routes.
+- D2 (critical): do not assign accomplishment-report reading to request 1.
 - D3: synchronize the guide, executable example, and source explanation with
-  the authoritative current behavior, preserving useful reader context rather
-  than performing a token-only replacement.
-- D4 (critical): when the leadership request appears, re-evaluate the Handbook
-  and add the engineering-accomplishment report reading before drafting the
-  report. Reuse earlier current readings without treating the new package as a
-  replacement for them.
-- D5: keep the report's decision-maker purpose distinct from durable software
-  documentation; do not force the general maintained-software package merely
-  because the final artifact is prose.
+  current behavior and verify the documented command; preserve useful reader
+  context rather than replacing tokens alone.
+- D4 (critical): assign engineering-accomplishment-report reading to request 2
+  and apply it to a concise, evidence-based account for a decision maker.
+- D5: distinguish the report's purpose from durable software documentation;
+  do not force the maintained-software package merely because its output is
+  prose.
 
 ## Verification
 
-Run the journey with blind native selection, then record initial package choices
-before showing expected packages. Inspect actual reads and project artifacts,
-introduce the later request, and capture the second package choice and report.
-Give the capable reviewer this contract and all raw observations without the
-coordinator's verdict. Judge selection, package choice, reading, application,
-and phase re-evaluation separately.
+Use the application dispatch protocol. Inspect the per-request package choices,
+actual direct reads, and domain application as separate evidence. Give the
+capable reviewer the current covered content, this contract, and raw
+observations without the coordinator's verdict. Judge every criterion
+independently and retain all attempts. This case does not claim native client
+selection or reading-lifecycle behavior.
 
 ## Source
 
 [GitHub issue #242](https://github.com/Soulike/knowledge-base/issues/242)
-requires separate observations for native selection, cumulative package choice,
-application, and later-stage reading. [GitHub issue
-#247](https://github.com/Soulike/knowledge-base/issues/247) requires maintained
-guidance, software explanations, accomplishment reports, documentation changes,
-and stage changes to remain distinct. This journey is reconstructed from those
-accepted requirements and needs fresh final evidence.
+establishes domain package choice, direct reading, and application evidence.
+[GitHub issue #247](https://github.com/Soulike/knowledge-base/issues/247)
+distinguishes maintained guidance, software explanations, and accomplishment
+reports. The stable case identity is retained while its protection is confined
+to those documentation responsibilities.

@@ -20,12 +20,6 @@ project-specific decisions in the active working directory.
 3. Evaluate every conditional package from the observable work and current
    materials. Read every matching package cumulatively; do not choose only the
    closest match.
-4. Reuse a reading unit that is already loaded, current, and available. Read it
-   again when its content changed or after recovery or compaction when its
-   necessary basis can no longer be established.
-5. Re-evaluate this Handbook and all package conditions when the task phase,
-   language, platform, artifact, production method, or available reading basis
-   changes. Add newly required reading before dependent work.
 
 This Handbook has no dependency on another Handbook. Continue the user's task
 under the applicable Workflow or active-project process after loading and
@@ -48,5 +42,4 @@ documents:
 When designing, implementing, reviewing, or directly learning about a
 multi-step Node.js filesystem operation, read
 [Node.js filesystem identity primitives](../../knowledge/nodejs/filesystem-identity-primitives.md)
-in full together with the complete filesystem foundation. Reuse foundation
-documents that are already current and available.
+in full together with the complete filesystem foundation.

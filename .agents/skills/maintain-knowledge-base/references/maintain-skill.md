@@ -68,8 +68,14 @@
     common to the primary artifact work; define mandatory conditional packages
     from observable work or materials; require every match cumulatively; give a
     direct learning or explanation request about a package subject its own route
-    without an unrelated foundation; use complete files or
-    context-sufficient sections; and re-evaluate after stage or context changes.
+    without an unrelated foundation; and use complete files or
+    context-sufficient sections. Keep the shared reading lifecycle at
+    [Independent collaboration](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current)
+    rather than repeating it in each subject Handbook. Verify that the
+    collaboration Handbook is independently selected alongside subject
+    Handbooks. Keep execution evidence for reassessment, reuse, and recovery
+    at the shared lifecycle owner; subject cases verify their own context
+    conditions, direct reading routes, and application.
     Link canonical reading units directly and prohibit Handbook-to-Handbook
     dependencies.
 12. For every installed Skill that applies Knowledge, encode working-directory
@@ -83,9 +89,10 @@
 13. Run `pnpm check`, `git diff --check`, and every additional validator or
     focused behavior case selected by the changed artifacts. Produce separate
     evidence for native description selection, Workflow execution or Handbook
-    package choice, actual reading and application, later-stage additions,
-    negative loading, and output where applicable. Static links do not establish
-    reading behavior.
+    package choice, actual reading and application, negative loading, and output
+    where applicable. Exercise later-stage reassessment at its authoritative
+    lifecycle owner rather than repeating it in each consumer's cases. Static
+    links do not establish reading behavior.
 14. Report the authoring standard's design and behavioral evidence, including
     the responsibility kind, user work, owner comparison, authoritative
     Knowledge, routes and consumers, tested source and models,
@@ -96,6 +103,7 @@ Finish only when the Skill has one authoritative responsibility in the correct
 audience scope and preserves downstream-project independence. A Workflow must
 own one complete task with its failure and completion contract. A Handbook must
 own one coherent reading scene with direct complete routes, cumulative package
-selection, phase re-evaluation, and no task procedure or hidden Handbook
-dependency. Every rule must have one authoritative copy, and new or material
-behavior must have reviewable evidence.
+conditions, and no task procedure or hidden Handbook dependency. Keep shared
+lifecycle behavior and its protection at their authoritative owner. Every rule
+must have one authoritative copy, and new or material behavior must have
+reviewable evidence.

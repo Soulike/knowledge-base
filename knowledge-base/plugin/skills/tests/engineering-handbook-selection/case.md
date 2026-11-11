@@ -12,10 +12,14 @@
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
 - [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
+- [Automation Handbook](../../handbook-automation/SKILL.md)
+- [GitHub Actions Handbook](../../handbook-github-actions/SKILL.md)
 
 ## Protected behavior
 
-The five engineering Handbooks must be discoverable from the user's work or
+The software-engineering, automated-testing, JavaScript/TypeScript, filesystem,
+and development-tooling Handbooks form the five-engineering-Handbook group.
+They must be discoverable from the user's work or
 current material without naming internal Knowledge. Their descriptions must
 support broad, direct, focused-learning, overlap, and nearby negative requests
 while tolerating wording changes and legitimate selection of unrelated Workflow
@@ -41,6 +45,7 @@ before opening any candidate body.
 12. `Design a confirmation-before-delete flow that previews the exact target and consequences and performs the effect only after a current human decision.`
 13. `Design automated tests proving that approval of a replaced proposal cannot authorize or consume the replacement proposal.`
 14. `Explain how to name Git branches consistently. No comparison, review, analysis, or script is requested.`
+15. `Design a GitHub Actions pull-request workflow that checks out the current head, sets up its runtime, lets an Agent inspect it, and posts the decision as a PR comment. Rerun when the head changes; later jobs must not act on stale, failed, or incomplete results.`
 
 ## Starting state
 
@@ -49,7 +54,7 @@ tested source snapshot. Supply only registered names, descriptions, paths, and
 the normal client metadata visible before selection. Do not expose Skill bodies,
 expected selections, this case, or evaluator annotations. Use a fresh supported
 lower-capability model with the expanded executor guard and a four-minute total
-allowance for the fourteen independent choices.
+allowance for the fifteen independent choices.
 
 Record the source snapshot, client or dispatch mechanism, model, configuration,
 candidate count, any metadata truncation, and each raw choice. Selection-only
@@ -58,7 +63,7 @@ dispatch must not claim that a client loaded the chosen bodies.
 ## Expected behavior
 
 - R1 (critical): request 1 selects `handbook-software-engineering` and excludes
-  the other four covered Handbooks because the request does not yet establish a
+  the other four engineering Handbooks because the request does not yet establish a
   language, automated-test, filesystem, or development-tooling task.
 - R2 (critical): request 2 selects `handbook-automated-testing`; selection of
   `handbook-software-engineering` for the test code is allowed.
@@ -72,7 +77,7 @@ dispatch must not claim that a client loaded the chosen bodies.
   `handbook-development-tooling`.
 - R6 (critical): request 6 selects `handbook-development-tooling` without
   requiring JavaScript or TypeScript source work.
-- R7: requests 7 and 8 exclude all five covered Handbooks. Other applicable
+- R7: requests 7 and 8 exclude all five engineering Handbooks. Other applicable
   installed Handbooks or Workflow Skills are allowed.
 - R8: the choices are based on the semantic task and current material rather
   than literal Handbook names or hidden package contents.
@@ -87,6 +92,9 @@ dispatch must not claim that a client loaded the chosen bodies.
   `handbook-software-engineering`. Request 13 also selects
   `handbook-automated-testing`; testing guidance does not replace the software
   authorization route.
+- R11 (critical): request 15 independently selects both `handbook-automation`
+  and `handbook-github-actions`; neither the general automation scene nor the
+  platform scene replaces the other.
 
 ## Verification
 

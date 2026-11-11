@@ -1,9 +1,9 @@
-# Re-evaluate still-image reading across Workflow stages
+# Apply still-image guidance to learning, design, and improvement
 
 ## Identity
 
 - ID: still-image-production-change
-- Kind: journey
+- Kind: application
 
 ## Covered objects
 
@@ -14,94 +14,88 @@
 
 ## Protected behavior
 
-Focused still-image learning must not force people, medium, or product-specific
-reading. When the task becomes people-focused prompt design and later prompt
-improvement, the applicable Workflows must read general and matching canonical
-Knowledge directly without consulting the maintenance Catalog, clarify an ambiguous Gemini
-target, distinguish direct API use from the Gemini App, and re-evaluate medium,
-target, and task-stage conditions while reusing current reading.
+Still-image guidance owns focused non-people learning, people/photo conditions,
+execution-surface clarification, direct Workflow reading, and prompt-only
+evidence limits. Test those independent contexts without changing one task's
+medium, surface, or Workflow to exercise shared reassessment.
 
 ## Task
 
-Work through these messages in one task, receiving the next only after the
-previous response and observations are recorded:
+Handle these independent requests, supplied together:
 
-1. `Explain how to write a useful AI-generation prompt for an empty misty landscape with no people.`
-2. `Now prepare a new photorealistic portrait prompt for a ceramic artist. I plan to use Gemini.`
-3. When asked which Gemini execution path will receive the prompt: `Use a Gemini image model directly through its API, not the Gemini App.`
-4. After the executor presents its proposed canvas and creative direction:
-   `I accept the proposed canvas and creative direction. Complete the portable portrait prompt package.`
-5. `A separate photorealistic portrait prompt was used in the Gemini App and did not preserve the intended observational composition. Diagnose that existing prompt and prepare an improved replacement.`
+1. Explain how to write a useful AI-generation prompt for an empty misty
+   landscape with no people.
+2. Prepare a new photorealistic portrait prompt for a ceramic artist, intended
+   for Gemini. Ask for any necessary execution-path and creative decisions.
+3. An existing photorealistic portrait prompt used in the Gemini App did not
+   preserve an intended quiet observational composition. Diagnose the supplied
+   prompt and prepare an improved replacement. No generated image is supplied.
 
 Do not invoke an image-generation service.
 
 ## Starting state
 
-Supply the first natural request and the current 35-candidate Handbook and
-Workflow metadata without bodies or expected choices. After the focused-learning
-selection, package choice, read, and explanation are captured, reveal message 2.
-Record the later Workflow choice before opening its body. Reveal message 3 only
-after the executor identifies the execution-path ambiguity. Reveal message 4
-only after the executor requests confirmation of the proposed canvas and
-creative direction. After the completed design prompt package is captured,
-supply message 5 with a concise existing prompt, its intended
-composition, and the user's criticism; then record the improvement-Workflow
-choice before body access.
-
-Make `knowledge/index.md` unavailable as a runtime input to the executor. Permit read-only access to the
-selected current Skill bodies, the prompt-target reference, and their direct
-packaged routes. No source image is required; the last phase evaluates an
-existing prompt rather than claiming visual findings from an unavailable result.
-
+Supply all requests and necessary task facts up front, the complete current
+covered guidance, and normal read-only access to its direct packaged routes.
 Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded read-only allowance. Keep the case and evaluator materials
-private. Record source identity, blind choices, files actually read, the
-clarification exchange, each result, and observation limits.
+and a task-appropriate bounded allowance established before dispatch. Keep the
+case, expected choices, previous outputs, and evaluator discussion private.
+
+Before opening Knowledge, record selected and excluded reading units separately
+for each independent request. Then permit the union of required direct reads
+and perform the tasks. Record source identity, model/configuration, choices,
+actual file or section reads, outputs, and action limits. The per-request
+choices test domain conditions; a shared executor's union of reads does not
+prove that a document was never loaded in another request. Do not stage a task
+change or score reassessment, reading reuse, or rereading in this case.
+
+Make the maintenance Catalog unavailable. For request 2, answer a justified
+execution-path clarification with direct Gemini API use; after a concrete
+canvas/direction is proposed, confirm it. These are the design Workflow's own
+user-decision steps, not staged Handbook-scene changes.
+
+For request 3 supply the intended vertical 4:5 single-artist, natural-window-light
+composition and this prompt: `A perfect ceramic master at the wheel, looking
+directly into the camera with a heroic smile. Ultra-wide cinematic studio,
+dramatic colorful spotlights, many pots, busy apprentices in the background,
+intricate hands shaping tall spiraling clay. Make it candid and authentic.`
 
 ## Expected behavior
 
-- I1 (critical): initially select `handbook-collaboration` and
-  `handbook-still-image-creation` before body access.
-- I2 (critical): for the focused non-people learning request, read still-image
-  prompting without forcing people-focused, photographic, anime, or Gemini App
-  guidance.
-- I3: apply the prompting reading in the explanation rather than relying on a
-  generic list of visual adjectives.
-- I4 (critical): for message 2, select
-  `workflow-design-image-generation-prompts`, read people-focused still-image
-  design, still-image prompting, and photographic-image design through its
-  direct routes, and ask which Gemini execution path applies before using
-  product-specific guidance.
-- I5 (critical): after messages 3 and 4, exclude Gemini App people-image prompting and
-  produce a portable, photorealistic, people-focused prompt package without the
-  maintenance Catalog or a Handbook body being necessary to supply the Workflow's
-  required reading.
-- I6 (critical): for message 5, select
-  `workflow-improve-image-generation-prompts`, reuse current general and
-  photographic reading when available, add Gemini App people-image prompting,
-  and apply it to the diagnosis and replacement prompt.
-- I7: exclude anime-illustration guidance throughout, preserve the distinction
-  between prompt-only evidence and a visible generated result, and do not claim
-  that any image was generated.
+- I1: distinguish focused learning, new-prompt design, and existing-prompt
+  improvement; use the corresponding domain Handbook and Workflows.
+- I2 (critical): request 1 matches general still-image prompting, without
+  assigning people, photographic, anime, or Gemini App packages.
+- I3: apply that guidance to the landscape explanation rather than listing
+  generic visual adjectives.
+- I4 (critical): request 2 uses the design Workflow's direct people-focused,
+  general-prompting, and photographic routes, and clarifies the ambiguous Gemini
+  surface before treating App-specific behavior as applicable.
+- I5 (critical): for the clarified direct-API target, do not assign Gemini App
+  people-image guidance; complete the portable people/photo prompt package
+  after the Workflow's required creative confirmation.
+- I6 (critical): request 3 uses the improvement Workflow's direct general,
+  people/photo, and Gemini App reading, applying it to the diagnosis and
+  replacement.
+- I7: do not assign anime guidance to these requests, infer visual findings from
+  an unavailable generated image, or claim that generation occurred.
 
 ## Verification
 
-Capture each blind selection before body access and each reading choice before
-showing expected routes. Inspect observable reads and application separately.
-Confirm that the maintenance Catalog remained unavailable as a runtime route and that
-the required Workflow reads followed direct links from the current bodies. Give
-the capable reviewer this contract and raw observations without the
-coordinator's verdict. Judge every phase, the ambiguity stop, direct reading,
-application, and re-evaluation separately, and retain every attempt.
+Use the application dispatch protocol. Inspect the per-request package choices,
+actual direct reads, and domain application as separate evidence. Give the
+capable reviewer the current covered content, this contract, and raw
+observations without the coordinator's verdict. Judge every criterion
+independently and retain all attempts. This case does not claim native client
+selection or reading-lifecycle behavior.
+
+Confirm that the Workflows' required reads follow direct packaged links without
+the Catalog or a Handbook body supplying their route. Inspect the design
+Workflow's own clarification and confirmation steps as domain behavior.
 
 ## Source
 
-[GitHub issue #242](https://github.com/Soulike/knowledge-base/issues/242)
-requires focused learning, cumulative reading, and re-evaluation after
-production changes. [GitHub issue
-#247](https://github.com/Soulike/knowledge-base/issues/247) establishes the
-still-image Handbook routes. [GitHub issue
-#249](https://github.com/Soulike/knowledge-base/issues/249) requires both
-still-image Workflows and the shared prompt-target reference to operate through
-direct canonical reads without the Catalog. The prompt-only and Gemini routing
-boundaries are historical controls recovered from pull requests #48 and #51.
+GitHub issues #242, #247, and #249 establish focused still-image packages,
+direct Workflow reading, and Catalog independence. Prompt-only evidence and
+Gemini-surface boundaries are recovered from pull requests #48 and #51. The
+existing identity now protects independent domain contexts.

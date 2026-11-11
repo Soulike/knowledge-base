@@ -12,8 +12,7 @@ introduced, reviewed, or migrated into a language runtime.
 
 Update this document when evidence from interface selection, command failures,
 or automation migrations changes the criteria for semantic fit, command-boundary
-cost, justified retention, or verification of the selected interface, or when
-documented launch-interface argument handling changes.
+cost, justified retention, or verification of the selected interface.
 
 ## Start from the capability
 
@@ -47,23 +46,16 @@ its own options and operands.
 
 An argument vector preserves each argument as a separate value through the
 launch interface. An array-shaped parameter does not establish that contract.
-PowerShell's
-[`Start-Process -ArgumentList`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process#-argumentlist)
-joins array elements into one space-separated command-line string. The quotes
-that delimit strings in PowerShell source are not passed to the child, so an
-element containing `a b` does not by itself remain one argument. When supported
-and suitable for the launch contract, .NET's
-[`ProcessStartInfo.ArgumentList`](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.argumentlist)
-accepts separate values and performs their escaping. When retaining another
-launch interface, follow its documented quoting contract rather than assuming
-that source-language quoting preserves argument boundaries. Any later shell,
-interpreter, or utility still applies its own grammar.
+Follow the launch interface's documented argument-handling contract rather than
+assuming that source-language quoting preserves argument boundaries. Any later
+shell, interpreter, or utility still applies its own grammar.
 
-For example, when `ProcessStartInfo.ArgumentList` fits the supported runtime and
-launch contract, add `a b` and `中文` as two separate entries without adding quote
-characters to the values. A real child reporting its arguments should receive
-exactly those two unchanged values. Verify that result through the actual
-launch path rather than treating successful list construction as proof.
+For example, suppose a launcher receives two values, `a b` and `中文`. Joining
+them with a space produces `a b 中文`, which no longer records where one value
+ends and the next begins. An interface that accepts separate argument values
+must preserve those boundaries through any required encoding or escaping.
+Verify the child's received values through the actual launch path rather than
+treating successful list construction as proof.
 
 These costs belong in the comparison even when an existing subprocess helper
 makes invocation short. Conversely, a supported command can be the appropriate

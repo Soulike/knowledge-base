@@ -43,6 +43,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/javascript/promises.md](javascript/promises.md)                                                                             | time-sensitive |
 | [knowledge/nodejs/filesystem-identity-primitives.md](nodejs/filesystem-identity-primitives.md)                                         | time-sensitive |
 | [knowledge/npm/clean-install-cache.md](npm/clean-install-cache.md)                                                                     | time-sensitive |
+| [knowledge/powershell/native-process-arguments.md](powershell/native-process-arguments.md)                                             | time-sensitive |
 | [knowledge/programming/exhaustive-branching.md](programming/exhaustive-branching.md)                                                   | evergreen      |
 | [knowledge/programming/failure-signals-and-handling.md](programming/failure-signals-and-handling.md)                                   | evergreen      |
 | [knowledge/programming/function-design.md](programming/function-design.md)                                                             | evergreen      |
@@ -56,7 +57,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/software-design/module-responsibility-and-defensive-scope.md](software-design/module-responsibility-and-defensive-scope.md) | evergreen      |
 | [knowledge/software-design/operation-failure-and-recovery.md](software-design/operation-failure-and-recovery.md)                       | evergreen      |
 | [knowledge/software-design/overlapping-mutation-admission.md](software-design/overlapping-mutation-admission.md)                       | evergreen      |
-| [knowledge/software-design/runtime-apis-and-external-commands.md](software-design/runtime-apis-and-external-commands.md)               | time-sensitive |
+| [knowledge/software-design/runtime-apis-and-external-commands.md](software-design/runtime-apis-and-external-commands.md)               | evergreen      |
 | [knowledge/software-design/shared-state-concurrency.md](software-design/shared-state-concurrency.md)                                   | evergreen      |
 | [knowledge/software-design/user-facing-failure-communication.md](software-design/user-facing-failure-communication.md)                 | evergreen      |
 | [knowledge/software-testing/test-effectiveness.md](software-testing/test-effectiveness.md)                                             | evergreen      |

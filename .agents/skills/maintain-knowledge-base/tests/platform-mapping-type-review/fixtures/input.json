@@ -1,0 +1,58 @@
+{
+  "instruction": "Assess the supplied repository snapshot and proposed review finding. Return a justified content-ownership and Knowledge Type plan, including retained claims, necessary routes, evidence limits, and any unresolved decision. This task is read-only. The snapshot is complete for this assessment; use it rather than the live checkout Knowledge inventory or issue history. The supplied source records are task facts, not claims about a runtime installed here.",
+  "snapshot": {
+    "catalog": [
+      {
+        "file": "knowledge/software-design/runtime-apis-and-external-commands.md",
+        "type": "evergreen"
+      },
+      {
+        "file": "knowledge/powershell/execution-policy.md",
+        "type": "time-sensitive"
+      }
+    ],
+    "documents": [
+      {
+        "file": "knowledge/software-design/runtime-apis-and-external-commands.md",
+        "before": "# Runtime APIs and external commands\n\n## Scope\n\nChoose between a runtime or platform API and an external command for a required capability. Own the semantic-fit assessment, command-boundary costs, and justification for retaining that interface when code is introduced, reviewed, or migrated into a language runtime.\n\n## When to update\n\nUpdate when evidence changes the criteria for semantic fit, command-boundary cost, justified retention, or verification of the selected interface.\n\n## Compare interfaces\n\nStart from required inputs, outputs, failures, lifetime, and supported environments. Prefer a runtime API when it supplies the required semantics and removes an unnecessary command boundary. An external system can be reached through more than one interface; requiring that system does not itself require its CLI.\n\n## Account for arguments\n\nConstructed shell text adds parsing and quoting. Pass separate argument values without a shell where the interface permits it; the target utility still interprets its own grammar.\n",
+        "proposed_addition": "An argument vector preserves separate values; an array-shaped parameter does not establish that contract. PowerShell Start-Process -ArgumentList joins array entries into one space-separated command-line string; source string delimiters do not reach the child. When supported and suitable, .NET ProcessStartInfo.ArgumentList accepts separate values and performs escaping. Choose between these interfaces using supported runtimes and process requirements, and exercise the real child with spaces and Unicode. Later shells and utilities still interpret their own grammar."
+      },
+      {
+        "file": "knowledge/powershell/execution-policy.md",
+        "type": "time-sensitive",
+        "before": "# PowerShell execution policy\n\n## Scope\n\nExplain how PowerShell execution policy controls whether scripts may run and how callers select a policy scope.\n\n## When to update\n\nUpdate when policy defaults, supported scopes, or platform enforcement changes.\n\n## Responsibility\n\nThis owner explains execution-policy selection and enforcement, not native-program launch arguments."
+      }
+    ],
+    "installed_routes": [
+      {
+        "owner": "Software engineering Handbook",
+        "applicability": "Code, API, and runtime behavior work or focused explanation",
+        "package": "External commands",
+        "condition": "Calling command-line tools from code, migrating shell behavior into a language runtime, or directly explaining those choices",
+        "reads": [
+          "knowledge/software-design/runtime-apis-and-external-commands.md"
+        ]
+      }
+    ]
+  },
+  "reader_tasks": [
+    "Compare runtime APIs with an external CLI while migrating a local script into Python.",
+    "Keep a native report generator in PowerShell; choose a launch interface that preserves space and Unicode argument values on supported runtimes."
+  ],
+  "provided_sources": [
+    {
+      "source": "Microsoft Start-Process ArgumentList documentation",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/start-process#-argumentlist",
+      "supported_fact": "Array entries are joined with spaces into command-line text; source string delimiters do not reach the child."
+    },
+    {
+      "source": "Microsoft ProcessStartInfo.ArgumentList documentation",
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.argumentlist",
+      "supported_fact": "Separate supplied values receive launch escaping. Runtime availability and required process behavior still constrain interface choice."
+    }
+  ],
+  "review_finding": {
+    "proposal": "Keep all added content in the general leaf, change its Catalog type to time-sensitive, and extend When to update to cover PowerShell/.NET launch behavior.",
+    "basis": "The general principle is durable, but these concrete external API facts can change."
+  }
+}

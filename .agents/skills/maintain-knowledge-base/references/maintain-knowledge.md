@@ -33,7 +33,11 @@ explicitly run from the repository root.
    remaining steps.
 6. Complete the [ownership and retrieval assessment](#ownership-and-generalization)
    for each affected responsibility before selecting its destination or
-   operation. Return its evidence and proposed disposition to the parent for
+   operation. When a contribution, maintenance proposal, or review finding
+   would change an existing leaf from `evergreen` to `time-sensitive`, complete
+   [Review an evergreen-to-time-sensitive transition](review-knowledge-type-transition.md)
+   within that assessment, including for correction of an existing label.
+   Return its evidence and proposed disposition to the parent for
    assessment-only work; resume below only when edits are authorized.
 7. Apply the parent-selected disposition to each affected responsibility unit.
    When an existing document owns the concept, rewrite the complete affected

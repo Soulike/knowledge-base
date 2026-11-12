@@ -1,0 +1,39 @@
+{
+  "instruction": "Assess the supplied repository snapshot and proposed review finding. Return a justified content-ownership and Knowledge Type plan, including retained claims, necessary routes, evidence limits, and any unresolved decision. This task is read-only. The snapshot is complete for this assessment; use it rather than the live checkout Knowledge inventory or issue history. The supplied source records are task facts, not claims about a runtime installed here.",
+  "snapshot": {
+    "catalog": [
+      {
+        "file": "knowledge/alder-runner/native-launch-inputs.md",
+        "type": "evergreen"
+      }
+    ],
+    "documents": [
+      {
+        "file": "knowledge/alder-runner/native-launch-inputs.md",
+        "before": "# Alder Runner native-launch inputs\n\n## Scope\n\nExplain the current supported hosts and accepted argument inputs of Alder Runner's native-launch API so callers can decide whether and how to use that API.\n\n## When to update\n\nUpdate when the publisher changes the current supported-host matrix or accepted argument forms.\n\n## Current contract\n\nThe current release supports Windows and Linux hosts. macOS hosts are unsupported. Each supplied argument must be a nonempty Unicode string; empty arguments are rejected. Callers must check that every target host and intended argument meets this API's current contract before choosing it.\n"
+      }
+    ],
+    "installed_routes": [
+      {
+        "owner": "Alder Runner Handbook",
+        "applicability": "Alder Runner integration",
+        "package": "Native launch inputs",
+        "condition": "Choosing or explaining the native-launch API",
+        "reads": ["knowledge/alder-runner/native-launch-inputs.md"]
+      }
+    ]
+  },
+  "reader_tasks": [
+    "Decide whether a caller using the current Alder Runner release can launch on its hosts with its intended argument values."
+  ],
+  "provided_sources": [
+    {
+      "source": "Controlled publisher-contract record for the fictional Alder Runner fixture",
+      "supported_fact": "The current release supports Windows/Linux, rejects empty strings, and has no macOS support. The publisher may change the current-release matrix and accepted argument forms in later releases. The leaf is intended to track the current release, not freeze a historical one."
+    }
+  ],
+  "review_finding": {
+    "proposal": "Change the existing leaf from evergreen to time-sensitive.",
+    "basis": "The current supported-host matrix and accepted input forms follow the publisher release contract."
+  }
+}

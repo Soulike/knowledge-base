@@ -11,7 +11,7 @@ limits that remain after selecting the invocation interface.
 
 Update this document when runtime filesystem capabilities, native utility
 invocation contracts, or observed cross-platform command behavior changes the
-choice or its limits.
+choice, pathname transfer, or its limits.
 
 ## Select the filesystem operation
 
@@ -36,6 +36,45 @@ metadata effect, and error behavior on each supported host. A flag or option
 terminator accepted by one implementation may have a different position or
 meaning in another; an option-like pathname must still reach the intended
 filesystem object as an operand.
+
+## Preserve pathname data between consumers
+
+A pathname can change before any filesystem lookup if an output parser or API
+interprets its characters differently. Select the producer's documented
+machine-readable format and follow its encoding, escaping, and record
+boundaries. Prefer NUL-delimited pathname fields when the producer supports
+them and they fit the admitted pathname forms. A delimiter separates records;
+it does not by itself establish the encoding or interpretation of their fields.
+
+For example, [`git worktree list --porcelain -z`](https://git-scm.com/docs/git-worktree)
+uses NUL rather than newline terminators. Parse the documented attributes and
+record separators instead of treating every line as one pathname. This keeps
+a newline inside a pathname from becoming a record boundary.
+
+Remove only the terminators and formatting that the selected format declares.
+Generic whitespace trimming can alter a valid pathname: `project ` and
+`project` can name distinct directories on a supported host. Preserve the
+pathname field through parsing and subsequent calls rather than repairing it
+with trimming or separator replacement.
+
+Verify the receiving API's pathname grammar as well as the producer's format.
+Disabling wildcard expansion does not establish that separators retain their
+native filesystem meaning. PowerShell's
+[`Test-Path -LiteralPath`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/test-path#-literalpath)
+avoids wildcard interpretation, but its
+[Unix cmdlets accept both slash forms as directory separators](https://learn.microsoft.com/en-us/powershell/scripting/whats-new/unix-support).
+A literal backslash in a Unix filename can therefore be interpreted as a
+separator by a cmdlet. Select an API whose grammar supports the admitted names;
+do not infer equivalence from another API finding the directory.
+
+Protect admitted pathname forms with round-trip and real operation tests at
+the owning boundary. Where the supported host permits them, include names
+containing newlines, literal backslashes, and trailing spaces. Assert that the
+parsed value is unchanged and that the subsequent operation reaches the
+intended entry. Include a distinct existing sibling when testing a transformation
+such as trimming, so an existence-only assertion cannot conceal wrong-target
+access. Obtain evidence on each supported host whose semantics matter; a
+passing run elsewhere does not establish that host's behavior.
 
 ## Preserve identity and permission requirements
 

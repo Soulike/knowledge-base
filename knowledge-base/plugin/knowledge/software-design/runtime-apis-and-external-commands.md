@@ -44,6 +44,19 @@ shell text adds shell parsing and quoting. Pass an argument vector without a
 shell where the execution interface permits it; the utility still interprets
 its own options and operands.
 
+An argument vector preserves each argument as a separate value through the
+launch interface. An array-shaped parameter does not establish that contract.
+Follow the launch interface's documented argument-handling contract rather than
+assuming that source-language quoting preserves argument boundaries. Any later
+shell, interpreter, or utility still applies its own grammar.
+
+For example, suppose a launcher receives two values, `a b` and `中文`. Joining
+them with a space produces `a b 中文`, which no longer records where one value
+ends and the next begins. An interface that accepts separate argument values
+must preserve those boundaries through any required encoding or escaping.
+Verify the child's received values through the actual launch path rather than
+treating successful list construction as proof.
+
 These costs belong in the comparison even when an existing subprocess helper
 makes invocation short. Conversely, a supported command can be the appropriate
 interface when the runtime lacks the capability or required semantics, the
@@ -77,6 +90,14 @@ before dependent cleanup or reuse. Requesting cancellation or sending a
 termination signal does not establish that execution and effects have ended.
 
 ## Verify the selected semantics
+
+For argument transport, exercise the application's actual launch path with a
+real child that reports the arguments it received. Compare their count and
+values with the intended inputs, including representative admitted values
+containing spaces and Unicode. Include empty values, embedded quotes, or
+backslashes when those forms belong to the supported contract. Checking only
+the array supplied to a wrapper cannot show whether a later launch interface
+split or changed its elements.
 
 Check both APIs and commands at the seam that owns the required behavior. For
 an HTTP readiness operation, a deadline may need to cover connection, headers,

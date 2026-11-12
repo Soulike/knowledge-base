@@ -114,6 +114,14 @@ environments, read these complete documents:
 - [Runtime APIs and external commands](../../knowledge/software-design/runtime-apis-and-external-commands.md)
 - [Executable selection and PATH](../../knowledge/software-design/executable-selection-and-path.md)
 
+### Native programs from PowerShell
+
+When developing, maintaining, reviewing, or diagnosing PowerShell code that
+launches native programs, or directly learning or explaining how PowerShell
+process-launch interfaces pass arguments, read
+[Native-process arguments from PowerShell](../../knowledge/powershell/native-process-arguments.md)
+in full.
+
 ### GitHub API permissions
 
 When integrating with the GitHub API and choosing or diagnosing operation

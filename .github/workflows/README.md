@@ -298,9 +298,9 @@ criteria cover the repository's Knowledge, Skill, plugin, documentation, and
 delivery responsibilities.
 
 The [upstream repository](https://github.com/Soulike/ai-review-workflow) owns
-the callable interface, review execution, publication, verdict behavior, and
-recovery guidance. Human approval, last-push approval, and thread resolution
-remain repository rules here.
+the core review process, callable interface, execution, publication, verdict
+behavior, and recovery guidance. Human approval, last-push approval, and thread
+resolution remain repository rules here.
 
 The expected required check is `Review / Engine / AI review gate`, qualified by
 the caller and nested reusable jobs. After changing review execution, verify a

@@ -52,10 +52,3 @@ the foundation nor any current package matches, continue the task without
 applying unrelated narrow material or implying that this Handbook documents all
 of GitHub Actions or gh-aw. Do not copy or infer rules in place of reading the
 linked canonical material.
-
-Re-evaluate this Handbook and every package condition when the task stage,
-platform, artifact, production method, or available reading basis changes.
-Reuse a reading unit that is still current and available; reread it when it
-changed or its necessary context is no longer available. If required material
-cannot be read, report the gap and its effect on the task instead of inventing
-or silently omitting the guidance.

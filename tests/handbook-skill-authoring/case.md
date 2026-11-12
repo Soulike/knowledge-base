@@ -32,7 +32,7 @@ package labels, and plan structure.
 
 维护者提议为自动化测试工作增加一个可安装的可复用 Skill。用户编写、审查、排查具体自动化测试或解释其行为与执行时，它应要求阅读测试有效性与可信测试执行的权威 Knowledge；测量、分析或改进测试运行时间或资源成本时，还要阅读测试执行成本。单独学习或解释测试执行成本时，只读匹配的成本包，不强制无关的具体测试工作基础；具体测试工作同时涉及成本时，三份材料累积必读。这个 Skill 只提供理解与必读路由，不接管用户的测试编写或审查流程。Knowledge Catalog 只保留文件路径和 Knowledge Type；运行时阅读必须由安装后的 Handbook 或 Workflow 直接路由，并通过严格可达性检查。
 
-请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与重新评估、包与路径约束、Catalog 清单与严格可达性、验证证据，以及任何停止条件或未决点。不要修改文件。
+请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与共享规则的职责归属、包与路径约束、Catalog 清单与严格可达性、验证证据与相关既有保护，以及任何停止条件或未决点。不要修改文件。
 
 ## Starting state
 
@@ -67,10 +67,12 @@ and available action observations.
   without forcing an unrelated foundation. Do not enumerate packages in the
   description or require a diagnosis the Handbook should help discover.
 - R4: use direct links to complete canonical files or context-sufficient
-  sections, prohibit Handbook-to-Handbook dependencies, reuse already loaded
-  current material, and re-evaluate applicable Handbooks and packages when the
-  task stage, language, platform, artifact, or production method changes or the
-  earlier reading basis is no longer available.
+  sections and prohibit Handbook-to-Handbook dependencies. Place shared
+  lifecycle instructions and their behavioral assertions at the independently
+  required shared owner rather than generating copies in subject Handbooks or
+  their cases. Subject cases cover their own domain conditions, direct routes,
+  and application. A portable plan for a bundle without a shared owner supplies
+  the lifecycle locally instead of assuming another Handbook will be invoked.
 - R5: keep the installed Handbook as a flat immediate child of the package
   Skill directory with matching `handbook-` registered and directory names
   because the repository's product rules and maintenance workflow require that
@@ -85,8 +87,8 @@ and available action observations.
   accepted package-local graph. Do not present static reachability or Handbook
   authoring as proof that client selection, reading, or application occurred.
 - R7: plan distinct evidence for native description selection, internal package
-  choice, actual reading and application, later-stage supplementary reading,
-  adjacent negative loading, and relevant historical case replay. Static links
+  choice, actual reading and application, adjacent negative loading, and
+  relevant historical case replay. Static links
   or a plausible final answer alone must not be reported as behavioral proof.
 - R8 (critical): keep the installed reusable authoring reference understandable
   without repository history and portable to another project. It may define

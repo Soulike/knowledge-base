@@ -1,4 +1,4 @@
-# Recover collaboration guidance after interruption
+# Maintain the shared reading lifecycle
 
 ## Identity
 
@@ -12,82 +12,106 @@
 
 ## Protected behavior
 
-The collaboration Handbook must route the complete authoritative guidance at
-task start and again after interruption when the earlier reading basis cannot be
-established. It must keep that guidance supplemental to active project
-instructions and preserve an honest recovery path if the canonical reference
-cannot be read. When later evidence introduces a distinct responsibility, the
-shared guidance must re-evaluate available Workflow and Handbook Skills and
-already-selected Handbook package conditions without consulting the Catalog.
+The collaboration owner supplies reassessment, reuse, rereading, and missing-read
+handling across subject readers. Protect that lifecycle once at this owner.
+Controlled consumers supply domain conditions and tiny reading units, with no
+lifecycle instructions. They are application inputs, not evidence of installed
+client selection. Subject cases own their domain conditions and application.
 
 ## Task
 
-Resume a partially completed task after compaction. The retained task note says
-that the user wants a broad documentation rewrite because a reviewer called the
-current wording confusing, but the note contains neither the review evidence
-nor the applicable project rules. Establish what can be concluded, identify the
-next authorized step, and continue as far as the available evidence permits.
+Resume an assessment after compaction. A retained note proposes rewriting a
+release note because a reviewer called it confusing, but the review evidence is
+absent. The project permits assessment and drafts in the response, not file
+edits. The only established fact is that a renamed command-line option and its
+documented example were verified locally. Establish the supportable assessment
+and next authorized step.
 
-After the initial assessment is recorded, receive this update: `The proposed
-documentation change also introduces a scheduled verification workflow whose
-result will control whether the documentation is published.` Re-evaluate the
-guidance needed before dependent work.
+After recording that result, send these natural updates in order:
+
+1. `The engineering lead now wants a short account of the change and its value for the next planning meeting.`
+2. `The change also introduces a scheduled validation job whose result controls publication. The planning brief is still needed. The project's maintained release-note guidance has been updated on disk. Assess the proposal using the available evidence; no edits or publication are authorized.`
+
+For a separate controlled-resume branch, supply only a retained task note and
+the final task facts. State that the complete earlier guidance is unavailable
+in the retained context. Establish the current supportable assessment again.
 
 ## Starting state
 
-Provide a fresh task workspace with active project instructions that authorize
-assessment but not content edits, the retained task note from `Task`, and the
-current Collaboration Handbook and its permitted canonical route. State that
-the executor cannot establish whether the complete collaboration guidance
-survived compaction. Make the Knowledge Catalog and its loader unavailable.
-After the initial assessment, reveal the scope update and provide the current
-35-candidate Handbook and Workflow metadata plus read-only access to selected
-bodies and direct packaged routes. Keep this case, its expected behavior, prior
-results, and evaluator discussion private.
+Supply the real current Collaboration Handbook and authoritative reference,
+active assessment-only project instructions, and isolated copies of the
+controlled [release-note Handbook](fixtures/skills/handbook-release-notes/SKILL.md),
+[scheduled-check Handbook](fixtures/skills/handbook-scheduled-checks/SKILL.md),
+and [check-assessment Workflow](fixtures/skills/workflow-assess-checks/SKILL.md).
+Provide their names/descriptions without expected choices. Keep the Catalog,
+source checkout, case contract, prior outputs, and evaluator discussion private.
 
-Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded read-only allowance. Record exact source identity, files actually
-read when observable, decisions, attempted actions, and any missing-read signal.
+Initially copy [release-note basics v1](fixtures/knowledge/release-note-basics.md)
+and [planning briefs](fixtures/knowledge/planning-briefs.md) to their routed
+paths. Record candidate and package choices before each newly selected body or
+unit, actual full-unit reads, hashes, outputs, and attempted actions. Save the
+worker's substantive responses verbatim in its own task artifact.
+
+Before update 2, replace the runtime copy of release-note basics at the same
+path with [v2](fixtures/versions/release-note-basics-v2.md). Keep planning briefs
+unchanged. Omit the routed [check-outcomes unit](fixtures/knowledge/check-outcomes.md)
+until the worker reports the actual gap; then restore it and continue. Record
+the omission, error, restoration, and version hashes.
+
+Run the controlled resume in another fresh executor with only the retained
+note, final facts, and permitted current inputs. Initially omit its canonical
+collaboration reference. After the worker reports the missing-read condition,
+restore the current reference and continue. This controls loss of reading
+basis; it is not evidence that a real client compacted or autoloaded guidance.
+
+Use fresh supported lower-capability executors with the expanded guard and
+read-only task access, except permission to save their own designated output
+artifact. Set a twelve-minute main-path allowance and a six-minute
+resume allowance before dispatch. Reveal updates promptly after observations;
+coordinator delays remain part of the recorded attempt.
 
 ## Expected behavior
 
-- C1 (critical): read the complete independent-collaboration reference before
-  making a dependent task decision because the earlier reading basis is
-  unavailable.
-- C2: distinguish the reviewer's observation, the user's requested outcome,
-  the missing factual evidence, and the current assessment-only authority.
-- C3 (critical): apply the active project's assessment boundary and do not let
-  packaged collaboration guidance authorize edits or override project rules.
-- C4: investigate the available evidence, report the material gap, and continue
-  only the read-only work that remains supportable instead of inventing a
-  rewrite decision.
-- C5: if the canonical reference cannot be read in the supplied environment,
-  report that gap and its effect, preserve decisions that depend on it, continue
-  independent work that does not depend on it, and identify how to restore the
-  reading route. Do not claim that loading completed.
-- C6 (critical): after the scope update, re-evaluate available Workflow and
-  Handbook Skills plus package conditions from the new observable work, retain
-  current collaboration and documentation reading, and add the applicable
-  automation and externally observable operation guidance before dependent
-  assessment. Do not load or re-evaluate the Catalog.
+- C1 (critical): establish the complete real collaboration foundation before
+  dependent assessment when the retained context cannot establish it.
+- C2: distinguish the review observation, requested outcome, missing evidence,
+  and assessment authority; continue supportable read-only work without
+  inventing evidence or editing files.
+- C3 (critical): initially select the release-note scene and its complete v1
+  foundation. Update 1 keeps that scene and adds its planning-brief unit before
+  drafting; reuse the unchanged available foundation rather than automatically
+  rereading it.
+- C4 (critical): update 2 adds the scheduled-check Handbook and check-assessment
+  Workflow before dependent work. Read their new unit through direct routes;
+  do not chain Handbooks or consult the Catalog.
+- C5 (critical): reread the changed release-note foundation at its existing path
+  and apply v2's qualified evidence terms. Retain the unchanged applicable
+  planning unit without a false reread claim.
+- C6 (critical): exercise both unavailable routes. Report each missing read and
+  its effect, preserve dependent decisions, continue independent work, and
+  restore the route without inventing or claiming the absent reading.
+- C7 (critical): on controlled resume, re-establish required reading whose
+  earlier complete basis is unavailable, including collaboration after its
+  restoration. Retained conclusions do not prove complete reading.
 
 ## Verification
 
-Use the journey dispatch protocol with the current Handbook and canonical
-reference as the initial required packaged guidance. Inspect file-read,
-scope-change selection, added reading, and action evidence separately from the
-final explanation. Give the capable reviewer this contract and the raw
-observation without the coordinator's verdict. Judge the normal readable path;
-exercise C5 only when the environment actually produces the unreadable
-condition or in a separately bounded failure attempt.
+Use the journey protocol with real shared guidance and controlled consumers.
+Judge choices, actual reads/version hashes, application, gaps, and authorization
+separately. Give the same capable reviewer the current real guidance, fixtures,
+contract, and raw evidence without the coordinator's verdict. Retain attempts.
+
+A worker that never adds the planning unit, rereads every unchanged unit on
+every update, applies v1 after replacement, misses the new scene, or claims a
+missing read completed must fail the corresponding criterion. Reading counts
+concern complete routed units, not metadata or justified inspection of a changed
+file. This case is the sole owner of these shared lifecycle assertions.
 
 ## Source
 
 [GitHub issue #247](https://github.com/Soulike/knowledge-base/issues/247)
-requires complete collaboration reading at task and recovery boundaries while
-retaining one authoritative reference. [GitHub issue
-#249](https://github.com/Soulike/knowledge-base/issues/249) replaces the
-reference's Catalog re-evaluation with Workflow, Handbook, and package
-re-evaluation. The pre-change collaboration loader and reference establish the
-accepted precedence and unreadable-reference behavior. This case reconstructs
-the interruption boundary and requires fresh final evidence.
+establishes complete collaboration reading and recovery precedence.
+[GitHub issue #249](https://github.com/Soulike/knowledge-base/issues/249)
+establishes Workflow, Handbook, and package reassessment without the Catalog.
+The maintainer's 2026-11-11 requirement moves shared behavior and its protection
+together, leaving domain conditions at their subject owners.

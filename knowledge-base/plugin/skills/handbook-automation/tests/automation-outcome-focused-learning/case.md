@@ -53,8 +53,8 @@ action observations.
   skipping, and missing results cannot satisfy a required-success contract.
 - R4: bind the final accepted status to every applicable required check and
   prevent protected effects from advancing on absent successful evidence.
-- R5: treat packaged guidance as supplemental to active requirements and report
-  unavailable required reading honestly instead of inventing it.
+- R5: keep the explanation supplemental to active requirements and state its
+  evidence limits without inventing validation or platform behavior.
 
 ## Verification
 

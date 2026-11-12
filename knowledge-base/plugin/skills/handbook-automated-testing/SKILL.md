@@ -22,12 +22,6 @@ decisions in the active working directory.
    materials. Read every matching package cumulatively. A direct learning or
    explanation request about a package's subject also matches that package
    without automatically loading the test-work foundation.
-4. Reuse a reading unit that is already loaded, current, and available. Read it
-   again when its content changed or after recovery or compaction when its
-   necessary basis can no longer be established.
-5. Re-evaluate this Handbook and all package conditions when the task phase,
-   language, platform, artifact, production method, or available reading basis
-   changes. Add newly required reading before dependent work.
 
 This Handbook has no dependency on another Handbook. Continue the user's task
 under the applicable Workflow or active-project process after loading and

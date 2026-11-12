@@ -1,9 +1,9 @@
-# Re-evaluate video reading across Workflow stages
+# Apply continuous-shot and anime image-to-video guidance
 
 ## Identity
 
 - ID: video-production-change
-- Kind: journey
+- Kind: application
 
 ## Covered objects
 
@@ -13,87 +13,78 @@
 
 ## Protected behavior
 
-A non-AI people-focused continuous shot whose medium is undecided must read only
-general shot design. When source imagery and an anime production method appear,
-the design Workflow must add direct image-to-video and anime reading without the
-maintenance Catalog. A later improvement request must select the improvement Workflow,
-reuse current reading, preserve prompt-only evidence limits, and keep
-live-action guidance out.
+Video guidance owns medium-appropriate reading and direct prompt-design and
+improvement routes. Protect non-AI medium-undecided planning and anime
+image-to-video work as independent contexts, with honest source-frame and
+prompt-only evidence.
 
 ## Task
 
-Work through these messages in one task, receiving the next only after the
-previous response and observations are recorded:
+Handle these independent requests, supplied together:
 
-1. `Plan one continuous shot centered on a dancer as a non-AI preproduction concept. We have not decided whether it will be filmed or animated, and the visual style is undecided.`
-2. `Use the supplied opening-frame image to prepare an anime-influenced image-to-video version of the same action.`
-3. After the executor presents its proposed canvas and creative direction:
-   `I accept the proposed canvas and creative direction. Complete the image-to-video prompt package.`
-4. `An existing anime image-to-video prompt for this opening frame leaves the dancer's turn and the camera move ambiguously ordered. Diagnose that prompt and prepare an improved replacement.`
+1. Plan one people-focused continuous dancer shot as a non-AI preproduction
+   concept; filming versus animation and visual style are undecided.
+2. Using the supplied opening frame, prepare a new anime-influenced
+   image-to-video prompt. Propose the canvas and creative direction for approval.
+3. For that opening frame, diagnose an existing anime image-to-video prompt
+   whose dancer turn and camera motion are ambiguously ordered, and prepare an
+   improved replacement. No generated video is supplied.
 
 Do not invoke a video-generation service.
 
 ## Starting state
 
-Supply message 1 and the current 35-candidate Handbook and Workflow metadata
-without bodies or expected choices. After the initial selection, package choice,
-reads, and shot plan are captured, provide the accessible [anime dancer opening
-frame](fixtures/anime-dancer-opening-frame.png) and reveal message 2. Record the
-design-Workflow choice before opening its body. Reveal message 3 only after the
-executor requests confirmation of its proposed canvas and creative direction.
-After the completed design prompt package is captured, reveal message 4 with
-the complete existing prompt, then record the
-improvement-Workflow choice before body access.
-
-Make `knowledge/index.md` unavailable as a runtime input to the executor. Permit read-only access to
-selected current Skill bodies and their direct packaged routes. The opening
-frame is available for both Workflow phases; the final phase evaluates a prompt
-without claiming observations from an unavailable generated video.
-
+Supply all requests and necessary task facts up front, the complete current
+covered guidance, and normal read-only access to its direct packaged routes.
 Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded read-only allowance. Keep evaluator-only materials private.
-Record source identity, blind choices, files actually read, each result, and
-observation limits.
+and a task-appropriate bounded allowance established before dispatch. Keep the
+case, expected choices, previous outputs, and evaluator discussion private.
+
+Before opening Knowledge, record selected and excluded reading units separately
+for each independent request. Then permit the union of required direct reads
+and perform the tasks. Record source identity, model/configuration, choices,
+actual file or section reads, outputs, and action limits. The per-request
+choices test domain conditions; a shared executor's union of reads does not
+prove that a document was never loaded in another request. Do not stage a task
+change or score reassessment, reading reuse, or rereading in this case.
+
+Supply the [anime dancer opening frame](fixtures/anime-dancer-opening-frame.png)
+for requests 2 and 3 from the start. Confirm each request's own concrete canvas,
+material use, and direction when its Workflow asks; request 3 does not inherit
+request 2's decisions. For request 3 supply this existing
+prompt: `Start on this dancer, turn quickly and glide right as the camera slides
+left, reach up, spin back, keep everything smooth, freeze the pose, then return,
+one continuous shot.` Make the maintenance Catalog unavailable.
 
 ## Expected behavior
 
-- V1 (critical): initially select `handbook-collaboration` and
-  `handbook-video-creation` before body access.
-- V2 (critical): for message 1, read people-focused continuous-shot design
-  without forcing image-to-video, photographic-video, or anime-animation
-  guidance while production medium and style remain undecided.
-- V3: apply the general shot reading to continuity, motion, staging, and
-  evaluable intent rather than prematurely choosing a medium or style.
-- V4 (critical): for message 2, select
-  `workflow-design-image-to-video-prompts` and directly read or reuse
-  people-focused continuous-shot design, then read image-to-video prompting and
-  people-focused anime-animation design before dependent shot and prompt work.
-- V5 (critical): for message 4, select
-  `workflow-improve-image-to-video-prompts`, reuse current generic,
-  image-to-video, and anime reading when available, apply it to the diagnosis,
-  and produce a replacement only within the evidence supported by the prompt and
-  available opening frame.
-- V6: exclude photographic or live-action video design in the anime phases,
-  preserve the source-frame contract, avoid claiming a generated-video finding,
-  and complete both Workflow phases after the supplied confirmation without
-  consulting the maintenance Catalog.
+- V1: distinguish non-AI shot planning, new image-to-video prompt design, and
+  existing-prompt improvement; use the corresponding domain entrypoints.
+- V2 (critical): request 1 matches general people-focused continuous-shot design
+  without assigning image-to-video, photographic-video, or anime packages.
+- V3: apply that guidance to continuity, motion, staging, and evaluable intent
+  without prematurely choosing a medium or style.
+- V4 (critical): request 2 follows the design Workflow's direct continuous-shot,
+  image-to-video, and anime routes, inspects the supplied frame, and completes
+  the prompt after the Workflow's own creative confirmation.
+- V5 (critical): request 3 follows the improvement Workflow's direct generic,
+  image-to-video, and anime routes and applies them to a supported diagnosis and
+  replacement.
+- V6: exclude photographic/live-action guidance from the anime contexts;
+  preserve frame constraints and prompt-only evidence limits; do not claim a
+  generated-video observation or use the maintenance Catalog.
 
 ## Verification
 
-Capture each blind selection before body access and reading choices before
-expected routes. Inspect observable reads and application separately. Confirm
-that required Workflow reads followed direct links while the maintenance
-Catalog remained unavailable as a runtime route. Give the capable reviewer this contract and
-raw observations without the coordinator's verdict. Judge selection, reading,
-application, evidence limits, and phase re-evaluation separately.
+Use the application dispatch protocol. Inspect the per-request package choices,
+actual direct reads, and domain application as separate evidence. Give the
+capable reviewer the current covered content, this contract, and raw
+observations without the coordinator's verdict. Judge every criterion
+independently and retain all attempts. This case does not claim native client
+selection or reading-lifecycle behavior.
 
 ## Source
 
-[GitHub issue #242](https://github.com/Soulike/knowledge-base/issues/242)
-requires cumulative reading and later-stage re-evaluation. [GitHub issue
-#247](https://github.com/Soulike/knowledge-base/issues/247) establishes the
-video Handbook routes. [GitHub issue
-#249](https://github.com/Soulike/knowledge-base/issues/249) requires both
-image-to-video Workflows to use direct canonical Knowledge reads without the
-Catalog. The design and improvement boundaries are historical controls recovered
-from pull request #53.
+GitHub issues #242, #247, and #249 establish video package conditions and direct
+Workflow reading. Design/improvement boundaries are recovered from pull request
+#53. The existing identity retains these independent domain responsibilities.

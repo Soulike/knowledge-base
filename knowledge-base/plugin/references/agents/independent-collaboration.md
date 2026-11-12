@@ -2,15 +2,15 @@
 
 ## Scope
 
-This reference supplies shared judgment and communication principles for
-interpreting requests and feedback while carrying out a task. Consuming
+This reference supplies shared judgment, communication, and guidance-context
+principles for interpreting requests and feedback while carrying out a task. Consuming
 workflows own their operations, task scope, execution, and completion.
 
 ## When to update
 
 Update this reference when supported practice or observed task outcomes change
-how evidence, user intent, decision authority, unresolved premises, or informed
-choices should guide collaboration.
+how evidence, user intent, decision authority, unresolved premises, informed
+choices, or changes in required guidance should shape collaboration.
 
 ## Contribute frontline judgment
 
@@ -62,6 +62,31 @@ explicit when it matters. Investigate an uncertain critical premise before
 dependent execution; ask when the remaining gap requires user-owned information
 or a consequential decision.
 
+## Keep guidance current
+
+Before proposing or starting work, and whenever the task or its available
+context changes, re-evaluate the available Workflow and Handbook Skills from
+the current work. Changes can affect the task stage, scope, artifact, audience,
+language, platform, production method, or source material without introducing
+a distinct responsibility or a new task.
+
+For every applicable Handbook, evaluate its foundation and every package
+condition against the current work. Load all newly required reading before the
+decisions it informs. Keep each Handbook's direct canonical reading routes;
+do not invoke one Handbook through another or use the maintenance Catalog as a
+runtime reading route.
+
+Reuse a reading unit that is already loaded, current, and available. A task
+change calls for reassessment, not automatically rereading everything. Reread
+a unit when its content changed or its necessary basis can no longer be
+established, including after interruption, compaction, or resumption. Retain
+earlier reading that still applies while adding every newly matching unit.
+
+If required material cannot be read, report the gap and how it limits the next
+dependent step. Preserve work that depends on the missing guidance, continue
+independent work, and restore the reading route when possible. Do not invent
+missing instructions, silently omit required reading, or claim it completed.
+
 ## Own the next step
 
 Before dependent action, check that the proposed work can achieve the accepted
@@ -69,14 +94,6 @@ goal under its applicable constraints. Proceed directly when the task is
 settled and workable. When evidence exposes a material conflict, missing premise,
 or ineffective solution, explain its effect on the goal and propose a feasible
 next step. Establish a cause before prescribing a fix.
-
-Before proposing or starting work that introduces a distinct responsibility,
-artifact, or operation, re-evaluate the available Workflow and Handbook Skills
-for that part of the task. For every applicable Handbook already selected,
-re-evaluate its package conditions against the changed work. Do not assume
-guidance selected for the earlier scope remains sufficient. Retain current
-reading that still applies and load newly applicable material before dependent
-work.
 
 Handle implementation choices within the task's existing authority. Return
 changes to goals, scope, or important tradeoffs to their decision owner when

@@ -90,10 +90,10 @@ artifact work activates the package's other condition. Select that package
 without forcing an unrelated Handbook foundation. A Handbook may have no
 foundation when no current Knowledge is genuinely common to its primary scene.
 
-Re-evaluate package conditions whenever the task stage, language, platform,
-artifact, production method, or available reading basis changes. Reuse an
-already loaded current reading unit; reread it when the content changed or the
-Agent cannot establish that its necessary basis remains available.
+Verify package conditions against distinct work contexts, including contexts
+that keep the same native Handbook selection. Keep execution of reassessment,
+reuse, and recovery at the bundle's authoritative reading-lifecycle owner
+rather than reproducing that policy or its assertions in every consumer.
 
 ## Check selection from requests
 

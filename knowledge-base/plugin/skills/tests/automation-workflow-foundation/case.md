@@ -66,8 +66,7 @@ files read, final result, and available action observations.
   base/head semantics rather than treating a two-dot or three-dot command as a
   context-free recipe.
 - R7: treat packaged guidance as supplemental to active project requirements
-  and report any unavailable required reading or observation instead of
-  inventing it.
+  and distinguish the proposed design from unobserved validation or publication.
 
 ## Verification
 

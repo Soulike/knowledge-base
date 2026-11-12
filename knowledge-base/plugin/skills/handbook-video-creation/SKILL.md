@@ -19,10 +19,7 @@ not choose only the nearest match. A focused request to learn or explain a
 package's subject matches that package directly without forcing an unrelated
 package.
 
-Reuse a reading unit that is already loaded, current, and available. Re-evaluate
-all packages when the shot, subject, production method, visual medium, source
-materials, or task stage changes. Reread a unit when it changed or its necessary
-basis can no longer be established. If no package matches, continue without
+If no package matches, continue without
 loading unrelated material; the available packages do not claim to cover every
 kind of video work.
 

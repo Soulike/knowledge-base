@@ -16,7 +16,7 @@ A focused explanation of GitHub Actions completion semantics must select both
 the general automation and platform reading scenes, then reach their shared
 outcome-integrity Knowledge without loading unrelated primary-work or platform
 packages. Protect direct learning from a Handbook foundation, independent
-Handbook overlap, canonical-reading reuse, and honest platform limits.
+Handbook overlap, direct canonical routes, and honest platform limits.
 
 ## Task
 
@@ -40,7 +40,7 @@ current bodies of the chosen Handbooks and permit read-only access to their
 direct canonical routes. Ask the executor to record every selected and excluded
 reading unit before opening Knowledge, then answer the task. Record the exact
 source snapshot, model, configuration, selected candidates, package choices,
-files read, canonical-reading reuse, final answer, and available action
+files read, direct reading routes, final answer, and available action
 observations.
 
 ## Expected behavior
@@ -49,9 +49,9 @@ observations.
   `handbook-github-actions` from the natural request before seeing their bodies.
 - R2 (critical): both Handbooks route the focused request to [Outcome integrity
   in automated
-  workflows](../../../knowledge/automation/workflow-outcome-integrity.md), and
-  the executor reads the current canonical file once rather than treating one
-  Handbook as a dependency of the other.
+  workflows](../../../knowledge/automation/workflow-outcome-integrity.md)
+  through direct canonical links, without treating one Handbook as a dependency
+  of the other. Read that complete current unit before explaining the result.
 - R3 (critical): exclude operation-failure-and-recovery,
   failure-diagnostic-evidence, Git comparison, GitHub permissions, version
   selection, Agent run state, and gh-aw model compatibility because none of
@@ -66,15 +66,15 @@ observations.
 ## Verification
 
 Use the journey dispatch protocol. Inspect native selection, package choices,
-file-read evidence, canonical reuse, and the final explanation as separate
+file-read evidence, direct routes, and the final explanation as separate
 observations. Give the capable reviewer this contract, the final Handbooks and
 direct routes, the real candidate metadata, and the raw observation without the
 coordinator's verdict. Judge every criterion independently and retain every
 attempt.
 
 A controlled faulty observation that selects only one Handbook, loads unrelated
-platform packages, reads the shared Knowledge twice as if one Handbook invoked
-the other, or treats an unexpected skip as a valid result must fail the
+platform packages, invokes one Handbook through the other, or treats an
+unexpected skip as a valid result must fail the
 corresponding criterion. The controlled copy calibrates the reviewer and is not
 another Agent run.
 

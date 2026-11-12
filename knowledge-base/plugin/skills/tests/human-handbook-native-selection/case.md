@@ -18,13 +18,18 @@
 The installed candidate descriptions must select collaboration, documentation,
 and product-experience reading for one natural mobile-Web documentation and
 evaluation task without requiring the request to name internal content terms.
-They must keep still-image and video reading out when those production scenes
-are absent, while tolerating selection of independently applicable Workflows or
-other Handbooks.
+They must keep still-image and video reading out when those scenes are absent,
+and select each from its own positive request. Independently applicable
+Workflows and other Handbooks are permitted.
 
 ## Task
 
-我们正在修改手机浏览器里的结账流程。请先实现页面和交互，再更新给维护者看的操作说明，并评估用户能否顺利完成付款。当前没有图片或视频创作任务。请先从当前可用的 Skill 元数据中选择开始这项工作所需的指南，不要打开 Skill 正文，也不要执行任务。
+For each independent request, choose guidance from the current metadata. Do not
+open Skill bodies or perform the substantive tasks.
+
+1. 我们正在修改手机浏览器里的结账流程。请实现页面和交互，更新给维护者看的操作说明，并评估用户能否顺利完成付款。当前没有图片或视频创作任务。
+2. Explain how to write a useful AI-generation prompt for an empty misty landscape with no people.
+3. Plan one continuous shot centered on a dancer as a non-AI preproduction concept. Filming versus animation and visual style are undecided.
 
 ## Starting state
 
@@ -43,9 +48,9 @@ invocation.
 
 - S1 (critical): select `handbook-collaboration`,
   `handbook-documentation`, and `handbook-product-experience` from the natural
-  request before seeing their bodies.
+  request 1 before seeing their bodies.
 - S2 (critical): exclude `handbook-still-image-creation` and
-  `handbook-video-creation` because the task does not create, generate, review,
+  `handbook-video-creation` for request 1 because it does not create, generate, review,
   diagnose, or study either medium.
 - S3: base every Handbook choice on the observable work rather than requiring
   the request to name maintained-document quality, interface foundations, or
@@ -53,6 +58,10 @@ invocation.
 - S4: permit additional Skills only when their independent current metadata
   applies to the requested implementation, documentation, or evaluation work;
   do not treat these five Handbooks as a complete candidate set.
+- S5 (critical): request 2 selects `handbook-still-image-creation` and excludes
+  `handbook-video-creation`; request 3 selects `handbook-video-creation` and
+  excludes `handbook-still-image-creation`. Do not require a selected medium or
+  people-focused image workflow for those broad Handbook scenes.
 
 ## Verification
 

@@ -113,10 +113,14 @@ the Knowledge is meant to reveal.
 
 Use a complete canonical file or a complete context-sufficient section as the
 reading unit. A section includes the definitions, premises, subsections, and
-important exceptions needed to apply it independently. Reuse material that is
-already loaded, current, and available. Re-evaluate Handbooks and packages when
-the task phase, language, platform, artifact, production method, or available
-reading basis changes; add newly applicable reading before dependent work.
+important exceptions needed to apply it independently.
+
+Give shared reading-lifecycle rules one authoritative home. When a shared
+policy is independently required at task start and recovery, it may own reuse,
+rereading, and reassessment as work or context changes across Handbooks. Verify
+that the policy is selected and applied alongside the subject Handbooks; do not
+make those Handbooks invoke each other. Where no such shared policy exists,
+the owning Handbook must supply the lifecycle rules itself.
 
 A Handbook owns selection and reading obligations only. It has no user-task
 procedure, side-effect contract, task failure state, output artifact, or task
@@ -218,9 +222,10 @@ package condition from current observable work, read all matches, and avoid
 choosing only the nearest package. Route directly to each complete canonical
 file or context-sufficient section.
 
-Make foundation applicability, focused learning, cumulative package selection,
-reuse of current readings, and re-evaluation after phase or context changes
-explicit. If no package matches in a sparse platform Handbook, continue without
+Make foundation applicability, focused learning, and cumulative package selection
+explicit. Keep reuse and reassessment at the shared lifecycle owner when one
+governs the reading scene, rather than copying its policy into every Handbook.
+If no package matches in a sparse platform Handbook, continue without
 loading unrelated material or implying that the platform is comprehensively
 documented. Do not add a task procedure, completion criteria, or hidden
 dependency on another Handbook.
@@ -237,7 +242,8 @@ after the decision that would need to select it.
 
 For Workflows, trace actions, stopping behavior, outputs, and completion. For
 Handbooks, trace description selection, foundation and package choices, actual
-reading, application, and later-stage supplementary reading as distinct events.
+reading, and application as distinct events. Trace later-stage reassessment,
+reuse, and recovery at the owner of the reading lifecycle.
 Remove obsolete routes, superseded behavior, duplicated authority, patch-layered
 qualifications, and references no current step selects. Intentional semantic
 change and reader suitability require separate judgments.
@@ -256,7 +262,7 @@ satisfying a fixed case count. Cover each applicable kind of evidence below or
 explain concretely why it does not apply:
 
 - **Native selection evidence:** in a fresh context with the real candidate set,
-  use broad, direct, overlap, focused-learning, phase-change, and adjacent
+  use broad, direct, overlap, focused-learning, and adjacent
   negative requests as applicable. Record the choice before showing target
   bodies or expected selections.
 - **Workflow evidence:** exercise underspecified and settled inputs, the principal
@@ -269,13 +275,21 @@ explain concretely why it does not apply:
 - **Handbook package evidence:** after selection, give a fresh reader the current
   body and task context and record every selected and excluded package before
   expected choices. Exercise cumulative matches, empty foundations, valid
-  no-match platform work, and later context changes.
+  no-match platform work, and independently supplied domain contexts.
 - **Reading and application evidence:** observe required file or section reads
   and their use in the task separately from metadata and package choices. A
   link, invocation event, or plausible answer alone does not establish reading
   and application.
 - **Output evidence:** for Workflows, verify the promised result, professional
   minimum, declared inputs, constraints, format, and completion gate.
+
+Keep each behavior's protection at its authoritative owner. Where a shared
+lifecycle owner exists, its case owns task-change reassessment, reading reuse,
+and recovery; subject cases own their package conditions, direct routes, and
+application. Moving the shared responsibility also moves those assertions,
+rather than making every consumer case cover the shared owner. Where lifecycle
+is owned locally, that owner's case protects it locally. A Workflow's own
+clarification, action, and verification steps remain its execution responsibility.
 
 Before running evidence, identify the comparison model for the evaluated task.
 When one or more models materially authored the behavior, use the most capable

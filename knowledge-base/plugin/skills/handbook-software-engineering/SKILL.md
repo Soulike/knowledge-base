@@ -23,12 +23,6 @@ decisions in the active working directory.
    closest match. A direct learning or explanation request about a package's
    subject also matches that package without automatically loading the general
    code-work foundation.
-4. Reuse a reading unit that is already loaded, current, and available. Read it
-   again when its content changed or after recovery or compaction when its
-   necessary basis can no longer be established.
-5. Re-evaluate this Handbook and all package conditions when the task phase,
-   language, platform, artifact, production method, or available reading basis
-   changes. Add newly required reading before dependent work.
 
 This Handbook has no dependency on another Handbook. Continue the user's task
 under the applicable Workflow or active-project process after loading and
@@ -73,9 +67,8 @@ complete documents:
 - [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
 - [Application composition](../../knowledge/software-design/application-composition.md)
 
-The complete module document satisfies the foundation's section-level reading;
-do not reread those sections separately when the full file is already current
-and available.
+The complete module document also satisfies the foundation's section-level
+reading.
 
 ### Features and externally observable operations
 

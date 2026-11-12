@@ -18,11 +18,6 @@ task stage. Read every matching package before the decisions it informs; do not
 choose only the nearest match. A focused request to learn or explain a package's
 subject matches that package directly without forcing an unrelated package.
 
-Reuse a reading unit that is already loaded, current, and available. Re-evaluate
-all packages when the artifact, purpose, audience, software state, or task stage
-changes. Reread a unit when it changed or its necessary basis can no longer be
-established.
-
 ## Conditional required-reading packages
 
 ### Maintained factual and operational guidance

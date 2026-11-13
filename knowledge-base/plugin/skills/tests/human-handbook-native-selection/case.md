@@ -35,14 +35,12 @@ open Skill bodies or perform the substantive tasks.
 
 Supply the real installed Skill identifiers and descriptions from the current
 plugin snapshot, together with a realistic competing set from the same package.
-Do not disclose candidate bodies, expected selections, this case, or prior
-results. Use a fresh supported lower-capability model with the expanded executor
-guard and stop after it records the metadata choice.
+Do not expose candidate bodies before the metadata choice, and stop after that
+choice is recorded.
 
-Record the exact source snapshot, model, configuration, candidate set, rendered
-metadata when observable, inherited instructions, and any client truncation or
-automatic-loading evidence. Do not describe a metadata choice as a client
-invocation.
+Record the candidate set, rendered metadata when observable, inherited
+instructions, and any client truncation or automatic-loading evidence. Do not
+describe a metadata choice as a client invocation.
 
 ## Expected behavior
 
@@ -65,12 +63,8 @@ invocation.
 
 ## Verification
 
-Use the selection dispatch template with the current real candidate metadata.
-Inspect the returned identifiers and reasons, then give the capable reviewer
-this contract, the exact candidate set, and the raw observation without the
-coordinator's verdict. Judge every criterion separately. Missing or truncated
-candidate metadata leaves the affected criterion incomplete rather than proving
-a description failure.
+Inspect the returned identifiers and reasons. Missing or truncated candidate
+metadata cannot establish a description failure.
 
 ## Source
 

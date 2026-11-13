@@ -24,10 +24,9 @@ a suitable general test-writing workflow to be chosen.
 
 Build the same complete current authoring and primary-product Skill metadata set
 as for a natural selection task: `.agents/skills/*/SKILL.md` and
-`knowledge-base/plugin/skills/*/SKILL.md`. Supply no bodies or expected owner.
-Use a fresh supported lower-capability model context and the expanded executor
-guard, with a three-minute wall-clock allowance. Request selection only, with no
-code edits. Record inherited instructions and candidate construction.
+`knowledge-base/plugin/skills/*/SKILL.md`. Supply no candidate bodies. Request
+selection only, with no code edits. Record inherited instructions and candidate
+construction.
 
 ## Expected behavior
 
@@ -38,11 +37,10 @@ code edits. Record inherited instructions and candidate construction.
 
 ## Verification
 
-Use the selection template and capture JSON `owner` and `reason`. Judge R1 from
-the actual identifier and R2 from the real candidates plus the request, using
-independent semantic review where needed. Run the positive case-only routing
-case as its separate fresh-context control so an empty or broken candidate set
-cannot establish useful exclusion evidence.
+Capture JSON `owner` and `reason`. Judge R1 from the actual identifier and R2
+from the real candidates plus the request. Use the positive case-only routing
+case as a separate control so an empty or broken candidate set cannot establish
+useful exclusion evidence.
 
 A faulty observation assigning this request to case maintenance must fail R1.
 

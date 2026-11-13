@@ -38,14 +38,11 @@ Do not substitute the live subject Knowledge inventory or repository history.
 
 Supply the complete current content-maintenance Skill and Knowledge-maintenance
 workflow as guidance, with their applicable normative routes. The snapshot
-provides all assessed subject bodies, Catalog entries and installed routes.
-Use a fresh supported lower-capability model with the expanded executor guard,
-read-only source/input access, permission to write only its report, and a
-six-minute allowance. Capture source/input hashes, model/configuration, actual
-reads and action outputs. Keep this case, its expected behavior, prior results,
-and evaluator discussion private.
-This snapshot task needs no historical memory. Open known permitted guidance
-paths directly; avoid directory discovery that could expose case assets.
+provides all assessed subject bodies, Catalog entries, and installed routes.
+Permit read-only source/input access and writes only to its report. Capture
+source/input hashes, actual reads, and action outputs. This snapshot task needs
+no historical memory. Open known permitted guidance paths directly; avoid
+directory discovery outside the supplied task materials.
 
 ## Expected behavior
 
@@ -68,19 +65,13 @@ paths directly; avoid directory discovery that could expose case assets.
 
 ## Verification
 
-Dispatch only the task, permitted inputs/current guidance, and expanded guard.
-Compare observed reading with the returned plan. The parent's independent
-capable reviewer judges each criterion and the absence of unnecessary splitting
-using the fixture and raw observations, not the coordinator's preferred wording.
+Compare observed reading with the returned plan and inspect whether the plan
+introduces unnecessary splitting.
 
-For calibration, a response refusing every evergreen-to-time-sensitive change
+A response refusing every evergreen-to-time-sensitive change
 fails R2/R3; splitting this one current-contract responsibility without an
 independent subject need fails R3; deleting its current facts fails R4. Equivalent
-type-correction explanations remain permitted. These controls test the reviewer.
-
-Use fixed input/model settings and fresh contexts for before/after runs. Retain
-all attempts, including a baseline pass; do not repeat until the desired change
-appears.
+type-correction explanations remain permitted.
 
 For a pre-change comparison, judge the semantic decision criteria normally;
 absence of a reference that the old workflow did not yet select is not itself

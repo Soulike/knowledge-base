@@ -27,12 +27,12 @@ supported protection and unfinished-work decisions.
 ## Starting state
 
 Supply [the maintenance records](fixtures/review-input.json), the complete
-current covered guidance, its required normative routes, and source identity.
+current covered guidance, and its required normative routes.
 The records describe the inner maintenance subject whose cases the coordinator
 must assess; these are permitted work inputs, not this outer test's evaluator
-criteria. Keep this case file, criteria, assertion controls, and previous outputs
-private. The supplied inventory and current obligations are already established;
-do not discover this repository's outer cases or recursively run their tests.
+criteria. The supplied inventory and current obligations are already
+established; do not discover this repository's outer cases or recursively run
+their tests.
 
 All supplied execution observations are sufficient and have passing judgments.
 The existing capable reviewer has completed only the execution review. A new
@@ -41,8 +41,7 @@ its test support remains pending. No further actions have occurred. The task
 permits planning only, even though the supplied cleanup has been authorized for
 the maintenance it describes.
 
-Use a fresh supported lower-capability model, a five-minute wall-clock allowance,
-read-only access to permitted inputs and guidance, and permission to write only
+Permit read-only access to the supplied inputs and guidance and writes only to
 the designated result. Capture JSON fields `reviewer`, `review_scope`,
 `dispositions`, `next_actions`, and `maintenance_status`; field names are neutral
 capture mechanics, not expected decisions. This observes assessment and handoff,
@@ -70,16 +69,11 @@ not the execution of planned cleanup.
 
 ## Verification
 
-Use the current application template with only the task, necessary starting
-state, permitted inner records, current guidance, source identity, and expanded
-executor guard. Inspect the actual JSON artifact and available actions. Give
-the independent reviewer these criteria and raw observations without the
-coordinator's proposed verdict. Judge each criterion independently.
+Inspect the actual JSON artifact and available actions.
 
-For controlled rubric calibration, copy the output and omit the required value
+For a controlled faulty observation, copy the output and omit the required value
 review, or claim maintenance complete while cleanup is still pending. The
-corresponding critical criterion must fail. These copied observations test the
-judge; they are not additional Agent executions or proof of old/new improvement.
+corresponding critical criterion must fail.
 
 ## Source
 

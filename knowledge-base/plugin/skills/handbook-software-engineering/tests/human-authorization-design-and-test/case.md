@@ -19,7 +19,7 @@ interfaces, implementations, and test frameworks.
 
 ## Task
 
-Run each scenario in a separate fresh context:
+Treat these as independent scenarios:
 
 1. Design a confirmation-before-effect flow for deleting a production data set.
    A person must see the exact target, action, and consequences before deciding,
@@ -34,18 +34,16 @@ Run each scenario in a separate fresh context:
 ## Starting state
 
 For each scenario, supply the complete current Software-engineering Handbook,
-its permitted direct canonical routes, and the natural request without this
-case, expected choices, evaluator criteria, prior outputs, or author
-conclusions. For scenario 2, also supply the complete current Automated-testing
-Handbook and its direct routes so the executor can apply independently required
-test guidance. Use a separate fresh supported lower-capability model context
-with the expanded executor guard, read-only access to the supplied repository
-snapshot, and a six-minute allowance per scenario.
+its permitted direct canonical routes, the natural request, and read-only access
+to the supplied repository snapshot. For scenario 2, also supply the complete
+current Automated-testing Handbook and its direct routes so independently
+required test guidance is available. Keep the two scenarios isolated from one
+another.
 
 Ask the executor to record every selected and excluded package before opening
-Knowledge, then produce the requested design. Record the exact source snapshot,
-model, configuration, package choices, files and sections read, final design,
-and available action observations for each scenario.
+Knowledge, then produce the requested design. Record package choices, files and
+sections read, the final design, and available action observations for each
+scenario.
 
 ## Expected behavior
 
@@ -73,17 +71,13 @@ and available action observations for each scenario.
 
 ## Verification
 
-Use the application dispatch template independently for both scenarios.
-Inspect package choice, actual reading, and the resulting design separately.
-Give the capable reviewer this contract, the final Handbooks and Knowledge
-routes, and both raw observations without the coordinator's verdict. Judge
-every criterion per scenario and retain every attempt.
+Inspect package choice, actual reading, and the resulting design separately for
+each isolated scenario.
 
 A controlled faulty observation that omits the authorization package from
 either scenario, checks only a stable request ID, consumes the replacement
 decision on stale input, or tests only a caller-side disabled control must fail
-the corresponding criterion. The controlled copy calibrates the reviewer and
-is not another Agent run.
+the corresponding criterion.
 
 ## Source
 

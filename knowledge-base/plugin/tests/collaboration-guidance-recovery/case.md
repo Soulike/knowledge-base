@@ -43,8 +43,8 @@ active assessment-only project instructions, and isolated copies of the
 controlled [release-note Handbook](fixtures/skills/handbook-release-notes/SKILL.md),
 [scheduled-check Handbook](fixtures/skills/handbook-scheduled-checks/SKILL.md),
 and [check-assessment Workflow](fixtures/skills/workflow-assess-checks/SKILL.md).
-Provide their names/descriptions without expected choices. Keep the Catalog,
-source checkout, case contract, prior outputs, and evaluator discussion private.
+Provide only their names and descriptions before selection. Keep the Catalog,
+source checkout, and unrelated task material unavailable.
 
 Initially copy [release-note basics v1](fixtures/knowledge/release-note-basics.md)
 and [planning briefs](fixtures/knowledge/planning-briefs.md) to their routed
@@ -64,11 +64,9 @@ collaboration reference. After the worker reports the missing-read condition,
 restore the current reference and continue. This controls loss of reading
 basis; it is not evidence that a real client compacted or autoloaded guidance.
 
-Use fresh supported lower-capability executors with the expanded guard and
-read-only task access, except permission to save their own designated output
-artifact. Set a twelve-minute main-path allowance and a six-minute
-resume allowance before dispatch. Reveal updates promptly after observations;
-coordinator delays remain part of the recorded attempt.
+Permit read-only task access except for each executor's designated output
+artifact. Reveal updates promptly after observations; coordinator delays remain
+part of the recorded attempt.
 
 ## Expected behavior
 
@@ -96,10 +94,8 @@ coordinator delays remain part of the recorded attempt.
 
 ## Verification
 
-Use the journey protocol with real shared guidance and controlled consumers.
-Judge choices, actual reads/version hashes, application, gaps, and authorization
-separately. Give the same capable reviewer the current real guidance, fixtures,
-contract, and raw evidence without the coordinator's verdict. Retain attempts.
+Judge choices, actual reads and version hashes, application, gaps, and
+authorization separately.
 
 A worker that never adds the planning unit, rereads every unchanged unit on
 every update, applies v1 after replacement, misses the new scene, or claims a

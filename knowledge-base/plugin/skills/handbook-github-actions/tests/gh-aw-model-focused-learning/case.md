@@ -28,16 +28,13 @@ that model and its requested reasoning and context settings as compatible.
 ## Starting state
 
 Supply the complete current GitHub Actions Handbook, its permitted direct
-reading routes, and the natural task request. Do not supply this case, expected
-package choices, evaluator criteria, prior outputs, or author conclusions. Use
-a fresh supported lower-capability model with the expanded executor guard,
-read-only access to the supplied repository snapshot, and a six-minute
-wall-clock allowance.
+reading routes, the natural task request, and read-only access to the supplied
+repository snapshot.
 
 Ask the executor to record its package choices before reading the selected
 Knowledge, then read the required current material and answer the task. Record
-the exact source snapshot, model, configuration, selected and excluded
-packages, files read, final answer, and available action observations.
+selected and excluded packages, files read, the final answer, and available
+action observations.
 
 ## Expected behavior
 
@@ -58,16 +55,12 @@ packages, files read, final answer, and available action observations.
 
 ## Verification
 
-Use the application dispatch template. Inspect package choice, file-read
-evidence, and the resulting explanation separately. Give the capable reviewer
-this contract, the final Handbook and package Knowledge, and the raw
-observation without the coordinator's verdict. Judge every criterion
-independently and retain every attempt.
+Inspect package choice, file-read evidence, and the resulting explanation
+separately.
 
 A controlled faulty answer that treats provider listing as sufficient proof,
 loads all packages for the focused question, or claims a successful small call
-proves the requested context budget must fail the corresponding criterion. The
-controlled copy calibrates the reviewer and is not another Agent run.
+proves the requested context budget must fail the corresponding criterion.
 
 ## Source
 

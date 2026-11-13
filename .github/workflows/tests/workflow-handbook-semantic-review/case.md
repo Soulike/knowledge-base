@@ -48,12 +48,9 @@ the replay-only filenames there. This reconstructs the installed entrypoint
 shape without registering fixture Skills as maintained-content targets in the
 repository checkout.
 
-Supply the complete current covered verification sources as required guidance,
-but keep this case, its expected behavior, prior attempts, and evaluator
-conclusions private. Use a fresh supported lower-capability model with the
-expanded executor guard, read-only access, and a six-minute allowance. Record
-the tested source snapshot, model and configuration, files and sections read,
-the complete report, and available action observations.
+Supply the complete current covered verification sources as required guidance
+with read-only access. Record files and sections read, the complete report, and
+available action observations.
 
 ## Expected behavior
 
@@ -90,15 +87,10 @@ the complete report, and available action observations.
 
 ## Verification
 
-Use the application dispatch template with the current verifier sources and
-fixture inputs, without supplying this case file. Inspect the returned route
-map, responsibility classifications, fragment judgments, findings, and claims
-about observed behavior. Give the capable reviewer this contract, exact final
-sources and fixtures, source/model identity, and raw report without the
-coordinator's verdict. Judge every criterion independently and include case
-value and organization in that same review.
+Inspect the returned route map, responsibility classifications, fragment
+judgments, findings, and claims about observed behavior.
 
-For rubric calibration, a controlled faulty report that requires a Handbook
+A controlled faulty report that requires a Handbook
 workflow, treats Catalog or test links as runtime consumers, accepts the
 incomplete fragment, or infers reading from static reachability must fail the
 corresponding criterion. The controlled copies are judge inputs, not

@@ -38,16 +38,13 @@ package labels, and plan structure.
 
 Supply the complete current covered guidance, its required normative routes,
 the three named software-testing Knowledge documents, the current Knowledge
-Catalog, and installed Skill names and descriptions needed to compare owners.
-Use a fresh supported lower-capability model with the expanded executor guard,
-read-only access to the supplied repository snapshot, and a six-minute
-wall-clock allowance. Keep this case, its expected behavior, prior attempts,
-and evaluator conclusions private. Do not supply the parent specification or
-research note; the maintained guidance must make the behavior usable.
+Catalog, installed Skill names and descriptions needed to compare owners, and
+read-only access to the supplied repository snapshot. Do not supply the parent
+specification or research note; the maintained guidance must make the behavior
+usable.
 
 The task is planning only. No Skill, Knowledge, Catalog, or test mutation is
-permitted. Record the exact source snapshot, model, configuration, files read,
-and available action observations.
+permitted. Record files read and available action observations.
 
 ## Expected behavior
 
@@ -100,21 +97,16 @@ and available action observations.
 
 ## Verification
 
-Use the current application dispatch template with only the task, permitted
-starting materials, current guidance, source identity, and expanded executor
-guard. Inspect the returned plan and file-read account, then give the capable
-reviewer this contract and the raw observation without the coordinator's
-verdict. Judge every criterion separately and retain every attempt.
+Inspect the returned plan and file-read account separately.
 
-For rubric calibration, a controlled faulty plan that calls the proposal a
+A controlled faulty plan that calls the proposal a
 Workflow, replaces the three Knowledge files with copied prose, treats the
 cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
 critical criterion. A plan that cites the portable authoring reference as
 universal authority for the
 [repository-authoring Skill location](../../AGENTS.md#repository-architecture)
-or the product's prefixes must fail R8. These copies test the reviewer; they are
-not additional Agent runs or evidence about maintained guidance.
+or the product's prefixes must fail R8.
 
 ## Source
 

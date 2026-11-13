@@ -40,14 +40,11 @@ the task; they may already contain the result of earlier maintenance.
 Supply the complete current content-maintenance Skill and Knowledge-maintenance
 workflow as authoring guidance, with their applicable normative reading routes.
 The supplied snapshot replaces the assessed subject documents, Catalog, and
-consumer inventory; it does not replace authoring rules. Use a fresh supported
-lower-capability model, the expanded executor guard, read-only source/input
-access, permission to write only its result report, and a six-minute allowance.
-Record exact source/input hashes, model/configuration, reads and action outputs.
-Keep case definitions, expected answers, prior results, and evaluator discussion
-private.
-This snapshot task needs no historical memory. Open known permitted guidance
-paths directly; avoid directory discovery that could expose case assets.
+consumer inventory; it does not replace authoring rules. Permit read-only
+source/input access and writes only to its result report. Record exact
+source/input hashes, reads, and action outputs. This snapshot task needs no
+historical memory. Open known permitted guidance paths directly; avoid directory
+discovery outside the supplied task materials.
 
 ## Expected behavior
 
@@ -67,21 +64,12 @@ paths directly; avoid directory discovery that could expose case assets.
 
 ## Verification
 
-Use the application dispatch template with only Task, necessary Starting state,
-current guidance, and the expanded guard. Inspect actual reading events and
-the final plan separately. Have the parent's independent capable reviewer judge
-each criterion using these inputs and raw observations.
+Inspect actual reading events and the final plan separately.
 
-For rubric calibration, a controlled response that classifies the addition as
+A controlled response that classifies the addition as
 time-sensitive solely because it is conditional must fail R2/R3. A response
 that strips the useful condition or invents a platform split must fail R3.
-Equivalent durable wording and examples must remain acceptable. These controls
-test the reviewer, not additional Agent executions.
-
-When comparing guidance revisions, use the same task/input and model settings
-in separate fresh contexts, retaining every attempt. A baseline pass does not
-prove that a later wording change improved the behavior; do not retry to obtain
-the desired contrast.
+Equivalent durable wording and examples must remain acceptable.
 
 For a pre-change comparison, judge the semantic decision criteria normally;
 absence of a reference that the old workflow did not yet select is not itself

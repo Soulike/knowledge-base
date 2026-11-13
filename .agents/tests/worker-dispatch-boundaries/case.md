@@ -13,10 +13,12 @@
 ## Protected behavior
 
 The coordinator must prepare usable execution inputs from already selected
-cases without forwarding evaluator-only fields. Prompt instructions must not be
-mistaken for dispatcher configuration. Permit different surrounding wording,
-task names, and explanations while preserving the input boundary and canonical
-guard. This unit observes preparation, not actual nested worker execution.
+cases while retaining evaluator-only fields for the reviewer. Dispatcher
+arguments carry replay configuration; worker messages carry the case task,
+starting inputs, action boundary, and canonical guard. Permit different
+surrounding wording, task names, and explanations while preserving those
+responsibilities. This unit observes preparation, not actual nested worker
+execution.
 
 ## Task
 
@@ -33,19 +35,22 @@ These two inner tasks are already selected, so no repository case inventory or
 recursive regression execution is part of the assigned preparation.
 
 Supply the actual available dispatcher schema and the source snapshot. Use a
-fresh lower-capability model with an eight-minute wall-clock allowance. Allow
+fresh author-matched executor with an eight-minute wall-clock allowance. Allow
 reading the supplied data and current guidance and writing only the designated
 result file. Require a result object with `dispatches` and `reviewer_input`.
 Capture dispatches as an array of `key` and `arguments` pairs or an object
 mapping task keys to their arguments. These representations preserve the same
-observable calls. The model and context settings in the input
-are coordinator configuration, not instructions asking a running worker to
-change itself.
+observable calls. The authoring-model and context settings in the input are
+coordinator configuration, not instructions asking a running worker to change
+itself.
 
 ## Expected behavior
 
-- R1 (critical): each call's `arguments` selects the supplied model and excludes
-  parent history through the actual supported dispatcher settings.
+- R1 (critical): each call's `arguments` matches the supplied authoring model
+  and uses the supplied executor configuration while excluding parent history
+  through the actual supported dispatcher settings. Those settings remain
+  dispatcher arguments, while the worker message carries the inner case task
+  and starting materials.
 - R2 (critical): every `arguments.message` contains the complete current
   executor guard; a link or unexpanded placeholder is insufficient. Preserve its
   prohibition on obtaining evaluation answers or fabricating observations, its
@@ -71,15 +76,19 @@ access; a self-report does not prove absence of access.
 
 The assertion entrypoint accepts the result file followed by the current replay
 reference as literal command operands. Reflow of the canonical guard is allowed.
-For a safe faulty-output control, copy the result and remove `fork_turns`, omit
-the guard, or forward one evaluator marker. Each corresponding critical check
-must reject its faulty copy. These controls test the assertions; they are not
-additional Agent runs or proof of improvement over older guidance.
+For a safe faulty-output control, copy the result and change the model or
+reasoning effort, move dispatcher settings into the message, remove
+`fork_turns`, omit the guard, or forward one evaluator marker. Each
+corresponding critical check must reject its faulty copy. These controls test
+the assertions; they are not additional Agent runs or proof of improvement over
+older guidance.
 
 ## Source
 
 Recovered from the 2026-11-07 prompt-construction observations and targeted
-dispatcher-schema follow-up used for commit `201e279`. Independent maintainer
-decisions require a lower-capability fresh worker, explicit prompt guard,
-evaluator separation, and actual dispatcher arguments. The saved input retains
-that task with neutral material names; new replay establishes current validity.
+dispatcher-schema follow-up used for commit `201e279`. The current maintainer
+decision replaces lower-capability regression workers with fresh executors that
+match the change author's model while retaining task-appropriate executor
+configuration, the explicit prompt guard, evaluator separation, and actual
+dispatcher arguments. The saved input retains that task with neutral material
+names; new replay establishes current validity.

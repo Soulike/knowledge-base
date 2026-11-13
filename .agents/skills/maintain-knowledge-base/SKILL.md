@@ -189,13 +189,14 @@ Mechanical changes retain their existing reduced-evidence path.
 2. Gather execution evidence against the final content using the shared
    [replay protocol](../../references/agent-regression-tests.md#replay-and-evidence)
    and [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates).
-   Run selected historical cases and applicable lower-capability behavioral or
-   reader-understanding checks in fresh executor contexts. Reuse existing runs
-   only when they observed the same final content and supply the required
-   evidence. Collect raw observations and applicable program-assertion results
-   before requesting their semantic judgments. The reviewer may inspect the
-   explanation during preparation, but defer the combined verdict until the
-   required execution observations are available or explicitly incomplete.
+   Run selected historical cases with author-matched executors under the shared
+   replay protocol. Separately run any applicable lower-capability Skill-authoring
+   or reader-understanding checks in fresh contexts. Reuse existing runs only
+   when they observed the same final content and supply the required evidence.
+   Collect raw observations and applicable program-assertion results before
+   requesting their semantic judgments. The reviewer may inspect the explanation
+   during preparation, but defer the combined verdict until the required
+   execution observations are available or explicitly incomplete.
 3. Supply that same capable reviewer with active instructions, applicable
    standards, accepted requirements, raw final artifacts, the trusted pre-change
    state, case contracts, and actual observations without the author's

@@ -27,8 +27,8 @@ allowing different presentation of the same supported plan.
 Use [the observation records](fixtures/observations.json) as normal task data.
 They describe inner validation whose decisions the coordinator must handle;
 they are not this outer test's answers. Supply the current complete covered
-guidance and source identity, and keep this case's criteria and report private.
-These records are controlled task inputs, not logs of additional Agent runs.
+guidance. These records are controlled task inputs, not logs of additional
+Agent runs.
 
 The initial blind selection of reviewer `reviewer-one` is already recorded.
 Reading the final artifacts is now allowed for that same reviewer. Case `alpha`
@@ -36,14 +36,13 @@ has sufficient passing observations. Case `beta` has no observed violation, but
 its required confusion observation is absent. The listed attempts belong to the
 same source and must remain recorded. No further execution has occurred.
 
-Use a fresh supported lower-capability model, a six-minute wall-clock allowance,
-read-only source/data access, and permission to write the designated JSON result.
-Capture `case_statuses` as an object mapping given case IDs to `pass`, `fail`, or
-`incomplete`; `maintenance_status` uses the same statuses. Capture `next_actions`
-as an array, `reviewer` as an object with `id` and `input`, and `attempts` as an
-array retaining the supplied attempt records, directly or inside `record`
-wrappers or case-context `records` groups. These are neutral capture shapes,
-not their expected values.
+Permit read-only source/data access and writes only to the designated JSON
+result. Capture `case_statuses` as an object mapping given case IDs to `pass`,
+`fail`, or `incomplete`; `maintenance_status` uses the same statuses. Capture
+`next_actions` as an array, `reviewer` as an object with `id` and `input`, and
+`attempts` as an array retaining the supplied attempt records, directly or
+inside `record` wrappers or case-context `records` groups. These are neutral
+capture shapes, not their expected values.
 
 ## Expected behavior
 

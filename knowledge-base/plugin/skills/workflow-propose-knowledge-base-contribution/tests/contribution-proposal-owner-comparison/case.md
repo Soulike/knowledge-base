@@ -37,10 +37,8 @@ the Workflow's fixed references and concrete plugin files that the executor
 identifies as plausible owners. Do not preselect or name those candidate owners
 in the executor prompt.
 
-Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded read-only allowance. Prohibit repository edits, issue creation,
-comments, commits, pushes, pull requests, or other publication. Record the exact
-source snapshot, model and configuration, search basis, files actually read,
+Prohibit repository edits, issue creation, comments, commits, pushes, pull
+requests, or other publication. Record the search basis, files actually read,
 owner comparison, result, and observed external effects.
 
 ## Expected behavior
@@ -63,12 +61,9 @@ owner comparison, result, and observed external effects.
 
 ## Verification
 
-Use the application dispatch template. Inspect observable reads, the concrete
-owner comparison, final result, working-tree state, and external-effect log
-separately. Give the capable reviewer this contract, exact final Workflow and
-fixed references, the source snapshot, and raw observations without the
-coordinator's verdict. Missing read evidence or Catalog availability leaves C2
-or C3 incomplete rather than proving compliance.
+Inspect observable reads, the concrete owner comparison, final result,
+working-tree state, and external-effect log separately. Missing read evidence or
+Catalog availability cannot establish C2 or C3.
 
 ## Source
 

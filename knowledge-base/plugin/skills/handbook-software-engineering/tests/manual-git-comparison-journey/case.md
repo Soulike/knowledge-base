@@ -32,14 +32,10 @@ Handle both independent requests:
 
 Supply all requests and necessary task facts up front, the complete current
 covered guidance, and normal read-only access to its direct packaged routes.
-Use a fresh supported lower-capability model with the expanded executor guard
-and a task-appropriate bounded allowance established before dispatch. Keep the
-case, expected choices, previous outputs, and evaluator discussion private.
 
 Before opening Knowledge, record selected and excluded reading units separately
 for each independent request. Then permit the union of required direct reads
-and perform the tasks. Record source identity, model/configuration, choices,
-actual file or section reads, outputs, and action limits. The per-request
+and perform the tasks. Record choices, actual file or section reads, outputs, and action limits. The per-request
 choices test domain conditions; a shared executor's union of reads does not
 prove that a document was never loaded in another request. Do not stage a task
 change or score reassessment, reading reuse, or rereading in this case.
@@ -64,11 +60,8 @@ change or score reassessment, reading reuse, or rereading in this case.
 
 ## Verification
 
-Use the application dispatch protocol. Inspect the per-request package choices,
-actual direct reads, and domain application as separate evidence. Give the
-capable reviewer the current covered content, this contract, and raw
-observations without the coordinator's verdict. Judge every criterion
-independently and retain all attempts. This case does not claim native client
+Inspect the per-request package choices, actual direct reads, and domain
+application as separate evidence. This case does not claim native client
 selection or reading-lifecycle behavior.
 
 ## Source

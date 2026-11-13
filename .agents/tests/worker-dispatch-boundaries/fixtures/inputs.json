@@ -1,5 +1,7 @@
 {
-  "worker_model": "gpt-6-luna",
+  "authoring_model": "gpt-6.1-sol",
+  "executor_reasoning_effort": "xhigh",
+  "dispatcher_config_marker": "PRIVATE_DISPATCHER_CONFIGURATION",
   "worker_history": "none",
   "worker_allowance": "Three minutes of wall-clock time per inner task; record actual enforcement limits.",
   "items": [

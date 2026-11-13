@@ -41,17 +41,15 @@ only the guidance selection, package result, and any documented coverage gap.
 
 Build the current candidate set from the frontmatter of every direct installed
 Skill entrypoint under `knowledge-base/plugin/skills/*/SKILL.md`. Supply the
-four natural requests and candidate names and descriptions without expected
-choices, target hints, this case, or evaluator conclusions. Use a fresh
-supported lower-capability model with the expanded executor guard, read-only
-access to the supplied repository snapshot, and an eight-minute wall-clock
-allowance.
+four natural requests and candidate names and descriptions without opening
+candidate bodies. Permit read-only access to the supplied repository snapshot
+after the choices.
 
 Record candidate choices for all four requests before opening any candidate
 body. Then allow the executor to read the complete bodies and direct routes of
 its chosen Skills only far enough to determine package selection. Record the
-exact source snapshot, model, configuration, selected candidates, selected and
-excluded packages, files read, and final report.
+selected candidates, selected and excluded packages, files read, and final
+report.
 
 ## Expected behavior
 
@@ -72,17 +70,13 @@ excluded packages, files read, and final report.
 
 ## Verification
 
-Use the journey form of the shared replay protocol. Inspect native candidate
-selection and post-body package selection separately for each request. Give the
-capable reviewer this contract, the final Handbooks, the real candidate
-metadata, and the raw observation without the coordinator's verdict. Judge
-every criterion independently and retain every attempt.
+Inspect native candidate selection and post-body package selection separately
+for each request.
 
 A controlled faulty observation that loads the only package in each sparse
 Handbook, applies the GitHub Actions foundation to the focused retention
 question, or answers from invented platform guidance must fail the corresponding
-criterion. The controlled copy calibrates the reviewer and is not another Agent
-run.
+criterion.
 
 ## Source
 

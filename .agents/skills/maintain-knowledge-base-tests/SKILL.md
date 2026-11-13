@@ -49,6 +49,11 @@ use the repository's applicable testing workflows.
    [content-enumeration prerequisite](../../references/agent-regression-tests.md#case-assets)
    before registering cases. When the required tooling repair is outside the
    authorized scope, report that prerequisite and leave registration incomplete.
+   Write the case as one behavior unit: its task, scenario-specific starting
+   state, expected behavior, and distinguishing observations. The shared replay
+   framework supplies executor model selection, fresh-context creation, the
+   guard, default allowances, dispatch, reviewer handoff, attempt retention,
+   and result rules when that unit runs.
 6. Make the case independently replayable with current content, bounded starting
    state, observable criteria, and an evaluation method. Recover an original
    validation task when available. A reconstructed case must identify its
@@ -87,10 +92,14 @@ use the repository's applicable testing workflows.
    [replay protocol](../../references/agent-regression-tests.md#replay-and-evidence)
    and [result rules](../../references/agent-regression-tests.md#judge-and-report).
    Establish the current source identity, available execution boundary,
-   task-appropriate lower-capability model, observation methods, and bounded
-   resource allowance before dispatch. Report missing prerequisites explicitly.
-9. Give each independent case a fresh lower-capability Agent context containing
-   only the permitted task inputs. Build its prompt using the shared
+   authoring-model identity, task-appropriate executor configuration,
+   observation methods, and bounded resource allowance before dispatch. Report
+   missing prerequisites explicitly.
+9. Give each independent case a fresh Agent context that matches the current
+   change author's recorded model and contains only the permitted task inputs.
+   For human-only authorship, use the shared protocol's task-suitable model
+   selection. An unavailable authoring model leaves the replay incomplete even
+   when a diagnostic fallback run is useful. Build the prompt using the shared
    [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates),
    including the expanded executor instructions. Collect actual choices,
    artifacts, available action evidence, and applicable program-assertion

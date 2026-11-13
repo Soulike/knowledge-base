@@ -25,12 +25,10 @@ and wording for the same workflow choice.
 
 Build the current candidate set from the frontmatter of every direct Skill
 entrypoint under `.agents/skills/*/SKILL.md` and
-`knowledge-base/plugin/skills/*/SKILL.md`. Supply names and descriptions, not
-bodies, expected choices, this case's identity, or author conclusions. Use a
-fresh supported lower-capability model context with the expanded executor guard.
-Observe only selection; no file edits or substantive case authoring. Give the
-worker three minutes of wall-clock time. Record actual dispatcher settings and
-inherited runtime instructions separately from candidate metadata.
+`knowledge-base/plugin/skills/*/SKILL.md`. Supply names and descriptions without
+candidate bodies and stop after the choice. Permit no file edits or substantive
+case authoring. Record inherited runtime instructions separately from candidate
+metadata.
 
 ## Expected behavior
 
@@ -41,12 +39,11 @@ inherited runtime instructions separately from candidate metadata.
 
 ## Verification
 
-Use the current selection dispatch template. Ask for a JSON result containing
-`owner` and `reason`; these are neutral capture fields. Inspect the actual
-returned owner and reason, then give the independent reviewer the contract and
-observation. This protects catalog choice under recorded runtime instructions,
-not client loading. All attempts remain in the run report. If a body was exposed
-before the choice, report the narrower observation or incomplete independence.
+Capture a JSON result containing `owner` and `reason`; these are neutral capture
+fields. Inspect the returned owner and reason. This protects catalog choice
+under recorded runtime instructions, not client loading. If a body was exposed
+before the choice, the observation cannot establish independent metadata
+selection.
 
 For a controlled faulty observation, substitute the content-maintenance owner;
 R1 must fail even if the accompanying reason sounds plausible.

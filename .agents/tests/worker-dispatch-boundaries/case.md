@@ -13,10 +13,12 @@
 ## Protected behavior
 
 The coordinator must prepare usable execution inputs from already selected
-cases without forwarding evaluator-only fields. Prompt instructions must not be
-mistaken for dispatcher configuration. Permit different surrounding wording,
-task names, and explanations while preserving the input boundary and canonical
-guard. This unit observes preparation, not actual nested worker execution.
+cases while retaining evaluator-only fields for the reviewer. Dispatcher
+arguments carry replay configuration; worker messages carry the case task,
+starting inputs, action boundary, and canonical guard. Permit different
+surrounding wording, task names, and explanations while preserving those
+responsibilities. This unit observes preparation, not actual nested worker
+execution.
 
 ## Task
 
@@ -46,8 +48,9 @@ itself.
 
 - R1 (critical): each call's `arguments` matches the supplied authoring model
   and uses the supplied executor configuration while excluding parent history
-  through the actual supported dispatcher settings. Keep those settings out of
-  the worker message; inner cases do not own replay configuration.
+  through the actual supported dispatcher settings. Those settings remain
+  dispatcher arguments, while the worker message carries the inner case task
+  and starting materials.
 - R2 (critical): every `arguments.message` contains the complete current
   executor guard; a link or unexpanded placeholder is insufficient. Preserve its
   prohibition on obtaining evaluation answers or fabricating observations, its

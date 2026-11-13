@@ -49,9 +49,11 @@ use the repository's applicable testing workflows.
    [content-enumeration prerequisite](../../references/agent-regression-tests.md#case-assets)
    before registering cases. When the required tooling repair is outside the
    authorized scope, report that prerequisite and leave registration incomplete.
-   Keep executor model selection, fresh-context creation, the guard, default
-   allowances, dispatch, reviewer handoff, attempt retention, and result rules
-   at the shared replay framework rather than copying them into ordinary cases.
+   Write the case as one behavior unit: its task, scenario-specific starting
+   state, expected behavior, and distinguishing observations. The shared replay
+   framework supplies executor model selection, fresh-context creation, the
+   guard, default allowances, dispatch, reviewer handoff, attempt retention,
+   and result rules when that unit runs.
 6. Make the case independently replayable with current content, bounded starting
    state, observable criteria, and an evaluation method. Recover an original
    validation task when available. A reconstructed case must identify its

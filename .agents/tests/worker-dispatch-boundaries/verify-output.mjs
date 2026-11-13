@@ -75,7 +75,7 @@ for (const item of inputs.items) {
       (item.kind !== "selection" ||
         (!args.message.includes("fork_turns") &&
           !args.message.includes("reasoning_effort"))),
-    "R1: dispatcher model configuration must not be copied into the worker message.",
+    "R1: dispatcher model configuration must remain in dispatcher arguments.",
   );
   assert.equal(typeof args.task_name, "string");
   assert.ok(

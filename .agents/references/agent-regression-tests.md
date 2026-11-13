@@ -72,8 +72,8 @@ The request given to the tested Agent, without the expected answer.
 
 Scenario-specific materials, initial state, reset requirements, fixture state,
 and task-specific tool or action boundaries. Include conditions for constructing
-the current candidate set or supplying the current tested content. Do not repeat
-shared replay configuration.
+the current candidate set or supplying the current tested content. The shared
+replay framework supplies the execution configuration around this state.
 
 ## Expected behavior
 
@@ -83,8 +83,9 @@ criterion a stable label and identify any critical failure.
 ## Verification
 
 Case-specific observable evidence for each criterion. Identify program
-assertions, fault controls, and evidence required for process claims. Do not
-repeat shared dispatch, reviewer, attempt-retention, or result rules.
+assertions, fault controls, and evidence required for process claims. The replay
+framework supplies dispatch, reviewer handoff, attempt retention, and result
+rules around those observations.
 
 ## Source
 
@@ -105,20 +106,22 @@ or that the Agent read it. State the narrower claim unless actual loading or
 reading evidence is available. Keep a small number of journeys for distinct
 connection failures rather than repeating every application case end to end.
 
-## Keep replay configuration in the framework
+## Separate case contracts from replay execution
 
-Case assets define behavior contracts and scenario data. The shared replay
-protocol owns executor-model matching, fresh-context creation, dispatcher
-arguments, the executor guard, evaluator-only withholding, default resource
-allowances, reviewer handoff, attempt retention, and result classification. Do
-not copy those rules into ordinary cases.
+Like a unit test and its test runner, a case defines what behavior to exercise
+and observe, while the shared replay protocol defines how that case runs. Case
+assets own the task, scenario data, fixtures, expected behavior, and
+case-specific evidence. The framework composes executor-model matching,
+fresh-context creation, dispatcher arguments, the executor guard,
+evaluator-only withholding, default resource allowances, reviewer handoff,
+attempt retention, and result classification around that contract.
 
-`Starting state` may declare only the capabilities, permissions, writable
-fixtures, external controls, or exceptional resource characteristics specific
-to the scenario. `Verification` may declare only the observations, assertions,
-and controlled faults that distinguish that case's accepted behavior. A case
-whose tested subject is the replay framework itself may include the relevant
-configuration as task data and expected behavior.
+`Starting state` declares the capabilities, permissions, writable fixtures,
+external controls, or exceptional resource characteristics specific to the
+scenario. `Verification` declares the observations, assertions, and controlled
+faults that distinguish that case's accepted behavior. A case whose tested
+subject is the replay framework itself includes the relevant configuration as
+task data and expected behavior.
 
 Link static repository materials from `Starting state`, `Verification`, or
 `Source` using the normal Markdown reference rules. Fixtures may be copied into

@@ -55,13 +55,27 @@ for (const item of inputs.items) {
   const args = matches[0].arguments;
   assert.equal(
     args.model,
-    inputs.worker_model,
-    "R1: model must be a dispatcher argument.",
+    inputs.authoring_model,
+    "R1: executor model must match the authoring model.",
+  );
+  assert.equal(
+    args.reasoning_effort,
+    inputs.executor_reasoning_effort,
+    "R1: executor reasoning effort must match the selected executor configuration.",
   );
   assert.equal(
     args.fork_turns,
     inputs.worker_history,
     "R1: exclude parent history with the actual argument.",
+  );
+  assert.ok(
+    !args.message.includes(inputs.authoring_model) &&
+      !args.message.includes(inputs.executor_reasoning_effort) &&
+      !args.message.includes(inputs.dispatcher_config_marker) &&
+      (item.kind !== "selection" ||
+        (!args.message.includes("fork_turns") &&
+          !args.message.includes("reasoning_effort"))),
+    "R1: dispatcher model configuration must not be copied into the worker message.",
   );
   assert.equal(typeof args.task_name, "string");
   assert.ok(

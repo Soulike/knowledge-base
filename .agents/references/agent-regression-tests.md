@@ -70,8 +70,10 @@ The request given to the tested Agent, without the expected answer.
 
 ## Starting state
 
-Materials, initial state, tool boundary, and conditions for constructing the
-current candidate set or supplying the current tested content.
+Scenario-specific materials, initial state, reset requirements, fixture state,
+and task-specific tool or action boundaries. Include conditions for constructing
+the current candidate set or supplying the current tested content. Do not repeat
+shared replay configuration.
 
 ## Expected behavior
 
@@ -80,8 +82,9 @@ criterion a stable label and identify any critical failure.
 
 ## Verification
 
-Replay steps and observable evidence for each criterion. Identify program
-assertions, semantic rubric, and evidence required for process claims.
+Case-specific observable evidence for each criterion. Identify program
+assertions, fault controls, and evidence required for process claims. Do not
+repeat shared dispatch, reviewer, attempt-retention, or result rules.
 
 ## Source
 
@@ -101,6 +104,21 @@ A reported selection does not prove that a client automatically loaded a Skill
 or that the Agent read it. State the narrower claim unless actual loading or
 reading evidence is available. Keep a small number of journeys for distinct
 connection failures rather than repeating every application case end to end.
+
+## Keep replay configuration in the framework
+
+Case assets define behavior contracts and scenario data. The shared replay
+protocol owns executor-model matching, fresh-context creation, dispatcher
+arguments, the executor guard, evaluator-only withholding, default resource
+allowances, reviewer handoff, attempt retention, and result classification. Do
+not copy those rules into ordinary cases.
+
+`Starting state` may declare only the capabilities, permissions, writable
+fixtures, external controls, or exceptional resource characteristics specific
+to the scenario. `Verification` may declare only the observations, assertions,
+and controlled faults that distinguish that case's accepted behavior. A case
+whose tested subject is the replay framework itself may include the relevant
+configuration as task data and expected behavior.
 
 Link static repository materials from `Starting state`, `Verification`, or
 `Source` using the normal Markdown reference rules. Fixtures may be copied into
@@ -151,13 +169,24 @@ same live responsibility remains protected.
 
 ## Replay and evidence
 
-The maintenance Agent coordinates cases and gathers observations. Each
-independent case runs in a fresh executor context using a different, materially
-lower-capability supported model than the task's authoring comparison model.
-Select and record both models, their task suitability, and configuration using
-[Agent Skill authoring](../../knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior).
-The model must retain the tools, modalities, and context needed by the case.
-A smaller reasoning setting on the same model is not the required comparison.
+The maintenance Agent coordinates cases and gathers observations. Before
+dispatch, identify the model that materially authored the current change. Run
+each independent case in a fresh executor context using that same supported
+model. Select and record task-appropriate capability-relevant executor
+configuration, including reasoning effort when exposed. The executor must
+retain the tools, modalities, and context needed by the case. Record the
+authoring model, executor configuration, and model-matching basis. Fresh context
+and input separation provide independence; model capability difference is not a
+regression-replay requirement.
+
+When several models materially authored different affected behaviors, match
+each selected case to the model that authored the behavior it validates and
+record that choice. For human-only authorship, select a task-suitable supported
+model and record that no authoring-model match exists. When a model authored the
+change but that model is unavailable, an optional task-suitable fallback can
+supply diagnostic observations but cannot satisfy the replay requirement; keep
+the affected replay incomplete. If required model matching cannot be
+established for any other reason, also report the replay as incomplete.
 
 For native sub-Agents, a fresh context removes parent conversation history but
 may retain active instructions, installed Skill descriptions, filesystem access,
@@ -228,10 +257,11 @@ where indicated, without its coordinator notes. An unexpanded guard placeholder
 or a link asking the worker to find the guard is not a prepared prompt. The
 guard has one authoritative copy; the templates do not redefine it.
 
-Explicitly select the supported lower-capability model and a fresh executor
-context. For a dispatcher exposing `fork_turns` and `model`, use
-`fork_turns: "none"` and the selected model rather than inheriting conversation
-history or a default model. Confirm equivalent settings from another
+Explicitly select the recorded authoring model, the task-appropriate
+capability-relevant executor configuration, and a fresh context. For a
+dispatcher exposing `fork_turns`, `model`, and `reasoning_effort`, use
+`fork_turns: "none"` with the selected values rather than inheriting
+conversation history or defaults. Confirm equivalent settings from another
 dispatcher's available interface; report unavailable prerequisites. These
 settings do not remove inherited instructions or restrict filesystem access.
 
@@ -373,8 +403,9 @@ that apply the consuming testing workflow's maintenance principles.
 Record concise evidence in the existing PR or handoff:
 
 - Inventory and selection scope; selected IDs, related exclusions, and reasons.
-- Tested revision or snapshot, candidate construction, comparison and executor
-  models, configuration, inherited environment, tools, and observation limits.
+- Tested revision or snapshot, candidate construction, authoring and executor
+  model match, configuration, inherited environment, tools, and observation
+  limits.
 - Each attempt's actual observations, criterion judgments, case status, and
   available resource usage; link retained artifacts or logs where useful.
 - Diagnosed failures, case or contract changes and rationale, review conclusions,

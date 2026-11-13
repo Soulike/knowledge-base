@@ -40,14 +40,12 @@ split PowerShell leaf, current subject Catalog, or issue/history conclusions.
 
 Supply the complete current content-maintenance Skill and Knowledge-maintenance
 workflow as authoring guidance, with their applicable normative routes. Use the
-snapshot's subject documents, Catalog, candidate owners and installed routes
-instead of the live subject inventory. Use a fresh supported lower-capability
-model, the expanded executor guard, read-only source/input access, permission
-to write only its report, and a six-minute allowance. Record source/input hashes,
-model/configuration, actual reads and action outputs. Keep evaluator material
-and other run results private.
-This snapshot task needs no historical memory. Open known permitted guidance
-paths directly; avoid directory discovery that could expose case assets.
+snapshot's subject documents, Catalog, candidate owners, and installed routes
+instead of the live subject inventory. Permit read-only source/input access and
+writes only to its report. Record source/input hashes, actual reads, and action
+outputs. This snapshot task needs no historical memory. Open known permitted
+guidance paths directly; avoid directory discovery outside the supplied task
+materials.
 
 ## Expected behavior
 
@@ -74,10 +72,8 @@ paths directly; avoid directory discovery that could expose case assets.
 
 ## Verification
 
-Use the application dispatch template without this contract or earlier outputs.
-Inspect actual reading events and returned ownership/type/route decisions. Give
-the parent's capable independent reviewer the complete contract, fixture, exact
-guidance, and raw observations for separate criterion judgments.
+Inspect actual reading events and the returned ownership, type, and route
+decisions separately.
 
 Calibration controls: a response that only changes the mixed general leaf to
 time-sensitive fails R2/R3 even though that label describes its mixed claims;
@@ -85,10 +81,6 @@ deleting the platform contribution without an owner fails R3/R5; putting it in
 execution-policy fails R2/R3. A different suitable platform filename or an
 equivalent conditional reading route is permitted. Controls judge the rubric,
 not extra executions.
-
-For before/after comparison, hold input and model configuration constant in
-fresh contexts and retain every outcome. Old guidance may also succeed; report
-that result without manufacturing a failing baseline.
 
 For a pre-change comparison, judge the semantic decision criteria normally;
 absence of a reference that the old workflow did not yet select is not itself

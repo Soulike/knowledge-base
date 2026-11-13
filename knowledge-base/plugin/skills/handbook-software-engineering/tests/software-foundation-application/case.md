@@ -36,14 +36,10 @@ with `python3 -m unittest -v` from the fixture directory.
 
 After the native selection observation, supply the complete current
 software-engineering Handbook and permit read-only access to its canonical
-routes plus write access only to an isolated fixture copy. Use a fresh supported
-lower-capability model with the expanded executor guard and a six-minute
-allowance. Keep this case, expected behavior, prior attempts, and evaluator
-conclusions private.
+routes plus write access only to an isolated fixture copy.
 
-Record the tested source snapshot, model and configuration, every canonical
-section or file actually read, the final artifact, commands run, and available
-action observations.
+Record every canonical section or file actually read, the final artifact,
+commands run, and available action observations.
 
 ## Expected behavior
 
@@ -67,12 +63,8 @@ by caller leverage`, including their subsections. Do not read or claim the
 
 ## Verification
 
-Use the application dispatch template after recording selection. Inspect the
-file-read trace, resulting fixture diff, and test output. Give the capable
-reviewer this contract, the exact Handbook and Knowledge snapshot, starting
-fixture, raw action evidence, and final artifact without the coordinator's
-verdict. Judge route compliance, semantic application, and behavior
-preservation separately.
+After recording selection, inspect the file-read trace, resulting fixture diff,
+and test output separately.
 
 A controlled faulty observation that reads the entire module document for this
 foundation-only task, skips one of the five complete programming files, changes

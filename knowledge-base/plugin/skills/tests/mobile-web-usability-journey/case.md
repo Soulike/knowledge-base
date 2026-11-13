@@ -36,12 +36,10 @@ instructions, and complete current covered guidance with its direct routes.
 The status resolver and clinic channel are demo fixtures, not real services or
 authority for an external effect. Make the maintenance Catalog unavailable.
 
-Use a fresh supported lower-capability model with the expanded executor guard
-and a bounded writable allowance limited to the prototype. Supply the complete
-task up front, record package choices before Knowledge, then capture actual
-reads, the artifact, browser observations, and evaluation evidence. Keep this
-case and evaluator-only material private. Do not delay the evaluation intent
-or assert reading-lifecycle behavior.
+Permit writes only to the isolated prototype. Supply the complete task up
+front, record package choices before Knowledge, then capture actual reads, the
+artifact, browser observations, and evaluation evidence. Do not delay the
+evaluation intent or assert reading-lifecycle behavior.
 
 ## Expected behavior
 
@@ -65,11 +63,8 @@ or assert reading-lifecycle behavior.
 
 ## Verification
 
-Use the application dispatch protocol. Inspect the per-request package choices,
-actual direct reads, and domain application as separate evidence. Give the
-capable reviewer the current covered content, this contract, and raw
-observations without the coordinator's verdict. Judge every criterion
-independently and retain all attempts. This case does not claim native client
+Inspect the per-request package choices, actual direct reads, and domain
+application as separate evidence. This case does not claim native client
 selection or reading-lifecycle behavior.
 
 Inspect actual narrow-browser behavior and truthful outcome/recovery states.

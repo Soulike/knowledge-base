@@ -41,11 +41,8 @@ answer grounded in that material.
 ## Starting state
 
 Supply the complete current Azure DevOps, Chromium, and Codex Handbooks, their
-permitted direct reading routes, and the three task requests. Do not supply
-this case, expected package choices, evaluator criteria, prior outputs, or
-author conclusions. Use a fresh supported lower-capability model with the
-expanded executor guard, read-only access to the supplied repository snapshot,
-and an eight-minute wall-clock allowance.
+permitted direct reading routes, the three task requests, and read-only access
+to the supplied repository snapshot.
 
 No Azure DevOps pull request, renderer, attachment endpoint, or publication
 authorization is supplied. The Azure request prepares editable source and the
@@ -54,9 +51,8 @@ unperformed rendering, attachment, stored-description, and reviewer-surface
 observations instead of claiming those effects.
 
 Ask the executor to record every selected and excluded package before reading,
-then read the required current material and answer each request. Record the
-exact source snapshot, model, configuration, package choices, files read, final
-answers, and available action observations.
+then read the required current material and answer each request. Record package
+choices, files read, final answers, and available action observations.
 
 ## Expected behavior
 
@@ -85,16 +81,12 @@ answers, and available action observations.
 
 ## Verification
 
-Use the application dispatch template. Inspect package choices, file-read
-evidence, and each resulting answer separately. Give the capable reviewer this
-contract, the final Handbooks and package Knowledge, and the raw observation
-without the coordinator's verdict. Judge every criterion independently and
-retain every attempt.
+Inspect package choices, file-read evidence, and each resulting answer
+separately.
 
 Controlled faulty answers that hard-code a stale Codex model, publish raw
 Mermaid or claim publication without the specified verification boundaries, or keep model access in
 the Chromium view controller must fail the corresponding critical criterion.
-These copies calibrate the reviewer and are not additional Agent runs.
 
 ## Source
 

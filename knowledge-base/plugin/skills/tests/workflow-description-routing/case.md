@@ -127,18 +127,14 @@ Build the target-model candidate set from every direct installed entrypoint
 whose registered name begins with `handbook-` or `workflow-` under
 `knowledge-base/plugin/skills/*/SKILL.md`. Confirm that this produces all 15
 Handbooks and 20 Workflows, for 35 candidates, with no other installed
-entrypoint. Supply all requests and candidate
-names and descriptions without expected choices, target hints, this case, or
-evaluator conclusions. Use a fresh supported lower-capability model with the
-expanded executor guard and an eight-minute wall-clock allowance. A tool-free
-model request that receives only this task and the exact candidate metadata is a
-supported selection boundary; when repository access is available instead, keep
-it read-only and do not open candidate bodies.
+entrypoint. Supply all requests and candidate names and descriptions without
+opening candidate bodies. A request that receives only this task and the exact
+candidate metadata is a supported selection boundary; when repository access is
+available instead, keep it read-only and do not open candidate bodies.
 
-Record the exact source snapshot, model, configuration, complete candidate
-metadata, and every choice before any candidate body is opened. Treat each
-numbered request independently; a choice for one request must not teach later
-requests the expected route.
+Record the complete candidate metadata and every choice before any candidate
+body is opened. Treat each numbered request independently; a choice for one
+request must not teach later requests the expected route.
 
 ## Expected behavior
 
@@ -193,19 +189,14 @@ requests the expected route.
 
 ## Verification
 
-Use the selection dispatch template and capture one identifier list and reason
-per numbered request. Give the capable reviewer this contract, the trusted
-pre-rename descriptions from integration commit `e008e1a` for the first
-fourteen Workflows, the six remaining pre-rename descriptions from integration
-commit `d60172e`, the final candidate metadata, and the raw choices without the
-coordinator's verdict. Compare every request against its trusted baseline and
-the final metadata, then judge each criterion independently.
+Capture one identifier list and reason per numbered request. Compare every
+request with the trusted pre-rename descriptions from integration commits
+`e008e1a` and `d60172e` and with the final candidate metadata.
 
 A controlled faulty observation that swaps either adjacent documentation,
 testing, pull-request, or security route; applies the web probe to a static
 design; resolves a Skill without an exact invocation; retries a Git-clone 403;
 or advances past an unanswered question must fail the corresponding criterion.
-The controlled copy calibrates the reviewer and is not another Agent run.
 
 ## Source
 

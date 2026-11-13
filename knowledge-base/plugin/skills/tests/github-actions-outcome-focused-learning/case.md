@@ -30,18 +30,15 @@ explanation; do not create, change, review, or diagnose a concrete workflow.
 
 Build the current candidate set from every direct installed Skill entrypoint
 under `knowledge-base/plugin/skills/*/SKILL.md`. Supply the natural request and
-the exact candidate names and descriptions without expected choices, target
-hints, this case, or evaluator conclusions. Use a fresh supported
-lower-capability model with the expanded executor guard, read-only access to the
-supplied repository snapshot, and a six-minute wall-clock allowance.
+the exact candidate names and descriptions without opening candidate bodies.
+Permit read-only access to the supplied repository snapshot after the choice.
 
 Record candidate choices before opening bodies. Then supply the complete
 current bodies of the chosen Handbooks and permit read-only access to their
 direct canonical routes. Ask the executor to record every selected and excluded
-reading unit before opening Knowledge, then answer the task. Record the exact
-source snapshot, model, configuration, selected candidates, package choices,
-files read, direct reading routes, final answer, and available action
-observations.
+reading unit before opening Knowledge, then answer the task. Record selected
+candidates, package choices, files read, direct reading routes, final answer,
+and available action observations.
 
 ## Expected behavior
 
@@ -65,18 +62,13 @@ observations.
 
 ## Verification
 
-Use the journey dispatch protocol. Inspect native selection, package choices,
-file-read evidence, direct routes, and the final explanation as separate
-observations. Give the capable reviewer this contract, the final Handbooks and
-direct routes, the real candidate metadata, and the raw observation without the
-coordinator's verdict. Judge every criterion independently and retain every
-attempt.
+Inspect native selection, package choices, file-read evidence, direct routes,
+and the final explanation as separate observations.
 
 A controlled faulty observation that selects only one Handbook, loads unrelated
 platform packages, invokes one Handbook through the other, or treats an
 unexpected skip as a valid result must fail the
-corresponding criterion. The controlled copy calibrates the reviewer and is not
-another Agent run.
+corresponding criterion.
 
 ## Source
 

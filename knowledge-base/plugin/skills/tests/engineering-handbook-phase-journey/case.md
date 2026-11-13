@@ -45,11 +45,8 @@ new body, then record every selected and excluded package before opening newly
 required Knowledge. Permit read-only access to direct canonical routes and no
 external effects.
 
-Use one fresh supported lower-capability model with the expanded executor guard
-and a twelve-minute total allowance. Keep this case, its expected behavior,
-prior attempts, and evaluator conclusions private. Record the source snapshot,
-model and configuration, initial candidate set, each phase message, choices,
-file and section reads, evolving result, and observation limits.
+Record the initial candidate set, each phase message, choices, file and section
+reads, evolving result, and observation limits.
 
 This case observes the engineering guidance required by each phase. Do not
 score generic reading reuse, rereading, guidance-change, interruption, or
@@ -95,12 +92,8 @@ evaluator-only content.
 
 ## Verification
 
-Use the journey dispatch protocol, preserving the natural message sequence.
-Inspect phase-by-phase choices, direct route reads, domain application, and the
-evolving result as separate evidence. Give the capable reviewer the exact
-source, current bodies and routes, messages, raw observations, and this contract
-after the journey completes. Judge each criterion independently and retain all
-attempts.
+Preserve the natural message sequence. Inspect phase-by-phase choices, direct
+route reads, domain application, and the evolving result as separate evidence.
 
 For phase 4 inspect actual before/after command output and environment evidence.
 A plausible PATH string alone is not execution evidence. Controlled faulty

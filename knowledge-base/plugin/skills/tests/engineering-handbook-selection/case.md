@@ -51,14 +51,12 @@ before opening any candidate body.
 
 Construct the candidate set from every installed Skill entrypoint in the exact
 tested source snapshot. Supply only registered names, descriptions, paths, and
-the normal client metadata visible before selection. Do not expose Skill bodies,
-expected selections, this case, or evaluator annotations. Use a fresh supported
-lower-capability model with the expanded executor guard and a four-minute total
-allowance for the fifteen independent choices.
+the normal client metadata visible before selection. Do not expose Skill bodies
+before recording the fifteen independent choices.
 
-Record the source snapshot, client or dispatch mechanism, model, configuration,
-candidate count, any metadata truncation, and each raw choice. Selection-only
-dispatch must not claim that a client loaded the chosen bodies.
+Record the candidate count, any metadata truncation, client or dispatch
+evidence, and each raw choice. Selection-only dispatch must not claim that a
+client loaded the chosen bodies.
 
 ## Expected behavior
 
@@ -98,19 +96,16 @@ dispatch must not claim that a client loaded the chosen bodies.
 
 ## Verification
 
-Use the selection dispatch template and keep every request independent. Give
-the capable reviewer the exact candidate metadata, raw choices, model and
-client details, and this contract only after all choices are recorded. Judge
-each request separately; a correct choice on one request does not offset a
-missed critical route or unrelated selection on another.
+Keep every request independent and inspect each recorded choice separately. A
+correct choice on one request does not offset a missed critical route or
+unrelated selection on another.
 
-For rubric calibration, controlled faulty observations that omit the only
+Controlled faulty observations that omit the only
 required covered Handbook for requests 1, 2, 5, or 6, or that select one of the
 five for requests 7 or 8, must fail the corresponding criterion. Omitting
 software engineering for requests 9 through 13, requiring automation for
 requests 9 through 11, or selecting software engineering for request 14 must
-also fail the corresponding critical criterion. These copies test the reviewer
-rather than the Handbooks.
+also fail the corresponding critical criterion.
 
 ## Source
 

@@ -28,16 +28,12 @@ design, modify, review, or diagnose a concrete workflow.
 ## Starting state
 
 Supply the complete current Automation Handbook, its permitted direct canonical
-routes, and the natural task request. Do not supply this case, expected reading
-choices, evaluator criteria, prior outputs, or author conclusions. Use a fresh
-supported lower-capability model with the expanded executor guard, read-only
-access to the supplied repository snapshot, and a six-minute wall-clock
-allowance.
+routes, the natural task request, and read-only access to the supplied repository
+snapshot.
 
 Ask the executor to record every selected and excluded reading unit before
-opening Knowledge, then answer the task. Record the exact source snapshot,
-model, configuration, reading choices, files read, final answer, and available
-action observations.
+opening Knowledge, then answer the task. Record reading choices, files read, the final answer, and available action
+observations.
 
 ## Expected behavior
 
@@ -60,17 +56,12 @@ action observations.
 
 ## Verification
 
-Use the application dispatch template. Inspect reading choices, actual file
-reads, and the explanation separately. Give the capable reviewer this contract,
-the final Handbook and direct routes, and raw observations without the
-coordinator's verdict. Judge every criterion independently and retain every
-attempt.
+Inspect reading choices, actual file reads, and the explanation separately.
 
 A controlled faulty observation that selects only the closest subject, loads
 the complete primary-work foundation, accepts missing validation as success,
 or recommends repeating publication without establishing its earlier effects
-must fail the corresponding criterion. The controlled copy calibrates the
-reviewer and is not another Agent run.
+must fail the corresponding criterion.
 
 ## Source
 

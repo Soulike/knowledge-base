@@ -32,17 +32,14 @@ what evidence they will have for investigation.
 
 Build the current 35-candidate Handbook and Workflow set from frontmatter under
 `knowledge-base/plugin/skills/*/SKILL.md`. Supply the natural task request and
-candidate names and descriptions without expected choices, target hints, this
-case, or evaluator conclusions. Make `knowledge/index.md` unavailable as a
-runtime input during execution.
+candidate names and descriptions without opening candidate bodies. Make
+`knowledge/index.md` unavailable as a runtime input during execution.
 
-Use a fresh supported lower-capability model with the expanded executor guard,
-read-only access to the supplied repository snapshot, and a six-minute
-wall-clock allowance. First record the candidate choice before opening any body.
-Then allow the executor to read the complete current body of each chosen Skill
-and its permitted direct routes and produce the requested workflow design.
-Record the exact source snapshot, model, configuration, selected candidates,
-files read, final result, and available action observations.
+Permit read-only access to the supplied repository snapshot. First record the
+candidate choice before opening any body. Then permit the complete current body
+of each chosen Skill and its direct routes to be read before producing the
+workflow design. Record selected candidates, files read, the final result, and
+available action observations.
 
 ## Expected behavior
 
@@ -70,18 +67,14 @@ files read, final result, and available action observations.
 
 ## Verification
 
-Use the journey form of the shared replay protocol. Inspect blind selection,
-file-read accounts, and the resulting design separately. Confirm the direct
-Workflow routes operated with the Catalog unavailable. Give the capable
-reviewer this contract, the complete final bodies and direct Knowledge routes,
-the 35-candidate metadata, and the raw observation without the coordinator's
-verdict. Judge every criterion independently and retain every attempt.
+Inspect blind selection, file-read accounts, and the resulting design
+separately. Confirm that the direct Workflow routes operated with the Catalog
+unavailable.
 
 A controlled faulty observation that omits one automation foundation document,
 skips the Git-comparison package, reads mobile or Web guidance for the
 background-only flow, or lets missing validation evidence authorize artifact
-publication must fail the corresponding critical criterion. The controlled copy
-calibrates the reviewer and is not another Agent run.
+publication must fail the corresponding critical criterion.
 
 ## Source
 

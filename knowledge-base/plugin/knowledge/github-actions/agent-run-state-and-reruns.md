@@ -13,12 +13,14 @@ Update this document when a real multi-stage, safe-output, publication, or rerun
 Treat the Agent invocation and every consumer of its decisions as participants in one run contract. Before launching the Agent, establish:
 
 - the immutable identity of the subject being inspected;
+- the execution identity of the concrete invocation, including the rerun
+  attempt producing the decision;
 - the complete set of targets or review surface the Agent must account for;
 - the repository, network, history, and remote-service capabilities available to it;
 - the decision states and transport accepted downstream; and
 - the later operation, status, or external effect associated with each accepted state.
 
-Render the prompt from this contract and give its other consumers the same values. Do not let the prompt, launcher, transport, validator, safe-output handler, or publisher independently reconstruct the subject or target set from a moving branch, ambient workspace, or current remote state. Agreement by convention is weaker than carrying and checking the same identity at every boundary.
+Render the prompt from this contract and give its other consumers the same values. Do not let the prompt, launcher, transport, validator, safe-output handler, or publisher independently reconstruct the subject, target set, or execution identity from a moving branch, ambient workspace, current remote state, or later job context. Agreement by convention is weaker than carrying and checking the subject and execution identities at every boundary.
 
 ## Keep the prompt and runtime truthful
 
@@ -32,6 +34,12 @@ An Agent process may emit commentary, progress, tool calls, retries, usage recor
 
 Use a decision transport with machine-detectable framing. Depending on the task, this may be a structured terminal answer, a dedicated result artifact, or calls to narrowly scoped safe-output tools. Define how the consumer identifies one completed terminal state. Reject missing, duplicate, out-of-order, ambiguous, malformed, and unsupported envelopes. Do not recover a result by stripping expected prose or code fences, or by searching unframed text for a likely structured substring.
 
+When a decision crosses a step, job, process, or rerun-attempt boundary, carry
+the trusted subject and execution identities needed by its consumers inside the
+validated transport. A dependency edge, artifact name, current environment, or
+workflow run identifier alone does not authenticate which rerun attempt
+produced the decision.
+
 A safe-output request is still untrusted Agent output. Removing the privileged credential from the Agent narrows the reachable effect, but it does not make the requested action, subject, destination, or body authoritative. The safe-output transport may enforce schema, cardinality, fixed fields, sanitization, and permission separation; a repository-specific gate must still decide whether the accepted request satisfies the task contract.
 
 Validate the transport envelope before validating the selected result or requested effect. Keep those responsibilities separate so a transport change cannot silently weaken subject, scope, coverage, domain, or publication checks.
@@ -40,13 +48,13 @@ Validate the transport envelope before validating the selected result or request
 
 Choose a result representation that can prove the completion claim the workflow needs. A task that requires a decision for every target should carry one authenticated entry per target and reject missing, duplicate, or unknown entries. A task that transports only requested effects and a terminal `no action` or `incomplete` signal can prove effect shape and terminal-state selection, but it does not mechanically prove an unrepresented per-target classification.
 
-Define exact allowed fields for each state so success, required change, inconclusive work, and execution failure cannot be mistaken for one another. Use one canonical validator whenever model output or a transferred artifact is deserialized. Recheck the subject, scope, represented coverage, exact shape, and state invariants rather than transferring trust from an earlier process. Within one validation boundary, downstream consumers should receive the validated representation instead of reinterpreting raw model text or applying a second, weaker contract.
+Define exact allowed fields for each state so success, required change, inconclusive work, and execution failure cannot be mistaken for one another. Use one canonical validator whenever model output or a transferred artifact is deserialized. Recheck the subject, execution identity and rerun-attempt evidence, scope, represented coverage, exact shape, and state invariants rather than transferring trust from an earlier process. Within one validation boundary, downstream consumers should receive the validated representation instead of reinterpreting raw model text or applying a second, weaker contract.
 
 When the transport deliberately omits detailed classifications, document that validation limit and make incomplete work a distinct failing terminal state. Do not describe a passing transport check as proof of analysis the transport does not encode.
 
 ## Put publication policy at the privileged boundary
 
-The component that owns an external effect must authorize the canonical subject, operation, destination, and complete effect immediately before using its credential. Validate injected fields and reject extra fields that would widen the effect. Bind issue, review, comment, label, branch, or other destinations to trusted workflow state rather than accepting an Agent-supplied identifier merely because it parses.
+The component that owns an external effect must authorize the canonical subject, accepted producing execution including its rerun attempt, operation, destination, and complete effect immediately before using its credential. Validate injected fields and reject extra fields that would widen the effect. Bind issue, review, comment, label, branch, or other destinations to trusted workflow state rather than accepting an Agent-supplied identifier merely because it parses.
 
 Prefer a publication gate before the effect when the complete requested effect is available for validation. When a platform or safe-output runtime publishes first and a repository gate can only authenticate the resulting object afterward, treat the published object as a residual effect that a failing gate may leave visible. The later gate can still own a required status, derived labels, and current-subject authentication, but it does not make the earlier publication transactional.
 
@@ -56,9 +64,16 @@ Recheck mutable subject state after applying derived labels or conclusions. If t
 
 ## Carry producer-selected state across jobs
 
-The job that selects and inspects the subject owns the resulting subject identity. Export that identity together with any artifact identity, and embed the subject and scope inside transferred artifacts. A consuming job retrieves the named artifact, establishes which subject it is operating on, and compares artifact metadata with the producer-selected values before using it.
+The job that selects and inspects the subject owns the resulting subject
+identity. The trusted runner or launcher owns the execution identity and
+rerun-attempt evidence. Export the subject identity, execution identity, and
+attempt evidence together with any artifact or transport identity, and embed
+the subject, scope, execution, and attempt inside transferred results. A
+consuming job retrieves the named result, establishes
+which subject and attempt it is operating on, and compares the transferred
+metadata with the producer-selected and runner-owned values before using it.
 
-When the producer cannot supply a validated decision, route the consumer through an explicit execution-failure path. A fallback checkout may provide trusted tooling for reporting that failure, but it must not turn a missing producer identity or artifact into a result attributed to a different subject.
+When the producer cannot supply a validated decision, route the consumer through an explicit execution-failure path. A fallback checkout may provide trusted tooling for reporting that failure, but it must not turn a missing subject, execution identity, rerun-attempt evidence, or artifact into a result attributed to another subject or attempt.
 
 ## Give each identity one purpose
 

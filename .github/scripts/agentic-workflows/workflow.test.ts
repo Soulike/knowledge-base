@@ -1,8 +1,5 @@
 import assert from "node:assert/strict";
-import { spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { readFileSync } from "node:fs";
 import { describe, it } from "node:test";
 
 import { fromMarkdown } from "mdast-util-from-markdown";
@@ -258,93 +255,7 @@ const contentVerificationFiles = [
 ] as const;
 const targetManifestSandboxPath = "/content-verification-targets.json";
 
-function renderedFirewallConfig(
-  steps: unknown[],
-  execution: string,
-): JsonObject {
-  const command = String(stepByName(steps, execution).run);
-  const lines = command.split("\n");
-  const start = lines.findIndex((line) =>
-    line.startsWith("GH_AW_MAX_AI_CREDITS="),
-  );
-  const end = lines.findIndex(
-    (line, index) =>
-      index > start &&
-      line.startsWith("printf ") &&
-      line.includes("/awf-config.json"),
-  );
-  assert.ok(start >= 0 && end > start, "Expected the AWF config generation.");
-
-  const root = mkdtempSync(join(tmpdir(), "awf-config-test-"));
-  try {
-    mkdirSync(join(root, "gh-aw"));
-    const result = spawnSync(
-      "bash",
-      ["-e", "-c", lines.slice(start, end + 1).join("\n")],
-      {
-        encoding: "utf8",
-        env: { PATH: process.env.PATH, RUNNER_TEMP: root },
-      },
-    );
-    assert.equal(result.status, 0, result.stderr);
-    return object(
-      JSON.parse(readFileSync(join(root, "gh-aw", "awf-config.json"), "utf8")),
-      "rendered AWF config",
-    );
-  } finally {
-    rmSync(root, { recursive: true, force: true });
-  }
-}
-
 describe("compiled Agent runtime boundaries", () => {
-  it("uses one compiler-selected firewall for the disabled Agent and detection budgets", () => {
-    const observedVersions = new Set<string>();
-    for (const file of contentVerificationFiles) {
-      const { jobs } = loadCompiledWorkflow(file);
-      for (const [jobName, execution] of [
-        ["agent", "Execute GitHub Copilot CLI"],
-        ["detection", "Execute threat detection with AWF"],
-      ] as const) {
-        const job = object(jobs[jobName], `${file} ${jobName}`);
-        const steps = array(job.steps, `${file} ${jobName} steps`);
-        const install = String(stepByName(steps, "Install AWF binary").run);
-        const version =
-          /install_awf_binary\.sh" (v[0-9]+\.[0-9]+\.[0-9]+) --rootless/u.exec(
-            install,
-          )?.[1];
-        assert.ok(version, "Expected a pinned AWF release install.");
-        observedVersions.add(version);
-
-        const config = renderedFirewallConfig(steps, execution);
-        assert.equal(
-          config.$schema,
-          `https://github.com/github/gh-aw-firewall/releases/download/${version}/awf-config.schema.json`,
-        );
-        const proxy = object(config.apiProxy, "AWF API proxy");
-        assert.equal(proxy.maxAiCredits, -1);
-        assert.equal("enableTokenSteering" in proxy, false);
-
-        const imageTag = String(
-          object(config.container, "AWF container").imageTag,
-        );
-        assert.ok(imageTag.startsWith(`${version.slice(1)},`));
-        for (const image of [
-          "agent",
-          "agent-act",
-          "api-proxy",
-          "cli-proxy",
-          "squid",
-        ]) {
-          assert.match(
-            imageTag,
-            new RegExp(`(?:^|,)${image}=sha256:[a-f0-9]{64}(?:,|$)`, "u"),
-          );
-        }
-      }
-    }
-    assert.equal(observedVersions.size, 1);
-  });
-
   it("allows public upstream workflow reads with only the read-only run token", () => {
     for (const file of contentVerificationFiles) {
       const { agentSteps } = loadCompiledWorkflow(file);

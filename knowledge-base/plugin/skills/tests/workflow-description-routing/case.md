@@ -117,6 +117,9 @@ installed guidance from the current candidate metadata, or choose none:
     if so, prepare a sanitized proposal without publishing it.
 38. Publish this already approved sanitized knowledge-base proposal as an issue
     from outside the canonical source checkout.
+39. Add a TypeScript module that reads GitHub repository issues, pull requests,
+    check results, and review threads using the project's existing
+    authentication, then expose the results to our release service.
 
 Return the chosen identifiers and a short reason for each request. Do not open
 candidate bodies or perform the substantive tasks.
@@ -141,9 +144,10 @@ request must not teach later requests the expected route.
 - R1 (critical): select `workflow-contribute-to-knowledge-base` for request 1
   and exclude it for request 2 because publication from outside the canonical
   checkout and source-checkout implementation are different tasks.
-- R2 (critical): select `workflow-evaluate-library-adoption` for request 3 and
-  exclude it for request 4, whose capability is product-specific rather than a
-  reusable domain-independent mechanism.
+- R2 (critical): select `workflow-evaluate-library-adoption` for requests 3 and 39. Request 39 must not be excluded merely because its client targets one
+  external platform. Exclude the Workflow for request 4, whose change is only a
+  product-specific business rule and introduces no reusable technical
+  functionality or external-system integration.
 - R3 (critical): select `workflow-handle-code-review-feedback` for requests 5
   and 25. Select `workflow-watch-pull-request` for requests 6 and 24, and do not
   substitute one Workflow for the other merely because both may concern a pull
@@ -207,4 +211,6 @@ pre-rename descriptions at integration commit `e008e1a` remain the trusted
 baseline for the first fourteen Workflows; integration commit `d60172e` is the
 trusted baseline for the six Workflows added here. This reconstructed joint case
 preserves the distinct selection boundaries without retaining compatibility
-entrypoints.
+entrypoints. Request 39 reconstructs an observed failure in which a GitHub
+information client was implemented with custom HTTP requests without first
+evaluating an established SDK or library.

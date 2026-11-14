@@ -65,10 +65,10 @@ permitted. Record files read and available action observations.
   description or require a diagnosis the Handbook should help discover.
 - R4: use direct links to complete canonical files or context-sufficient
   sections and prohibit Handbook-to-Handbook dependencies. Place shared
-  lifecycle instructions and their behavioral assertions at the independently
-  required shared owner rather than generating copies in subject Handbooks or
-  their cases. Subject cases cover their own domain conditions, direct routes,
-  and application. A portable plan for a bundle without a shared owner supplies
+  lifecycle instructions and generic unit-level assertions at the independently
+  required shared owner. Preserve distinct subject conditions, direct routes,
+  application, and journeys that expose a real connection fault. Shared policy
+  ownership alone does not make those journeys redundant. A portable plan for a bundle without a shared owner supplies
   the lifecycle locally instead of assuming another Handbook will be invoked.
 - R5: keep the installed Handbook as a flat immediate child of the package
   Skill directory with matching `handbook-` registered and directory names
@@ -85,7 +85,9 @@ permitted. Record files read and available action observations.
   authoring as proof that client selection, reading, or application occurred.
 - R7: plan distinct evidence for native description selection, internal package
   choice, actual reading and application, adjacent negative loading, and
-  relevant historical case replay. Static links
+  relevant historical case replay. Include a staged case when a domain
+  connection can fail independently, and separate tasks joined only by topic or
+  chronology. Static links
   or a plausible final answer alone must not be reported as behavioral proof.
 - R8 (critical): keep the installed reusable authoring reference understandable
   without repository history and portable to another project. It may define

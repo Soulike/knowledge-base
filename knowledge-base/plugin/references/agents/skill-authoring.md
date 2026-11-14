@@ -275,7 +275,8 @@ explain concretely why it does not apply:
 - **Handbook package evidence:** after selection, give a fresh reader the current
   body and task context and record every selected and excluded package before
   expected choices. Exercise cumulative matches, empty foundations, valid
-  no-match platform work, and independently supplied domain contexts.
+  no-match platform work, and changes that activate different foundations or
+  packages within the same Handbook.
 - **Reading and application evidence:** observe required file or section reads
   and their use in the task separately from metadata and package choices. A
   link, invocation event, or plausible answer alone does not establish reading
@@ -283,13 +284,20 @@ explain concretely why it does not apply:
 - **Output evidence:** for Workflows, verify the promised result, professional
   minimum, declared inputs, constraints, format, and completion gate.
 
-Keep each behavior's protection at its authoritative owner. Where a shared
-lifecycle owner exists, its case owns task-change reassessment, reading reuse,
-and recovery; subject cases own their package conditions, direct routes, and
-application. Moving the shared responsibility also moves those assertions,
-rather than making every consumer case cover the shared owner. Where lifecycle
-is owned locally, that owner's case protects it locally. A Workflow's own
-clarification, action, and verification steps remain its execution responsibility.
+Keep generic lifecycle policy and its unit-level protection at the authoritative
+owner. Subject cases protect their own conditions, direct routes, and
+application. Retain a representative journey when the connection itself has a
+distinct realistic fault: a foundation can become applicable after focused
+learning, an ongoing Workflow can gain a conditional route, or a later artifact
+can require a different execution target. One shared policy does not establish
+that these domain connections work.
+
+Choose staged cases by the contract at that connection. Separate independent
+tasks when their shared topic or chronology is the only reason to combine them.
+Moving lifecycle policy alone does not justify changing a case's task or
+retiring its distinct protection. Where lifecycle is owned locally, that
+owner's case protects it locally. A Workflow's own clarification, action, and
+verification steps remain its execution responsibility.
 
 Before running evidence, identify the comparison model for the evaluated task.
 When one or more models materially authored the behavior, use the most capable

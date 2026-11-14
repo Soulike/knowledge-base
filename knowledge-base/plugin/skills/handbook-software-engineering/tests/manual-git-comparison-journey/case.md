@@ -50,8 +50,8 @@ or repository mutation is required.
   carry immutable revision identities after discovery.
 - R4 (critical): after request 2, add and read the primary code-work foundation
   and external-command guidance through the same Handbook's direct routes
-  before designing the script. Its earlier focused selection does not settle
-  foundation applicability for code work.
+  before making dependent script-design decisions. Its earlier focused selection
+  does not settle foundation applicability for code work.
 - R5: give the script explicit target/head inputs, resolve immutable commits,
   and keep every diff-dependent input on the declared comparison contract.
 - R6: the validation plan has independent target advancement, exact endpoints

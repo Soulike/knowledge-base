@@ -108,14 +108,17 @@ splitting, or replacing raw text.
 
 A pull request that adds a Skill or materially changes Skill behavior must
 include the design and behavioral evidence required by
-[Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md). Put that concise
-evidence summary in the pull-request description so a reviewer can evaluate the
-task model, research, responsibility boundaries, and observed behavior
-independently. When authoring stops before a pull request exists, preserve the
-same summary in the handoff. Keep lasting rules and subject understanding in
-their authoritative Skill, Knowledge, or reference rather than adding a
-document that records design history. A mechanical-only change may use reduced
-evidence only when its summary explains why behavior is unchanged.
+[Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
+Put that concise evidence summary in the pull-request description so a reviewer
+can evaluate the task model, research, responsibility boundaries, and observed
+behavior independently. Concision may remove raw transcripts and repeated
+procedure, but not the identities, configuration, comparison basis,
+observations, attempt outcomes, or limitations required by that evidence
+contract. When authoring stops before a pull request exists, preserve the same
+summary in the handoff. Keep lasting rules and subject understanding in their
+authoritative Skill, Knowledge, or reference rather than adding a document that
+records design history. A mechanical-only change may use reduced evidence only
+when its summary explains why behavior is unchanged.
 
 ## Plugin compatibility
 

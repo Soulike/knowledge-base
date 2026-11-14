@@ -331,10 +331,45 @@ Static checks establish frontmatter, links, formatting, metadata, packaging, and
 route structure only within their actual boundaries. Compare trusted pre-change
 and final bundles so every changed responsibility is intentional and reachable.
 
+## Prepare pull-request and handoff evidence
+
 For a pull request or handoff that adds a Skill or materially changes one,
-summarize the user work and starting inputs, responsibility kind and boundary,
-professional or reading-scene research, authoritative Knowledge and reference
-placement, and behavioral evidence. Keep review history in the pull request or
-handoff; keep lasting rules in their authoritative Skill, Knowledge, or
-reference. Missing applicable design or behavioral evidence makes the change
-incomplete even when the prose appears plausible.
+prepare a concise, directly reviewable summary from the complete evidence
+record established above. Retain every applicable part needed to judge whether
+the change is complete:
+
+- user work and starting inputs, responsibility kind and boundary, professional
+  or reading-scene research, owner comparison, and authoritative Knowledge and
+  reference placement;
+- the final source snapshot and each material scenario's expected behavior,
+  each executor and configuration that produced an observation, the actual
+  observation, and conclusion across selection, application, reading, output,
+  and reader understanding as applicable;
+- the material author, comparison model, lower-capability executor, and capable
+  reviewer model identities, together with exposed provider and
+  capability-relevant configuration such as reasoning effort and inherited
+  context;
+- the task-relevant capability evidence that establishes why the
+  lower-capability executor is materially less capable than the comparison
+  model while retaining the tools, modalities, and context the task requires;
+  and
+- material failed, contaminated, superseded, or incomplete attempts, the
+  executor and configuration associated with each, their dispositions,
+  independent judgments, unresolved evidence, and remaining limitations.
+
+Concision may remove raw transcripts, repeated procedure, and intermediate
+author reasoning. It must not replace required identities, decision bases,
+observations, attempt outcomes, or limits with an aggregate claim that checks
+passed. A linked evidence record may carry supporting detail only when the
+reviewer can access it and the pull request or handoff still identifies the
+applicable final source, models, scenarios, conclusions, and limitations.
+Within that summary, keep each scenario or attempt's executor and
+capability-relevant configuration adjacent to its observation or outcome. A
+separate model roster or machine-only sibling field does not establish that
+association for a pull-request or handoff reader.
+
+Keep review history in the pull request or handoff; keep lasting rules and
+subject understanding in their authoritative Skill, Knowledge, or reference.
+State why an evidence kind does not apply instead of silently omitting it.
+Missing applicable design or behavioral evidence makes the change incomplete
+even when the prose appears plausible.

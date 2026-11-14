@@ -297,10 +297,8 @@ function renderedFirewallConfig(
 }
 
 describe("compiled Agent runtime boundaries", () => {
-  it("uses a compatible pinned firewall for the disabled Agent and detection budgets", () => {
-    const version = "v0.29.1";
-    const checksum =
-      "8a27270a7980f9c5070c9e55ed8a9b6abb9cb7cb98f811b0861420c15df19d46";
+  it("uses one compiler-selected firewall for the disabled Agent and detection budgets", () => {
+    const observedVersions = new Set<string>();
     for (const file of contentVerificationFiles) {
       const { jobs } = loadCompiledWorkflow(file);
       for (const [jobName, execution] of [
@@ -310,9 +308,12 @@ describe("compiled Agent runtime boundaries", () => {
         const job = object(jobs[jobName], `${file} ${jobName}`);
         const steps = array(job.steps, `${file} ${jobName} steps`);
         const install = String(stepByName(steps, "Install AWF binary").run);
-        assert.ok(
-          install.includes(`${version} --checksums-sha256 ${checksum}`),
-        );
+        const version =
+          /install_awf_binary\.sh" (v[0-9]+\.[0-9]+\.[0-9]+) --rootless/u.exec(
+            install,
+          )?.[1];
+        assert.ok(version, "Expected a pinned AWF release install.");
+        observedVersions.add(version);
 
         const config = renderedFirewallConfig(steps, execution);
         assert.equal(
@@ -323,26 +324,25 @@ describe("compiled Agent runtime boundaries", () => {
         assert.equal(proxy.maxAiCredits, -1);
         assert.equal("enableTokenSteering" in proxy, false);
 
-        const images = object(
-          object(config.container, "AWF container").images,
-          "AWF container images",
+        const imageTag = String(
+          object(config.container, "AWF container").imageTag,
         );
-        for (const [field, image] of [
-          ["agent", "agent"],
-          ["apiProxy", "api-proxy"],
-          ["cliProxy", "cli-proxy"],
-          ["squid", "squid"],
-        ] as const) {
+        assert.ok(imageTag.startsWith(`${version.slice(1)},`));
+        for (const image of [
+          "agent",
+          "agent-act",
+          "api-proxy",
+          "cli-proxy",
+          "squid",
+        ]) {
           assert.match(
-            String(images[field]),
-            new RegExp(
-              `^ghcr\\.io/github/gh-aw-firewall/${image}:0\\.29\\.1@sha256:[a-f0-9]{64}$`,
-              "u",
-            ),
+            imageTag,
+            new RegExp(`(?:^|,)${image}=sha256:[a-f0-9]{64}(?:,|$)`, "u"),
           );
         }
       }
     }
+    assert.equal(observedVersions.size, 1);
   });
 
   it("allows public upstream workflow reads with only the read-only run token", () => {

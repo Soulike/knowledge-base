@@ -1,4 +1,7 @@
 ---
+permissions:
+  vulnerability-alerts: read
+  security-events: read
 import-schema:
   reasoning_effort:
     type: string

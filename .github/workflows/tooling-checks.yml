@@ -33,7 +33,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           XDG_DATA_HOME: ${{ runner.temp }}/gh-aw-data
-        run: gh extension install github/gh-aw --pin v1.0.1
+        run: gh extension install github/gh-aw --pin v1.2.2
 
       - name: Check generated Agentic workflows
         env:

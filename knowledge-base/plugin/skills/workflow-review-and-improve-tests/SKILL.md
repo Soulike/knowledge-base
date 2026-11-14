@@ -1,12 +1,17 @@
 ---
 name: workflow-review-and-improve-tests
-description: Use when evaluating, diagnosing, or improving existing automated tests or their execution.
+description: Use whenever existing automated tests or their execution are reviewed or changed.
 ---
 
 # Review and improve tests
 
 Evaluate and complete every in-scope item independently. A file, suite, or
 change may contain tests with different concerns and dispositions.
+
+Before changing an existing test or its execution, establish the live contract
+it should protect and assign its disposition through this workflow. A requested
+edit or failing expectation does not establish that the test should be retained
+and rewritten.
 
 ## Establish the review subject
 

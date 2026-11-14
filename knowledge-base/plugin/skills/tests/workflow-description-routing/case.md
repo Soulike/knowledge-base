@@ -120,6 +120,8 @@ installed guidance from the current candidate metadata, or choose none:
 39. Add a TypeScript module that reads GitHub repository issues, pull requests,
     check results, and review threads using the project's existing
     authentication, then expose the results to our release service.
+40. An accepted production behavior change made an existing test fail. Update
+    the test to match the new behavior.
 
 Return the chosen identifiers and a short reason for each request. Do not open
 candidate bodies or perform the substantive tasks.
@@ -168,8 +170,8 @@ request must not teach later requests the expected route.
   and exclude it for the reachable HTTP 403 Git-clone failure in request 17.
 - R10 (critical): select `workflow-write-effective-tests` for request 19 and
   exclude the existing-test review Workflow there; select
-  `workflow-review-and-improve-tests` for request 20. Exclude both for routine
-  unchanged test execution in request 21.
+  `workflow-review-and-improve-tests` for requests 20 and 40. Exclude both for
+  routine unchanged test execution in request 21.
 - R11 (critical): select `workflow-wait-for-user-answer` for request 22 and
   exclude it once the answer is available in request 23.
 - R12 (critical): select `workflow-design-image-generation-prompts` for request
@@ -213,4 +215,7 @@ trusted baseline for the six Workflows added here. This reconstructed joint case
 preserves the distinct selection boundaries without retaining compatibility
 entrypoints. Request 39 reconstructs an observed failure in which a GitHub
 information client was implemented with custom HTTP requests without first
-evaluating an established SDK or library.
+evaluating an established SDK or library. Request 40 reconstructs an observed
+failure during pull request #270 in which a compiler-owned generated-output test
+was mechanically updated after production ownership changed, before the test's
+continued value was reassessed.

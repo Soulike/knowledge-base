@@ -14,9 +14,10 @@
 The software-engineering Handbook must route manual review and standalone Git
 analysis to change-comparison semantics without forcing its code-work
 foundation. When the same analysis becomes a local comparison script, the
-already-selected Handbook must add its code-work foundation and external-command
-guidance. Protect that foundation becoming applicable after initial selection,
-while allowing different script designs that preserve the comparison contract.
+already-selected Handbook must add its code-work foundation and any applicable
+external-command guidance. Protect that foundation becoming applicable after
+initial selection, while allowing different script designs that preserve the
+comparison contract.
 
 ## Task
 
@@ -49,9 +50,11 @@ or repository mutation is required.
   integration result, compare merge base to head for branch contribution, and
   carry immutable revision identities after discovery.
 - R4 (critical): after request 2, add and read the primary code-work foundation
-  and external-command guidance through the same Handbook's direct routes
-  before making dependent script-design decisions. Its earlier focused selection
-  does not settle foundation applicability for code work.
+  through the same Handbook's direct routes before making dependent script-design
+  decisions. Also read external-command guidance before dependent decisions when
+  the design meets that route's condition, such as calling command-line tools
+  from code. Its earlier focused selection does not settle foundation
+  applicability for code work.
 - R5: give the script explicit target/head inputs, resolve immutable commits,
   and keep every diff-dependent input on the declared comparison contract.
 - R6: the validation plan has independent target advancement, exact endpoints
@@ -61,10 +64,10 @@ or repository mutation is required.
 ## Verification
 
 Observe the initial metadata choice, focused reading and explanation before
-revealing request 2. Then inspect the newly applicable foundation, command
-reading, script design, and validation plan. A reader that assigns the foundation
-correctly in a separate script task but skips it in this continuation fails R4.
-The case does not assert generic reread counts or interruption recovery.
+revealing request 2. Then inspect the newly applicable foundation, applicable
+command reading, script design, and validation plan. A reader that assigns the
+foundation correctly in a separate script task but skips it in this continuation
+fails R4. The case does not assert generic reread counts or interruption recovery.
 
 ## Source
 

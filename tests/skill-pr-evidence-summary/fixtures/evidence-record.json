@@ -1,0 +1,157 @@
+{
+  "user_work": "Route ordinary external-system implementation requests into an existing adoption Workflow before custom code begins.",
+  "starting_state": "The prior description covered reusable domain-independent functionality but did not expose platform-specific integrations.",
+  "responsibility": "Workflow invocation and the adoption decision remain with workflow-evaluate-library-adoption.",
+  "owner_comparison": "No new Knowledge or Handbook owner is required; product business rules remain project-owned.",
+  "research_basis": "Recent repository reviews repeatedly found evidence lost between completed validation and the pull-request description.",
+  "authoritative_placement": "The Workflow owns execution, while skill-authoring.md owns the authoring evidence contract.",
+  "final_source": "commit 0123456789abcdef with Skill SHA-256 final-skill-9f2c",
+  "models": {
+    "author": {
+      "id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "xhigh",
+      "context": "material author"
+    },
+    "comparison_model": {
+      "id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "xhigh",
+      "context": "most capable material-author model selected as the comparison baseline"
+    },
+    "lower_executor": {
+      "id": "gpt-6-luna",
+      "provider": "openai",
+      "reasoning_effort": "high",
+      "context": "fresh context with the same files and tools",
+      "capability_basis": "The model catalog assigns Sol to workhorse tasks and Luna to easier tasks while both retain text reasoning and file access."
+    },
+    "reviewer": {
+      "id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "high",
+      "context": "independent final reviewer"
+    }
+  },
+  "scenarios": [
+    {
+      "id": "selection-broad",
+      "expected": "Select the adoption Workflow for a natural GitHub integration request.",
+      "executions": [
+        {
+          "executor_id": "gpt-6.1-sol",
+          "provider": "openai",
+          "reasoning_effort": "xhigh",
+          "context": "fresh selection context",
+          "observed": "The executor selected workflow-evaluate-library-adoption before seeing its body.",
+          "conclusion": "pass"
+        },
+        {
+          "executor_id": "gpt-6-luna",
+          "provider": "openai",
+          "reasoning_effort": "high",
+          "context": "fresh selection context with the same candidate metadata",
+          "observed": "The lower-capability executor independently selected workflow-evaluate-library-adoption.",
+          "conclusion": "pass"
+        }
+      ]
+    },
+    {
+      "id": "selection-negative",
+      "expected": "Exclude the adoption Workflow for an isolated product eligibility rule.",
+      "executions": [
+        {
+          "executor_id": "gpt-6.1-sol",
+          "provider": "openai",
+          "reasoning_effort": "xhigh",
+          "context": "fresh selection context",
+          "observed": "The executor selected software guidance but excluded library adoption.",
+          "conclusion": "pass"
+        },
+        {
+          "executor_id": "gpt-6-luna",
+          "provider": "openai",
+          "reasoning_effort": "high",
+          "context": "fresh selection context with the same candidate metadata",
+          "observed": "The lower-capability executor excluded library adoption for the product rule.",
+          "conclusion": "pass"
+        }
+      ]
+    },
+    {
+      "id": "application-evidence-gap",
+      "expected": "Stop before custom HTTP when current upstream evidence is unavailable.",
+      "executions": [
+        {
+          "executor_id": "gpt-6.1-sol",
+          "provider": "openai",
+          "reasoning_effort": "xhigh",
+          "context": "fresh application context with the final Skill",
+          "observed": "The executor returned an incomplete adoption assessment and made no implementation choice.",
+          "conclusion": "pass"
+        },
+        {
+          "executor_id": "gpt-6-luna",
+          "provider": "openai",
+          "reasoning_effort": "high",
+          "context": "fresh application context with the same final Skill",
+          "observed": "The lower-capability executor also stopped without selecting custom HTTP.",
+          "conclusion": "pass"
+        }
+      ]
+    }
+  ],
+  "reader_understanding": {
+    "reader_model_id": "gpt-6-luna",
+    "provider": "openai",
+    "reasoning_effort": "high",
+    "context": "fresh reader context with the same final files and tools",
+    "paraphrase": "A capability request does not select custom implementation; investigate established solutions first.",
+    "application": "Use a platform SDK for integration mechanics while retaining product mapping in the project.",
+    "confusion": "The reader identified authentication and pagination as task-specific missing premises rather than guessing them."
+  },
+  "reading_application": [
+    {
+      "executor_id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "xhigh",
+      "observation": "The executor read the complete final Workflow and applied its evidence-gap stopping rule to the GitHub integration task."
+    },
+    {
+      "executor_id": "gpt-6-luna",
+      "provider": "openai",
+      "reasoning_effort": "high",
+      "observation": "The lower-capability executor read the same final Workflow and independently applied the same stopping rule."
+    }
+  ],
+  "attempts": [
+    {
+      "id": "selection-attempt-1",
+      "executor_id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "xhigh",
+      "context": "fresh selection context",
+      "outcome": "incomplete",
+      "reason": "The executor prompt omitted the complete guard and cannot establish an independent result."
+    },
+    {
+      "id": "selection-attempt-2",
+      "executor_id": "gpt-6.1-sol",
+      "provider": "openai",
+      "reasoning_effort": "xhigh",
+      "context": "fresh selection context on the final source",
+      "outcome": "pass",
+      "reason": "The final-source replay used the complete guard and preserved the candidate boundary."
+    }
+  ],
+  "independent_judgments": {
+    "reviewer_id": "gpt-6.1-sol",
+    "result": "Semantic correctness, final-content suitability, reader understanding, and case organization passed on the final source."
+  },
+  "completion_basis": "The claimed result is limited to Workflow selection and evidence-gap stopping behavior. Final-source selection, application, reading, reader-understanding, and independent-review evidence are complete for that responsibility. Native client automatic loading and live SDK research are outside the claimed result, so their absence remains a disclosed non-blocking limitation rather than evidence that the bounded maintenance is incomplete.",
+  "limitations": [
+    "Native client automatic loading was not observed.",
+    "Live upstream SDK research was not observed."
+  ],
+  "private_transcript_marker": "PRIVATE_RAW_TRANSCRIPT_DO_NOT_COPY"
+}

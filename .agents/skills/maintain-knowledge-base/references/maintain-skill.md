@@ -85,11 +85,15 @@
     evidence for native description selection, Workflow execution or Handbook
     package choice, actual reading and application, negative loading, and output
     where applicable. Static links do not establish reading behavior.
-14. Report the authoring standard's design and behavioral evidence, including
-    the responsibility kind, user work, owner comparison, authoritative
-    Knowledge, routes and consumers, tested source and models,
-    observations, and limitations. The parent workflow owns the single
-    independent final-content and reader-understanding review.
+14. Prepare the directly publishable pull-request or handoff summary required
+    by [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
+    Return it to the parent with the responsibility kind, user work, owner
+    comparison, authoritative Knowledge, routes and consumers, final tested
+    source, model identities and capability-relevant configuration, comparison
+    basis, actual observations and judgments, attempt outcomes, and remaining
+    limitations. Do not reduce those fields to an aggregate pass claim. The
+    parent workflow owns the single independent final-content and
+    reader-understanding review and publication of this prepared summary.
 
 Finish only when the Skill has one authoritative responsibility in the correct
 audience scope and preserves downstream-project independence. A Workflow must

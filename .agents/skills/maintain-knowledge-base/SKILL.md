@@ -169,6 +169,12 @@ independent behavior.
     discovery is incomplete. Preserve distinct effective validation cases through
     the case-maintenance workflow when case authoring is within the authorized
     task, rather than treating every temporary trial as permanent protection.
+    For a material Skill change, carry the child workflow's prepared
+    [pull-request or handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+    into the actual pull-request description or handoff. Preserve its required
+    identities, configuration, comparison basis, observations, attempt outcomes,
+    and limitations instead of reconstructing them as an aggregate validation
+    claim.
 
 ## Final validation
 

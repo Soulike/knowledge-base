@@ -37,6 +37,8 @@ instructions, and current installed Skill metadata. Allow selected Skill bodies
 and their direct routes.
 The status resolver and clinic channel are demo fixtures, not real services or
 authority for an external effect. Make the maintenance Catalog unavailable.
+Project instructions scope the first delivery to implementation and functional
+browser verification; usability evaluation begins with request 2.
 
 Permit writes only to the isolated prototype. Begin with request 1; reveal
 request 2 after its reading, implementation, and browser behavior are captured.

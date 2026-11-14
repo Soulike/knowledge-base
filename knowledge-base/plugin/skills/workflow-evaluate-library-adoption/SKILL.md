@@ -1,23 +1,25 @@
 ---
 name: workflow-evaluate-library-adoption
-description: Use before creating or extending reusable, domain-independent functionality that an established solution may already provide.
+description: Use before implementing or extending reusable technical functionality or an external-system integration when an established solution may already provide the required behavior.
 ---
 
 # Evaluate library adoption
 
-## Recognize the reusable capability
+## Recognize the adoption decision
 
 1. Discover and follow instructions, Skills, requirements, dependency policy,
    supported environments, architectural decisions, and project-specific
    information from the active working directory. Treat this plugin's packaged
    Knowledge as supplemental guidance and follow the active-working-directory
    source when they conflict.
-2. Identify any reusable technical mechanism in the requested work before
-   implementing it. When implementation reveals such a mechanism, pause custom
-   work at that boundary.
-3. Separate the reusable mechanism from product- or domain-specific behavior.
-   Keep business rules under project ownership while evaluating established
-   solutions for the reusable part.
+2. Identify any reusable technical mechanism or external-system integration in
+   the requested work before implementing it. When implementation reveals one,
+   pause custom work at that boundary.
+3. Separate product-specific behavior from the technical capability that an
+   established solution could supply. A client or SDK can qualify even when it
+   targets one external platform. Keep business rules under project ownership
+   while evaluating established solutions for the integration or reusable
+   mechanism.
 4. Record the required behavior and the constraints that can distinguish a
    suitable solution, including compatibility, performance, security, and
    operational limits that matter to the task.
@@ -27,12 +29,13 @@ description: Use before creating or extending reusable, domain-independent funct
    to assess the required semantics and command-boundary costs before selecting
    a solution.
 
-Finish this step when the reusable capability and its project-specific
+Finish this step when the technical capability and its project-specific
 constraints are explicit.
 
 ## Investigate established solutions in order
 
-Complete this investigation before implementing the reusable mechanism:
+Complete this investigation before implementing the technical mechanism or
+integration:
 
 1. Inspect the active project's dependency manifests and imports for a mature
    package that the consuming package or application declares directly and
@@ -81,6 +84,10 @@ complexity, performance, and exit cost. Prefer an established solution when it
 satisfies the project's constraints and offers lower total ownership cost than
 custom code.
 
+Treat direct HTTP requests, hand-written protocol clients, and local wrappers
+that reproduce an SDK's supported behavior as custom implementation in this
+comparison.
+
 Present this broader comparison to the user with the material options,
 evidence, tradeoffs, and a recommendation before adding a dependency or
 implementing a local substitute.
@@ -92,7 +99,7 @@ established options do not fit, or the user explicitly selects it after seeing
 the comparison.
 
 When a stronger established option appears after implementation has begun,
-pause at the reusable boundary and reopen this decision using current evidence,
+pause at the adoption boundary and reopen this decision using current evidence,
 independent of work already spent.
 
 ## Continue with the selected approach

@@ -87,12 +87,10 @@ field from imports. The reusable pull-request review workflow owns its own
 execution budgets.
 
 The shared source sets the per-run, threat-detection, and daily AI Credits
-budgets to `-1`. Each scheduled workflow pins AWF `v0.29.1`, its release
-checksum, and immutable container images: the AWF version bundled with gh-aw
-`v1.0.1` [rejects the disabled budget](https://github.com/github/gh-aw/issues/72523),
-whereas [`v0.29.1` accepts it](https://github.com/github/gh-aw-firewall/pull/10828).
-gh-aw does not inherit these sandbox version and image settings from imports,
-so each workflow must declare them. Recheck the override when upgrading gh-aw.
+budgets to `-1`. The fixed compiler selects and digest-pins AWF `v0.29.11`,
+whose schema treats `-1` as a disabled configured budget while retaining the
+operator hard cap. Review the compiler-selected AWF version, release integrity,
+and generated image digests as part of every gh-aw upgrade.
 
 AWF treats `-1` as no configured budget, removing the dependency on known
 model prices for that budget. AWF still enforces a 10,000-credit hard cap on
@@ -118,7 +116,7 @@ secrets. Reassess the repository scope before replacing that credential.
 
 The policy explicitly trusts `github-actions[bot]` so automation-authored issue
 history meets the `approved` threshold. This
-[author exception](https://github.com/github/gh-aw/blob/0627fdbe4beb5f3b71aa569f8d97150b87f2111a/docs/src/content/docs/reference/integrity.md#trusting-specific-users)
+[author exception](https://github.com/github/gh-aw/blob/399a445fe2d8926c616b54b1b82a16b5b2be4445/docs/src/content/docs/reference/integrity.md#trusting-specific-users)
 applies across allowed repositories; other authors' comments retain their own
 integrity classification. Readable content remains evidence under the task's
 instructions.
@@ -333,7 +331,7 @@ labels.
 
 ## Compile and validate
 
-The repository pins gh-aw `v1.0.1` for the three scheduled workflows. If gh-aw
+The repository pins gh-aw `v1.2.2` for the three scheduled workflows. If gh-aw
 is already installed, remove it first; `--force` may ignore `--pin` for an
 existing extension ([GitHub CLI issue](https://github.com/cli/cli/issues/13551)):
 
@@ -344,12 +342,12 @@ gh extension remove gh-aw
 Install the exact compiler and regenerate the workflows with:
 
 ```bash
-gh extension install github/gh-aw --pin v1.0.1
+gh extension install github/gh-aw --pin v1.2.2
 pnpm agentic:compile
 ```
 
 For a separately verified compiler binary, set `GH_AW_COMPILER` to its path. The
-wrapper rejects every compiler version except `v1.0.1`.
+wrapper rejects every compiler version except `v1.2.2`.
 
 Each scheduled source explicitly sets `strict: false` because gh-aw rejects
 `private-to-public-flows` in strict mode. The wrapper retains schema and action

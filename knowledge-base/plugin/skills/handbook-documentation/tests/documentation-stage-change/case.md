@@ -1,4 +1,4 @@
-# Apply documentation guidance to distinct audiences
+# Synchronize maintained software documentation
 
 ## Identity
 
@@ -11,60 +11,45 @@
 
 ## Protected behavior
 
-The Documentation Handbook owns which Knowledge applies to maintained software
-documentation and to an engineering accomplishment report. Protect those
-domain conditions, their direct routes, and their application without requiring
-the same task to transition between them.
+Software-documentation maintenance requires general document quality and
+software-specific authority, synchronization, and executable evidence together.
+Protect that combined reading and the resulting guide, example, and source
+explanation without loading accomplishment-report guidance. Different useful
+wording and guide organization are permitted when they match current behavior.
 
 ## Task
 
-Handle these independent requests using the supplied facts:
-
-1. A command-line option changed from `--cache` to `--cache-dir`. Update the
-   maintained setup guide, its executable example, and the affected source
-   docstring so they describe the current behavior.
-2. The option rename is complete, the guide/example/docstring agree with the
-   implementation, and the documented command was verified. Prepare a short
-   account of what that change accomplished and why it matters for the
-   engineering lead's next planning meeting. No maintained-document edit is
-   requested for this second task.
+A command-line option changed from `--cache` to `--cache-dir`. Update the
+maintained setup guide, its executable example, and the affected source
+docstring so they describe the current behavior. Verify the documented command.
 
 ## Starting state
 
-Create a small temporary project with the current command implementation and
-the old setup guide/example/docstring for request 1. Supply the verified facts
-for request 2 as ordinary task material, independently of request 1's result.
-Permit writes only to the temporary project.
+Copy the [command implementation](fixtures/cache_tool.py) and
+[old setup guide](fixtures/setup-guide.md) into a temporary project. The parser
+implements the current option, while the guide and docstring still describe the
+old one. Active project instructions assign CLI behavior to the parser and
+require the maintained guide/example/docstring to agree with it. Permit writes
+and command execution only in that project; preserve executable behavior.
 
-Supply all requests and necessary task facts up front, the complete current
-covered guidance, and normal read-only access to its direct packaged routes.
-
-Before opening Knowledge, record selected and excluded reading units separately
-for each independent request. Then permit the union of required direct reads
-and perform the tasks. Record choices, actual file or section reads, outputs, and action limits. The per-request
-choices test domain conditions; a shared executor's union of reads does not
-prove that a document was never loaded in another request. Do not stage a task
-change or score reassessment, reading reuse, or rereading in this case.
+Supply the complete current Documentation Handbook with its direct packaged
+routes. Observe reading choices before Knowledge access. No accomplishment
+report or later audience change is part of this task.
 
 ## Expected behavior
 
-- D1 (critical): for request 1, select and read maintained-document quality
+- D1 (critical): select and read maintained-document quality
   and software-development documentation through the Handbook's direct routes.
-- D2 (critical): do not assign accomplishment-report reading to request 1.
+- D2 (critical): exclude accomplishment-report reading from this maintenance task.
 - D3: synchronize the guide, executable example, and source explanation with
   current behavior and verify the documented command; preserve useful reader
   context rather than replacing tokens alone.
-- D4 (critical): assign engineering-accomplishment-report reading to request 2
-  and apply it to a concise, evidence-based account for a decision maker.
-- D5: distinguish the report's purpose from durable software documentation;
-  do not force the maintained-software package merely because its output is
-  prose.
 
 ## Verification
 
-Inspect the per-request package choices, actual direct reads, and domain
-application as separate evidence. This case does not claim native client
-selection or reading-lifecycle behavior.
+Inspect selected/excluded packages, complete direct reads, the three maintained
+artifacts, and actual execution of the documented command. A token replacement
+that leaves an incorrect example or removes necessary usage context fails D3.
 
 ## Source
 
@@ -72,5 +57,6 @@ selection or reading-lifecycle behavior.
 establishes domain package choice, direct reading, and application evidence.
 [GitHub issue #247](https://github.com/Soulike/knowledge-base/issues/247)
 distinguishes maintained guidance, software explanations, and accomplishment
-reports. The stable case identity is retained while its protection is confined
-to those documentation responsibilities.
+reports. The maintainer split the combined case into this maintenance behavior
+and [independent accomplishment reporting](../documentation-accomplishment-report/case.md).
+This stable identity retains D1–D3; the reporting case retains D4–D5.

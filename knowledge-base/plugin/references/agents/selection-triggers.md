@@ -90,10 +90,13 @@ artifact work activates the package's other condition. Select that package
 without forcing an unrelated Handbook foundation. A Handbook may have no
 foundation when no current Knowledge is genuinely common to its primary scene.
 
-Verify package conditions against distinct work contexts, including contexts
-that keep the same native Handbook selection. Keep execution of reassessment,
-reuse, and recovery at the bundle's authoritative reading-lifecycle owner
-rather than reproducing that policy or its assertions in every consumer.
+Verify package conditions against distinct work contexts, including changes
+within an already-selected Handbook or running Workflow. Keep generic
+reassessment, reuse, and recovery policy and its unit-level assertions at the
+bundle's authoritative reading-lifecycle owner. Retain a representative journey
+when a domain transition exposes a distinct connection fault, such as a
+previously inapplicable foundation becoming required. Independent task checks
+and the shared lifecycle case do not by themselves establish that connection.
 
 ## Check selection from requests
 

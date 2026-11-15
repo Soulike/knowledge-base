@@ -28,7 +28,8 @@ are discovery aids, not evidence of protection. Useful coverage identifies:
 3. whether another test or static gate would already reject it;
 4. whether the test observes the behavior strongly enough to distinguish the
    defect; and
-5. which relevant permitted changes must leave the test passing.
+5. which relevant permitted changes—in the unit under test or compatible
+   internal updates inside integrated dependencies—must leave the test passing.
 
 Choose new protection when no existing test or static check already rejects
 the named fault. Missing evidence for a requirement leaves an ownership question
@@ -304,6 +305,34 @@ Choose fixtures from the named contract and selected fault-revealing scenario
 rather than incidental complexity.
 Apply [Trustworthy test execution](trustworthy-test-execution.md) when fixture
 ownership, ambient state, time, ordering, or cleanup affects the result.
+
+### Stay within external dependencies' public contracts
+
+When a test crosses an external dependency—such as a UI component library, ORM,
+router, or SDK—to verify application-owned behavior, keep both test
+interactions and assertions within the behavioral and semantic contracts that
+the dependency documents and supports for callers or users. Avoid coupling to
+internal implementation details or styling hooks—such as private markup
+hierarchy, CSS class names (including classes exposed only for visual styling or
+theming), internal event-listener attachment nodes, generated query aliases, or
+undocumented internal state—which are permitted changes across dependency
+releases and do not define the application's contract.
+
+Reaching into those internals causes tests to fail on compatible dependency
+upgrades that preserve both the dependency's public contract and the
+application's behavior, and shifts protection from the application's contract
+to the dependency's private implementation. Assert the application-owned
+outcomes, wired inputs, and documented contract effects instead.
+
+For example, clicking a third-party UI library's internal wrapper class or
+asserting a visual state class can break when a patch release moves the click
+listener to a child element or renames styling wrappers without changing user
+behavior; activating the control through its documented behavioral interface or
+user-perceivable accessible semantics and asserting the resulting application
+state and standard contract state preserves coverage across valid library
+updates. Likewise, asserting an ORM-backed repository's documented outputs or
+persisted database state tolerates internal query-generation changes across
+minor ORM updates.
 
 ## Make the protected behavior readable
 

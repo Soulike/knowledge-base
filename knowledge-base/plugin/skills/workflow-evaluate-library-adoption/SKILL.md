@@ -13,13 +13,19 @@ description: Use before implementing or extending reusable technical functionali
    Knowledge as supplemental guidance and follow the active-working-directory
    source when they conflict.
 2. Identify any reusable technical mechanism or external-system integration in
-   the requested work before implementing it. When implementation reveals one,
-   pause custom work at that boundary.
-3. Separate product-specific behavior from the technical capability that an
-   established solution could supply. A client or SDK can qualify even when it
-   targets one external platform. Keep business rules under project ownership
-   while evaluating established solutions for the integration or reusable
-   mechanism.
+   the requested work before implementing it. Reusable mechanisms include
+   non-trivial test infrastructure or test harnesses (such as libraries that
+   mount, drive, or observe framework-managed components, lifecycles, or
+   protocol interactions) alongside runtime capabilities, scoped to the active
+   project's appropriate dependency group and policy. Pure logic or isolated
+   mocked unit tests that require no custom harness plumbing do not trigger
+   test-library adoption. When implementation reveals a qualifying mechanism or
+   integration, pause custom work at that boundary.
+3. Separate product-specific behavior or test expectations from the technical
+   capability that an established solution could supply. A client or SDK can
+   qualify even when it targets one external platform. Keep business rules and
+   owned test contracts under project ownership while evaluating established
+   solutions for the integration or reusable mechanism.
 4. Record the required behavior and the constraints that can distinguish a
    suitable solution, including compatibility, performance, security, and
    operational limits that matter to the task.

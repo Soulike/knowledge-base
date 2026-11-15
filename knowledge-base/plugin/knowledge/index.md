@@ -60,6 +60,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/software-design/runtime-apis-and-external-commands.md](software-design/runtime-apis-and-external-commands.md)               | evergreen      |
 | [knowledge/software-design/shared-state-concurrency.md](software-design/shared-state-concurrency.md)                                   | evergreen      |
 | [knowledge/software-design/user-facing-failure-communication.md](software-design/user-facing-failure-communication.md)                 | evergreen      |
+| [knowledge/software-testing/accessible-web-ui-testing.md](software-testing/accessible-web-ui-testing.md)                               | time-sensitive |
 | [knowledge/software-testing/test-effectiveness.md](software-testing/test-effectiveness.md)                                             | evergreen      |
 | [knowledge/software-testing/test-execution-cost.md](software-testing/test-execution-cost.md)                                           | evergreen      |
 | [knowledge/software-testing/trustworthy-test-execution.md](software-testing/trustworthy-test-execution.md)                             | evergreen      |

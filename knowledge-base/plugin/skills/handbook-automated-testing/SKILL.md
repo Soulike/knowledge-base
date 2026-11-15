@@ -37,6 +37,14 @@ automated tests or their execution, read these complete documents:
 
 ## Conditional required-reading packages
 
+### Web user-interface tests
+
+When designing, writing, reviewing, diagnosing, or running automated component
+or browser tests for a web user interface, or directly learning or explaining
+that subject, read
+[Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
+in full. Non-UI backend, library, or CLI tests do not match this package.
+
 ### Test execution cost
 
 When measuring, analyzing, or improving automated-test runtime or resource

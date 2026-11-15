@@ -45,16 +45,22 @@ dependency, and keep the task read-only.
 
 ## Expected behavior
 
-- R1 (critical): read `test-effectiveness.md`, `trustworthy-test-execution.md`,
-  and `accessible-web-ui-testing.md` (and `dependency-supply-chain-security.md`
+- R1 (critical): read
+  [Test effectiveness](../../../../knowledge/software-testing/test-effectiveness.md),
+  [Trustworthy test execution](../../../../knowledge/software-testing/trustworthy-test-execution.md),
+  and
+  [Testing web user interfaces through accessible semantics](../../../../knowledge/software-testing/accessible-web-ui-testing.md)
+  (and
+  [Dependency and supply-chain security](../../../../references/security/dependency-supply-chain-security.md)
   for the library admission decision) before finalizing recommendations.
 - R2 (critical): for `pagination.test.tsx`, diagnose both the brittle
   hand-rolled harness (mounting, global shims, synthetic events) and the
   external-dependency / structural CSS coupling (`.ui-page-item-2`,
   `.ui-page-active`), and propose evaluating an established framework testing
-  library under `dependency-supply-chain-security.md` and active project
-  approval policy rather than patching custom harness plumbing or moving the
-  CSS selector to `.ui-page-item-2 > a`.
+  library under
+  [Dependency and supply-chain security](../../../../references/security/dependency-supply-chain-security.md)
+  and active project approval policy rather than patching custom harness
+  plumbing or moving the CSS selector to `.ui-page-item-2 > a`.
 - R3 (critical): for `pagination.test.tsx`, replace structural selectors with
   accessible role/name queries and standard exposed semantic assertions (noting
   headless/semantic evidence limits for layout, pointer reachability, and

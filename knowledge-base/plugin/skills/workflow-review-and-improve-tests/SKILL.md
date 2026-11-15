@@ -48,9 +48,9 @@ and rewritten.
      support as a migration obligation changes or ends.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-     for collection, selection, skips, fixtures, time, ordering, retries,
-     concurrency, platforms, external processes, timeouts, runner changes, or
-     intermittent outcomes.
+     for collection, selection, skips, fixtures, ambient state, cleanup, time,
+     ordering, retries, concurrency, platforms, external processes, timeouts,
+     runner changes, or intermittent outcomes.
    - Read
      [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
      when runtime or resource cost is claimed or changed.
@@ -164,9 +164,11 @@ Handle every item according to its own evidence and disposition:
   harnesses and the project lacks a mature framework testing library, evaluate
   adopting an established testing library under
   [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md)
-  and the active project's dependency and approval policy rather than patching
-  custom harness plumbing; do not require that library for pure logic or
-  intentionally view-mocked unit tests.
+  and the active project's dependency and approval policy, then stop and request
+  user approval rather than patching custom harness plumbing; do not require
+  that library for pure logic or intentionally view-mocked unit tests. Preserve
+  the evidence boundaries of loaded Knowledge (such as headless web UI semantic
+  checks not proving visual layout or keyboard navigation).
 - Reduce execution cost only at a diagnosed hotspot while preserving protection
   and execution trust.
 - Leave unresolved protection intact while gathering evidence.

@@ -48,12 +48,16 @@ and rewritten.
      support as a migration obligation changes or ends.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-     for collection, selection, skips, fixtures, time, ordering, retries,
-     concurrency, platforms, external processes, timeouts, runner changes, or
-     intermittent outcomes.
+     for collection, selection, skips, fixtures, ambient state, cleanup, time,
+     ordering, retries, concurrency, platforms, external processes, timeouts,
+     runner changes, or intermittent outcomes.
    - Read
      [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
      when runtime or resource cost is claimed or changed.
+   - Read
+     [Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
+     when reviewing or diagnosing automated component or browser tests for a
+     web user interface.
 5. When the review includes tests or support affected by a changed migration
    obligation, or forms part of a final migration assessment, read and apply
    [Migration retirement assessment](../../references/software-design/migration-retirement-assessment.md).
@@ -153,8 +157,18 @@ Handle every item according to its own evidence and disposition:
 - Strengthen or replace an ineffective test at the seam that owns the behavior.
 - Consolidate or delete only when retained evidence catches the same realistic
   fault or no live contract remains.
-- Repair a retained unreliable test at the diagnosed owner: test, fixture,
-  harness, runner configuration, infrastructure, or production.
+- Repair a retained unreliable or brittle test at the diagnosed owner: test,
+  fixture, harness, runner configuration, infrastructure, or production. When
+  tests that drive real framework-managed components or lifecycles rely on
+  hand-rolled mounting, interaction simulation, global shims, or cleanup
+  harnesses and the project lacks a mature framework testing library, evaluate
+  adopting an established testing library under
+  [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md)
+  and the active project's dependency and approval policy, then stop and request
+  user approval rather than patching custom harness plumbing; do not require
+  that library for pure logic or intentionally view-mocked unit tests. Preserve
+  the evidence boundaries of loaded Knowledge (such as headless web UI semantic
+  checks not proving visual layout or keyboard navigation).
 - Reduce execution cost only at a diagnosed hotspot while preserving protection
   and execution trust.
 - Leave unresolved protection intact while gathering evidence.

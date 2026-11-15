@@ -14,11 +14,11 @@ description: Use when deciding whether behavior needs new or expanded automated 
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md).
 3. Define the target production behavior or bounded coverage need. Discover its
    owning code, existing tests and static gates, project-declared test locations
-   and commands, and local testing conventions. When the request concerns an
-   actual production change, inventory every behaviorally relevant change so no
-   required protection disappears behind the proposed tests. For a reusable
-   module, identify its established interface contract separately from the
-   narrower paths exercised by each current consumer.
+   and commands, installed test dependencies, and local testing conventions. When
+   the request concerns an actual production change, inventory every behaviorally
+   relevant change so no required protection disappears behind the proposed tests.
+   For a reusable module, identify its established interface contract separately
+   from the narrower paths exercised by each current consumer.
 4. Read
    [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
    when the test request is being used as evidence that production should own
@@ -37,6 +37,9 @@ description: Use when deciding whether behavior needs new or expanded automated 
    when the requested design makes a material runtime, environment, fixture, or
    resource tradeoff.
 7. Read
+   [Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
+   when the target behavior renders or drives a web user interface.
+8. Read
    [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
    when a test harness creates, stores, or transports credentials or
    authenticates local peers.
@@ -109,10 +112,26 @@ For every required test:
    processes that affect the result.
 6. Apply Test execution cost only to an actual design tradeoff. Do not replace a
    required real integration seam with a mock merely to make the test cheaper.
-7. Fit the test to the active project's conventions and available seams. When
-   the production design prevents effective testing, report the missing seam
-   rather than hiding it behind a larger fixture or more mocks.
-8. When edits are authorized, implement the smallest coherent coverage change.
+7. Distinguish existing tests that use low-level framework primitives only
+   because they mock or isolate a layer (such as view-mocked container tests)
+   from tests that must mount, drive, and observe real framework-managed
+   components or lifecycles. Do not treat low-level primitives in isolated
+   tests as a convention to hand-roll custom DOM mounting, global environment
+   shims, synthetic event dispatching, control queries, or cleanup harnesses
+   around real controls. Whenever driving real framework-managed lifecycles
+   requires mounting rendered controls, simulating user interactions, shimming
+   runtime globals, or managing DOM/lifecycle cleanup and the project lacks an
+   established framework testing library, evaluate mature ecosystem testing
+   libraries from current authoritative sources and
+   [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md),
+   then obtain user approval under the active project's dependency policy
+   before adding a test-scoped dependency; keep pure logic and intentionally
+   layer-mocked unit tests free of unnecessary testing-library dependencies.
+8. Fit the remaining test design to the active project's conventions and
+   available seams. When the production design prevents effective testing,
+   report the missing seam rather than hiding it behind a larger fixture or
+   more mocks.
+9. When edits are authorized, implement the smallest coherent coverage change.
    For a planning or assessment request, report the disposition and proposed
    test without editing.
 

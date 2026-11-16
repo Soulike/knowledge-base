@@ -88,7 +88,11 @@ several Knowledge links does not make their subjects one Handbook responsibility
 5. Classify selection and mandatory reading obligations as a Handbook Skill only
    when one user task family, technical domain, or stable platform context forms
    a coherent native entry. First compare existing Handbooks; add another only
-   for an independently useful scene, not for each Knowledge leaf or condition.
+   for a distinct, independently useful scene—never as a narrow wrapper for one
+   leaf's specific practice or condition. A distinct, self-contained domain or
+   platform may begin sparsely with a single curated Knowledge leaf even when a
+   broader language or general engineering Handbook also co-selects on that
+   work.
 6. Classify step-selected supporting material as an in-file or disclosed Skill
    reference. Keep canonical Knowledge direct rather than copying it into a
    Workflow, Handbook, or reference.

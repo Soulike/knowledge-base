@@ -291,8 +291,13 @@ otherwise select it from an observable conditional package.
 
 The same Knowledge may appear in several Handbooks when distinct scenes need it.
 That reuse does not merge owners. Return a proposed new Handbook to the Skill
-branch only when no existing task family, technical domain, or stable platform
-context provides a recognizable native entry. Apply
+branch when a distinct task family, technical domain, or stable
+platform/framework context needs its own recognizable native entry rather than
+belonging to an existing Handbook's owned scene—including when a broader
+language or general engineering Handbook co-selects on the same code without
+owning that self-contained domain. A new domain or platform Handbook may start
+sparsely with one curated Knowledge leaf, provided its native trigger owns the
+broader scene rather than wrapping that single leaf's narrow topic. Apply
 [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
-and do not create a Handbook for one leaf, hide the route through another
-Handbook, or copy the Knowledge into the entrypoint.
+and do not create a per-leaf narrow wrapper Handbook, hide the route through
+another Handbook, or copy the Knowledge into the entrypoint.

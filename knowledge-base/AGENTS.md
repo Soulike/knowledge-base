@@ -71,8 +71,13 @@ domain, or stable platform context. Its description is one short semantic
 applicability rule decidable from the user's work or current material; it does
 not enumerate internal Knowledge or package branches. Reuse an existing
 Handbook when it already owns the reading scene. Add another only for a distinct
-family, domain, or platform context, not for each Knowledge leaf or narrow
-scenario.
+task family, technical domain, or stable platform context—never as a narrow
+1:1 wrapper for one Knowledge leaf's specific practice. A distinct,
+self-contained domain, framework, or platform entry may start sparsely with a
+single curated Knowledge leaf (and explicitly non-exhaustive coverage) even when
+a broader language or engineering Handbook also co-selects on the same work,
+provided that broader Handbook does not itself own that specialized domain
+scene.
 
 A Handbook may define a foundation required for its primary artifact work and
 conditional required-reading packages selected from observable work, material,

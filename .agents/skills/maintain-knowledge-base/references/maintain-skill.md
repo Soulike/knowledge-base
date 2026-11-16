@@ -43,8 +43,12 @@
      one Workflow only when it owns one complete task.
    - Compare Handbooks by user work, task family, technical domain or platform,
      required understanding, competing native descriptions, and route lifecycle.
-     Reuse an existing Handbook when it owns the scene. Add another only for a
-     distinct scene, not for each Knowledge leaf, package, or narrow condition.
+     Reuse an existing Handbook when it owns the scene; co-selection by a
+     broader language or general engineering Handbook does not establish that
+     it owns a self-contained framework, runtime, or platform domain. Add a new
+     Handbook for a distinct recognizable scene—even when it starts sparsely
+     with a single curated Knowledge leaf—while still rejecting narrow wrapper
+     Handbooks scoped to a single leaf's topic, package, or condition.
 7. Read every file in the affected bundle and every route or consumer needed to
    understand it. Assign execution to a Workflow, required-reading selection to
    a Handbook, and step-selected support to the parent Skill-reference branch.

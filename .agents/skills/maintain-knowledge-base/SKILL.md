@@ -59,9 +59,12 @@ independent behavior.
    before concluding that an existing owner fits. For Handbook placement,
    compare existing task families, technical domains, and stable platform
    contexts before adding an entry; retain a new Handbook only for a distinct
-   native scene, not for each Knowledge leaf. Prefer an existing owner when it
-   already owns the responsibility and report why no existing owner fits every
-   new artifact.
+   native scene, never as a narrow wrapper for one leaf's specific topic. A
+   self-contained domain, framework, or platform context may begin sparsely
+   with a single curated Knowledge leaf rather than folding non-language or
+   domain-specific guidance into a broader co-selected Handbook. Prefer an
+   existing owner when it already owns the responsibility and report why no
+   existing owner fits every new artifact.
    For affected reading or invocation conditions, complete
    [Establish coverage before drafting](../../../knowledge-base/plugin/references/agents/selection-triggers.md#establish-coverage-before-drafting)
    before proposing wording or rewriting the target. Carry its coverage

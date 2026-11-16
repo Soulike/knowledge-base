@@ -91,9 +91,14 @@ must be read together.
 Compare the proposed reading scene with every existing Handbook. Reuse or extend
 an existing owner when it already covers the same user task family, technical
 domain, or stable platform context. Add a Handbook only for a distinct native
-entry that readers can recognize before opening another Skill. Do not create
-one Handbook per Knowledge leaf or narrow scenario, and do not use
-Handbook-to-Handbook orchestration to compensate for a weak boundary.
+entry that readers can recognize before opening another Skill—never a narrow
+wrapper scoped to one Knowledge leaf or specific condition. A distinct,
+self-contained domain, framework, or platform context may begin sparsely with a
+single curated Knowledge leaf (explicitly non-exhaustive, with valid no-match
+behavior), and co-selection with a broader language or general engineering
+Handbook does not mean that broader Handbook owns the specialized domain's
+scene. Do not use Handbook-to-Handbook orchestration to compensate for a weak
+boundary.
 
 A Handbook body may contain:
 

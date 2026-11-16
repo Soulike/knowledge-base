@@ -49,6 +49,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/programming/function-design.md](programming/function-design.md)                                                             | evergreen      |
 | [knowledge/programming/meaningful-naming.md](programming/meaningful-naming.md)                                                         | evergreen      |
 | [knowledge/programming/source-code-layout.md](programming/source-code-layout.md)                                                       | evergreen      |
+| [knowledge/react/effect-callback-isolation.md](react/effect-callback-isolation.md)                                                     | time-sensitive |
 | [knowledge/software-design/application-composition.md](software-design/application-composition.md)                                     | evergreen      |
 | [knowledge/software-design/asynchronous-operation-cancellation.md](software-design/asynchronous-operation-cancellation.md)             | evergreen      |
 | [knowledge/software-design/executable-selection-and-path.md](software-design/executable-selection-and-path.md)                         | evergreen      |

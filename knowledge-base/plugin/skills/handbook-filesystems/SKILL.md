@@ -19,7 +19,9 @@ project-specific decisions in the active working directory.
    this foundation because the three documents form one general package.
 3. Evaluate every conditional package from the observable work and current
    materials. Read every matching package cumulatively; do not choose only the
-   closest match.
+   closest match. A direct learning or explanation request about a conditional
+   package's subject matches that package without automatically loading the
+   general filesystem foundation unless the package specifies otherwise.
 
 This Handbook has no dependency on another Handbook. Continue the user's task
 under the applicable Workflow or active-project process after loading and
@@ -36,6 +38,18 @@ documents:
 - [Runtime filesystem APIs and native commands](../../knowledge/filesystems/runtime-apis-and-native-commands.md)
 
 ## Conditional required-reading packages
+
+### Node.js asynchronous and synchronous filesystem APIs
+
+When designing, implementing, reviewing, or diagnosing Node.js code that
+performs any filesystem operation (whether single-step or multi-step, such as
+reads, writes, directory scans, initialization, or cleanup), or when directly
+learning or explaining when to choose `node:fs/promises` versus synchronous
+`*Sync` APIs, read
+[Asynchronous Node.js filesystem APIs](../../knowledge/nodejs/asynchronous-filesystem-apis.md)
+in full. Selecting this package does not replace
+[Multi-step Node.js filesystem operations](#multi-step-nodejs-filesystem-operations);
+evaluate both packages independently and read every match cumulatively.
 
 ### Multi-step Node.js filesystem operations
 

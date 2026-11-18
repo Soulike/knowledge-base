@@ -191,10 +191,10 @@ explain concretely why it does not apply:
   wrong-target, or unknown-result action and verify that the Skill re-observes,
   reconciles, or stops instead of advancing as though the action completed.
 - **Conditional routing evidence:** when the Skill selects internal references
-  or conditional guidance, give a fresh reader the current body and task
-  context and record every selected and excluded item before expected choices.
-  Exercise multi-match combinations, valid no-match requests, and work-context
-  changes that activate different conditions.
+  or conditional guidance, verify internal routing blindly against the current
+  body and task context per
+  [Check selection from requests](selection-triggers.md#check-selection-from-requests),
+  keeping internal routing distinct from native Skill selection.
 - **Reading and application evidence:** observe required file or section reads
   and their use in the task separately from metadata and routing choices. A
   link, invocation event, or plausible answer alone does not establish reading

@@ -6,26 +6,18 @@ module. Its [plugin/](plugin/) directory is the complete installed package and
 must remain useful without the rest of this source module, a repository
 checkout, or another plugin.
 
-General-purpose guidance, judgment criteria, and evaluation procedures that
-remain valid independently of this repository's layout, catalog, versioning, CI
-gates, and this product's own internal domain model, content taxonomy, and
-organization policy belong inside [plugin/](plugin/)—including when they
-originate while maintaining this repository—rather than in
-[repository-maintenance workflows](../GLOSSARY.md#repository-maintenance-workflow).
-Symmetrically with
-[downstream-project independence](../AGENTS.md#repository-architecture),
-general-purpose installed content under [plugin/](plugin/) must preserve
-**domain-model neutrality** and remain valid without assuming this product's
-internal domain model, content taxonomy, or organization policy. Only installed
-workflows whose explicit user-facing task is interacting with this product
-(such as contributing to it) and their dedicated product-interface contracts
-may rely on this product's internal model; general-purpose installed Skills and
-shared references must not depend on, assume, or route to those
-product-interface contracts. Rules that exist only to define, classify, model,
-or validate this product's own internal architecture belong in
+Apply the
+[dependency-boundary, domain-model neutrality, product-interface isolation, and one-way delegation rules](../AGENTS.md#repository-architecture)
+to [plugin/](plugin/): keep general-purpose subject guidance, usage Skills,
+and shared references inside [plugin/](plugin/) free of this repository's
+layout, internal domain model, content taxonomy, and organization policy, and
+keep dedicated product-interface contracts isolated to installed workflows
+whose explicit user-facing task is interacting with this product. Rules that
+exist only to define, classify, model, or validate this product's own internal
+architecture belong in
 [repository-maintenance workflows](../GLOSSARY.md#repository-maintenance-workflow)
-and their references under `.agents/`, delegating one-way to general-purpose
-craft in [plugin/](plugin/).
+under `.agents/`, delegating one-way to general-purpose craft in
+[plugin/](plugin/).
 
 ## Reader understanding
 

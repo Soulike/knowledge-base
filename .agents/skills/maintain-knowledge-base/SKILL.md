@@ -168,7 +168,10 @@ independent behavior.
     handoff when authoring stops before a pull request exists) per
     [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
     Carry the applicable unmodified evidence outputs from
-    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+    (plus
+    [Prove Handbook and Workflow behavior](references/maintain-skill.md#prove-handbook-and-workflow-behavior)
+    for primary-product Workflow and Handbook Skills),
     [Required evidence](../../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
     and
     [Pull-request and handoff regression evidence](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence)

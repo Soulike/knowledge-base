@@ -13,27 +13,13 @@ repository rules and review dimensions.
 Use the
 [knowledge-base maintenance workflow](.agents/skills/maintain-knowledge-base/SKILL.md)
 to evaluate changes to Knowledge, Skills, Skill references, maintained Agent
-instructions, and prompts. Enforce the
-[dependency-boundary, symmetric domain-model neutrality, product-interface isolation, and one-way delegation rules](AGENTS.md#repository-architecture)
-alongside [plugin authoring rules](knowledge-base/AGENTS.md):
-
-- For `knowledge-base/plugin/` (and other general-purpose plugin packages),
-  verify that general-purpose installed Knowledge, usage Skills, and shared
-  references preserve symmetric downstream-project independence and
-  domain-model neutrality—remaining valid without assuming any downstream
-  project's model or this product's internal domain model, content taxonomy, or
-  organization policy—and do not depend on, assume, or route to
-  product-interface contracts. Keep product-interface contracts isolated to
-  installed workflows whose explicit user-facing task is interacting with this
-  product (such as contribution workflows).
-- For changes touching repository-maintenance workflows or their references under
-  `.agents/`, enforce the dependency-boundary and one-way delegation rule:
-  generalizable guidance, quality criteria, or evaluation procedures belong in
-  `knowledge-base/plugin/` (or the applicable plugin package), rules defining,
-  classifying, modeling, or validating this product's internal architecture
-  belong in `.agents/`, and `.agents/` content must delegate one-way to
-  `knowledge-base/plugin/` without restating, paraphrasing, splitting, or
-  locally overriding those authorities.
+instructions, and prompts. Enforce
+[repository architecture](AGENTS.md#repository-architecture)
+(dependency boundaries, one-way delegation from `.agents/` to
+`knowledge-base/plugin/`, symmetric downstream-project independence and
+domain-model neutrality for general-purpose plugin packages, and isolation of
+product-interface contracts to explicit product-interaction workflows)
+alongside [plugin authoring rules](knowledge-base/AGENTS.md).
 
 For pull requests that add or substantively revise maintained Knowledge,
 Workflow Skills, Handbook Skills, Skill references, maintained Agent

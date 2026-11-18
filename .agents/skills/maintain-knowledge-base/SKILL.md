@@ -28,25 +28,22 @@ independent behavior.
    before fixing consumers, classification, or ownership. Apply it to new
    contributions and to review or maintenance of existing content. Keep its
    analysis distinct from the mutation boundary established in step 1.
-   Apply the downstream-project-independence gate from
-   [`AGENTS.md`](../../../AGENTS.md#repository-architecture) to every part
-   intended for Knowledge or a usage Skill, leaving non-generalizable material
-   in its source project. When a proposal or change touches
+   During triage and placement, enforce the
+   [dependency-boundary, symmetric downstream-project independence and domain-model neutrality, product-interface isolation, and one-way delegation gates](../../../AGENTS.md#repository-architecture):
+   route generalizable guidance to the owning plugin (`knowledge-base/plugin/`),
+   isolate product-interface contracts to explicit product-interaction
+   workflows, keep repository-coupled or product-architecture rules in
    [repository-maintenance workflows](../../../GLOSSARY.md#repository-maintenance-workflow)
-   or their references under `.agents/`, also apply the
-   [dependency-boundary and one-way delegation rule](../../../AGENTS.md#repository-architecture):
-   any guidance, judgment criterion, or evaluation procedure that remains valid
-   independently of this repository's layout, catalogs, versioning, or CI gates
-   belongs in `knowledge-base/plugin/` (or the applicable plugin package) with
-   one-way delegation from `.agents/`, rather than originating or remaining in
-   `.agents/` or duplicating product-owned rules.
+   under `.agents/` delegating one-way to `knowledge-base/plugin/`, and leave
+   non-generalizable source-project material outside installed plugins.
 3. Read
    [`references/agents/knowledge-and-skills.md`](../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance
    lifecycle, and retrieval source, applying its boundary tests.
 4. Classify every new, changed, moved, or removed affected responsibility unit
    as Knowledge, Workflow Skill, Handbook Skill, Skill reference,
-   repository-maintenance workflow/reference (only when repository-coupled per
+   repository-maintenance workflow/reference (only when repository-coupled or
+   product-architecture-specific per
    [`AGENTS.md`](../../../AGENTS.md#repository-architecture)), mixed, or another
    repository-owned artifact using that model. Keep subject understanding in
    Knowledge, task execution in a Workflow, coherent required-reading selection
@@ -62,15 +59,22 @@ independent behavior.
    consumers, reading or invocation triggers, and maintenance lifecycles. For
    Knowledge, apply the
    [ownership and retrieval assessment](references/maintain-knowledge.md#ownership-and-generalization)
-   before concluding that an existing owner fits. For Skill placement, follow
+   before concluding that an existing owner fits. For Skill placement and
+   product-taxonomy modeling, follow
    [Agent Skill authoring](../../../knowledge-base/plugin/references/agents/skill-authoring.md)
+   for generic Skill craft alongside
+   [Choose the Skill responsibility](references/maintain-skill.md#choose-the-skill-responsibility),
+   [Model a Handbook Skill](references/maintain-skill.md#model-a-handbook-skill),
    and
    [Skills and references](../../../knowledge-base/AGENTS.md#skills-and-references);
    prefer an existing owner when it already owns the responsibility and report
    why no existing owner fits every new artifact.
    For affected reading or invocation conditions, complete
    [Establish coverage before drafting](../../../knowledge-base/plugin/references/agents/selection-triggers.md#establish-coverage-before-drafting)
-   before proposing wording or rewriting the target. Carry its coverage
+   before proposing wording or rewriting the target, applying
+   [Handbook and Workflow selection triggers](references/maintain-skill.md#handbook-and-workflow-selection-triggers)
+   for primary-product Workflow descriptions, Handbook descriptions, and Handbook
+   package conditions. Carry its coverage
    boundaries and request cases into the artifact-specific workflows below.
    For authorized maintenance, also apply
    [Discover and select regression cases](../../references/agent-regression-tests.md#discover-and-select)
@@ -164,7 +168,10 @@ independent behavior.
     handoff when authoring stops before a pull request exists) per
     [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
     Carry the applicable unmodified evidence outputs from
-    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+    (plus
+    [Prove Handbook and Workflow behavior](references/maintain-skill.md#prove-handbook-and-workflow-behavior)
+    for primary-product Workflow and Handbook Skills),
     [Required evidence](../../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
     and
     [Pull-request and handoff regression evidence](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence)
@@ -200,7 +207,10 @@ meaning, structure, and required reader actions are unchanged.
    [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md).
    When that same reviewer checks affected selections, run
    [Check selection from requests](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
-   first—before sharing Step 3 review materials—keeping selection and package
+   (and
+   [Handbook and Workflow selection triggers](references/maintain-skill.md#handbook-and-workflow-selection-triggers)
+   for primary-product Handbook packages) first—before sharing Step 3 review
+   materials—keeping selection and package
    observations isolated from target contents, expected choices, and combined
    review.
 2. Gather execution evidence against the final content using
@@ -214,7 +224,9 @@ meaning, structure, and required reader actions are unchanged.
    [Behavioral regression cases](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
    for author-matched historical case replay. Separately run any applicable
    lower-capability Skill-authoring
-   ([Prove the behavior](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior))
+   ([Prove the behavior](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior)
+   and, for primary-product Workflow and Handbook behavior,
+   [Prove Handbook and Workflow behavior](references/maintain-skill.md#prove-handbook-and-workflow-behavior))
    or reader-understanding
    ([Verify reader understanding](../../../knowledge-base/plugin/references/agents/reader-understanding.md))
    checks in fresh contexts, delegating run reuse for reader-understanding
@@ -259,16 +271,19 @@ meaning, structure, and required reader actions are unchanged.
 
 An assessment is complete only when its report includes the required
 [ownership and retrieval account](references/maintain-knowledge.md#ownership-and-generalization)
-for Knowledge placement conclusions, applies the dependency-boundary check for
-`.agents/` proposals, and explicitly identifies unresolved evidence. An
+for Knowledge placement conclusions, applies the dependency-boundary,
+domain-model-neutrality, and product-interface-isolation checks for `.agents/`
+and plugin proposals, and explicitly identifies unresolved evidence. An
 unsupported fit conclusion leaves the assessment incomplete.
 
 For authorized delivery, finish only when:
 
 - Every affected part is classified and placed in its single authoritative home
   satisfying [`AGENTS.md`](../../../AGENTS.md#repository-architecture), with
-  one-way delegation from `.agents/` to `knowledge-base/plugin/` and
-  downstream-project independence for user-facing content.
+  one-way delegation from `.agents/` to `knowledge-base/plugin/`,
+  downstream-project independence and domain-model neutrality for
+  general-purpose user-facing content, and product-interface contracts
+  isolated to explicit product-interaction workflows.
 - Primary-product Knowledge, Skills, and Skill references satisfy
   [`knowledge-base/AGENTS.md`](../../../knowledge-base/AGENTS.md), every
   changed route and reference resolves, and `pnpm check` passes. Other affected

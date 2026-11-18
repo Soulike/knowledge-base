@@ -39,30 +39,42 @@ its [authoring rules](knowledge-base/AGENTS.md).
 Choose a workflow or Skill's location by its **dependency boundary**, and keep
 one authoritative copy. Any guidance, judgment criterion, or workflow that
 remains valid independently of this repository's layout, catalog, versioning,
-or CI gates belongs in `knowledge-base/plugin/` (or the applicable plugin
-package) under its `skills/<skill-name>/` or `references/` directory—including
-when it originates while maintaining this repository. Only repository-coupled
-rules and maintenance orchestration belong in `.agents/`: put
-repository-maintenance workflows under `.agents/skills/<skill-name>/`, and put
-their repository-specific references in each workflow's `references/` directory
-or `.agents/references/` when shared across those workflows.
+CI gates, and this product's own internal domain model, content taxonomy, and
+organization policy belongs in `knowledge-base/plugin/` (or the applicable
+plugin package) under its `skills/<skill-name>/` or `references/`
+directory—including when it originates while maintaining this repository. Only
+repository-coupled rules, maintenance orchestration, and rules that exist only
+to define, classify, model, or validate this product's own internal
+architecture belong in `.agents/`: put repository-maintenance workflows under
+`.agents/skills/<skill-name>/`, and put their repository- and product-specific
+references in each workflow's `references/` directory or `.agents/references/`
+when shared across those workflows.
 
 Repository-maintenance workflows and their references delegate **one-way** to
 `knowledge-base/plugin/` without restating, paraphrasing, splitting, or locally
-overriding guidance, quality rules, or evaluation procedures owned there. Within
-any plugin package, a reference used by one Skill belongs in that Skill's
-`references/` directory, and a reference shared by Skills in the same plugin
-belongs under that plugin's `references/<domain>/`. Route directly from the
-consuming Skill step and do not create reference indexes. Sharing across plugin
-packages requires reconsidering ownership rather than adding a repository-global
-route.
+overriding general-purpose guidance, quality rules, or evaluation procedures
+owned there. Within any plugin package, a reference used by one Skill belongs
+in that Skill's `references/` directory, and a reference shared by Skills in
+the same plugin belongs under that plugin's `references/<domain>/`. Route
+directly from the consuming Skill step and do not create reference indexes.
+Sharing across plugin packages requires reconsidering ownership rather than
+adding a repository-global route.
 
-Knowledge and installed usage Skills must preserve **downstream-project
-independence**. They may target a product, platform, protocol, or engineering
-domain, but must not require a particular downstream repository, path layout,
-domain model, organization policy, or private infrastructure. Generalize
-project-derived material only when it remains correct without that project;
-otherwise leave it in the source project.
+General-purpose installed plugin content—installed subject guidance, usage
+Skills, and shared references—must preserve symmetric **downstream-project
+independence** and **domain-model neutrality**. It may target a product,
+platform, protocol, or engineering domain, but must not require a particular
+downstream repository, path layout, domain model, organization policy, or
+private infrastructure—and, symmetrically, must remain valid independently of
+this product's own internal domain model, content taxonomy, and organization
+policy. Generalize project-derived material only when it remains correct
+without that project; otherwise leave it in the source project.
+
+Only installed workflows whose explicit user-facing task is interacting with
+this product (such as contributing to it) and their dedicated
+product-interface contracts may rely on this product's internal model;
+general-purpose installed Skills and shared references must not depend on,
+assume, or route to those product-interface contracts.
 
 A contribution Skill may read its plugin manifest's `repository` field, use
 that explicit identity to inspect the canonical source and issue history
@@ -129,7 +141,9 @@ Assemble the unmodified observations produced by the applicable authorities
 without collapsing them into topic-only notes or aggregate pass claims:
 
 - **Skills:** include the evidence required by
-  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
+  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+  and, for primary-product Workflow and Handbook Skills,
+  [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).
 - **Reader understanding:** for primary-product Knowledge, Skills, and Skill
   references requiring cross-model verification, preserve the
   [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).

@@ -74,50 +74,88 @@ Preserve every exact selected target `id` in notes and safe outputs.
 
 ## Analysis phase
 
-1. Read the root [repository instructions](AGENTS.md), the target manifest, and
-   every file named by every selected target. Read
+1. Read the root [repository instructions](AGENTS.md), the
+   [plugin authoring rules](knowledge-base/AGENTS.md), the target manifest,
+   and every file named by every selected target. Read
    [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
-   as the current authoring standard under this task contract; when it is itself
-   a target, examine its basis instead of assuming it is correct. Apply the
+   for generic Skill engineering craft and
+   [Maintain a Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
+   for primary-plugin Knowledge, Workflow Skill, and Handbook Skill
+   responsibility, modeling, and proof rules under this task contract; when
+   either authority is itself a target, examine its basis instead of assuming it
+   is correct. Apply the
    [shared review criteria](.github/workflows/shared/content-verification.md#review-phase)
    and [evidence, recovery, and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion).
    Recover an inspection failure where possible; if the required scope or
    revision still cannot be established, call `report_incomplete` exactly once.
 2. For each installed Skill in the primary `knowledge-base` plugin, first
    determine whether it owns Workflow execution or Handbook required-reading
-   selection under the authoring standard. Apply
+   selection under
+   [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references)
+   and
+   [Choose the Skill responsibility](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#choose-the-skill-responsibility).
+   Apply
    [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
-   to native descriptions and later routing conditions.
+   to generic selection-trigger coverage, earliest-observable-point drafting,
+   and blind request checking alongside
+   [Handbook and Workflow selection triggers](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#handbook-and-workflow-selection-triggers)
+   for primary-plugin Workflow descriptions, Handbook descriptions, and Handbook
+   package conditions. Verify
+   [symmetric downstream-project independence, domain-model neutrality, and product-interface isolation](AGENTS.md#repository-architecture)
+   alongside [plugin authoring rules](knowledge-base/AGENTS.md).
 3. For each Workflow, independently reconstruct the user's task and intended
-   outcome, then reason through risk-derived invocation, execution, failure,
-   stopping, and output scenarios, including one likely to expose a shortcut or
-   omitted professional responsibility. Confirm that `SKILL.md` owns the primary
+   outcome under
+   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
+   and, for primary-plugin Workflows,
+   [Model a Workflow Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-workflow-skill)
+   and
+   [Assign Knowledge, references, and bundle ownership](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#assign-knowledge-references-and-bundle-ownership),
+   then reason through risk-derived invocation, execution, failure, stopping,
+   and output scenarios, including one likely to expose a shortcut or omitted
+   professional responsibility. Confirm that `SKILL.md` owns the primary
    decisions, actions, tool use, authority boundaries, failure behavior, output,
    and completion criteria. Check that Knowledge and references are selected at
    the decision that needs them, every disclosed reference has an explicit
    consuming step, and an independently invocable responsibility is not hidden
-   in a reference. Check progressive disclosure, portability, package boundaries,
+   in a reference. Check progressive disclosure, portability, package
+   boundaries,
+   [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture),
    and current tool or API assumptions.
 4. For each Handbook, reconstruct the task family, technical domain, or stable
-   platform context that makes its reading useful. Confirm that its description
-   uses one semantic applicability rule rather than enumerating internal
-   packages. Check that it owns required-reading selection only: a foundation is
-   common to the primary artifact work, every matching conditional package is
-   cumulative and mandatory, focused learning need not load an unrelated
-   foundation, and a sparse platform no-match remains valid. Require direct
-   complete-file or context-sufficient-section links to every selected Knowledge
-   unit, without a Handbook-to-Handbook dependency. Check reuse or rereading and
-   re-evaluation after relevant task, stage, language, platform, artifact,
-   production-method, or available-context changes. Treat native selection,
-   package choice, actual reading, application, and later supplementary reading
-   as separate observations; do not require a Handbook to contain a task
-   procedure, failure contract, output artifact, or completion gate.
+   platform context that makes its reading useful under
+   [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references),
+   [Model a Handbook Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill),
+   [Write a Handbook body](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#write-a-handbook-body),
+   and
+   [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).
+   Confirm that its description uses one semantic applicability rule rather than
+   enumerating internal packages. Check that it owns required-reading selection
+   only: a foundation is common to the primary artifact work, every matching
+   conditional package is cumulative and mandatory, focused learning need not
+   load an unrelated foundation, and a sparse platform no-match remains valid.
+   Require direct complete-file or context-sufficient-section links to every
+   selected Knowledge unit, without a Handbook-to-Handbook dependency. Check
+   reuse or rereading and re-evaluation after relevant task, stage, language,
+   platform, artifact, production-method, or available-context changes. Treat
+   native selection, package choice, actual reading, application, and later
+   supplementary reading as separate observations; do not require a Handbook to
+   contain a task procedure, failure contract, output artifact, or completion
+   gate. Verify
+   [domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture)
+   for general-purpose Handbooks.
 5. Review repository-maintenance workflows and auxiliary-plugin Skills under
    their own instructions, declared task, and package or dependency-boundary
    contract rather than requiring the primary plugin's Workflow or Handbook
-   structure. For repository-maintenance workflows, verify one-way delegation
-   without restating, paraphrasing, splitting, or overriding rules owned by
-   `knowledge-base/plugin/`. For every Skill or workflow kind, use execution or
+   structure. For repository-maintenance workflows, verify the
+   [dependency-boundary and one-way delegation rules](AGENTS.md#repository-architecture).
+   For general-purpose shared references in `knowledge-base/plugin/`, verify
+   generic craft via
+   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
+   and
+   [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
+   alongside
+   [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture).
+   For every Skill or workflow kind, use execution or
    observation when a material behavioral uncertainty requires it; do not imply
    observed effectiveness from scenario reasoning alone. Check each shared
    reference with its consuming Skills or workflows while keeping the result

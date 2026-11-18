@@ -9,7 +9,7 @@ description: Use when a known need calls for creating or updating maintained sof
 
 1. Follow instructions, Skills, requirements, project-specific information,
    and documentation standards from the active working directory. Treat this
-   plugin's packaged Knowledge as supplemental guidance; when it conflicts with
+   plugin's packaged guidance as supplemental; when it conflicts with
    one of those sources, follow the active-working-directory source.
 2. Resolve linked paths relative to this `SKILL.md`, then read
    [Maintained document quality](../../knowledge/documentation/maintained-document-quality.md)
@@ -25,8 +25,6 @@ description: Use when a known need calls for creating or updating maintained sof
    documentation, navigation, and authoritative sources. Identify the intended
    readers, their recurring task, and the information or route they need.
 5. Read
-   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md)
-   when Knowledge or a Skill is a possible form. Read
    [Agent Skill authoring](../../references/agents/skill-authoring.md) whenever
    a Skill is being created or changed. When writing or reviewing its
    invocation condition, also read
@@ -51,7 +49,7 @@ description: Use when a known need calls for creating or updating maintained sof
 
 ## Decide the response and structure
 
-1. Apply the loaded Knowledge to choose one response for each information need:
+1. Apply the loaded documentation guidance to choose one response for each information need:
    make no documentation change, update an existing document, create the
    lightest fitting form, or report a required project decision that remains
    unresolved. Determine whether reader confusion needs information or exposes
@@ -83,7 +81,7 @@ description: Use when a known need calls for creating or updating maintained sof
    read [Deliver the documentation](references/deliver-documentation.md) and
    complete its drafting, reconciliation, and verification procedures for the
    selected responses. If the composed result, new requirements, or feedback
-   invalidate the structural judgment under the loaded Knowledge's criteria, return to
+   invalidate the structural judgment under the loaded documentation guidance's criteria, return to
    [Decide the response and structure](#decide-the-response-and-structure) and
    assess the cumulative revision before further editing.
 

@@ -12,7 +12,6 @@
 - [Knowledge-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-knowledge.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
 - [Classification reference](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
-- [Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
 
 ## Protected behavior
 
@@ -49,8 +48,12 @@ modify any repository files.
 
 ## Starting state
 
-Supply the complete current six covered governance and authoring documents, the
-description and package summary of `handbook-javascript-typescript`,
+Supply the complete current five covered governance and authoring documents and
+their required normative routes (including
+[Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+and
+[Selection-trigger reference](../../knowledge-base/plugin/references/agents/selection-triggers.md)),
+plus the description and package summary of `handbook-javascript-typescript`,
 `handbook-software-engineering`, `handbook-product-experience`, and
 `handbook-automated-testing` from the pre-React baseline stated in the task.
 
@@ -70,8 +73,11 @@ read and the decision rationale.
   sparsely with the single curated React leaf (option 2), rejecting the
   misconception that a 1-leaf starting point is forbidden when the entrypoint
   owns a distinct, recognizable domain/framework context.
-- R3 (critical): specify sparse-Handbook structure for the accepted entry: an
-  empty foundation (no common React Knowledge across all React work yet), a
+- R3 (critical): specify sparse-Handbook structure for the accepted entry under
+  [Model a Handbook Skill](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill)
+  and
+  [Skills and references](../../knowledge-base/AGENTS.md#skills-and-references):
+  an empty foundation (no common React Knowledge across all React work yet), a
   cumulative conditional package for the Effect callback-isolation leaf (with
   its own focused-learning route), explicitly non-exhaustive coverage, and a
   valid no-match path for unrelated React work.
@@ -94,4 +100,11 @@ critical criterion.
 Reconstructed from maintenance triage of GitHub issue #278, where an initial
 literal reading of "do not create a Handbook for one leaf" conflicted with
 sparse-domain Handbook creation (`handbook-react`) alongside
-`handbook-javascript-typescript`.
+`handbook-javascript-typescript`. GitHub issue #289 and ticket #293 reconciled
+`Covered objects` and expectations after
+[Model a Handbook Skill](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill)
+relocated from
+[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+into
+[`maintain-skill.md`](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
+alongside [Product authoring rules](../../knowledge-base/AGENTS.md).

@@ -74,7 +74,7 @@ not establish that inaccessible or undisclosed material cannot be read.
 
 ```text
 Complete the assigned task independently using its permitted inputs, active
-runtime instructions, and allowed reading routes. Normal Knowledge, Skills,
+runtime instructions, and allowed reading routes. Normal documentation, Skills,
 and references allowed for this task are guidance you should apply.
 
 Do not search for, open, request, or use evaluator-only case definitions,

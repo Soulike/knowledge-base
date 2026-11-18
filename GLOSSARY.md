@@ -81,6 +81,7 @@ subject with this identity instead of reconstructing it from mutable state.
 ### Repository-maintenance workflow
 
 An internal Agent workflow coupled to this repository's layout, catalogs,
-packaging, regression inventory, or validation gates that orchestrates content
-maintenance by delegating reusable rules one-way to product-owned standards.
+packaging, regression inventory, validation gates, or this product's internal
+architecture that orchestrates content maintenance by delegating general-purpose
+rules one-way to product-owned standards.
 _Avoid_: Repository-authoring Skill, repository-authoring workflow

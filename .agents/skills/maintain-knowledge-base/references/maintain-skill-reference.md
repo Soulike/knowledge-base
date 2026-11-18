@@ -13,17 +13,23 @@
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
    and delegate all general bundle-organization, cohesive-support,
    selection-timing, progressive-disclosure, and split-or-merge decisions to
-   those authorities without restating them here.
-4. Apply the dependency-boundary and package-placement rules in
+   those authorities without restating them here. Apply
+   [Assign Knowledge, references, and bundle ownership](maintain-skill.md#assign-knowledge-references-and-bundle-ownership)
+   for primary-product Knowledge, Workflow Skill, Handbook Skill, and reference
+   boundary separation.
+4. Apply the dependency-boundary, domain-model-neutrality,
+   product-interface-isolation, and package-placement rules in
    [`AGENTS.md`](../../../../AGENTS.md#repository-architecture):
    - Keep generalizable Skill references in `knowledge-base/plugin/` (or the
      applicable plugin package), inside the owning Skill's `references/`
      directory when used by one Skill or `references/<domain>/` when shared
-     across Skills in the same plugin.
-   - Keep only repository-coupled references under `.agents/` (inside the
-     consuming workflow's `references/` directory or `.agents/references/` when
-     shared across repository-maintenance workflows), delegating one-way to
-     `knowledge-base/plugin/`.
+     across Skills in the same plugin, preserving symmetric
+     downstream-project independence and domain-model neutrality and avoiding
+     dependencies on or routes to product-interface contracts.
+   - Keep only repository-coupled or product-architecture-specific references
+     under `.agents/` (inside the consuming workflow's `references/` directory
+     or `.agents/references/` when shared across repository-maintenance
+     workflows), delegating one-way to `knowledge-base/plugin/`.
    - Record the complete consumer set and chosen boundary; reconsider package
      ownership instead of creating cross-package or repository-global routing.
 5. Apply the parent-selected disposition to each affected responsibility unit.

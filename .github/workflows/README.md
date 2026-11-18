@@ -163,7 +163,8 @@ The tasks retain distinct emphases:
   installed Workflow and Handbook consumers; and
 - maintained Agent content distinguishes Workflow invocation and execution from
   Handbook applicability and required-reading selection, while reviewing
-  repository-authoring and auxiliary-plugin Skills under their own contracts.
+  repository-maintenance workflows and auxiliary-plugin Skills under their own
+  contracts.
 
 Knowledge route review starts from an installed primary-plugin consumer. A
 Workflow may read Knowledge directly or through a reference selected by one of

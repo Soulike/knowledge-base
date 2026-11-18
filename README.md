@@ -22,7 +22,8 @@ for Codex and GitHub Copilot CLI. The marketplace and plugin selector remain
 - [plugins/](plugins/) contains independent auxiliary plugin packages.
 - [docs/](docs/) contains repository-wide contributor instructions and
   architectural decisions. Plugin-specific documentation stays with its owner.
-- [.agents/](.agents/) contains repository-authoring Skills and their references.
+- [.agents/](.agents/) contains repository-maintenance workflows and their
+  references.
 - [.github/](.github/) contains repository-wide checks and automation.
 - [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) is the shared
   marketplace consumed by both supported clients.

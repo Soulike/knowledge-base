@@ -4,7 +4,11 @@ Use the [plugin glossary](GLOSSARY.md) for Knowledge, Workflow Skills, Handbook
 Skills, and Skill references. This directory is the primary product's source
 module. Its [plugin/](plugin/) directory is the complete installed package and
 must remain useful without the rest of this source module, a repository
-checkout, or another plugin.
+checkout, or another plugin. Guidance, judgment criteria, and evaluation
+procedures that remain valid independently of this repository's layout,
+catalog, versioning, or CI gates belong inside [plugin/](plugin/)—including when
+they originate while maintaining this repository—rather than in
+repository-maintenance workflows.
 
 ## Reader understanding
 
@@ -17,11 +21,14 @@ context they need using
 The author's ability to understand a passage does not establish that its readers
 can understand or apply it.
 
-Every addition or substantive revision to these artifacts requires the
-cross-model reader-understanding check in the
-[maintenance workflow](../.agents/skills/maintain-knowledge-base/SKILL.md).
+Every addition or substantive revision to primary-product Knowledge, Workflow
+Skills, Handbook Skills, and Skill references requires cross-model
+reader-understanding verification using
+[Verify reader understanding](plugin/references/agents/reader-understanding.md),
+coordinated through the
+[repository-maintenance workflow](../.agents/skills/maintain-knowledge-base/SKILL.md).
 Purely mechanical edits may use simplified validation after confirming that
-meaning and structure are unchanged.
+meaning, structure, and required reader actions are unchanged.
 
 ## Knowledge
 
@@ -40,7 +47,7 @@ Use subdirectories for organization rather than nested catalogs.
 Every leaf must remain reachable from at least one installed Workflow or
 Handbook through direct package-local Markdown links and eligible packaged
 references. Runtime traversal stops at Knowledge; Catalog membership,
-repository-authoring content, tests, research, README files, and links between
+repository-maintenance content, tests, research, README files, and links between
 Knowledge leaves do not establish an installed reading route. The required
 `pnpm knowledge:check` command enforces this contract.
 
@@ -99,8 +106,8 @@ guidance as supplemental to instructions, requirements, Skills, and domain
 decisions in the Agent's active working directory.
 
 [plugin/references/](plugin/references/) holds non-indexed supporting material
-shared by this plugin's Skills, including references also read by
-repository-authoring workflows. Keep a reference used by only one Skill inside
+shared by this plugin's Skills, including references also read one-way by
+repository-maintenance workflows. Keep a reference used by only one Skill inside
 that Skill's own `references/` directory. Select each reference at the Skill
 step that needs it; reuse does not turn step-selected material into Knowledge.
 

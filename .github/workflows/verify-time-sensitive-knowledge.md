@@ -98,7 +98,7 @@ exact `id` in all notes and safe outputs.
    an explicitly selected same-package reference; a Handbook must link it
    directly. Trace the consumer, selecting condition or step, task stage, and
    complete file or context-sufficient section. A catalog entry,
-   repository-authoring Skill, README or research document, test or fixture,
+   repository-maintenance workflow, README or research document, test or fixture,
    another plugin, or another Knowledge leaf does not establish an installed
    runtime consumer. Report static reachability separately from observations of
    selection, reading, and application.

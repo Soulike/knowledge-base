@@ -26,32 +26,43 @@ its [authoring rules](knowledge-base/AGENTS.md).
   and libraries in the owning source module. Root [docs/](docs/) owns
   repository-wide development rules and architectural decisions. Create plugin
   glossaries, design documents, and ADRs only when there is content to maintain.
-- [`.agents/skills/`](.agents/skills/) contains repository-authoring workflows;
+- [`.agents/skills/`](.agents/skills/) contains
+  [repository-maintenance workflows](GLOSSARY.md#repository-maintenance-workflow);
   `.agents/references/` holds references shared only by those workflows.
-  Authoring workflows may read canonical plugin content from the checkout;
+  Maintenance workflows may read canonical plugin content from the checkout;
   this does not make that content a dependency of another installed plugin.
 - [.github/](.github/) owns repository-wide automation. Product-specific
   tooling and libraries live in their source module and are shared with root
   automation through the [pnpm workspace](pnpm-workspace.yaml); each installed
   plugin must remain usable without that workspace.
 
-Choose a Skill's location by its audience and lifecycle, and keep one
-authoritative copy. Put authoring Skills under `.agents/skills/<skill-name>/`
-and installed usage Skills under the marketplace-selected package's
-`skills/<skill-name>/` directory.
-A reference used by one Skill belongs in that Skill's `references/` directory.
-A reference shared by Skills in the same plugin belongs under that plugin's
-`references/<domain>/`. Route directly from the consuming Skill step and do not
-create reference indexes. Sharing across plugin packages requires
-reconsidering ownership rather than adding a repository-global route.
+Choose a workflow or Skill's location by its **dependency boundary**, and keep
+one authoritative copy. Any guidance, judgment criterion, or workflow that
+remains valid independently of this repository's layout, catalog, versioning,
+or CI gates belongs in `knowledge-base/plugin/` (or the applicable plugin
+package) under its `skills/<skill-name>/` or `references/` directory—including
+when it originates while maintaining this repository. Only repository-coupled
+rules and maintenance orchestration belong in `.agents/`: put
+repository-maintenance workflows under `.agents/skills/<skill-name>/`, and put
+their repository-specific references in each workflow's `references/` directory
+or `.agents/references/` when shared across those workflows.
+
+Repository-maintenance workflows and their references delegate **one-way** to
+`knowledge-base/plugin/` without restating, paraphrasing, splitting, or locally
+overriding guidance, quality rules, or evaluation procedures owned there. Within
+any plugin package, a reference used by one Skill belongs in that Skill's
+`references/` directory, and a reference shared by Skills in the same plugin
+belongs under that plugin's `references/<domain>/`. Route directly from the
+consuming Skill step and do not create reference indexes. Sharing across plugin
+packages requires reconsidering ownership rather than adding a repository-global
+route.
 
 Knowledge and installed usage Skills must preserve **downstream-project
 independence**. They may target a product, platform, protocol, or engineering
 domain, but must not require a particular downstream repository, path layout,
 domain model, organization policy, or private infrastructure. Generalize
 project-derived material only when it remains correct without that project;
-otherwise leave it in the source project. Repository-authoring Skills are
-outside this user-facing boundary.
+otherwise leave it in the source project.
 
 A contribution Skill may read its plugin manifest's `repository` field, use
 that explicit identity to inspect the canonical source and issue history
@@ -65,8 +76,8 @@ when assessing a contribution's classification, ownership, or placement, and
 whenever an authorized change adds, corrects, rewrites, splits, merges, moves,
 or removes Knowledge, a Workflow Skill, a Handbook Skill, a Skill reference, or
 maintained Agent instructions and prompts that govern them. It classifies every
-affected responsibility before selecting authoring workflows and the smallest
-coherent operation; assessment alone does not authorize edits.
+affected responsibility before selecting repository-maintenance workflows and
+the smallest coherent operation; assessment alone does not authorize edits.
 
 Use [maintain-knowledge-base-tests](.agents/skills/maintain-knowledge-base-tests/SKILL.md)
 for directly creating, replaying, reviewing, or maintaining behavioral regression
@@ -104,21 +115,47 @@ Markdown parser and assert against the parsed structure. Treat Markdown source
 text only as parser input; do not infer Markdown structure by matching,
 splitting, or replacing raw text.
 
-## Skill change evidence
+## Behavioral and documentation change evidence
 
-A pull request that adds a Skill or materially changes Skill behavior must
-include the design and behavioral evidence required by
-[Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
-Put that concise evidence summary in the pull-request description so a reviewer
-can evaluate the task model, research, responsibility boundaries, and observed
-behavior independently. Concision may remove raw transcripts and repeated
-procedure, but not the identities, configuration, comparison basis,
-observations, attempt outcomes, or limitations required by that evidence
-contract. When authoring stops before a pull request exists, preserve the same
-summary in the handoff. Keep lasting rules and subject understanding in their
-authoritative Skill, Knowledge, or reference rather than adding a document that
-records design history. A mechanical-only change may use reduced evidence only
-when its summary explains why behavior is unchanged.
+A pull request or handoff that adds or substantively revises maintained
+Knowledge, Workflow Skills, Handbook Skills, Skill references, maintained Agent
+instructions or prompts, or behavioral regression cases must include a concise,
+directly reviewable evidence summary in the pull-request description (or in the
+handoff when authoring stops before a pull request exists). Ordinary
+engineering code, tooling, or CI implementation pull requests are excluded from
+this behavioral-prose evidence requirement.
+
+Assemble the unmodified observations produced by the applicable authorities
+without collapsing them into topic-only notes or aggregate pass claims:
+
+- **Skills:** include the design, comparison, scenario, and attempt evidence
+  required by
+  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
+- **Reader understanding:** for primary-product Knowledge, Skills, and Skill
+  references requiring cross-model verification, preserve the
+  [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
+  including actual reader paraphrase, concrete application decisions, and
+  reported confusion tied to the relevant passages with adjacent executor
+  identity and configuration.
+- **Behavioral regression cases:** include the regression inventory, selection
+  scope, tested source and model-matching basis, case observations, attempt
+  outcomes, and case or contract changes required by
+  [Behavioral regression cases](.agents/references/agent-regression-tests.md).
+- **Other maintained instructions and prompts:** for semantic or structural
+  changes, include affected responsibilities, final-content suitability and
+  independent review conclusions, and remaining limitations.
+
+Top-level repository maintenance
+([maintain-knowledge-base](.agents/skills/maintain-knowledge-base/SKILL.md))
+assembles these unmodified observations into the pull-request description so a
+reviewer can evaluate responsibility boundaries, reader comprehension, and
+observed behavior independently. Concision may remove raw transcripts and
+repeated procedure, but not required identities, configuration, comparison
+basis, observations, attempt outcomes, or limitations. Keep lasting rules and
+subject understanding in their authoritative Knowledge, Skill, or reference
+rather than adding a document that records design history. A purely mechanical
+edit may use reduced evidence only when its summary confirms that meaning,
+structure, and required reader actions are unchanged.
 
 ## Plugin compatibility
 

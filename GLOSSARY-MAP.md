@@ -2,8 +2,8 @@
 
 ## Contexts
 
-- [Repository maintenance](GLOSSARY.md): Agentic automation, content
-  verification, and review integration. Its decisions live in
+- [Repository maintenance](GLOSSARY.md): Agentic automation, maintenance
+  workflows, content verification, and review integration. Its decisions live in
   [docs/adr/](docs/adr/).
 - [Knowledge-base product](knowledge-base/GLOSSARY.md): Knowledge,
   installed Skills, and their supporting references. Plugin-specific domain

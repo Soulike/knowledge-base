@@ -28,28 +28,14 @@ independent behavior.
    before fixing consumers, classification, or ownership. Apply it to new
    contributions and to review or maintenance of existing content. Keep its
    analysis distinct from the mutation boundary established in step 1.
-   Apply the symmetric downstream-project-independence,
-   domain-model-neutrality, and product-interface-isolation gates from
-   [`AGENTS.md`](../../../AGENTS.md#repository-architecture) to every part
-   intended for general-purpose plugin content: leave non-generalizable
-   material in its source project, keep general-purpose guidance, Skills, and
-   shared references independent of this product's internal domain model,
-   content taxonomy, and organization policy, and ensure they do not depend on
-   or route to product-interface contracts (which are isolated to installed
-   workflows whose explicit user-facing task is interacting with this product).
-   When a proposal or change touches
+   During triage and placement, enforce the
+   [dependency-boundary, symmetric downstream-project independence and domain-model neutrality, product-interface isolation, and one-way delegation gates](../../../AGENTS.md#repository-architecture):
+   route generalizable guidance to the owning plugin (`knowledge-base/plugin/`),
+   isolate product-interface contracts to explicit product-interaction
+   workflows, keep repository-coupled or product-architecture rules in
    [repository-maintenance workflows](../../../GLOSSARY.md#repository-maintenance-workflow)
-   or their references under `.agents/`, or defines, classifies, models, or
-   validates this product's own internal architecture, also apply the
-   [dependency-boundary and one-way delegation rule](../../../AGENTS.md#repository-architecture):
-   any general-purpose guidance, judgment criterion, or evaluation procedure
-   that remains valid independently of this repository's layout, catalogs,
-   versioning, CI gates, and this product's internal model, taxonomy, and
-   organization policy belongs in `knowledge-base/plugin/` (or the applicable
-   plugin package) with one-way delegation from `.agents/`, rather than
-   originating or remaining in `.agents/` or duplicating product-owned rules;
-   rules coupled to this product's internal architecture belong in `.agents/`
-   rather than general-purpose plugin content.
+   under `.agents/` delegating one-way to `knowledge-base/plugin/`, and leave
+   non-generalizable source-project material outside installed plugins.
 3. Read
    [`references/agents/knowledge-and-skills.md`](../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance

@@ -3,8 +3,8 @@
 ## Scope
 
 Use this procedure to verify reader understanding for new or substantively
-changed documentation, Knowledge, Skills, and Skill references when a consuming
-workflow, project policy, or risk assessment calls for independent or
+changed maintained documentation, Skills, and supporting references when a
+consuming workflow, project policy, or risk assessment calls for independent or
 cross-model reader validation. Purely mechanical edits require only confirmation
 that meaning, structure, and required reader actions are unchanged.
 Assessment-only work retains the consuming workflow's read-only boundary; this

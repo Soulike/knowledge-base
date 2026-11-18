@@ -23,10 +23,10 @@ Knowledge-base maintenance must distinguish canonical subject understanding,
 task execution, and scenario-based reading obligations. A proposed installed
 reading entry must become or join a Handbook Skill without absorbing the
 Knowledge it routes or inventing a Workflow procedure. Protect cumulative
-conditional reading, direct canonical routes, downstream portability, the
-repository-owned product placement policy, and the maintenance-only Catalog and
-strict reachability contract while allowing different Handbook names, prose,
-package labels, and plan structure.
+conditional reading, direct canonical routes, downstream portability, symmetric
+domain-model neutrality, the repository-owned product placement and taxonomy
+policy, and the maintenance-only Catalog and strict reachability contract while
+allowing different Handbook names, prose, package labels, and plan structure.
 
 ## Task
 
@@ -89,13 +89,18 @@ permitted. Record files read and available action observations.
   connection can fail independently, and separate tasks joined only by topic or
   chronology. Static links
   or a plausible final answer alone must not be reported as behavioral proof.
-- R8 (critical): keep the installed reusable authoring reference understandable
-  without repository history and portable to another project. It may define
-  generic Workflow and Handbook responsibilities and bundle ownership, but it
-  must not prescribe this repository's
+- R8 (critical): keep the general-purpose installed authoring and trigger
+  references (`skill-authoring.md` and `selection-triggers.md`) understandable
+  without repository history, portable to any downstream project, and
+  domain-model-neutral: verify they carry **neither** this repository's layout,
   [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
-  primary plugin flat layout, or `workflow-` and `handbook-` naming convention
-  to an unrelated downstream project.
+  primary plugin flat layout, or `workflow-` and `handbook-` naming conventions
+  **nor** `knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
+  taxonomy (including Handbook foundations and package rules), while
+  [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md),
+  [Product authoring rules](../../knowledge-base/AGENTS.md), and
+  [Classification reference](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+  own that product taxonomy and `handbook-` naming.
 
 ## Verification
 
@@ -105,15 +110,19 @@ A controlled faulty plan that calls the proposal a
 Workflow, replaces the three Knowledge files with copied prose, treats the
 cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
-critical criterion. A plan that cites the portable authoring reference as
-universal authority for the
-[repository-maintenance workflow location](../../AGENTS.md#repository-architecture)
-or the product's prefixes must fail R8.
+critical criterion. A plan that cites `skill-authoring.md` or
+`selection-triggers.md` as authority for the
+[repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
+primary plugin flat layout, the product's `workflow-`/`handbook-` prefixes, or
+`knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
+taxonomy must fail R8.
 
 ## Source
 
 GitHub issues #242 and #251 establish the final Workflow and Handbook
 responsibility model, cumulative reading contract, maintenance-only Catalog,
 strict reachability gate, and required evidence. A pre-change replay at commit
-`740842b` supplies the historical TDD baseline; the revised case requires fresh
-final evidence against the completed contract.
+`740842b` supplies the historical TDD baseline; GitHub issue #289 and ticket
+#293 reconciled R8 and `Verification` to enforce symmetric domain-model
+neutrality across `skill-authoring.md` and `selection-triggers.md`, and the
+revised case requires fresh final evidence against the completed contract.

@@ -217,22 +217,13 @@ method of consulting current authoritative sources is durable.
 
 ## Handbook routes
 
-After choosing the Knowledge owner, choose reading bundles independently. Use
-the user work and reader decisions to compare existing Handbook scenes. Route
-the Knowledge from every applicable existing Handbook through a direct link to
-the complete file or a complete context-sufficient section. Place it in the
-foundation only when it is required for the Handbook's primary artifact work;
-otherwise select it from an observable conditional package.
-
-The same Knowledge may appear in several Handbooks when distinct scenes need it.
-That reuse does not merge owners. Return a proposed new Handbook to the Skill
-branch when a distinct task family, technical domain, or stable
-platform/framework context needs its own recognizable native entry rather than
-belonging to an existing Handbook's owned scene—including when a broader
-language or general engineering Handbook co-selects on the same code without
-owning that self-contained domain. A new domain or platform Handbook may start
-sparsely with one curated Knowledge leaf, provided its native trigger owns the
-broader scene rather than wrapping that single leaf's narrow topic. Apply
-[Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
-and do not create a per-leaf narrow wrapper Handbook, hide the route through
-another Handbook, or copy the Knowledge into the entrypoint.
+After choosing the Knowledge owner, reconcile repository reading routes
+separately from subject ownership by delegating Handbook modeling, package
+structure, sparse-domain admission, and direct canonical links one-way to
+[Model a Handbook Skill](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#model-a-handbook-skill)
+and
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
+Keep every leaf reachable from an installed Workflow or Handbook through the
+package-local graph
+([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)), and return any
+proposed new Handbook entry to [Maintain Skills](maintain-skill.md).

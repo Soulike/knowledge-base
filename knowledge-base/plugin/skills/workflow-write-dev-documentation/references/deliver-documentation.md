@@ -49,11 +49,16 @@ Use this procedure only for authorized delivery selected by
 3. Apply the loaded Knowledge's
    [suitability review](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
    and risk-proportionate reader validation to the complete final content and
-   required routes. Record the reader task, relevant locations, and outcome
-   separately from semantic correctness. Return an unsuitable result to the
-   main workflow's structure decision before claiming delivery complete.
-   Confirm that no unexplained competing copy
-   or authoring-only material remains.
+   required routes. When active project policy, an applicable Skill contract, or
+   document risk requires independent or cross-model reader-understanding
+   verification on new or substantively changed content, follow
+   [Verify reader understanding](../../../references/agents/reader-understanding.md)
+   and record its required observations and any remaining limits; do not force
+   cross-model runs for low-risk edits when active project rules do not require
+   them. Record the reader task, relevant locations, and outcome separately from
+   semantic correctness. Return an unsuitable result to the main workflow's
+   structure decision before claiming delivery complete. Confirm that no
+   unexplained competing copy or authoring-only material remains.
 4. Check every changed route from the reader's starting point. Confirm its label
    or condition lets the reader choose the destination before opening it.
    Search for stale terminology, paths, headings, examples, prompts, and

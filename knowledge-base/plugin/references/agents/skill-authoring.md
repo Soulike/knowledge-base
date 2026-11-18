@@ -304,7 +304,12 @@ retiring its distinct protection. Where lifecycle is owned locally, that
 owner's case protects it locally. A Workflow's own clarification, action, and
 verification steps remain its execution responsibility.
 
-Before running evidence, identify the comparison model for the evaluated task.
+Before running evidence, identify the comparison model for the evaluated task
+and follow [Agent behavioral evaluation](behavioral-evaluation.md) for
+fresh-context isolation, inherited boundary recording, evaluator-only
+withholding, the canonical executor instructions guard, blind selection and
+application dispatch templates, contamination handling, execution recording,
+result classification, and attempt retention.
 When one or more models materially authored the behavior, use the most capable
 of them for that task. For human-only authorship, select the most capable
 supported model available to the authoring environment. Record the model, basis
@@ -321,7 +326,13 @@ the behavior that its kind owns, or take an explicit supported stop. Invented
 procedure, skipped decisions, omitted mandatory reading, and premature
 completion are failures rather than acceptable model limits. Use a capable
 independent reviewer for professional correctness, final-content suitability,
-semantic change, and reader understanding.
+semantic change, and reader understanding, applying
+[Verify reader understanding](reader-understanding.md) to verify cross-model
+reader comprehension through actual reader paraphrase, concrete application
+decisions, and reported confusion or ambiguity observations. A Skill's
+lower-capability behavior run may supply reader-understanding evidence when it
+observes the same final content and supplies all three required observations;
+obtain missing observations through neutral follow-ups.
 Use the lower-capability run to test instruction self-sufficiency, not as the
 sole judgment of professional correctness.
 When the task itself exceeds the lower-capability model, a correct explicit stop
@@ -331,7 +342,9 @@ establish procedure correctness and applicable output evidence.
 Record every scenario, expected behavior, actual observation, source snapshot,
 model and configuration, inherited environment, action evidence, and conclusion.
 Include reasoning effort when available and the basis for treating each
-lower-capability model as a suitable comparison.
+lower-capability model as a suitable comparison, and retain all material
+attempts per
+[Agent behavioral evaluation](behavioral-evaluation.md#judge-and-retain-attempts).
 Static checks establish frontmatter, links, formatting, metadata, packaging, and
 route structure only within their actual boundaries. Compare trusted pre-change
 and final bundles so every changed responsibility is intentional and reachable.
@@ -349,7 +362,12 @@ the change is complete:
 - the final source snapshot and each material scenario's expected behavior,
   each executor and configuration that produced an observation, the actual
   observation, and conclusion across selection, application, reading, output,
-  and reader understanding as applicable;
+  and reader understanding as applicable; for reader-understanding entries,
+  preserve the
+  [required observations](reader-understanding.md#required-evidence)—actual
+  reader paraphrase, concrete application decisions, and reported confusion or
+  ambiguity tied to the relevant passages—rather than topic-only notes or an
+  aggregate pass summary;
 - the material author, comparison model, lower-capability executor, and capable
   reviewer model identities, together with exposed provider and
   capability-relevant configuration such as reasoning effort and inherited
@@ -360,7 +378,8 @@ the change is complete:
   and
 - material failed, contaminated, superseded, or incomplete attempts, the
   executor and configuration associated with each, their dispositions,
-  independent judgments, unresolved evidence, and remaining limitations.
+  independent judgments, unresolved evidence, and remaining limitations per
+  [Agent behavioral evaluation](behavioral-evaluation.md#judge-and-retain-attempts).
 
 Concision may remove raw transcripts, repeated procedure, and intermediate
 author reasoning. It must not replace required identities, decision bases,

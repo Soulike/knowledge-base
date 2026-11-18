@@ -217,13 +217,11 @@ meaning, structure, and required reader actions are unchanged.
 1. Prepare a fresh capable reviewer or isolated review context when independent
    judgment is required, following
    [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md).
-   For affected selections, first apply
-   [Check selection from requests](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests):
-   give that reviewer the request cases established before drafting and the real
-   candidate set, and record its choices before it sees target contents or
-   expected selections. For a selected Handbook, separately record every
-   package choice from current work before revealing expected packages. Keep
-   both observations separate from later reading, application, and judgment.
+   When that same reviewer checks affected selections, run
+   [Check selection from requests](../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
+   first—before sharing Step 3 review materials—keeping selection and package
+   observations isolated from target contents, expected choices, and combined
+   review.
 2. Gather execution evidence against the final content using
    [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
    for fresh-context isolation, inherited-boundary recording, evaluator-only
@@ -237,10 +235,10 @@ meaning, structure, and required reader actions are unchanged.
    ([Prove the behavior](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior))
    or reader-understanding
    ([Verify reader understanding](../../../knowledge-base/plugin/references/agents/reader-understanding.md))
-   checks in fresh contexts. Reuse existing runs only when they observed the
-   same final content and supply all required observations (including actual
-   paraphrase, application decisions, and confusion reports where reader
-   understanding applies). Collect raw observations and applicable
+   checks in fresh contexts, delegating run reuse for reader-understanding
+   evidence one-way to
+   [Prepare independent observations](../../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
+   Collect raw observations and applicable
    program-assertion results before requesting semantic judgments; the reviewer
    may inspect the explanation during preparation, but defer the combined
    verdict until required execution observations are available or explicitly
@@ -261,9 +259,10 @@ meaning, structure, and required reader actions are unchanged.
    dispositions distinct, and verify that retained, moved, split, and merged
    responsibilities remain reachable and usable from every required starting
    point.
-4. Investigate failures and missing evidence at their owners; obtain missing
-   observations through neutral follow-ups rather than repeating sufficient
-   runs. Repair confirmed defects in authoritative reader-facing content within
+4. Investigate failures and missing evidence at their owners, delegating
+   missing reader-understanding observations to
+   [Prepare independent observations](../../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
+   Repair confirmed defects in authoritative reader-facing content within
    scope and repeat affected observations and independent review in fresh
    contexts. Retain every attempt and classify results per
    [Judge and retain attempts](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts)

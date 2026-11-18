@@ -41,7 +41,9 @@ testing whether intended readers can understand and apply maintained content.
    for the capable explanation examination below when it can perform it. A
    lower-capability behavioral run on the same final content may also supply
    reader-understanding evidence when it contains every observation required
-   below; obtain missing observations through a neutral follow-up rather than
+   below (a passing final answer alone does not prove understanding); obtain
+   missing observations through a neutral follow-up after the task observation,
+   without supplying author conclusions or expected answers, rather than
    repeating an otherwise sufficient run.
 
 ## Examine the explanation

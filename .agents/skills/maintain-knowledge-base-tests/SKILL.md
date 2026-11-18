@@ -123,10 +123,9 @@ implementation tests use the repository's applicable testing workflows.
     Retain every attempt and classify results per
     [Judge and retain attempts](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts),
     investigating instability with a bounded protocol. Missing execution or
-    evidence remains incomplete. Reuse observations for
-    [Verify reader understanding](../../../knowledge-base/plugin/references/agents/reader-understanding.md)
-    only when they supply all its required observations (paraphrase,
-    application, and confusion); obtain missing ones via neutral follow-ups.
+    evidence remains incomplete. When reusing case observations for
+    reader-understanding evidence, delegate one-way to
+    [Prepare independent observations](../../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
 
 ## Verify and complete
 

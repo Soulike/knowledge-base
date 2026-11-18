@@ -58,7 +58,9 @@ explicitly run from the repository root.
    listed once with a valid Knowledge Type, is reachable from an installed
    Workflow or Handbook through the package-local graph via direct
    complete-file or context-sufficient-section links without hidden Handbook
-   dependencies, passes `#admit-inline-knowledge-dependencies` for leaf-to-leaf
+   dependencies, passes
+   [Admit inline Knowledge dependencies](#admit-inline-knowledge-dependencies)
+   for leaf-to-leaf
    links, resolves all relative links, and leaves no removed leaves or obsolete
    routes—while applying
    [Validate the result](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result).

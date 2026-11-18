@@ -207,11 +207,9 @@ policy, and delegate all generic behavioral-evaluation mechanics one-way to
   review, route open case judgments into the same capable reviewer scheduled by
   [final validation](../skills/maintain-knowledge-base/SKILL.md#final-validation)
   rather than commissioning a separate case reviewer or a verdict before that
-  review. Reuse case task decisions and artifacts for
-  [Verify reader understanding](../../knowledge-base/plugin/references/agents/reader-understanding.md)
-  only when they supply all required paraphrase, application, and confusion
-  observations; obtain missing observations through a neutral follow-up rather
-  than treating a passing final answer as proof of understanding.
+  review. When reusing a case run for reader-understanding evidence, delegate
+  reuse eligibility and neutral follow-ups one-way to
+  [Prepare independent observations](../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
 
 ## Pull-request and handoff regression evidence
 

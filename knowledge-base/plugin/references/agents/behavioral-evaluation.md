@@ -164,10 +164,9 @@ uncertainty, missing prerequisites, or an explicit stop with its reason.
 
 For a journey, retain the natural task path and capture the choice before
 reading and application; do not substitute the selection-only stop for the
-whole task. Reuse task decisions and artifacts for reader-understanding checks
-when they supply all required observations, or obtain missing paraphrase,
-application, or confusion observations through a neutral follow-up after the
-task observation without supplying author conclusions or expected answers.
+whole task. When a journey also supplies reader-understanding evidence, follow
+[Verify reader understanding](reader-understanding.md#prepare-independent-observations)
+for run reuse and neutral follow-ups.
 
 After any required blind selection has been recorded, prepare the independent
 capable reviewer's input separately. It receives the evaluator-only material

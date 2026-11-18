@@ -54,7 +54,9 @@
    `plugin.json`), regression cases, `.github/` prompts and verification
    workflows, and repository docs—then remove obsolete routes and wrappers.
 6. Verify Knowledge Catalog reachability (`pnpm knowledge:check`) when primary
-   plugin Skills or routes change so every leaf in `knowledge/index.md` remains
+   plugin Skills or routes change so every leaf in
+   [knowledge/index.md](../../../../knowledge-base/plugin/knowledge/index.md)
+   remains
    reachable through the package-local graph
    ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)).
 7. Run `pnpm check` and `git diff --check`. Produce the behavioral proof and

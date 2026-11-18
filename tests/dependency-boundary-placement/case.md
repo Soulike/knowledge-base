@@ -105,6 +105,9 @@ corresponding critical criterion.
 
 Derived from GitHub issue #283 and ticket #287, which replaced the
 audience-based `.agents/` exemption with the dependency-boundary,
-single-authority, and one-way delegation rules across `AGENTS.md`,
-`knowledge-base/AGENTS.md`, and `maintain-knowledge-base`. This new application
-case requires fresh validation against the current integrated guidance.
+single-authority, and one-way delegation rules across
+[AGENTS.md](../../AGENTS.md),
+[knowledge-base/AGENTS.md](../../knowledge-base/AGENTS.md), and
+[maintain-knowledge-base](../../.agents/skills/maintain-knowledge-base/SKILL.md).
+This new application case requires fresh validation against the current
+integrated guidance.

@@ -329,10 +329,8 @@ independent reviewer for professional correctness, final-content suitability,
 semantic change, and reader understanding, applying
 [Verify reader understanding](reader-understanding.md) to verify cross-model
 reader comprehension through actual reader paraphrase, concrete application
-decisions, and reported confusion or ambiguity observations. A Skill's
-lower-capability behavior run may supply reader-understanding evidence when it
-observes the same final content and supplies all three required observations;
-obtain missing observations through neutral follow-ups.
+decisions, and reported confusion or ambiguity observations, following
+[its run-reuse and neutral-follow-up rules](reader-understanding.md#prepare-independent-observations).
 Use the lower-capability run to test instruction self-sufficiency, not as the
 sole judgment of professional correctness.
 When the task itself exceeds the lower-capability model, a correct explicit stop

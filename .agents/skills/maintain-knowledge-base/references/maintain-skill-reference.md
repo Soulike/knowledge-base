@@ -28,7 +28,9 @@
      ownership instead of creating cross-package or repository-global routing.
 5. Apply the parent-selected disposition to each affected responsibility unit.
    For primary-product references under `knowledge-base/plugin/`, verify
-   package isolation (`knowledge-base/AGENTS.md`) and Knowledge Catalog
+   package isolation
+   ([knowledge-base/AGENTS.md](../../../../knowledge-base/AGENTS.md)) and
+   Knowledge Catalog
    reachability (`pnpm knowledge:check`), noting that only step-selected
    eligible packaged references participate in reachability.
 6. After adding, rewriting, splitting, merging, moving, or removing a

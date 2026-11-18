@@ -18,8 +18,11 @@ Retrieve one complete current snapshot from every applicable PR surface:
 - required and optional CI checks, conclusions, details, attempts, and the head
   SHA each result applies to;
 - relevant queued or running automation, known expected runs, and automated
-  review publication state, including the expected final result and any known
-  human prerequisite for obtaining it; and
+  review publication state, including the expected final result, whether any
+  non-passing automated review came from a completed review decision versus an
+  execution failure of the review workflow itself, the run or attempt identity
+  and bound head SHA, when relevant PR remediation or responses occurred, and
+  any known human prerequisite for obtaining the result; and
 - provider mergeability and conflicts, merge queue or auto-merge state, and
   every visible branch or merge requirement.
 

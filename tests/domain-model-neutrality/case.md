@@ -89,30 +89,41 @@ the files read and the classification, neutrality, and isolation rationale.
 
 - R1 (critical): reject placing `knowledge-base`'s internal four-role taxonomy,
   Handbook foundation and cumulative-package rules, or `Knowledge`-leaf
-  constraints into `workflow-write-dev-documentation` or `skill-authoring.md`
+  constraints into
+  [`workflow-write-dev-documentation`](../../knowledge-base/plugin/skills/workflow-write-dev-documentation/SKILL.md)
+  or
+  [`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
   (Option 1). Explain that under symmetric domain-model neutrality,
   general-purpose installed Skills and shared references must remain valid
   independently of this product's own internal domain model, content taxonomy,
   and organization policy—just as they remain independent of any downstream
   project's model.
-- R2 (critical): reject routing or linking `knowledge-and-skills.md` from
-  `workflow-write-dev-documentation` or `skill-authoring.md`, and reject
-  duplicating or summarizing product-internal taxonomy rules across `.agents/`
-  and general-purpose plugin content (Option 3). Enforce product-interface
-  isolation: only installed workflows whose explicit user-facing task is
-  interacting with this product (such as contribution workflows) and their
-  dedicated product-interface contracts may rely on this product's internal
-  model, and general-purpose installed content must not depend on, assume, or
-  route to those contracts.
+- R2 (critical): reject routing or linking
+  [`knowledge-and-skills.md`](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+  from
+  [`workflow-write-dev-documentation`](../../knowledge-base/plugin/skills/workflow-write-dev-documentation/SKILL.md)
+  or
+  [`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md),
+  and reject duplicating or summarizing product-internal taxonomy rules across
+  `.agents/` and general-purpose plugin content (Option 3). Enforce
+  product-interface isolation: only installed workflows whose explicit
+  user-facing task is interacting with this product (such as contribution
+  workflows) and their dedicated product-interface contracts may rely on this
+  product's internal model, and general-purpose installed content must not
+  depend on, assume, or route to those contracts.
 - R3 (critical): accept Option 2: keep rules that exist solely to define,
   classify, model, or validate this product's internal architecture under
   `.agents/` repository-maintenance workflows and references (delegating one-way
   to generic craft in `knowledge-base/plugin/` without restating, paraphrasing,
-  splitting, or overriding it), isolate `knowledge-and-skills.md` strictly to
-  repository maintenance and explicit product-interaction workflows, and retain
-  only domain-model-neutral Skill and documentation craft (such as separating
-  task-executing vs guidance-only Skills without product taxonomy) in
-  `skill-authoring.md` and `workflow-write-dev-documentation`.
+  splitting, or overriding it), isolate
+  [`knowledge-and-skills.md`](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+  strictly to repository maintenance and explicit product-interaction
+  workflows, and retain only domain-model-neutral Skill and documentation craft
+  (such as separating task-executing vs guidance-only Skills without product
+  taxonomy) in
+  [`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+  and
+  [`workflow-write-dev-documentation`](../../knowledge-base/plugin/skills/workflow-write-dev-documentation/SKILL.md).
 - R4: keep the assessment read-only without claiming file edits or unobserved
   checks, and record the inspected files and layer-boundary rationale.
 
@@ -121,12 +132,15 @@ the files read and the classification, neutrality, and isolation rationale.
 Inspect the returned placement assessment and file-read account.
 
 A controlled faulty assessment that places Handbook foundation/package rules or
-`Knowledge` taxonomy inside `skill-authoring.md` or
-`workflow-write-dev-documentation`, routes general-purpose documentation
-workflows to `knowledge-and-skills.md`, duplicates product-taxonomy summaries
-across `.agents/` and general-purpose plugin content, or fails to isolate
-product-interface contracts to explicit product-interaction workflows must fail
-the corresponding critical criterion.
+`Knowledge` taxonomy inside
+[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+or
+[`workflow-write-dev-documentation`](../../knowledge-base/plugin/skills/workflow-write-dev-documentation/SKILL.md),
+routes general-purpose documentation workflows to
+[`knowledge-and-skills.md`](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md),
+duplicates product-taxonomy summaries across `.agents/` and general-purpose
+plugin content, or fails to isolate product-interface contracts to explicit
+product-interaction workflows must fail the corresponding critical criterion.
 
 ## Source
 

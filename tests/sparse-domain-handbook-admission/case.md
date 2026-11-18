@@ -103,5 +103,8 @@ sparse-domain Handbook creation (`handbook-react`) alongside
 `handbook-javascript-typescript`. GitHub issue #289 and ticket #293 reconciled
 `Covered objects` and expectations after
 [Model a Handbook Skill](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill)
-relocated from `skill-authoring.md` into `maintain-skill.md` alongside
-[Product authoring rules](../../knowledge-base/AGENTS.md).
+relocated from
+[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+into
+[`maintain-skill.md`](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
+alongside [Product authoring rules](../../knowledge-base/AGENTS.md).

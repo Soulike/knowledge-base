@@ -93,7 +93,8 @@ self-contained domain, framework, or platform entry may start sparsely with a
 single curated Knowledge leaf (and explicitly non-exhaustive coverage) even when
 a broader language or engineering Handbook also co-selects on the same work,
 provided that broader Handbook does not itself own that specialized domain
-scene.
+scene. A sparse domain or platform entry must include a valid no-match path for
+unrelated work within that domain or platform.
 
 A Handbook may define a foundation required for its primary artifact work and
 conditional required-reading packages selected from observable work, material,
@@ -101,12 +102,16 @@ language, platform, or task stage. Read the entire foundation when it applies
 and every matching package cumulatively. A valid Handbook may have no
 foundation when no current Knowledge is common to the family. Give a direct
 learning or explanation request about a package's subject its own matching
-route, without forcing an unrelated artifact-work foundation. Use complete canonical files or complete
-context-sufficient sections as reading units. The collaboration Handbook's
-required [shared reading lifecycle](plugin/references/agents/independent-collaboration.md#keep-guidance-current)
+route, without forcing an unrelated artifact-work foundation. Use complete
+canonical files or complete context-sufficient sections as reading units. The
+collaboration Handbook's required
+[shared reading lifecycle](plugin/references/agents/independent-collaboration.md#keep-guidance-current)
 owns reuse, rereading, and reassessment as work or context changes. Keep that
-policy at its shared owner rather than copying it into each subject Handbook;
-verify its independent selection and application alongside them.
+policy at its shared owner rather than copying it into each subject Handbook,
+and verify its independent selection and application alongside them; where a
+bundle lacks an independently required shared reading-lifecycle owner, supply
+reuse, rereading, and reassessment rules locally in the owning Handbook instead
+of assuming another Handbook will be invoked.
 
 Resolve packaged links relative to each Skill's `SKILL.md`. Handbooks and
 Workflows read canonical packaged files directly; a Handbook must not invoke,

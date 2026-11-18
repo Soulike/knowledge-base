@@ -77,16 +77,10 @@ evidence for parent validation and delivery.
 
 ## Choose the Skill responsibility
 
-Use
+Classify proposed primary-product material into its owning responsibility using
 [Classifying Knowledge and Skill material](../../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
 and
-[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
-to separate the four primary-product responsibilities: canonical subject
-understanding belongs in Knowledge, independently invoked user-task execution
-belongs in a Workflow Skill, required-reading selection for a task family,
-domain, or platform belongs in a Handbook Skill, and step-selected support
-belongs in the Skill or a Skill reference.
-
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
 Do not package a reading route as a Workflow Skill or copy canonical Knowledge
 into a Skill. When proposed material mixes responsibilities, stabilize its
 Knowledge owners before finalizing Workflow or Handbook routes. Delegate
@@ -109,23 +103,12 @@ disclosure, and completion gates one-way to
 
 Inventory canonical Knowledge responsibilities first, keeping Knowledge leaves
 separate when subject ownership or maintenance lifecycle differs even when one
-Handbook reads them together. Apply
-[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
-for Handbook reading-selection ownership, reuse before adding, rejecting 1:1
-leaf wrappers, sparse single-leaf domain or platform admission (with explicitly
-non-exhaustive coverage), foundation vs cumulative conditional packages,
-empty-foundation and focused-learning routing, complete-file or
-context-sufficient-section reading units, rejecting Handbook-to-Handbook
-dependencies, and shared reading-lifecycle ownership at
-[Keep guidance current](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current).
-
-Apply these primary-product modeling deltas:
-
-- Sparse domain or platform entries must include a valid no-match path for
-  unrelated work within the domain or platform.
-- Where a bundle lacks an independently required shared reading-lifecycle
-  owner, supply reuse, rereading, and reassessment rules in the owning Handbook
-  itself rather than assuming another Handbook will be invoked.
+Handbook reads them together. Apply the complete Handbook reading-selection,
+package, reading-unit, sparse-entry, and lifecycle-ownership contract in
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references),
+using
+[Keep guidance current](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current)
+as the shared reading-lifecycle owner when the bundle includes it.
 
 Delegate generic guidance-Skill modeling (including keeping reading-only Skills
 free of task procedures or completion gates) and observable condition drafting
@@ -149,26 +132,24 @@ registered-name references, and reference split-or-merge rules one-way to
 
 ## Write a Handbook body
 
-Delegate Handbook reading-selection scope, foundation and cumulative package
-rules, empty-foundation and focused-learning routes, sparse no-match modeling,
-complete-unit linking, and shared reading-lifecycle delegation one-way to
-[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references),
-[Model a Handbook Skill](#model-a-handbook-skill),
-[Write Skill instructions](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#write-skill-instructions),
+Follow the Handbook structure, reading-unit, and lifecycle-ownership contract in
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
+alongside [Model a Handbook Skill](#model-a-handbook-skill), and delegate
+generic instruction and condition craft one-way to
+[Write Skill instructions](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#write-skill-instructions)
 and
 [Write the condition](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#write-the-condition).
-Apply these primary-product Handbook body deltas:
+Apply these primary-product Handbook body rules:
 
 - Link directly to complete canonical Knowledge files or context-sufficient
   sections relative to `SKILL.md`, never through
   [knowledge/index.md](../../../../knowledge-base/plugin/knowledge/index.md) or
   another Handbook.
-- Make the modeled foundation, cumulative package, empty-foundation,
-  focused-learning, and sparse no-match paths explicit in `SKILL.md` without
-  copying the shared reading-lifecycle policy owned by
-  [Keep guidance current](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current),
-  applying the fallback in [Model a Handbook Skill](#model-a-handbook-skill)
-  only when no shared owner governs the bundle.
+- Make every modeled reading and no-match path from
+  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
+  explicit in `SKILL.md`, keeping shared reading-lifecycle rules at
+  [Keep guidance current](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current)
+  unless the bundle lacks a shared lifecycle owner.
 
 ## Handbook and Workflow selection triggers
 
@@ -182,23 +163,17 @@ and
 delegate generic description craft (`Use when` / `Use before` and single-rule
 applicability) one-way to
 [Write the description](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#write-the-description),
-and apply
-[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
-for Workflow task selection, single-rule Handbook descriptions without
-enumerating internal Knowledge or package branches, non-exhaustive sparse-entry
-framing, and rejecting 1:1 leaf wrappers. Apply these primary-product taxonomy
-deltas:
+and apply the Workflow and Handbook selection contract in
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
+Apply these primary-product taxonomy rules:
 
 - **Coverage separation:** Keep a Handbook's native description scoped to its
   owning scene independently of internal package conditions, and omit
   `workflow-`/`handbook-` names from descriptions.
 - **Package routing verification:** Apply
   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
-  to the Handbook's primary-product routes from
-  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
-  and [Model a Handbook Skill](#model-a-handbook-skill) (foundations, empty
-  foundations, cumulative packages, focused-learning routes, and sparse
-  no-match paths).
+  to every Handbook route required by
+  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
 
 ## Prove Handbook and Workflow behavior
 
@@ -216,14 +191,14 @@ and
 Apply these primary-product deltas:
 
 - **Product routing and reading separation:** Keep Workflow native
-  selection, Handbook native selection, Handbook foundation and cumulative
-  package choices (including empty foundations, focused-learning routes per
+  selection, Handbook native selection, the Handbook package and routing
+  choices required by
   [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references),
-  and valid no-match sparse entries), direct canonical Knowledge reading (both
-  from Handbooks and from Workflow steps that cannot safely depend on Handbook
-  co-selection), and Knowledge application distinct across composed-bundle
-  traces and behavioral evidence. Trace later-stage reassessment, reuse, and
-  recovery at the shared reading-lifecycle owner
+  direct canonical Knowledge reading (both from Handbooks and from Workflow
+  steps that cannot safely depend on Handbook co-selection), and Knowledge
+  application distinct across composed-bundle traces and behavioral evidence.
+  Trace later-stage reassessment, reuse, and recovery at the shared
+  reading-lifecycle owner
   ([Keep guidance current](../../../../knowledge-base/plugin/references/agents/independent-collaboration.md#keep-guidance-current))
   when it governs the scene.
 - **Domain-connection journeys vs shared lifecycle unit:** Keep generic

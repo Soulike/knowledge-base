@@ -141,7 +141,9 @@ Assemble the unmodified observations produced by the applicable authorities
 without collapsing them into topic-only notes or aggregate pass claims:
 
 - **Skills:** include the evidence required by
-  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
+  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+  and, for primary-product Workflow and Handbook Skills,
+  [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).
 - **Reader understanding:** for primary-product Knowledge, Skills, and Skill
   references requiring cross-model verification, preserve the
   [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).

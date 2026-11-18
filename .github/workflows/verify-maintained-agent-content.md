@@ -100,14 +100,9 @@ Preserve every exact selected target `id` in notes and safe outputs.
    and blind request checking alongside
    [Handbook and Workflow selection triggers](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#handbook-and-workflow-selection-triggers)
    for primary-plugin Workflow descriptions, Handbook descriptions, and Handbook
-   package conditions. Verify symmetric downstream-project independence,
-   domain-model neutrality, and product-interface isolation per
-   [repository architecture](AGENTS.md#repository-architecture) and
-   [plugin authoring rules](knowledge-base/AGENTS.md): general-purpose
-   installed Skills and shared references must remain valid without assuming any
-   downstream project's model or this product's internal domain model, content
-   taxonomy, or organization policy, and must not depend on, assume, or route
-   to product-interface contracts.
+   package conditions. Verify
+   [symmetric downstream-project independence, domain-model neutrality, and product-interface isolation](AGENTS.md#repository-architecture)
+   alongside [plugin authoring rules](knowledge-base/AGENTS.md).
 3. For each Workflow, independently reconstruct the user's task and intended
    outcome under
    [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
@@ -123,10 +118,9 @@ Preserve every exact selected target `id` in notes and safe outputs.
    the decision that needs them, every disclosed reference has an explicit
    consuming step, and an independently invocable responsibility is not hidden
    in a reference. Check progressive disclosure, portability, package
-   boundaries, symmetric domain-model neutrality and product-interface isolation
-   (confirming only workflows explicitly tasked with interacting with this
-   product rely on product-interface contracts), and current tool or API
-   assumptions.
+   boundaries,
+   [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture),
+   and current tool or API assumptions.
 4. For each Handbook, reconstruct the task family, technical domain, or stable
    platform context that makes its reading useful under
    [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references),
@@ -146,27 +140,22 @@ Preserve every exact selected target `id` in notes and safe outputs.
    native selection, package choice, actual reading, application, and later
    supplementary reading as separate observations; do not require a Handbook to
    contain a task procedure, failure contract, output artifact, or completion
-   gate. Verify domain-model neutrality and product-interface isolation for
-   general-purpose Handbooks.
+   gate. Verify
+   [domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture)
+   for general-purpose Handbooks.
 5. Review repository-maintenance workflows and auxiliary-plugin Skills under
    their own instructions, declared task, and package or dependency-boundary
    contract rather than requiring the primary plugin's Workflow or Handbook
    structure. For repository-maintenance workflows, verify the
-   [dependency-boundary and one-way delegation rule](AGENTS.md#repository-architecture):
-   repository-coupled rules and rules defining, classifying, modeling, or
-   validating this product's internal architecture belong in `.agents/`, while
-   general-purpose guidance belongs in `knowledge-base/plugin/` with one-way
-   delegation from `.agents/` without restating, paraphrasing, splitting, or
-   overriding rules owned there. For general-purpose shared references in
-   `knowledge-base/plugin/`, verify generic craft via
+   [dependency-boundary and one-way delegation rules](AGENTS.md#repository-architecture).
+   For general-purpose shared references in `knowledge-base/plugin/`, verify
+   generic craft via
    [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
    and
    [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
-   alongside symmetric domain-model neutrality and product-interface isolation
-   (confirming general-purpose references do not assume this product's internal
-   model or depend on product-interface contracts, and that product-interface
-   contracts remain isolated to explicit product-interaction workflows and
-   repository maintenance). For every Skill or workflow kind, use execution or
+   alongside
+   [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture).
+   For every Skill or workflow kind, use execution or
    observation when a material behavioral uncertainty requires it; do not imply
    observed effectiveness from scenario reasoning alone. Check each shared
    reference with its consuming Skills or workflows while keeping the result

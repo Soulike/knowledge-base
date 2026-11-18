@@ -113,7 +113,7 @@ internal terms or the registered name. Keep examples, internal steps, and
 scenario lists out unless needed to distinguish an adjacent task. A single
 sentence is acceptable when it expresses the boundary clearly.
 
-## Write executable instructions
+## Write Skill instructions
 
 When the Skill guides a task, write the main path as ordered, direct,
 imperative instructions. Keep the invocation contract, primary states and

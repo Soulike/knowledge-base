@@ -28,25 +28,36 @@ independent behavior.
    before fixing consumers, classification, or ownership. Apply it to new
    contributions and to review or maintenance of existing content. Keep its
    analysis distinct from the mutation boundary established in step 1.
-   Apply the downstream-project-independence gate from
+   Apply the symmetric downstream-project-independence,
+   domain-model-neutrality, and product-interface-isolation gates from
    [`AGENTS.md`](../../../AGENTS.md#repository-architecture) to every part
-   intended for Knowledge or a usage Skill, leaving non-generalizable material
-   in its source project. When a proposal or change touches
+   intended for general-purpose plugin content: leave non-generalizable
+   material in its source project, keep general-purpose guidance, Skills, and
+   shared references independent of this product's internal domain model,
+   content taxonomy, and organization policy, and ensure they do not depend on
+   or route to product-interface contracts (which are isolated to installed
+   workflows whose explicit user-facing task is interacting with this product).
+   When a proposal or change touches
    [repository-maintenance workflows](../../../GLOSSARY.md#repository-maintenance-workflow)
-   or their references under `.agents/`, also apply the
+   or their references under `.agents/`, or defines, classifies, models, or
+   validates this product's own internal architecture, also apply the
    [dependency-boundary and one-way delegation rule](../../../AGENTS.md#repository-architecture):
-   any guidance, judgment criterion, or evaluation procedure that remains valid
-   independently of this repository's layout, catalogs, versioning, or CI gates
-   belongs in `knowledge-base/plugin/` (or the applicable plugin package) with
-   one-way delegation from `.agents/`, rather than originating or remaining in
-   `.agents/` or duplicating product-owned rules.
+   any general-purpose guidance, judgment criterion, or evaluation procedure
+   that remains valid independently of this repository's layout, catalogs,
+   versioning, CI gates, and this product's internal model, taxonomy, and
+   organization policy belongs in `knowledge-base/plugin/` (or the applicable
+   plugin package) with one-way delegation from `.agents/`, rather than
+   originating or remaining in `.agents/` or duplicating product-owned rules;
+   rules coupled to this product's internal architecture belong in `.agents/`
+   rather than general-purpose plugin content.
 3. Read
    [`references/agents/knowledge-and-skills.md`](../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md),
    then identify every distinct part's intended consumers, maintenance
    lifecycle, and retrieval source, applying its boundary tests.
 4. Classify every new, changed, moved, or removed affected responsibility unit
    as Knowledge, Workflow Skill, Handbook Skill, Skill reference,
-   repository-maintenance workflow/reference (only when repository-coupled per
+   repository-maintenance workflow/reference (only when repository-coupled or
+   product-architecture-specific per
    [`AGENTS.md`](../../../AGENTS.md#repository-architecture)), mixed, or another
    repository-owned artifact using that model. Keep subject understanding in
    Knowledge, task execution in a Workflow, coherent required-reading selection
@@ -259,16 +270,19 @@ meaning, structure, and required reader actions are unchanged.
 
 An assessment is complete only when its report includes the required
 [ownership and retrieval account](references/maintain-knowledge.md#ownership-and-generalization)
-for Knowledge placement conclusions, applies the dependency-boundary check for
-`.agents/` proposals, and explicitly identifies unresolved evidence. An
+for Knowledge placement conclusions, applies the dependency-boundary,
+domain-model-neutrality, and product-interface-isolation checks for `.agents/`
+and plugin proposals, and explicitly identifies unresolved evidence. An
 unsupported fit conclusion leaves the assessment incomplete.
 
 For authorized delivery, finish only when:
 
 - Every affected part is classified and placed in its single authoritative home
   satisfying [`AGENTS.md`](../../../AGENTS.md#repository-architecture), with
-  one-way delegation from `.agents/` to `knowledge-base/plugin/` and
-  downstream-project independence for user-facing content.
+  one-way delegation from `.agents/` to `knowledge-base/plugin/`,
+  downstream-project independence and domain-model neutrality for
+  general-purpose user-facing content, and product-interface contracts
+  isolated to explicit product-interaction workflows.
 - Primary-product Knowledge, Skills, and Skill references satisfy
   [`knowledge-base/AGENTS.md`](../../../knowledge-base/AGENTS.md), every
   changed route and reference resolves, and `pnpm check` passes. Other affected

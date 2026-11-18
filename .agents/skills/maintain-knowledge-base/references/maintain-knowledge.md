@@ -50,7 +50,9 @@ explicitly run from the repository root.
 8. Apply [Catalog fields](#catalog-fields) and
    [Handbook routes](#handbook-routes). Check Skill descriptions and package
    selections against natural requests using
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests),
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
+   and
+   [Handbook and Workflow selection triggers](maintain-skill.md#handbook-and-workflow-selection-triggers),
    returning a justified new Handbook responsibility to the Skill branch when
    needed, and repair every route and inline dependency affected by a move,
    merge, split, rename, or removal.
@@ -122,7 +124,9 @@ installed Handbook and Workflow reading routes:
    vocabulary, broad `Scope` labels, or shared Handbook/Workflow bundles.
 3. Form natural requests and run blind selection checks against real installed
    Skill descriptions and Handbook packages using
-   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
+   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
+   and
+   [Handbook and Workflow selection triggers](maintain-skill.md#handbook-and-workflow-selection-triggers).
    Distinguish a route defect (retain the Knowledge owner and fix the route)
    from a distinct subject responsibility (separate Knowledge owner when
    independent reading and maintenance needs justify it).
@@ -218,12 +222,12 @@ method of consulting current authoritative sources is durable.
 ## Handbook routes
 
 After choosing the Knowledge owner, reconcile repository reading routes
-separately from subject ownership by delegating Handbook modeling, package
-structure, sparse-domain admission, and direct canonical links one-way to
-[Model a Handbook Skill](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#model-a-handbook-skill)
+separately from subject ownership by applying
+[Model a Handbook Skill](maintain-skill.md#model-a-handbook-skill)
 and
-[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
-Keep every leaf reachable from an installed Workflow or Handbook through the
-package-local graph
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)
+for Handbook modeling, package structure, sparse-domain admission, and direct
+canonical links. Keep every leaf reachable from an installed Workflow or
+Handbook through the package-local graph
 ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)), and return any
 proposed new Handbook entry to [Maintain Skills](maintain-skill.md).

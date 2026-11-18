@@ -2,67 +2,49 @@
 
 ## Scope
 
-Use this reference when writing or reviewing a reusable Agent Skill. A
-**Workflow Skill** owns the decisions and actions that produce a user's result.
-A **Handbook Skill** owns mandatory reading for a recognizable work context but
-does not execute the user's task. **Knowledge** is canonical subject guidance
-maintained independently of either Skill. This reference explains how to author
-both kinds while keeping them portable, reliably selected, and supported by
-behavioral evidence.
+Use this reference when writing or reviewing a reusable Agent Skill. An Agent
+Skill packages reusable task workflows, domain guidance, or supporting
+resources so an Agent can recognize when the guidance applies and carry it out
+reliably. This reference explains how to model a Skill's responsibility,
+structure its bundle, write clear instructions and selection descriptions,
+review the composed Skill, and support material changes with behavioral
+evidence.
 
 ## When to update
 
 Update this document when a real authoring or review case exposes a missing or
-incorrect rule for responsibility choice, task or reading-scene modeling,
+incorrect rule for Skill responsibility boundaries, task or guidance modeling,
 research, placement, selection, bundle structure, execution, or validation.
 
-## Choose the Skill responsibility
+## Model the Skill and its boundaries
 
 Start from the user's work and the decisions or understanding it requires, not
 from a requested file type, the first wording of a request, or an existing Skill
-boundary. Use
-[Classifying Knowledge and Skill material](knowledge-and-skills.md) to separate
-four responsibilities:
+boundary. Before designing a Skill, establish:
 
-- canonical subject understanding belongs in Knowledge;
-- decisions and actions that produce a user's result belong in a Workflow Skill;
-- selection and mandatory reading for a coherent task family, technical domain,
-  or stable platform context belong in a Handbook Skill; and
-- material selected only by one Skill step belongs in the Skill or a Skill
-  reference.
-
-Do not put execution into a Handbook or turn a reading route into a Workflow
-whose promised result is merely that files were loaded. Do not copy Knowledge
-into either kind. When proposed material mixes responsibilities, split and
-stabilize the Knowledge owners before finalizing Workflow or Handbook routes.
-
-## Model a Workflow Skill
-
-Before designing the workflow, establish:
-
-- the observable user result and realistic starting inputs, from minimal or
-  disorganized requests to already settled specifications;
+- the observable user result or guidance scope and realistic starting inputs,
+  from minimal or disorganized requests to already settled specifications;
 - the investigation, judgment, creative or technical decisions, actions, and
   quality control a competent practitioner performs;
 - which facts the Agent can establish, which consequential choices require the
   user, which low-risk gaps the Agent may fill, and which conflicts or missing
   evidence must stop the work;
-- adjacent tasks whose different input, result, or completion state makes them
-  separate invocations; and
+- adjacent tasks or scopes whose different input, result, or completion state
+  makes them separate invocations; and
 - success, failure, and stopping states by which the user can tell whether the
-  task completed.
+  task completed when the Skill guides execution.
 
 Treat these as design questions, not a form to copy into the Skill or a
 questionnaire to impose on the user. Reuse settled conversation, artifacts,
-project decisions, and prior work without making the Workflow repeat settled
+project decisions, and prior work without making the Skill repeat settled
 research or decisions. Research the professional task before assuming the
-current repository or author knowledge is complete. Read applicable Knowledge
-and use current authoritative sources when the task depends on unfamiliar,
-specialized, evolving, or quality-sensitive subject matter. Prefer primary
-technical sources, professional institutions, established subject references,
-and first-party practitioner material as appropriate to the domain. Convert
-research into decisions the workflow can execute; a source or vocabulary list
-is not a task model.
+current repository or author knowledge is complete. Read applicable
+authoritative subject guidance and use current authoritative sources when the
+task depends on unfamiliar, specialized, evolving, or quality-sensitive subject
+matter. Prefer primary technical sources, professional institutions, established
+subject references, and first-party practitioner material as appropriate to the
+domain. Convert research into decisions and criteria the Skill can express or
+execute; a source or vocabulary list is not a model.
 
 Treat a professional responsibility as required only when evidence ties it to
 the promised result and omission creates an observable failure. A preferred
@@ -71,74 +53,21 @@ requirement. A genuinely mechanical transformation may need little domain
 research, but establish that from the task model rather than inferring it from a
 short request or simple output format.
 
-Draw Workflow boundaries around independently invoked user tasks. One Workflow
-needs one triggering task and one complete result, even when it branches over
-input states. Separate tasks that have different accepted input states, results,
-completion states, privileged effects, or maintenance lifecycles even when they
-share Knowledge.
-Different professional domains can remain branches when the user task and
-Workflow are the same, while similar subject matter remains separate when its
-direction or completion differs. Do not use Skill-to-Skill orchestration as a
-substitute for a correct task boundary or progressive disclosure.
+Draw Skill boundaries around independently useful user tasks or cohesive
+guidance scopes. Match the Skill's boundary to what it owns: a task-executing
+Skill owns decisions, actions, stopping behavior, and completion for one
+triggering task and one complete result, even when it branches over input
+states; a guidance-only Skill supplies criteria or curated reading without
+inventing a task procedure or completion gate, and a mere reading list should
+not be packaged as an execution workflow. Separate Skills that have different
+accepted input states, results, completion states, privileged effects, or
+maintenance lifecycles even when they share subject matter. Different
+professional domains can remain branches when the user task and Skill are the
+same, while similar subject matter remains separate when its direction or
+completion differs. Do not use Skill-to-Skill orchestration as a substitute for a
+clear boundary or progressive disclosure.
 
-## Model a Handbook Skill
-
-Start from concrete user work and the understanding needed to make its decisions.
-Inventory the canonical Knowledge responsibilities first; keep them separate
-when their subject ownership or maintenance lifecycle differs even when they
-must be read together.
-
-Compare the proposed reading scene with every existing Handbook. Reuse or extend
-an existing owner when it already covers the same user task family, technical
-domain, or stable platform context. Add a Handbook only for a distinct native
-entry that readers can recognize before opening another Skill—never a narrow
-wrapper scoped to one Knowledge leaf or specific condition. A distinct,
-self-contained domain, framework, or platform context may begin sparsely with a
-single curated Knowledge leaf (explicitly non-exhaustive, with valid no-match
-behavior), and co-selection with a broader language or general engineering
-Handbook does not mean that broader Handbook owns the specialized domain's
-scene. Do not use Handbook-to-Handbook orchestration to compensate for a weak
-boundary.
-
-A Handbook body may contain:
-
-- a **foundation**: Knowledge required for the Handbook's primary artifact work;
-  and
-- **conditional required-reading packages**: complete reading units selected
-  from observable work, current materials, language, platform, production
-  method, or task stage.
-
-Include a foundation only when its Knowledge is genuinely common to the primary
-scene. A Handbook with no common current Knowledge has a valid empty foundation.
-Evaluate every package condition and require every match cumulatively. A focused
-learning or explanation request about a package's subject is its own matching
-condition and reads that package without forcing an unrelated artifact-work
-foundation. Conditions must not require a risk, exception, or diagnosis that
-the Knowledge is meant to reveal.
-
-Use a complete canonical file or a complete context-sufficient section as the
-reading unit. A section includes the definitions, premises, subsections, and
-important exceptions needed to apply it independently.
-
-Give shared reading-lifecycle rules one authoritative home. When a shared
-policy is independently required at task start and recovery, it may own reuse,
-rereading, and reassessment as work or context changes across Handbooks. Verify
-that the policy is selected and applied alongside the subject Handbooks; do not
-make those Handbooks invoke each other. Where no such shared policy exists,
-the owning Handbook must supply the lifecycle rules itself.
-
-A Handbook owns selection and reading obligations only. It has no user-task
-procedure, side-effect contract, task failure state, output artifact, or task
-completion gate. A broad platform Handbook routes the curated material that
-exists and does not claim exhaustive platform coverage.
-
-## Assign Knowledge, references, and bundle ownership
-
-Complete missing independently retrievable understanding as Knowledge before
-finalizing a Skill that depends on it. Workflows may read canonical Knowledge
-directly at the step that requires it. Handbooks must link every required
-canonical reading unit directly; they may not invoke or depend on another
-Handbook or hide a route behind an unguaranteed Skill-to-Skill call.
+## Organize the bundle and ownership
 
 Keep reusable Skills portable. Resolve bundled resources relative to the Skill,
 read shared packaged files directly, and discover project paths, policies,
@@ -159,7 +88,7 @@ length, step count, and reference count are not structural rules.
 
 Follow the owning package and target clients' established entrypoint location,
 manifest, frontmatter, and naming conventions. Choose a stable, descriptive
-registered name that makes the owned user task or reading context recognizable
+registered name that makes the owned user task or guidance context recognizable
 without requiring readers to know the bundle's internal organization.
 
 Keep the entrypoint and its supporting resources self-contained under the
@@ -174,27 +103,28 @@ one universal directory or naming scheme.
 Apply [Design selection triggers](selection-triggers.md) before drafting and
 retain its request cases for final checks.
 
-For a Workflow, put the complete task-based invocation boundary in the
-frontmatter description. By default, state the user-visible capability or result
-and a short condition beginning with `Use when` or `Use before`. Use `Use before`
-when selection must precede a proposal or action the Workflow constrains. Keep
-examples and scenario lists out unless needed to distinguish an adjacent task.
-A single sentence is acceptable when it expresses both parts clearly.
+Put the complete invocation boundary in the frontmatter description. For a
+task-executing Skill, state the user-visible capability or result and a short
+condition beginning with `Use when` or `Use before`, using `Use before` when
+selection must precede a proposal or action the Skill constrains. For a
+guidance-focused Skill, write one short semantic applicability rule based on the
+user's work or current material so a reader can match it without knowing
+internal terms or the registered name. Keep examples, internal steps, and
+scenario lists out unless needed to distinguish an adjacent task. A single
+sentence is acceptable when it expresses the boundary clearly.
 
-For a Handbook, write one short semantic applicability rule based on the user's
-work or current material. Identify the task family, technical domain, or stable
-platform context without enumerating foundations, packages, Knowledge topics,
-or internal conditions. A user should not need the registered name or the
-Handbook's own terminology to make it applicable.
+## Write executable instructions
 
-## Write the executable workflow
-
-Write the main path as ordered, direct, imperative task instructions. Keep the
-invocation contract, primary states and decisions, reference selectors, failure
-and stopping behavior, output contract, and completion criteria in `SKILL.md`.
-Disclose supporting material when a step selects it and keep enough local
-context to reach it at the right time, including when delayed retrieval improves
-a long sequence or overgrown information hierarchy.
+When the Skill guides a task, write the main path as ordered, direct,
+imperative instructions. Keep the invocation contract, primary states and
+decisions, supporting-file selectors, failure and stopping behavior, output
+contract, and completion criteria in `SKILL.md`. Disclose supporting material
+when a step selects it and keep enough local context to reach it at the right
+time, including when delayed retrieval improves a long sequence or overgrown
+information hierarchy. When a Skill instead routes conditional guidance or
+criteria without owning a task procedure, state that it remains supplemental to
+the active project, define each selection condition from observable work, and
+link directly to complete files or self-contained sections.
 
 Make each consequential decision owned and observable. Tell the Agent when to
 investigate facts, inspect evidence, ask the user, follow an existing project
@@ -219,94 +149,65 @@ checks a competent practitioner performs before delivery. Keep output
 requirements close enough to the completion gate that later branches cannot
 silently bypass them.
 
-## Write a Handbook body
-
-State that the Handbook supplies required understanding and remains supplemental
-to the active project. Tell the Agent to evaluate the foundation and every
-package condition from current observable work, read all matches, and avoid
-choosing only the nearest package. Route directly to each complete canonical
-file or context-sufficient section.
-
-Make foundation applicability, focused learning, and cumulative package selection
-explicit. Keep reuse and reassessment at the shared lifecycle owner when one
-governs the reading scene, rather than copying its policy into every Handbook.
-If no package matches in a sparse platform Handbook, continue without
-loading unrelated material or implying that the platform is comprehensively
-documented. Do not add a task procedure, completion criteria, or hidden
-dependency on another Handbook.
-
 ## Review the composed bundle
 
 Review the proposed and finished bundle as one selection graph using
 [Maintained document quality](../../knowledge/documentation/maintained-document-quality.md#validate-the-result).
 Trace realistic requests and starting states through native selection, body
-instructions, every later selection decision, and the behavior each kind owns.
-Establish whether each path receives its instructions at the time needed and
-whether it must filter unrelated material. Account for information hidden until
-after the decision that would need to select it.
+instructions, every later routing or reference decision, and the behavior the
+Skill owns. Establish whether each path receives its instructions at the time
+needed and whether it must filter unrelated material. Account for information
+hidden until after the decision that would need to select it.
 
-For Workflows, trace actions, stopping behavior, outputs, and completion. For
-Handbooks, trace description selection, foundation and package choices, actual
-reading, and application as distinct events. Trace later-stage reassessment,
-reuse, and recovery at the owner of the reading lifecycle.
-Remove obsolete routes, superseded behavior, duplicated authority, patch-layered
-qualifications, and references no current step selects. Intentional semantic
-change and reader suitability require separate judgments.
+Trace description selection, conditional reading or reference choices, actual
+reading and application, actions, stopping behavior, outputs, and completion as
+distinct events as applicable to the Skill's design. Remove obsolete routes,
+superseded behavior, duplicated authority, patch-layered qualifications, and
+references no current step selects. Intentional semantic change and reader
+suitability require separate judgments.
 
 ## Prove the behavior
 
 Treat a new Skill or material behavior change as incomplete until behavior is
 demonstrated. Material changes include selection or exclusion, accepted inputs,
-decision authority, professional responsibilities, states or branches,
-Knowledge or reference selection, tools or effects, output contracts, failure
-behavior, completion, or wording likely to change execution. Mechanical changes
-may use reduced evidence only after semantics are confirmed unchanged.
+decision authority, professional responsibilities, states or branches, guidance
+or reference selection, tools or effects, output contracts, failure behavior,
+completion, or wording likely to change execution. Mechanical changes may use
+reduced evidence only after semantics are confirmed unchanged.
 
 Derive scenarios from the owned responsibility and realistic faults rather than
 satisfying a fixed case count. Cover each applicable kind of evidence below or
 explain concretely why it does not apply:
 
 - **Native selection evidence:** in a fresh context with the real candidate set,
-  use broad, direct, overlap, focused-learning, and adjacent
-  negative requests as applicable. Record the choice before showing target
-  bodies or expected selections.
-- **Workflow evidence:** exercise underspecified and settled inputs, the principal
-  complex branch, material conflicts or missing evidence, and attempts to skip
-  investigation, action verification, or stopping behavior. When the task has a
-  consequential action with an observable postcondition, include an applicable
-  omitted, partial, interrupted, wrong-target, or unknown-result action and
-  verify that the Workflow re-observes, reconciles, or stops instead of
-  advancing as though the action completed.
-- **Handbook package evidence:** after selection, give a fresh reader the current
-  body and task context and record every selected and excluded package before
-  expected choices. Exercise cumulative matches, empty foundations, valid
-  no-match platform work, and changes that activate different foundations or
-  packages within the same Handbook.
+  use broad, direct, overlap, focused-learning, and adjacent negative requests
+  as applicable. Record the choice before showing target bodies or expected
+  selections.
+- **Execution evidence:** when the Skill guides a task, exercise underspecified
+  and settled inputs, the principal complex branch, material conflicts or
+  missing evidence, and attempts to skip investigation, action verification, or
+  stopping behavior. When the task has a consequential action with an
+  observable postcondition, include an applicable omitted, partial, interrupted,
+  wrong-target, or unknown-result action and verify that the Skill re-observes,
+  reconciles, or stops instead of advancing as though the action completed.
+- **Conditional routing evidence:** when the Skill selects internal references
+  or conditional guidance, give a fresh reader the current body and task
+  context and record every selected and excluded item before expected choices.
+  Exercise multi-match combinations, valid no-match requests, and work-context
+  changes that activate different conditions.
 - **Reading and application evidence:** observe required file or section reads
-  and their use in the task separately from metadata and package choices. A
+  and their use in the task separately from metadata and routing choices. A
   link, invocation event, or plausible answer alone does not establish reading
   and application.
-- **Output evidence:** for Workflows, verify the promised result, professional
-  minimum, declared inputs, constraints, format, and completion gate.
+- **Output evidence:** when the Skill defines an output or completion state,
+  verify the promised result, professional minimum, declared inputs,
+  constraints, format, and completion gate.
 
-Keep generic lifecycle policy and its unit-level protection at the authoritative
-owner. Subject cases protect their own conditions, direct routes, and
-application. Retain a representative journey when the connection itself has a
-distinct realistic fault: a foundation can become applicable after focused
-learning, an ongoing Workflow can gain a conditional route, or a later artifact
-can require a different execution target. One shared policy does not establish
-that these domain connections work.
-
-Choose staged cases by the contract at that connection. Separate independent
-tasks when their shared topic or chronology is the only reason to combine them.
-Moving lifecycle policy alone does not justify changing a case's task or
-retiring its distinct protection. Where lifecycle is owned locally, that
-owner's case protects it locally. A Workflow's own clarification, action, and
-verification steps remain its execution responsibility.
-
-Before running evidence, select the comparison model and the materially less
-capable executor baseline (and mark the result incomplete when either cannot be
-established) using the model-selection rules in
+Separate independent task scenarios unless a multi-stage transition exposes a
+distinct connection risk—such as an ongoing task gaining a newly applicable
+condition or changing targets. Before running evidence, select the comparison
+model and the materially less capable executor baseline (and mark the result
+incomplete when either cannot be established) using the model-selection rules in
 [Prepare independent observations](reader-understanding.md#prepare-independent-observations),
 and follow [Agent behavioral evaluation](behavioral-evaluation.md) for
 fresh-context isolation, inherited boundary recording, evaluator-only
@@ -315,7 +216,7 @@ application dispatch templates, contamination handling, execution recording,
 result classification, and attempt retention.
 
 The lower-capability run must select or exclude the Skill correctly and follow
-the behavior that its kind owns, or take an explicit supported stop. Invented
+the behavior that the Skill owns, or take an explicit supported stop. Invented
 procedure, skipped decisions, omitted mandatory reading, and premature
 completion are failures rather than acceptable model limits. Use a capable
 independent reviewer for professional correctness, final-content suitability,
@@ -347,9 +248,8 @@ prepare a concise, directly reviewable summary from the complete evidence
 record established above. Retain every applicable part needed to judge whether
 the change is complete:
 
-- user work and starting inputs, responsibility kind and boundary, professional
-  or reading-scene research, owner comparison, and authoritative Knowledge and
-  reference placement;
+- user work and starting inputs, Skill boundary, domain or task research,
+  existing-Skill comparison, and authoritative guidance and reference placement;
 - the final source snapshot and each material scenario's expected behavior,
   each executor and configuration that produced an observation, the actual
   observation, and conclusion across selection, application, reading, output,
@@ -384,7 +284,7 @@ separate model roster or machine-only sibling field does not establish that
 association for a pull-request or handoff reader.
 
 Keep review history in the pull request or handoff; keep lasting rules and
-subject understanding in their authoritative Skill, Knowledge, or reference.
+subject understanding in their authoritative Skill, documentation, or reference.
 State why an evidence kind does not apply instead of silently omitting it.
 Missing applicable design or behavioral evidence makes the change incomplete
 even when the prose appears plausible.

@@ -9,7 +9,7 @@ Use this procedure only for authorized delivery selected by
    resolved target as one clear current account. Complete the necessary rewrite
    within the authorized responsibility boundary regardless of diff size, while
    preserving meaning outside the accepted semantic change.
-2. Apply the loaded Knowledge's boundary between authoring evidence and
+2. Apply the loaded documentation guidance's boundary between authoring evidence and
    reader-facing content. Treat research, source collection, review evidence,
    rejected alternatives, drafts, and task history as working inputs; carry
    them into a maintained target only when they serve its reader-facing
@@ -46,7 +46,7 @@ Use this procedure only for authorized delivery selected by
    agrees with its authority in meaning and scope, every mandatory mechanism has
    a basis beyond its desired outcome, and examples preserve choices the
    underlying contract permits.
-3. Apply the loaded Knowledge's
+3. Apply the loaded documentation guidance's
    [suitability review](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
    and risk-proportionate reader validation to the complete final content and
    required routes. When active project policy, an applicable Skill contract, or

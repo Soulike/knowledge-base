@@ -23,7 +23,7 @@ Use this procedure only for the authorized revision selected by
 1. Compare the original target with the final affected artifacts. Account for
    every agreed finding and resolve any unintended change in meaning, strength,
    scope, conditions, rationale, or exceptions.
-2. Apply the loaded Knowledge's
+2. Apply the loaded documentation guidance's
    [suitability review](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
    and risk-proportionate reader validation to the complete final content and
    required routes. When active project policy, an applicable Skill contract, or
@@ -41,7 +41,7 @@ Use this procedure only for the authorized revision selected by
 3. Use a fresh Agent or isolated context for one read-only review of
    the original target, the agreed findings, and every final affected artifact.
    Provide the active project instructions, applicable standards, loaded
-   Knowledge, and raw artifacts without the editor's conclusions. Require the
+   documentation guidance, and raw artifacts without the editor's conclusions. Require the
    reviewer first to assess suitability from the reader task and complete final
    content, then compare the original and final artifacts to account for every
    semantic change and attribute defects to the revision. Record distinct

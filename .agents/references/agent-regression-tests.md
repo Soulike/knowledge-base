@@ -113,10 +113,8 @@ and observe, while the repository's author-matched replay policy composes with
 [Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
 for how that case runs. Case assets own the task, scenario data, fixtures,
 expected behavior, and case-specific evidence; the shared evaluation reference
-supplies fresh-context isolation, inherited boundary recording, evaluator-only
-withholding, the canonical executor instructions guard, blind selection and
-application dispatch templates, execution recording, result classification, and
-attempt retention.
+owns generic isolation, withholding, dispatch, execution recording, and
+attempt-retention mechanics.
 
 `Starting state` declares the capabilities, permissions, writable fixtures,
 external controls, or exceptional resource characteristics specific to the
@@ -191,14 +189,15 @@ policy, and delegate all generic behavioral-evaluation mechanics one-way to
   task-suitable fallback may supply diagnostic observations only; keep the
   affected replay `incomplete`. Missing model matching for any other reason
   also leaves the replay `incomplete`.
-- **Generic evaluation mechanics:** follow
+- **Evaluation mechanics and case mapping:** delegate generic isolation, input
+  separation, dispatch, recording, and judgment mechanics one-way to
   [Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
-  for fresh-context isolation (`fork_turns: "none"` or equivalent) and
-  inherited-boundary recording, input separation, the verbatim canonical
+  (including its verbatim
   [executor instructions guard](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
   [dispatch templates](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates),
-  contamination handling, [execution recording](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution),
-  and [result classification and attempt retention](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts).
+  [execution recording](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution),
+  and
+  [result classification and attempt retention](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts)).
   Map each case's `Task` and `Starting state` into the executor prompt
   (translating `Verification` only into neutral capture hooks) while
   withholding `Covered objects`, `Protected behavior`, `Expected behavior`,

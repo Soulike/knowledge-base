@@ -304,22 +304,15 @@ retiring its distinct protection. Where lifecycle is owned locally, that
 owner's case protects it locally. A Workflow's own clarification, action, and
 verification steps remain its execution responsibility.
 
-Before running evidence, identify the comparison model for the evaluated task
+Before running evidence, select the comparison model and the materially less
+capable executor baseline (and mark the result incomplete when either cannot be
+established) using the model-selection rules in
+[Prepare independent observations](reader-understanding.md#prepare-independent-observations),
 and follow [Agent behavioral evaluation](behavioral-evaluation.md) for
 fresh-context isolation, inherited boundary recording, evaluator-only
 withholding, the canonical executor instructions guard, blind selection and
 application dispatch templates, contamination handling, execution recording,
 result classification, and attempt retention.
-When one or more models materially authored the behavior, use the most capable
-of them for that task. For human-only authorship, select the most capable
-supported model available to the authoring environment. Record the model, basis
-for selecting it, and exposed capability-relevant configuration. Run the
-required self-sufficiency evidence with a different supported model that is
-materially less capable for the task while retaining needed tools, modalities,
-and context. Justify that baseline from relevant capability evidence rather
-than model name or price. A lower reasoning setting on the same model is
-insufficient. If the comparison or evidence cannot be established, report the
-result as incomplete.
 
 The lower-capability run must select or exclude the Skill correctly and follow
 the behavior that its kind owns, or take an explicit supported stop. Invented

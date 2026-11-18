@@ -163,7 +163,13 @@ independent behavior.
 14. Review the combined result and assemble the pull-request description (or
     handoff when authoring stops before a pull request exists) per
     [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
-    Include the repository-maintenance record: classification, affected
+    Carry the unmodified evidence outputs from
+    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+    [Required evidence](../../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
+    and
+    [Pull-request and handoff regression evidence](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence)
+    (or the purely mechanical reduced-evidence confirmation when applicable),
+    alongside the repository-maintenance summary: classification, affected
     responsibility units, dependency-boundary placement for `.agents/` changes,
     operations performed, changed Catalog, Handbook, Workflow, and reference
     routes and consumers, generated `knowledge-base` plugin version when
@@ -171,35 +177,10 @@ independent behavior.
     substantive revisions, mechanical and semantic validation performed, and
     the final-content suitability conclusion (with examined reader task and
     relevant final locations) separate from semantic correctness and
-    project-check results.
-    Assemble all unmodified applicable evidence without collapsing observations
-    into topic-only notes or aggregate pass claims, keeping each observation
-    and attempt outcome adjacent to its producing executor identity and
-    capability-relevant configuration:
-    - **Skills:** include the design, comparison, scenario, and attempt
-      evidence required by
-      [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
-    - **Reader understanding:** for primary-product Knowledge, Skills, and
-      Skill references requiring cross-model verification, include the
-      [required reader-understanding evidence](../../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
-      preserving actual reader paraphrase, concrete application decisions, and
-      reported confusion or ambiguity tied to the relevant passages (or confirm
-      the purely mechanical reduced-evidence boundary when applicable).
-    - **Behavioral regression cases:** include the inventory and selection
-      scope (explicitly recording a confirmed empty inventory; failed discovery
-      is incomplete), tested source and author-matched model basis, case
-      observations, attempt outcomes, case or contract changes, and remaining
-      gaps required by
-      [Behavioral regression cases](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence).
-      Preserve distinct effective validation cases through
-      [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md)
-      when case authoring is within the authorized task, rather than treating
-      temporary validation runs as permanent protection.
-    - **Other maintained instructions and prompts:** for semantic or structural
-      changes, include affected responsibilities, final-content suitability and
-      independent review conclusions, and remaining limitations.
-      Keep lasting rules in their authoritative Knowledge, Skill, or reference
-      rather than adding a design-history document.
+    project-check results. When case authoring is within the authorized task,
+    preserve distinct effective validation protection through
+    [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md)
+    rather than treating temporary validation runs as permanent protection.
 
 ## Final validation
 
@@ -224,11 +205,12 @@ meaning, structure, and required reader actions are unchanged.
    review.
 2. Gather execution evidence against the final content using
    [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
-   for fresh-context isolation, inherited-boundary recording, evaluator-only
-   withholding, the verbatim
-   [executor instructions guard](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
+   (including its
+   [executor instructions](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
    [dispatch templates](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates),
-   and execution recording, together with
+   and
+   [execution recording](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution))
+   together with
    [Behavioral regression cases](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
    for author-matched historical case replay. Separately run any applicable
    lower-capability Skill-authoring

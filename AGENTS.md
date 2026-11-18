@@ -128,19 +128,13 @@ this behavioral-prose evidence requirement.
 Assemble the unmodified observations produced by the applicable authorities
 without collapsing them into topic-only notes or aggregate pass claims:
 
-- **Skills:** include the design, comparison, scenario, and attempt evidence
-  required by
+- **Skills:** include the evidence required by
   [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
 - **Reader understanding:** for primary-product Knowledge, Skills, and Skill
   references requiring cross-model verification, preserve the
-  [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
-  including actual reader paraphrase, concrete application decisions, and
-  reported confusion tied to the relevant passages with adjacent executor
-  identity and configuration.
-- **Behavioral regression cases:** include the regression inventory, selection
-  scope, tested source and model-matching basis, case observations, attempt
-  outcomes, and case or contract changes required by
-  [Behavioral regression cases](.agents/references/agent-regression-tests.md).
+  [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).
+- **Behavioral regression cases:** include the evidence required by
+  [Pull-request and handoff regression evidence](.agents/references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence).
 - **Other maintained instructions and prompts:** for semantic or structural
   changes, include affected responsibilities, final-content suitability and
   independent review conclusions, and remaining limitations.

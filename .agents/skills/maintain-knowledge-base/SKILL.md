@@ -163,7 +163,7 @@ independent behavior.
 14. Review the combined result and assemble the pull-request description (or
     handoff when authoring stops before a pull request exists) per
     [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
-    Carry the unmodified evidence outputs from
+    Carry the applicable unmodified evidence outputs from
     [Prepare pull-request and handoff evidence](../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
     [Required evidence](../../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
     and

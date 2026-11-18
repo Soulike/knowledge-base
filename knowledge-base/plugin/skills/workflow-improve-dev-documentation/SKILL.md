@@ -9,7 +9,7 @@ description: Use when an open-ended concern or quality goal calls for auditing a
 
 1. Follow instructions, Skills, requirements, project-specific information,
    and documentation standards from the active working directory. Treat this
-   plugin's packaged Knowledge as supplemental guidance; when it conflicts with
+   plugin's packaged guidance as supplemental; when it conflicts with
    one of those sources, follow the active-working-directory source.
 2. Resolve linked paths relative to this `SKILL.md`, then read
    [Maintained document quality](../../knowledge/documentation/maintained-document-quality.md)
@@ -25,8 +25,6 @@ description: Use when an open-ended concern or quality goal calls for auditing a
    and the links or navigation by which readers find it. Identify its intended
    readers and the recurring tasks it should support.
 5. Read
-   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md)
-   when Knowledge or a Skill is a possible form. Read
    [Agent Skill authoring](../../references/agents/skill-authoring.md) whenever
    a Skill is being reviewed or changed. When reviewing or revising its
    invocation condition, also read
@@ -54,7 +52,7 @@ placement in that order before selecting the task path:
    individual unit only when current evidence supports an ongoing need. Select
    the rest for removal. Defer a decision only when correctness or form
    must be established before necessity can be judged, and resolve it in the
-   relevant later stage. Apply the loaded Knowledge's boundary between
+   relevant later stage. Apply the loaded documentation guidance's boundary between
    authoring evidence and reader-facing content; material that only records how
    the document was produced belongs in its owning work record unless the
    maintained document explicitly owns that traceability.

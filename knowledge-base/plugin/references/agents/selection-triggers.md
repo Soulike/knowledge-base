@@ -2,14 +2,14 @@
 
 ## Scope
 
-Use this reference when writing or reviewing a Workflow or Handbook description
-or a Handbook-internal package condition. It owns the shared reasoning for
+Use this reference when writing or reviewing an Agent Skill description or an
+internal routing condition inside a Skill. It owns the shared reasoning for
 coverage, earliest useful selection, precision, and independent checks;
 consuming artifacts own their required format and route.
 
 ## When to update
 
-Update this reference when a real Workflow, Handbook, or package-routing case
+Update this reference when a real Skill-selection or internal-routing case
 reveals a missing or incorrect shared rule for selection, coverage, or
 precision.
 
@@ -25,17 +25,12 @@ precision.
    when the target is useful in wider work; include direct, focused-learning,
    overlap, phase-change, and nearby negative requests when they exist. Record
    why each case needs or excludes the target. A broad task may select several
-   independent Skills or packages.
+   independent Skills or internal conditions.
 3. For each proposed restriction, identify every previously covered task it
    would exclude. Establish that the accepted change removes that task from the
    target's responsibility or that another authoritative route now owns it. A
    request's failure to name the concern does not establish that it is
    unnecessary.
-4. For a Handbook, separate native description coverage from internal package
-   coverage. The description selects one task family, technical domain, or
-   stable platform context; package conditions select the Knowledge required for
-   the current work inside that scene. Do not copy every old leaf condition into
-   descriptions or create one Handbook per leaf.
 
 Finish by selecting only justified coverage changes. If a restriction's basis
 remains unresolved, retain the existing coverage and report the question
@@ -59,44 +54,17 @@ target and the general condition does not already cover it. Lists of techniques,
 examples, outcomes, or linked documents do not substitute for a semantic
 condition.
 
-### Workflow descriptions
+For a Skill's top-level description, state the complete applicability or task
+boundary—the promised result or work context that makes the Skill useful—without
+enumerating internal steps, example lists, or every linked resource. When a
+Skill must constrain a proposal or action before it begins, select from the
+preceding work or decision point.
 
-Identify the independently invoked user task and promised result. A subject or
-artifact may delimit that task, but does not establish invocation by itself.
-Keep the complete task boundary in the description without listing internal
-steps or every scenario. Select the Workflow before proposals or actions it must
-constrain.
-
-### Handbook descriptions
-
-Write one short semantic applicability rule based on the user's work or current
-material. It must identify the task family, technical domain, or stable platform
-context that makes the Handbook useful without enumerating its foundation,
-packages, Knowledge topics, or internal conditions. A platform Handbook may
-route only the curated guidance currently available; its description must not
-claim exhaustive platform coverage.
-
-### Handbook package conditions
-
-Select packages from observable user work, current materials, language,
-platform, production method, or task stage. Conditions are mandatory: evaluate
-all of them and read every match cumulatively rather than choosing the closest
-one. Do not require the reader to know a risk or diagnosis that the selected
-Knowledge helps uncover.
-
-Cover focused learning and explanation directly. A request to learn or explain
-one package's subject is its own matching condition even when no current
-artifact work activates the package's other condition. Select that package
-without forcing an unrelated Handbook foundation. A Handbook may have no
-foundation when no current Knowledge is genuinely common to its primary scene.
-
-Verify package conditions against distinct work contexts, including changes
-within an already-selected Handbook or running Workflow. Keep generic
-reassessment, reuse, and recovery policy and its unit-level assertions at the
-bundle's authoritative reading-lifecycle owner. Retain a representative journey
-when a domain transition exposes a distinct connection fault, such as a
-previously inapplicable foundation becoming required. Independent task checks
-and the shared lifecycle case do not by themselves establish that connection.
+For internal routing conditions inside a Skill, select from observable work,
+materials, or stage rather than requiring the reader to know a risk or
+diagnosis that the routed resource helps uncover. When multiple internal
+conditions can apply together, define each independently so matching conditions
+apply cumulatively rather than forcing a single closest match.
 
 ## Check selection from requests
 
@@ -105,20 +73,20 @@ substantively changing covered content or responsibility, even when route text
 is unchanged. Begin during placement assessment and repeat against the final
 candidate set.
 
-For a Workflow or Handbook description, give a fresh reader the natural request,
-available artifacts, and the real candidate metadata. Record its choices before
-showing target bodies or expected selections. Compare existing and proposed
+For a Skill description, give a fresh reader the natural request, available
+artifacts, and the real candidate metadata. Record its choices before showing
+target bodies or expected selections. Compare existing and proposed
 conditions, account for every excluded old task, and resolve missed or unrelated
 choices.
 
-After a Handbook is selected, give a fresh reader its complete current body and
-the task context, then record every selected and excluded package before
-revealing expected choices. Check cumulative matches, focused learning, valid
-no-match platform work, overlaps, and stage changes. Package choice is distinct
-from native Skill selection.
+When a Skill routes internal resources conditionally, give a fresh reader its
+complete current body and the task context, then record every selected and
+excluded condition before revealing expected choices. Check cumulative matches,
+focused learning, valid no-match requests, overlaps, and stage changes.
+Internal routing choice is distinct from native Skill selection.
 
 Record actual reading and application separately from both choices. Metadata
 selection does not prove client loading; static links do not prove a file was
-read; a plausible final answer does not prove the required Knowledge was
-applied or later-stage reading was added. Keep each observation and its limits
+read; a plausible final answer does not prove the routed guidance was applied
+or later-stage reading was added. Keep each observation and its limits
 separate in behavioral evidence.

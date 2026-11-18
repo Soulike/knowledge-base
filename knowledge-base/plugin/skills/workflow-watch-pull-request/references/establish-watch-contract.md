@@ -51,18 +51,26 @@ select them as autonomous:
   passes;
 - reply to top-level comments and review threads, and resolve completely
   disposed review threads;
-- rerun one clearly transient, validation-only CI replay unit; and
+- rerun one clearly transient, validation-only CI replay unit;
+- trigger or fully rerun an automated review once per completed remediation
+  batch when authorized work performed to satisfy the reviewer's reasonable
+  requirements did not automatically start a fresh evaluation of the current
+  PR state (using a repository- or provider-supported full-evaluation mechanism
+  such as a full workflow rerun, dispatch, or documented review trigger); and
 - factually maintain the PR title or description under the metadata
   classification and reconciliation rules, including their bounded exception
   for recording completed automated-review remediation when the provider lacks
   a conditional write.
 
 Keep every other mutation human-only, including changes to labels, assignees,
-milestones, requested reviewers, conversion from ready for review back to
-draft, any draft-state change outside the transition authorized by the shared
-readiness policy, base branch, repository policy, required checks, approvals,
-review decisions, PR open or closed state, branch existence, or published
-history. Merge is always a human operation.
+milestones, requested reviewers, human review requests, conversion from ready
+for review back to draft, any draft-state change outside the transition
+authorized by the shared readiness policy, base branch, repository policy,
+required checks, approvals, review decisions, PR open or closed state, branch
+existence, or published history. Merge is always a human operation. Do not treat
+an internal execution failure of an automated review workflow itself as
+post-remediation review triggering; classify that failure under the CI replay
+and human-intervention boundaries instead.
 
 After a scope-decision handoff, the user may separately authorize creation of
 one follow-up issue for one classified out-of-scope finding. Bind that one-shot
@@ -104,7 +112,8 @@ the main workflow owns continued observation and handoff timing.
 Keep a checkpoint of the contract, last complete PR identity, safe workspace
 and local work, published commits and replies, handled item identities,
 validation evidence, remaining item dispositions and dependencies, PR-wide
-freeze, awaited automatic results, readiness transition history and consumed
+freeze, awaited automatic results, triggered automated review attempts and the
+completed remediation they evaluate, readiness transition history and consumed
 one-shot authority, and every operation with an unknown result.
 
 On resume from this checkpoint after the earlier execution stopped, verify

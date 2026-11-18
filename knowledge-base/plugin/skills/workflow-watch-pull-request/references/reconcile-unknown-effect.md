@@ -3,9 +3,10 @@
 A timeout, lost response, or connection failure after a mutation does not
 establish whether it completed. Query the exact destination for the intended
 push, ready-for-review transition, reply, resolution, metadata update, CI
-replay, or explicitly authorized follow-up issue before attempting it again.
-Retrieve only the resource state needed to establish that result; the normal
-next observation cycle reconciles the complete PR.
+replay, post-remediation automated review trigger, or explicitly authorized
+follow-up issue before attempting it again. Retrieve only the resource state
+needed to establish that result; the normal next observation cycle reconciles the
+complete PR.
 
 Retry only when non-completion is established, the operation remains
 authorized under the current state, and replay cannot duplicate or overwrite a
@@ -22,9 +23,12 @@ unexplained ref as human intervention required.
 
 For a reply, query the target comment or thread for the intended Agent-authored
 reply before posting another copy. For a resolution, query the target thread's
-current resolved state before repeating the mutation. For metadata or CI,
-identify the intended version or replay attempt rather than inferring success
-from a generic PR summary.
+current resolved state before repeating the mutation. For metadata, CI replay,
+or an automated review trigger, identify the intended version, replay attempt,
+or newly started review run or attempt at the expected head and post-remediation
+timing rather than inferring success from a generic PR summary. Retry a trigger
+only when non-completion is established and no active or completed run already
+covers the post-remediation state.
 
 For a title or description update performed through the automated-review
 remediation exception, query the exact PR identity, source head, title,

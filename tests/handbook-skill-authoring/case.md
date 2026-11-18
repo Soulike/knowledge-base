@@ -90,9 +90,13 @@ permitted. Record files read and available action observations.
   chronology. Static links
   or a plausible final answer alone must not be reported as behavioral proof.
 - R8 (critical): keep the general-purpose installed authoring and trigger
-  references (`skill-authoring.md` and `selection-triggers.md`) understandable
-  without repository history, portable to any downstream project, and
-  domain-model-neutral: verify they carry **neither** this repository's layout,
+  references
+  ([`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+  and
+  [`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md))
+  understandable without repository history, portable to any downstream
+  project, and domain-model-neutral: verify they carry **neither** this
+  repository's layout,
   [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
   primary plugin flat layout, or `workflow-` and `handbook-` naming conventions
   **nor** `knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
@@ -110,8 +114,11 @@ A controlled faulty plan that calls the proposal a
 Workflow, replaces the three Knowledge files with copied prose, treats the
 cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
-critical criterion. A plan that cites `skill-authoring.md` or
-`selection-triggers.md` as authority for the
+critical criterion. A plan that cites
+[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+or
+[`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md)
+as authority for the
 [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
 primary plugin flat layout, the product's `workflow-`/`handbook-` prefixes, or
 `knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
@@ -124,5 +131,9 @@ responsibility model, cumulative reading contract, maintenance-only Catalog,
 strict reachability gate, and required evidence. A pre-change replay at commit
 `740842b` supplies the historical TDD baseline; GitHub issue #289 and ticket
 #293 reconciled R8 and `Verification` to enforce symmetric domain-model
-neutrality across `skill-authoring.md` and `selection-triggers.md`, and the
-revised case requires fresh final evidence against the completed contract.
+neutrality across
+[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+and
+[`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md),
+and the revised case requires fresh final evidence against the completed
+contract.

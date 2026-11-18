@@ -35,6 +35,7 @@ data together with the complete current covered guidance, including
 [behavioral and documentation change evidence](../../AGENTS.md#behavioral-and-documentation-change-evidence),
 [maintain-knowledge-base Step 14](../../.agents/skills/maintain-knowledge-base/SKILL.md#workflow),
 [prepare pull-request and handoff evidence](../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+[prove Handbook and Workflow behavior](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior),
 and
 [required reader-understanding evidence](../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).
 The record's stable scenario and attempt IDs are part of the review identity
@@ -53,7 +54,7 @@ unless the required attempt evidence also appears in `pr_evidence`.
 ## Expected behavior
 
 - R1 (critical): produce a directly publishable summary that identifies the
-  user work, starting state, responsibility boundary, owner comparison,
+  user work, starting state, responsibility kind and boundary, owner comparison,
   research basis, authoritative placement, and final source snapshot.
 - R2 (critical): retain the author, comparison model, lower-capability executor,
   and capable reviewer identities together with exposed provider,
@@ -99,4 +100,8 @@ Reconstructed from repeated review-only evidence findings in pull requests
 #143, #237, #240, #241, #265, and #269. In each case the substantive change had
 already been evaluated, but the pull-request description omitted model,
 configuration, comparison-basis, scenario, or reader-observation evidence that
-the authoring standard required.
+the authoring standard required. GitHub issue #289 and ticket #293 verified
+these expectations and links against purified
+[Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+and
+[Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).

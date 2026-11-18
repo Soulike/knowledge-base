@@ -6,80 +6,65 @@ explicitly run from the repository root.
 
 1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
-   and the installed Handbook and Workflow entrypoints that can route the
-   affected user work. When assessing or maintaining Knowledge about user
-   interfaces, also read [Maintain UI Knowledge](ui-knowledge.md). Then search the existing
-   `knowledge/` tree. Start from the user's work, required reader decisions, and
-   necessary understanding. Compare every affected responsibility with existing
-   document Scopes, actual Handbook and Workflow reading routes and consumers,
-   and reading scenes without treating those bundles as Knowledge ownership.
+   and the installed Handbook and Workflow entrypoints under
+   [`knowledge-base/plugin/skills/`](../../../../knowledge-base/plugin/skills/)
+   that can route the affected user work. When assessing or maintaining Knowledge
+   about user interfaces, also read [Maintain UI Knowledge](ui-knowledge.md).
+   Search the existing `knowledge/` tree and compare affected responsibilities
+   with existing document Scopes, actual Handbook and Workflow reading routes
+   and consumers, and reading scenes without treating those bundles as
+   Knowledge ownership.
 2. Work only from the Knowledge parts identified during classification; return
-   the remaining material to the parent workflow.
-3. Reapply every boundary test in
+   remaining material to the parent workflow.
+3. Reapply the boundary tests in
    [Classifying Knowledge and Skill material](../../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
-   before editing `knowledge/`. Return material that does not qualify as
-   Knowledge to the parent as Workflow Skill, Handbook Skill, or Skill-reference
-   content.
-4. Confirm that each remaining Knowledge part remains correct without access
-   to its source project. Remove dependencies on named downstream repositories,
-   fixed project paths or layouts, project domain models, organization policies,
-   and private infrastructure. Product, platform, protocol, and engineering-
-   domain specificity are valid. Return material whose meaning depends on its
-   source project to the parent workflow as neither.
-5. Use the results of
+   and the downstream-project-independence gate in
+   [`AGENTS.md`](../../../../AGENTS.md#repository-architecture) before editing
+   `knowledge/`. Return material that belongs in a Workflow, Handbook, or
+   Skill reference, or whose meaning depends on a source project, to the parent
+   workflow.
+4. Apply
    [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
-   in the ownership assessment below before choosing a destination or
-   operation. Carry the supported claim scopes and reader needs into the
-   remaining steps.
-6. Complete the [ownership and retrieval assessment](#ownership-and-generalization)
-   for each affected responsibility before selecting its destination or
-   operation. When a contribution, maintenance proposal, or review finding
-   would change an existing leaf from `evergreen` to `time-sensitive`, complete
+   and complete the
+   [ownership and retrieval assessment](#ownership-and-generalization) before
+   selecting a destination or operation. When a contribution, maintenance
+   proposal, or review finding would change an existing leaf from `evergreen`
+   to `time-sensitive` (including correcting an existing label), complete
    [Review an evergreen-to-time-sensitive transition](review-knowledge-type-transition.md)
-   within that assessment, including for correction of an existing label.
-   Return its evidence and proposed disposition to the parent for
-   assessment-only work; resume below only when edits are authorized.
-7. Apply the parent-selected disposition to each affected responsibility unit.
-   When an existing document owns the concept, rewrite the complete affected
-   block in place, remove superseded wording, and leave one coherent current
-   model rather than layering new qualifications onto the old one. Merge or
-   split documents only when the ownership tests below require it. Create a new
-   document only for a distinct responsibility, placing it in a clear domain
-   under `knowledge/` with the smallest useful document structure.
-8. Give every Markdown document under `knowledge/`, including the Knowledge
-   catalog, the required preface described below.
-9. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
-   as the complete maintenance inventory. Organize leaf documents in domain
-   directories, list every remaining leaf directly, and do not create nested
-   catalogs or leaf-level `Related Knowledge`, `See also`, or similar routing
-   appendices. Before linking one leaf from another, apply the
-   [inline-dependency test](#admit-inline-knowledge-dependencies). Link a
-   retained dependency where it is applied and include the local context needed
-   to use the current document.
-10. Apply the assessed disposition to the Catalog fields below. Separately
-    select the existing Handbook or Workflow routes that must read the
-    Knowledge; return a justified new Handbook responsibility to the Skill
-    branch only when no existing task family, technical domain, or stable
-    platform context fits. Check Skill-description and package selections
-    against the natural requests established during ownership assessment.
-    Repair every route and inline dependency affected by a move, merge, split,
-    rename, or removal.
-11. Verify that every remaining leaf document is listed exactly once with one
-    valid Knowledge Type, serves its independent responsibility without another
-    leaf as a prerequisite, contains no routing appendix, and resolves every
-    changed relative link. Confirm that every leaf is reachable from an
-    installed Workflow or Handbook through the accepted package-local graph.
-    For each available route, confirm direct complete-file or
-    context-sufficient-section reading without hidden Handbook dependencies.
-    Confirm that every added or materially changed inline link between Knowledge
-    leaves passes the inline-dependency test and that its target fits the scope
-    of the source claim. Confirm that each concept has one canonical owner and
-    each revised document presents one coherent current model. Compare every
-    changed Scope and installed route with its pre-edit form; keep additions
-    that express the same responsibility and route independent responsibilities
-    separately. Confirm that removed leaves and obsolete routes no longer
-    remain.
-12. Run the strict `pnpm knowledge:check` from the repository root.
+   within that assessment. Return evidence and proposed disposition to the
+   parent for assessment-only work; resume below only when edits are
+   authorized.
+5. Apply the parent-selected disposition to each affected responsibility unit in
+   `knowledge/`, delegating revision coherence, in-place replacement, and
+   reader-facing clarity one-way to
+   [Maintained document quality](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent).
+6. Give every Markdown document under `knowledge/`, including
+   [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
+   the preface defined in [Knowledge document preface](#knowledge-document-preface).
+7. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
+   as the complete maintenance inventory in domain subdirectories without
+   nested catalogs or leaf-level `Related Knowledge` / `See also` appendices
+   ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)). Before adding
+   or retaining an inline link between Knowledge leaves, pass the
+   [inline-dependency test](#admit-inline-knowledge-dependencies).
+8. Apply [Catalog fields](#catalog-fields) and
+   [Handbook routes](#handbook-routes). Check Skill descriptions and package
+   selections against natural requests using
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests),
+   returning a justified new Handbook responsibility to the Skill branch when
+   needed, and repair every route and inline dependency affected by a move,
+   merge, split, rename, or removal.
+9. Verify repository Knowledge and Catalog invariants—every remaining leaf is
+   listed once with a valid Knowledge Type, is reachable from an installed
+   Workflow or Handbook through the package-local graph via direct
+   complete-file or context-sufficient-section links without hidden Handbook
+   dependencies, passes
+   [Admit inline Knowledge dependencies](#admit-inline-knowledge-dependencies)
+   for leaf-to-leaf
+   links, resolves all relative links, and leaves no removed leaves or obsolete
+   routes—while applying
+   [Validate the result](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result).
+10. Run `pnpm knowledge:check` from the repository root.
 
 ## Admit inline Knowledge dependencies
 
@@ -115,105 +100,55 @@ retrievable specializations remain separate Knowledge routes.
 
 ## Ownership and generalization
 
-Use the supported scopes, conditions, and reader needs established through
+Use the supported claim scopes, applicability conditions, and reader needs
+established by
 [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
-to assess canonical ownership and actual retrieval. That reference owns scope
-analysis for both proposed and existing content; this assessment determines the
-Knowledge owner separately from installed Handbook and Workflow reading routes.
-
-Assess ownership and retrieval before choosing an existing or new owner,
-including during read-only contribution triage:
+to determine canonical Knowledge ownership in `knowledge/` separately from
+installed Handbook and Workflow reading routes:
 
 1. State the concrete reader tasks, subject-specific decisions, and explanatory
    model the material must support, together with the context available before
-   reading it. Use these needs to find candidate owners. For each candidate,
-   state the question its existing document helps the reader answer and the
-   question the proposed material must answer before choosing a destination.
-   Describe each question through the choice the reader must make and the
-   conditions used to make it, rather than a broad activity or shared artifact.
-2. Read each candidate's actual pre-edit content alongside its Scope,
-   applicable Handbook and Workflow routes and consumers, and maintenance
-   trigger. Confirm that the content, Scope, and update trigger describe
-   one subject responsibility, then compare
-   the scope assessment's reader needs with that responsibility. For each
-   required decision or explanation, identify the supporting body-content
-   location and whether it already satisfies the reader need, needs a correction
-   or clarification within the same responsibility, or leaves an independently
-   needed responsibility the candidate does not own. For a same-owner change,
-   identify the particular choice in the existing explanation and show how the
-   new reasoning changes or justifies that choice. A document can mention a
-   capability, cost, limitation, or prerequisite without owning how to fulfill
-   it. Keep the explanation needed to assess it in the original decision;
-   evaluate the reasoning needed to fulfill it as a separate candidate when
-   readers need that reasoning after the original choice has been settled.
-   Shared vocabulary, broad Scope labels, or a consuming Workflow or Handbook
-   do not supply this connection. Prefer an existing owner only after the
-   comparison supports the same responsibility. If the existing explanation already answers the
-   reader's question, retain it unless new evidence or a demonstrated
-   application gap justifies a change; an unillustrated input alone is not a
-   gap. An uncovered detail or a separately worded question alone does not
-   justify another document; compare independent reading and maintenance needs
-   before separating it.
-3. Form natural requests and expected selections using
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
-   Run them against the real installed Skill descriptions. For a selected
-   Handbook, separately observe package choices from current work. Record every
-   actual choice, including no selection, before expected choices are revealed.
-   Compare the observations with the content coverage established above.
-   Routing identifies where a reader is sent; it does not establish that the
-   selected document owns the explanation, that the file was read, or that its
-   guidance was applied. The closest available selection can expose a missing
-   owner or route.
-4. Distinguish a route that inadequately expresses an existing responsibility
-   from material that introduces a distinct subject responsibility. For the
-   former, retain the owner and propose a route correction; for the latter,
-   select a separate owner when independent reading and maintenance needs
-   justify it. A missed selection alone justifies neither another Knowledge
-   document nor another Handbook.
+   reading it, and locate candidate owners in `knowledge/`. Compare each
+   candidate's existing question with the question the proposed material must
+   answer, framed around the choice the reader must make and its conditions.
+2. Read each candidate's pre-edit content alongside its `Scope`, `When to update`
+   trigger, and installed Handbook/Workflow routes and consumers. Confirm they
+   express one coherent subject responsibility, then map each required reader
+   decision or explanation to its pre-edit location: already satisfied, needs a
+   correction or clarification within the same responsibility, or introduces an
+   independently needed responsibility (for example, assessing access control as
+   a backend-selection cost vs explaining how to grant, expire, and revoke
+   permissions after a backend is chosen). Do not infer ownership from shared
+   vocabulary, broad `Scope` labels, or shared Handbook/Workflow bundles.
+3. Form natural requests and run blind selection checks against real installed
+   Skill descriptions and Handbook packages using
+   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests).
+   Distinguish a route defect (retain the Knowledge owner and fix the route)
+   from a distinct subject responsibility (separate Knowledge owner when
+   independent reading and maintenance needs justify it).
 
-Keep a reviewable ownership and retrieval account in the work record: the
-reader questions, candidate coverage and gaps with pre-edit source locations,
-the reason for retaining or separating responsibilities, requests and expected
-versus observed Workflow, Handbook, and package selections, and the resulting
-ownership and route dispositions.
-Conclude fit only from that account. Missing selection observations or
-unexamined required decisions leave fit unresolved; report the missing evidence
-rather than claiming established fit.
-Incomplete evidence may support an explicitly provisional proposal, but not a
-settled canonical owner or no-route-change conclusion.
+Keep a reviewable ownership and retrieval account in the work record: reader
+questions, candidate coverage and gaps with pre-edit source locations, rationale
+for retaining or separating responsibilities, requests and expected vs observed
+Workflow, Handbook, and package selections, and resulting ownership and route
+dispositions. Missing selection observations or unexamined required decisions
+leave fit unresolved (supporting at most an explicitly provisional proposal, not
+a settled owner or no-route-change conclusion).
 
-For example, a comparison of storage backends can list access control as a
-cost. An example showing how that cost affects backend choice supports the
-same reader question. An explanation of permission grants, expiry, and
-revocation answers how to enforce access after a backend has been chosen.
-Assess those independently needed decisions and their reading and maintenance
-needs instead of placing their complete model under the cost comparison.
+Use trusted pre-edit `Scope`, reading routes, and body as the comparison
+baseline (reassessing per
+[Maintained document quality](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+when requirements change):
 
-Keep the trusted pre-edit Scope, reading routes, and body as the comparison baseline
-throughout this assessment. Before choosing insertion points, assess whether
-the complete proposed content still serves the same reader task or joins
-independently needed decision models. Reassess that relationship when new
-requirements or feedback change the proposed result instead of accumulating
-material under the first selected destination. Use the scope assessment and
-coverage evidence to justify retaining or extending the same responsibility,
-or selecting a different owner. A proposed Scope or route must express that
-justified disposition; changing its wording does not establish ownership.
-After drafting, compare the old and final boundaries and selections to verify
-the assessed disposition.
-
-Split a general principle from a domain-, product-, or platform-specific mapping
-only when each has a distinct canonical responsibility, an independently useful
-reading need, an independent `When to update` trigger, and enough substance to
-stand alone. Keep specific material with the general principle when it only
-demonstrates or translates it. Use paired documents when the mapping owns
-independently needed decisions, behavior, limitations, or maintenance triggers,
-and make the mapping reference rather than restate the principle.
-
-Merge Knowledge documents when their pre-edit Scopes and reading needs express
-the same responsibility and retaining both would preserve competing or
-duplicated authority. Preserve separate documents when their responsibilities,
-reading needs, or maintenance lifecycles remain independently useful even when
-one Handbook reads them together.
+- Split a general principle from a domain-, product-, or platform-specific
+  mapping only when each has a distinct canonical responsibility, an
+  independently useful reading need, an independent `When to update` trigger,
+  and enough substance to stand alone (linking rather than restating the
+  principle).
+- Merge Knowledge documents when their pre-edit `Scope`s and reading needs
+  express the same responsibility and keeping both preserves competing
+  authority; preserve separate documents when responsibilities, reading needs, or
+  maintenance lifecycles remain distinct even when co-selected by one Handbook.
 
 ## Knowledge document preface
 
@@ -282,22 +217,13 @@ method of consulting current authoritative sources is durable.
 
 ## Handbook routes
 
-After choosing the Knowledge owner, choose reading bundles independently. Use
-the user work and reader decisions to compare existing Handbook scenes. Route
-the Knowledge from every applicable existing Handbook through a direct link to
-the complete file or a complete context-sufficient section. Place it in the
-foundation only when it is required for the Handbook's primary artifact work;
-otherwise select it from an observable conditional package.
-
-The same Knowledge may appear in several Handbooks when distinct scenes need it.
-That reuse does not merge owners. Return a proposed new Handbook to the Skill
-branch when a distinct task family, technical domain, or stable
-platform/framework context needs its own recognizable native entry rather than
-belonging to an existing Handbook's owned scene—including when a broader
-language or general engineering Handbook co-selects on the same code without
-owning that self-contained domain. A new domain or platform Handbook may start
-sparsely with one curated Knowledge leaf, provided its native trigger owns the
-broader scene rather than wrapping that single leaf's narrow topic. Apply
-[Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
-and do not create a per-leaf narrow wrapper Handbook, hide the route through
-another Handbook, or copy the Knowledge into the entrypoint.
+After choosing the Knowledge owner, reconcile repository reading routes
+separately from subject ownership by delegating Handbook modeling, package
+structure, sparse-domain admission, and direct canonical links one-way to
+[Model a Handbook Skill](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#model-a-handbook-skill)
+and
+[Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
+Keep every leaf reachable from an installed Workflow or Handbook through the
+package-local graph
+([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)), and return any
+proposed new Handbook entry to [Maintain Skills](maintain-skill.md).

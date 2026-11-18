@@ -1,4 +1,4 @@
-# Keep ordinary code tests outside knowledge-base authoring
+# Keep ordinary code tests outside knowledge-base maintenance
 
 ## Identity
 
@@ -12,7 +12,7 @@
 
 ## Protected behavior
 
-Knowledge-base authoring workflows must not take ownership of an ordinary
+Knowledge-base maintenance workflows must not take ownership of an ordinary
 downstream code-test request. Protect this adjacent negative route while allowing
 a suitable general test-writing workflow to be chosen.
 
@@ -22,15 +22,15 @@ a suitable general test-writing workflow to be chosen.
 
 ## Starting state
 
-Build the same complete current authoring and primary-product Skill metadata set
-as for a natural selection task: `.agents/skills/*/SKILL.md` and
-`knowledge-base/plugin/skills/*/SKILL.md`. Supply no candidate bodies. Request
-selection only, with no code edits. Record inherited instructions and candidate
-construction.
+Build the same complete current repository-maintenance and primary-product
+Skill metadata set as for a natural selection task: `.agents/skills/*/SKILL.md`
+and `knowledge-base/plugin/skills/*/SKILL.md`. Supply no candidate bodies.
+Request selection only, with no code edits. Record inherited instructions and
+candidate construction.
 
 ## Expected behavior
 
-- R1 (critical): neither knowledge-base authoring Skill owns this request.
+- R1 (critical): neither repository-maintenance workflow owns this request.
 - R2: choose a relevant general test-writing workflow when present in the actual
   candidates, with a reason tied to the business-module task.
 - R3: report a choice without claiming client loading or completed code work.
@@ -46,7 +46,7 @@ A faulty observation assigning this request to case maintenance must fail R1.
 
 ## Source
 
-The maintainer-approved boundary keeps this authoring Skill distinct from
+The maintainer-approved boundary keeps this maintenance workflow distinct from
 ordinary automated testing. This request is recovered from the 2026-11-07 fresh
 positive/negative selection observations at commits `c6e796a` and `201e279`.
 Re-run it against current metadata; earlier successful exclusion is provenance.

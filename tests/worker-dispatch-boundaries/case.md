@@ -7,8 +7,9 @@
 
 ## Covered objects
 
-- [Case-maintenance Skill](../../skills/maintain-knowledge-base-tests/SKILL.md)
-- [Replay and dispatch reference](../../references/agent-regression-tests.md)
+- [Case-maintenance Skill](../../.agents/skills/maintain-knowledge-base-tests/SKILL.md)
+- [Replay-policy reference](../../.agents/references/agent-regression-tests.md)
+- [Behavioral-evaluation reference](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
 
 ## Protected behavior
 
@@ -74,8 +75,9 @@ the actual JSON artifact and current guidance; independently review R4–R5 and
 any open semantic aspects. Inspect available actions for forbidden outer-case
 access; a self-report does not prove absence of access.
 
-The assertion entrypoint accepts the result file followed by the current replay
-reference as literal command operands. Reflow of the canonical guard is allowed.
+The assertion entrypoint accepts the result file followed by the current
+[behavioral-evaluation reference](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+as literal command operands. Reflow of the canonical guard is allowed.
 For a safe faulty-output control, copy the result and change the model or
 reasoning effort, move dispatcher settings into the message, remove
 `fork_turns`, omit the guard, or forward one evaluator marker. Each

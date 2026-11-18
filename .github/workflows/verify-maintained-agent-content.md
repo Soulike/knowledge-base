@@ -112,12 +112,15 @@ Preserve every exact selected target `id` in notes and safe outputs.
    package choice, actual reading, application, and later supplementary reading
    as separate observations; do not require a Handbook to contain a task
    procedure, failure contract, output artifact, or completion gate.
-5. Review repository-authoring Skills and auxiliary-plugin Skills under their
-   own instructions, declared task, and package contract rather than requiring
-   the primary plugin's Workflow or Handbook structure. For every Skill kind,
-   use execution or observation when a material behavioral uncertainty requires
-   it; do not imply observed effectiveness from scenario reasoning alone. Check
-   each shared reference with its consuming Skills while keeping the result
+5. Review repository-maintenance workflows and auxiliary-plugin Skills under
+   their own instructions, declared task, and package or dependency-boundary
+   contract rather than requiring the primary plugin's Workflow or Handbook
+   structure. For repository-maintenance workflows, verify one-way delegation
+   without restating, paraphrasing, splitting, or overriding rules owned by
+   `knowledge-base/plugin/`. For every Skill or workflow kind, use execution or
+   observation when a material behavioral uncertainty requires it; do not imply
+   observed effectiveness from scenario reasoning alone. Check each shared
+   reference with its consuming Skills or workflows while keeping the result
    owned by the reference target. A shared Agentic workflow component must be
    checked with its consuming workflow sources.
 6. For Agent instructions, Agentic workflow sources, and prompt bundles,

@@ -77,3 +77,10 @@ to produce one issue per target.
 The immutable revision, pull-request head, or other exact artifact that an
 Agent inspected. Later publication and gate decisions compare their current
 subject with this identity instead of reconstructing it from mutable state.
+
+### Repository-maintenance workflow
+
+An internal Agent workflow coupled to this repository's layout, catalogs,
+packaging, regression inventory, or validation gates that orchestrates content
+maintenance by delegating reusable rules one-way to product-owned standards.
+_Avoid_: Repository-authoring Skill, repository-authoring workflow

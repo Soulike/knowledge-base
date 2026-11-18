@@ -117,8 +117,9 @@ Freeze all PR mutations when:
 
 Record the cause, causal remediation chain, and affected and otherwise
 independent work. Mutation freezes include edits, commits, pushes, replies,
-metadata writes, readiness transitions, and CI replay. They leave safe
-observation, unknown-effect reconciliation, and waiting available.
+metadata writes, readiness transitions, CI replay, and automated review
+triggers. They leave safe observation, unknown-effect reconciliation, and
+waiting available.
 
 Stop only the affected remediation when substantially the same concern returns
 after a claimed fix, attempts alternate between incompatible states, each fix
@@ -168,6 +169,46 @@ For each definite retrieved CI result:
   externally visible effects.
 - Evaluate optional failures when they credibly identify a PR defect. Record
   irrelevant results as non-actionable.
+
+Admit one post-remediation automated review trigger when every condition below
+holds under the autonomy gate:
+
+- The latest completed automated review for the PR finished its evaluation and
+  withheld approval or failed its review gate because of findings or requested
+  requirements.
+- Authorized work performed specifically to satisfy that reviewer's reasonable
+  requirements and prepare the PR to pass the next review (such as pushing a
+  fix, updating PR title or description, posting factual replies or evidence, or
+  completing another authorized action) is already published and visible in the
+  current PR state, with no remaining unsatisfied blocking findings, pending
+  dependent local work, or PR-wide mutation freeze.
+- The target is an automated review for an open, reviewable PR (not a draft
+  unless the active project reviews drafts at that stage or an authorized ready
+  transition already completed), no automatic review for the post-remediation
+  state is queued, running, or expected to start from that completed action
+  under the trusted triggers, and no trigger has already been invoked for this
+  same remediation state.
+- The active project or provider offers an authorized full-evaluation trigger
+  or rerun (such as a full workflow rerun, workflow dispatch, or documented
+  review-bot trigger) that causes the reviewer to inspect the updated current
+  PR state rather than reusing an earlier verdict or retrying only a gate or
+  failed stage. When the mechanism reruns an existing workflow run, the PR's
+  base and source head SHAs must still match that run's bound identity.
+
+Do not admit a post-remediation automated review trigger when:
+
+- the automated review workflow itself failed (for example, setup, runner,
+  network, tool, or model failure, cancellation, timeout, or incomplete
+  execution rather than a completed review requesting changes)—classify that
+  failure under the CI rules above;
+- no authorized work was completed to satisfy the reviewer's requirements, or
+  blocking requirements remain unresolved or human-owned;
+- a human review or human reviewer request is needed;
+- a new commit changed the head SHA and the only available mechanism reruns an
+  older-head workflow run (wait for a current-head trigger if expected, or
+  require human intervention when no current-head trigger exists); or
+- a previously triggered review for the same concern already returned without
+  new distinct authorized remediation (stop and hand off rather than looping).
 
 Modify tests, fixtures, or snapshots only when production behavior and an
 independent expected result are established. Preserve meaningful coverage. A

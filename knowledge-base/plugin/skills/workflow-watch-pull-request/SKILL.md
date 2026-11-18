@@ -101,6 +101,12 @@ Apply only the operations classified as currently executable:
   procedure in [Update PR metadata](references/update-pr-metadata.md).
 - **A transient CI replay:** invoke the exact validation-only replay unit
   admitted by classification once and record the resulting attempt.
+- **A post-remediation automated review trigger:** confirm from the captured
+  snapshot that the satisfying remediation is already published and visible on
+  the PR and that no automatic review started for it. Invoke the exact
+  authorized full-evaluation trigger or full workflow rerun admitted by
+  classification once, record the resulting run or attempt identity, and return
+  to observation to track its published outcome.
 - **Entering review:** apply the shared readiness procedure loaded at contract
   establishment. After a verified successful transition, start a new complete
   observation before dependent mutation. Return a frozen or failed outcome to

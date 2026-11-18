@@ -24,7 +24,8 @@ explicitly; do not describe an interrupted watch as normally complete.
 Begin the handoff with the PR identity, current head, and selected outcome.
 Summarize relevant automatic results and
 published review evidence, remaining merge requirements, published fixes,
-validation, replies, resolved threads, and deferred work. Distinguish:
+validation, replies, resolved threads, triggered automated review reruns, and
+deferred work. Distinguish:
 
 - **Normal completion:** the main completion gate passes. Report the concrete
   human decisions or interventions that remain, an accepted draft stopping

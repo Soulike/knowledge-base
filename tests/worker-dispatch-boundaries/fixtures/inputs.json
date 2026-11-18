@@ -23,7 +23,7 @@
       "kind": "application",
       "task": "解释当前指导要求如何处理一次执行缺少必要观察的情况。",
       "starting_state": {
-        "guidance": "Use the complete current replay reference supplied separately.",
+        "guidance": "Use the complete current behavioral-evaluation and replay references supplied separately.",
         "action_boundary": "Answer only; no file changes or nested dispatch."
       },
       "expected_behavior": "PRIVATE_BETA_EXPECTATION",

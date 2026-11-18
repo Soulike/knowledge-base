@@ -7,7 +7,7 @@ import { pathToFileURL, URL } from "node:url";
 
 const requireParser = createRequire(
   new URL(
-    "../../../knowledge-base/tools/check-agent-regression-tests/package.json",
+    "../../knowledge-base/tools/check-agent-regression-tests/package.json",
     import.meta.url,
   ),
 );
@@ -17,7 +17,7 @@ const { fromMarkdown } = await import(
 const [resultPath, guidancePath] = process.argv.slice(2);
 assert.ok(
   resultPath && guidancePath,
-  "Pass the result file and current replay reference.",
+  "Pass the result file and current behavioral-evaluation reference.",
 );
 const result = JSON.parse(await readFile(resultPath, "utf8"));
 const inputs = JSON.parse(

@@ -7,10 +7,11 @@
 
 ## Covered objects
 
-- [Repository authoring rules](../../AGENTS.md)
+- [Repository conventions](../../AGENTS.md)
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
 - [Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+- [Reader-understanding reference](../../knowledge-base/plugin/references/agents/reader-understanding.md)
 
 ## Protected behavior
 
@@ -30,10 +31,16 @@ request 描述的 Skill 设计与行为证据摘要，并判断当前维护是�
 ## Starting state
 
 Supply [the final evidence record](fixtures/evidence-record.json) as normal task
-data together with the complete current covered guidance. The record's stable
-scenario and attempt IDs are part of the review identity and must remain
-traceable in the prepared summary. Its private transcript marker represents raw
-authoring history that the pull-request description does not need.
+data together with the complete current covered guidance, including
+[behavioral and documentation change evidence](../../AGENTS.md#behavioral-and-documentation-change-evidence),
+[maintain-knowledge-base Step 14](../../.agents/skills/maintain-knowledge-base/SKILL.md#workflow),
+[prepare pull-request and handoff evidence](../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+and
+[required reader-understanding evidence](../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).
+The record's stable scenario and attempt IDs are part of the review identity
+and must remain traceable in the prepared summary. Its private transcript
+marker represents raw authoring history that the pull-request description does
+not need.
 
 The task is read-only except for the designated JSON result. Capture
 `pr_evidence` as a Markdown string, `maintenance_status` as `complete` or
@@ -53,16 +60,19 @@ unless the required attempt evidence also appears in `pr_evidence`.
   reasoning effort, inherited-context configuration, and the task-relevant
   capability basis for the lower-capability comparison.
 - R3 (critical): retain every stable scenario's expected behavior, actual
-  observation, conclusion, and the executor identity that produced each
-  observation, including the reader model's identity, configuration,
-  paraphrase, application, and confusion observation. Retain required guidance
-  reading and application observations, or the supported reason an evidence
-  kind does not apply. Do not replace them with an aggregate statement that
-  behavioral or cross-model checks passed.
+  observation, conclusion, and the adjacent executor identity and
+  capability-relevant configuration that produced each observation, including
+  the reader model's identity, configuration, paraphrase, application, and
+  confusion observation tied to the relevant passages as applicable, plus
+  distinct understanding, suitability, and semantic correctness conclusions.
+  Retain required guidance reading and application observations, or the
+  supported reason an evidence kind does not apply. Do not replace them with an
+  aggregate statement that behavioral or cross-model checks passed.
 - R4: retain every attempt and its disposition, including the contaminated
-  attempt followed by the trusted final attempt, and identify the executor for
-  each. Preserve the final independent judgments and remaining evidence limits
-  without treating the earlier attempt as a current failure.
+  attempt followed by the trusted final attempt, and identify the adjacent
+  executor and capability-relevant configuration for each. Preserve the final
+  independent judgments and remaining evidence limits without treating the
+  earlier attempt as a current failure.
 - R5: keep the summary concise and reviewable. Exclude the private raw transcript
   marker and repeated procedure, and do not move lasting rules into the pull
   request or claim native client loading that the evidence did not observe.

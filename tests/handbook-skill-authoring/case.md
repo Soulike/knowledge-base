@@ -93,7 +93,7 @@ permitted. Record files read and available action observations.
   without repository history and portable to another project. It may define
   generic Workflow and Handbook responsibilities and bundle ownership, but it
   must not prescribe this repository's
-  [repository-authoring Skill location](../../AGENTS.md#repository-architecture),
+  [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
   primary plugin flat layout, or `workflow-` and `handbook-` naming convention
   to an unrelated downstream project.
 
@@ -107,7 +107,7 @@ cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
 critical criterion. A plan that cites the portable authoring reference as
 universal authority for the
-[repository-authoring Skill location](../../AGENTS.md#repository-architecture)
+[repository-maintenance workflow location](../../AGENTS.md#repository-architecture)
 or the product's prefixes must fail R8.
 
 ## Source

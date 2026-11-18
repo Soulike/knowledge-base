@@ -5,7 +5,7 @@ request do not create additional releases.
 
 Apply this workflow when the final diff changes the knowledge-base package's
 `knowledge/**`, `references/**`, or `skills/**`. Other plugins,
-repository-authoring Skills and references under `.agents/**`, and development
+repository-maintenance workflows and references under `.agents/**`, and development
 documentation do not belong to this plugin's version. The
 [marketplace](../../../../.claude-plugin/marketplace.json) identifies the package
 location independently at the comparison base, target revision, and current

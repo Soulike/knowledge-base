@@ -109,19 +109,21 @@ connection failures rather than repeating every application case end to end.
 ## Separate case contracts from replay execution
 
 Like a unit test and its test runner, a case defines what behavior to exercise
-and observe, while the shared replay protocol defines how that case runs. Case
-assets own the task, scenario data, fixtures, expected behavior, and
-case-specific evidence. The framework composes executor-model matching,
-fresh-context creation, dispatcher arguments, the executor guard,
-evaluator-only withholding, default resource allowances, reviewer handoff,
-attempt retention, and result classification around that contract.
+and observe, while the repository's author-matched replay policy composes with
+[Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+for how that case runs. Case assets own the task, scenario data, fixtures,
+expected behavior, and case-specific evidence; the shared evaluation reference
+supplies fresh-context isolation, inherited boundary recording, evaluator-only
+withholding, the canonical executor instructions guard, blind selection and
+application dispatch templates, execution recording, result classification, and
+attempt retention.
 
 `Starting state` declares the capabilities, permissions, writable fixtures,
 external controls, or exceptional resource characteristics specific to the
 scenario. `Verification` declares the observations, assertions, and controlled
 faults that distinguish that case's accepted behavior. A case whose tested
-subject is the replay framework itself includes the relevant configuration as
-task data and expected behavior.
+subject is the evaluation framework itself includes the relevant configuration
+as task data and expected behavior.
 
 Link static repository materials from `Starting state`, `Verification`, or
 `Source` using the normal Markdown reference rules. Fixtures may be copied into
@@ -170,253 +172,66 @@ links provide the canonical relationship. After a move, split, or merge, check
 both old and new identities, update coverage and placement, and confirm the
 same live responsibility remains protected.
 
-## Replay and evidence
+## Replay policy and review schedule
 
-The maintenance Agent coordinates cases and gathers observations. Before
-dispatch, identify the model that materially authored the current change. Run
-each independent case in a fresh executor context using that same supported
-model. Select and record task-appropriate capability-relevant executor
-configuration, including reasoning effort when exposed. The executor must
-retain the tools, modalities, and context needed by the case. Record the
-authoring model, executor configuration, and model-matching basis. Fresh context
-and input separation provide independence; model capability difference is not a
-regression-replay requirement.
+Run selected regression cases using the repository's author-matched model
+policy, and delegate all generic behavioral-evaluation mechanics one-way to
+[Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md):
 
-When several models materially authored different affected behaviors, match
-each selected case to the model that authored the behavior it validates and
-record that choice. For human-only authorship, select a task-suitable supported
-model and record that no authoring-model match exists. When a model authored the
-change but that model is unavailable, an optional task-suitable fallback can
-supply diagnostic observations but cannot satisfy the replay requirement; keep
-the affected replay incomplete. If required model matching cannot be
-established for any other reason, also report the replay as incomplete.
+- **Author-matched model baseline:** before dispatch, identify the model that
+  materially authored the current change and run each independent case in a
+  fresh executor context using that same supported model (and task-appropriate
+  capability-relevant configuration such as reasoning effort when exposed),
+  retaining needed tools, modalities, and context. Record the authoring model,
+  executor configuration, and model-matching basis. When several models
+  materially authored different affected behaviors, match each case to the
+  model that authored the behavior it validates. For human-only authorship,
+  select a task-suitable supported model and record that no authoring-model
+  match exists. If the required authoring model is unavailable, an optional
+  task-suitable fallback may supply diagnostic observations only; keep the
+  affected replay `incomplete`. Missing model matching for any other reason
+  also leaves the replay `incomplete`.
+- **Generic evaluation mechanics:** follow
+  [Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+  for fresh-context isolation (`fork_turns: "none"` or equivalent) and
+  inherited-boundary recording, input separation, the verbatim canonical
+  [executor instructions guard](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
+  [dispatch templates](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates),
+  contamination handling, [execution recording](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution),
+  and [result classification and attempt retention](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts).
+  Map each case's `Task` and `Starting state` into the executor prompt
+  (translating `Verification` only into neutral capture hooks) while
+  withholding `Covered objects`, `Protected behavior`, `Expected behavior`,
+  `Source`, past outputs, and author or reviewer conclusions.
+- **Single-reviewer scheduling:** when content maintenance is also under
+  review, route open case judgments into the same capable reviewer scheduled by
+  [final validation](../skills/maintain-knowledge-base/SKILL.md#final-validation)
+  rather than commissioning a separate case reviewer or a verdict before that
+  review. Reuse case task decisions and artifacts for
+  [Verify reader understanding](../../knowledge-base/plugin/references/agents/reader-understanding.md)
+  only when they supply all required paraphrase, application, and confusion
+  observations; obtain missing observations through a neutral follow-up rather
+  than treating a passing final answer as proof of understanding.
 
-For native sub-Agents, a fresh context removes parent conversation history but
-may retain active instructions, installed Skill descriptions, filesystem access,
-and other environment. Record the actual inherited boundary and available
-observations. Do not claim full isolation or disablement of automatic guidance
-without evidence. If ambient content could supply the answer or invalidate the
-protected distinction, change the supported execution boundary or report that
-case incomplete.
+## Pull-request and handoff regression evidence
 
-Construct each executor's input from `Task` and the necessary `Starting state`:
+Include the regression inventory, execution, and disposition fields required by
+[`AGENTS.md`](../../AGENTS.md#behavioral-and-documentation-change-evidence)
+in the pull-request description or handoff:
 
-- For selection, use the current real candidate set without revealing the target
-  name through instructions, fixture names, or wrapper text. Do not provide the
-  target body before observing the selection.
-- For application, explicitly supply or require reading the current complete
-  tested content and its necessary routes. The target may be named because the
-  claim concerns behavior after reading.
-- For a journey, provide natural inputs and observe the actual selection,
-  reading, and task behavior required by its contract.
+- Inventory and selection scope, selected case IDs, related exclusions, and
+  selection/exclusion reasons (or an explicitly confirmed empty inventory;
+  failed discovery is `incomplete`).
+- Tested revision or snapshot, candidate construction, authoring-model and
+  executor-model match, capability-relevant configuration, inherited
+  environment, tools, and observation limits.
+- Each attempt's actual observations, criterion judgments, case status (`pass`,
+  `fail`, or `incomplete`), adjacent executor identity and configuration, and
+  available resource usage, linking retained artifacts or logs where useful.
+- Diagnosed failures, case or contract changes and rationale (applying
+  [maintain-knowledge-base-tests](../skills/maintain-knowledge-base-tests/SKILL.md)
+  dispositions), independent review conclusions, unresolved gaps, and affected
+  maintenance completion state.
 
-Withhold `Covered objects`, `Protected behavior`, `Expected behavior`, `Source`,
-past outputs, and author or reviewer conclusions. The coordinator may translate
-`Verification` into neutral task mechanics or capture hooks, but must not leak
-its expected decisions. Keep evaluator-only material and suggestive paths out
-of the task workspace when the execution boundary supports doing so.
-
-### Executor instructions
-
-Include the following guard in every executor prompt, alongside the task,
-permitted inputs, and neutral execution mechanics. Do not supply the full case
-document merely to convey these rules or disclose the target of a selection
-case. The guard supplements input and environment separation; it does not
-establish that inaccessible or undisclosed material cannot be read.
-
-```text
-Complete the assigned task independently using its permitted inputs, active
-runtime instructions, and allowed reading routes. Normal Knowledge, Skills,
-and references allowed for this task are guidance you should apply.
-
-Do not search for, open, request, or use evaluator-only case definitions,
-expected answers, scoring rubrics, reference outputs, previous run results,
-or evaluator discussions. Do not use tools, repository history, or other
-Agents to obtain these materials or infer which answer or guidance the
-evaluation expects. Do not alter evaluator-owned tests, scoring, or evidence,
-or fabricate actions or observations to obtain a passing result.
-
-If you encounter evaluator-only material, stop further task execution and
-report what was exposed, when, and how, without repeating the answer. Do not
-silently continue, hide the exposure, or claim an independent result. If the
-permitted inputs or reading boundary are unclear, report the gap rather than
-consulting evaluation material to fill it.
-```
-
-The coordinator and reviewer must assess available access evidence as well as
-the worker's report. A clean self-report does not establish absence of answer
-access. When evaluator-only material reaches the worker, retain the attempt and
-record its execution as incomplete with the contamination or guard violation;
-do not derive a pass or a content-regression failure from that run. Fix the
-exposure boundary before a new run in an uncontaminated context. Allowed task
-guidance is not contamination merely because it teaches the required behavior.
-
-### Dispatch templates
-
-Prepare executor inputs from the case's `Task` and necessary `Starting state`;
-do not send the case file itself. Replace every placeholder below before
-dispatch. Insert the full guard from [Executor instructions](#executor-instructions)
-where indicated, without its coordinator notes. An unexpanded guard placeholder
-or a link asking the worker to find the guard is not a prepared prompt. The
-guard has one authoritative copy; the templates do not redefine it.
-
-Explicitly select the recorded authoring model, the task-appropriate
-capability-relevant executor configuration, and a fresh context. For a
-dispatcher exposing `fork_turns`, `model`, and `reasoning_effort`, use
-`fork_turns: "none"` with the selected values rather than inheriting
-conversation history or defaults. Confirm equivalent settings from another
-dispatcher's available interface; report unavailable prerequisites. These
-settings do not remove inherited instructions or restrict filesystem access.
-
-For a selection case, supply current candidate metadata and stop at the choice:
-
-```text
-<Insert the complete executor guard here.>
-
-Task request:
-<The case's request, without expected selections or target hints.>
-
-Permitted starting materials and tools:
-<Only the initial facts, materials, and tool boundary required by this task.>
-
-Current candidate metadata:
-<The real candidate identifiers, descriptions, and normal catalog metadata;
-no candidate bodies or evaluator-only annotations.>
-
-Choose the relevant guidance from this metadata, or choose none. During this
-selection step, do not open candidate bodies or perform the substantive task.
-Return your chosen identifiers and reasons tied to the request. Report any
-missing input, unintended body exposure, or uncertainty. This response records
-your choice; do not claim that a client loaded or read the chosen guidance.
-```
-
-For an application case, name the allowed current guidance and perform the task:
-
-```text
-<Insert the complete executor guard here.>
-
-Task request:
-<The case's request, without evaluator criteria or a reference answer.>
-
-Permitted starting state, materials, tools, and action boundary:
-<The initial state and necessary task materials; include required reset or
-cleanup mechanics and a concrete resource allowance.>
-
-Required current guidance:
-<Complete current content, or explicit permitted paths and reading routes
-that provide the complete content. Identify the supplied source snapshot.>
-
-Read the required guidance and its necessary routes before taking the task
-actions it governs. Perform the assigned task within the permitted boundary.
-Return the actual result and artifact locations, with the decisions that
-explain the result. Distinguish completed actions from proposed work, and link
-available observations rather than inventing tool or reading evidence. Report
-uncertainty, missing prerequisites, or an explicit stop with its reason.
-```
-
-For a journey, retain the natural task path and capture the choice before
-reading and application; do not substitute the selection-only stop for the
-whole task. Reuse task decisions and artifacts for reader-understanding checks
-when they supply the required observations. Obtain missing paraphrase,
-application, or confusion observations through a neutral follow-up after the
-task observation, without supplying author conclusions or expected answers.
-
-After any required blind selection has been recorded, prepare the capable
-reviewer's input separately. It receives evaluator-only material that workers
-must not see. When content maintenance is also being reviewed, include these
-inputs in that review using the parent's
-[final validation schedule](../skills/maintain-knowledge-base/SKILL.md#final-validation):
-
-```text
-Review subject and standards:
-<Task and scope, active instructions, applicable standards, accepted
-requirements, exact final artifacts, and trusted pre-change artifacts.>
-
-Case contracts and evidence:
-<Case IDs, independent criteria and their sources, covered responsibilities,
-actual executor inputs and source/model identities, inherited context limits,
-every attempt's raw observations, and program-assertion results. Mark missing
-evidence explicitly; omit the author's or coordinator's proposed verdict.>
-
-Judge each required criterion as pass, fail, or incomplete, citing actual
-evidence and unresolved gaps. Keep case judgments, semantic correctness,
-reader suitability, and reader-understanding observations separate. A missing
-observation is not supplied by a plausible explanation or a worker's claim.
-```
-
-### Record execution
-
-Bind observations to the actual content supplied: commit or exact source
-snapshot, plus relevant uncommitted changes or input hashes when the working
-tree differs. Use current content for replay; re-scoring an old transcript is
-evaluation of that transcript, not a new regression run.
-
-Collect observable choices, final outputs, artifacts, external state, and
-available action events. A final explanation can establish an interpretation;
-claims about reading, tool effects, or action order need corresponding
-observations. For example, “investigate before editing” needs evidence of the
-investigation and edit sequence. Self-reported compliance or a semantic judge
-cannot fill a missing action trace. When the available Agent interface exposes
-only a final message, restrict conclusions to what that message and independently
-inspectable artifacts establish.
-
-Set a task-appropriate token or time allowance before running, including
-evaluation and any planned retries. Use reported usage when available and mark
-unavailable usage as unknown. An exhausted allowance is incomplete. Save cost
-by selecting relevant cases, using small fixtures, and batching capable review;
-do not reuse old answers or omit needed evidence.
-
-Routine replay asks whether the current content satisfies the contract. To
-verify a targeted improvement, compare old and new content with the same task
-and configuration when that comparison is needed; an optional no-content run
-can distinguish content effects from the model's existing ability. These
-comparisons do not make the old output the expected answer or require a costly
-comparison matrix for each routine edit.
-
-## Judge and report
-
-Check deterministically observable criteria with program assertions where
-available. Give an independent capable reviewer the accepted contract, criteria,
-and raw observations for open semantic judgments. It may batch the judgment of
-several cases and reuse the existing independent content review. Keep author
-conclusions out of its evidence. Calibrate a new semantic rubric with known
-satisfactory and faulty observations when needed to establish that it can
-distinguish the protected fault; do not use an unverified judge's score alone
-as protection evidence.
-
-Classify every criterion and case:
-
-- **Pass:** required observations establish the accepted contract, with no
-  critical or forbidden behavior.
-- **Fail:** trustworthy observations establish a contract violation. Identify
-  the violated criterion and investigate its owner before repair.
-- **Incomplete:** a required run, suitable model, fixture, observation, or
-  judgment is unavailable or inconclusive. Conflicting judgments need resolution.
-
-A case passes only when all required criteria have trusted passing evidence.
-Critical failures cannot be averaged away. Preserve every attempt and explain
-any bounded diagnostic replay; a later pass does not erase an earlier failure.
-A diagnosed repair can be validated by a new run on the repaired subject while
-retaining the earlier failure. An unexplained fail-to-pass change on the same
-subject does not establish a trusted pass.
-Do not retry until a favorable result or rewrite expectations merely to match
-the current Agent. Contract revisions and retirement need independent reasons
-that apply the consuming testing workflow's maintenance principles.
-
-Record concise evidence in the existing PR or handoff:
-
-- Inventory and selection scope; selected IDs, related exclusions, and reasons.
-- Tested revision or snapshot, candidate construction, authoring and executor
-  model match, configuration, inherited environment, tools, and observation
-  limits.
-- Each attempt's actual observations, criterion judgments, case status, and
-  available resource usage; link retained artifacts or logs where useful.
-- Diagnosed failures, case or contract changes and rationale, review conclusions,
-  unresolved gaps, and the affected maintenance completion state.
-
-Store replay instructions and durable materials in cases rather than appending
-every run's conversation. Preserve enough raw evidence for independent judgment
-without turning each case into a history log. Existing reader-understanding
-checks may reuse runs with the required paraphrase, application, and confusion
-observations; obtain missing observations rather than treating a passing final
-answer as proof of understanding.
+Store replay instructions and durable materials in `case.md` and fixtures
+rather than turning each case into a conversation history log.

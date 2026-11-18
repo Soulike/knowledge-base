@@ -3,39 +3,42 @@
 1. Work only from the Skill-reference parts identified during classification.
    Return independently retrievable understanding, required-reading routing, or
    task execution to the parent as Knowledge, Handbook, or Workflow content.
-2. Identify the complete consumer set, the exact Skill step that selects
-   the material for each consumer, its maintenance lifecycle, and the package
-   boundary shared by those consumers. Read the entire reference and every
-   consumer needed to judge those relationships.
+2. Identify the complete repository consumer set, the exact Skill step that
+   selects the material for each consumer, its maintenance lifecycle, and the
+   package boundary shared by those consumers. Read the entire reference and
+   every consumer needed to judge those relationships.
 3. Read
-   [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md) and
-   apply its bundle-structure, selection, and split-or-merge tests. Confirm that
-   a separate reference still earns its retrieval and maintenance cost. Delete
-   or inline a reference that no longer has a distinct selection point or
-   cohesive supporting responsibility.
-4. Apply the Skill-reference package placement rules in
-   [`AGENTS.md`](../../../../AGENTS.md#repository-architecture). Record the
-   complete consumer set and chosen boundary, and reconsider package ownership
-   instead of creating cross-package or repository-global routing.
-5. Apply the parent-selected disposition to every affected responsibility unit.
-   Rewrite the complete unit and remove superseded or duplicated rules. Apply
-   the shared Skill-authoring tests when the final design changes a reference
-   boundary.
-6. Keep each reference focused on one cohesive supporting responsibility. Do
-   not create a reference index. Route the file directly from the consuming
-   Skill steps, and avoid reference chains that hide the selection decision
-   from the Skill that owns it.
-7. After adding, rewriting, splitting, merging, moving, or removing a
-   reference, inspect every consumer, update only affected routes or semantics,
-   and delete obsolete routes and files. Confirm that no consumer relies on the
-   old location, copied wording, or an implicit filesystem convention.
-8. Run repository formatting, link validation, and every relevant Skill or
-   behavioral check. Forward-test representative consumers when static checks
-   cannot establish that each Skill selects the right material at the right
-   time.
+   [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
+   and
+   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
+   and delegate all general bundle-organization, cohesive-support,
+   selection-timing, progressive-disclosure, and split-or-merge decisions to
+   those authorities without restating them here.
+4. Apply the dependency-boundary and package-placement rules in
+   [`AGENTS.md`](../../../../AGENTS.md#repository-architecture):
+   - Keep generalizable Skill references in `knowledge-base/plugin/` (or the
+     applicable plugin package), inside the owning Skill's `references/`
+     directory when used by one Skill or `references/<domain>/` when shared
+     across Skills in the same plugin.
+   - Keep only repository-coupled references under `.agents/` (inside the
+     consuming workflow's `references/` directory or `.agents/references/` when
+     shared across repository-maintenance workflows), delegating one-way to
+     `knowledge-base/plugin/`.
+   - Record the complete consumer set and chosen boundary; reconsider package
+     ownership instead of creating cross-package or repository-global routing.
+5. Apply the parent-selected disposition to each affected responsibility unit.
+   For primary-product references under `knowledge-base/plugin/`, verify
+   package isolation (`knowledge-base/AGENTS.md`) and Knowledge Catalog
+   reachability (`pnpm knowledge:check`), noting that only step-selected
+   eligible packaged references participate in reachability.
+6. After adding, rewriting, splitting, merging, moving, or removing a
+   reference, reconcile every affected repository consumer—Skills, manifests,
+   `.github/` prompts and workflows, documentation, and regression-case covered
+   links—and delete obsolete routes, files, and unreferenced copies.
+7. Run `pnpm check` and `git diff --check`, and route forward behavioral or
+   cross-model reader-understanding verification through the parent workflow's
+   [final validation](../SKILL.md#final-validation).
 
-Finish only when the reference has a justified selection point, one
-authoritative supporting responsibility, a complete and current consumer set,
-and the smallest valid package boundary. Every consumer must route to it
-explicitly, every changed route must resolve, and no duplicate, orphaned,
-superseded, cross-package, or edit-history artifact may remain.
+Finish only when the reference has one authoritative home at the smallest valid
+package boundary, a complete and reconciled repository consumer set, resolved
+links, passing repository checks, and required validation evidence.

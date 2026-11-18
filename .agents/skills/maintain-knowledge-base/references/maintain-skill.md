@@ -1,108 +1,71 @@
 # Maintain a Skill
 
-1. Choose the audience and responsibility before choosing a path:
-   - Put repository-authoring Workflow Skills in
-     [`.agents/skills/`](../..). They maintain, organize, or validate this source
-     repository.
-   - Put installed Workflow and Handbook Skills in the owning plugin's flat
-     `skills/` directory. The primary package is
-     [`knowledge-base/plugin/skills/`](../../../../knowledge-base/plugin/skills/).
+1. Apply the dependency-boundary rule in
+   [`AGENTS.md`](../../../../AGENTS.md#repository-architecture) before choosing
+   a path:
+   - Keep generalizable Workflow and Handbook Skills in the owning plugin's
+     flat `skills/` directory. The primary package is
+     [`knowledge-base/plugin/skills/`](../../../../knowledge-base/plugin/skills/);
+     auxiliary plugins use `plugins/<plugin-name>/skills/`.
+   - Keep only repository-coupled
+     [repository-maintenance workflows](../../../../GLOSSARY.md#repository-maintenance-workflow)
+     in [`.agents/skills/`](../..), delegating one-way to `knowledge-base/plugin/`
+     without restating, paraphrasing, splitting, or overriding product-owned
+     rules.
 2. Read
    [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
    and
    [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
-   then determine whether the change is material. Before the parent selects an
-   operation, define the user's work and required understanding, compare current
-   conditions, and classify the proposed responsibility as Workflow, Handbook,
-   reference, mixed, or neither. After selection, resume here to author the
-   applicable kind and prove its behavior.
-3. For a Workflow, establish the complete user task, result, starting states,
-   professional decisions, actions, failures, stopping behavior, and completion.
-   For a Handbook, establish the task family, technical domain, or stable
-   platform context, the decisions that require understanding, and the
-   observable work that selects required reading. Do not turn a reading route
-   into a Workflow whose result is only that guidance was loaded.
-4. Test every installed Skill against an unknown downstream project. Discover
-   project paths, layouts, domain rules, organization policies, and
-   infrastructure from the Agent's active working directory. Product, platform,
-   protocol, and engineering-domain specificity are valid. Return a proposed
-   usage Skill that cannot be independent of its source project to the parent as
-   neither.
-5. Read the current
+   and delegate all general Skill responsibility, task and reading-scene
+   modeling, downstream-project independence, description and body authoring,
+   bundle organization, composed-bundle review, and behavioral-proof rules to
+   those authorities without restating them here.
+3. Inspect the primary product's
    [Knowledge Catalog](../../../../knowledge-base/plugin/knowledge/index.md) and
-   search the complete
-   [Knowledge tree](../../../../knowledge-base/plugin/knowledge/). Start from
-   the user's work and reader decisions, identify every required subject
-   responsibility, and read matching canonical Knowledge. Keep that Knowledge
-   authoritative rather than reproducing it. Return missing independently
-   retrievable understanding to the parent as mixed material so the Knowledge
-   branch completes first.
-6. Search the selected Skill scope for existing owners:
-   - Compare Workflows by invocation, accepted input states, user-visible result,
-     decisions, effects, failure and completion, consumers, and lifecycle. Keep
-     one Workflow only when it owns one complete task.
-   - Compare Handbooks by user work, task family, technical domain or platform,
-     required understanding, competing native descriptions, and route lifecycle.
-     Reuse an existing Handbook when it owns the scene; co-selection by a
-     broader language or general engineering Handbook does not establish that
-     it owns a self-contained framework, runtime, or platform domain. Add a new
-     Handbook for a distinct recognizable scene—even when it starts sparsely
-     with a single curated Knowledge leaf—while still rejecting narrow wrapper
-     Handbooks scoped to a single leaf's topic, package, or condition.
-7. Read every file in the affected bundle and every route or consumer needed to
-   understand it. Assign execution to a Workflow, required-reading selection to
-   a Handbook, and step-selected support to the parent Skill-reference branch.
-   Apply the authoring standard's portability, progressive-disclosure, direct
-   canonical-reading, and split-or-merge rules before editing.
-8. Apply the parent-selected operation to each complete responsibility unit.
-   Rewrite the current owner and remove superseded steps, conditions, exceptions,
-   completion rules, no-op instructions, obsolete routes, and orphaned
-   references. Do not preserve old and new models as layered qualifications.
-9. For an installed target-model Skill, use a lowercase hyphenated directory
-   and matching frontmatter name beginning with `workflow-` or `handbook-`.
-   Keep installed Skills as immediate children of the package `skills/`
-   directory. Do not add custom kind metadata or a prefix-kind checker. For a
-   repository-authoring Workflow, use a task-appropriate verb-led name.
-10. When renaming, splitting, merging, moving, or removing a Skill under an
-    authorized change, update every invocation pointer, consumer, marketplace
-    or manifest route, regression case, prompt, and documentation reference,
-    then remove the obsolete route. Do not create wrappers or aliases.
-11. For a Handbook, write one semantic applicability statement in its
-    description. In its body, define a foundation only when current Knowledge is
-    common to the primary artifact work; define mandatory conditional packages
-    from observable work or materials; require every match cumulatively; give a
-    direct learning or explanation request about a package subject its own route
-    without an unrelated foundation; and use complete files or
-    context-sufficient sections.
-    Link canonical reading units directly and prohibit Handbook-to-Handbook
-    dependencies.
-12. For every installed Skill that applies Knowledge, encode working-directory
-    precedence: shared guidance supplements and does not override instructions,
-    requirements, Skills, or project-specific decisions from the active working
-    directory. Keep installed content inside its package boundary and free of
-    source-checkout tooling, `.agents/`, private infrastructure, or unguaranteed
-    Skill-to-Skill invocation. Apply the contribution-Skill exception in the
-    repository [authoring rules](../../../../AGENTS.md#repository-architecture)
-    only when it governs the Skill under change.
-13. Run `pnpm check`, `git diff --check`, and every additional validator or
-    focused behavior case selected by the changed artifacts. Produce separate
-    evidence for native description selection, Workflow execution or Handbook
-    package choice, actual reading and application, negative loading, and output
-    where applicable. Static links do not establish reading behavior.
-14. Prepare the directly publishable pull-request or handoff summary required
-    by [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).
-    Return it to the parent with the responsibility kind, user work, owner
-    comparison, authoritative Knowledge, routes and consumers, final tested
-    source, model identities and capability-relevant configuration, comparison
-    basis, actual observations and judgments, attempt outcomes, and remaining
-    limitations. Do not reduce those fields to an aggregate pass claim. The
-    parent workflow owns the single independent final-content and
-    reader-understanding review and publication of this prepared summary.
+   [Knowledge tree](../../../../knowledge-base/plugin/knowledge/) (or the
+   applicable plugin's Knowledge) alongside existing Skills in the target scope.
+   Return missing independently retrievable subject understanding to the parent
+   workflow's Knowledge branch first, and return step-selected support to its
+   Skill-reference branch. Confirm downstream-project independence for
+   installed Skills per
+   [`AGENTS.md`](../../../../AGENTS.md#repository-architecture), returning
+   non-generalizable content to the parent as neither.
+4. Apply the parent-selected operation to each complete affected responsibility
+   unit and enforce repository layout and packaging rules:
+   - For primary-product installed Skills under `knowledge-base/plugin/skills/`,
+     follow
+     [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references):
+     place each entrypoint in an immediate child directory with one `SKILL.md`
+     and matching frontmatter `name` prefixed with `workflow-` or `handbook-`,
+     without custom kind metadata, aliases, wrapper Skills, or a prefix-kind
+     checker.
+   - Keep `knowledge-base/plugin/skills/**` inside its package boundary and free
+     of `.agents/`, source-checkout tooling (`knowledge-base/lib/`,
+     `knowledge-base/tools/`), and sibling plugins, applying only the explicit
+     contribution-Skill manifest exception in
+     [`AGENTS.md`](../../../../AGENTS.md#repository-architecture) when it
+     governs the Skill under change.
+   - For repository-maintenance workflows under `.agents/skills/`, use a
+     task-appropriate verb-led directory and frontmatter `name`.
+5. When adding, renaming, splitting, merging, moving, or removing a Skill under
+   an authorized change, reconcile every affected repository consumer—invocation
+   pointers, marketplace and manifest routes
+   ([`.claude-plugin/marketplace.json`](../../../../.claude-plugin/marketplace.json),
+   `plugin.json`), regression cases, `.github/` prompts and verification
+   workflows, and repository docs—then remove obsolete routes and wrappers.
+6. Verify Knowledge Catalog reachability (`pnpm knowledge:check`) when primary
+   plugin Skills or routes change so every leaf in `knowledge/index.md` remains
+   reachable through the package-local graph
+   ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)).
+7. Run `pnpm check` and `git diff --check`. Produce the behavioral proof and
+   pull-request or handoff summary required by
+   [Prove the behavior](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior)
+   and
+   [Prepare pull-request and handoff evidence](../../../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+   and return it to the parent workflow for unified assembly and single-reviewer
+   [final validation](../SKILL.md#final-validation).
 
-Finish only when the Skill has one authoritative responsibility in the correct
-audience scope and preserves downstream-project independence. A Workflow must
-own one complete task with its failure and completion contract. A Handbook must
-own one coherent reading scene with direct complete routes, cumulative package
-conditions, and no task procedure or hidden Handbook dependency. Every rule must
-have one authoritative copy, and new or material behavior must have reviewable
-evidence.
+Finish only when the Skill lives at the boundary required by its dependencies,
+satisfies repository layout, package-isolation, and Catalog-reachability
+contracts, has all repository consumers reconciled, and returns complete
+evidence for parent validation and delivery.

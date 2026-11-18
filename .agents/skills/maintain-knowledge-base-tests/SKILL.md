@@ -6,9 +6,10 @@ description: Create, replay, review, and maintain behavioral regression cases fo
 # Maintain knowledge-base regression tests
 
 Preserve independently established behavior as replayable cases, then check it
-again when related content changes. This authoring workflow owns regression
-cases for Agent use of knowledge-base content; ordinary implementation tests
-use the repository's applicable testing workflows.
+again when related content changes. This
+[repository-maintenance workflow](../../../GLOSSARY.md#repository-maintenance-workflow)
+owns regression cases for Agent use of knowledge-base content; ordinary
+implementation tests use the repository's applicable testing workflows.
 
 ## Establish the task
 
@@ -50,10 +51,13 @@ use the repository's applicable testing workflows.
    before registering cases. When the required tooling repair is outside the
    authorized scope, report that prerequisite and leave registration incomplete.
    Write the case as one behavior unit: its task, scenario-specific starting
-   state, expected behavior, and distinguishing observations. The shared replay
-   framework supplies executor model selection, fresh-context creation, the
-   guard, default allowances, dispatch, reviewer handoff, attempt retention,
-   and result rules when that unit runs.
+   state, expected behavior, and distinguishing observations. The repository
+   [replay policy](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
+   supplies author-matched model selection and single-reviewer scheduling, while
+   [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+   supplies fresh-context creation, the executor instructions guard, allowances,
+   dispatch templates, execution recording, attempt retention, and result rules
+   when that unit runs.
 6. Make the case independently replayable with current content, bounded starting
    state, observable criteria, and an evaluation method. Recover an original
    validation task when available. A reconstructed case must identify its
@@ -88,48 +92,57 @@ use the repository's applicable testing workflows.
 
 ## Replay and judge
 
-8. Read the shared
-   [replay protocol](../../references/agent-regression-tests.md#replay-and-evidence)
-   and [result rules](../../references/agent-regression-tests.md#judge-and-report).
+8. Read the repository
+   [replay policy and review schedule](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
+   and
+   [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md).
    Establish the current source identity, available execution boundary,
    authoring-model identity, task-appropriate executor configuration,
    observation methods, and bounded resource allowance before dispatch. Report
    missing prerequisites explicitly.
 9. Give each independent case a fresh Agent context that matches the current
-   change author's recorded model and contains only the permitted task inputs.
-   For human-only authorship, use the shared protocol's task-suitable model
-   selection. An unavailable authoring model leaves the replay incomplete even
-   when a diagnostic fallback run is useful. Build the prompt using the shared
-   [dispatch templates](../../references/agent-regression-tests.md#dispatch-templates),
-   including the expanded executor instructions. Collect actual choices,
-   artifacts, available action evidence, and applicable program-assertion
-   results. Give open semantic criteria, contracts, and raw observations to an
-   independent capable reviewer. When this task forms part of content
-   maintenance, use the parent's [final validation](../maintain-knowledge-base/SKILL.md#final-validation)
+   change author's recorded model (or uses the repository protocol's
+   task-suitable model selection for human-only authorship) and contains only
+   the permitted task inputs. An unavailable authoring model leaves the replay
+   incomplete even when a diagnostic fallback run is useful. Build the prompt
+   using the shared
+   [dispatch templates](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates)
+   with the expanded
+   [executor instructions guard](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions)
+   and evaluator-only withholding. Collect actual choices, artifacts, available
+   action evidence, and applicable program-assertion results. Give open semantic
+   criteria, contracts, and raw observations to an independent capable
+   reviewer. When this task forms part of content maintenance, use the parent's
+   [final validation](../maintain-knowledge-base/SKILL.md#final-validation)
    reviewer for the combined judgment; do not commission a separate case verdict
    before its scheduled review. The reviewer may evaluate several independent
    runs together; do not let their executor contexts teach one another. Pending
    judgments remain incomplete until the review supplies trusted evidence.
 10. Attribute failures to tested content, case, fixture, execution boundary,
     model suitability, or evaluation before repairing the authorized owner.
-    Retain every attempt and investigate instability with a bounded protocol.
-    Missing execution or evidence remains incomplete. Reuse observations for
-    [reader-understanding review](../maintain-knowledge-base/references/review-reader-understanding.md)
-    only when they supply all its required observations; obtain missing ones.
+    Retain every attempt and classify results per
+    [Judge and retain attempts](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts),
+    investigating instability with a bounded protocol. Missing execution or
+    evidence remains incomplete. Reuse observations for
+    [Verify reader understanding](../../../knowledge-base/plugin/references/agents/reader-understanding.md)
+    only when they supply all its required observations (paraphrase,
+    application, and confusion); obtain missing ones via neutral follow-ups.
 
 ## Verify and complete
 
 11. Check the final case inventory, stable identities, covered links, material
     references, and dispositions. Run available case-specific static checks and
-    `pnpm agent-tests:check`, then
-    the repository's required checks for the changed artifacts, including
-    `pnpm check` and `git diff --check`. Static validity does not establish Agent
-    behavior. Content changes additionally follow the content-maintenance
-    workflow's review and version requirements.
+    `pnpm agent-tests:check`, then the repository's required checks for the
+    changed artifacts, including `pnpm check` and `git diff --check`. Static
+    validity does not establish Agent behavior. Content changes additionally
+    follow the content-maintenance workflow's review and version requirements.
 12. Report selected and excluded cases with reasons, tested source and model
-    identities, each attempt's observations and criterion results, and every
-    pass, failure, or incomplete result using the shared report rules. Put
-    concise evidence in the PR or handoff; keep case assets focused on replay.
+    identities, each attempt's observations (with adjacent executor identity and
+    configuration) and criterion results, and every pass, failure, or
+    incomplete result using
+    [Pull-request and handoff regression evidence](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence).
+    Put concise evidence in the PR or handoff; keep case assets focused on
+    replay.
 
 For assessment, complete the scoped dispositions and identify missing evidence.
 For delivery, complete every authorized case disposition and required check,

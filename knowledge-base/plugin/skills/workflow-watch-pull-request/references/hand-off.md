@@ -24,8 +24,14 @@ explicitly; do not describe an interrupted watch as normally complete.
 Begin the handoff with the PR identity, current head, and selected outcome.
 Summarize relevant automatic results and
 published review evidence, remaining merge requirements, published fixes,
-validation, replies, resolved threads, triggered automated review reruns, and
-deferred work. Distinguish:
+validation, replies, resolved threads, triggered automated review reruns,
+deferred work, and any speculative draft dispatched for a confirmed next
+subtask. Before ending the turn when a speculative draft is `running`, `unknown`, or
+`obsolete` with a potentially still-live worker, apply
+[Handle watch completion and post-watch updates](speculate-next-task.md#handle-watch-completion-and-post-watch-updates)
+for turn-scoped runtimes, then report the draft's current status, branch,
+worktree path, starting base commit, any unconfirmed worker-shutdown note, and
+that takeover waits for the user's explicit continuation instruction. Distinguish:
 
 - **Normal completion:** the main completion gate passes. Report the concrete
   human decisions or interventions that remain, an accepted draft stopping
@@ -58,6 +64,14 @@ guarantee remains viable. Identify preserved work and its dependencies.
 
 State that monitoring has ended. Normal completion describes all known relevant
 automatic results having been handled; it does not promise that future external
-activity cannot change the PR. After a human answer, apply only the authorized
+activity cannot change the PR. If a dispatched speculative draft finishes after
+this handoff before the user responds, follow
+[Speculate on a confirmed next subtask](speculate-next-task.md) to record and
+sync its draft status without restarting this PR's watch or preemptively
+rebasing or pushing. After a human answer, apply only the authorized
 decisions and interventions, then ask whether to resume watching unless the
-same message already requests it. Continuing never authorizes merge.
+same message already requests it. When the user instead instructs continuing to
+the confirmed next subtask, follow
+[Speculate on a confirmed next subtask](speculate-next-task.md#take-over-on-user-continuation)
+to wait for any live draft subagent to finish and take over its work. Continuing
+never authorizes merge.

@@ -32,9 +32,9 @@ not autonomous.
 
 Start a new watch, or resume one after its earlier execution stopped, with an
 immediate complete observation, then repeat. A runtime yield, tool return, or
-execution continuation while a retained waiting round is still in progress is
-not a resumed watch: remain in the selected waiting action until that round
-ends.
+execution continuation while a retained waiting round is still in progress—or an
+unrelated background subagent completion—is not a resumed watch: remain in the
+selected waiting action until that round ends.
 
 1. Read [Capture the PR state](references/capture-pr-state.md) and retrieve one
    complete current snapshot, including the source identity, thread baselines,
@@ -54,22 +54,27 @@ ends.
    item's disposition and dependencies, any PR-wide mutation freeze, and which
    admitted operations remain executable after applying those dependencies and
    freezes, and which relevant automatic processes are settled, progressing, or
-   blocked. Classify the complete snapshot before executing any selected
-   mutation.
+   blocked. When a verified observation shows the watched PR closed without
+   merging or reversed direction in a way that invalidates a recorded stacked
+   draft, follow
+   [Speculate on a confirmed next subtask](references/speculate-next-task.md) to
+   mark that draft `obsolete` (and clean up only when safe) before choosing
+   handoff or the next cycle action. Classify the complete snapshot before
+   executing any selected mutation.
 
 ## Choose the cycle action
 
 Use the first applicable row. The classification owns action admission and
 freeze scope; this table owns watch scheduling and completion.
 
-| Current state                                                                                                                                                                                                | Next action                                                                                                                                                                                                                                              |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| The PR is merged or closed.                                                                                                                                                                                  | Verify and report the terminal state through [Hand off](references/hand-off.md).                                                                                                                                                                         |
-| Safe observation of the watched PR cannot continue because its identity, required visibility, or runtime is unusable and cannot be restored autonomously.                                                    | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                                                                                                                   |
-| Currently executable autonomous work remains after applying dependencies and freeze scope.                                                                                                                   | Execute the selected operations below.                                                                                                                                                                                                                   |
-| Relevant automation can still produce an expected result without human intervention.                                                                                                                         | Read [Wait for results](references/wait-for-results.md), establish or continue one waiting round, and return to complete observation only when its retained deadline or a relevant event ends it. Retain human-owned and deferred items during the wait. |
-| All relevant automation has ended with definite, retrieved results, those results have been classified, no autonomous work remains executable, and no unknown operation outcome prevents final verification. | Verify and report normal completion through [Hand off](references/hand-off.md).                                                                                                                                                                          |
-| A relevant automatic result or operation outcome needed for final verification remains unsettled, obtaining it requires human intervention, and no independent work or expected result can advance.          | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                                                                                                                   |
+| Current state                                                                                                                                                                                                | Next action                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| The PR is merged or closed.                                                                                                                                                                                  | Verify and report the terminal state through [Hand off](references/hand-off.md).                                                                                                                                                                                                                                                                                                                                                                                            |
+| Safe observation of the watched PR cannot continue because its identity, required visibility, or runtime is unusable and cannot be restored autonomously.                                                    | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                                                                                                                                                                                                                                                                                                                                      |
+| Currently executable autonomous work remains after applying dependencies and freeze scope.                                                                                                                   | Execute the selected operations below.                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Relevant automation can still produce an expected result without human intervention.                                                                                                                         | If an explicitly confirmed next subtask exists and has no recorded speculative draft state yet, check [Speculate on a confirmed next subtask](references/speculate-next-task.md) before entering the wait. Then read [Wait for results](references/wait-for-results.md), establish or continue one waiting round, and return to complete observation only when its retained deadline or a relevant PR event ends it. Retain human-owned and deferred items during the wait. |
+| All relevant automation has ended with definite, retrieved results, those results have been classified, no autonomous work remains executable, and no unknown operation outcome prevents final verification. | Verify and report normal completion through [Hand off](references/hand-off.md).                                                                                                                                                                                                                                                                                                                                                                                             |
+| A relevant automatic result or operation outcome needed for final verification remains unsettled, obtaining it requires human intervention, and no independent work or expected result can advance.          | Checkpoint and report an interrupted watch through [Hand off](references/hand-off.md).                                                                                                                                                                                                                                                                                                                                                                                      |
 
 Normal completion requires both settled current-head automation and no work
 that can proceed autonomously under the current dependencies and freeze scope.
@@ -81,7 +86,8 @@ does not establish completion: investigate it or identify the concrete
 interruption.
 
 Do not retrieve PR state or send a user-facing status update merely because the
-runtime yields or a waiting tool returns before the retained deadline. After a
+runtime yields, a waiting tool returns before the retained deadline, or an
+unrelated speculative draft subagent completes mid-round. After a
 waiting round ends and its resulting complete observation and classification
 finish, a status update may report that round's result and the next scheduled
 interval even when no autonomous work was found.

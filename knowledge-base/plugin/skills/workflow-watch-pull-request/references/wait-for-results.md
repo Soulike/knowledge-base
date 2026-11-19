@@ -63,8 +63,13 @@ Treat the complete interval as one passive wait. Request the complete remaining
 duration in one waiting operation when the runtime supports it. Do not
 voluntarily divide the interval into shorter waits or create a short
 wake-and-check loop. If the runtime forces a return before the deadline without
-a relevant event, compare the current time with the retained deadline and
-immediately continue waiting for the remaining duration.
+a relevant PR event, distinguish an unrelated internal event (such as a
+speculative draft subagent finishing per
+[Speculate on a confirmed next subtask](speculate-next-task.md)) from a
+relevant PR wake-up: record any completed internal draft state without
+retrieving provider PR state, reclassifying the PR, recalculating the interval,
+or sending a PR status update, then immediately continue waiting for the
+remaining duration against the retained deadline.
 
 Before the round ends, do not retrieve provider state, reclassify the PR,
 recalculate the interval, or send a user-facing status update. A message that

@@ -30,12 +30,15 @@ already capture it. Do not publish anything.
 ## Starting state
 
 Provide a fresh downstream workspace containing a concise evidence note for the
-completed task and read-only access to the installed plugin snapshot. Supply the
-current contribution-proposal Workflow as required guidance. Make the
-maintenance Catalog at `knowledge/index.md` unavailable, while permitting
-the Workflow's fixed references and concrete plugin files that the executor
-identifies as plausible owners. Do not preselect or name those candidate owners
-in the executor prompt.
+completed task and read-only access to the multi-plugin canonical snapshot
+(either through a read-only canonical repository inspection boundary across
+`knowledge-base/plugins/*/` or through co-installed sibling plugin snapshots
+when offline, without assuming remote GitHub access). Supply the current
+contribution-proposal Workflow as required guidance. Make every plugin's
+maintenance Catalog at `knowledge/index.md` unavailable, while permitting the
+Workflow's fixed references and concrete plugin files that the executor
+identifies as plausible owners. Do not preselect or name those candidate
+owners in the executor prompt.
 
 Prohibit repository edits, issue creation, comments, commits, pushes, pull
 requests, or other publication. Record the search basis, files actually read,

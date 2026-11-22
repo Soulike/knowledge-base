@@ -12,6 +12,10 @@
     {
       "name": "knowledge-base",
       "source": "./knowledge-base/plugins/knowledge-base"
+    },
+    {
+      "name": "azure-devops",
+      "source": "./knowledge-base/plugins/azure-devops"
     }
   ]
 }

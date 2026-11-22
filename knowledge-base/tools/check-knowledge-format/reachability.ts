@@ -350,6 +350,25 @@ export async function checkKnowledgeReachability(
         }
 
         if (knowledgePathSet.has(pluginRelativeTarget)) {
+          let realTargetPath: string;
+          try {
+            realTargetPath = await realpath(targetPath);
+          } catch (error) {
+            addDiagnostic(
+              `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
+            );
+            continue;
+          }
+          if (
+            isOutsidePackage(
+              toPortablePath(relative(realPluginDirectory, realTargetPath)),
+            )
+          ) {
+            addDiagnostic(
+              `Route '${routeDescription(targetRoute)}' follows '${target.url}' from '${displayPath}:${target.line}' outside the plugin package.`,
+            );
+            continue;
+          }
           reachableKnowledgePaths.add(pluginRelativeTarget);
         } else if (isPackageReference(pluginRelativeTarget)) {
           await visitRoute(

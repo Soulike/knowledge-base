@@ -1,10 +1,12 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+
+import { checkKnowledgeReachability } from "./reachability.ts";
 
 const checkerPath = fileURLToPath(new URL("./check.ts", import.meta.url));
 
@@ -37,7 +39,7 @@ Update this catalog when Knowledge changes.
 ${rows}`;
 }
 
-test("requires the knowledge directory as a CLI argument", () => {
+test("requires either a knowledge directory or --marketplace as CLI arguments", () => {
   const result = spawnSync(process.execPath, [checkerPath], {
     encoding: "utf8",
   });
@@ -46,7 +48,319 @@ test("requires the knowledge directory as a CLI argument", () => {
   assert.equal(result.stdout, "");
   assert.equal(
     result.stderr,
-    "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n",
+    "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n" +
+      "       node check.ts --marketplace <marketplace-file> [--enforce-reachability]\n",
+  );
+});
+
+test("checks every Marketplace-selected plugin when invoked with --marketplace", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const basePlugin = join(temporaryRoot, "knowledge-base", "plugins", "base");
+  const extraPlugin = join(temporaryRoot, "knowledge-base", "plugins", "extra");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(basePlugin, "knowledge", "core"), { recursive: true }),
+    mkdir(join(basePlugin, "skills", "handbook-core"), { recursive: true }),
+    mkdir(join(extraPlugin, "knowledge", "domain"), { recursive: true }),
+    mkdir(join(extraPlugin, "skills", "handbook-domain"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          { name: "base", source: "./knowledge-base/plugins/base" },
+          { name: "extra", source: "./knowledge-base/plugins/extra" },
+        ],
+      }),
+    ),
+    writeFile(
+      join(basePlugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(basePlugin, "knowledge", "core", "guide.md"), validDocument),
+    writeFile(
+      join(basePlugin, "skills", "handbook-core", "SKILL.md"),
+      "Read [Guide](../../knowledge/core/guide.md).\n",
+    ),
+    writeFile(
+      join(extraPlugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/domain/topic.md](domain/topic.md) | time-sensitive |\n",
+      ),
+    ),
+    writeFile(
+      join(extraPlugin, "knowledge", "domain", "topic.md"),
+      validDocument,
+    ),
+    writeFile(
+      join(extraPlugin, "skills", "handbook-domain", "SKILL.md"),
+      "Read [Topic](../../knowledge/domain/topic.md).\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stderr, "");
+  assert.match(result.stdout, /\[base\] Checked 2 knowledge Markdown files\./);
+  assert.match(result.stdout, /\[extra\] Checked 2 knowledge Markdown files\./);
+  assert.match(
+    result.stdout,
+    /Checked 2 marketplace plugins \(4 knowledge Markdown files total\)\./,
+  );
+});
+
+test("reports per-plugin diagnostics prefixed with plugin name and path across all Marketplace plugins", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const firstPlugin = join(temporaryRoot, "knowledge-base", "plugins", "alpha");
+  const secondPlugin = join(temporaryRoot, "knowledge-base", "plugins", "beta");
+  const thirdPlugin = join(temporaryRoot, "knowledge-base", "plugins", "gamma");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(firstPlugin, "knowledge", "core"), { recursive: true }),
+    mkdir(join(secondPlugin, "knowledge", "domain"), { recursive: true }),
+    mkdir(join(secondPlugin, "skills", "handbook-beta"), { recursive: true }),
+    mkdir(join(thirdPlugin, "skills", "handbook-gamma"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          { name: "alpha", source: "./knowledge-base/plugins/alpha" },
+          { name: "beta", source: "./knowledge-base/plugins/beta" },
+          { name: "gamma", source: "./knowledge-base/plugins/gamma" },
+        ],
+      }),
+    ),
+    writeFile(
+      join(firstPlugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/orphan.md](core/orphan.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(
+      join(firstPlugin, "knowledge", "core", "orphan.md"),
+      validDocument,
+    ),
+    writeFile(
+      join(secondPlugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/domain/broken.md](domain/broken.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(
+      join(secondPlugin, "knowledge", "domain", "broken.md"),
+      "# Broken\n\nMissing Scope.\n",
+    ),
+    writeFile(
+      join(secondPlugin, "skills", "handbook-beta", "SKILL.md"),
+      "Read [Broken](../../knowledge/domain/broken.md).\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--enforce-reachability", "--marketplace", marketplaceFile],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "[alpha] knowledge-base/plugins/alpha/knowledge/core/orphan.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n" +
+      "[beta] knowledge-base/plugins/beta/knowledge/domain/broken.md: The first section after the title must be '## Scope'.\n" +
+      "[gamma] knowledge-base/plugins/gamma/knowledge: Knowledge directory does not exist.\n",
+  );
+});
+
+test("rejects cross-plugin relative Markdown links from Skills and references into sibling plugins", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const pluginA = join(temporaryRoot, "knowledge-base", "plugins", "plugin-a");
+  const pluginB = join(temporaryRoot, "knowledge-base", "plugins", "plugin-b");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(pluginA, "knowledge", "core"), { recursive: true }),
+    mkdir(join(pluginA, "skills", "handbook-a", "references"), {
+      recursive: true,
+    }),
+    mkdir(join(pluginA, "references"), { recursive: true }),
+    mkdir(join(pluginB, "knowledge", "domain"), { recursive: true }),
+    mkdir(join(pluginB, "skills", "handbook-b"), { recursive: true }),
+    mkdir(join(pluginB, "references"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          { name: "plugin-a", source: "./knowledge-base/plugins/plugin-a" },
+          { name: "plugin-b", source: "./knowledge-base/plugins/plugin-b" },
+        ],
+      }),
+    ),
+    writeFile(
+      join(pluginA, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(pluginA, "knowledge", "core", "guide.md"), validDocument),
+    writeFile(
+      join(pluginA, "skills", "handbook-a", "SKILL.md"),
+      "Read [Guide](../../knowledge/core/guide.md), " +
+        "[Sibling Knowledge](../../../plugin-b/knowledge/domain/topic.md), " +
+        "[Sibling Readme](../../../plugin-b/README.md), " +
+        "[Local Ref](references/local.md), " +
+        "[Shared Ref](../../references/shared.md), and " +
+        "[Symlink Ref](references/symlink-ref.md).\n",
+    ),
+    writeFile(
+      join(pluginA, "skills", "handbook-a", "references", "local.md"),
+      "Read [Sibling Ref](../../../../plugin-b/references/shared.md).\n",
+    ),
+    writeFile(
+      join(pluginA, "references", "shared.md"),
+      "Read [Sibling Skill](../../plugin-b/skills/handbook-b/SKILL.md).\n",
+    ),
+    writeFile(
+      join(pluginB, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/domain/topic.md](domain/topic.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(pluginB, "knowledge", "domain", "topic.md"), validDocument),
+    writeFile(
+      join(pluginB, "skills", "handbook-b", "SKILL.md"),
+      "Read [Topic](../../knowledge/domain/topic.md).\n",
+    ),
+    writeFile(join(pluginB, "references", "shared.md"), "Sibling reference.\n"),
+    writeFile(join(pluginB, "README.md"), "# Plugin B\n"),
+    symlink(
+      "../../../../plugin-b/references/shared.md",
+      join(pluginA, "skills", "handbook-a", "references", "symlink-ref.md"),
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> ../plugin-b/knowledge/domain/topic.md' follows '../../../plugin-b/knowledge/domain/topic.md' from 'skills/handbook-a/SKILL.md:1' outside the plugin package.\n" +
+      "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> ../plugin-b/README.md' follows '../../../plugin-b/README.md' from 'skills/handbook-a/SKILL.md:1' outside the plugin package.\n" +
+      "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> references/shared.md -> ../plugin-b/skills/handbook-b/SKILL.md' follows '../../plugin-b/skills/handbook-b/SKILL.md' from 'references/shared.md:1' outside the plugin package.\n" +
+      "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> skills/handbook-a/references/local.md -> ../plugin-b/references/shared.md' follows '../../../../plugin-b/references/shared.md' from 'skills/handbook-a/references/local.md:1' outside the plugin package.\n" +
+      "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> skills/handbook-a/references/symlink-ref.md' follows 'references/symlink-ref.md' from 'skills/handbook-a/SKILL.md:1' outside the plugin package.\n",
+  );
+});
+
+test("rejects a symlinked Knowledge leaf that resolves into a sibling plugin", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const pluginA = join(temporaryRoot, "plugin-a");
+  const pluginB = join(temporaryRoot, "plugin-b");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(join(pluginA, "knowledge", "core"), { recursive: true }),
+    mkdir(join(pluginA, "skills", "handbook-a"), { recursive: true }),
+    mkdir(join(pluginB, "knowledge", "domain"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(join(pluginB, "knowledge", "domain", "topic.md"), validDocument),
+    writeFile(
+      join(pluginA, "skills", "handbook-a", "SKILL.md"),
+      "Read [Escaped](../../knowledge/core/escaped.md).\n",
+    ),
+    symlink(
+      "../../../plugin-b/knowledge/domain/topic.md",
+      join(pluginA, "knowledge", "core", "escaped.md"),
+    ),
+  ]);
+
+  const reachability = await checkKnowledgeReachability(pluginA, [
+    "knowledge/core/escaped.md",
+  ]);
+
+  assert.deepEqual(reachability.reachableKnowledgeFilePaths, []);
+  assert.deepEqual(reachability.unreachableKnowledgeFilePaths, [
+    "knowledge/core/escaped.md",
+  ]);
+  assert.deepEqual(reachability.diagnostics, [
+    {
+      filePath: "skills/handbook-a/SKILL.md",
+      message:
+        "Route 'skills/handbook-a/SKILL.md -> knowledge/core/escaped.md' follows '../../knowledge/core/escaped.md' from 'skills/handbook-a/SKILL.md:1' outside the plugin package.",
+    },
+  ]);
+});
+
+test("rejects invalid CLI combinations and invalid Marketplace plugin entries", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceFile = join(temporaryRoot, "marketplace.json");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  const mixedArgsResult = spawnSync(
+    process.execPath,
+    [
+      checkerPath,
+      "knowledge-base/plugin/knowledge",
+      "--marketplace",
+      marketplaceFile,
+    ],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(mixedArgsResult.status, 2);
+  assert.equal(mixedArgsResult.stdout, "");
+
+  await writeFile(
+    marketplaceFile,
+    JSON.stringify({
+      name: "knowledge-base",
+      plugins: [{ name: "escaped", source: "../outside" }],
+    }),
+  );
+
+  const escapedSourceResult = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(escapedSourceResult.status, 1);
+  assert.equal(escapedSourceResult.stdout, "");
+  assert.match(
+    escapedSourceResult.stderr,
+    /Marketplace plugin source '\.\.\/outside' must be a package-relative path starting with '\.\/' without '\.\.'\./,
   );
 });
 

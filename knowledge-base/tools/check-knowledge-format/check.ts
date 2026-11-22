@@ -1,5 +1,5 @@
 import { readdir, readFile } from "node:fs/promises";
-import { basename, join, relative, resolve, sep } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -27,6 +27,41 @@ export interface KnowledgeFormatCheckOptions {
   enforceReachability?: boolean;
 }
 
+export interface MarketplacePluginEntry {
+  name: string;
+  sourcePath: string;
+  pluginDirectory: string;
+  knowledgeDirectory: string;
+}
+
+export interface MarketplacePluginCheckResult {
+  plugin: MarketplacePluginEntry;
+  result: KnowledgeFormatCheckResult;
+}
+
+export interface MarketplaceKnowledgeFormatCheckResult {
+  plugins: MarketplacePluginCheckResult[];
+  totalCheckedFileCount: number;
+  hasDiagnostics: boolean;
+}
+
+type ParsedCliArguments =
+  | {
+      mode: "directory";
+      directory: string;
+      enforceReachability: boolean;
+    }
+  | {
+      mode: "marketplace";
+      marketplaceFile: string;
+      enforceReachability: boolean;
+    }
+  | { mode: "invalid" };
+
+const usageMessage =
+  "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n" +
+  "       node check.ts --marketplace <marketplace-file> [--enforce-reachability]\n";
+
 async function findMarkdownFiles(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const files: string[] = [];
@@ -48,6 +83,113 @@ async function findMarkdownFiles(directory: string): Promise<string[]> {
 
 function toPortablePath(filePath: string): string {
   return filePath.split(sep).join("/");
+}
+
+function errorCode(error: unknown): string | undefined {
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof error.code === "string"
+  ) {
+    return error.code;
+  }
+
+  return undefined;
+}
+
+function formatSummaryLine(result: KnowledgeFormatCheckResult): string {
+  const reachableCount = result.reachability.reachableKnowledgeFilePaths.length;
+  const unreachableCount =
+    result.reachability.unreachableKnowledgeFilePaths.length;
+  const leafCount = reachableCount + unreachableCount;
+  const entrypointLabel =
+    result.reachability.entrypointCount === 1
+      ? "installed Skill entrypoint"
+      : "installed Skill entrypoints";
+  const unreachableVerb = unreachableCount === 1 ? "is" : "are";
+
+  return (
+    `Checked ${result.checkedFileCount} knowledge Markdown files. ` +
+    `${reachableCount} of ${leafCount} Knowledge leaves are reachable from ` +
+    `${result.reachability.entrypointCount} ${entrypointLabel}; ` +
+    `${unreachableCount} ${unreachableVerb} not yet reachable.`
+  );
+}
+
+function normalizeMarketplaceSource(source: string): string {
+  if (
+    !source.startsWith("./") ||
+    source.includes("\\") ||
+    source.split("/").includes("..")
+  ) {
+    throw new Error(
+      `Marketplace plugin source '${source}' must be a package-relative path starting with './' without '..'.`,
+    );
+  }
+
+  const trimmed = source.slice(2).replace(/\/+$/u, "");
+  return trimmed === "" ? "." : trimmed;
+}
+
+export async function readMarketplacePlugins(
+  marketplaceFile: string,
+): Promise<MarketplacePluginEntry[]> {
+  const resolvedMarketplaceFile = resolve(marketplaceFile);
+  const content = await readFile(resolvedMarketplaceFile, "utf8");
+  const marketplace: unknown = JSON.parse(content);
+
+  if (
+    typeof marketplace !== "object" ||
+    marketplace === null ||
+    !("plugins" in marketplace) ||
+    !Array.isArray(marketplace.plugins) ||
+    marketplace.plugins.length === 0
+  ) {
+    throw new Error("The marketplace must contain a non-empty plugins array.");
+  }
+
+  const marketplaceParent = dirname(resolvedMarketplaceFile);
+  const marketplaceRoot =
+    basename(marketplaceParent) === ".claude-plugin"
+      ? dirname(marketplaceParent)
+      : marketplaceParent;
+  const seenNames = new Set<string>();
+  const entries: MarketplacePluginEntry[] = [];
+
+  for (const plugin of marketplace.plugins) {
+    if (
+      typeof plugin !== "object" ||
+      plugin === null ||
+      !("name" in plugin) ||
+      typeof plugin.name !== "string" ||
+      plugin.name.trim() === "" ||
+      !("source" in plugin) ||
+      typeof plugin.source !== "string" ||
+      plugin.source.trim() === ""
+    ) {
+      throw new Error(
+        "Each marketplace plugin entry must include non-empty string 'name' and 'source' fields.",
+      );
+    }
+
+    if (seenNames.has(plugin.name)) {
+      throw new Error(`Duplicate marketplace plugin name '${plugin.name}'.`);
+    }
+    seenNames.add(plugin.name);
+
+    const sourcePath = normalizeMarketplaceSource(plugin.source);
+    const pluginDirectory = resolve(marketplaceRoot, sourcePath);
+
+    entries.push({
+      name: plugin.name,
+      sourcePath,
+      pluginDirectory,
+      knowledgeDirectory: join(pluginDirectory, "knowledge"),
+    });
+  }
+
+  return entries;
 }
 
 export async function checkKnowledgeDirectory(
@@ -144,6 +286,61 @@ export async function checkKnowledgeDirectory(
   };
 }
 
+export async function checkMarketplaceKnowledge(
+  marketplaceFile: string,
+  options: KnowledgeFormatCheckOptions = {},
+): Promise<MarketplaceKnowledgeFormatCheckResult> {
+  const plugins = await readMarketplacePlugins(marketplaceFile);
+  const results: MarketplacePluginCheckResult[] = [];
+  let totalCheckedFileCount = 0;
+  let hasDiagnostics = false;
+
+  for (const plugin of plugins) {
+    let result: KnowledgeFormatCheckResult;
+    try {
+      result = await checkKnowledgeDirectory(
+        plugin.knowledgeDirectory,
+        options,
+      );
+    } catch (error) {
+      const code = errorCode(error);
+      if (code !== "ENOENT" && code !== "ENOTDIR") {
+        throw error;
+      }
+      result = {
+        checkedFileCount: 0,
+        diagnostics: [
+          {
+            filePath: "knowledge",
+            message:
+              code === "ENOENT"
+                ? "Knowledge directory does not exist."
+                : "Knowledge directory is not a directory.",
+          },
+        ],
+        reachability: {
+          diagnostics: [],
+          entrypointCount: 0,
+          reachableKnowledgeFilePaths: [],
+          unreachableKnowledgeFilePaths: [],
+        },
+      };
+    }
+
+    totalCheckedFileCount += result.checkedFileCount;
+    if (result.diagnostics.length > 0) {
+      hasDiagnostics = true;
+    }
+    results.push({ plugin, result });
+  }
+
+  return {
+    plugins: results,
+    totalCheckedFileCount,
+    hasDiagnostics,
+  };
+}
+
 export async function runKnowledgeFormatCheck(
   directory: string,
   options: KnowledgeFormatCheckOptions = {},
@@ -159,22 +356,51 @@ export async function runKnowledgeFormatCheck(
       return 1;
     }
 
-    const reachableCount =
-      result.reachability.reachableKnowledgeFilePaths.length;
-    const unreachableCount =
-      result.reachability.unreachableKnowledgeFilePaths.length;
-    const leafCount = reachableCount + unreachableCount;
-    const entrypointLabel =
-      result.reachability.entrypointCount === 1
-        ? "installed Skill entrypoint"
-        : "installed Skill entrypoints";
-    const unreachableVerb = unreachableCount === 1 ? "is" : "are";
+    process.stdout.write(`${formatSummaryLine(result)}\n`);
+    return 0;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    process.stderr.write(`Knowledge format check failed: ${message}\n`);
+    return 1;
+  }
+}
 
+export async function runMarketplaceKnowledgeFormatCheck(
+  marketplaceFile: string,
+  options: KnowledgeFormatCheckOptions = {},
+): Promise<number> {
+  try {
+    const marketplaceResult = await checkMarketplaceKnowledge(
+      marketplaceFile,
+      options,
+    );
+
+    if (marketplaceResult.hasDiagnostics) {
+      for (const { plugin, result } of marketplaceResult.plugins) {
+        for (const diagnostic of result.diagnostics) {
+          const prefixedPath =
+            plugin.sourcePath === "."
+              ? diagnostic.filePath
+              : `${plugin.sourcePath}/${diagnostic.filePath}`;
+          process.stderr.write(
+            `[${plugin.name}] ${prefixedPath}: ${diagnostic.message}\n`,
+          );
+        }
+      }
+
+      return 1;
+    }
+
+    for (const { plugin, result } of marketplaceResult.plugins) {
+      process.stdout.write(`[${plugin.name}] ${formatSummaryLine(result)}\n`);
+    }
+
+    const pluginLabel =
+      marketplaceResult.plugins.length === 1
+        ? "marketplace plugin"
+        : "marketplace plugins";
     process.stdout.write(
-      `Checked ${result.checkedFileCount} knowledge Markdown files. ` +
-        `${reachableCount} of ${leafCount} Knowledge leaves are reachable from ` +
-        `${result.reachability.entrypointCount} ${entrypointLabel}; ` +
-        `${unreachableCount} ${unreachableVerb} not yet reachable.\n`,
+      `Checked ${marketplaceResult.plugins.length} ${pluginLabel} (${marketplaceResult.totalCheckedFileCount} knowledge Markdown files total).\n`,
     );
     return 0;
   } catch (error) {
@@ -184,28 +410,78 @@ export async function runKnowledgeFormatCheck(
   }
 }
 
+function parseCliArguments(args: readonly string[]): ParsedCliArguments {
+  let directory: string | undefined;
+  let marketplaceFile: string | undefined;
+  let enforceReachability = false;
+
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index];
+    if (argument === undefined) {
+      continue;
+    }
+
+    if (argument === "--enforce-reachability") {
+      enforceReachability = true;
+    } else if (argument === "--marketplace") {
+      const value = args[index + 1];
+      if (
+        marketplaceFile !== undefined ||
+        value === undefined ||
+        value === "" ||
+        value.startsWith("--")
+      ) {
+        return { mode: "invalid" };
+      }
+      marketplaceFile = value;
+      index += 1;
+    } else if (argument.startsWith("--marketplace=")) {
+      const value = argument.slice("--marketplace=".length);
+      if (marketplaceFile !== undefined || value === "") {
+        return { mode: "invalid" };
+      }
+      marketplaceFile = value;
+    } else if (argument.startsWith("-")) {
+      return { mode: "invalid" };
+    } else if (directory === undefined) {
+      directory = argument;
+    } else {
+      return { mode: "invalid" };
+    }
+  }
+
+  if (marketplaceFile !== undefined && directory === undefined) {
+    return { mode: "marketplace", marketplaceFile, enforceReachability };
+  }
+
+  if (directory !== undefined && marketplaceFile === undefined) {
+    return { mode: "directory", directory, enforceReachability };
+  }
+
+  return { mode: "invalid" };
+}
+
 const invokedPath = process.argv[1];
 
 if (
   invokedPath !== undefined &&
   resolve(invokedPath) === resolve(fileURLToPath(import.meta.url))
 ) {
-  const knowledgeDirectory = process.argv[2];
-  const option = process.argv[3];
+  const parsed = parseCliArguments(process.argv.slice(2));
 
-  if (knowledgeDirectory === undefined) {
-    process.stderr.write(
-      "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n",
-    );
+  if (parsed.mode === "invalid") {
+    process.stderr.write(usageMessage);
     process.exitCode = 2;
-  } else if (option !== undefined && option !== "--enforce-reachability") {
-    process.stderr.write(
-      "Usage: node check.ts <knowledge-directory> [--enforce-reachability]\n",
+  } else if (parsed.mode === "marketplace") {
+    process.exitCode = await runMarketplaceKnowledgeFormatCheck(
+      parsed.marketplaceFile,
+      {
+        enforceReachability: parsed.enforceReachability,
+      },
     );
-    process.exitCode = 2;
   } else {
-    process.exitCode = await runKnowledgeFormatCheck(knowledgeDirectory, {
-      enforceReachability: option === "--enforce-reachability",
+    process.exitCode = await runKnowledgeFormatCheck(parsed.directory, {
+      enforceReachability: parsed.enforceReachability,
     });
   }
 }

@@ -35,37 +35,13 @@ export interface UpdatePluginVersionResult {
   plugins: PluginVersionUpdateResult[];
 }
 
-async function applyNextPluginVersion({
-  plugin,
-  manifestPath,
-  currentContent,
-  currentVersion,
-  previousVersion,
-  releaseDate,
-}: {
+interface PlannedPluginVersionUpdate {
   plugin: MarketplacePlugin;
   manifestPath: string;
   currentContent: string;
   currentVersion: string;
-  previousVersion: string;
-  releaseDate: string;
-}): Promise<PluginVersionUpdateResult> {
-  const nextVersion = nextPluginVersion(previousVersion, releaseDate);
-  const updated = currentVersion !== nextVersion;
-
-  if (updated) {
-    await writeFile(
-      manifestPath,
-      replaceManifestVersion(currentContent, plugin.manifestPath, nextVersion),
-    );
-  }
-
-  return {
-    name: plugin.name,
-    manifestPath: plugin.manifestPath,
-    version: nextVersion,
-    updated,
-  };
+  nextVersion: string;
+  updated: boolean;
 }
 
 export async function updatePluginVersion({
@@ -84,7 +60,7 @@ export async function updatePluginVersion({
   );
   const changedFiles = listWorkingTreeChangedFiles(repository, comparisonBase);
   const releaseDate = releaseDateForTimestamp(now);
-  const results: PluginVersionUpdateResult[] = [];
+  const plannedUpdates: PlannedPluginVersionUpdate[] = [];
 
   for (const currentPlugin of currentPlugins) {
     const manifestPath = resolve(repository, currentPlugin.manifestPath);
@@ -112,25 +88,47 @@ export async function updatePluginVersion({
     }
 
     if (previousVersion === undefined) {
-      results.push({
-        name: currentPlugin.name,
-        manifestPath: currentPlugin.manifestPath,
-        version: currentVersion,
+      plannedUpdates.push({
+        plugin: currentPlugin,
+        manifestPath,
+        currentContent,
+        currentVersion,
+        nextVersion: currentVersion,
         updated: false,
       });
       continue;
     }
 
-    results.push(
-      await applyNextPluginVersion({
-        plugin: currentPlugin,
-        manifestPath,
-        currentContent,
-        currentVersion,
-        previousVersion,
-        releaseDate,
-      }),
-    );
+    const nextVersion = nextPluginVersion(previousVersion, releaseDate);
+    plannedUpdates.push({
+      plugin: currentPlugin,
+      manifestPath,
+      currentContent,
+      currentVersion,
+      nextVersion,
+      updated: currentVersion !== nextVersion,
+    });
+  }
+
+  const results: PluginVersionUpdateResult[] = [];
+  for (const planned of plannedUpdates) {
+    if (planned.updated) {
+      await writeFile(
+        planned.manifestPath,
+        replaceManifestVersion(
+          planned.currentContent,
+          planned.plugin.manifestPath,
+          planned.nextVersion,
+        ),
+      );
+    }
+
+    results.push({
+      name: planned.plugin.name,
+      manifestPath: planned.plugin.manifestPath,
+      version: planned.nextVersion,
+      updated: planned.updated,
+    });
   }
 
   return { plugins: results };

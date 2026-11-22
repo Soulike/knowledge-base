@@ -446,3 +446,89 @@ test("bumps source plugin when relocating and splitting leaves while leaving sib
     ],
   });
 });
+
+test("prevalidates all plugin manifests before writing when a later plugin manifest is malformed", async (t) => {
+  const repository = await mkdtemp(
+    join(tmpdir(), "knowledge-base-version-update-malformed-"),
+  );
+  t.after(() => rm(repository, { force: true, recursive: true }));
+  git(repository, ["init", "--initial-branch=main"]);
+  git(repository, ["config", "user.name", "Plugin Version Test"]);
+  git(repository, [
+    "config",
+    "user.email",
+    "knowledge-base-version@example.com",
+  ]);
+  await mkdir(join(repository, ".claude-plugin"));
+  await mkdir(join(repository, "knowledge-base/plugins/alpha/knowledge"), {
+    recursive: true,
+  });
+  await mkdir(join(repository, "knowledge-base/plugins/beta/knowledge"), {
+    recursive: true,
+  });
+  await writeFile(
+    join(repository, ".claude-plugin/marketplace.json"),
+    JSON.stringify({
+      plugins: [
+        { name: "alpha", source: "./knowledge-base/plugins/alpha" },
+        { name: "beta", source: "./knowledge-base/plugins/beta" },
+      ],
+    }),
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/alpha/plugin.json"),
+    `${JSON.stringify({ name: "alpha", version: "2026.8.15-1" }, null, 2)}\n`,
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/alpha/knowledge/index.md"),
+    "# Alpha\n",
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/beta/plugin.json"),
+    `${JSON.stringify({ name: "beta", version: "2026.8.15-1" }, null, 2)}\n`,
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/beta/knowledge/index.md"),
+    "# Beta\n",
+  );
+  git(repository, ["add", "."]);
+  git(repository, ["commit", "-m", "base"]);
+  const base = git(repository, ["rev-parse", "HEAD"]);
+
+  // Change both plugins, but make beta's manifest malformed JSON.
+  await writeFile(
+    join(repository, "knowledge-base/plugins/alpha/knowledge/index.md"),
+    "# Alpha updated\n",
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/beta/knowledge/index.md"),
+    "# Beta updated\n",
+  );
+  await writeFile(
+    join(repository, "knowledge-base/plugins/beta/plugin.json"),
+    "{ malformed json\n",
+  );
+
+  const originalAlphaManifest = await readFile(
+    join(repository, "knowledge-base/plugins/alpha/plugin.json"),
+    "utf8",
+  );
+
+  await assert.rejects(
+    () =>
+      updatePluginVersion({
+        repository,
+        targetRevision: base,
+        now: new Date("2026-08-15T10:00:00+08:00"),
+      }),
+    /beta\/plugin\.json/u,
+  );
+
+  assert.equal(
+    await readFile(
+      join(repository, "knowledge-base/plugins/alpha/plugin.json"),
+      "utf8",
+    ),
+    originalAlphaManifest,
+  );
+});

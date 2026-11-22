@@ -48,7 +48,7 @@ tested independently:
   - Zero @modelcontextprotocol/* imports, process.env reads, or LLM copy
 
   Test seams:
-  - 2026-07-28 HTTP: Client + StreamableHTTPClientTransport -> createMcpHandler(createServer).fetch (no socket; tests factory lifecycle)
+  - 2026-07-28 HTTP: Client (pinned/verified '2026-07-28' era) + StreamableHTTPClientTransport -> handler.fetch via createMcpHandler(() => createServer(stubDeps))
   - 2025-era / v1:   Client <--> InMemoryTransport.createLinkedPair() <--> createServer(stubDeps) (bypasses HTTP handler factory)
 ```
 
@@ -143,13 +143,19 @@ SDK lifecycle, supplying injected external boundary doubles (such as a stub
 `fetch` or service client) and explicit test credentials without mutating
 `process.env`:
 
-- **Exercise `2026-07-28` servers through `createMcpHandler(createServer).fetch`:**
-  In `@modelcontextprotocol/server` v2, connect a real `Client` and
-  `StreamableHTTPClientTransport` whose `fetch` option calls
+- **Exercise `2026-07-28` servers through `handler.fetch`:**
+  In `@modelcontextprotocol/server` v2, build `const handler = createMcpHandler(() => createServer(stubDeps))`
+  and connect a `Client` and `StreamableHTTPClientTransport` (from
+  `@modelcontextprotocol/client`) whose `fetch` option calls
   `handler.fetch(new Request(url, init))` directly in process with no open
-  socket. Include an overlapping/concurrent request test on that handler to
-  verify that `createServer` returns a fresh `McpServer` per request rather
-  than failing with `-32603` on a shared singleton.
+  socket. Because v2 `Client` defaults to the legacy `2025` `initialize`
+  handshake (and `createMcpHandler` serves legacy requests statelessly by
+  default), explicitly configure `versionNegotiation: { mode: { pin: "2026-07-28" } }`
+  —or `mode: "auto"` and assert `client.getProtocolEra() === "modern"` before
+  tool assertions—so tests genuinely exercise `2026-07-28` wire semantics.
+  Include an overlapping/concurrent request test on that handler to verify that
+  `createServer` returns a fresh `McpServer` per request rather than failing
+  with `-32603` on a shared singleton.
 - **Reserve `InMemoryTransport.createLinkedPair()` for `2025`-era and v1 coverage:**
   `InMemoryTransport.createLinkedPair()` connects two `2025`-era (or SDK v1)
   instances in memory to verify tools, schemas, `outputSchema`/`structuredContent`,
@@ -172,6 +178,7 @@ per [test effectiveness](../software-testing/test-effectiveness.md#test-at-the-o
 
 - [MCP Reference Servers (`everything` factory and `sequentialthinking` entrypoint/HTTP/tests)](https://github.com/modelcontextprotocol/servers)
 - [MCP TypeScript SDK v2: Test a server](https://ts.sdk.modelcontextprotocol.io/v2/testing.md)
+- [MCP TypeScript SDK v2: Protocol versions](https://ts.sdk.modelcontextprotocol.io/v2/protocol-versions.md)
 - [Anthropic MCP Builder: Node/TypeScript Server v2 Guide](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/reference/node_mcp_server_v2.md)
 - [Anthropic MCP Builder: MCP Best Practices](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/reference/mcp_best_practices.md)
 - [Model Context Protocol Specification: Tools (`2026-07-28`)](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)

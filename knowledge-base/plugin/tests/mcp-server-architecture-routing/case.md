@@ -74,16 +74,18 @@ the three requests independent and do not modify repository files.
   the entry boundary, move `@modelcontextprotocol/*` + Markdown/error
   presentation out of `services/api.ts`, and distinguish the `2026-07-28`
   in-process `StreamableHTTPClientTransport` -> `createMcpHandler(createServer).fetch`
-  seam (with overlapping/concurrent request coverage for fresh server creation)
-  from `2025`-era `InMemoryTransport.createLinkedPair()` (which bypasses the
-  HTTP per-request factory) alongside thin `isEntryPoint` / HTTP boundary checks.
+  seam (explicitly negotiating `2026-07-28` via `versionNegotiation: { mode: { pin: "2026-07-28" } }`
+  or `mode: "auto"` + asserting `getProtocolEra() === "modern"`, with
+  overlapping/concurrent request coverage for fresh server creation) from
+  `2025`-era `InMemoryTransport.createLinkedPair()` (which bypasses the HTTP
+  per-request factory) alongside thin `isEntryPoint` / HTTP boundary checks.
 - R4 (critical): for request 2, combine stateless `createServer(deps)`,
   deterministic `tools/index.ts` registration, pure `services/` with
   `AbortSignal.any` cancellation, presenter separation, model-facing
   descriptions/schemas/`ToolAnnotations`/`outputSchema`+`structuredContent`+`TextContent`/`isError: true`,
-  and protocol-appropriate tests (`createMcpHandler.fetch` + concurrent request
-  check for `2026-07-28`, `InMemoryTransport` for `2025`-era/v1, and thin
-  entry/transport checks).
+  and protocol-appropriate tests (`createMcpHandler.fetch` with explicit
+  `2026-07-28` negotiation + concurrent request check, `InMemoryTransport` for
+  `2025`-era/v1, and thin entry/transport checks).
 
 ## Verification
 
@@ -92,8 +94,10 @@ file-read traces, and the final answer for each request separately. A faulty
 observation that selects `handbook-agents` for request 3, omits
 [server-architecture.md](../../knowledge/mcp/server-architecture.md) for request
 1 or 2, forces [tool-contracts.md](../../knowledge/mcp/tool-contracts.md) for
-pure architecture request 1, or keeps a singleton `McpServer` or `services/`
-presentation coupling must fail the corresponding critical criterion.
+pure architecture request 1, recommends a default `Client` without explicit
+`2026-07-28` era negotiation for `2026-07-28` coverage, or keeps a singleton
+`McpServer` or `services/` presentation coupling must fail the corresponding
+critical criterion.
 
 ## Source
 

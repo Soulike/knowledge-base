@@ -122,6 +122,58 @@ test("checks every Marketplace-selected plugin when invoked with --marketplace",
   );
 });
 
+test("normalizes redundant slashes in relative Marketplace sources without dropping the root", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const plugin = join(temporaryRoot, "knowledge-base", "plugins", "codex");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(plugin, "knowledge", "codex"), { recursive: true }),
+    mkdir(join(plugin, "skills", "handbook-codex"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          {
+            name: "codex",
+            source: ".//knowledge-base/plugins//codex/",
+          },
+        ],
+      }),
+    ),
+    writeFile(
+      join(plugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/codex/provider.md](codex/provider.md) | time-sensitive |\n",
+      ),
+    ),
+    writeFile(join(plugin, "knowledge", "codex", "provider.md"), validDocument),
+    writeFile(
+      join(plugin, "skills", "handbook-codex", "SKILL.md"),
+      "Read [Provider](../../knowledge/codex/provider.md).\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stderr, "");
+  assert.match(
+    result.stdout,
+    /\[codex\] Checked 2 knowledge Markdown files\. 1 of 1 Knowledge leaves are reachable/,
+  );
+});
+
 test("reports per-plugin diagnostics prefixed with plugin name and path across all Marketplace plugins", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");

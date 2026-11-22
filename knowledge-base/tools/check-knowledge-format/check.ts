@@ -1,5 +1,14 @@
 import { readdir, readFile, stat } from "node:fs/promises";
-import { basename, dirname, join, relative, resolve, sep } from "node:path";
+import {
+  basename,
+  dirname,
+  join,
+  posix,
+  relative,
+  resolve,
+  sep,
+  win32,
+} from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -128,8 +137,19 @@ function normalizeMarketplaceSource(source: string): string {
     );
   }
 
-  const trimmed = source.slice(2).replace(/\/+$/u, "");
-  return trimmed === "" ? "." : trimmed;
+  const normalized = posix.normalize(source);
+  if (
+    normalized === ".." ||
+    normalized.startsWith("../") ||
+    posix.isAbsolute(normalized) ||
+    win32.isAbsolute(normalized)
+  ) {
+    throw new Error(
+      `Marketplace plugin source '${source}' must be a package-relative path starting with './' without '..'.`,
+    );
+  }
+
+  return normalized;
 }
 
 export async function readMarketplacePlugins(

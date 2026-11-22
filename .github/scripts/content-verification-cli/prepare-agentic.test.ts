@@ -4,12 +4,13 @@ import { mkdtemp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 import { parseVerificationManifest } from "../content-verification-contract/manifest-validation.ts";
 
 const executeFile = promisify(execFile);
-const script = new URL("./prepare-agentic.ts", import.meta.url).pathname;
+const script = fileURLToPath(new URL("./prepare-agentic.ts", import.meta.url));
 
 async function commitRepoFiles(
   files: Readonly<Record<string, string>>,

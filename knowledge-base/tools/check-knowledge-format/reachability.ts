@@ -247,12 +247,12 @@ export async function checkKnowledgeReachability(
       diagnostics.push({ filePath: entrypointPath, message });
     }
 
-    async function visitRoute(
+    async function resolveInPackageFile(
       filePath: string,
       displayPath: string,
       route: readonly string[],
       incomingLink?: IncomingLink,
-    ): Promise<void> {
+    ): Promise<{ realFilePath: string; relativePath: string } | undefined> {
       let realFilePath: string;
       try {
         realFilePath = await realpath(filePath);
@@ -267,13 +267,13 @@ export async function checkKnowledgeReachability(
             `Route '${routeDescription(route)}' cannot read '${displayPath}' linked from '${incomingLink.sourcePath}:${incomingLink.line}': ${readFailureMessage(code)}.`,
           );
         }
-        return;
+        return undefined;
       }
 
-      const realPluginRelativePath = toPortablePath(
+      const relativePath = toPortablePath(
         relative(realPluginDirectory, realFilePath),
       );
-      if (isOutsidePackage(realPluginRelativePath)) {
+      if (isOutsidePackage(relativePath)) {
         if (incomingLink === undefined) {
           addDiagnostic(
             `Installed Skill entrypoint '${displayPath}' resolves outside the plugin package.`,
@@ -283,8 +283,29 @@ export async function checkKnowledgeReachability(
             `Route '${routeDescription(route)}' follows '${incomingLink.url}' from '${incomingLink.sourcePath}:${incomingLink.line}' outside the plugin package.`,
           );
         }
+        return undefined;
+      }
+
+      return { realFilePath, relativePath };
+    }
+
+    async function visitRoute(
+      filePath: string,
+      displayPath: string,
+      route: readonly string[],
+      incomingLink?: IncomingLink,
+    ): Promise<void> {
+      const resolved = await resolveInPackageFile(
+        filePath,
+        displayPath,
+        route,
+        incomingLink,
+      );
+      if (resolved === undefined) {
         return;
       }
+
+      const { realFilePath, relativePath: realPluginRelativePath } = resolved;
 
       if (
         incomingLink !== undefined &&
@@ -350,26 +371,16 @@ export async function checkKnowledgeReachability(
         }
 
         if (knowledgePathSet.has(pluginRelativeTarget)) {
-          let realTargetPath: string;
-          try {
-            realTargetPath = await realpath(targetPath);
-          } catch (error) {
-            addDiagnostic(
-              `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
-            );
-            continue;
-          }
           if (
-            isOutsidePackage(
-              toPortablePath(relative(realPluginDirectory, realTargetPath)),
-            )
+            (await resolveInPackageFile(
+              targetPath,
+              pluginRelativeTarget,
+              targetRoute,
+              incoming,
+            )) !== undefined
           ) {
-            addDiagnostic(
-              `Route '${routeDescription(targetRoute)}' follows '${target.url}' from '${displayPath}:${target.line}' outside the plugin package.`,
-            );
-            continue;
+            reachableKnowledgePaths.add(pluginRelativeTarget);
           }
-          reachableKnowledgePaths.add(pluginRelativeTarget);
         } else if (isPackageReference(pluginRelativeTarget)) {
           await visitRoute(
             targetPath,

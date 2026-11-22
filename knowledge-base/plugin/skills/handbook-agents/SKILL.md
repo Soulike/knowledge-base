@@ -39,15 +39,14 @@ in full.
 ### Model Context Protocol (MCP) tool contracts
 
 When defining, implementing, reviewing, diagnosing, or explaining Model Context
-Protocol (MCP) tool wire contracts, schemas, client hints, or protocol error
-boundaries, read
+Protocol (MCP) tool wire semantics and contracts, read
 [Model Context Protocol tool contracts](../../knowledge/mcp/tool-contracts.md)
 in full.
 
 ### Model Context Protocol (MCP) server architecture
 
-When structuring, implementing, reviewing, diagnosing, or testing an MCP
-server's startup entry point, transport wiring, server-factory lifecycle,
-module boundaries, or protocol and boundary test seams, read
+When structuring, implementing, reviewing, diagnosing, or testing the runtime
+composition, transport lifecycles, and test seams of a Model Context Protocol
+(MCP) server, or explaining that server architecture, read
 [Model Context Protocol server architecture](../../knowledge/mcp/server-architecture.md)
 in full.

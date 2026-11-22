@@ -16,7 +16,7 @@ Codex supports custom model providers and command-backed authentication as gener
 
 ## Configuration
 
-Add the following configuration to `~/.codex/config.toml`, replacing the model placeholder with an identifier currently available to the authenticated account:
+Add the following configuration to `~/.codex/config.toml`, replacing `<currently-supported-model>` with an identifier validated from current availability under the authenticated account, enterprise policy, and intended integration identity (rather than a remembered model name):
 
 ```toml
 model_provider = "github-copilot-enterprise"
@@ -32,7 +32,7 @@ command = "gh"
 args = ["auth", "token", "-h", "github.com"]
 ```
 
-The top-level `model_provider` selects the custom provider. `wire_api = "responses"` makes Codex use the Responses protocol expected by this endpoint. The nested `auth` table makes Codex obtain the credential from the GitHub CLI instead of storing a token in the configuration file.
+The top-level `model_provider` selects the custom provider. `wire_api = "responses"` makes Codex use the Responses protocol expected by this endpoint. The nested `auth` table makes Codex obtain the credential from the GitHub CLI instead of storing a token in the configuration file or copying `gh auth token` output into configuration, logs, or docs; retain `<currently-supported-model>` in reusable examples.
 
 ## Identify requests as Copilot CLI
 

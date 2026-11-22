@@ -21,10 +21,11 @@ independent Codex packages and different answer wording.
 ## Task
 
 Configure Codex to use a GitHub Copilot Enterprise subscription through a
-custom model provider without storing the GitHub token in the configuration.
-The command-backed GitHub authentication succeeds, but a small test request
-then reports an unsupported request shape. Diagnose that failure boundary
-without changing unrelated provider settings.
+custom model provider without storing the GitHub token in the configuration, and
+explain how to choose a valid model identifier safely. The command-backed
+GitHub authentication succeeds, but a small test request then reports an
+unsupported request shape. Diagnose that failure boundary without changing
+unrelated provider settings.
 
 Identify and read the matching package in the Codex Handbook, then give a
 concise answer grounded in that material.
@@ -70,5 +71,8 @@ fail the corresponding critical criterion.
 
 Split from the retired cross-plugin `platform-package-routing` case (originally
 reconstructed from GitHub issues #242 and #246) per #303 and #308 so the Codex
-Handbook owns its standalone single-plugin package-routing protection. Requires
-a fresh replay against the completed Handbook.
+Handbook owns its standalone single-plugin package-routing protection. Aligned
+during #314 after comparative `origin/main` vs. `HEAD` replay showed that
+asking only for concise config and request-shape diagnosis left model-selection
+criteria outside the prompt scope, while preserving all R1–R5 expectations
+unchanged. Requires a fresh replay against the completed Handbook.

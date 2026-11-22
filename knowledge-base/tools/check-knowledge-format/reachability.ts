@@ -129,17 +129,30 @@ function errorCode(error: unknown): string | undefined {
   return undefined;
 }
 
-async function findSkillEntrypoints(
-  pluginDirectory: string,
-): Promise<string[]> {
+async function findSkillEntrypoints(pluginDirectory: string): Promise<{
+  entrypoints: string[];
+  diagnostics: KnowledgeReachabilityDiagnostic[];
+}> {
   const skillsDirectory = join(pluginDirectory, "skills");
   let entries;
 
   try {
     entries = await readdir(skillsDirectory, { withFileTypes: true });
   } catch (error) {
-    if (errorCode(error) === "ENOENT") {
-      return [];
+    const code = errorCode(error);
+    if (code === "ENOENT") {
+      return { entrypoints: [], diagnostics: [] };
+    }
+    if (code === "ENOTDIR") {
+      return {
+        entrypoints: [],
+        diagnostics: [
+          {
+            filePath: "skills",
+            message: "Skills directory is not a directory.",
+          },
+        ],
+      };
     }
     throw error;
   }
@@ -164,7 +177,7 @@ async function findSkillEntrypoints(
     }
   }
 
-  return entrypoints;
+  return { entrypoints, diagnostics: [] };
 }
 
 function isOutsidePackage(relativePath: string): boolean {
@@ -232,10 +245,11 @@ export async function checkKnowledgeReachability(
 ): Promise<KnowledgeReachabilityResult> {
   const resolvedPluginDirectory = resolve(pluginDirectory);
   const realPluginDirectory = await realpath(resolvedPluginDirectory);
-  const entrypoints = await findSkillEntrypoints(resolvedPluginDirectory);
+  const { entrypoints, diagnostics } = await findSkillEntrypoints(
+    resolvedPluginDirectory,
+  );
   const knowledgePathSet = new Set(knowledgeFilePaths);
   const reachableKnowledgePaths = new Set<string>();
-  const diagnostics: KnowledgeReachabilityDiagnostic[] = [];
 
   for (const entrypoint of entrypoints) {
     const entrypointPath = toPortablePath(

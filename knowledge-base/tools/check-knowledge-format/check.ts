@@ -1,4 +1,4 @@
-import { readdir, readFile } from "node:fs/promises";
+import { readdir, readFile, stat } from "node:fs/promises";
 import { basename, dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -296,36 +296,41 @@ export async function checkMarketplaceKnowledge(
   let hasDiagnostics = false;
 
   for (const plugin of plugins) {
-    let result: KnowledgeFormatCheckResult;
+    let knowledgeDirectoryError: string | undefined;
     try {
-      result = await checkKnowledgeDirectory(
-        plugin.knowledgeDirectory,
-        options,
-      );
+      const knowledgeStats = await stat(plugin.knowledgeDirectory);
+      if (!knowledgeStats.isDirectory()) {
+        knowledgeDirectoryError = "Knowledge directory is not a directory.";
+      }
     } catch (error) {
       const code = errorCode(error);
-      if (code !== "ENOENT" && code !== "ENOTDIR") {
+      if (code === "ENOENT") {
+        knowledgeDirectoryError = "Knowledge directory does not exist.";
+      } else if (code === "ENOTDIR") {
+        knowledgeDirectoryError = "Knowledge directory is not a directory.";
+      } else {
         throw error;
       }
-      result = {
-        checkedFileCount: 0,
-        diagnostics: [
-          {
-            filePath: "knowledge",
-            message:
-              code === "ENOENT"
-                ? "Knowledge directory does not exist."
-                : "Knowledge directory is not a directory.",
-          },
-        ],
-        reachability: {
-          diagnostics: [],
-          entrypointCount: 0,
-          reachableKnowledgeFilePaths: [],
-          unreachableKnowledgeFilePaths: [],
-        },
-      };
     }
+
+    const result: KnowledgeFormatCheckResult =
+      knowledgeDirectoryError !== undefined
+        ? {
+            checkedFileCount: 0,
+            diagnostics: [
+              {
+                filePath: "knowledge",
+                message: knowledgeDirectoryError,
+              },
+            ],
+            reachability: {
+              diagnostics: [],
+              entrypointCount: 0,
+              reachableKnowledgeFilePaths: [],
+              unreachableKnowledgeFilePaths: [],
+            },
+          }
+        : await checkKnowledgeDirectory(plugin.knowledgeDirectory, options);
 
     totalCheckedFileCount += result.checkedFileCount;
     if (result.diagnostics.length > 0) {

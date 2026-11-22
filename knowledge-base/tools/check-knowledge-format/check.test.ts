@@ -192,6 +192,63 @@ test("reports per-plugin diagnostics prefixed with plugin name and path across a
   );
 });
 
+test("reports the actual failing stage when a Marketplace plugin has valid Knowledge but skills is a file", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const pluginDirectory = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "broken-skills",
+  );
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(pluginDirectory, "knowledge", "core"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          {
+            name: "broken-skills",
+            source: "./knowledge-base/plugins/broken-skills",
+          },
+        ],
+      }),
+    ),
+    writeFile(
+      join(pluginDirectory, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(
+      join(pluginDirectory, "knowledge", "core", "guide.md"),
+      validDocument,
+    ),
+    writeFile(join(pluginDirectory, "skills"), "not a directory\n"),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.doesNotMatch(result.stderr, /Knowledge directory is not a directory/);
+  assert.match(
+    result.stderr,
+    /\[broken-skills\] knowledge-base\/plugins\/broken-skills\/skills: Skills directory is not a directory\./,
+  );
+});
+
 test("rejects cross-plugin relative Markdown links from Skills and references into sibling plugins", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");

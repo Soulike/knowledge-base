@@ -291,7 +291,7 @@ add a second failure parser or persistent aggregator.
 The [caller](ai-review.yml) invokes the public reusable workflow for the
 repository's `pull_request_target` lifecycle and cancels superseded work for the
 same pull request. It passes the selected model, required reasoning effort,
-Tavily extraction secret, and the
+`DEEPSEEK_API_KEY` secret, and the
 [repository review criteria](../scripts/ai-review/prompts/review.md). Those
 criteria cover the repository's Knowledge, Skill, plugin, documentation, and
 delivery responsibilities.
@@ -317,12 +317,15 @@ Set these Actions variables:
 | `AI_REVIEW_MODEL`                       | Model value passed to the upstream review interface.                                    |
 | `AI_REVIEW_REASONING_EFFORT`            | Required reasoning value passed to the upstream review interface.                       |
 
-All four tasks use the `TAVILY_API_KEY` Actions secret for external web
-research. Set it directly in the repository's Actions secrets UI or enter it
-through GitHub CLI without placing the value on the command line:
+The three scheduled verification workflows use the `TAVILY_API_KEY` Actions
+secret for external web research, and the AI review caller uses
+`DEEPSEEK_API_KEY`. Set them directly in the repository's Actions secrets UI
+or enter them through GitHub CLI without placing the values on the command
+line:
 
 ```bash
 gh secret set TAVILY_API_KEY --repo Soulike/knowledge-base
+gh secret set DEEPSEEK_API_KEY --repo Soulike/knowledge-base
 ```
 
 Configure `Review / Engine / AI review gate` as a required status check after a

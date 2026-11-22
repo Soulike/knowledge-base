@@ -42,6 +42,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/javascript/cohesive-module-organization.md](javascript/cohesive-module-organization.md)                                     | time-sensitive |
 | [knowledge/javascript/date-and-time.md](javascript/date-and-time.md)                                                                   | time-sensitive |
 | [knowledge/javascript/promises.md](javascript/promises.md)                                                                             | time-sensitive |
+| [knowledge/mcp/server-architecture.md](mcp/server-architecture.md)                                                                     | time-sensitive |
 | [knowledge/mcp/tool-contracts.md](mcp/tool-contracts.md)                                                                               | time-sensitive |
 | [knowledge/nodejs/asynchronous-filesystem-apis.md](nodejs/asynchronous-filesystem-apis.md)                                             | time-sensitive |
 | [knowledge/nodejs/filesystem-identity-primitives.md](nodejs/filesystem-identity-primitives.md)                                         | time-sensitive |

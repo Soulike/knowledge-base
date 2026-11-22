@@ -30,26 +30,25 @@ linked canonical material.
 
 ### Model-invoked tool interfaces
 
-When designing, implementing, reviewing, evaluating, or diagnosing tools
-invoked by a language model—including tool boundaries, descriptions, parameter
-schemas, returned payloads, context budgets, or model-facing error messages—or
-when directly learning or explaining that design, read
+When designing, implementing, reviewing, evaluating, diagnosing, or explaining
+tools invoked by a language model (across function calling, agent SDKs, or
+MCP), read
 [Tool interface design for AI agents](../../knowledge/agents/tool-interface-design.md)
 in full.
 
-### Model Context Protocol (MCP) server tools
+### Model Context Protocol (MCP) tool contracts
 
-When designing, implementing, reviewing, or diagnosing tools exposed by a Model
-Context Protocol (MCP) server, or when directly learning or explaining MCP tool
-definitions, `ToolAnnotations`, `outputSchema`, `structuredContent`, stateful
-handles, or `isError` versus JSON-RPC error responses, read both of these
-complete documents:
-
-- [Tool interface design for AI agents](../../knowledge/agents/tool-interface-design.md)
-- [Model Context Protocol tool contracts](../../knowledge/mcp/tool-contracts.md)
-
-When a focused learning or explanation request concerns only MCP wire
-contracts, schema fields, or client-facing annotations without general
-model-prompting design, reading
+When defining, implementing, reviewing, diagnosing, or explaining Model Context
+Protocol (MCP) tool wire contracts—discovery metadata, JSON Schema contracts,
+`ToolAnnotations`, structured results, stateful handles, or
+protocol-versus-execution error channels—read
 [Model Context Protocol tool contracts](../../knowledge/mcp/tool-contracts.md)
-in full is sufficient.
+in full.
+
+### Model Context Protocol (MCP) server architecture
+
+When structuring, implementing, reviewing, diagnosing, or testing an MCP
+server's startup entry point, transport wiring, server-factory lifecycle,
+module boundaries, or protocol and boundary test seams, read
+[Model Context Protocol server architecture](../../knowledge/mcp/server-architecture.md)
+in full.

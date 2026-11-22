@@ -1,30 +1,32 @@
 # Maintain Knowledge
 
-All content paths in this workflow are relative to the
-[knowledge-base plugin](../../../../knowledge-base/plugin/), except commands
-explicitly run from the repository root.
+All content paths in this workflow are relative to the owning plugin under
+`knowledge-base/plugins/<plugin-name>/` (such as the base
+[knowledge-base plugin](../../../../knowledge-base/plugins/knowledge-base/)),
+except commands explicitly run from the repository root.
 
-1. Read [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
+1. Read the owning plugin's `knowledge/index.md` (such as the base plugin's
+   [`knowledge/index.md`](../../../../knowledge-base/plugins/knowledge-base/knowledge/index.md)),
+   [Design selection triggers](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md),
    and the installed Handbook and Workflow entrypoints under
-   [`knowledge-base/plugin/skills/`](../../../../knowledge-base/plugin/skills/)
-   that can route the affected user work. When assessing or maintaining Knowledge
+   [`knowledge-base/plugins/knowledge-base/skills/`](../../../../knowledge-base/plugins/knowledge-base/skills/)
+   (or the owning plugin's `skills/`) that can route the affected user work. When assessing or maintaining Knowledge
    about user interfaces, also read [Maintain UI Knowledge](ui-knowledge.md).
-   Search the existing `knowledge/` tree and compare affected responsibilities
+   Search the `knowledge/` tree across plugins and compare affected responsibilities
    with existing document Scopes, actual Handbook and Workflow reading routes
    and consumers, and reading scenes without treating those bundles as
    Knowledge ownership.
 2. Work only from the Knowledge parts identified during classification; return
    remaining material to the parent workflow.
 3. Reapply the boundary tests in
-   [Classifying Knowledge and Skill material](../../../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+   [Classifying Knowledge and Skill material](../../../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md)
    and the downstream-project-independence gate in
    [`AGENTS.md`](../../../../AGENTS.md#repository-architecture) before editing
    `knowledge/`. Return material that belongs in a Workflow, Handbook, or
    Skill reference, or whose meaning depends on a source project, to the parent
    workflow.
 4. Apply
-   [Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+   [Assess contribution scope](../../../../knowledge-base/plugins/knowledge-base/references/agents/contribution-scope-assessment.md)
    and complete the
    [ownership and retrieval assessment](#ownership-and-generalization) before
    selecting a destination or operation. When a contribution, maintenance
@@ -37,12 +39,12 @@ explicitly run from the repository root.
 5. Apply the parent-selected disposition to each affected responsibility unit in
    `knowledge/`, delegating revision coherence, in-place replacement, and
    reader-facing clarity one-way to
-   [Maintained document quality](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent).
+   [Maintained document quality](../../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent).
 6. Give every Markdown document under `knowledge/`, including
-   [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md),
+   `knowledge/index.md`,
    the preface defined in [Knowledge document preface](#knowledge-document-preface).
-7. Keep [`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md)
-   as the complete maintenance inventory in domain subdirectories without
+7. Keep the plugin's `knowledge/index.md`
+   as its complete maintenance inventory in domain subdirectories without
    nested catalogs or leaf-level `Related Knowledge` / `See also` appendices
    ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)). Before adding
    or retaining an inline link between Knowledge leaves, pass the
@@ -50,7 +52,7 @@ explicitly run from the repository root.
 8. Apply [Catalog fields](#catalog-fields) and
    [Handbook routes](#handbook-routes). Check Skill descriptions and package
    selections against natural requests using
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
+   [Design selection triggers](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests)
    and
    [Handbook and Workflow selection triggers](maintain-skill.md#handbook-and-workflow-selection-triggers),
    returning a justified new Handbook responsibility to the Skill branch when
@@ -58,14 +60,14 @@ explicitly run from the repository root.
    merge, split, rename, or removal.
 9. Verify repository Knowledge and Catalog invariants—every remaining leaf is
    listed once with a valid Knowledge Type, is reachable from an installed
-   Workflow or Handbook through the package-local graph via direct
+   Workflow or Handbook through the same plugin's package-local graph via direct
    complete-file or context-sufficient-section links without hidden Handbook
    dependencies, passes
    [Admit inline Knowledge dependencies](#admit-inline-knowledge-dependencies)
    for leaf-to-leaf
    links, resolves all relative links, and leaves no removed leaves or obsolete
    routes—while applying
-   [Validate the result](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result).
+   [Validate the result](../../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result).
 10. Run `pnpm knowledge:check` from the repository root.
 
 ## Admit inline Knowledge dependencies
@@ -104,7 +106,7 @@ retrievable specializations remain separate Knowledge routes.
 
 Use the supported claim scopes, applicability conditions, and reader needs
 established by
-[Assess contribution scope](../../../../knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+[Assess contribution scope](../../../../knowledge-base/plugins/knowledge-base/references/agents/contribution-scope-assessment.md)
 to determine canonical Knowledge ownership in `knowledge/` separately from
 installed Handbook and Workflow reading routes:
 
@@ -124,7 +126,7 @@ installed Handbook and Workflow reading routes:
    vocabulary, broad `Scope` labels, or shared Handbook/Workflow bundles.
 3. Form natural requests and run blind selection checks against real installed
    Skill descriptions and Handbook packages using
-   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
+   [Check selection from requests](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests)
    and
    [Handbook and Workflow selection triggers](maintain-skill.md#handbook-and-workflow-selection-triggers).
    Distinguish a route defect (retain the Knowledge owner and fix the route)
@@ -141,7 +143,7 @@ a settled owner or no-route-change conclusion).
 
 Use trusted pre-edit `Scope`, reading routes, and body as the comparison
 baseline (reassessing per
-[Maintained document quality](../../../../knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
+[Maintained document quality](../../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#keep-revisions-coherent)
 when requirements change):
 
 - Split a general principle from a domain-, product-, or platform-specific
@@ -190,8 +192,8 @@ The Catalog owns file identity and Knowledge Type as maintenance metadata. It
 does not own runtime selection or reading conditions.
 
 **File Path.** Use the plugin-root-relative path as the link text and a
-relative Markdown link from
-[`knowledge/index.md`](../../../../knowledge-base/plugin/knowledge/index.md) as its target. Point
+relative Markdown link from the plugin's `knowledge/index.md` (such as
+[`knowledge/index.md`](../../../../knowledge-base/plugins/knowledge-base/knowledge/index.md)) as its target. Point
 directly to a leaf Knowledge document, list it exactly once, and confirm that
 the target exists.
 

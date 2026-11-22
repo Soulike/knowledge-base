@@ -11,7 +11,7 @@
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Knowledge-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-knowledge.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-- [Classification reference](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+- [Classification reference](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md)
 
 ## Protected behavior
 
@@ -50,9 +50,9 @@ modify any repository files.
 
 Supply the complete current five covered governance and authoring documents and
 their required normative routes (including
-[Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+[Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 and
-[Selection-trigger reference](../../knowledge-base/plugin/references/agents/selection-triggers.md)),
+[Selection-trigger reference](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)),
 plus the description and package summary of `handbook-javascript-typescript`,
 `handbook-software-engineering`, `handbook-product-experience`, and
 `handbook-automated-testing` from the pre-React baseline stated in the task.
@@ -104,7 +104,7 @@ sparse-domain Handbook creation (`handbook-react`) alongside
 `Covered objects` and expectations after
 [Model a Handbook Skill](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill)
 relocated from
-[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+[`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 into
 [`maintain-skill.md`](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
 alongside [Product authoring rules](../../knowledge-base/AGENTS.md).

@@ -66,17 +66,20 @@ At the exact revision named by
 `/content-verification-targets.json`, verify every target whose id appears in
 `reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
 this manifest read-only inside the Agent sandbox. It was derived
-deterministically from tracked files and the parsed
-[Knowledge catalog](knowledge-base/plugin/knowledge/index.md); the selected ids are the complete
-required scope. Treat every selected target independently and preserve its
-exact `id` in all notes and safe outputs.
+deterministically from tracked files and the parsed Knowledge catalogs across
+every isomorphic plugin under `knowledge-base/plugins/*/knowledge/index.md`
+(registered in the [Marketplace](.claude-plugin/marketplace.json), starting from
+the base [Knowledge catalog](knowledge-base/plugins/knowledge-base/knowledge/index.md));
+the selected ids are the complete required scope. Treat every selected target
+independently and preserve its exact `id` in all notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the
-   [plugin content rules](knowledge-base/AGENTS.md), the
-   [Knowledge catalog](knowledge-base/plugin/knowledge/index.md), the target
-   manifest, and every file named by every selected target. Apply the
+   [plugin content rules](knowledge-base/AGENTS.md), each plugin's Knowledge
+   catalog (`knowledge-base/plugins/<plugin>/knowledge/index.md`, including the
+   base [Knowledge catalog](knowledge-base/plugins/knowledge-base/knowledge/index.md)),
+   the target manifest, and every file named by every selected target. Apply the
    [shared review criteria](.github/workflows/shared/content-verification.md#review-phase)
    and [evidence, recovery, and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion).
    Recover an inspection failure where possible; if the required scope or
@@ -92,16 +95,17 @@ exact `id` in all notes and safe outputs.
    classification, and agreement among Scope, When to update, and body.
    Investigate whether these boundaries conceal a supported reading need or
    impose an unsupported limit; apply the shared structural-finding criteria.
-4. Use the catalog as the complete leaf inventory and Knowledge Type authority,
-   then search for actual incoming routes from installed primary-plugin
-   Workflows and Handbooks. A Workflow may select the leaf directly or through
-   an explicitly selected same-package reference; a Handbook must link it
-   directly. Trace the consumer, selecting condition or step, task stage, and
-   complete file or context-sufficient section. A catalog entry,
-   repository-maintenance workflow, README or research document, test or fixture,
-   another plugin, or another Knowledge leaf does not establish an installed
-   runtime consumer. Report static reachability separately from observations of
-   selection, reading, and application.
+4. Use the owning plugin's catalog as the complete leaf inventory and Knowledge
+   Type authority, then search for actual incoming routes from installed
+   Workflows and Handbooks within that same plugin package. A Workflow may
+   select the leaf directly or through an explicitly selected same-package
+   reference; a Handbook must link it directly. Trace the consumer, selecting
+   condition or step, task stage, and complete file or context-sufficient
+   section. A catalog entry, repository-maintenance workflow, README or
+   research document, test or fixture, another plugin, or another Knowledge
+   leaf does not establish an installed runtime consumer. Report static
+   reachability separately from observations of selection, reading, and
+   application.
 5. Identify each current `modification-required` or
    `verification-inconclusive` finding under the shared rules. A correction must
    identify its reasoning or evidence, the smallest coherent change, and

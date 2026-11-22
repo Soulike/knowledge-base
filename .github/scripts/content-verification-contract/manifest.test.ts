@@ -21,21 +21,26 @@ describe("createVerificationManifest", () => {
       "AGENTS.md",
       ".agents/skills/check/SKILL.md",
       ".agents/skills/check/references/detail.md",
-      "knowledge-base/plugin/knowledge/b.md",
-      "knowledge-base/plugin/knowledge/a.md",
-      "knowledge-base/plugin/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
     ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+    };
 
     assert.deepEqual(
       createVerificationManifest({
         scope: "time-sensitive-knowledge",
         revision,
         trackedPaths: tracked,
-        catalogMarkdown: catalog,
+        catalogs,
       }),
       {
         revision,
-        reviewTargetIds: ["knowledge-base/plugin/knowledge/a.md"],
+        reviewTargetIds: [
+          "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+        ],
         scope: "time-sensitive-knowledge",
         targetCatalog: [
           {
@@ -48,14 +53,14 @@ describe("createVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge-base/plugin/knowledge/a.md"],
-            id: "knowledge-base/plugin/knowledge/a.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge-base/plugin/knowledge/b.md"],
-            id: "knowledge-base/plugin/knowledge/b.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -67,11 +72,13 @@ describe("createVerificationManifest", () => {
         scope: "evergreen-knowledge",
         revision,
         trackedPaths: tracked,
-        catalogMarkdown: catalog,
+        catalogs,
       }),
       {
         revision,
-        reviewTargetIds: ["knowledge-base/plugin/knowledge/b.md"],
+        reviewTargetIds: [
+          "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+        ],
         scope: "evergreen-knowledge",
         targetCatalog: [
           {
@@ -84,14 +91,14 @@ describe("createVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge-base/plugin/knowledge/a.md"],
-            id: "knowledge-base/plugin/knowledge/a.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge-base/plugin/knowledge/b.md"],
-            id: "knowledge-base/plugin/knowledge/b.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -103,7 +110,7 @@ describe("createVerificationManifest", () => {
         scope: "maintained-agent-content",
         revision,
         trackedPaths: tracked,
-        catalogMarkdown: catalog,
+        catalogs,
       }),
       {
         revision,
@@ -120,14 +127,14 @@ describe("createVerificationManifest", () => {
           },
           { files: ["AGENTS.md"], id: "AGENTS.md", kind: "agent-content" },
           {
-            files: ["knowledge-base/plugin/knowledge/a.md"],
-            id: "knowledge-base/plugin/knowledge/a.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
             kind: "knowledge",
             knowledgeType: "time-sensitive",
           },
           {
-            files: ["knowledge-base/plugin/knowledge/b.md"],
-            id: "knowledge-base/plugin/knowledge/b.md",
+            files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+            id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
             kind: "knowledge",
             knowledgeType: "evergreen",
           },
@@ -143,11 +150,13 @@ describe("createVerificationManifest", () => {
           scope: "time-sensitive-knowledge",
           revision: "main",
           trackedPaths: [
-            "knowledge-base/plugin/knowledge/index.md",
-            "knowledge-base/plugin/knowledge/a.md",
-            "knowledge-base/plugin/knowledge/b.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/b.md",
           ],
-          catalogMarkdown: catalog,
+          catalogs: {
+            "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+          },
         }),
       /lowercase 40-character Git SHA/u,
     );

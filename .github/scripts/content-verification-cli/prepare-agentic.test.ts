@@ -57,12 +57,11 @@ ${lines.join("\n")}
 }
 
 describe("prepare-agentic", () => {
-  it("builds a manifest across isomorphic plugins and legacy layout", async () => {
+  it("builds a manifest across isomorphic plugins", async () => {
     const { directory, revision } = await commitRepoFiles({
-      "knowledge-base/plugin/knowledge/index.md": catalogMarkdown([
-        ["legacy.md", "evergreen"],
-      ]),
-      "knowledge-base/plugin/knowledge/legacy.md": "# Legacy\n",
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md":
+        catalogMarkdown([["base.md", "evergreen"]]),
+      "knowledge-base/plugins/knowledge-base/knowledge/base.md": "# Base\n",
       "knowledge-base/plugins/codex/knowledge/index.md": catalogMarkdown([
         ["provider.md", "time-sensitive"],
       ]),
@@ -91,15 +90,15 @@ describe("prepare-agentic", () => {
         "evergreen-knowledge",
       );
       assert.deepEqual(manifest.reviewTargetIds, [
-        "knowledge-base/plugin/knowledge/legacy.md",
+        "knowledge-base/plugins/knowledge-base/knowledge/base.md",
       ]);
       assert.deepEqual(
         manifest.targetCatalog.map((target) => target.id),
         [
-          "knowledge-base/plugin/knowledge/legacy.md",
           "knowledge-base/plugins/codex/knowledge/provider.md",
           "knowledge-base/plugins/codex/references/setup.md",
           "knowledge-base/plugins/codex/skills/handbook-codex/SKILL.md",
+          "knowledge-base/plugins/knowledge-base/knowledge/base.md",
         ],
       );
     } finally {

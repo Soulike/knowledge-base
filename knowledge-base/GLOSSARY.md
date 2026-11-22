@@ -1,7 +1,8 @@
-# Knowledge-base plugin
+# Knowledge-base plugins
 
-The plugin combines authoritative Knowledge with installed Skill entrypoints
-that either execute user work or route the understanding required for it.
+The Knowledge plugins under `plugins/<plugin-name>/` combine authoritative
+Knowledge with installed Skill entrypoints that either execute user work or
+route the understanding required for it.
 
 ## Language
 
@@ -25,7 +26,8 @@ lifecycle follow that selecting behavior; sharing it among Skills does not
 create an independent Knowledge reading responsibility.
 
 **Knowledge Catalog**:
-The complete maintenance inventory at
-[knowledge/index.md](plugin/knowledge/index.md), listing every Knowledge leaf
-and its Knowledge Type. The Catalog does not select runtime reading; installed
-Handbook and Workflow Skills own those routes.
+The complete maintenance inventory at each plugin's `knowledge/index.md` (such
+as the base plugin's
+[knowledge/index.md](plugins/knowledge-base/knowledge/index.md)), listing every
+Knowledge leaf in that plugin and its Knowledge Type. The Catalog does not
+select runtime reading; installed Handbook and Workflow Skills own those routes.

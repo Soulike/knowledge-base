@@ -40,7 +40,7 @@ only the guidance selection, package result, and any documented coverage gap.
 ## Starting state
 
 Build the current candidate set from the frontmatter of every direct installed
-Skill entrypoint under `knowledge-base/plugin/skills/*/SKILL.md`. Supply the
+Skill entrypoint under `knowledge-base/plugins/knowledge-base/skills/*/SKILL.md`. Supply the
 four natural requests and candidate names and descriptions without opening
 candidate bodies. Permit read-only access to the supplied repository snapshot
 after the choices.

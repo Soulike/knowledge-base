@@ -16,7 +16,7 @@ to evaluate changes to Knowledge, Skills, Skill references, maintained Agent
 instructions, and prompts. Enforce
 [repository architecture](AGENTS.md#repository-architecture)
 (dependency boundaries, one-way delegation from `.agents/` to
-`knowledge-base/plugin/`, symmetric downstream-project independence and
+`knowledge-base/plugins/knowledge-base/`, symmetric downstream-project independence and
 domain-model neutrality for general-purpose plugin packages, and isolation of
 product-interface contracts to explicit product-interaction workflows)
 alongside [plugin authoring rules](knowledge-base/AGENTS.md).
@@ -28,18 +28,18 @@ engineering code, tooling, or CI implementation pull requests), verify that the
 pull-request description satisfies the repository's unified
 [behavioral and documentation change evidence](AGENTS.md#behavioral-and-documentation-change-evidence)
 rule. Check generic Skill design and behavioral evidence against
-[Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
-primary-product Knowledge, Workflow Skill, and Handbook Skill evidence against
+[Prepare pull-request and handoff evidence](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+Knowledge-plugin Knowledge, Workflow Skill, and Handbook Skill evidence against
 [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior),
 cross-model reader-understanding observations against
-[Verify reader understanding](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence),
+[Verify reader understanding](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence),
 and behavioral regression evidence against
 [Behavioral regression cases](.agents/references/agent-regression-tests.md).
 
 When reviewing a Skill selection trigger or internal routing condition, apply
-[Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
+[Design selection triggers](knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
 for generic coverage, earliest-observable-point drafting, and blind request
-checks. For primary-product Knowledge, Workflow Skill, and Handbook Skill
+checks. For Knowledge-plugin Knowledge, Workflow Skill, and Handbook Skill
 responsibility boundaries, Handbook modeling, and product-specific description
 or package conditions, apply
 [Choose the Skill responsibility](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#choose-the-skill-responsibility),
@@ -47,7 +47,7 @@ or package conditions, apply
 and [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references).
 
 For changes to content claim scope or organization, apply
-[Assess contribution scope](knowledge-base/plugin/references/agents/contribution-scope-assessment.md).
+[Assess contribution scope](knowledge-base/plugins/knowledge-base/references/agents/contribution-scope-assessment.md).
 
 Review every applicable repository-specific dimension:
 
@@ -58,20 +58,20 @@ Review every applicable repository-specific dimension:
 2. Skill task sufficiency, invocation conditions, decisions, instruction
    authority, progressive disclosure, tool use, failure handling, output
    contracts, and completion criteria, applying
-   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md#prove-the-behavior)
+   [Agent Skill authoring](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prove-the-behavior)
    for generic Skill proof and
    [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior)
-   for primary-product Workflow/Handbook boundaries, Handbook packages, and
+   for Knowledge-plugin Workflow/Handbook boundaries, Handbook packages, and
    direct Knowledge reading.
 3. The smallest coherent current model for every affected responsibility unit.
    Apply
-   [Maintained document quality](knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   [Maintained document quality](knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result)
    and, for Skills,
-   [review the composed bundle](knowledge-base/plugin/references/agents/skill-authoring.md#review-the-composed-bundle)
+   [review the composed bundle](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#review-the-composed-bundle)
    alongside
    [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior)
-   for primary-product Knowledge reading and package traces.
-   For primary-plugin Knowledge, Skills, and Skill references, apply the
+   for Knowledge-plugin Knowledge reading and package traces.
+   For Knowledge, Skills, and Skill references under `knowledge-base/plugins/*/`, apply the
    [reader requirements](knowledge-base/AGENTS.md#reader-understanding) and check
    that the required cross-model understanding evidence supports the revision.
 4. Packaging and delivery completeness across affected plugin, marketplace,

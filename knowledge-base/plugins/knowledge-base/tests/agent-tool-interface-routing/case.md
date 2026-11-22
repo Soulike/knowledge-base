@@ -48,7 +48,7 @@ Handle these four independent requests:
 ## Starting state
 
 Construct the candidate selection set from the frontmatter of every direct
-installed Skill entrypoint under `knowledge-base/plugin/skills/*/SKILL.md` in
+installed Skill entrypoint under `knowledge-base/plugins/knowledge-base/skills/*/SKILL.md` in
 the tested snapshot. Supply only registered names, descriptions, and paths for
 the initial selection step before opening any Skill body. Record the Skill
 choices for all four requests before permitting read-only access to the

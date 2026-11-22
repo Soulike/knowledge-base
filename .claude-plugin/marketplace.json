@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "knowledge-base",
-      "source": "./knowledge-base/plugin"
+      "source": "./knowledge-base/plugins/knowledge-base"
     }
   ]
 }

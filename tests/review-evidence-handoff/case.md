@@ -10,8 +10,8 @@
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Case-maintenance Skill](../../.agents/skills/maintain-knowledge-base-tests/SKILL.md)
 - [Regression-case reference](../../.agents/references/agent-regression-tests.md)
-- [Reader-understanding reference](../../knowledge-base/plugin/references/agents/reader-understanding.md)
-- [Behavioral-evaluation reference](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+- [Reader-understanding reference](../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md)
+- [Behavioral-evaluation reference](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
 
 ## Protected behavior
 

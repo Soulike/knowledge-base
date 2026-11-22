@@ -20,6 +20,10 @@
     {
       "name": "chromium",
       "source": "./knowledge-base/plugins/chromium"
+    },
+    {
+      "name": "generative-media",
+      "source": "./knowledge-base/plugins/generative-media"
     }
   ]
 }

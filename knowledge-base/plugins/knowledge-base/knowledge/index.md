@@ -23,15 +23,6 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/filesystems/path-length-compatibility.md](filesystems/path-length-compatibility.md)                                         | time-sensitive |
 | [knowledge/filesystems/pathnames-and-resource-identity.md](filesystems/pathnames-and-resource-identity.md)                             | evergreen      |
 | [knowledge/filesystems/runtime-apis-and-native-commands.md](filesystems/runtime-apis-and-native-commands.md)                           | time-sensitive |
-| [knowledge/generative-media/gemini-app-people-image-prompting.md](generative-media/gemini-app-people-image-prompting.md)               | time-sensitive |
-| [knowledge/generative-media/image-to-video-prompting.md](generative-media/image-to-video-prompting.md)                                 | time-sensitive |
-| [knowledge/generative-media/people-focused-anime-animation-design.md](generative-media/people-focused-anime-animation-design.md)       | evergreen      |
-| [knowledge/generative-media/people-focused-anime-illustration-design.md](generative-media/people-focused-anime-illustration-design.md) | evergreen      |
-| [knowledge/generative-media/people-focused-continuous-shot-design.md](generative-media/people-focused-continuous-shot-design.md)       | evergreen      |
-| [knowledge/generative-media/people-focused-photographic-image-design.md](generative-media/people-focused-photographic-image-design.md) | evergreen      |
-| [knowledge/generative-media/people-focused-photographic-video-design.md](generative-media/people-focused-photographic-video-design.md) | evergreen      |
-| [knowledge/generative-media/people-focused-still-image-design.md](generative-media/people-focused-still-image-design.md)               | evergreen      |
-| [knowledge/generative-media/still-image-prompting.md](generative-media/still-image-prompting.md)                                       | time-sensitive |
 | [knowledge/git/change-comparison-semantics.md](git/change-comparison-semantics.md)                                                     | evergreen      |
 | [knowledge/github-actions/agent-run-state-and-reruns.md](github-actions/agent-run-state-and-reruns.md)                                 | evergreen      |
 | [knowledge/github-actions/gh-aw-copilot-model-compatibility.md](github-actions/gh-aw-copilot-model-compatibility.md)                   | time-sensitive |

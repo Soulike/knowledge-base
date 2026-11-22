@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
 import { createVerificationManifest } from "./manifest.ts";
+import { parseVerificationManifest } from "./manifest-validation.ts";
 
 const catalog = `# Knowledge catalog
 
@@ -149,6 +150,90 @@ describe("createVerificationManifest", () => {
           catalogMarkdown: catalog,
         }),
       /lowercase 40-character Git SHA/u,
+    );
+  });
+
+  it("derives valid multi-plugin manifests across every scope", () => {
+    const revision = "b".repeat(40);
+    const secondCatalog = `# Knowledge catalog
+
+## Documents
+
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/c.md](c.md) | evergreen |
+| [knowledge/d.md](d.md) | time-sensitive |
+`;
+    const tracked = [
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/references/shared.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-base/SKILL.md",
+      "knowledge-base/plugins/codex/knowledge/index.md",
+      "knowledge-base/plugins/codex/knowledge/c.md",
+      "knowledge-base/plugins/codex/knowledge/d.md",
+      "knowledge-base/plugins/codex/references/codex.md",
+      "knowledge-base/plugins/codex/skills/handbook-codex/SKILL.md",
+    ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+      "knowledge-base/plugins/codex/knowledge/index.md": secondCatalog,
+    };
+
+    const timeSensitive = createVerificationManifest({
+      scope: "time-sensitive-knowledge",
+      revision,
+      trackedPaths: tracked,
+      catalogs,
+    });
+    assert.deepEqual(timeSensitive.reviewTargetIds, [
+      "knowledge-base/plugins/codex/knowledge/d.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+    ]);
+    assert.deepEqual(
+      parseVerificationManifest(
+        timeSensitive,
+        revision,
+        "time-sensitive-knowledge",
+      ),
+      timeSensitive,
+    );
+
+    const evergreen = createVerificationManifest({
+      scope: "evergreen-knowledge",
+      revision,
+      trackedPaths: tracked,
+      catalogs,
+    });
+    assert.deepEqual(evergreen.reviewTargetIds, [
+      "knowledge-base/plugins/codex/knowledge/c.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+    ]);
+    assert.deepEqual(
+      parseVerificationManifest(evergreen, revision, "evergreen-knowledge"),
+      evergreen,
+    );
+
+    const maintained = createVerificationManifest({
+      scope: "maintained-agent-content",
+      revision,
+      trackedPaths: tracked,
+      catalogs,
+    });
+    assert.deepEqual(maintained.reviewTargetIds, [
+      "knowledge-base/plugins/codex/references/codex.md",
+      "knowledge-base/plugins/codex/skills/handbook-codex/SKILL.md",
+      "knowledge-base/plugins/knowledge-base/references/shared.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-base/SKILL.md",
+    ]);
+    assert.deepEqual(
+      parseVerificationManifest(
+        maintained,
+        revision,
+        "maintained-agent-content",
+      ),
+      maintained,
     );
   });
 });

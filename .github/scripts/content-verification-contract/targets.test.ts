@@ -199,4 +199,256 @@ describe("discoverVerificationTargets", () => {
       })),
     );
   });
+
+  it("discovers Knowledge targets across multiple isomorphic plugins and legacy layout", () => {
+    const codexCatalog = `# Knowledge catalog
+
+## Documents
+
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/a.md](a.md) | evergreen |
+| [knowledge/guide.md](guide.md) | time-sensitive |
+`;
+    const chromiumCatalog = `# Knowledge catalog
+
+## Documents
+
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/ios.md](ios.md) | evergreen |
+`;
+    const tracked = [
+      "knowledge-base/plugin/knowledge/index.md",
+      "knowledge-base/plugin/knowledge/a.md",
+      "knowledge-base/plugin/knowledge/b.md",
+      "knowledge-base/plugins/codex/knowledge/index.md",
+      "knowledge-base/plugins/codex/knowledge/a.md",
+      "knowledge-base/plugins/codex/knowledge/guide.md",
+      "knowledge-base/plugins/chromium/knowledge/index.md",
+      "knowledge-base/plugins/chromium/knowledge/ios.md",
+    ];
+    const catalogs = {
+      "knowledge-base/plugin/knowledge/index.md": catalog,
+      "knowledge-base/plugins/codex/knowledge/index.md": codexCatalog,
+      "knowledge-base/plugins/chromium/knowledge/index.md": chromiumCatalog,
+    };
+
+    assert.deepEqual(
+      discoverVerificationTargets(
+        "time-sensitive-knowledge",
+        tracked,
+        catalogs,
+      ),
+      [
+        {
+          files: ["knowledge-base/plugin/knowledge/a.md"],
+          id: "knowledge-base/plugin/knowledge/a.md",
+          kind: "knowledge",
+          knowledgeType: "time-sensitive",
+        },
+        {
+          files: ["knowledge-base/plugins/codex/knowledge/guide.md"],
+          id: "knowledge-base/plugins/codex/knowledge/guide.md",
+          kind: "knowledge",
+          knowledgeType: "time-sensitive",
+        },
+      ],
+    );
+    assert.deepEqual(
+      discoverVerificationTargets("evergreen-knowledge", tracked, catalogs),
+      [
+        {
+          files: ["knowledge-base/plugin/knowledge/b.md"],
+          id: "knowledge-base/plugin/knowledge/b.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+        {
+          files: ["knowledge-base/plugins/chromium/knowledge/ios.md"],
+          id: "knowledge-base/plugins/chromium/knowledge/ios.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+        {
+          files: ["knowledge-base/plugins/codex/knowledge/a.md"],
+          id: "knowledge-base/plugins/codex/knowledge/a.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+      ],
+    );
+  });
+
+  it("discovers Skills, shared references, and instructions across isomorphic plugins", () => {
+    const tracked = [
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/AGENTS.md",
+      "knowledge-base/plugins/knowledge-base/GLOSSARY.md",
+      "knowledge-base/plugins/knowledge-base/GLOSSARY-MAP.md",
+      "knowledge-base/plugins/knowledge-base/docs/agents/domain.md",
+      "knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/tests/case.md",
+      "knowledge-base/plugins/generative-media/knowledge/index.md",
+      "knowledge-base/plugins/generative-media/knowledge/a.md",
+      "knowledge-base/plugins/generative-media/references/still-image-prompt-contract.md",
+      "knowledge-base/plugins/generative-media/skills/workflow-design-image-generation-prompts/SKILL.md",
+      "knowledge-base/plugins/generative-media/skills/workflow-design-image-generation-prompts/references/local.md",
+    ];
+    const singleLeafCatalog = `# Knowledge catalog
+
+## Documents
+
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/a.md](a.md) | evergreen |
+`;
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md":
+        singleLeafCatalog,
+      "knowledge-base/plugins/generative-media/knowledge/index.md":
+        singleLeafCatalog,
+    };
+
+    assert.deepEqual(
+      discoverVerificationTargets(
+        "maintained-agent-content",
+        tracked,
+        catalogs,
+      ),
+      [
+        {
+          files: [
+            "knowledge-base/plugins/generative-media/references/still-image-prompt-contract.md",
+          ],
+          id: "knowledge-base/plugins/generative-media/references/still-image-prompt-contract.md",
+          kind: "shared-reference",
+        },
+        {
+          files: [
+            "knowledge-base/plugins/generative-media/skills/workflow-design-image-generation-prompts/SKILL.md",
+            "knowledge-base/plugins/generative-media/skills/workflow-design-image-generation-prompts/references/local.md",
+          ],
+          id: "knowledge-base/plugins/generative-media/skills/workflow-design-image-generation-prompts/SKILL.md",
+          kind: "skill",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/AGENTS.md"],
+          id: "knowledge-base/plugins/knowledge-base/AGENTS.md",
+          kind: "agent-content",
+        },
+        {
+          files: [
+            "knowledge-base/plugins/knowledge-base/docs/agents/domain.md",
+          ],
+          id: "knowledge-base/plugins/knowledge-base/docs/agents/domain.md",
+          kind: "agent-content",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/GLOSSARY-MAP.md"],
+          id: "knowledge-base/plugins/knowledge-base/GLOSSARY-MAP.md",
+          kind: "agent-content",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/GLOSSARY.md"],
+          id: "knowledge-base/plugins/knowledge-base/GLOSSARY.md",
+          kind: "agent-content",
+        },
+        {
+          files: [
+            "knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md",
+          ],
+          id: "knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md",
+          kind: "shared-reference",
+        },
+        {
+          files: [
+            "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+          ],
+          id: "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+          kind: "skill",
+        },
+      ],
+    );
+  });
+
+  it("fails deterministically on catalog-versus-filesystem mismatches in any plugin", () => {
+    const validCatalog = `# Knowledge catalog
+
+## Documents
+
+| File Path | Knowledge Type |
+| --- | --- |
+| [knowledge/a.md](a.md) | evergreen |
+`;
+
+    assert.throws(
+      () =>
+        discoverVerificationTargets(
+          "evergreen-knowledge",
+          [
+            "knowledge-base/plugins/alpha/knowledge/index.md",
+            "knowledge-base/plugins/alpha/knowledge/a.md",
+            "knowledge-base/plugins/beta/knowledge/index.md",
+            "knowledge-base/plugins/beta/knowledge/extra.md",
+          ],
+          {
+            "knowledge-base/plugins/alpha/knowledge/index.md": validCatalog,
+            "knowledge-base/plugins/beta/knowledge/index.md": validCatalog,
+          },
+        ),
+      /Cannot select Knowledge from invalid catalog 'knowledge-base\/plugins\/beta\/knowledge\/index\.md':/u,
+    );
+
+    assert.throws(
+      () =>
+        discoverVerificationTargets(
+          "evergreen-knowledge",
+          [
+            "knowledge-base/plugins/alpha/knowledge/index.md",
+            "knowledge-base/plugins/alpha/knowledge/a.md",
+            "knowledge-base/plugins/beta/knowledge/orphan.md",
+          ],
+          {
+            "knowledge-base/plugins/alpha/knowledge/index.md": validCatalog,
+          },
+        ),
+      /Knowledge directory 'knowledge-base\/plugins\/beta\/knowledge' is missing its Knowledge catalog/u,
+    );
+
+    assert.throws(
+      () =>
+        discoverVerificationTargets(
+          "evergreen-knowledge",
+          [
+            "knowledge-base/plugins/alpha/knowledge/index.md",
+            "knowledge-base/plugins/alpha/knowledge/a.md",
+            "knowledge-base/plugins/beta/knowledge/index.md",
+            "knowledge-base/plugins/beta/knowledge/a.md",
+          ],
+          {
+            "knowledge-base/plugins/alpha/knowledge/index.md": validCatalog,
+          },
+        ),
+      /Missing Knowledge catalog content for 'knowledge-base\/plugins\/beta\/knowledge\/index\.md'/u,
+    );
+
+    assert.throws(
+      () =>
+        discoverVerificationTargets(
+          "evergreen-knowledge",
+          [
+            "knowledge-base/plugins/alpha/knowledge/index.md",
+            "knowledge-base/plugins/alpha/knowledge/a.md",
+          ],
+          {
+            "knowledge-base/plugins/alpha/knowledge/index.md": validCatalog,
+            "knowledge-base/plugins/beta/knowledge/index.md": validCatalog,
+          },
+        ),
+      /Knowledge catalog 'knowledge-base\/plugins\/beta\/knowledge\/index\.md' is not present in tracked files/u,
+    );
+  });
 });

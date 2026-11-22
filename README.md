@@ -1,25 +1,35 @@
 # knowledge-base
 
-A personal marketplace centered on the `knowledge-base` plugin, with room for
-independent auxiliary plugins. The repository provides shared development
-tooling and automation while each installed plugin remains self-contained.
+A personal marketplace for the `knowledge-base` Knowledge plugin collection.
+The repository provides shared development tooling and automation while each
+installed plugin remains self-contained.
 
 ## Available plugins
 
-| Plugin                                            | Purpose                                                                             |
-| ------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| [knowledge-base](knowledge-base/plugin/README.md) | Curated Knowledge and Agent workflows that discover and apply it during real tasks. |
+| Plugin                                                                | Role            | Selector                          | Purpose                                                                                             |
+| --------------------------------------------------------------------- | --------------- | --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [knowledge-base](knowledge-base/plugins/knowledge-base/README.md)     | Base plugin     | `knowledge-base@knowledge-base`   | Curated Knowledge, collaboration principles, and reusable Agent workflows for general tasks.        |
+| [generative-media](knowledge-base/plugins/generative-media/README.md) | Optional plugin | `generative-media@knowledge-base` | People-focused still-image and continuous-shot design Knowledge, prompting guidance, and workflows. |
+| [chromium](knowledge-base/plugins/chromium/README.md)                 | Optional plugin | `chromium@knowledge-base`         | Curated Chromium architecture Knowledge and Handbook guidance.                                      |
+| [azure-devops](knowledge-base/plugins/azure-devops/README.md)         | Optional plugin | `azure-devops@knowledge-base`     | Curated Azure DevOps Knowledge and Handbook guidance.                                               |
+| [codex](knowledge-base/plugins/codex/README.md)                       | Optional plugin | `codex@knowledge-base`            | Curated Codex platform Knowledge, Handbook guidance, and Codex-specific workflows.                  |
 
-See the plugin's [installation and usage guide](knowledge-base/plugin/README.md#install-with-codex)
-for Codex and GitHub Copilot CLI. The marketplace and plugin selector remain
-`knowledge-base` and `knowledge-base@knowledge-base`.
+Keep the base `knowledge-base@knowledge-base` plugin installed alongside any
+optional plugins from this marketplace (`<name>@knowledge-base`). See the base
+plugin's
+[installation and usage guide](knowledge-base/plugins/knowledge-base/README.md#install-with-codex)
+for Codex and GitHub Copilot CLI, and each optional plugin's README for its
+installation commands and client compatibility (`codex` targets Codex). The
+marketplace and base plugin selector remain `knowledge-base` and
+`knowledge-base@knowledge-base`.
 
 ## Repository layout
 
-- [knowledge-base/](knowledge-base/) is the primary product source module. Its
-  `plugin/` directory is the installable package; its tooling, libraries, and
-  domain documents stay beside that package under the same product owner.
-- [plugins/](plugins/) contains independent auxiliary plugin packages.
+- [knowledge-base/](knowledge-base/) is the product source module. Its
+  `plugins/<plugin-name>/` directory holds all isomorphic installable packages
+  (starting with [knowledge-base](knowledge-base/plugins/knowledge-base/));
+  its tooling, libraries, and domain documents stay beside `plugins/` under the
+  same product owner.
 - [docs/](docs/) contains repository-wide contributor instructions and
   architectural decisions. Plugin-specific documentation stays with its owner.
 - [.agents/](.agents/) contains repository-maintenance workflows and their
@@ -34,9 +44,9 @@ Domain vocabulary and decision ownership are routed through the
 
 ## Contribute
 
-To propose a Knowledge or Skill contribution from the installed primary plugin,
+To propose a Knowledge or Skill contribution from the installed base plugin,
 use
-[workflow-contribute-to-knowledge-base](knowledge-base/plugin/skills/workflow-contribute-to-knowledge-base/SKILL.md).
+[workflow-contribute-to-knowledge-base](knowledge-base/plugins/knowledge-base/skills/workflow-contribute-to-knowledge-base/SKILL.md).
 It locates the canonical repository and publishes a sanitized issue for review.
 
 For a source checkout, use Node.js 24 or later and pnpm 11:

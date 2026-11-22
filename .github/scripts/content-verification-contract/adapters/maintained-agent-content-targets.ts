@@ -16,16 +16,13 @@ function isSkillTestAsset(filePath: string, skillDirectory: string): boolean {
 }
 
 function sharedReferencePackage(filePath: string): boolean {
-  if (filePath.startsWith("knowledge-base/plugin/references/")) {
-    return true;
-  }
   if (filePath.startsWith(".agents/references/")) {
     return true;
   }
   if (filePath.startsWith(".github/workflows/shared/")) {
     return filePath.endsWith(".md");
   }
-  return /^plugins\/[^/]+\/references\//u.test(filePath);
+  return /^knowledge-base\/plugins\/[^/]+\/references\//u.test(filePath);
 }
 
 function isAgentInstructions(filePath: string): boolean {
@@ -36,8 +33,10 @@ function isAgentInstructions(filePath: string): boolean {
     filePath === "GLOSSARY-MAP.md" ||
     /^knowledge-base\/GLOSSARY(?:-MAP)?\.md$/u.test(filePath) ||
     /^knowledge-base\/docs\/agents\/[^/]+\.md$/u.test(filePath) ||
-    /^plugins\/[^/]+\/GLOSSARY(?:-MAP)?\.md$/u.test(filePath) ||
-    /^plugins\/[^/]+\/docs\/agents\/[^/]+\.md$/u.test(filePath) ||
+    /^knowledge-base\/plugins\/[^/]+\/GLOSSARY(?:-MAP)?\.md$/u.test(filePath) ||
+    /^knowledge-base\/plugins\/[^/]+\/docs\/agents\/[^/]+\.md$/u.test(
+      filePath,
+    ) ||
     /^docs\/agents\/[^/]+\.md$/u.test(filePath)
   );
 }

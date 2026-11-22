@@ -4,6 +4,7 @@ import { copyFile, mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
+import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 
 const executeFile = promisify(execFile);
@@ -21,12 +22,11 @@ const manifest = {
     },
   ],
 };
-const script = new URL("./findings-gate-cli.ts", import.meta.url);
+const script = fileURLToPath(
+  new URL("./findings-gate-cli.ts", import.meta.url),
+);
 
-async function runGate(
-  items: unknown[],
-  gateScript = script.pathname,
-): Promise<void> {
+async function runGate(items: unknown[], gateScript = script): Promise<void> {
   const directory = await mkdtemp(
     join(tmpdir(), "content-verification-findings-gate-"),
   );

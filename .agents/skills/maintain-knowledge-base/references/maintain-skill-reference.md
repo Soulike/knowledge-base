@@ -8,20 +8,21 @@
    package boundary shared by those consumers. Read the entire reference and
    every consumer needed to judge those relationships.
 3. Read
-   [Agent Skill authoring](../../../../knowledge-base/plugin/references/agents/skill-authoring.md)
+   [Agent Skill authoring](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
    and
-   [Design selection triggers](../../../../knowledge-base/plugin/references/agents/selection-triggers.md),
+   [Design selection triggers](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md),
    and delegate all general bundle-organization, cohesive-support,
    selection-timing, progressive-disclosure, and split-or-merge decisions to
    those authorities without restating them here. Apply
    [Assign Knowledge, references, and bundle ownership](maintain-skill.md#assign-knowledge-references-and-bundle-ownership)
-   for primary-product Knowledge, Workflow Skill, Handbook Skill, and reference
+   for Knowledge-plugin Knowledge, Workflow Skill, Handbook Skill, and reference
    boundary separation.
 4. Apply the dependency-boundary, domain-model-neutrality,
    product-interface-isolation, and package-placement rules in
    [`AGENTS.md`](../../../../AGENTS.md#repository-architecture):
-   - Keep generalizable Skill references in `knowledge-base/plugin/` (or the
-     applicable plugin package), inside the owning Skill's `references/`
+   - Keep generalizable Skill references in `knowledge-base/plugins/<plugin-name>/`
+     (using `knowledge-base/plugins/knowledge-base/` for cross-domain shared
+     references), inside the owning Skill's `references/`
      directory when used by one Skill or `references/<domain>/` when shared
      across Skills in the same plugin, preserving symmetric
      downstream-project independence and domain-model neutrality and avoiding
@@ -29,11 +30,11 @@
    - Keep only repository-coupled or product-architecture-specific references
      under `.agents/` (inside the consuming workflow's `references/` directory
      or `.agents/references/` when shared across repository-maintenance
-     workflows), delegating one-way to `knowledge-base/plugin/`.
+     workflows), delegating one-way to `knowledge-base/plugins/knowledge-base/`.
    - Record the complete consumer set and chosen boundary; reconsider package
      ownership instead of creating cross-package or repository-global routing.
 5. Apply the parent-selected disposition to each affected responsibility unit.
-   For primary-product references under `knowledge-base/plugin/`, verify
+   For references under `knowledge-base/plugins/*/`, verify
    package isolation
    ([knowledge-base/AGENTS.md](../../../../knowledge-base/AGENTS.md)) and
    Knowledge Catalog

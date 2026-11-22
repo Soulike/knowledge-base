@@ -129,17 +129,30 @@ function errorCode(error: unknown): string | undefined {
   return undefined;
 }
 
-async function findSkillEntrypoints(
-  pluginDirectory: string,
-): Promise<string[]> {
+async function findSkillEntrypoints(pluginDirectory: string): Promise<{
+  entrypoints: string[];
+  diagnostics: KnowledgeReachabilityDiagnostic[];
+}> {
   const skillsDirectory = join(pluginDirectory, "skills");
   let entries;
 
   try {
     entries = await readdir(skillsDirectory, { withFileTypes: true });
   } catch (error) {
-    if (errorCode(error) === "ENOENT") {
-      return [];
+    const code = errorCode(error);
+    if (code === "ENOENT") {
+      return { entrypoints: [], diagnostics: [] };
+    }
+    if (code === "ENOTDIR") {
+      return {
+        entrypoints: [],
+        diagnostics: [
+          {
+            filePath: "skills",
+            message: "Skills directory is not a directory.",
+          },
+        ],
+      };
     }
     throw error;
   }
@@ -164,7 +177,7 @@ async function findSkillEntrypoints(
     }
   }
 
-  return entrypoints;
+  return { entrypoints, diagnostics: [] };
 }
 
 function isOutsidePackage(relativePath: string): boolean {
@@ -232,10 +245,11 @@ export async function checkKnowledgeReachability(
 ): Promise<KnowledgeReachabilityResult> {
   const resolvedPluginDirectory = resolve(pluginDirectory);
   const realPluginDirectory = await realpath(resolvedPluginDirectory);
-  const entrypoints = await findSkillEntrypoints(resolvedPluginDirectory);
+  const { entrypoints, diagnostics } = await findSkillEntrypoints(
+    resolvedPluginDirectory,
+  );
   const knowledgePathSet = new Set(knowledgeFilePaths);
   const reachableKnowledgePaths = new Set<string>();
-  const diagnostics: KnowledgeReachabilityDiagnostic[] = [];
 
   for (const entrypoint of entrypoints) {
     const entrypointPath = toPortablePath(
@@ -247,12 +261,12 @@ export async function checkKnowledgeReachability(
       diagnostics.push({ filePath: entrypointPath, message });
     }
 
-    async function visitRoute(
+    async function resolveInPackageFile(
       filePath: string,
       displayPath: string,
       route: readonly string[],
       incomingLink?: IncomingLink,
-    ): Promise<void> {
+    ): Promise<{ realFilePath: string; relativePath: string } | undefined> {
       let realFilePath: string;
       try {
         realFilePath = await realpath(filePath);
@@ -267,13 +281,13 @@ export async function checkKnowledgeReachability(
             `Route '${routeDescription(route)}' cannot read '${displayPath}' linked from '${incomingLink.sourcePath}:${incomingLink.line}': ${readFailureMessage(code)}.`,
           );
         }
-        return;
+        return undefined;
       }
 
-      const realPluginRelativePath = toPortablePath(
+      const relativePath = toPortablePath(
         relative(realPluginDirectory, realFilePath),
       );
-      if (isOutsidePackage(realPluginRelativePath)) {
+      if (isOutsidePackage(relativePath)) {
         if (incomingLink === undefined) {
           addDiagnostic(
             `Installed Skill entrypoint '${displayPath}' resolves outside the plugin package.`,
@@ -283,8 +297,29 @@ export async function checkKnowledgeReachability(
             `Route '${routeDescription(route)}' follows '${incomingLink.url}' from '${incomingLink.sourcePath}:${incomingLink.line}' outside the plugin package.`,
           );
         }
+        return undefined;
+      }
+
+      return { realFilePath, relativePath };
+    }
+
+    async function visitRoute(
+      filePath: string,
+      displayPath: string,
+      route: readonly string[],
+      incomingLink?: IncomingLink,
+    ): Promise<void> {
+      const resolved = await resolveInPackageFile(
+        filePath,
+        displayPath,
+        route,
+        incomingLink,
+      );
+      if (resolved === undefined) {
         return;
       }
+
+      const { realFilePath, relativePath: realPluginRelativePath } = resolved;
 
       if (
         incomingLink !== undefined &&
@@ -349,8 +384,31 @@ export async function checkKnowledgeReachability(
           continue;
         }
 
-        if (knowledgePathSet.has(pluginRelativeTarget)) {
-          reachableKnowledgePaths.add(pluginRelativeTarget);
+        const isKnownKnowledgeLeaf = knowledgePathSet.has(pluginRelativeTarget);
+        if (
+          isKnownKnowledgeLeaf ||
+          isPotentialKnowledgeLeaf(pluginRelativeTarget)
+        ) {
+          const resolvedTarget = await resolveInPackageFile(
+            targetPath,
+            pluginRelativeTarget,
+            targetRoute,
+            incoming,
+          );
+          if (resolvedTarget === undefined) {
+            continue;
+          }
+          if (isKnownKnowledgeLeaf) {
+            reachableKnowledgePaths.add(pluginRelativeTarget);
+          } else {
+            try {
+              await readFile(resolvedTarget.realFilePath, "utf8");
+            } catch (error) {
+              addDiagnostic(
+                `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
+              );
+            }
+          }
         } else if (isPackageReference(pluginRelativeTarget)) {
           await visitRoute(
             targetPath,
@@ -358,14 +416,6 @@ export async function checkKnowledgeReachability(
             targetRoute,
             incoming,
           );
-        } else if (isPotentialKnowledgeLeaf(pluginRelativeTarget)) {
-          try {
-            await readFile(targetPath, "utf8");
-          } catch (error) {
-            addDiagnostic(
-              `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
-            );
-          }
         }
       }
     }

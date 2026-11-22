@@ -2,7 +2,10 @@ import { posix } from "node:path";
 
 import type { KnowledgeType } from "@knowledge-base/knowledge-catalog-validation";
 
-import { discoverKnowledgeBaseTargets } from "./adapters/knowledge-base-targets.ts";
+import {
+  discoverKnowledgeBaseTargets,
+  type KnowledgeCatalogInputs,
+} from "./adapters/knowledge-base-targets.ts";
 import { discoverMaintainedAgentContentTargets } from "./adapters/maintained-agent-content-targets.ts";
 import type { VerificationScope } from "./scope.ts";
 import type { VerificationTarget } from "./types.ts";
@@ -38,11 +41,11 @@ function normalizedTrackedPaths(trackedPaths: readonly string[]): string[] {
 export function discoverVerificationTargets(
   scope: VerificationScope,
   trackedPaths: readonly string[],
-  catalogMarkdown: string,
+  catalogs: KnowledgeCatalogInputs,
 ): VerificationTarget[] {
   return selectVerificationTargets(
     scope,
-    discoverVerificationTargetCatalog(trackedPaths, catalogMarkdown),
+    discoverVerificationTargetCatalog(trackedPaths, catalogs),
   );
 }
 
@@ -66,11 +69,11 @@ export function selectVerificationTargets(
 
 export function discoverVerificationTargetCatalog(
   trackedPaths: readonly string[],
-  catalogMarkdown: string,
+  catalogs: KnowledgeCatalogInputs,
 ): VerificationTarget[] {
   const paths = normalizedTrackedPaths(trackedPaths);
   const targets = [
-    ...discoverKnowledgeBaseTargets(paths, catalogMarkdown),
+    ...discoverKnowledgeBaseTargets(paths, catalogs),
     ...discoverMaintainedAgentContentTargets(paths),
   ].sort((left, right) => left.id.localeCompare(right.id));
 

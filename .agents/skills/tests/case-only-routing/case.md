@@ -25,7 +25,7 @@ and wording for the same workflow choice.
 
 Build the current candidate set from the frontmatter of every direct Skill
 entrypoint under `.agents/skills/*/SKILL.md` and
-`knowledge-base/plugin/skills/*/SKILL.md`. Supply names and descriptions without
+`knowledge-base/plugins/*/skills/*/SKILL.md`. Supply names and descriptions without
 candidate bodies and stop after the choice. Permit no file edits or substantive
 case authoring. Record inherited runtime instructions separately from candidate
 metadata.

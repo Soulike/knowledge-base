@@ -1,10 +1,12 @@
-import { posix, resolve } from "node:path";
+import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  isVersionedContent,
   listChangedFiles,
+  type PluginManifestAtRevision,
   readCommitterTimestamp,
-  readKnowledgeBasePluginAtRevision,
+  readMarketplacePluginsAtRevision,
   readMergeBase,
 } from "./repository.ts";
 import {
@@ -20,16 +22,103 @@ export interface CheckPluginVersionOptions {
   headRevision: string;
 }
 
-export interface CheckPluginVersionResult {
+export interface PluginVersionCheckResult {
+  name: string;
   checked: boolean;
   version: string;
 }
 
-function isVersionedContent(path: string, manifestPath: string): boolean {
-  const pluginDirectory = posix.dirname(manifestPath);
-  return ["knowledge", "references", "skills"].some((directory) =>
-    path.startsWith(`${posix.join(pluginDirectory, directory)}/`),
+export interface CheckPluginVersionResult {
+  plugins: PluginVersionCheckResult[];
+}
+
+function checkSinglePlugin({
+  headPlugin,
+  comparisonPlugin,
+  targetPlugin,
+  comparisonBase,
+  targetRevision,
+  headRevision,
+  changedFiles,
+  committerTimestamp,
+  releaseDate,
+}: {
+  headPlugin: PluginManifestAtRevision;
+  comparisonPlugin: PluginManifestAtRevision | undefined;
+  targetPlugin: PluginManifestAtRevision | undefined;
+  comparisonBase: string;
+  targetRevision: string;
+  headRevision: string;
+  changedFiles: string[];
+  committerTimestamp: string;
+  releaseDate: string;
+}): PluginVersionCheckResult {
+  const headVersion = readManifestVersion(
+    headPlugin.content,
+    `${headPlugin.manifestPath} at ${headRevision}`,
   );
+
+  if (comparisonPlugin === undefined && targetPlugin === undefined) {
+    const expectedVersion = nextPluginVersion("", releaseDate);
+    if (headVersion !== expectedVersion) {
+      throw new Error(
+        `Expected new '${headPlugin.name}' plugin version '${expectedVersion}' from head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
+      );
+    }
+    return { name: headPlugin.name, checked: true, version: headVersion };
+  }
+
+  const comparisonVersion =
+    comparisonPlugin === undefined
+      ? undefined
+      : readManifestVersion(
+          comparisonPlugin.content,
+          `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
+        );
+  const targetVersion =
+    targetPlugin === undefined
+      ? comparisonVersion
+      : readManifestVersion(
+          targetPlugin.content,
+          `${targetPlugin.manifestPath} at ${targetRevision}`,
+        );
+
+  const contentChanged = changedFiles.some(
+    (path) =>
+      (comparisonPlugin !== undefined &&
+        isVersionedContent(path, comparisonPlugin.manifestPath)) ||
+      isVersionedContent(path, headPlugin.manifestPath),
+  );
+  const versionChanged =
+    comparisonVersion === undefined || headVersion !== comparisonVersion;
+
+  if (!contentChanged && !versionChanged) {
+    return { name: headPlugin.name, checked: false, version: headVersion };
+  }
+
+  if (
+    !contentChanged &&
+    versionChanged &&
+    comparisonVersion !== undefined &&
+    parsePluginVersion(comparisonVersion) !== undefined
+  ) {
+    throw new Error(
+      `The '${headPlugin.name}' plugin version changed, but its Knowledge, Skill references, and usage Skills did not.`,
+    );
+  }
+
+  const expectedVersion = nextPluginVersion(targetVersion ?? "", releaseDate);
+
+  if (headVersion !== expectedVersion) {
+    const reason = contentChanged
+      ? "Versioned content changed."
+      : "The version field changed.";
+    throw new Error(
+      `${reason} Expected '${headPlugin.name}' plugin version '${expectedVersion}' from target '${targetVersion ?? ""}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
+    );
+  }
+
+  return { name: headPlugin.name, checked: true, version: headVersion };
 }
 
 export function checkPluginVersion({
@@ -42,70 +131,56 @@ export function checkPluginVersion({
     targetRevision,
     headRevision,
   );
-  const comparisonPlugin = readKnowledgeBasePluginAtRevision(
-    repository,
-    comparisonBase,
+  const comparisonPlugins = new Map(
+    readMarketplacePluginsAtRevision(repository, comparisonBase).map(
+      (plugin) => [plugin.name, plugin],
+    ),
   );
-  const targetPlugin = readKnowledgeBasePluginAtRevision(
-    repository,
-    targetRevision,
+  const targetPlugins = new Map(
+    readMarketplacePluginsAtRevision(repository, targetRevision).map(
+      (plugin) => [plugin.name, plugin],
+    ),
   );
-  const headPlugin = readKnowledgeBasePluginAtRevision(
+  const headPlugins = readMarketplacePluginsAtRevision(
     repository,
     headRevision,
-  );
-  const comparisonVersion = readManifestVersion(
-    comparisonPlugin.content,
-    `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
-  );
-  const targetVersion = readManifestVersion(
-    targetPlugin.content,
-    `${targetPlugin.manifestPath} at ${targetRevision}`,
-  );
-  const headVersion = readManifestVersion(
-    headPlugin.content,
-    `${headPlugin.manifestPath} at ${headRevision}`,
   );
   const changedFiles = listChangedFiles(
     repository,
     comparisonBase,
     headRevision,
   );
-  const contentChanged = changedFiles.some(
-    (path) =>
-      isVersionedContent(path, comparisonPlugin.manifestPath) ||
-      isVersionedContent(path, headPlugin.manifestPath),
-  );
-  const versionChanged = headVersion !== comparisonVersion;
-
-  if (!contentChanged && !versionChanged) {
-    return { checked: false, version: headVersion };
-  }
-
-  if (
-    !contentChanged &&
-    versionChanged &&
-    parsePluginVersion(comparisonVersion) !== undefined
-  ) {
-    throw new Error(
-      "The knowledge-base plugin version changed, but its Knowledge, Skill references, and usage Skills did not.",
-    );
-  }
-
   const committerTimestamp = readCommitterTimestamp(repository, headRevision);
   const releaseDate = releaseDateForTimestamp(committerTimestamp);
-  const expectedVersion = nextPluginVersion(targetVersion, releaseDate);
 
-  if (headVersion !== expectedVersion) {
-    const reason = contentChanged
-      ? "Versioned content changed."
-      : "The version field changed.";
-    throw new Error(
-      `${reason} Expected knowledge-base plugin version '${expectedVersion}' from target '${targetVersion}' and head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
-    );
+  const results: PluginVersionCheckResult[] = [];
+  const errors: string[] = [];
+
+  for (const headPlugin of headPlugins) {
+    try {
+      results.push(
+        checkSinglePlugin({
+          headPlugin,
+          comparisonPlugin: comparisonPlugins.get(headPlugin.name),
+          targetPlugin: targetPlugins.get(headPlugin.name),
+          comparisonBase,
+          targetRevision,
+          headRevision,
+          changedFiles,
+          committerTimestamp,
+          releaseDate,
+        }),
+      );
+    } catch (error) {
+      errors.push(error instanceof Error ? error.message : String(error));
+    }
   }
 
-  return { checked: true, version: headVersion };
+  if (errors.length > 0) {
+    throw new Error(errors.join("\n"));
+  }
+
+  return { plugins: results };
 }
 
 function run(arguments_: string[]): number {
@@ -128,16 +203,16 @@ function run(arguments_: string[]): number {
       targetRevision,
       headRevision,
     });
-    const message = result.checked
-      ? `Knowledge-base plugin version is ${result.version}.`
-      : `Knowledge-base plugin version remains ${result.version}; no versioned content changed.`;
-    process.stdout.write(`${message}\n`);
+    for (const plugin of result.plugins) {
+      const message = plugin.checked
+        ? `Plugin '${plugin.name}' version is ${plugin.version}.`
+        : `Plugin '${plugin.name}' version remains ${plugin.version}; no versioned content changed.`;
+      process.stdout.write(`${message}\n`);
+    }
     return 0;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    process.stderr.write(
-      `Knowledge-base plugin version check failed: ${message}\n`,
-    );
+    process.stderr.write(`Plugin version check failed: ${message}\n`);
     return 1;
   }
 }

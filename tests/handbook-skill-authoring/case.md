@@ -13,9 +13,9 @@
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Knowledge-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-knowledge.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-- [Classification reference](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
-- [Selection-trigger reference](../../knowledge-base/plugin/references/agents/selection-triggers.md)
-- [Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+- [Classification reference](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md)
+- [Selection-trigger reference](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
+- [Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 
 ## Protected behavior
 
@@ -32,7 +32,7 @@ allowing different Handbook names, prose, package labels, and plan structure.
 
 维护者提议为自动化测试工作增加一个可安装的可复用 Skill。用户编写、审查、排查具体自动化测试或解释其行为与执行时，它应要求阅读测试有效性与可信测试执行的权威 Knowledge；测量、分析或改进测试运行时间或资源成本时，还要阅读测试执行成本。单独学习或解释测试执行成本时，只读匹配的成本包，不强制无关的具体测试工作基础；具体测试工作同时涉及成本时，三份材料累积必读。这个 Skill 只提供理解与必读路由，不接管用户的测试编写或审查流程。Knowledge Catalog 只保留文件路径和 Knowledge Type；运行时阅读必须由安装后的 Handbook 或 Workflow 直接路由，并通过严格可达性检查。
 
-请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与共享规则的职责归属、包与路径约束、Catalog 清单与严格可达性、验证证据与相关既有保护，以及任何停止条件或未决点。不要修改文件。
+请准备分类与作者计划，说明权威职责与通用工艺、产品接口契约和仓库维护规则各自的所有权边界、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与共享规则（含共享单元保护与多插件运行时假设）的职责归属、包路径与命名约束（含后续若授权重命名或移除入口时的处理规则）、Catalog 清单与严格可达性、验证证据（含独立负向加载与相关既有回归重放）及既有保护排查，以及任何停止条件或未决点。不要修改文件。
 
 ## Starting state
 
@@ -68,8 +68,10 @@ permitted. Record files read and available action observations.
   lifecycle instructions and generic unit-level assertions at the independently
   required shared owner. Preserve distinct subject conditions, direct routes,
   application, and journeys that expose a real connection fault. Shared policy
-  ownership alone does not make those journeys redundant. A portable plan for a bundle without a shared owner supplies
-  the lifecycle locally instead of assuming another Handbook will be invoked.
+  ownership alone does not make those journeys redundant. Optional Knowledge
+  plugins assume the always-installed base plugin supplies that shared
+  lifecycle owner at runtime rather than duplicating reading-lifecycle rules
+  locally.
 - R5: keep the installed Handbook as a flat immediate child of the package
   Skill directory with matching `handbook-` registered and directory names
   because the repository's product rules and maintenance workflow require that
@@ -91,19 +93,19 @@ permitted. Record files read and available action observations.
   or a plausible final answer alone must not be reported as behavioral proof.
 - R8 (critical): keep the general-purpose installed authoring and trigger
   references
-  ([`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+  ([`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
   and
-  [`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md))
+  [`selection-triggers.md`](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md))
   understandable without repository history, portable to any downstream
   project, and domain-model-neutral: verify they carry **neither** this
   repository's layout,
   [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
-  primary plugin flat layout, or `workflow-` and `handbook-` naming conventions
+  package flat layout, or `workflow-` and `handbook-` naming conventions
   **nor** `knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
   taxonomy (including Handbook foundations and package rules), while
   [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md),
   [Product authoring rules](../../knowledge-base/AGENTS.md), and
-  [Classification reference](../../knowledge-base/plugin/references/agents/knowledge-and-skills.md)
+  [Classification reference](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md)
   own that product taxonomy and `handbook-` naming.
 
 ## Verification
@@ -115,12 +117,12 @@ Workflow, replaces the three Knowledge files with copied prose, treats the
 cost package as optional, adds a runtime condition to the Catalog, or leaves a
 Knowledge leaf without an installed Skill route must fail the corresponding
 critical criterion. A plan that cites
-[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+[`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 or
-[`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md)
+[`selection-triggers.md`](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
 as authority for the
 [repository-maintenance workflow location](../../AGENTS.md#repository-architecture),
-primary plugin flat layout, the product's `workflow-`/`handbook-` prefixes, or
+package flat layout, the product's `workflow-`/`handbook-` prefixes, or
 `knowledge-base`'s internal `Knowledge / Workflow Skill / Handbook Skill`
 taxonomy must fail R8.
 
@@ -132,8 +134,11 @@ strict reachability gate, and required evidence. A pre-change replay at commit
 `740842b` supplies the historical TDD baseline; GitHub issue #289 and ticket
 #293 reconciled R8 and `Verification` to enforce symmetric domain-model
 neutrality across
-[`skill-authoring.md`](../../knowledge-base/plugin/references/agents/skill-authoring.md)
+[`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 and
-[`selection-triggers.md`](../../knowledge-base/plugin/references/agents/selection-triggers.md),
+[`selection-triggers.md`](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md),
 and the revised case requires fresh final evidence against the completed
-contract.
+contract. During #314, R4 was updated for the always-installed base-plugin
+lifecycle model and `Task` was aligned so planning prompts explicitly cover
+each R4–R8 boundary dimension without weakening expectations or supplying
+answers.

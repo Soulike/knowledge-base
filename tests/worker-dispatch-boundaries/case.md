@@ -9,7 +9,7 @@
 
 - [Case-maintenance Skill](../../.agents/skills/maintain-knowledge-base-tests/SKILL.md)
 - [Replay-policy reference](../../.agents/references/agent-regression-tests.md)
-- [Behavioral-evaluation reference](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+- [Behavioral-evaluation reference](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
 
 ## Protected behavior
 
@@ -76,7 +76,7 @@ any open semantic aspects. Inspect available actions for forbidden outer-case
 access; a self-report does not prove absence of access.
 
 The assertion entrypoint accepts the result file followed by the current
-[behavioral-evaluation reference](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+[behavioral-evaluation reference](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
 as literal command operands. Reflow of the canonical guard is allowed.
 For a safe faulty-output control, copy the result and change the model or
 reasoning effort, move dispatcher settings into the message, remove

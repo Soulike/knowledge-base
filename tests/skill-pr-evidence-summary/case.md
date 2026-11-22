@@ -10,8 +10,8 @@
 - [Repository conventions](../../AGENTS.md)
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-- [Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md)
-- [Reader-understanding reference](../../knowledge-base/plugin/references/agents/reader-understanding.md)
+- [Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
+- [Reader-understanding reference](../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md)
 
 ## Protected behavior
 
@@ -34,10 +34,10 @@ Supply [the final evidence record](fixtures/evidence-record.json) as normal task
 data together with the complete current covered guidance, including
 [behavioral and documentation change evidence](../../AGENTS.md#behavioral-and-documentation-change-evidence),
 [maintain-knowledge-base Step 14](../../.agents/skills/maintain-knowledge-base/SKILL.md#workflow),
-[prepare pull-request and handoff evidence](../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
+[prepare pull-request and handoff evidence](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
 [prove Handbook and Workflow behavior](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior),
 and
-[required reader-understanding evidence](../../knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).
+[required reader-understanding evidence](../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence).
 The record's stable scenario and attempt IDs are part of the review identity
 and must remain traceable in the prepared summary. Its private transcript
 marker represents raw authoring history that the pull-request description does
@@ -102,6 +102,6 @@ already been evaluated, but the pull-request description omitted model,
 configuration, comparison-basis, scenario, or reader-observation evidence that
 the authoring standard required. GitHub issue #289 and ticket #293 verified
 these expectations and links against purified
-[Skill-authoring reference](../../knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+[Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
 and
 [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).

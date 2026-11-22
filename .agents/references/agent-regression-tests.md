@@ -110,7 +110,7 @@ connection failures rather than repeating every application case end to end.
 
 Like a unit test and its test runner, a case defines what behavior to exercise
 and observe, while the repository's author-matched replay policy composes with
-[Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+[Agent behavioral evaluation](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
 for how that case runs. Case assets own the task, scenario data, fixtures,
 expected behavior, and case-specific evidence; the shared evaluation reference
 owns generic isolation, withholding, dispatch, execution recording, and
@@ -174,7 +174,7 @@ same live responsibility remains protected.
 
 Run selected regression cases using the repository's author-matched model
 policy, and delegate all generic behavioral-evaluation mechanics one-way to
-[Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md):
+[Agent behavioral evaluation](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md):
 
 - **Author-matched model baseline:** before dispatch, identify the model that
   materially authored the current change and run each independent case in a
@@ -191,13 +191,13 @@ policy, and delegate all generic behavioral-evaluation mechanics one-way to
   also leaves the replay `incomplete`.
 - **Evaluation mechanics and case mapping:** delegate generic isolation, input
   separation, dispatch, recording, and judgment mechanics one-way to
-  [Agent behavioral evaluation](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+  [Agent behavioral evaluation](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
   (including its verbatim
-  [executor instructions guard](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
-  [dispatch templates](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates),
-  [execution recording](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution),
+  [executor instructions guard](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#executor-instructions),
+  [dispatch templates](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#dispatch-templates),
+  [execution recording](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#record-execution),
   and
-  [result classification and attempt retention](../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts)).
+  [result classification and attempt retention](../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#judge-and-retain-attempts)).
   Map each case's `Task` and `Starting state` into the executor prompt
   (translating `Verification` only into neutral capture hooks) while
   withholding `Covered objects`, `Protected behavior`, `Expected behavior`,
@@ -208,7 +208,7 @@ policy, and delegate all generic behavioral-evaluation mechanics one-way to
   rather than commissioning a separate case reviewer or a verdict before that
   review. When reusing a case run for reader-understanding evidence, delegate
   reuse eligibility and neutral follow-ups one-way to
-  [Prepare independent observations](../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
+  [Prepare independent observations](../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#prepare-independent-observations).
 
 ## Pull-request and handoff regression evidence
 

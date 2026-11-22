@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, isAbsolute, resolve } from "node:path";
 import { promisify } from "node:util";
 
-import { readKnowledgeBaseCatalog } from "../content-verification-contract/adapters/knowledge-base-targets.ts";
+import { readKnowledgeBaseCatalogs } from "../content-verification-contract/adapters/knowledge-base-targets.ts";
 import { createVerificationManifest } from "../content-verification-contract/manifest.ts";
 import { parseVerificationScope } from "../content-verification-contract/scope.ts";
 
@@ -24,7 +24,7 @@ if (!isAbsolute(outputPath)) {
   throw new Error("CONTENT_VERIFICATION_TARGET_MANIFEST must be absolute.");
 }
 
-const [{ stdout: revisionOutput }, { stdout: trackedOutput }, catalogMarkdown] =
+const [{ stdout: revisionOutput }, { stdout: trackedOutput }] =
   await Promise.all([
     executeFile("git", ["rev-parse", "HEAD"], { cwd: workspace }),
     executeFile("git", ["ls-files", "-z"], {
@@ -32,18 +32,18 @@ const [{ stdout: revisionOutput }, { stdout: trackedOutput }, catalogMarkdown] =
       encoding: "buffer",
       maxBuffer: 10 * 1024 * 1024,
     }),
-    readKnowledgeBaseCatalog(workspace),
   ]);
 
 const trackedPaths = trackedOutput
   .toString("utf8")
   .split("\0")
   .filter((filePath) => filePath.length > 0);
+const catalogs = await readKnowledgeBaseCatalogs(workspace, trackedPaths);
 const manifest = createVerificationManifest({
   scope,
   revision: revisionOutput.trim(),
   trackedPaths,
-  catalogMarkdown,
+  catalogs,
 });
 
 await mkdir(dirname(outputPath), { recursive: true });

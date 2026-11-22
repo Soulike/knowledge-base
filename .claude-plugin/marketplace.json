@@ -16,6 +16,10 @@
     {
       "name": "azure-devops",
       "source": "./knowledge-base/plugins/azure-devops"
+    },
+    {
+      "name": "chromium",
+      "source": "./knowledge-base/plugins/chromium"
     }
   ]
 }

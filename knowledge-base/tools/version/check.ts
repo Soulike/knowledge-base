@@ -59,9 +59,10 @@ function checkSinglePlugin({
   );
 
   if (comparisonPlugin === undefined && targetPlugin === undefined) {
-    if (parsePluginVersion(headVersion) === undefined) {
+    const expectedVersion = nextPluginVersion("", releaseDate);
+    if (headVersion !== expectedVersion) {
       throw new Error(
-        `New '${headPlugin.name}' plugin version '${headVersion}' at ${headRevision} must use YYYY.MM.DD-N format.`,
+        `Expected new '${headPlugin.name}' plugin version '${expectedVersion}' from head committer timestamp '${committerTimestamp}', but found '${headVersion}'.`,
       );
     }
     return { name: headPlugin.name, checked: true, version: headVersion };

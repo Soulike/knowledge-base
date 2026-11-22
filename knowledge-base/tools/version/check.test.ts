@@ -568,8 +568,38 @@ test("validates initial version format for a newly added plugin and checks targe
   assert.equal(failedInvalid.status, 1);
   assert.match(
     failedInvalid.stderr,
-    /New 'chromium' plugin version '0\.1\.0'.*YYYY\.MM\.DD-N/u,
+    /Expected new 'chromium' plugin version '2026\.8\.15-1'.*found '0\.1\.0'/u,
   );
+
+  for (const badInitialVersion of [
+    "2026.8.14-1",
+    "2099.11.22-1",
+    "2026.8.15-2",
+  ]) {
+    await writeFile(
+      join(repository, "knowledge-base/plugins/chromium/plugin.json"),
+      `${JSON.stringify({ name: "chromium", version: badInitialVersion }, null, 2)}\n`,
+    );
+    const badHead = commit(
+      repository,
+      `add chromium with ${badInitialVersion}`,
+      "2026-08-15T10:02:00+08:00",
+      "2026-08-15T10:02:00+08:00",
+    );
+    const rejected = spawnSync(
+      process.execPath,
+      [checkerPath, commonAncestor, badHead],
+      { cwd: repository, encoding: "utf8" },
+    );
+    assert.equal(rejected.status, 1);
+    assert.match(
+      rejected.stderr,
+      new RegExp(
+        `Expected new 'chromium' plugin version '2026\\.8\\.15-1'.*found '${badInitialVersion.replaceAll(".", "\\.")}'`,
+        "u",
+      ),
+    );
+  }
 
   await writeFile(
     join(repository, "knowledge-base/plugins/chromium/plugin.json"),

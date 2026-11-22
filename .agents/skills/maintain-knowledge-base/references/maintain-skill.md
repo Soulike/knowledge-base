@@ -170,6 +170,10 @@ Apply these primary-product taxonomy rules:
 - **Coverage separation:** Keep a Handbook's native description scoped to its
   owning scene independently of internal package conditions, and omit
   `workflow-`/`handbook-` names from descriptions.
+- **Package condition hygiene:** Enforce
+  [Write the condition](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#write-the-condition)
+  on every Handbook conditional package condition just as strictly as on
+  top-level Handbook descriptions.
 - **Package routing verification:** Apply
   [Check selection from requests](../../../../knowledge-base/plugin/references/agents/selection-triggers.md#check-selection-from-requests)
   to every Handbook route required by

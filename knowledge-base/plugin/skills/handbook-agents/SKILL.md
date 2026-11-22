@@ -39,9 +39,8 @@ in full.
 ### Model Context Protocol (MCP) tool contracts
 
 When defining, implementing, reviewing, diagnosing, or explaining Model Context
-Protocol (MCP) tool wire contracts—discovery metadata, JSON Schema contracts,
-`ToolAnnotations`, structured results, stateful handles, or
-protocol-versus-execution error channels—read
+Protocol (MCP) tool wire contracts, schemas, client hints, or protocol error
+boundaries, read
 [Model Context Protocol tool contracts](../../knowledge/mcp/tool-contracts.md)
 in full.
 

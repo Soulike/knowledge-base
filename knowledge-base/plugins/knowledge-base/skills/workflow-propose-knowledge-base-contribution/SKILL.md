@@ -77,26 +77,51 @@ Stop after the question and wait for the user's response.
    no qualified contribution remains when evidence is insufficient or
    contradictory; do not turn uncertainty into durable guidance.
 3. Resolve paths relative to this `SKILL.md`, then read
-   [Classifying Knowledge and Skill
-   material](../../references/agents/knowledge-and-skills.md). From the
-   candidate's subject, reader need, lifecycle, proposed behavior, and retrieval
-   timing, identify plausible current owners among this plugin's installed
-   canonical Knowledge, Skills, and references. Read each plausible concrete
-   canonical Knowledge file directly before deciding that the lesson is new,
-   corrective, duplicated, or already covered, and inspect the plausible Skill
-   or reference owners needed for the same comparison. Record the concrete
-   owners inspected; do not scan the Knowledge catalog, treat filenames or
-   current scope statements as the conclusion, copy a Handbook's package rules,
-   or invoke another Skill to perform this assessment. Use applicable
-   instructions and accepted requirements in the active workspace to establish
-   facts about the source task, and treat packaged Knowledge as supplemental
-   when it conflicts with project-specific facts. Keep this plugin's
-   classification and downstream-project-independence rules authoritative for
-   the proposed contribution. Use the scope assessment to compare supported
-   reader needs with existing responsibilities. Stop when the candidate remains
+   [`../../plugin.json`](../../plugin.json) (using its `repository` field as
+   the canonical repository) and
+   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md).
+   Establish the canonical comparison scope across all Knowledge plugins in
+   the canonical repository without creating a checkout, mutating the
+   repository, or scanning any plugin's Knowledge catalog (`knowledge/index.md`):
+   - **Inside a source checkout of that canonical repository:** inspect the
+     canonical Knowledge, Skills, and references across
+     `knowledge-base/plugins/*/` in the active checkout.
+   - **Outside that canonical checkout:** use the authenticated `gh` CLI with
+     the explicit `repository` identity from [`../../plugin.json`](../../plugin.json)
+     to inspect the canonical repository's default branch across
+     `knowledge-base/plugins/*/` remotely (discovering sibling plugin
+     directories under `knowledge-base/plugins/` and plausible Skill,
+     reference, or Knowledge paths without scanning any `knowledge/index.md`,
+     then reading plausible concrete files directly).
+   - **When [`../../plugin.json`](../../plugin.json) or remote `gh` inspection
+     is unavailable:** fall back to this locally installed plugin's canonical
+     Knowledge, Skills, and references together with any co-installed sibling
+     Knowledge plugins accessible locally, and explicitly disclose the
+     remote-inspection blocker and incomplete cross-plugin comparison boundary
+     (which local plugins were inspected and that uninspected canonical
+     plugins could still own or duplicate the lesson) in the assessment or
+     proposal output.
+
+   From the candidate's subject, reader need, lifecycle, proposed behavior, and
+   retrieval timing, identify plausible current owners among the canonical
+   Knowledge, Skills, and references in that comparison scope. Read each
+   plausible concrete canonical Knowledge file directly before deciding that
+   the lesson is new, corrective, duplicated, or already covered, and inspect
+   the plausible Skill or reference owners needed for the same comparison.
+   Record the concrete owners inspected; do not scan any Knowledge catalog,
+   treat filenames or current scope statements as the conclusion, copy a
+   Handbook's package rules, or invoke another Skill to perform this
+   assessment. Use applicable instructions and accepted requirements in the
+   active workspace to establish facts about the source task, and treat
+   packaged Knowledge as supplemental when it conflicts with project-specific
+   facts. Keep the knowledge base's classification and
+   downstream-project-independence rules authoritative for the proposed
+   contribution. Use the scope assessment to compare supported reader needs
+   with existing responsibilities. Stop when the candidate remains
    project-specific, or when current material already captures the reusable
    lesson and the candidate supplies no material correction, evidence, or
    example.
+
 4. Group related observations by one reusable lesson and keep independent
    lessons separately selectable. For each retained candidate, state the
    concrete addition, correction, removal, guidance, or workflow behavior that
@@ -128,8 +153,10 @@ proposal question after answering any directly requested positive assessment
 that permits proposal preparation. A positive assessment that excludes proposal
 preparation finishes after reporting the qualified candidate and evidence. The
 proposal stage is complete only when every candidate has been independently
-verified, assessed for supported scope, checked against existing material, and either rejected
-with the reason stated or presented as a clearly delimited sanitized public
-issue that satisfies the loaded issue contract. The knowledge base must remain
-unchanged, and step 6 must finish at the user's publication exclusion or the
-publication handoff that applies.
+verified, assessed for supported scope, checked against existing material
+across the applicable canonical plugins (with any incomplete cross-plugin
+comparison boundary from a local fallback explicitly disclosed), and either
+rejected with the reason stated or presented as a clearly delimited sanitized
+public issue that satisfies the loaded issue contract. The knowledge base must
+remain unchanged, and step 6 must finish at the user's publication exclusion or
+the publication handoff that applies.

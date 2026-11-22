@@ -15,7 +15,6 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/agents/tool-interface-design.md](agents/tool-interface-design.md)                                                           | time-sensitive |
 | [knowledge/automation/workflow-outcome-integrity.md](automation/workflow-outcome-integrity.md)                                         | evergreen      |
 | [knowledge/azure-devops/pull-request-diagrams.md](azure-devops/pull-request-diagrams.md)                                               | time-sensitive |
-| [knowledge/chromium/ios-ui-architecture.md](chromium/ios-ui-architecture.md)                                                           | time-sensitive |
 | [knowledge/codex/github-copilot-enterprise-provider.md](codex/github-copilot-enterprise-provider.md)                                   | time-sensitive |
 | [knowledge/documentation/engineering-accomplishment-reports.md](documentation/engineering-accomplishment-reports.md)                   | evergreen      |
 | [knowledge/documentation/maintained-document-quality.md](documentation/maintained-document-quality.md)                                 | evergreen      |

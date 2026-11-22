@@ -51,11 +51,12 @@ dialect:
   `{ "type": "object" }`, which admits unexpected properties.
 - **Keep composed schemas unambiguous:** MCP permits standard JSON Schema
   2020-12 composition keywords (`oneOf`, `anyOf`, `allOf`, `if`/`then`/`else`).
-  As a schema-authoring recommendation from the MCP specification, declare
-  `properties` at the root and keep branches to presence assertions such as
-  `required`, because a subschema failing a type check cannot be distinguished
-  from a branch that simply does not apply (so type constraints inside
-  `oneOf` branches are not enforced for non-matching branches).
+  Place shared property definitions at the root when branches only vary
+  presence (`required`), and keep type or value constraints inside branches
+  whenever those branch-specific constraints distinguish valid alternatives (for
+  example, `oneOf` branches matching either a string or a number). Remember that
+  `x-mcp-header` applies only to properties statically reachable from the schema
+  root.
 - **Protect sensitive inputs from transport headers:** Never mark passwords, API
   keys, tokens, or personal data with `x-mcp-header`, which mirrors arguments
   into `Mcp-Param-{name}` HTTP headers visible to network intermediaries on

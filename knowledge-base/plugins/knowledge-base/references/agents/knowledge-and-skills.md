@@ -2,9 +2,13 @@
 
 ## Scope
 
-This reference supports workflow steps that distinguish authoritative Knowledge,
-Workflow Skills, Handbook Skills, and their supporting references, then classify
-source material as one of those responsibilities, mixed, or neither.
+This reference is `knowledge-base`'s dedicated product-interface contract for
+classifying material under its internal four-role taxonomy—authoritative
+Knowledge, Workflow Skills, Handbook Skills, and Skill references—into one of
+those responsibilities, mixed, or neither. Use it only in repository
+maintenance and installed workflows whose explicit user-facing task is
+interacting with `knowledge-base` (such as proposing contributions), rather
+than treating this product taxonomy as general-purpose Skill craft.
 
 ## When to update
 

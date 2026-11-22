@@ -32,7 +32,7 @@ allowing different Handbook names, prose, package labels, and plan structure.
 
 维护者提议为自动化测试工作增加一个可安装的可复用 Skill。用户编写、审查、排查具体自动化测试或解释其行为与执行时，它应要求阅读测试有效性与可信测试执行的权威 Knowledge；测量、分析或改进测试运行时间或资源成本时，还要阅读测试执行成本。单独学习或解释测试执行成本时，只读匹配的成本包，不强制无关的具体测试工作基础；具体测试工作同时涉及成本时，三份材料累积必读。这个 Skill 只提供理解与必读路由，不接管用户的测试编写或审查流程。Knowledge Catalog 只保留文件路径和 Knowledge Type；运行时阅读必须由安装后的 Handbook 或 Workflow 直接路由，并通过严格可达性检查。
 
-请准备分类与作者计划，说明权威职责、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与共享规则的职责归属、包与路径约束、Catalog 清单与严格可达性、验证证据与相关既有保护，以及任何停止条件或未决点。不要修改文件。
+请准备分类与作者计划，说明权威职责与通用工艺、产品接口契约和仓库维护规则各自的所有权边界、复用或新增判断、Skill 类型与边界、选择条件、阅读结构与共享规则（含共享单元保护与多插件运行时假设）的职责归属、包路径与命名约束（含后续若授权重命名或移除入口时的处理规则）、Catalog 清单与严格可达性、验证证据（含独立负向加载与相关既有回归重放）及既有保护排查，以及任何停止条件或未决点。不要修改文件。
 
 ## Starting state
 
@@ -138,4 +138,7 @@ neutrality across
 and
 [`selection-triggers.md`](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md),
 and the revised case requires fresh final evidence against the completed
-contract.
+contract. During #314, R4 was updated for the always-installed base-plugin
+lifecycle model and `Task` was aligned so planning prompts explicitly cover
+each R4–R8 boundary dimension without weakening expectations or supplying
+answers.

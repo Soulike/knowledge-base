@@ -62,9 +62,17 @@ preceding work or decision point.
 
 For internal routing conditions inside a Skill, select from observable work,
 materials, or stage rather than requiring the reader to know a risk or
-diagnosis that the routed resource helps uncover. When multiple internal
-conditions can apply together, define each independently so matching conditions
-apply cumulatively rather than forcing a single closest match.
+diagnosis that the routed resource helps uncover. Express each condition as one
+concise semantic boundary (for example, "when designing or reviewing API input
+contracts" rather than "including field names, enums, bounds, defaults, or error
+text"); do not substitute a grab-bag list of fields, parameters, subtopics, or
+file paths. When
+multiple internal conditions can apply together, define each independently so
+matching conditions apply cumulatively rather than forcing a single closest
+match; do not duplicate an orthogonal resource into another branch with an
+`"except when..."` carve-out when independent cumulative conditions already
+compose them cleanly (group multiple resources under one condition only when one
+is genuinely required whenever that specialization applies).
 
 ## Check selection from requests
 

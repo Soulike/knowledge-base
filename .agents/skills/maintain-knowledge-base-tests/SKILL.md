@@ -20,10 +20,10 @@ implementation tests use the repository's applicable testing workflows.
    [maintain-knowledge-base](../maintain-knowledge-base/SKILL.md).
 2. Identify the content, live behavior, requested operation, and available
    evidence. For selecting new protection, read and follow
-   [workflow-write-effective-tests](../../../knowledge-base/plugin/skills/workflow-write-effective-tests/SKILL.md).
+   [workflow-write-effective-tests](../../../knowledge-base/plugins/knowledge-base/skills/workflow-write-effective-tests/SKILL.md).
    For review of proposed or existing cases, coverage, execution, failures,
    cost, or retirement, read and follow
-   [workflow-review-and-improve-tests](../../../knowledge-base/plugin/skills/workflow-review-and-improve-tests/SKILL.md).
+   [workflow-review-and-improve-tests](../../../knowledge-base/plugins/knowledge-base/skills/workflow-review-and-improve-tests/SKILL.md).
    Apply their selected Knowledge and dispositions to Agent behavior as to
    other tested behavior; these cases have no separate test-quality standard.
 3. Read the shared
@@ -54,7 +54,7 @@ implementation tests use the repository's applicable testing workflows.
    state, expected behavior, and distinguishing observations. The repository
    [replay policy](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
    supplies author-matched model selection and single-reviewer scheduling, while
-   [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
    supplies the generic isolation, dispatch, recording, and attempt-retention
    mechanics when that unit runs.
 6. Make the case independently replayable with current content, bounded starting
@@ -76,7 +76,7 @@ implementation tests use the repository's applicable testing workflows.
    gate. If the triggering operation is unknown, report that missing premise
    and make the review conditional rather than assuming it is required.
 2. When required, include case value and organization explicitly in the
-   [test-review workflow](../../../knowledge-base/plugin/skills/workflow-review-and-improve-tests/SKILL.md)'s
+   [test-review workflow](../../../knowledge-base/plugins/knowledge-base/skills/workflow-review-and-improve-tests/SKILL.md)'s
    scope. Use its selected Knowledge to assess the affected case group,
    overlapping protection, and fixtures or test-only support. Record
    evidence-backed dispositions and limit the assessment to affected
@@ -94,19 +94,19 @@ implementation tests use the repository's applicable testing workflows.
 8. Read the repository
    [replay policy and review schedule](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
    and
-   [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md).
+   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md).
    Establish the current source identity, available execution boundary,
    authoring-model identity, task-appropriate executor configuration,
    observation methods, and bounded resource allowance before dispatch. Report
    missing prerequisites explicitly.
 9. Run each independent case per
-   [Agent behavioral evaluation](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md)
+   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
    (using its fresh-context isolation,
-   [dispatch templates](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#dispatch-templates),
+   [dispatch templates](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#dispatch-templates),
    expanded
-   [executor instructions guard](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#executor-instructions),
+   [executor instructions guard](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#executor-instructions),
    and
-   [execution recording](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#record-execution))
+   [execution recording](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#record-execution))
    with an executor matching the current change author's recorded model (or the
    repository protocol's task-suitable model selection for human-only
    authorship). An unavailable authoring model leaves the replay incomplete even
@@ -123,11 +123,11 @@ implementation tests use the repository's applicable testing workflows.
 10. Attribute failures to tested content, case, fixture, execution boundary,
     model suitability, or evaluation before repairing the authorized owner.
     Retain every attempt and classify results per
-    [Judge and retain attempts](../../../knowledge-base/plugin/references/agents/behavioral-evaluation.md#judge-and-retain-attempts),
+    [Judge and retain attempts](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#judge-and-retain-attempts),
     investigating instability with a bounded protocol. Missing execution or
     evidence remains incomplete. When reusing case observations for
     reader-understanding evidence, delegate one-way to
-    [Prepare independent observations](../../../knowledge-base/plugin/references/agents/reader-understanding.md#prepare-independent-observations).
+    [Prepare independent observations](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#prepare-independent-observations).
 
 ## Verify and complete
 

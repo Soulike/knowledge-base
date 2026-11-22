@@ -66,21 +66,24 @@ At the exact revision named by
 `/content-verification-targets.json`, verify every target whose id appears in
 `reviewTargetIds`, resolving its files from `targetCatalog`. The runner mounts
 this manifest read-only inside the Agent sandbox. It was derived
-deterministically from tracked files and the parsed
-[Knowledge catalog](knowledge-base/plugin/knowledge/index.md); the selected ids are the complete
-required scope. A selected target is one Skill bundle, shared reference, Agent
-instruction, Agentic workflow source, or repository-owned prompt bundle.
-Preserve every exact selected target `id` in notes and safe outputs.
+deterministically from tracked files and the parsed Knowledge catalogs across
+every isomorphic plugin under `knowledge-base/plugins/*/knowledge/index.md`
+(registered in the [Marketplace](.claude-plugin/marketplace.json), starting from
+the base [Knowledge catalog](knowledge-base/plugins/knowledge-base/knowledge/index.md));
+the selected ids are the complete required scope. A selected target is one
+Skill bundle, shared reference, Agent instruction, Agentic workflow source, or
+repository-owned prompt bundle. Preserve every exact selected target `id` in
+notes and safe outputs.
 
 ## Analysis phase
 
 1. Read the root [repository instructions](AGENTS.md), the
    [plugin authoring rules](knowledge-base/AGENTS.md), the target manifest,
    and every file named by every selected target. Read
-   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
+   [Agent Skill authoring](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
    for generic Skill engineering craft and
    [Maintain a Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-   for primary-plugin Knowledge, Workflow Skill, and Handbook Skill
+   for Knowledge-plugin Knowledge, Workflow Skill, and Handbook Skill
    responsibility, modeling, and proof rules under this task contract; when
    either authority is itself a target, examine its basis instead of assuming it
    is correct. Apply the
@@ -88,25 +91,26 @@ Preserve every exact selected target `id` in notes and safe outputs.
    and [evidence, recovery, and completion rules](.github/workflows/shared/content-verification.md#evidence-access-and-completion).
    Recover an inspection failure where possible; if the required scope or
    revision still cannot be established, call `report_incomplete` exactly once.
-2. For each installed Skill in the primary `knowledge-base` plugin, first
+2. For each installed Skill in any Knowledge plugin under
+   `knowledge-base/plugins/*/skills/*/SKILL.md`, first
    determine whether it owns Workflow execution or Handbook required-reading
    selection under
    [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references)
    and
    [Choose the Skill responsibility](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#choose-the-skill-responsibility).
    Apply
-   [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
+   [Design selection triggers](knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
    to generic selection-trigger coverage, earliest-observable-point drafting,
    and blind request checking alongside
    [Handbook and Workflow selection triggers](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#handbook-and-workflow-selection-triggers)
-   for primary-plugin Workflow descriptions, Handbook descriptions, and Handbook
+   for Knowledge-plugin Workflow descriptions, Handbook descriptions, and Handbook
    package conditions. Verify
    [symmetric downstream-project independence, domain-model neutrality, and product-interface isolation](AGENTS.md#repository-architecture)
    alongside [plugin authoring rules](knowledge-base/AGENTS.md).
-3. For each Workflow, independently reconstruct the user's task and intended
-   outcome under
-   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
-   and, for primary-plugin Workflows,
+3. For each Workflow across `knowledge-base/plugins/*/` (and each Workflow
+   step), independently reconstruct the user's task and intended outcome under
+   [Agent Skill authoring](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
+   and, for Knowledge-plugin Workflows,
    [Model a Workflow Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-workflow-skill)
    and
    [Assign Knowledge, references, and bundle ownership](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#assign-knowledge-references-and-bundle-ownership),
@@ -117,12 +121,13 @@ Preserve every exact selected target `id` in notes and safe outputs.
    and completion criteria. Check that Knowledge and references are selected at
    the decision that needs them, every disclosed reference has an explicit
    consuming step, and an independently invocable responsibility is not hidden
-   in a reference. Check progressive disclosure, portability, package
+   in a reference. Check progressive disclosure, portability, intra-package
    boundaries,
    [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture),
    and current tool or API assumptions.
-4. For each Handbook, reconstruct the task family, technical domain, or stable
-   platform context that makes its reading useful under
+4. For each Handbook across `knowledge-base/plugins/*/`, reconstruct the task
+   family, technical domain, or stable platform context that makes its reading
+   useful under
    [plugin Skills and references](knowledge-base/AGENTS.md#skills-and-references),
    [Model a Handbook Skill](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill),
    [Write a Handbook body](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#write-a-handbook-body),
@@ -134,25 +139,27 @@ Preserve every exact selected target `id` in notes and safe outputs.
    conditional package is cumulative and mandatory, focused learning need not
    load an unrelated foundation, and a sparse platform no-match remains valid.
    Require direct complete-file or context-sufficient-section links to every
-   selected Knowledge unit, without a Handbook-to-Handbook dependency. Check
-   reuse or rereading and re-evaluation after relevant task, stage, language,
-   platform, artifact, production-method, or available-context changes. Treat
-   native selection, package choice, actual reading, application, and later
-   supplementary reading as separate observations; do not require a Handbook to
-   contain a task procedure, failure contract, output artifact, or completion
-   gate. Verify
+   selected Knowledge unit within the same plugin package, without a
+   Handbook-to-Handbook or cross-plugin dependency. Check reuse or rereading and
+   re-evaluation after relevant task, stage, language, platform, artifact,
+   production-method, or available-context changes, keeping shared
+   reading-lifecycle rules at the base plugin's collaboration Handbook rather
+   than duplicating them locally. Treat native selection, package choice,
+   actual reading, application, and later supplementary reading as separate
+   observations; do not require a Handbook to contain a task procedure, failure
+   contract, output artifact, or completion gate. Verify
    [domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture)
    for general-purpose Handbooks.
-5. Review repository-maintenance workflows and auxiliary-plugin Skills under
-   their own instructions, declared task, and package or dependency-boundary
-   contract rather than requiring the primary plugin's Workflow or Handbook
-   structure. For repository-maintenance workflows, verify the
+5. Review repository-maintenance workflows under their own instructions,
+   declared task, and dependency-boundary contract rather than requiring the
+   Knowledge-plugin Workflow or Handbook structure. For repository-maintenance
+   workflows, verify the
    [dependency-boundary and one-way delegation rules](AGENTS.md#repository-architecture).
-   For general-purpose shared references in `knowledge-base/plugin/`, verify
+   For general-purpose shared references in `knowledge-base/plugins/*/`, verify
    generic craft via
-   [Agent Skill authoring](knowledge-base/plugin/references/agents/skill-authoring.md)
+   [Agent Skill authoring](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
    and
-   [Design selection triggers](knowledge-base/plugin/references/agents/selection-triggers.md)
+   [Design selection triggers](knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
    alongside
    [symmetric domain-model neutrality and product-interface isolation](AGENTS.md#repository-architecture).
    For every Skill or workflow kind, use execution or

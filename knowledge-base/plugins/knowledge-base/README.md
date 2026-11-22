@@ -4,13 +4,14 @@ A personal, curated knowledge base for Codex and GitHub Copilot CLI. It combines
 reusable Knowledge with Agent Skills that execute user tasks or route the
 understanding those tasks require.
 
-Install the `knowledge-base` plugin and work normally. Workflow Skills own
-complete user tasks, while Handbook Skills select required reading for a task
-family, technical domain, or platform context. The collaboration Handbook
-supplies principles for independent judgment and informed cooperation on every
-task. Packaged guidance is supplemental: instructions, requirements, context,
-and Skills in the Agent's active working directory take precedence when they
-conflict.
+Install the `knowledge-base` base plugin and work normally (keep it installed
+alongside any optional sibling plugins from the `knowledge-base` marketplace).
+Workflow Skills own complete user tasks, while Handbook Skills select required
+reading for a task family, technical domain, or platform context. The
+collaboration Handbook supplies principles for independent judgment, shared
+reading lifecycle, and informed cooperation on every task. Packaged guidance is
+supplemental: instructions, requirements, context, and Skills in the Agent's
+active working directory take precedence when they conflict.
 
 ## How it works
 

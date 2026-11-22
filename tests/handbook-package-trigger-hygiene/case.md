@@ -9,7 +9,7 @@
 
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-- [Selection-trigger reference](../../knowledge-base/plugin/references/agents/selection-triggers.md)
+- [Selection-trigger reference](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
 
 ## Protected behavior
 
@@ -95,7 +95,7 @@ covered. Do not modify repository files.
 Supply the complete current
 [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md),
 [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md),
-[Selection-trigger reference](../../knowledge-base/plugin/references/agents/selection-triggers.md),
+[Selection-trigger reference](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md),
 and [Product authoring rules](../../knowledge-base/AGENTS.md) as read-only
 guidance, without exposing the live repository's `handbook-agents` Skill or
 any `tests/` case definitions.
@@ -103,7 +103,7 @@ any `tests/` case definitions.
 ## Expected behavior
 
 - R1 (critical): identify both trigger defects in the draft Handbook under
-  [Write the condition](../../knowledge-base/plugin/references/agents/selection-triggers.md#write-the-condition)
+  [Write the condition](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#write-the-condition)
   and
   [Handbook and Workflow selection triggers](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#handbook-and-workflow-selection-triggers):
   (a) grab-bag enumerations of fields, directories, and subtopics substituting
@@ -119,7 +119,7 @@ any `tests/` case definitions.
   genuine prerequisite bundle (`wire-contracts.md` + `streaming-debugging.md`).
 - R3 (critical): keep domain-model neutrality intact by attributing the general
   internal-condition, anti-enumeration, and cumulative-composition rules to
-  [selection-triggers.md](../../knowledge-base/plugin/references/agents/selection-triggers.md)
+  [selection-triggers.md](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)
   and the Handbook-package enforcement to
   [maintain-skill.md](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
   (and [knowledge-base/AGENTS.md](../../knowledge-base/AGENTS.md)), without
@@ -149,5 +149,5 @@ Newly authored protection derived from #296/#297 review feedback where
 Handbook conditional package conditions accumulated field/directory grab-bag
 lists and an orthogonal bundle-plus-carve-out patch despite general
 anti-enumeration principles in
-[selection-triggers.md](../../knowledge-base/plugin/references/agents/selection-triggers.md);
+[selection-triggers.md](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md);
 requires fresh validation against the updated guidance.

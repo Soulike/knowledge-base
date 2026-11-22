@@ -232,9 +232,9 @@ Interleave reasoning and evidence collection as needed rather than following
 the document sentence by sentence or requiring a fixed scenario count.
 
 Read and apply
-[Maintained document quality](knowledge-base/plugin/knowledge/documentation/maintained-document-quality.md)
-when judging reader understanding and use. For the primary plugin's Knowledge,
-Skills, and Skill references, use its
+[Maintained document quality](knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md)
+when judging reader understanding and use. For Knowledge, Skills, and Skill
+references in `knowledge-base/plugins/*/`, use the
 [reader requirements](knowledge-base/AGENTS.md#reader-understanding).
 Identify unexplained terms, missing context, or omitted reasoning that creates
 a concrete understanding or application obstacle for the intended humans or
@@ -249,7 +249,7 @@ volatility, and consequences of the claims. A target need not produce a finding,
 and a complete review does not require executing every recommendation.
 
 Read and apply
-[Assess contribution scope](knowledge-base/plugin/references/agents/contribution-scope-assessment.md)
+[Assess contribution scope](knowledge-base/plugins/knowledge-base/references/agents/contribution-scope-assessment.md)
 when evaluating each primary target's claims and organization. Examine its Scope,
 owned responsibility, body, declared routes, and source-specific limits against
 supported reader needs, not as a ceiling on the analysis. Review the complete

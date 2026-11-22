@@ -29,7 +29,7 @@ explanation; do not create, change, review, or diagnose a concrete workflow.
 ## Starting state
 
 Build the current candidate set from every direct installed Skill entrypoint
-under `knowledge-base/plugin/skills/*/SKILL.md`. Supply the natural request and
+under `knowledge-base/plugins/knowledge-base/skills/*/SKILL.md`. Supply the natural request and
 the exact candidate names and descriptions without opening candidate bodies.
 Permit read-only access to the supplied repository snapshot after the choice.
 

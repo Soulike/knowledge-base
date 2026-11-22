@@ -16,27 +16,20 @@ export type VerificationManifest = {
 };
 
 export type CreateVerificationManifestInput = {
+  catalogs: KnowledgeCatalogInputs;
   revision: string;
   scope: VerificationScope;
   trackedPaths: readonly string[];
-} & (
-  | { catalogMarkdown: string; catalogs?: never }
-  | { catalogs: KnowledgeCatalogInputs; catalogMarkdown?: never }
-);
+};
 
 export function createVerificationManifest(
   input: CreateVerificationManifestInput,
 ): VerificationManifest {
-  const { revision, scope, trackedPaths } = input;
+  const { catalogs, revision, scope, trackedPaths } = input;
   if (!SHA_PATTERN.test(revision)) {
     throw new Error("Revision must be a lowercase 40-character Git SHA.");
   }
-  const catalogInputs =
-    input.catalogs !== undefined ? input.catalogs : input.catalogMarkdown;
-  const targets = discoverVerificationTargetCatalog(
-    trackedPaths,
-    catalogInputs,
-  );
+  const targets = discoverVerificationTargetCatalog(trackedPaths, catalogs);
   return {
     revision,
     reviewTargetIds: selectVerificationTargets(scope, targets).map(

@@ -10,22 +10,32 @@ context from the [glossary map](GLOSSARY-MAP.md).
 
 ## Repository architecture
 
-This repository is a marketplace and source monorepo centered on the primary
-`knowledge-base` product. Its [source module](knowledge-base/README.md) owns the
-installable plugin, product-specific development tooling, libraries, and domain
-documents. Independent auxiliary plugins live under `plugins/<plugin-name>/`.
-The repository root owns shared automation, marketplace metadata, and
-contributor instructions. When authoring or reviewing the primary product, read
-its [authoring rules](knowledge-base/AGENTS.md).
+This repository is a marketplace and source monorepo centered on the
+`knowledge-base` product. Its [source module](knowledge-base/README.md) owns
+all installable isomorphic plugins under `knowledge-base/plugins/<plugin-name>/`
+(including the always-installed base
+[knowledge-base plugin](knowledge-base/plugins/knowledge-base/README.md) and
+optional domain or client plugins), alongside product-specific development
+tooling, libraries, and domain documents. The repository root owns shared
+automation, marketplace metadata, and contributor instructions. When authoring
+or reviewing Knowledge plugins, read the
+[authoring rules](knowledge-base/AGENTS.md).
 
 - Keep each marketplace-selected plugin package self-contained, with its own
-  manifest, user documentation, Skills, references, and runtime implementation.
-  Installed content must not depend on its source module's development tooling,
-  repository-root files, or sibling plugins.
+  manifest, user documentation, Knowledge Catalog, Skills, references, and
+  runtime implementation. Installed content must not depend on its source
+  module's development tooling, repository-root files, or static links into
+  sibling plugins.
+- Designate `knowledge-base` (`knowledge-base/plugins/knowledge-base/`) as the
+  always-installed base plugin owning `handbook-collaboration` and shared
+  reading-lifecycle rules. Optional sibling plugins assume the base plugin is
+  installed at runtime without duplicating those lifecycle rules locally or
+  adding static cross-plugin links.
 - Keep product-specific development instructions, domain documents, tooling,
-  and libraries in the owning source module. Root [docs/](docs/) owns
-  repository-wide development rules and architectural decisions. Create plugin
-  glossaries, design documents, and ADRs only when there is content to maintain.
+  and libraries in the owning source module beside `knowledge-base/plugins/`.
+  Root [docs/](docs/) owns repository-wide development rules and architectural
+  decisions. Create plugin-specific glossaries, design documents, and ADRs only
+  when there is content to maintain.
 - [`.agents/skills/`](.agents/skills/) contains
   [repository-maintenance workflows](GLOSSARY.md#repository-maintenance-workflow);
   `.agents/references/` holds references shared only by those workflows.
@@ -40,25 +50,27 @@ Choose a workflow or Skill's location by its **dependency boundary**, and keep
 one authoritative copy. Any guidance, judgment criterion, or workflow that
 remains valid independently of this repository's layout, catalog, versioning,
 CI gates, and this product's own internal domain model, content taxonomy, and
-organization policy belongs in `knowledge-base/plugin/` (or the applicable
-plugin package) under its `skills/<skill-name>/` or `references/`
-directory—including when it originates while maintaining this repository. Only
-repository-coupled rules, maintenance orchestration, and rules that exist only
-to define, classify, model, or validate this product's own internal
-architecture belong in `.agents/`: put repository-maintenance workflows under
-`.agents/skills/<skill-name>/`, and put their repository- and product-specific
-references in each workflow's `references/` directory or `.agents/references/`
-when shared across those workflows.
+organization policy belongs in `knowledge-base/plugins/<plugin-name>/` (using
+the base [knowledge-base plugin](knowledge-base/plugins/knowledge-base/) for
+general-purpose cross-domain guidance) under its `skills/<skill-name>/` or
+`references/` directory—including when it originates while maintaining this
+repository. Only repository-coupled rules, maintenance orchestration, and rules
+that exist only to define, classify, model, or validate this product's own
+internal architecture belong in `.agents/`: put repository-maintenance workflows
+under `.agents/skills/<skill-name>/`, and put their repository- and
+product-specific references in each workflow's `references/` directory or
+`.agents/references/` when shared across those workflows.
 
 Repository-maintenance workflows and their references delegate **one-way** to
-`knowledge-base/plugin/` without restating, paraphrasing, splitting, or locally
-overriding general-purpose guidance, quality rules, or evaluation procedures
-owned there. Within any plugin package, a reference used by one Skill belongs
-in that Skill's `references/` directory, and a reference shared by Skills in
-the same plugin belongs under that plugin's `references/<domain>/`. Route
-directly from the consuming Skill step and do not create reference indexes.
-Sharing across plugin packages requires reconsidering ownership rather than
-adding a repository-global route.
+`knowledge-base/plugins/knowledge-base/` (or the owning plugin under
+`knowledge-base/plugins/`) without restating, paraphrasing, splitting, or
+locally overriding general-purpose guidance, quality rules, or evaluation
+procedures owned there. Within any plugin package, a reference used by one Skill
+belongs in that Skill's `references/` directory, and a reference shared by
+Skills in the same plugin belongs under that plugin's `references/<domain>/`.
+Route directly from the consuming Skill step and do not create reference
+indexes. Sharing across plugin packages requires reconsidering ownership rather
+than adding a repository-global route.
 
 General-purpose installed plugin content—installed subject guidance, usage
 Skills, and shared references—must preserve symmetric **downstream-project
@@ -141,12 +153,12 @@ Assemble the unmodified observations produced by the applicable authorities
 without collapsing them into topic-only notes or aggregate pass claims:
 
 - **Skills:** include the evidence required by
-  [Prepare pull-request and handoff evidence](knowledge-base/plugin/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
-  and, for primary-product Workflow and Handbook Skills,
+  [Prepare pull-request and handoff evidence](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+  and, for Knowledge-plugin Workflow and Handbook Skills,
   [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).
-- **Reader understanding:** for primary-product Knowledge, Skills, and Skill
+- **Reader understanding:** for Knowledge-plugin Knowledge, Skills, and Skill
   references requiring cross-model verification, preserve the
-  [required reader-understanding evidence](knowledge-base/plugin/references/agents/reader-understanding.md#required-evidence).
+  [required reader-understanding evidence](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence).
 - **Behavioral regression cases:** include the evidence required by
   [Pull-request and handoff regression evidence](.agents/references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence).
 - **Other maintained instructions and prompts:** for semantic or structural
@@ -182,10 +194,12 @@ portable core. Match each marketplace entry's name with its plugin manifest
 name. Keep the marketplace name `knowledge-base` and its existing
 `knowledge-base` plugin identity stable.
 
-The [marketplace](.claude-plugin/marketplace.json) selects the
-[knowledge-base manifest](knowledge-base/plugin/plugin.json) through
-`./knowledge-base/plugin`. Relative links inside installed Skills resolve
-from their own `SKILL.md`, independently of the repository checkout location.
+The [marketplace](.claude-plugin/marketplace.json) selects the base
+[knowledge-base manifest](knowledge-base/plugins/knowledge-base/plugin.json)
+through `./knowledge-base/plugins/knowledge-base`, alongside any optional
+sibling plugins under `./knowledge-base/plugins/<plugin-name>`. Relative links
+inside installed Skills resolve from their own `SKILL.md`, independently of the
+repository checkout location.
 
 ## Authoritative sources
 

@@ -130,7 +130,7 @@ candidate bodies or perform the substantive tasks.
 
 Build the target-model candidate set from every direct installed entrypoint
 whose registered name begins with `handbook-` or `workflow-` under
-`knowledge-base/plugin/skills/*/SKILL.md`. Confirm that this produces all 17
+`knowledge-base/plugins/knowledge-base/skills/*/SKILL.md`. Confirm that this produces all 17
 Handbooks and 20 Workflows, for 37 candidates, with no other installed
 entrypoint. Supply all requests and candidate names and descriptions without
 opening candidate bodies. A request that receives only this task and the exact

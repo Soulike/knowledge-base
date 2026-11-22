@@ -16,28 +16,35 @@ const catalog = `# Knowledge catalog
 describe("discoverVerificationTargets", () => {
   it("selects Knowledge through the validated catalog type", () => {
     const tracked = [
-      "knowledge-base/plugin/knowledge/index.md",
-      "knowledge-base/plugin/knowledge/a.md",
-      "knowledge-base/plugin/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
     ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+    };
 
     assert.deepEqual(
-      discoverVerificationTargets("time-sensitive-knowledge", tracked, catalog),
+      discoverVerificationTargets(
+        "time-sensitive-knowledge",
+        tracked,
+        catalogs,
+      ),
       [
         {
-          files: ["knowledge-base/plugin/knowledge/a.md"],
-          id: "knowledge-base/plugin/knowledge/a.md",
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
           kind: "knowledge",
           knowledgeType: "time-sensitive",
         },
       ],
     );
     assert.deepEqual(
-      discoverVerificationTargets("evergreen-knowledge", tracked, catalog),
+      discoverVerificationTargets("evergreen-knowledge", tracked, catalogs),
       [
         {
-          files: ["knowledge-base/plugin/knowledge/b.md"],
-          id: "knowledge-base/plugin/knowledge/b.md",
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
           kind: "knowledge",
           knowledgeType: "evergreen",
         },
@@ -60,20 +67,22 @@ describe("discoverVerificationTargets", () => {
       "AGENTS.md",
       "GLOSSARY.md",
       "docs/agents/domain.md",
-      "knowledge-base/plugin/knowledge/a.md",
-      "knowledge-base/plugin/knowledge/b.md",
-      "knowledge-base/plugin/knowledge/index.md",
-      "plugins/example/references/plugin.md",
-      "plugins/example/skills/check/assets/example.json",
-      "plugins/example/skills/check/SKILL.md",
-      "plugins/example/skills/check/tests/local/case.md",
-      "knowledge-base/plugin/references/shared.md",
-      "knowledge-base/plugin/skills/root/SKILL.md",
-      "knowledge-base/plugin/skills/root/tests/local/case.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/example/references/plugin.md",
+      "knowledge-base/plugins/example/skills/check/assets/example.json",
+      "knowledge-base/plugins/example/skills/check/SKILL.md",
+      "knowledge-base/plugins/example/skills/check/tests/local/case.md",
+      "knowledge-base/plugins/knowledge-base/references/shared.md",
+      "knowledge-base/plugins/knowledge-base/skills/root/SKILL.md",
+      "knowledge-base/plugins/knowledge-base/skills/root/tests/local/case.md",
     ];
 
     assert.deepEqual(
-      discoverVerificationTargets("maintained-agent-content", tracked, catalog),
+      discoverVerificationTargets("maintained-agent-content", tracked, {
+        "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+      }),
       [
         {
           files: [".agents/references/authoring.md"],
@@ -127,29 +136,75 @@ describe("discoverVerificationTargets", () => {
           kind: "agent-content",
         },
         {
-          files: ["knowledge-base/plugin/references/shared.md"],
-          id: "knowledge-base/plugin/references/shared.md",
-          kind: "shared-reference",
-        },
-        {
-          files: ["knowledge-base/plugin/skills/root/SKILL.md"],
-          id: "knowledge-base/plugin/skills/root/SKILL.md",
-          kind: "skill",
-        },
-        {
-          files: ["plugins/example/references/plugin.md"],
-          id: "plugins/example/references/plugin.md",
+          files: ["knowledge-base/plugins/example/references/plugin.md"],
+          id: "knowledge-base/plugins/example/references/plugin.md",
           kind: "shared-reference",
         },
         {
           files: [
-            "plugins/example/skills/check/SKILL.md",
-            "plugins/example/skills/check/assets/example.json",
+            "knowledge-base/plugins/example/skills/check/SKILL.md",
+            "knowledge-base/plugins/example/skills/check/assets/example.json",
           ],
-          id: "plugins/example/skills/check/SKILL.md",
+          id: "knowledge-base/plugins/example/skills/check/SKILL.md",
+          kind: "skill",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/references/shared.md"],
+          id: "knowledge-base/plugins/knowledge-base/references/shared.md",
+          kind: "shared-reference",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/skills/root/SKILL.md"],
+          id: "knowledge-base/plugins/knowledge-base/skills/root/SKILL.md",
           kind: "skill",
         },
       ],
+    );
+  });
+
+  it("ignores legacy knowledge-base/plugin and root plugins directories", () => {
+    const tracked = [
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugin/knowledge/index.md",
+      "knowledge-base/plugin/knowledge/legacy.md",
+      "knowledge-base/plugin/references/legacy.md",
+      "plugins/legacy/references/shared.md",
+      "plugins/legacy/GLOSSARY.md",
+      "plugins/legacy/docs/agents/domain.md",
+    ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+    };
+
+    assert.deepEqual(
+      discoverVerificationTargets("evergreen-knowledge", tracked, catalogs),
+      [
+        {
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+      ],
+    );
+    assert.throws(
+      () =>
+        discoverVerificationTargets(
+          "maintained-agent-content",
+          tracked,
+          catalogs,
+        ),
+      /did not discover any targets/u,
+    );
+    assert.throws(
+      () =>
+        discoverVerificationTargets("evergreen-knowledge", tracked, {
+          ...catalogs,
+          "knowledge-base/plugin/knowledge/index.md": catalog,
+        }),
+      /Invalid Knowledge catalog path 'knowledge-base\/plugin\/knowledge\/index\.md'/u,
     );
   });
 
@@ -159,14 +214,16 @@ describe("discoverVerificationTargets", () => {
         discoverVerificationTargets(
           "evergreen-knowledge",
           [
-            "knowledge-base/plugin/knowledge/index.md",
-            "knowledge-base/plugin/knowledge/a.md",
-            "knowledge-base/plugin/knowledge/c.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+            "knowledge-base/plugins/knowledge-base/knowledge/c.md",
           ],
-          catalog,
+          {
+            "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+          },
         ),
       new Error(
-        "Cannot select Knowledge from an invalid catalog:\n" +
+        "Cannot select Knowledge from invalid catalog 'knowledge-base/plugins/knowledge-base/knowledge/index.md':\n" +
           "The catalog lists 'knowledge/b.md', but that leaf document does not exist.\n" +
           "Knowledge leaf 'knowledge/c.md' must be listed exactly once in the catalog.",
       ),
@@ -184,11 +241,13 @@ describe("discoverVerificationTargets", () => {
       "maintained-agent-content",
       [
         ...instructions,
-        "knowledge-base/plugin/knowledge/index.md",
-        "knowledge-base/plugin/knowledge/a.md",
-        "knowledge-base/plugin/knowledge/b.md",
+        "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+        "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+        "knowledge-base/plugins/knowledge-base/knowledge/b.md",
       ],
-      catalog,
+      {
+        "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+      },
     );
     assert.deepEqual(
       targets,
@@ -200,7 +259,7 @@ describe("discoverVerificationTargets", () => {
     );
   });
 
-  it("discovers Knowledge targets across multiple isomorphic plugins and legacy layout", () => {
+  it("discovers Knowledge targets across multiple isomorphic plugins", () => {
     const codexCatalog = `# Knowledge catalog
 
 ## Documents
@@ -219,9 +278,9 @@ describe("discoverVerificationTargets", () => {
 | [knowledge/ios.md](ios.md) | evergreen |
 `;
     const tracked = [
-      "knowledge-base/plugin/knowledge/index.md",
-      "knowledge-base/plugin/knowledge/a.md",
-      "knowledge-base/plugin/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
       "knowledge-base/plugins/codex/knowledge/index.md",
       "knowledge-base/plugins/codex/knowledge/a.md",
       "knowledge-base/plugins/codex/knowledge/guide.md",
@@ -229,7 +288,7 @@ describe("discoverVerificationTargets", () => {
       "knowledge-base/plugins/chromium/knowledge/ios.md",
     ];
     const catalogs = {
-      "knowledge-base/plugin/knowledge/index.md": catalog,
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
       "knowledge-base/plugins/codex/knowledge/index.md": codexCatalog,
       "knowledge-base/plugins/chromium/knowledge/index.md": chromiumCatalog,
     };
@@ -242,14 +301,14 @@ describe("discoverVerificationTargets", () => {
       ),
       [
         {
-          files: ["knowledge-base/plugin/knowledge/a.md"],
-          id: "knowledge-base/plugin/knowledge/a.md",
+          files: ["knowledge-base/plugins/codex/knowledge/guide.md"],
+          id: "knowledge-base/plugins/codex/knowledge/guide.md",
           kind: "knowledge",
           knowledgeType: "time-sensitive",
         },
         {
-          files: ["knowledge-base/plugins/codex/knowledge/guide.md"],
-          id: "knowledge-base/plugins/codex/knowledge/guide.md",
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
           kind: "knowledge",
           knowledgeType: "time-sensitive",
         },
@@ -259,12 +318,6 @@ describe("discoverVerificationTargets", () => {
       discoverVerificationTargets("evergreen-knowledge", tracked, catalogs),
       [
         {
-          files: ["knowledge-base/plugin/knowledge/b.md"],
-          id: "knowledge-base/plugin/knowledge/b.md",
-          kind: "knowledge",
-          knowledgeType: "evergreen",
-        },
-        {
           files: ["knowledge-base/plugins/chromium/knowledge/ios.md"],
           id: "knowledge-base/plugins/chromium/knowledge/ios.md",
           kind: "knowledge",
@@ -273,6 +326,12 @@ describe("discoverVerificationTargets", () => {
         {
           files: ["knowledge-base/plugins/codex/knowledge/a.md"],
           id: "knowledge-base/plugins/codex/knowledge/a.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+        {
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
           kind: "knowledge",
           knowledgeType: "evergreen",
         },

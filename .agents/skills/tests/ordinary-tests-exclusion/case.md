@@ -22,9 +22,9 @@ a suitable general test-writing workflow to be chosen.
 
 ## Starting state
 
-Build the same complete current repository-maintenance and primary-product
+Build the same complete current repository-maintenance and Knowledge-plugin
 Skill metadata set as for a natural selection task: `.agents/skills/*/SKILL.md`
-and `knowledge-base/plugin/skills/*/SKILL.md`. Supply no candidate bodies.
+and `knowledge-base/plugins/*/skills/*/SKILL.md`. Supply no candidate bodies.
 Request selection only, with no code edits. Record inherited instructions and
 candidate construction.
 

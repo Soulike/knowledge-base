@@ -17,7 +17,7 @@ records the current findings architecture and supersedes
 [ADR 0002](../../docs/adr/0002-resolve-inconclusive-content-verification-through-trusted-issues.md)
 without rewriting that record's historical context. The general state and trust
 invariants are maintained as
-[Agent run-state Knowledge](../../knowledge-base/plugin/knowledge/github-actions/agent-run-state-and-reruns.md).
+[Agent run-state Knowledge](../../knowledge-base/plugins/knowledge-base/knowledge/github-actions/agent-run-state-and-reruns.md).
 [ADR 0004](../../docs/adr/0004-delegate-pull-request-review.md) records the
 pull-request review delegation and consumer boundary.
 
@@ -136,7 +136,7 @@ Repository content under review, issue and pull-request text, and external pages
 
 ## Scheduled content verification
 
-Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed [Knowledge catalog](../../knowledge-base/plugin/knowledge/index.md), and the checked-out revision. The [content-verification contract](../scripts/content-verification-contract/targets.ts) owns target discovery and result authentication. Its internal adapters distinguish primary-product Knowledge from repository-wide maintained Agent content.
+Each scheduled task also supports manual dispatch and keeps its own name, schedule, scope, and concurrency identity. Before inference, a trusted step derives an immutable target manifest from `git ls-files`, the parsed Knowledge catalogs across `knowledge-base/plugins/*/knowledge/index.md` (starting from the base [Knowledge catalog](../../knowledge-base/plugins/knowledge-base/knowledge/index.md)), and the checked-out revision. The [content-verification contract](../scripts/content-verification-contract/targets.ts) owns target discovery and result authentication. Its internal adapters distinguish Knowledge-plugin Knowledge from repository-wide maintained Agent content.
 
 Task-specific sources own what to analyze. All three import the
 [shared content-verification contract](shared/content-verification.md).
@@ -162,11 +162,11 @@ The tasks retain distinct emphases:
   evolution requires time-sensitive maintenance, together with its actual
   installed Workflow and Handbook consumers; and
 - maintained Agent content distinguishes Workflow invocation and execution from
-  Handbook applicability and required-reading selection, while reviewing
-  repository-maintenance workflows and auxiliary-plugin Skills under their own
-  contracts.
+  Handbook applicability and required-reading selection across all isomorphic
+  Knowledge plugins, while reviewing repository-maintenance workflows under
+  their own contracts.
 
-Knowledge route review starts from an installed primary-plugin consumer. A
+Knowledge route review starts from an installed same-plugin consumer. A
 Workflow may read Knowledge directly or through a reference selected by one of
 its steps; a Handbook links required Knowledge directly. The verifier checks
 the selecting condition or task stage and whether the route supplies a complete

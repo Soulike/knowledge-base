@@ -332,7 +332,7 @@ test("rejects invalid CLI combinations and invalid Marketplace plugin entries", 
     process.execPath,
     [
       checkerPath,
-      "knowledge-base/plugin/knowledge",
+      "knowledge-base/plugins/knowledge-base/knowledge",
       "--marketplace",
       marketplaceFile,
     ],

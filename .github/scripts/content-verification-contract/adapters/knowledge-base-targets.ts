@@ -10,8 +10,6 @@ import {
 
 import type { VerificationTarget } from "../types.ts";
 
-const LEGACY_KNOWLEDGE_DIRECTORY = "knowledge-base/plugin/knowledge";
-const LEGACY_KNOWLEDGE_CATALOG_PATH = `${LEGACY_KNOWLEDGE_DIRECTORY}/index.md`;
 const ISOMORPHIC_PLUGINS_DIRECTORY = "knowledge-base/plugins";
 const ISOMORPHIC_CATALOG_PATTERN =
   /^knowledge-base\/plugins\/([^/]+)\/knowledge\/index\.md$/u;
@@ -19,16 +17,13 @@ const ISOMORPHIC_KNOWLEDGE_MARKDOWN_PATTERN =
   /^knowledge-base\/plugins\/([^/]+)\/knowledge\/(.+\.md)$/u;
 
 export type KnowledgeCatalogInputs =
-  string | ReadonlyMap<string, string> | Readonly<Record<string, string>>;
+  ReadonlyMap<string, string> | Readonly<Record<string, string>>;
 
 function isValidPluginSegment(segment: string): boolean {
   return segment.length > 0 && segment !== "." && segment !== "..";
 }
 
 export function isKnowledgeCatalogPath(filePath: string): boolean {
-  if (filePath === LEGACY_KNOWLEDGE_CATALOG_PATH) {
-    return true;
-  }
   const match = ISOMORPHIC_CATALOG_PATTERN.exec(filePath);
   return match?.[1] !== undefined && isValidPluginSegment(match[1]);
 }
@@ -36,9 +31,6 @@ export function isKnowledgeCatalogPath(filePath: string): boolean {
 function knowledgeDirectoryForMarkdown(filePath: string): string | undefined {
   if (!filePath.endsWith(".md")) {
     return undefined;
-  }
-  if (filePath.startsWith(`${LEGACY_KNOWLEDGE_DIRECTORY}/`)) {
-    return LEGACY_KNOWLEDGE_DIRECTORY;
   }
   const match = ISOMORPHIC_KNOWLEDGE_MARKDOWN_PATTERN.exec(filePath);
   if (match?.[1] !== undefined && isValidPluginSegment(match[1])) {
@@ -50,9 +42,6 @@ function knowledgeDirectoryForMarkdown(filePath: string): string | undefined {
 function normalizeCatalogInputs(
   catalogs: KnowledgeCatalogInputs,
 ): Map<string, string> {
-  if (typeof catalogs === "string") {
-    return new Map([[LEGACY_KNOWLEDGE_CATALOG_PATH, catalogs]]);
-  }
   const entries =
     catalogs instanceof Map
       ? [...catalogs.entries()]
@@ -71,14 +60,6 @@ async function discoverCatalogPathsOnDisk(
   workspace: string,
 ): Promise<string[]> {
   const catalogPaths: string[] = [];
-  try {
-    await readFile(join(workspace, LEGACY_KNOWLEDGE_CATALOG_PATH), "utf8");
-    catalogPaths.push(LEGACY_KNOWLEDGE_CATALOG_PATH);
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-      throw error;
-    }
-  }
 
   let pluginEntries: Dirent[];
   try {
@@ -208,13 +189,12 @@ export function discoverKnowledgeBaseTargets(
       if (!(error instanceof KnowledgeCatalogValidationError)) {
         throw error;
       }
-      const header =
-        catalogMap.size === 1 && catalogPath === LEGACY_KNOWLEDGE_CATALOG_PATH
-          ? "Cannot select Knowledge from an invalid catalog:"
-          : `Cannot select Knowledge from invalid catalog '${catalogPath}':`;
-      throw new Error(`${header}\n${error.diagnostics.join("\n")}`, {
-        cause: error,
-      });
+      throw new Error(
+        `Cannot select Knowledge from invalid catalog '${catalogPath}':\n${error.diagnostics.join("\n")}`,
+        {
+          cause: error,
+        },
+      );
     }
 
     for (const entry of entries) {

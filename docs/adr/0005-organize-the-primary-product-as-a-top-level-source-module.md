@@ -2,7 +2,8 @@
 
 ## Status
 
-Accepted.
+Superseded by
+[ADR 0007](0007-organize-knowledge-base-as-isomorphic-plugins.md).
 
 ## Context
 

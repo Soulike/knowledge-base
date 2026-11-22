@@ -6,14 +6,22 @@ installed plugin remains self-contained.
 
 ## Available plugins
 
-| Plugin                                                            | Role        | Purpose                                                                             |
-| ----------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------- |
-| [knowledge-base](knowledge-base/plugins/knowledge-base/README.md) | Base plugin | Curated Knowledge and Agent workflows that discover and apply it during real tasks. |
+| Plugin                                                                | Role            | Selector                          | Purpose                                                                                             |
+| --------------------------------------------------------------------- | --------------- | --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [knowledge-base](knowledge-base/plugins/knowledge-base/README.md)     | Base plugin     | `knowledge-base@knowledge-base`   | Curated Knowledge, collaboration principles, and reusable Agent workflows for general tasks.        |
+| [generative-media](knowledge-base/plugins/generative-media/README.md) | Optional plugin | `generative-media@knowledge-base` | People-focused still-image and continuous-shot design Knowledge, prompting guidance, and workflows. |
+| [chromium](knowledge-base/plugins/chromium/README.md)                 | Optional plugin | `chromium@knowledge-base`         | Curated Chromium architecture Knowledge and Handbook guidance.                                      |
+| [azure-devops](knowledge-base/plugins/azure-devops/README.md)         | Optional plugin | `azure-devops@knowledge-base`     | Curated Azure DevOps Knowledge and Handbook guidance.                                               |
+| [codex](knowledge-base/plugins/codex/README.md)                       | Optional plugin | `codex@knowledge-base`            | Curated Codex platform Knowledge, Handbook guidance, and Codex-specific workflows.                  |
 
-See the base plugin's
+Keep the base `knowledge-base@knowledge-base` plugin installed alongside any
+optional plugins from this marketplace (`<name>@knowledge-base`). See the base
+plugin's
 [installation and usage guide](knowledge-base/plugins/knowledge-base/README.md#install-with-codex)
-for Codex and GitHub Copilot CLI. The marketplace and base plugin selector
-remain `knowledge-base` and `knowledge-base@knowledge-base`.
+for Codex and GitHub Copilot CLI, and each optional plugin's README for its
+installation commands and client compatibility (`codex` targets Codex). The
+marketplace and base plugin selector remain `knowledge-base` and
+`knowledge-base@knowledge-base`.
 
 ## Repository layout
 

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   isVersionedContent,
   listWorkingTreeChangedFiles,
+  type MarketplacePlugin,
   marketplacePath,
   marketplacePlugins,
   readMarketplacePluginsAtRevision,
@@ -34,6 +35,39 @@ export interface UpdatePluginVersionResult {
   plugins: PluginVersionUpdateResult[];
 }
 
+async function applyNextPluginVersion({
+  plugin,
+  manifestPath,
+  currentContent,
+  currentVersion,
+  previousVersion,
+  releaseDate,
+}: {
+  plugin: MarketplacePlugin;
+  manifestPath: string;
+  currentContent: string;
+  currentVersion: string;
+  previousVersion: string;
+  releaseDate: string;
+}): Promise<PluginVersionUpdateResult> {
+  const nextVersion = nextPluginVersion(previousVersion, releaseDate);
+  const updated = currentVersion !== nextVersion;
+
+  if (updated) {
+    await writeFile(
+      manifestPath,
+      replaceManifestVersion(currentContent, plugin.manifestPath, nextVersion),
+    );
+  }
+
+  return {
+    name: plugin.name,
+    manifestPath: plugin.manifestPath,
+    version: nextVersion,
+    updated,
+  };
+}
+
 export async function updatePluginVersion({
   repository,
   targetRevision,
@@ -61,35 +95,23 @@ export async function updatePluginVersion({
     );
     const comparisonPlugin = comparisonPlugins.get(currentPlugin.name);
 
+    let previousVersion: string | undefined;
     if (comparisonPlugin === undefined) {
-      const nextVersion = nextPluginVersion("", releaseDate);
-      const updated = currentVersion !== nextVersion;
-      if (updated) {
-        await writeFile(
-          manifestPath,
-          replaceManifestVersion(
-            currentContent,
-            currentPlugin.manifestPath,
-            nextVersion,
-          ),
-        );
-      }
-      results.push({
-        name: currentPlugin.name,
-        manifestPath: currentPlugin.manifestPath,
-        version: nextVersion,
-        updated,
-      });
-      continue;
+      previousVersion = "";
+    } else if (
+      changedFiles.some(
+        (path) =>
+          isVersionedContent(path, comparisonPlugin.manifestPath) ||
+          isVersionedContent(path, currentPlugin.manifestPath),
+      )
+    ) {
+      previousVersion = readManifestVersion(
+        comparisonPlugin.content,
+        `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
+      );
     }
 
-    const contentChanged = changedFiles.some(
-      (path) =>
-        isVersionedContent(path, comparisonPlugin.manifestPath) ||
-        isVersionedContent(path, currentPlugin.manifestPath),
-    );
-
-    if (!contentChanged) {
+    if (previousVersion === undefined) {
       results.push({
         name: currentPlugin.name,
         manifestPath: currentPlugin.manifestPath,
@@ -99,30 +121,16 @@ export async function updatePluginVersion({
       continue;
     }
 
-    const comparisonVersion = readManifestVersion(
-      comparisonPlugin.content,
-      `${comparisonPlugin.manifestPath} at ${comparisonBase}`,
-    );
-    const nextVersion = nextPluginVersion(comparisonVersion, releaseDate);
-    const updated = currentVersion !== nextVersion;
-
-    if (updated) {
-      await writeFile(
+    results.push(
+      await applyNextPluginVersion({
+        plugin: currentPlugin,
         manifestPath,
-        replaceManifestVersion(
-          currentContent,
-          currentPlugin.manifestPath,
-          nextVersion,
-        ),
-      );
-    }
-
-    results.push({
-      name: currentPlugin.name,
-      manifestPath: currentPlugin.manifestPath,
-      version: nextVersion,
-      updated,
-    });
+        currentContent,
+        currentVersion,
+        previousVersion,
+        releaseDate,
+      }),
+    );
   }
 
   return { plugins: results };

@@ -1,5 +1,4 @@
-import type { Dirent } from "node:fs";
-import { readdir, readFile } from "node:fs/promises";
+import { readFile } from "node:fs/promises";
 import { join, posix } from "node:path";
 
 import {
@@ -56,50 +55,13 @@ function normalizeCatalogInputs(
   return normalized;
 }
 
-async function discoverCatalogPathsOnDisk(
-  workspace: string,
-): Promise<string[]> {
-  const catalogPaths: string[] = [];
-
-  let pluginEntries: Dirent[];
-  try {
-    pluginEntries = await readdir(
-      join(workspace, ISOMORPHIC_PLUGINS_DIRECTORY),
-      { withFileTypes: true },
-    );
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-      throw error;
-    }
-    pluginEntries = [];
-  }
-
-  for (const entry of pluginEntries) {
-    if (!entry.isDirectory() || !isValidPluginSegment(entry.name)) {
-      continue;
-    }
-    const catalogPath = `${ISOMORPHIC_PLUGINS_DIRECTORY}/${entry.name}/knowledge/index.md`;
-    try {
-      await readFile(join(workspace, catalogPath), "utf8");
-      catalogPaths.push(catalogPath);
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
-        throw error;
-      }
-    }
-  }
-
-  return catalogPaths.sort();
-}
-
 export async function readKnowledgeBaseCatalogs(
   workspace: string,
-  trackedPaths?: readonly string[],
+  trackedPaths: readonly string[],
 ): Promise<Record<string, string>> {
-  const catalogPaths =
-    trackedPaths !== undefined
-      ? [...new Set(trackedPaths.filter(isKnowledgeCatalogPath))].sort()
-      : await discoverCatalogPathsOnDisk(workspace);
+  const catalogPaths = [
+    ...new Set(trackedPaths.filter(isKnowledgeCatalogPath)),
+  ].sort();
 
   if (catalogPaths.length === 0) {
     throw new Error("No Knowledge catalogs found in workspace.");

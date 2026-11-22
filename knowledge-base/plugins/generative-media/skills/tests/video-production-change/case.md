@@ -94,8 +94,8 @@ prompt as generated-video evidence, or route through the maintenance Catalog
 must fail the corresponding criterion.
 
 Do not judge generic reassessment, reading reuse, rereading, interruption, or
-route-restoration behavior in this case; those assertions belong to the
-[collaboration lifecycle case](../../../../knowledge-base/tests/collaboration-guidance-recovery/case.md).
+route-restoration behavior in this case; those assertions belong to the base
+`knowledge-base` plugin's `collaboration-guidance-recovery` case.
 
 ## Source
 

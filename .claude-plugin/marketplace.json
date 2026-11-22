@@ -22,6 +22,10 @@
       "source": "./knowledge-base/plugins/chromium"
     },
     {
+      "name": "codex",
+      "source": "./knowledge-base/plugins/codex"
+    },
+    {
       "name": "generative-media",
       "source": "./knowledge-base/plugins/generative-media"
     }

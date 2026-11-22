@@ -14,15 +14,17 @@
 
 ## Protected behavior
 
-MCP server architecture, factory-lifecycle, layering, and `InMemoryTransport`
+MCP server architecture, factory-lifecycle, layering, and in-process protocol
 testing requests must select `handbook-agents` and route to
 `mcp/server-architecture.md` (loading it alone for pure architecture/testing
 questions, or cumulatively with `agents/tool-interface-design.md` and
 `mcp/tool-contracts.md` when designing/reviewing an MCP server end-to-end),
 while plain non-MCP HTTP server refactoring excludes `handbook-agents`. Protect
 those selection, cumulative-reading, stateless-factory, layering, and
-testing-seam invariants while tolerating different valid directory layouts,
-SDK v1/v2 syntax, and equivalent prose.
+protocol-versus-boundary testing-seam invariants (including distinguishing
+`2026-07-28` `createMcpHandler(createServer).fetch` + concurrent-request checks
+from `2025`-era `InMemoryTransport`) while tolerating different valid directory
+layouts, SDK v1/v2 syntax, and equivalent prose.
 
 ## Task
 
@@ -70,14 +72,18 @@ the three requests independent and do not modify repository files.
   per call, isolate `process.env` + `isEntryPoint` (`realpathSync`) +
   `stderr`-only `stdio` logging + Streamable HTTP `Host`/`Origin`/auth checks at
   the entry boundary, move `@modelcontextprotocol/*` + Markdown/error
-  presentation out of `services/api.ts`, and recommend
-  `Client <-> InMemoryTransport <-> createServer(deps)` with injected doubles
-  plus thin `isEntryPoint` / HTTP boundary checks.
+  presentation out of `services/api.ts`, and distinguish the `2026-07-28`
+  in-process `StreamableHTTPClientTransport` -> `createMcpHandler(createServer).fetch`
+  seam (with overlapping/concurrent request coverage for fresh server creation)
+  from `2025`-era `InMemoryTransport.createLinkedPair()` (which bypasses the
+  HTTP per-request factory) alongside thin `isEntryPoint` / HTTP boundary checks.
 - R4 (critical): for request 2, combine stateless `createServer(deps)`,
   deterministic `tools/index.ts` registration, pure `services/` with
   `AbortSignal.any` cancellation, presenter separation, model-facing
   descriptions/schemas/`ToolAnnotations`/`outputSchema`+`structuredContent`+`TextContent`/`isError: true`,
-  and `InMemoryTransport` tests.
+  and protocol-appropriate tests (`createMcpHandler.fetch` + concurrent request
+  check for `2026-07-28`, `InMemoryTransport` for `2025`-era/v1, and thin
+  entry/transport checks).
 
 ## Verification
 

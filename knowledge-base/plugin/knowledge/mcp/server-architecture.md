@@ -47,8 +47,9 @@ tested independently:
   - Owns HTTP/SDK calls, auth headers, timeouts, typed domain results & errors
   - Zero @modelcontextprotocol/* imports, process.env reads, or LLM copy
 
-  Test seam:  Test Client <--> InMemoryTransport <--> createServer(stubDeps)
-              (exercises tools, schemas, and error mapping without index.ts)
+  Test seams:
+  - 2026-07-28 HTTP: Client + StreamableHTTPClientTransport -> createMcpHandler(createServer).fetch (no socket; tests factory lifecycle)
+  - 2025-era / v1:   Client <--> InMemoryTransport.createLinkedPair() <--> createServer(stubDeps) (bypasses HTTP handler factory)
 ```
 
 Read each layer below for the specific invariants and failure modes it prevents.
@@ -137,11 +138,23 @@ upstream response validation inside pure domain clients under `services/`:
 
 ## Test at the protocol seam and thin transport boundaries
 
-Exercise tools, schema validation, `outputSchema`/`structuredContent`, and
-`isError: true` mapping in process through
-`Client <-> InMemoryTransport <-> createServer(deps)` using injected external
-boundary doubles (such as a stub `fetch` or service client) and explicit test
-credentials, without mutating `process.env`.
+Choose the in-process protocol test seam that matches the protocol revision and
+SDK lifecycle, supplying injected external boundary doubles (such as a stub
+`fetch` or service client) and explicit test credentials without mutating
+`process.env`:
+
+- **Exercise `2026-07-28` servers through `createMcpHandler(createServer).fetch`:**
+  In `@modelcontextprotocol/server` v2, connect a real `Client` and
+  `StreamableHTTPClientTransport` whose `fetch` option calls
+  `handler.fetch(new Request(url, init))` directly in process with no open
+  socket. Include an overlapping/concurrent request test on that handler to
+  verify that `createServer` returns a fresh `McpServer` per request rather
+  than failing with `-32603` on a shared singleton.
+- **Reserve `InMemoryTransport.createLinkedPair()` for `2025`-era and v1 coverage:**
+  `InMemoryTransport.createLinkedPair()` connects two `2025`-era (or SDK v1)
+  instances in memory to verify tools, schemas, `outputSchema`/`structuredContent`,
+  and `isError: true` mapping without spawning a process, but it bypasses
+  `createMcpHandler` and therefore cannot catch per-request HTTP factory reuse.
 
 Keep startup and transport checks thin and focused at their owning boundaries
 per [test effectiveness](../software-testing/test-effectiveness.md#test-at-the-owning-seam):
@@ -151,12 +164,14 @@ per [test effectiveness](../software-testing/test-effectiveness.md#test-at-the-o
 - When Streamable HTTP is supported, test loopback binding, `Host`/`Origin`
   rejection (`403`), non-MCP path `404` responses, and `SIGINT`/`SIGTERM`
   shutdown on an ephemeral port (`port: 0`).
-- When distributing a `stdio` CLI binary, keep one minimal spawned-process smoke
-  test verifying `bin` execution and clean `stdout` framing.
+- When distributing a `stdio` CLI binary, keep a minimal spawned-process smoke
+  test (`StdioClientTransport` or child process) verifying `bin` execution and
+  clean `stdout` framing.
 
 ## References
 
 - [MCP Reference Servers (`everything` factory and `sequentialthinking` entrypoint/HTTP/tests)](https://github.com/modelcontextprotocol/servers)
+- [MCP TypeScript SDK v2: Test a server](https://ts.sdk.modelcontextprotocol.io/v2/testing.md)
 - [Anthropic MCP Builder: Node/TypeScript Server v2 Guide](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/reference/node_mcp_server_v2.md)
 - [Anthropic MCP Builder: MCP Best Practices](https://github.com/anthropics/skills/blob/main/skills/mcp-builder/reference/mcp_best_practices.md)
 - [Model Context Protocol Specification: Tools (`2026-07-28`)](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)

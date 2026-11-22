@@ -77,7 +77,7 @@ You can also ask explicitly when you want to inspect or control that process:
 
 - “Use the collaboration Handbook before working on this task.”
 - “Use the software engineering Handbook while restructuring this module.”
-- “Use the knowledge base while configuring Codex for GitHub Copilot Enterprise.”
+- “Use the documentation Handbook while reviewing this guide.”
 - “Contribute this correction to the knowledge base.”
 
 ## Browse the contents

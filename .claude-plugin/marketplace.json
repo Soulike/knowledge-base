@@ -12,6 +12,10 @@
     {
       "name": "knowledge-base",
       "source": "./knowledge-base/plugins/knowledge-base"
+    },
+    {
+      "name": "codex",
+      "source": "./knowledge-base/plugins/codex"
     }
   ]
 }

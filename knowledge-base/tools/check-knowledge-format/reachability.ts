@@ -384,16 +384,30 @@ export async function checkKnowledgeReachability(
           continue;
         }
 
-        if (knowledgePathSet.has(pluginRelativeTarget)) {
-          if (
-            (await resolveInPackageFile(
-              targetPath,
-              pluginRelativeTarget,
-              targetRoute,
-              incoming,
-            )) !== undefined
-          ) {
+        const isKnownKnowledgeLeaf = knowledgePathSet.has(pluginRelativeTarget);
+        if (
+          isKnownKnowledgeLeaf ||
+          isPotentialKnowledgeLeaf(pluginRelativeTarget)
+        ) {
+          const resolvedTarget = await resolveInPackageFile(
+            targetPath,
+            pluginRelativeTarget,
+            targetRoute,
+            incoming,
+          );
+          if (resolvedTarget === undefined) {
+            continue;
+          }
+          if (isKnownKnowledgeLeaf) {
             reachableKnowledgePaths.add(pluginRelativeTarget);
+          } else {
+            try {
+              await readFile(resolvedTarget.realFilePath, "utf8");
+            } catch (error) {
+              addDiagnostic(
+                `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
+              );
+            }
           }
         } else if (isPackageReference(pluginRelativeTarget)) {
           await visitRoute(
@@ -402,14 +416,6 @@ export async function checkKnowledgeReachability(
             targetRoute,
             incoming,
           );
-        } else if (isPotentialKnowledgeLeaf(pluginRelativeTarget)) {
-          try {
-            await readFile(targetPath, "utf8");
-          } catch (error) {
-            addDiagnostic(
-              `Route '${routeDescription(targetRoute)}' cannot read '${pluginRelativeTarget}' linked from '${displayPath}:${target.line}': ${readFailureMessage(errorCode(error))}.`,
-            );
-          }
         }
       }
     }

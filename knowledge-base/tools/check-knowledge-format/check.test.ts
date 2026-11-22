@@ -380,6 +380,112 @@ test("rejects a symlinked Knowledge leaf that resolves into a sibling plugin", a
   ]);
 });
 
+test("rejects a symlinked Knowledge leaf outside the catalog inventory via --marketplace CLI", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const pluginA = join(temporaryRoot, "knowledge-base", "plugins", "plugin-a");
+  const pluginB = join(temporaryRoot, "knowledge-base", "plugins", "plugin-b");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(pluginA, "knowledge", "core"), { recursive: true }),
+    mkdir(join(pluginA, "skills", "handbook-a"), { recursive: true }),
+    mkdir(join(pluginB, "knowledge", "domain"), { recursive: true }),
+    mkdir(join(pluginB, "skills", "handbook-b"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          { name: "plugin-a", source: "./knowledge-base/plugins/plugin-a" },
+          { name: "plugin-b", source: "./knowledge-base/plugins/plugin-b" },
+        ],
+      }),
+    ),
+    writeFile(
+      join(pluginA, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(pluginA, "knowledge", "core", "guide.md"), validDocument),
+    writeFile(
+      join(pluginA, "skills", "handbook-a", "SKILL.md"),
+      "Read [Guide](../../knowledge/core/guide.md) and [Escaped](../../knowledge/core/escaped.md).\n",
+    ),
+    writeFile(
+      join(pluginB, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/domain/topic.md](domain/topic.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(pluginB, "knowledge", "domain", "topic.md"), validDocument),
+    writeFile(
+      join(pluginB, "skills", "handbook-b", "SKILL.md"),
+      "Read [Topic](../../knowledge/domain/topic.md).\n",
+    ),
+    symlink(
+      "../../../plugin-b/knowledge/domain/topic.md",
+      join(pluginA, "knowledge", "core", "escaped.md"),
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "[plugin-a] knowledge-base/plugins/plugin-a/skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> knowledge/core/escaped.md' follows '../../knowledge/core/escaped.md' from 'skills/handbook-a/SKILL.md:1' outside the plugin package.\n",
+  );
+});
+
+test("rejects an unlisted in-package Markdown directory linked as a potential Knowledge leaf", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const pluginDirectory = join(temporaryRoot, "plugin");
+  const knowledgeDirectory = join(pluginDirectory, "knowledge");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(join(knowledgeDirectory, "core", "dir.md"), { recursive: true }),
+    mkdir(join(pluginDirectory, "skills", "handbook-a"), { recursive: true }),
+  ]);
+  await Promise.all([
+    writeFile(
+      join(knowledgeDirectory, "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(knowledgeDirectory, "core", "guide.md"), validDocument),
+    writeFile(
+      join(pluginDirectory, "skills", "handbook-a", "SKILL.md"),
+      "Read [Guide](../../knowledge/core/guide.md) and [Dir](../../knowledge/core/dir.md).\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, knowledgeDirectory, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "skills/handbook-a/SKILL.md: Route 'skills/handbook-a/SKILL.md -> knowledge/core/dir.md' cannot read 'knowledge/core/dir.md' linked from 'skills/handbook-a/SKILL.md:1': target is not a readable Markdown file (EISDIR).\n",
+  );
+});
+
 test("rejects invalid CLI combinations and invalid Marketplace plugin entries", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const marketplaceFile = join(temporaryRoot, "marketplace.json");

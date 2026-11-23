@@ -318,6 +318,53 @@ export async function checkKnowledgeDirectory(
   };
 }
 
+function emptyKnowledgeCheckResult(
+  diagnostics: KnowledgeFormatDiagnostic[] = [],
+): KnowledgeFormatCheckResult {
+  return {
+    checkedFileCount: 0,
+    diagnostics,
+    reachability: {
+      diagnostics: [],
+      entrypointCount: 0,
+      reachableKnowledgeFilePaths: [],
+      unreachableKnowledgeFilePaths: [],
+    },
+  };
+}
+
+async function probeDirectory(
+  directoryPath: string,
+  displayLabel: string,
+): Promise<
+  | { status: "directory" }
+  | { status: "missing" }
+  | { status: "error"; message: string }
+> {
+  try {
+    const stats = await stat(directoryPath);
+    if (!stats.isDirectory()) {
+      return {
+        status: "error",
+        message: `${displayLabel} directory is not a directory.`,
+      };
+    }
+    return { status: "directory" };
+  } catch (error) {
+    const code = errorCode(error);
+    if (code === "ENOENT") {
+      return { status: "missing" };
+    }
+    if (code === "ENOTDIR") {
+      return {
+        status: "error",
+        message: `${displayLabel} directory is not a directory.`,
+      };
+    }
+    throw error;
+  }
+}
+
 export async function checkMarketplaceKnowledge(
   marketplaceFile: string,
   options: KnowledgeFormatCheckOptions = {},
@@ -328,41 +375,62 @@ export async function checkMarketplaceKnowledge(
   let hasDiagnostics = false;
 
   for (const plugin of plugins) {
-    let knowledgeDirectoryError: string | undefined;
-    try {
-      const knowledgeStats = await stat(plugin.knowledgeDirectory);
-      if (!knowledgeStats.isDirectory()) {
-        knowledgeDirectoryError = "Knowledge directory is not a directory.";
-      }
-    } catch (error) {
-      const code = errorCode(error);
-      if (code === "ENOENT") {
-        knowledgeDirectoryError = "Knowledge directory does not exist.";
-      } else if (code === "ENOTDIR") {
-        knowledgeDirectoryError = "Knowledge directory is not a directory.";
+    const knowledgeProbe = await probeDirectory(
+      plugin.knowledgeDirectory,
+      "Knowledge",
+    );
+
+    let result: KnowledgeFormatCheckResult;
+    if (knowledgeProbe.status === "error") {
+      result = emptyKnowledgeCheckResult([
+        {
+          filePath: "knowledge",
+          message: knowledgeProbe.message,
+        },
+      ]);
+    } else if (knowledgeProbe.status === "directory") {
+      result = await checkKnowledgeDirectory(
+        plugin.knowledgeDirectory,
+        options,
+      );
+    } else {
+      const skillsDirectory = join(plugin.pluginDirectory, "skills");
+      const skillsProbe = await probeDirectory(skillsDirectory, "Skills");
+
+      if (skillsProbe.status === "error") {
+        result = emptyKnowledgeCheckResult([
+          {
+            filePath: "skills",
+            message: skillsProbe.message,
+          },
+        ]);
+      } else if (skillsProbe.status === "missing") {
+        result = emptyKnowledgeCheckResult([
+          {
+            filePath: "skills",
+            message: "Skills directory does not exist.",
+          },
+        ]);
       } else {
-        throw error;
+        const reachability = await checkKnowledgeReachability(
+          plugin.pluginDirectory,
+          [],
+        );
+        const diagnostics = [...reachability.diagnostics];
+        if (reachability.entrypointCount === 0) {
+          diagnostics.push({
+            filePath: "skills",
+            message:
+              "Skills directory must contain at least one Skill entrypoint.",
+          });
+        }
+        result = {
+          checkedFileCount: 0,
+          diagnostics,
+          reachability,
+        };
       }
     }
-
-    const result: KnowledgeFormatCheckResult =
-      knowledgeDirectoryError !== undefined
-        ? {
-            checkedFileCount: 0,
-            diagnostics: [
-              {
-                filePath: "knowledge",
-                message: knowledgeDirectoryError,
-              },
-            ],
-            reachability: {
-              diagnostics: [],
-              entrypointCount: 0,
-              reachableKnowledgeFilePaths: [],
-              unreachableKnowledgeFilePaths: [],
-            },
-          }
-        : await checkKnowledgeDirectory(plugin.knowledgeDirectory, options);
 
     totalCheckedFileCount += result.checkedFileCount;
     if (result.diagnostics.length > 0) {

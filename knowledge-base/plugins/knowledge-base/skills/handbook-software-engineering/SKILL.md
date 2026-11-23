@@ -1,6 +1,6 @@
 ---
 name: handbook-software-engineering
-description: Use when software work requires reasoning about behavior, state or effect contracts, source code, APIs, architecture, runtime design, or the semantic change set between revisions, including during review or test design.
+description: Use when designing, implementing, reviewing, testing, or analyzing software behavior, architecture, interfaces, or semantic changes between revisions.
 ---
 
 # Software engineering Handbook

@@ -11,7 +11,7 @@
 - [Product authoring rules](../../knowledge-base/AGENTS.md)
 - [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md)
 - [Generic Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
-- [Documentation-writing Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md)
+- [Development-documentation Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md)
 
 ## Protected behavior
 
@@ -36,23 +36,23 @@ Skill authors follow the same structure. Specifically, the proposal requires
 checking every new guidance or Skill document against `knowledge-base`'s
 four-role taxonomy (`Knowledge`, `Workflow Skill`, `Handbook Skill`, and
 `Skill reference`) via
-`knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md`, ensuring
-reading-only Skills model a common foundation plus cumulative conditional
-packages without duplicating `Knowledge` leaves, and keeping leaf-to-leaf
-`Related Knowledge` appendices out of `Knowledge` documents. Meanwhile, generic
-craft inside the proposal (such as separating a task-executing Skill from a
-guidance-only Skill without inventing a workflow procedure) remains valid in
-any project.
+[knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md),
+ensuring reading-only Skills model a common foundation plus cumulative
+conditional packages without duplicating `Knowledge` leaves, and keeping
+leaf-to-leaf `Related Knowledge` appendices out of `Knowledge` documents.
+Meanwhile, generic craft inside the proposal (such as separating a
+task-executing Skill from a guidance-only Skill without inventing a workflow
+procedure) remains valid in any project.
 
 Prepare a read-only classification, placement, and isolation assessment that
 evaluates all three options:
 
 1. Add the four-role taxonomy route (`knowledge-and-skills.md`), Handbook
    foundation and cumulative-package rules, and `Knowledge`-leaf constraints
-   into `workflow-write-dev-documentation` and
-   `knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md` so all
-   documentation and Skill-authoring users share one standard;
-2. Keep `workflow-write-dev-documentation` and `skill-authoring.md`
+   into `workflow-maintain-dev-documentation` and
+   [knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
+   so all documentation and Skill-authoring users share one standard;
+2. Keep `workflow-maintain-dev-documentation` and `skill-authoring.md`
    domain-model-neutral (retaining only generic Skill and documentation craft
    and removing any `knowledge-and-skills.md` route or product-taxonomy rule),
    place rules that exist only to define, classify, model, or validate this
@@ -62,7 +62,7 @@ evaluates all three options:
    workflows whose explicit user-facing task is interacting with this product;
 3. Keep the product-taxonomy and Handbook-package rules in `.agents/` for
    maintainers and also add a short summary plus a `knowledge-and-skills.md`
-   link inside `workflow-write-dev-documentation` and `skill-authoring.md` for
+   link inside `workflow-maintain-dev-documentation` and `skill-authoring.md` for
    downstream convenience.
 
 State which option is accepted, why the other two are rejected, how generic
@@ -77,7 +77,7 @@ routes (including
 [Classification reference](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md),
 [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md),
 and
-[Contribution proposal Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-propose-knowledge-base-contribution/SKILL.md))
+[Contribution publication Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-contribute-to-knowledge-base/SKILL.md))
 in read-only access to the supplied repository snapshot. Do not supply GitHub
 issue #289, ticket #293, or pull-request history; the maintained guidance alone
 must establish the neutrality, placement, and isolation decisions.
@@ -90,7 +90,7 @@ the files read and the classification, neutrality, and isolation rationale.
 - R1 (critical): reject placing `knowledge-base`'s internal four-role taxonomy,
   Handbook foundation and cumulative-package rules, or `Knowledge`-leaf
   constraints into
-  [`workflow-write-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md)
+  [`workflow-maintain-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md)
   or
   [`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
   (Option 1). Explain that under symmetric domain-model neutrality,
@@ -101,7 +101,7 @@ the files read and the classification, neutrality, and isolation rationale.
 - R2 (critical): reject routing or linking
   [`knowledge-and-skills.md`](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md)
   from
-  [`workflow-write-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md)
+  [`workflow-maintain-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md)
   or
   [`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md),
   and reject duplicating or summarizing product-internal taxonomy rules across
@@ -123,7 +123,7 @@ the files read and the classification, neutrality, and isolation rationale.
   taxonomy) in
   [`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
   and
-  [`workflow-write-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md).
+  [`workflow-maintain-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md).
 - R4: keep the assessment read-only without claiming file edits or unobserved
   checks, and record the inspected files and layer-boundary rationale.
 
@@ -135,7 +135,7 @@ A controlled faulty assessment that places Handbook foundation/package rules or
 `Knowledge` taxonomy inside
 [`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 or
-[`workflow-write-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md),
+[`workflow-maintain-dev-documentation`](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md),
 routes general-purpose documentation workflows to
 [`knowledge-and-skills.md`](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md),
 duplicates product-taxonomy summaries across `.agents/` and general-purpose
@@ -151,6 +151,6 @@ domain-model neutrality and product-interface isolation across
 [Content-maintenance Skill](../../.agents/skills/maintain-knowledge-base/SKILL.md),
 [Generic Skill-authoring reference](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md),
 and
-[Documentation-writing Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-write-dev-documentation/SKILL.md).
+[Development-documentation Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-maintain-dev-documentation/SKILL.md).
 This new application case requires fresh validation against the current
 integrated guidance.

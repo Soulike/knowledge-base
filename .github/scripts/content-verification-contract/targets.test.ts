@@ -510,4 +510,73 @@ describe("discoverVerificationTargets", () => {
       /Knowledge catalog 'knowledge-base\/plugins\/beta\/knowledge\/index\.md' is not present in tracked files/u,
     );
   });
+
+  it("discovers Skills in a Skill-only plugin alongside Knowledge-bearing plugins", () => {
+    const tracked = [
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+      "knowledge-base/plugins/utilities/LICENSE",
+      "knowledge-base/plugins/utilities/README.md",
+      "knowledge-base/plugins/utilities/plugin.json",
+      "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md",
+      "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/agents/openai.yaml",
+      "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/tests/case.md",
+    ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+    };
+
+    assert.deepEqual(
+      discoverVerificationTargets(
+        "time-sensitive-knowledge",
+        tracked,
+        catalogs,
+      ),
+      [
+        {
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/a.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+          kind: "knowledge",
+          knowledgeType: "time-sensitive",
+        },
+      ],
+    );
+    assert.deepEqual(
+      discoverVerificationTargets("evergreen-knowledge", tracked, catalogs),
+      [
+        {
+          files: ["knowledge-base/plugins/knowledge-base/knowledge/b.md"],
+          id: "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+          kind: "knowledge",
+          knowledgeType: "evergreen",
+        },
+      ],
+    );
+    assert.deepEqual(
+      discoverVerificationTargets(
+        "maintained-agent-content",
+        tracked,
+        catalogs,
+      ),
+      [
+        {
+          files: [
+            "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+          ],
+          id: "knowledge-base/plugins/knowledge-base/skills/handbook-collaboration/SKILL.md",
+          kind: "skill",
+        },
+        {
+          files: [
+            "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md",
+            "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/agents/openai.yaml",
+          ],
+          id: "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md",
+          kind: "skill",
+        },
+      ],
+    );
+  });
 });

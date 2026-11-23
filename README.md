@@ -13,6 +13,7 @@ installed plugin remains self-contained.
 | [chromium](knowledge-base/plugins/chromium/README.md)                 | Optional plugin | `chromium@knowledge-base`         | Curated Chromium architecture Knowledge and Handbook guidance.                                      |
 | [azure-devops](knowledge-base/plugins/azure-devops/README.md)         | Optional plugin | `azure-devops@knowledge-base`     | Curated Azure DevOps Knowledge and Handbook guidance.                                               |
 | [codex](knowledge-base/plugins/codex/README.md)                       | Optional plugin | `codex@knowledge-base`            | Curated Codex platform Knowledge, Handbook guidance, and Codex-specific workflows.                  |
+| [utilities](knowledge-base/plugins/utilities/README.md)               | Optional plugin | `utilities@knowledge-base`        | Optional Skill-only utility Agent workflows, including local proxy fallback.                        |
 
 Keep the base `knowledge-base@knowledge-base` plugin installed alongside any
 optional plugins from this marketplace (`<name>@knowledge-base`). See the base

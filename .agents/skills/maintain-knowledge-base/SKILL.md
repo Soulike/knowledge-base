@@ -144,13 +144,12 @@ independent behavior.
     creation or maintenance of Agent-behavior regression
     cases within the authorized task, follow
     [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md).
-    Before editing other tests, route by the responsibility that
-    started the work. Direct selection of new protection for a production
-    behavior or bounded coverage need uses
-    [`workflow-write-effective-tests`](../../../knowledge-base/plugins/knowledge-base/skills/workflow-write-effective-tests/SKILL.md).
-    Review of coverage, an existing or proposed test, or test execution uses
-    [`workflow-review-and-improve-tests`](../../../knowledge-base/plugins/knowledge-base/skills/workflow-review-and-improve-tests/SKILL.md),
-    which retains any coverage work selected by that review.
+    Before editing other tests, use
+    [`workflow-manage-automated-tests`](../../../knowledge-base/plugins/knowledge-base/skills/workflow-manage-automated-tests/SKILL.md)
+    (selecting new protection for a production behavior or bounded coverage need
+    through its new-coverage sub-flow, and reviewing coverage, an existing or
+    proposed test, or test execution through its review sub-flow, which retains
+    any coverage work selected by that review).
 11. Review the composed result using the loaded Knowledge's
     [suitability review](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result).
     Record the reader task, relevant locations, and outcome separately from

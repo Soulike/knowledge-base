@@ -7,18 +7,18 @@
 
 ## Covered objects
 
-- [React Handbook](../../skills/handbook-react/SKILL.md)
+- [Frontend-development Handbook](../../skills/handbook-frontend-dev/SKILL.md)
 - [React Effect callback isolation](../../knowledge/react/effect-callback-isolation.md)
 
 ## Protected behavior
 
 React Effect callback-isolation tasks and focused-learning requests must
-select the React Handbook, match its Effect callback-isolation package, and
-apply the reactive-versus-callback distinction, React version tradeoff
-(`useEffectEvent` versus Effect-synchronized `useRef`), and Hook verification
-invariants without recommending render-time `ref.current` mutation, while
-non-Effect React requests must result in a valid sparse no-match inside the
-React Handbook.
+select the Frontend-development Handbook, match its Effect callback-isolation
+package, and apply the reactive-versus-callback distinction, React version
+tradeoff (`useEffectEvent` versus Effect-synchronized `useRef`), and Hook
+verification invariants without recommending render-time `ref.current` mutation,
+while non-Effect React requests must result in a valid sparse no-match inside
+the Frontend-development Handbook.
 
 ## Task
 
@@ -53,15 +53,15 @@ the four requests independent and do not modify repository files.
 
 ## Expected behavior
 
-- R1 (critical): select `handbook-react` natively for all four React requests
-  (co-selection of `handbook-javascript-typescript`,
-  `handbook-software-engineering`, or `handbook-automated-testing` where
+- R1 (critical): select `handbook-frontend-dev` natively for all four React
+  requests (co-selection of `handbook-javascript-typescript`,
+  `handbook-software-engineering`, or `workflow-manage-automated-tests` where
   applicable is allowed).
-- R2 (critical): inside `handbook-react`, match and read the Effect
+- R2 (critical): inside `handbook-frontend-dev`, match and read the Effect
   callback-isolation package for requests 1, 2, and 3, and validly match no
   package (excluding the Effect callback-isolation file) for request 4 without
   inventing React Context guidance from the Handbook or claiming the Handbook
-  covers all of React.
+  covers all of React or frontend development.
 - R3 (critical): for request 1, identify the inline-callback identity +
   `setState` re-render loop risk (and note render-time derivation if `Map` is
   merely derived state), respect `peerDependencies.react >= 18.0.0` by choosing
@@ -81,17 +81,19 @@ the four requests independent and do not modify repository files.
 
 ## Verification
 
-Inspect native Skill selection, post-body `handbook-react` package choices,
-read-file evidence, and the final response for each of the four requests
-separately. A faulty observation that misses `handbook-react`, loads the Effect
-callback-isolation file for request 4, recommends writing `callbackRef.current =
-callback` during render in request 1 or 2, or recommends `useEffectEvent`
-without addressing the `>=18.0.0` peer dependency in request 1 must fail the
-corresponding critical criterion.
+Inspect native Skill selection, post-body `handbook-frontend-dev` package
+choices, read-file evidence, and the final response for each of the four
+requests separately. A faulty observation that misses `handbook-frontend-dev`,
+loads the Effect callback-isolation file for request 4, recommends writing
+`callbackRef.current = callback` during render in request 1 or 2, or recommends
+`useEffectEvent` without addressing the `>=18.0.0` peer dependency in request 1
+must fail the corresponding critical criterion.
 
 ## Source
 
 Reconstructed from GitHub issue #278 (which supplies the `useIndexedRecords`
 custom Hook and `useEffectEvent` versus `useRef` scenarios) together with React
 `useEffectEvent` and Context scenarios to test sparse-Handbook routing and
-callback-isolation application against the completed Handbook and Knowledge.
+callback-isolation application against the completed Handbook and Knowledge,
+then updated under #320/#324 when `handbook-react` was broadened and renamed to
+`handbook-frontend-dev`.

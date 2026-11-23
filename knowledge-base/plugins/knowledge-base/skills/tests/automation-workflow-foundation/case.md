@@ -30,7 +30,7 @@ what evidence they will have for investigation.
 
 ## Starting state
 
-Build the current 26-candidate Handbook and Workflow set from frontmatter under
+Build the current 20-candidate Handbook and Workflow set from frontmatter under
 `knowledge-base/plugins/knowledge-base/skills/*/SKILL.md`. Supply the natural task request and
 candidate names and descriptions without opening candidate bodies. Make
 `knowledge/index.md` unavailable as a runtime input during execution.

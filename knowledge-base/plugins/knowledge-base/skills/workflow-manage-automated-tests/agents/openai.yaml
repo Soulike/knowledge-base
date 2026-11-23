@@ -1,0 +1,4 @@
+interface:
+  display_name: "Manage Automated Tests"
+  short_description: "Write, review, and diagnose automated tests"
+  default_prompt: "Use $workflow-manage-automated-tests to decide what automated tests are owed, write effective protection, or review and diagnose existing tests and execution."

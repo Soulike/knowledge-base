@@ -33,6 +33,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/mcp/server-architecture.md](mcp/server-architecture.md)                                                                     | time-sensitive |
 | [knowledge/mcp/tool-contracts.md](mcp/tool-contracts.md)                                                                               | time-sensitive |
 | [knowledge/nodejs/asynchronous-filesystem-apis.md](nodejs/asynchronous-filesystem-apis.md)                                             | time-sensitive |
+| [knowledge/nodejs/file-urls-and-filesystem-paths.md](nodejs/file-urls-and-filesystem-paths.md)                                         | time-sensitive |
 | [knowledge/nodejs/filesystem-identity-primitives.md](nodejs/filesystem-identity-primitives.md)                                         | time-sensitive |
 | [knowledge/npm/clean-install-cache.md](npm/clean-install-cache.md)                                                                     | time-sensitive |
 | [knowledge/powershell/native-process-arguments.md](powershell/native-process-arguments.md)                                             | time-sensitive |

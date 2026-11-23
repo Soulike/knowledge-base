@@ -57,3 +57,12 @@ When designing, implementing, reviewing, or directly learning about a
 multi-step Node.js filesystem operation, read
 [Node.js filesystem identity primitives](../../knowledge/nodejs/filesystem-identity-primitives.md)
 in full together with the complete filesystem foundation.
+
+### Node.js `file:` URLs and filesystem paths
+
+When designing, implementing, reviewing, or diagnosing Node.js code that
+converts between `file:` URLs and operating-system filesystem paths or passes
+`file:` URLs to filesystem, module, or child-process interfaces, or when
+directly learning or explaining those Node.js conversions, read
+[Node.js file URLs and filesystem paths](../../knowledge/nodejs/file-urls-and-filesystem-paths.md)
+in full.

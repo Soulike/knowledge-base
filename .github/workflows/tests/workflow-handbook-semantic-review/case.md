@@ -33,7 +33,7 @@ and identifies current semantic findings. Do not edit the supplied materials.
 ## Starting state
 
 Supply isolated copies of the fixture [Knowledge catalog](fixtures/plugin/knowledge/index.md),
-[documentation Workflow](fixtures/plugin/skills/workflow-write-dev-documentation/SKILL.fixture.md),
+[documentation Workflow](fixtures/plugin/skills/workflow-maintain-dev-documentation/SKILL.fixture.md),
 [documentation Handbook](fixtures/plugin/skills/handbook-documentation/SKILL.fixture.md),
 and [consumer observations](fixtures/plugin/consumer-observations.md). Permit
 read-only traversal of their complete fixture tree and require every fixture
@@ -54,7 +54,7 @@ available action observations.
 
 ## Expected behavior
 
-- R1 (critical): classify `workflow-write-dev-documentation` as an execution
+- R1 (critical): classify `workflow-maintain-dev-documentation` as an execution
   Workflow with decisions, actions, output, failure handling, and completion.
   Classify `handbook-documentation` as required-reading selection only. Do not
   require the Handbook to contain a primary workflow or completion gate, and

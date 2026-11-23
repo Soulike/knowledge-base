@@ -1,9 +1,9 @@
 ---
-name: workflow-write-dev-documentation
-description: Use when a known need calls for creating or updating maintained software-development documentation.
+name: workflow-maintain-dev-documentation
+description: Use when creating, updating, or improving maintained software-development documentation.
 ---
 
-# Write development documentation
+# Maintain development documentation
 
 1. Read [Maintained document quality](../../knowledge/documentation/maintained-document-quality.md)
    before deciding the document's authority, structure, and reader route.

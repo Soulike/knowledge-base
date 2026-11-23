@@ -3,7 +3,7 @@
 ## Workflow run
 
 - Request: update a maintained software guide and deliver the approved revision.
-- Selection event: `workflow-write-dev-documentation` was selected.
+- Selection event: `workflow-maintain-dev-documentation` was selected.
 - Read events: the Agent opened `maintained-document-quality.md`, then the
   Workflow-selected `references/deliver-documentation.md`, then only
   `delivery-evidence.md#acceptance`.

@@ -58,10 +58,10 @@ substitute for it.
 
 ### Node.js `file:` URLs and filesystem paths
 
-When developing, maintaining, reviewing, or diagnosing Node.js code that
-converts between `file:` URLs and operating-system filesystem paths, passes
-`file:` URLs to filesystem, module, or child-process interfaces, or resolves
-filesystem paths from `import.meta.url`, or when directly learning or explaining
-those Node.js conversions and primitives, read
+When Node.js code converts between `file:` URLs and operating-system
+filesystem paths, passes `file:` URLs to filesystem, module, or child-process
+interfaces, or resolves a filesystem or module location from `import.meta.url`,
+or when directly learning or explaining those Node.js conversions and
+primitives, read
 [Node.js file URLs and filesystem paths](../../knowledge/nodejs/file-urls-and-filesystem-paths.md)
 in full.

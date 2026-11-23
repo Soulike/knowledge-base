@@ -83,8 +83,11 @@ execFile(process.execPath, [script]);
 
 When a POSIX `file:` URL can contain percent-encoded byte sequences that are
 not valid UTF-8, use `fileURLToPathBuffer(url[, options])` (added in Node.js
-v24.3.0 / v22.18.0) instead of `fileURLToPath(url)` to obtain the raw
-`Buffer` path.
+v24.3.0 / v22.18.0) instead of `fileURLToPath(url)` to obtain a raw `Buffer`
+path—use it only with Node.js APIs that natively preserve `<Buffer>` pathnames
+(such as `node:fs` path parameters), because child-process argument vectors
+(`execFile` / `spawn` `args`) still require strings and cannot pass arbitrary
+non-UTF-8 bytes verbatim.
 
 **Security boundary:** Neither `fileURLToPath()` nor `fileURLToPathBuffer()`
 is an authorization or traversal barrier. When a URL is parsed, the WHATWG URL

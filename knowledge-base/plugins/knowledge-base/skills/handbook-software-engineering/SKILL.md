@@ -1,6 +1,6 @@
 ---
 name: handbook-software-engineering
-description: Use when designing, implementing, reviewing, testing, or analyzing software behavior, architecture, interfaces, or revision changes.
+description: Use when designing, implementing, reviewing, testing, or analyzing software behavior, architecture, interfaces, or semantic changes between revisions.
 ---
 
 # Software engineering Handbook

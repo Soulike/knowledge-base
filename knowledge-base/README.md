@@ -32,6 +32,7 @@ through the root pnpm workspace.
 | [chromium](plugins/chromium/README.md)                 | Optional plugin | `chromium@knowledge-base`         | Curated Chromium architecture Knowledge and Handbook guidance.                                      |
 | [azure-devops](plugins/azure-devops/README.md)         | Optional plugin | `azure-devops@knowledge-base`     | Curated Azure DevOps Knowledge and Handbook guidance.                                               |
 | [codex](plugins/codex/README.md)                       | Optional plugin | `codex@knowledge-base`            | Curated Codex platform Knowledge, Handbook guidance, and Codex-specific workflows.                  |
+| [utilities](plugins/utilities/README.md)               | Optional plugin | `utilities@knowledge-base`        | Optional Skill-only utility Agent workflows, including local proxy fallback.                        |
 
 For installation and use, start with the
 [base plugin guide](plugins/knowledge-base/README.md) (`knowledge-base@knowledge-base`)

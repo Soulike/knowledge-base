@@ -61,7 +61,10 @@ Keep each plugin's `knowledge/index.md` (such as the base plugin's
 plugin's complete maintenance inventory of Knowledge. List every leaf directly
 with its `time-sensitive` or `evergreen` Knowledge Type. Catalog link labels use
 plugin-root-relative paths; their targets resolve relative to the catalog file.
-Use subdirectories for organization rather than nested catalogs.
+Use subdirectories for organization rather than nested catalogs. An optional
+Skill-only plugin with no Knowledge leaves (such as
+[`utilities`](plugins/utilities/README.md)) may omit `knowledge/` and its
+catalog while still passing Skills-directory and isolation validation.
 
 Every leaf must remain reachable from at least one installed Workflow or
 Handbook in the same plugin package through direct package-local Markdown links

@@ -103,12 +103,6 @@ maintained Agent instructions and prompts that govern them. It classifies every
 affected responsibility before selecting repository-maintenance workflows and
 the smallest coherent operation; assessment alone does not authorize edits.
 
-Use [maintain-knowledge-base-tests](.agents/skills/maintain-knowledge-base-tests/SKILL.md)
-for directly creating, replaying, reviewing, or maintaining behavioral regression
-cases for knowledge-base content. Before authorized content edits, follow the
-maintenance workflow's case discovery, including reverse lookup of covered file
-links so that editing any member of a joint case finds its protection.
-
 ## Markdown references
 
 Outside `.github/scripts/*/prompts/`, write every prose reference to another
@@ -142,12 +136,12 @@ splitting, or replacing raw text.
 ## Behavioral and documentation change evidence
 
 A pull request or handoff that adds or substantively revises maintained
-Knowledge, Workflow Skills, Handbook Skills, Skill references, maintained Agent
-instructions or prompts, or behavioral regression cases must include a concise,
-directly reviewable evidence summary in the pull-request description (or in the
-handoff when authoring stops before a pull request exists). Ordinary
-engineering code, tooling, or CI implementation pull requests are excluded from
-this behavioral-prose evidence requirement.
+Knowledge, Workflow Skills, Handbook Skills, Skill references, or maintained
+Agent instructions or prompts must include a concise, directly reviewable
+evidence summary in the pull-request description (or in the handoff when
+authoring stops before a pull request exists). Ordinary engineering code,
+tooling, or CI implementation pull requests are excluded from this
+behavioral-prose evidence requirement.
 
 Assemble the unmodified observations produced by the applicable authorities
 without collapsing them into topic-only notes or aggregate pass claims:
@@ -159,8 +153,6 @@ without collapsing them into topic-only notes or aggregate pass claims:
 - **Reader understanding:** for Knowledge-plugin Knowledge, Skills, and Skill
   references requiring cross-model verification, preserve the
   [required reader-understanding evidence](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence).
-- **Behavioral regression cases:** include the evidence required by
-  [Pull-request and handoff regression evidence](.agents/references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence).
 - **Other maintained instructions and prompts:** for semantic or structural
   changes, include affected responsibilities, final-content suitability and
   independent review conclusions, and remaining limitations.

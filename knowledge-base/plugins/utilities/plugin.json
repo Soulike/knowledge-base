@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "utilities",
-  "version": "2026.11.23-1",
+  "version": "2026.11.23-2",
   "description": "Optional operational utility Agent workflows for the knowledge-base marketplace, including local proxy fallback.",
   "repository": "https://github.com/Soulike/knowledge-base"
 }

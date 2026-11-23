@@ -108,6 +108,21 @@ Tool results carry unstructured blocks in `content` (`text`, `image`, `audio`,
   that consume only `content`, a tool returning `structuredContent` should also
   include a `TextContent` block containing the serialized JSON (or a concise,
   equivalent text rendering), while avoiding unnecessary boilerplate wrappers.
+- **Bound `content` and `structuredContent` together:** When a tool declares
+  `outputSchema` and caps or truncates oversized results, apply the bound
+  consistently to both `content` and `structuredContent` while keeping
+  `structuredContent` valid against `outputSchema` (for example, slicing arrays
+  or truncating string fields in place before rendering or serializing
+  `TextContent`). Truncating only `TextContent` leaves the unbounded payload in
+  `structuredContent`, defeating context protection; conversely, replacing
+  schema-incompatible types or values with plain-text error or truncation
+  strings—or adding undeclared truncation fields when the schema forbids
+  additional properties—breaks schema validation (while overwriting valid
+  string fields with truncation banners instead of truncated content produces
+  semantically invalid result data). Place truncation notices in `content` (as a
+  concise text rendering or a separate `TextContent` block so any
+  serialized-JSON `TextContent` block remains valid JSON) unless `outputSchema`
+  explicitly declares metadata fields for them.
 - **Document output meanings in `outputSchema`:** Describe units, numeric score
   ranges, and legacy sentinel values directly on `outputSchema` properties while
   applying the high-signal payload rules in

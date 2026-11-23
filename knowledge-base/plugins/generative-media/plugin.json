@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "generative-media",
-  "version": "2026.11.23-1",
+  "version": "2026.11.23-2",
   "description": "Reusable generative-media Knowledge and Workflows for people-focused still-image and image-to-video prompting.",
   "repository": "https://github.com/Soulike/knowledge-base"
 }

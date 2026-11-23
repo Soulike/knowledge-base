@@ -79,15 +79,6 @@ independent behavior.
    for Knowledge-plugin Workflow descriptions, Handbook descriptions, and Handbook
    package conditions. Carry its coverage
    boundaries and request cases into the artifact-specific workflows below.
-   For authorized maintenance, also apply
-   [Discover and select regression cases](../../references/agent-regression-tests.md#discover-and-select)
-   before editing. Check nearby cases and reverse coverage links across the
-   complete repository inventory, including joint cases, reference consumers,
-   and affected competing routes. Carry the selected historical cases and
-   selection reasons and any required
-   [case-value and organization review](../maintain-knowledge-base-tests/SKILL.md#review-case-value-and-organization)
-   scope into final validation; a placement assessment alone does
-   not require replay.
 6. If any affected part is maintained factual, explanatory, or instructional
    documentation, read
    [Maintained document quality](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md)
@@ -140,134 +131,41 @@ independent behavior.
     artifacts directly under the parent quality gate and their governing project
     standards. Before finalizing any resulting document, apply
     [Establish authority and evidence](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#establish-authority-and-evidence)
-    for the boundary between authoring evidence and reader-facing content. For
-    creation or maintenance of Agent-behavior regression
-    cases within the authorized task, follow
-    [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md).
-    Before editing other tests, use
+    for the boundary between authoring evidence and reader-facing content.
+    Before editing automated tests, use
     [`workflow-manage-automated-tests`](../../../knowledge-base/plugins/knowledge-base/skills/workflow-manage-automated-tests/SKILL.md)
     (selecting new protection for a production behavior or bounded coverage need
     through its new-coverage sub-flow, and reviewing coverage, an existing or
     proposed test, or test execution through its review sub-flow, which retains
     any coverage work selected by that review).
-11. Review the composed result using the loaded Knowledge's
-    [suitability review](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result).
-    Record the reader task, relevant locations, and outcome separately from
-    semantic correctness. When that result, new requirements, or feedback
-    invalidate the structural judgment, return to steps 7–9 and assess the
-    cumulative change before further editing.
+11. Perform a self-check of the composed result using
+    [suitability review](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result)
+    and check for hidden prerequisites, scattered conditions, or broken routes.
+    When that self-check, new requirements, or feedback invalidate the
+    structural judgment, return to steps 7–9 and assess the cumulative change
+    before further editing.
 12. When the final diff changes `knowledge-base/plugins/*/knowledge/**`,
     `knowledge-base/plugins/*/references/**`, or
     `knowledge-base/plugins/*/skills/**`, follow
     [`references/update-knowledge-base-version.md`](references/update-knowledge-base-version.md)
     after the content stabilizes.
-13. Follow [Final validation](#final-validation) to replay selected historical
-    cases and, when meaning or structure changed, complete the independent
-    final-content review and required reader-understanding checks. Coordinate
-    their observations and judgments rather than scheduling separate reviews
-    for evidence that the same reviewer can assess.
-14. Review the combined result and assemble the pull-request description (or
-    handoff when authoring stops before a pull request exists) per
-    [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
-    Carry the applicable unmodified evidence outputs from
-    [Prepare pull-request and handoff evidence](../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
+13. Run `pnpm check` and `git diff --check`. Assess probe risk per
+    [Verify reader understanding](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#assess-probe-risk)
     (plus
     [Prove Handbook and Workflow behavior](references/maintain-skill.md#prove-handbook-and-workflow-behavior)
-    for Knowledge-plugin Workflow and Handbook Skills),
-    [Required evidence](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence),
-    and
-    [Pull-request and handoff regression evidence](../../references/agent-regression-tests.md#pull-request-and-handoff-regression-evidence)
-    (or the purely mechanical reduced-evidence confirmation when applicable),
-    alongside the repository-maintenance summary: classification, affected
-    responsibility units, dependency-boundary placement for `.agents/` changes,
-    operations performed, changed Catalog, Handbook, Workflow, and reference
-    routes and consumers, generated plugin version(s) when
-    applicable, final structural judgment and organizational rationale for
-    substantive revisions, mechanical and semantic validation performed, and
-    the final-content suitability conclusion (with examined reader task and
-    relevant final locations) separate from semantic correctness and
-    project-check results. When case authoring is within the authorized task,
-    preserve distinct effective validation protection through
-    [maintain-knowledge-base-tests](../maintain-knowledge-base-tests/SKILL.md)
-    rather than treating temporary validation runs as permanent protection.
-
-## Final validation
-
-Use the following order. Selected regression cases require replay; a change of
-meaning or structure also requires independent final-content review. New or
-substantively changed Knowledge, Workflow Skills, Handbook
-Skills, and Skill references under `knowledge-base/plugins/*/` additionally require cross-model
-reader-understanding verification per
-[Reader understanding](../../../knowledge-base/AGENTS.md#reader-understanding)
-and
-[Verify reader understanding](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md).
-Purely mechanical edits retain their reduced-evidence confirmation that
-meaning, structure, and required reader actions are unchanged.
-
-1. Prepare a fresh capable reviewer or isolated review context when independent
-   judgment is required, following
-   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md).
-   When that same reviewer checks affected selections, run
-   [Check selection from requests](../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests)
-   (and
-   [Handbook and Workflow selection triggers](references/maintain-skill.md#handbook-and-workflow-selection-triggers)
-   for Knowledge-plugin Handbook packages) first—before sharing Step 3 review
-   materials—keeping selection and package
-   observations isolated from target contents, expected choices, and combined
-   review.
-2. Gather execution evidence against the final content using
-   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md)
-   (including its
-   [executor instructions](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#executor-instructions),
-   [dispatch templates](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#dispatch-templates),
-   and
-   [execution recording](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#record-execution))
-   together with
-   [Behavioral regression cases](../../references/agent-regression-tests.md#replay-policy-and-review-schedule)
-   for author-matched historical case replay. Separately run any applicable
-   lower-capability Skill-authoring
-   ([Prove the behavior](../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prove-the-behavior)
-   and, for Knowledge-plugin Workflow and Handbook behavior,
-   [Prove Handbook and Workflow behavior](references/maintain-skill.md#prove-handbook-and-workflow-behavior))
-   or reader-understanding
-   ([Verify reader understanding](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md))
-   checks in fresh contexts, delegating run reuse for reader-understanding
-   evidence one-way to
-   [Prepare independent observations](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#prepare-independent-observations).
-   Collect raw observations and applicable
-   program-assertion results before requesting semantic judgments; the reviewer
-   may inspect the explanation during preparation, but defer the combined
-   verdict until required execution observations are available or explicitly
-   incomplete.
-3. Supply that same capable reviewer with the reviewer handoff template in
-   [Agent behavioral evaluation](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#dispatch-templates)
-   (active instructions, applicable standards, accepted requirements, raw final
-   artifacts, trusted pre-change state, case contracts, and actual
-   observations without author conclusions). Combine open case judgments,
-   final-content suitability and semantic review
-   ([Validate the result](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#validate-the-result)),
-   the capable explanation examination from
-   [Examine the explanation](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#examine-the-explanation),
-   and any required
-   [case-value and organization review](../maintain-knowledge-base-tests/SKILL.md#review-case-value-and-organization)
-   into that single scheduled review. Keep suitability, semantic correctness,
-   reader-understanding observations, case judgments, and case-value
-   dispositions distinct, and verify that retained, moved, split, and merged
-   responsibilities remain reachable and usable from every required starting
-   point.
-4. Investigate failures and missing evidence at their owners, delegating
-   missing reader-understanding observations to
-   [Prepare independent observations](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#prepare-independent-observations).
-   Repair confirmed defects in authoritative reader-facing content within
-   scope and repeat affected observations and independent review in fresh
-   contexts. Retain every attempt and classify results per
-   [Judge and retain attempts](../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md#judge-and-retain-attempts)
-   and
-   [Resolve and repeat](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#resolve-and-repeat).
-   Historical passes do not replace independent final-content review.
-   Unavailable required review or cross-model evidence, unresolved
-   reader-understanding defects, or selected cases that fail or lack trusted
-   evidence leave affected maintenance incomplete.
+    when Knowledge-plugin Skills changed), run targeted weak-model or blind
+    selection probes when warranted, repair any exposed document blind spots
+    in the authoritative content, and re-probe the affected passage or
+    scenario.
+14. Assemble a concise pull-request summary (or handoff summary when authoring
+    stops before a pull request exists) per
+    [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-summary)
+    covering classification, affected responsibility units, structural
+    rationale for substantive revisions, changed routes/consumers, generated
+    plugin version(s), deterministic checks, and the probe decision (low-risk
+    skip rationale, or probed target, surfaced blind spot, and fix), leaving
+    final semantic, suitability, and probe-coverage review to pull-request AI
+    review.
 
 ## Completion criteria
 
@@ -288,26 +186,20 @@ For authorized delivery, finish only when:
   isolated to explicit product-interaction workflows.
 - Knowledge, Skills, and Skill references under `knowledge-base/plugins/*/` satisfy
   [`knowledge-base/AGENTS.md`](../../../knowledge-base/AGENTS.md), every
-  changed route and reference resolves, and `pnpm check` passes. Other affected
-  repository artifacts remain in the form that owns their responsibility and
-  satisfy coherent-current-model quality
+  changed route and reference resolves, and `pnpm check` and `git diff --check`
+  pass. Other affected repository artifacts remain in the form that owns
+  their responsibility and satisfy coherent-current-model quality
   ([Maintained document quality](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md))
   and their governing project standards.
-- Final-content suitability review and independent review establish no
-  introduced suitability defect or unexplained semantic change.
-- Knowledge, Skills, and Skill references under `knowledge-base/plugins/*/` have required
-  cross-model reader-understanding evidence
-  ([Verify reader understanding](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md))
-  with confirmed gaps repaired and re-checked in a fresh context (or confirmed
-  mechanical-only reduced evidence).
-- Every selected historical regression case has trusted passing evidence, and
-  any required case-value and organization review and authorized cleanup are
-  complete.
+- Author self-check confirms clear current content with no unresolved
+  suitability defects, and any risk-warranted probes per
+  [Verify reader understanding](../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md)
+  have confirmed document blind spots repaired and re-probed.
 - When `knowledge-base/plugins/*/knowledge/**`,
   `knowledge-base/plugins/*/references/**`, or `knowledge-base/plugins/*/skills/**`
   changed, the PR-scoped plugin version(s) and their validation are
   current
   ([update-knowledge-base-version.md](references/update-knowledge-base-version.md)).
-- The final pull-request description or handoff assembles all required
-  unmodified observations, identities, configurations, and limitations per
-  [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-evidence).
+- The pull-request description (or handoff when authoring stops before a pull
+  request exists) includes the concise summary required by
+  [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-summary).

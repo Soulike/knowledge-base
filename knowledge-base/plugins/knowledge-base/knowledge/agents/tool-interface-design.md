@@ -111,10 +111,30 @@ state:
   scores or legacy sentinels that callers cannot eliminate, document the score
   range, units, thresholds, and sentinel meanings in the output field
   descriptions.
-- **Bound payload volume by default:** Apply sensible pagination, filtering,
-  range parameters, or default truncation limits so one call cannot flood the
-  context window. When results are truncated or large, include concrete guidance
-  telling the model how to narrow the next query or fetch specific slices.
+- **Bound payload volume at design time:** Do not assume upstream APIs cap
+  responses or that host runtimes handle oversized outputs uniformly. Hosts
+  enforce varied, relatively tight tool-result limits (commonly around
+  10k–25k tokens or tens of kilobytes before warning, truncating, or spilling to
+  disk) that are much smaller than the model's full context window, and token
+  density varies widely across languages and formats. Choose an explicit
+  bounding strategy matched to upstream capabilities, request cost, and result
+  shape:
+  - **Filter upstream first:** Prefer server-side query filtering, reranking,
+    or field selection when the backend supports it so irrelevant data never
+    enters the payload.
+  - **Shape bounds to the data and cost:** For ordered multi-item results,
+    prefer keeping top-ranked entries intact within the budget (falling back to
+    truncating the first entry when it alone exceeds the budget) over
+    truncating every entry mid-record; for single large documents or blobs,
+    consider offset/range parameters (with optional short-lived server-side
+    caching only when upstream lacks pagination, bills or rate-limits strictly
+    per call, and brief staleness is acceptable), granularity controls, a
+    simple hard cap, or lazy resource references when the host and protocol
+    support deferred fetch.
+- **Truncate safely with steering feedback:** Never truncate silently. State
+  what was omitted and how the model can narrow the query or fetch remaining
+  slices, and cut text at safe character boundaries so multi-byte sequences or
+  UTF-16 surrogate pairs are not split.
 - **Validate the serialization format against evaluations:** Structured JSON,
   Markdown, or XML can perform differently across models and tasks; select the
   response structure based on observed task accuracy and token cost rather than

@@ -38,14 +38,11 @@ context they need using
 The author's ability to understand a passage does not establish that its readers
 can understand or apply it.
 
-Every addition or substantive revision to Knowledge, Workflow Skills, Handbook
-Skills, and Skill references in `plugins/<plugin-name>/` requires cross-model
-reader-understanding verification using
-[Verify reader understanding](plugins/knowledge-base/references/agents/reader-understanding.md),
-coordinated through the
-[repository-maintenance workflow](../.agents/skills/maintain-knowledge-base/SKILL.md).
-Purely mechanical edits may use simplified validation after confirming that
-meaning, structure, and required reader actions are unchanged.
+Assess whether a change warrants a weak-model or blind probe using
+[Verify reader understanding](plugins/knowledge-base/references/agents/reader-understanding.md)
+to catch hidden prerequisites, ambiguous boundaries, or trigger confusion before
+pull-request review. Low-risk edits skip probing; final suitability and
+semantic review happens in pull-request AI review.
 
 ## Knowledge
 

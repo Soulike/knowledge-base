@@ -2,6 +2,7 @@ import { readdir, readFile, stat } from "node:fs/promises";
 import {
   basename,
   dirname,
+  isAbsolute,
   join,
   posix,
   relative,
@@ -142,7 +143,8 @@ function normalizeMarketplaceSource(source: string): string {
     normalized === ".." ||
     normalized.startsWith("../") ||
     posix.isAbsolute(normalized) ||
-    win32.isAbsolute(normalized)
+    win32.isAbsolute(normalized) ||
+    win32.parse(normalized).root !== ""
   ) {
     throw new Error(
       `Marketplace plugin source '${source}' must be a package-relative path starting with './' without '..'.`,
@@ -200,6 +202,16 @@ export async function readMarketplacePlugins(
 
     const sourcePath = normalizeMarketplaceSource(plugin.source);
     const pluginDirectory = resolve(marketplaceRoot, sourcePath);
+    const relativePluginDirectory = relative(marketplaceRoot, pluginDirectory);
+    if (
+      relativePluginDirectory === ".." ||
+      relativePluginDirectory.startsWith(`..${sep}`) ||
+      isAbsolute(relativePluginDirectory)
+    ) {
+      throw new Error(
+        `Marketplace plugin source '${plugin.source}' must resolve inside the marketplace root.`,
+      );
+    }
 
     entries.push({
       name: plugin.name,

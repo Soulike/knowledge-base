@@ -7,6 +7,7 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { checkKnowledgeReachability } from "./reachability.ts";
+import { readMarketplacePlugins } from "./check.ts";
 
 const checkerPath = fileURLToPath(new URL("./check.ts", import.meta.url));
 
@@ -243,6 +244,59 @@ test("normalizes redundant slashes in relative Marketplace sources without dropp
     result.stdout,
     /\[codex\] Checked 2 knowledge Markdown files\. 1 of 1 Knowledge leaves are reachable/,
   );
+});
+
+test("rejects drive-qualified relative Marketplace sources while preserving non-drive colon segments", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await mkdir(marketplaceDirectory, { recursive: true });
+
+  await writeFile(
+    marketplaceFile,
+    JSON.stringify({
+      name: "knowledge-base",
+      plugins: [{ name: "non-drive", source: "./foo:bar" }],
+    }),
+  );
+
+  const nonDriveEntries = await readMarketplacePlugins(marketplaceFile);
+  assert.equal(nonDriveEntries.length, 1);
+  assert.equal(nonDriveEntries[0]?.sourcePath, "foo:bar");
+  assert.equal(
+    nonDriveEntries[0]?.pluginDirectory,
+    join(temporaryRoot, "foo:bar"),
+  );
+
+  for (const driveSource of ["./C:package", ".//c:package"]) {
+    await writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [{ name: "drive-relative", source: driveSource }],
+      }),
+    );
+
+    await assert.rejects(
+      () => readMarketplacePlugins(marketplaceFile),
+      /Marketplace plugin source '.*' must be a package-relative path starting with '\.\/' without '\.\.'\./,
+    );
+
+    const cliResult = spawnSync(
+      process.execPath,
+      [checkerPath, "--marketplace", marketplaceFile],
+      { encoding: "utf8" },
+    );
+
+    assert.equal(cliResult.status, 1);
+    assert.equal(cliResult.stdout, "");
+    assert.match(
+      cliResult.stderr,
+      /Marketplace plugin source '.*' must be a package-relative path starting with '\.\/' without '\.\.'\./,
+    );
+  }
 });
 
 test("reports per-plugin diagnostics prefixed with plugin name and path across all Marketplace plugins", async (t) => {

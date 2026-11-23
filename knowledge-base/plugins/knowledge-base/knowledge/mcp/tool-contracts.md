@@ -114,13 +114,15 @@ Tool results carry unstructured blocks in `content` (`text`, `image`, `audio`,
   `structuredContent` valid against `outputSchema` (for example, slicing arrays
   or truncating string fields in place before rendering or serializing
   `TextContent`). Truncating only `TextContent` leaves the unbounded payload in
-  `structuredContent`, defeating context protection; conversely, replacing typed
-  fields with plain-text error or truncation strings—or adding undeclared
-  truncation fields when the schema forbids additional properties—breaks schema
-  validation. Place truncation notices in `content` (as a concise text rendering
-  or a separate `TextContent` block so any serialized-JSON `TextContent` block
-  remains valid JSON) unless `outputSchema` explicitly declares metadata fields
-  for them.
+  `structuredContent`, defeating context protection; conversely, replacing
+  schema-incompatible types or values with plain-text error or truncation
+  strings—or adding undeclared truncation fields when the schema forbids
+  additional properties—breaks schema validation (while overwriting valid
+  string fields with truncation banners instead of truncated content produces
+  semantically invalid result data). Place truncation notices in `content` (as a
+  concise text rendering or a separate `TextContent` block so any
+  serialized-JSON `TextContent` block remains valid JSON) unless `outputSchema`
+  explicitly declares metadata fields for them.
 - **Document output meanings in `outputSchema`:** Describe units, numeric score
   ranges, and legacy sentinel values directly on `outputSchema` properties while
   applying the high-signal payload rules in

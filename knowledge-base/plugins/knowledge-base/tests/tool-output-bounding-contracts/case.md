@@ -77,9 +77,10 @@ and their direct canonical Knowledge routes. Do not modify repository files.
   (`TextContent`) and `structuredContent` consistently from the same bounded
   subset so full unbounded payloads do not leak through `structuredContent`,
   while keeping `structuredContent` strictly valid against `outputSchema`
-  (do not replace typed fields with plain-text error banners or inject an
+  (do not replace non-string fields with plain-text banners, overwrite string
+  fields with placeholder banners instead of truncated content, or inject an
   undeclared `truncated` field under `additionalProperties: false`; keep
-  undeclared truncation notices in `TextContent` or extend `outputSchema`
+  undeclared truncation notices in `content` or extend `outputSchema`
   explicitly if structured metadata is desired).
 
 ## Verification

@@ -1,57 +1,20 @@
----
-name: workflow-write-effective-tests
-description: Use when deciding whether behavior needs new or expanded automated protection and writing effective tests when it does.
----
-
 # Write effective tests
 
-## Establish the behavior contract
-
-1. Discover and follow instructions, Skills, requirements, and project-specific
-   information from the active working directory when they conflict with this
-   plugin's packaged Knowledge or workflow guidance.
-2. Resolve paths relative to this `SKILL.md`, then read
-   [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md).
-3. Define the target production behavior or bounded coverage need. Discover its
-   owning code, existing tests and static gates, project-declared test locations
-   and commands, installed test dependencies, and local testing conventions. When
-   the request concerns an actual production change, inventory every behaviorally
-   relevant change so no required protection disappears behind the proposed tests.
-   For a reusable module, identify its established interface contract separately
-   from the narrower paths exercised by each current consumer.
-4. Read
-   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
-   when the test request is being used as evidence that production should own
-   defensive, compatibility, migration, trust, presentation, or future-consumer
-   behavior; when a producer or consumer convention appears to exclude an input
-   representable by a reusable module's call signature or data shape; or when the
-   accepted requirement, supported execution path, or semantic owner is not
-   independently established.
-5. Read
-   [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-   when discovery, conditional selection, asynchronous behavior, clocks,
-   mutable state, retries, concurrency, platforms, external processes, or
-   timeouts can affect the proposed result.
-6. Read
-   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
-   when the requested design makes a material runtime, environment, fixture, or
-   resource tradeoff.
-7. Read
-   [Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
-   when the target behavior renders or drives a web user interface.
-8. Read
-   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
-   when a test harness creates, stores, or transports credentials or
-   authenticates local peers.
-
-Finish this step when every target behavior, applicable local rule, existing
-evidence path, and command that can establish execution is known.
+Use this procedure when [Route by task intent](../SKILL.md#route-by-task-intent)
+selects new or expanded automated protection, including `add coverage` work
+identified during a test review. Complete
+[Establish authority, scope, and reading](../SKILL.md#establish-authority-scope-and-reading)
+first so active-working-directory rules, target contracts, existing evidence
+paths, project-declared commands, and
+[Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
+(plus any conditionally required Knowledge or shared references) are loaded.
 
 ## Decide whether coverage is owed
 
 1. Treat a request or plan to add a test as a proposal to evaluate, not evidence
    that a test is required.
-2. For each target behavior that required the module-responsibility guidance,
+2. For each target behavior that required
+   [Module responsibility and defensive scope](../../../knowledge/software-design/module-responsibility-and-defensive-scope.md),
    apply it before treating current code as a production contract. Establish an
    accepted requirement, supported execution path, and semantic owner
    independently of the implementation and proposed test.
@@ -64,21 +27,26 @@ evidence path, and command that can establish execution is known.
 4. For each established production behavior, identify the live contract,
    realistic defect, existing test or static gate that could catch it, and
    executable owned seam. Before choosing representation or cross-artifact
-   assertions, use the loaded guidance to establish the requirement they would
-   fix before treating current agreement as a protection subject. For a reusable
-   module, compare its established interface contract with the protection
-   supplied by all current consumers. Distinguish values excluded before the
-   operation by an enforced boundary, invalid values representable by its call
-   signature or data shape that a real supported path can deliver when the module
-   owns validation, and valid values unused by current consumers. Do not treat a
-   caller convention as a coverage boundary.
+   assertions, use
+   [Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
+   to establish the requirement they would fix before treating current
+   agreement as a protection subject. For a reusable module, compare its
+   established interface contract with the protection supplied by all current
+   consumers. Distinguish values excluded before the operation by an enforced
+   boundary, invalid values representable by its call signature or data shape
+   that a real supported path can deliver when the module owns validation, and
+   valid values unused by current consumers. Do not treat a caller convention as
+   a coverage boundary.
 5. Assign one supported coverage disposition:
    - **No automated test owed:** the change has no local executable behavior or
      an applicable static or external validation owns the claim.
    - **Existing protection sufficient:** current evidence already catches the
      realistic fault.
    - **New or modified test required:** a live behavior has an uncovered fault.
-6. Identify migration-only scaffolding separately from permanent protection.
+6. Identify migration-only scaffolding separately from permanent protection, and
+   carry dispositions from
+   [Migration retirement assessment](../../../references/software-design/migration-retirement-assessment.md)
+   when migration obligations apply.
 
 Finish this step when every target behavior has a disposition and rationale. Do
 not design or implement a test until a concrete protection gap is established.
@@ -90,10 +58,11 @@ For every required test:
 1. Name the production fault that must make it fail, a relevant permitted change
    it must tolerate, the owning seam, independent oracle, observable failure,
    fixture, and project-declared command. For representation or synchronization
-   checks, apply the loaded guidance to bound the protection claim before
-   choosing the assertion.
+   checks, apply
+   [Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
+   to bound the protection claim before choosing the assertion.
 2. For behavior that is stateful or spans an integration boundary, use
-   [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
+   [Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
    to identify independently variable state dimensions and select a complete
    reachable combination that exposes the named fault before finalizing the
    fixture. Add another combination only when it exposes a distinct live fault.
@@ -103,15 +72,18 @@ For every required test:
    bounded deterministic fixture that reaches that state and assert contract
    invariants instead of a copied execution trace. Do not add a scale case solely
    because the unit accepts a collection. Apply
-   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   [Test execution cost](../../../knowledge/software-testing/test-execution-cost.md)
    when the protection claim depends on runtime or resource measurements.
 4. Choose the narrowest test that exercises the owned behavior without
    restating the implementation or relying on unrelated behavior.
-5. Apply Trustworthy test execution to collection, fixtures, ambient state,
-   cleanup, time, ordering, retries, concurrency, platforms, and external
-   processes that affect the result.
-6. Apply Test execution cost only to an actual design tradeoff. Do not replace a
-   required real integration seam with a mock merely to make the test cheaper.
+5. Apply
+   [Trustworthy test execution](../../../knowledge/software-testing/trustworthy-test-execution.md)
+   to collection, fixtures, ambient state, cleanup, time, ordering, retries,
+   concurrency, platforms, and external processes that affect the result.
+6. Apply
+   [Test execution cost](../../../knowledge/software-testing/test-execution-cost.md)
+   only to an actual design tradeoff. Do not replace a required real integration
+   seam with a mock merely to make the test cheaper.
 7. Distinguish existing tests that use low-level framework primitives only
    because they mock or isolate a layer (such as view-mocked container tests)
    from tests that must mount, drive, and observe real framework-managed
@@ -123,7 +95,7 @@ For every required test:
    runtime globals, or managing DOM/lifecycle cleanup and the project lacks an
    established framework testing library, evaluate mature ecosystem testing
    libraries from current authoritative sources and
-   [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md),
+   [Dependency and supply-chain security](../../../references/security/dependency-supply-chain-security.md),
    then obtain user approval under the active project's dependency policy
    before adding a test-scoped dependency; keep pure logic and intentionally
    layer-mocked unit tests free of unnecessary testing-library dependencies.
@@ -155,7 +127,9 @@ independently established requirement and expected result.
    absent or conflicting requirement, supported path, or semantic owner instead
    of manufacturing test or non-test validation for the unowned behavior.
 5. Exercise relevant success, failure, cleanup, and supported-environment paths
-   required by Trustworthy test execution for the tests that execute.
+   required by
+   [Trustworthy test execution](../../../knowledge/software-testing/trustworthy-test-execution.md)
+   for the tests that execute.
 6. Run the broader static and behavioral checks required by the active project
    and changed scope.
 

@@ -55,8 +55,8 @@ the four requests independent and do not modify repository files.
 
 - R1 (critical): select `handbook-frontend-dev` natively for all four React
   requests (co-selection of `handbook-javascript-typescript`,
-  `handbook-software-engineering`, `workflow-write-effective-tests`, or
-  `workflow-review-and-improve-tests` where applicable is allowed).
+  `handbook-software-engineering`, or `workflow-manage-automated-tests` where
+  applicable is allowed).
 - R2 (critical): inside `handbook-frontend-dev`, match and read the Effect
   callback-isolation package for requests 1, 2, and 3, and validly match no
   package (excluding the Effect callback-isolation file) for request 4 without

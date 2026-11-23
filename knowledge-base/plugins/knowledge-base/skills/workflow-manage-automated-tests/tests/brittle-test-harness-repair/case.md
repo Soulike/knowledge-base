@@ -7,14 +7,14 @@
 
 ## Covered objects
 
-- [Test review Workflow](../../SKILL.md)
+- [Automated-testing management Workflow](../../SKILL.md)
 
 ## Protected behavior
 
 When reviewing existing web UI component tests that fail after a minor
 third-party UI library update and rely on hand-rolled mounting, global shims,
-synthetic event plumbing, and internal CSS/DOM selectors, the Test review
-Workflow must read the applicable testing Knowledge (including Web UI
+synthetic event plumbing, and internal CSS/DOM selectors, the Automated-testing
+management Workflow must read the applicable testing Knowledge (including Web UI
 accessible-semantics testing), avoid patching fragile custom harness plumbing
 when a mature framework testing library is absent, and keep an unrelated
 view-mocked unit test free of testing-library requirements.
@@ -38,10 +38,11 @@ or install packages):
 
 ## Starting state
 
-Supply the complete current [Test review Workflow](../../SKILL.md) and
-read-only access to its linked canonical Knowledge and reference files. Assume
-active project policy requires explicit user approval before adding any new
-dependency, and keep the task read-only.
+Supply the complete current
+[Automated-testing management Workflow](../../SKILL.md) and read-only access to
+its internal references and linked canonical Knowledge and reference files.
+Assume active project policy requires explicit user approval before adding any
+new dependency, and keep the task read-only.
 
 ## Expected behavior
 
@@ -79,7 +80,8 @@ must fail the corresponding critical criterion.
 
 ## Source
 
-GitHub issues #274, #275, and #276 require `workflow-review-and-improve-tests`
-to avoid patching fragile custom component harnesses when a mature testing
-library is missing and to route Web UI accessible-semantics testing and
-external-dependency contract boundaries during test review.
+GitHub issues #274, #275, and #276 require `workflow-manage-automated-tests`
+(which consolidated `workflow-review-and-improve-tests`) to avoid patching
+fragile custom component harnesses when a mature testing library is missing and
+to route Web UI accessible-semantics testing and external-dependency contract
+boundaries during test review.

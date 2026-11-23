@@ -8,8 +8,7 @@
 ## Covered objects
 
 - [Software-engineering Handbook](../../handbook-software-engineering/SKILL.md)
-- [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
-- [Test review Workflow](../../workflow-review-and-improve-tests/SKILL.md)
+- [Automated-testing management Workflow](../../workflow-manage-automated-tests/SKILL.md)
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
 - [Node.js Handbook](../../handbook-nodejs/SKILL.md)
@@ -74,17 +73,17 @@ evaluator-only content.
   foundation, uses one handle for identity-sensitive facts and reads, preserves
   each settled result, and distinguishes per-file failures without inventing
   complete success.
-- R3 (critical): phase 2 selects `workflow-write-effective-tests` for the
-  concrete automated protection task. It reads test effectiveness and
-  trustworthy execution, chooses protection at the owning seams, and explains
-  collection and execution evidence. It does not load test-execution-cost merely
-  because tests now exist.
-- R4 (critical): phase 3 selects `workflow-review-and-improve-tests` for the
-  slow, memory-heavy suite designed in phase 2. Test effectiveness and
-  trustworthy execution remain applicable, and test-execution-cost is
-  additionally required. Establish a comparable measurement basis and
-  trustworthy execution before attributing cost, preserve effective protection,
-  and do not invent measurements.
+- R3 (critical): phase 2 selects `workflow-manage-automated-tests` (following
+  its new-coverage path) for the concrete automated protection task. It reads
+  test effectiveness and trustworthy execution, chooses protection at the owning
+  seams, and explains collection and execution evidence. It does not load
+  test-execution-cost merely because tests now exist.
+- R4 (critical): phase 3 selects `workflow-manage-automated-tests` (following
+  its test-review path) for the slow, memory-heavy suite designed in phase 2.
+  Test effectiveness and trustworthy execution remain applicable, and
+  test-execution-cost is additionally required. Establish a comparable measurement
+  basis and trustworthy execution before attributing cost, preserve effective
+  protection, and do not invent measurements.
 - R5 (critical): phase 4 selects the software-engineering Handbook's
   external-command guidance (without `handbook-development-tooling`). Establish
   which executable actually ran, correct lookup at the caller environment,

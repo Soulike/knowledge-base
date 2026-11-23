@@ -52,8 +52,8 @@
    an authorized change, reconcile every affected repository consumer—invocation
    pointers, marketplace and manifest routes
    ([`.claude-plugin/marketplace.json`](../../../../.claude-plugin/marketplace.json),
-   `plugin.json`), regression cases, `.github/` prompts and verification
-   workflows, and repository docs—then remove obsolete routes and wrappers.
+   `plugin.json`), `.github/` prompts and verification workflows, and repository
+   docs—then remove obsolete routes and wrappers.
 6. Verify Knowledge Catalog reachability (`pnpm knowledge:check`) when
    plugin Skills or routes change so every leaf in each plugin's
    `knowledge/index.md` (such as the base plugin's
@@ -210,17 +210,15 @@ Apply these Knowledge-plugin deltas:
   ([Keep guidance current](../../../../knowledge-base/plugins/knowledge-base/references/agents/independent-collaboration.md#keep-guidance-current))
   when it governs the scene.
 - **Domain-connection journeys vs shared lifecycle unit:** Keep generic
-  reading-lifecycle policy and its unit-level protection at the authoritative
-  shared owner. Subject cases protect their
-  own conditions, direct Knowledge routes, and application. Retain a
-  representative journey when a domain transition exposes a distinct realistic
-  connection fault—such as a previously inapplicable foundation becoming
-  required after focused learning, an ongoing Workflow gaining a conditional
-  Knowledge route, or a later artifact requiring a different execution
-  target—because neither independent task checks nor the shared lifecycle unit
-  alone establishes that connection. Moving lifecycle
-  policy alone does not justify changing a case's task or retiring its distinct
-  protection.
+  reading-lifecycle policy and its unit-level proof at the authoritative
+  shared owner. Subject behavioral proof exercises its own conditions, direct
+  Knowledge routes, and application. Include a representative journey scenario
+  when a domain transition exposes a distinct realistic connection fault—such
+  as a previously inapplicable foundation becoming required after focused
+  learning, an ongoing Workflow gaining a conditional Knowledge route, or a
+  later artifact requiring a different execution target—because neither
+  independent task checks nor the shared lifecycle unit alone establishes that
+  connection.
 - **Pull-request and handoff summary:** Include Workflow or Handbook
   responsibility kind and boundary, reading-scene or professional research,
   owner comparison, and authoritative Knowledge and reference placement

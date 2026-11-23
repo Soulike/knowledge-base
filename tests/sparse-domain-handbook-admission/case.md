@@ -58,9 +58,10 @@ plus the description and package summary of `handbook-javascript-typescript`,
 `handbook-automated-testing` from the pre-React baseline stated in the task.
 
 Keep the assessment grounded strictly in the covered authoring guidance and the
-hypothetical pre-React baseline: do not inspect any React Knowledge or React
-Handbook files that may exist in the surrounding checkout. Record the files
-read and the decision rationale.
+hypothetical pre-React baseline: do not inspect any React Knowledge or
+frontend-development Handbook files (including what originated as
+`handbook-react` and is now `handbook-frontend-dev`) that may exist in the
+surrounding checkout. Record the files read and the decision rationale.
 
 ## Expected behavior
 
@@ -69,10 +70,12 @@ read and the decision rationale.
   self-contained framework/domain system rather than JS/TS language-level
   guidance, and that co-selection of `handbook-javascript-typescript` on `.tsx`/`.jsx`
   code does not establish ownership of React's domain scene.
-- R2 (critical): accept creating a dedicated `handbook-react` Handbook starting
-  sparsely with the single curated React leaf (option 2), rejecting the
-  misconception that a 1-leaf starting point is forbidden when the entrypoint
-  owns a distinct, recognizable domain/framework context.
+- R2 (critical): accept creating a dedicated sparse Handbook for the domain
+  (such as `handbook-react` in that hypothetical baseline, or a broader
+  frontend-development name) starting sparsely with the single curated React
+  leaf (option 2), rejecting the misconception that a 1-leaf starting point is
+  forbidden when the entrypoint owns a distinct, recognizable domain/framework
+  context.
 - R3 (critical): specify sparse-Handbook structure for the accepted entry under
   [Model a Handbook Skill](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md#model-a-handbook-skill)
   and
@@ -107,4 +110,7 @@ relocated from
 [`skill-authoring.md`](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
 into
 [`maintain-skill.md`](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md)
-alongside [Product authoring rules](../../knowledge-base/AGENTS.md).
+alongside [Product authoring rules](../../knowledge-base/AGENTS.md). Under #320
+and #324, `handbook-react` was later broadened and renamed to
+`handbook-frontend-dev`; this case preserves its hypothetical pre-React
+historical baseline from #278.

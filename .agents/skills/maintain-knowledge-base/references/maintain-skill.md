@@ -176,8 +176,10 @@ Apply these Knowledge-plugin taxonomy rules:
   top-level Handbook descriptions.
 - **Package routing verification:** Apply
   [Check selection from requests](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests)
-  to every Handbook route required by
-  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references).
+  proportionately to affected Handbook routes required by
+  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references),
+  running blind routing probes when new or revised conditions create plausible
+  overlap or trigger risk.
 
 ## Prove Handbook and Workflow behavior
 

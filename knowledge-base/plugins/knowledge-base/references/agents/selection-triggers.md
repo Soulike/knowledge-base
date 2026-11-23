@@ -76,25 +76,27 @@ is genuinely required whenever that specialization applies).
 
 ## Check selection from requests
 
-Check selection when writing or revising a condition, assessing placement, or
-substantively changing covered content or responsibility, even when route text
-is unchanged. Begin during placement assessment and repeat against the final
-candidate set.
+Scale fresh-reader selection probes to trigger and placement risk per
+[Verify reader understanding](reader-understanding.md#assess-probe-risk). Run a
+blind selection check when adding a Skill, revising a description or internal
+routing condition where overlap, false positives, or missed triggers are
+plausible, resolving uncertain placement, or substantively shifting covered
+responsibility. When trigger wording and coverage boundaries remain clearly
+unchanged and unambiguous (such as a low-risk body simplification), coverage
+analysis alone is sufficient without forcing a fresh-reader run.
 
-For a Skill description, give a fresh reader the natural request, available
-artifacts, and the real candidate metadata. Record its choices before showing
-target bodies or expected selections. Compare existing and proposed
-conditions, account for every excluded old task, and resolve missed or unrelated
+When a blind selection probe is warranted for a Skill description, give a fresh
+reader the natural request, available artifacts, and the real candidate
+metadata. Record its choices before showing target bodies or expected
+selections, compare against intended coverage, and resolve missed or unrelated
 choices.
 
-When a Skill routes internal resources conditionally, give a fresh reader its
-complete current body and the task context, then record every selected and
-excluded condition before revealing expected choices. Check cumulative matches,
-focused learning, valid no-match requests, overlaps, and stage changes.
-Internal routing choice is distinct from native Skill selection.
+When a blind routing probe is warranted for internal conditional resources,
+give a fresh reader the Skill's complete current body and the task context, then
+record every selected and excluded condition before revealing expected choices.
+Check cumulative matches, focused learning, valid no-match requests, overlaps,
+and stage changes.
 
-Record actual reading and application separately from both choices. Metadata
-selection does not prove client loading; static links do not prove a file was
-read; a plausible final answer does not prove the routed guidance was applied
-or later-stage reading was added. Keep each observation and its limits
-separate in behavioral evidence.
+Record actual reading and application separately from selection choices when
+evaluating full behavior. Static links or metadata choices alone do not prove a
+file was read or applied.

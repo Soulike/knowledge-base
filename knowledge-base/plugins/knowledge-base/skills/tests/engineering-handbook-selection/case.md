@@ -12,7 +12,6 @@
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
 - [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
 - [Automation Handbook](../../handbook-automation/SKILL.md)
-- [GitHub Actions Handbook](../../handbook-github-actions/SKILL.md)
 - [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
 
 ## Protected behavior
@@ -92,9 +91,8 @@ client loaded the chosen bodies.
   `handbook-software-engineering`. Request 13 also selects
   `workflow-write-effective-tests`; testing workflow guidance does not replace
   the software authorization route.
-- R11 (critical): request 15 independently selects both `handbook-automation`
-  and `handbook-github-actions`; neither the general automation scene nor the
-  platform scene replaces the other.
+- R11 (critical): request 15 selects `handbook-automation` for both the general
+  automation and GitHub Actions platform reading scene.
 
 ## Verification
 

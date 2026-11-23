@@ -7,18 +7,18 @@
 
 ## Covered objects
 
-- [GitHub Actions Handbook](../../SKILL.md)
+- [Automation Handbook](../../SKILL.md)
 
 ## Protected behavior
 
-The GitHub Actions Handbook may be applicable from metadata even though its
-current foundation and curated packages do not cover a focused
-artifact-retention question without workflow creation or editing. The Agent must
-select `handbook-github-actions` from metadata, then accept an empty package
-result without applying the primary-work foundation or unrelated conditional
-packages, inventing guidance, or implying exhaustive GitHub Actions coverage.
-Protect this valid no-match boundary while allowing future packages to make
-artifact-retention scenarios match after an authorized change.
+The Automation Handbook may be applicable from metadata for a GitHub Actions
+question even though its foundation subjects and curated packages do not cover
+a focused artifact-retention question without workflow creation or editing. The
+Agent must select `handbook-automation` from metadata, then accept an empty
+package result without applying the primary-work foundation or unrelated
+conditional packages, inventing guidance, or implying exhaustive GitHub Actions
+coverage. Protect this valid no-match boundary while allowing future packages
+to make artifact-retention scenarios match after an authorized change.
 
 ## Task
 
@@ -47,11 +47,12 @@ selected and excluded packages, files read, and final report.
 
 ## Expected behavior
 
-- R1 (critical): select `handbook-github-actions` from the metadata for the
-  focused artifact-retention request before opening any body.
-- R2 (critical): after reading `handbook-github-actions`, select no foundation
-  or conditional package. The request is not primary workflow artifact work and
-  does not match outcome-integrity learning, permissions, version selection,
+- R1 (critical): select `handbook-automation` from the metadata for the focused
+  artifact-retention request before opening any body.
+- R2 (critical): after reading `handbook-automation`, select no foundation
+  subject or conditional package. The request is not primary workflow artifact
+  work and does not match outcome-integrity, failure-and-recovery, or
+  diagnostic-evidence learning, Git comparison, permissions, version selection,
   Agent lifecycle, or gh-aw model execution.
 - R3: state that current curated GitHub Actions coverage has no matching
   package and continue without borrowing another Handbook, applying unrelated
@@ -62,14 +63,15 @@ selected and excluded packages, files read, and final report.
 
 Inspect native candidate selection and post-body package selection separately.
 
-A controlled faulty observation that applies the GitHub Actions foundation or
-any conditional package to the focused retention question, misses
-`handbook-github-actions` in metadata selection, or answers from invented
-platform guidance must fail the corresponding criterion.
+A controlled faulty observation that applies the Automation foundation or any
+conditional package to the focused retention question, misses
+`handbook-automation` in metadata selection, or answers from invented platform
+guidance must fail the corresponding criterion.
 
 ## Source
 
 Split from the retired cross-plugin `sparse-platform-no-match` case (originally
-from GitHub issues #242 and #246) per #303 and #308 so the GitHub Actions
-Handbook owns its standalone metadata-selection and zero-package no-match
-journey. Requires a fresh replay against the single-plugin boundary.
+from GitHub issues #242 and #246) per #303 and #308, then relocated under
+`handbook-automation` per #320 and #322 when GitHub Actions guidance merged
+into the Automation Handbook. Requires a fresh replay against the consolidated
+Handbook boundary.

@@ -266,6 +266,17 @@ missed regeneration, while separate evidence establishes generator correctness.
 The assertion's inability to detect shared defects limits its claim rather than
 invalidating justified synchronization protection.
 
+When a justified parity or output-equivalence contract requires artifacts or
+outputs to agree everywhere except a bounded set of documented differences or
+volatile fields, avoid checking only a fixed allowlist of shared fields,
+because newly added fields edited on one side silently bypass it. Instead,
+validate expected exclusions where required so renamed or removed difference
+paths do not remain silently unused, remove or mask only those explicitly
+justified paths, and assert structural equality across the remaining governed
+fields and any covered surrounding content. Limit subset-only checks to
+contracts where only those named fields are coupled while other fields may vary
+independently.
+
 Prefer the smallest fixture that reaches the selected fault dimension, with
 hand-derived outcomes, externally visible contracts, invariants, or a simpler
 independent model for behavioral correctness. Observe the effect a contract

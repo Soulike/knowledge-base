@@ -22,19 +22,17 @@ product-interface contracts to explicit product-interaction workflows)
 alongside [plugin authoring rules](knowledge-base/AGENTS.md).
 
 For pull requests that add or substantively revise maintained Knowledge,
-Workflow Skills, Handbook Skills, Skill references, maintained Agent
-instructions or prompts, or behavioral regression cases (excluding ordinary
-engineering code, tooling, or CI implementation pull requests), verify that the
-pull-request description satisfies the repository's unified
+Workflow Skills, Handbook Skills, Skill references, or maintained Agent
+instructions or prompts (excluding ordinary engineering code, tooling, or CI
+implementation pull requests), verify that the pull-request description
+satisfies the repository's unified
 [behavioral and documentation change evidence](AGENTS.md#behavioral-and-documentation-change-evidence)
 rule. Check generic Skill design and behavioral evidence against
 [Prepare pull-request and handoff evidence](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
 Knowledge-plugin Knowledge, Workflow Skill, and Handbook Skill evidence against
 [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior),
-cross-model reader-understanding observations against
-[Verify reader understanding](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence),
-and behavioral regression evidence against
-[Behavioral regression cases](.agents/references/agent-regression-tests.md).
+and cross-model reader-understanding observations against
+[Verify reader understanding](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence).
 
 When reviewing a Skill selection trigger or internal routing condition, apply
 [Design selection triggers](knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)

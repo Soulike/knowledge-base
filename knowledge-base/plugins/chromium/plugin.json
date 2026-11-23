@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "chromium",
-  "version": "2026.11.23-1",
+  "version": "2026.11.23-2",
   "description": "Curated Chromium platform Knowledge and Handbook Skill for Codex and GitHub Copilot CLI.",
   "repository": "https://github.com/Soulike/knowledge-base"
 }

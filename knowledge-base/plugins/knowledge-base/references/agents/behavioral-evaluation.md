@@ -3,18 +3,15 @@
 ## Scope
 
 This reference defines generic Agent behavioral-evaluation mechanics shared by
-Skill behavioral proof, cross-model reader-understanding verification, and
-behavioral regression workflows. It covers fresh-context isolation, inherited
-boundary recording, evaluator-only withholding, the canonical executor
-instructions guard, blind selection and application dispatch templates,
-execution recording, contamination handling, independent judgment, and attempt
-retention.
+Skill behavioral proof and cross-model reader-understanding verification. It
+covers fresh-context isolation, inherited boundary recording, evaluator-only
+withholding, the canonical executor instructions guard, blind selection and
+application dispatch templates, execution recording, contamination handling,
+independent judgment, and attempt retention.
 
 The calling workflow or validation standard owns which model baseline applies
 (for example, a materially less capable comparison model for Skill or
-documentation self-sufficiency, or a specified matched model for regression
-replay) and any repository-specific case format, inventory, or completion
-gates.
+documentation self-sufficiency) and any repository-specific completion gates.
 
 ## When to update
 

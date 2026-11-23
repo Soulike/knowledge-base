@@ -42,8 +42,8 @@
    eligible packaged references participate in reachability.
 6. After adding, rewriting, splitting, merging, moving, or removing a
    reference, reconcile every affected repository consumer—Skills, manifests,
-   `.github/` prompts and workflows, documentation, and regression-case covered
-   links—and delete obsolete routes, files, and unreferenced copies.
+   `.github/` prompts and workflows, and documentation—and delete obsolete
+   routes, files, and unreferenced copies.
 7. Run `pnpm check` and `git diff --check`, and route forward behavioral or
    cross-model reader-understanding verification through the parent workflow's
    [final validation](../SKILL.md#final-validation).

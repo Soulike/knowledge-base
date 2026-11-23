@@ -110,6 +110,6 @@ Catalog 的长期使用困难可以作为待检验现象，但目前不能直接
 
 ## 资料获取和验证范围
 
-研究时没有可调用的 Tavily；先搜索官方 OpenAI/GitHub/标准资料，并实际尝试打开页面。web 打开遇到 DNS 错误后，Shell 直取 Codex Skills 返回 403；按[本地代理回退流程](../../plugins/knowledge-base/skills/workflow-retry-via-local-proxy/SKILL.md)进行同源 HEAD 探测验证 HTTP 代理，再保持原网址读取成功。引用的机制文档、官方经验文章及论文摘要均取得并阅读正文，未仅用搜索摘要。Shell 已获得材料，没有继续调用浏览器兜底，也没有更改持久网络配置。
+研究时没有可调用的 Tavily；先搜索官方 OpenAI/GitHub/标准资料，并实际尝试打开页面。web 打开遇到 DNS 错误后，Shell 直取 Codex Skills 返回 403；按[本地代理回退流程](../../plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md)进行同源 HEAD 探测验证 HTTP 代理，再保持原网址读取成功。引用的机制文档、官方经验文章及论文摘要均取得并阅读正文，未仅用搜索摘要。Shell 已获得材料，没有继续调用浏览器兜底，也没有更改持久网络配置。
 
 文档快照随客户端变化；SDK 的实验性 provider 行为应在采用时重核。论文只核实摘要及版本记录，没有用于推导本项目的因果或性能结论。研究阶段没有训练内部资料、真实客户端选择运行、跨阶段/压缩实验、收费或延迟测量，也没有新增依赖或修改产品文件、Git ref、Issue、PR。本文提供证据与比较设计，不代表后续迁移已经取得这些运行验证。

@@ -28,6 +28,10 @@
     {
       "name": "generative-media",
       "source": "./knowledge-base/plugins/generative-media"
+    },
+    {
+      "name": "utilities",
+      "source": "./knowledge-base/plugins/utilities"
     }
   ]
 }

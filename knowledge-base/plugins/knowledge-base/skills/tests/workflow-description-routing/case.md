@@ -15,13 +15,12 @@
 - [Automated-testing management Workflow](../../workflow-manage-automated-tests/SKILL.md)
 - [Web usability probe Workflow](../../workflow-probe-web-usability-with-agents/SKILL.md)
 - [npm security remediation Workflow](../../workflow-remediate-npm-security/SKILL.md)
-- [Local proxy retry Workflow](../../workflow-retry-via-local-proxy/SKILL.md)
 - [Security review Workflow](../../workflow-review-security/SKILL.md)
 - [Pull-request watch Workflow](../../workflow-watch-pull-request/SKILL.md)
 
 ## Protected behavior
 
-The 11 base `knowledge-base` execution Workflows must remain discoverable from
+The 10 base `knowledge-base` execution Workflows must remain discoverable from
 their complete user tasks after their names and descriptions are shortened.
 Protect broad and direct requests, adjacent exclusions, recovery-only routes,
 and task-stage distinctions while allowing unrelated Handbooks or Workflows to
@@ -58,34 +57,29 @@ installed guidance from the current candidate metadata, or choose none:
     whether its proposed security fix closes the trust-boundary failure.
 13. Upgrade an ordinary npm dependency to obtain a new feature; there is no
     security finding.
-14. A read-only HTTPS request failed with DNS resolution, and a local proxy is
-    available. Retry the same request safely through that proxy.
-15. An HTTPS Git clone returned HTTP 403 while the server remained reachable.
-16. An HTTPS Git clone timed out before reaching the server, and a local proxy
-    is available.
-17. Add an automated regression test for the production behavior behind a
+14. Add an automated regression test for the production behavior behind a
     newly fixed order-state bug, deciding first what protection is actually
     owed.
-18. Existing integration tests are intermittent and slow. Diagnose their
+15. Existing integration tests are intermittent and slow. Diagnose their
     protection and execution, then improve only the supported cases.
-19. Implement an unrelated feature and run its unchanged existing test command
+16. Implement an unrelated feature and run its unchanged existing test command
     as routine verification; no test addition or test review is requested.
-20. Keep observing a pull request after an interrupted polling cycle and
+17. Keep observing a pull request after an interrupted polling cycle and
     reconcile its current head, checks, reviews, and human gates.
-21. Address one received review comment on the current change; no continuing
+18. Address one received review comment on the current change; no continuing
     pull-request watch was requested.
-22. Inspect an existing codebase broadly for security vulnerabilities without
+19. Inspect an existing codebase broadly for security vulnerabilities without
     starting from a known finding.
-23. Design a background export API that clients can submit, poll, and use to
+20. Design a background export API that clients can submit, poll, and use to
     download a completed report.
-24. Refactor a private pure helper whose result never crosses its owning module
+21. Refactor a private pure helper whose result never crosses its owning module
     and has no externally observable effect.
-25. Publish this already approved sanitized knowledge-base proposal as an issue
+22. Publish this already approved sanitized knowledge-base proposal as an issue
     from outside the canonical source checkout.
-26. Add a TypeScript module that reads GitHub repository issues, pull requests,
+23. Add a TypeScript module that reads GitHub repository issues, pull requests,
     check results, and review threads using the project's existing
     authentication, then expose the results to our release service.
-27. An accepted production behavior change made an existing test fail. Update
+24. An accepted production behavior change made an existing test fail. Update
     the test to match the new behavior.
 
 Return the chosen identifiers and a short reason for each request. Do not open
@@ -94,7 +88,7 @@ candidate bodies or perform the substantive tasks.
 ## Starting state
 
 Build the target-model candidate set from the installed `knowledge-base` base
-plugin Skill entrypoints (including all 11 base Workflows listed in `Covered
+plugin Skill entrypoints (including all 10 base Workflows listed in `Covered
 objects` alongside the base Handbooks; other installed plugins may also be
 present in the session environment when active). Supply all requests and
 candidate names and descriptions without opening candidate bodies. A request
@@ -111,12 +105,12 @@ request must not teach later requests the expected route.
 - R1 (critical): select `workflow-contribute-to-knowledge-base` for request 1
   and exclude it for request 2 because publication from outside the canonical
   checkout and source-checkout implementation are different tasks.
-- R2 (critical): select `workflow-evaluate-library-adoption` for requests 3 and 26. Request 26 must not be excluded merely because its client targets one
+- R2 (critical): select `workflow-evaluate-library-adoption` for requests 3 and 23. Request 23 must not be excluded merely because its client targets one
   external platform. Exclude the Workflow for request 4, whose change is only a
   product-specific business rule and introduces no reusable technical
   functionality or external-system integration.
 - R3 (critical): select `workflow-handle-code-review-feedback` for requests 5
-  and 21. Select `workflow-watch-pull-request` for requests 6 and 20, and do not
+  and 18. Select `workflow-watch-pull-request` for requests 6 and 17, and do not
   substitute one Workflow for the other merely because both may concern a pull
   request.
 - R4 (critical): select `workflow-maintain-dev-documentation` for the accepted
@@ -126,17 +120,15 @@ request must not teach later requests the expected route.
   and exclude it for the non-interactive static design in request 10.
 - R6 (critical): select `workflow-remediate-npm-security` for request 11 and
   exclude it for the ordinary dependency update in request 13.
-- R7 (critical): select `workflow-review-security` for requests 12 and 22. Do
+- R7 (critical): select `workflow-review-security` for requests 12 and 19. Do
   not require a pre-existing diagnosis before selecting it for the broad review
-  in request 22.
-- R8 (critical): select `workflow-retry-via-local-proxy` for requests 14 and 16
-  and exclude it for the reachable HTTP 403 Git-clone failure in request 15.
-- R9 (critical): select `workflow-manage-automated-tests` for requests 17, 18,
-  and 27. Exclude it for routine unchanged test execution in request 19.
+  in request 19.
+- R9 (critical): select `workflow-manage-automated-tests` for requests 14, 15,
+  and 24. Exclude it for routine unchanged test execution in request 16.
 - R10 (critical): select `workflow-design-operation-failure-recovery` for
-  request 23 even though it describes only success, and exclude it for the
-  consumer-invisible internal helper in request 24.
-- R11 (critical): select `workflow-contribute-to-knowledge-base` for request 25
+  request 20 even though it describes only success, and exclude it for the
+  consumer-invisible internal helper in request 21.
+- R11 (critical): select `workflow-contribute-to-knowledge-base` for request 22
   to publish an approved sanitized proposal as an issue from outside the
   canonical checkout.
 - R12: preserve independently applicable additional choices, but do not select
@@ -153,8 +145,8 @@ request with the trusted pre-rename descriptions from integration commits
 
 A controlled faulty observation that swaps either adjacent documentation,
 pull-request, or security route; selects the testing workflow for routine
-unchanged test execution; applies the web probe to a static design; or retries
-a Git-clone 403 must fail the corresponding criterion.
+unchanged test execution; or applies the web probe to a static design must fail
+the corresponding criterion.
 
 ## Source
 
@@ -166,10 +158,13 @@ baseline for the first twelve base Workflows; integration commit `d60172e` is
 the trusted baseline for the remaining two base Workflows added here. Per #303
 and #308, Codex-specific and generative-media Workflows were split into their
 own selection cases (`codex-workflow-description-routing` and
-`generative-media-workflow-negative-boundaries`) so this case protects only the 11 base `knowledge-base` Workflows. Request 26
+`generative-media-workflow-negative-boundaries`) so this case protected the
+base `knowledge-base` Workflows, and per #320 and #328 the local-proxy retry
+Workflow was split into `local-proxy-retry-routing` under `utilities` so this
+case protects only the 10 base `knowledge-base` Workflows. Request 23
 reconstructs an observed failure in which a GitHub information client was
 implemented with custom HTTP requests without first evaluating an established
-SDK or library. Request 27 reconstructs an observed failure during pull request
+SDK or library. Request 24 reconstructs an observed failure during pull request
 #270 in which a compiler-owned generated-output test was mechanically updated
 after production ownership changed, before the test's continued value was
 reassessed.

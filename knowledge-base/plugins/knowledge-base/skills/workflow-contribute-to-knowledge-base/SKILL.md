@@ -1,12 +1,12 @@
 ---
 name: workflow-contribute-to-knowledge-base
-description: Use when publishing a sanitized knowledge-base contribution proposal from outside its canonical source checkout.
+description: Use when preparing or publishing a sanitized knowledge-base contribution proposal from outside its canonical source checkout.
 ---
 
 # Contribute to knowledge base
 
-Publish a triage-ready issue without cloning or modifying the canonical
-repository. Treat installed plugin files as read-only context.
+Prepare or publish a triage-ready issue without cloning or modifying the
+canonical repository. Treat installed plugin files as read-only context.
 
 ## Workflow
 
@@ -18,12 +18,14 @@ repository. Treat installed plugin files as read-only context.
    [Knowledge-base contribution issue](../../references/agents/knowledge-base-contribution-issue.md),
    then establish the proposed contribution and publication authority. Accept
    either a proposal already selected in the conversation or a direct request
-   that still needs a publishable proposal. An explicit request to publish a
-   clearly delimited sanitized public issue draft that already satisfies the
-   loaded contract and that the user has reviewed authorizes publication that
-   preserves the complete approved title and body exactly and applies the
-   requested `needs-triage` label. Otherwise, prepare the exact public text in
-   the steps below and obtain confirmation before publishing it.
+   that still needs a publishable proposal, including a request to prepare a
+   draft without publishing. An explicit request to publish a clearly delimited
+   sanitized public issue draft that already satisfies the loaded contract and
+   that the user has reviewed authorizes publication that preserves the complete
+   approved title and body exactly and applies the requested `needs-triage`
+   label. Otherwise, prepare the exact public text in the steps below and
+   either return the draft when publication is not requested or obtain
+   confirmation before publishing it.
 3. Inspect the canonical repository remotely without creating a checkout. Use
    the authenticated `gh` CLI with the explicit repository identity from the
    manifest. Read the current default-branch versions of the relevant
@@ -76,9 +78,12 @@ repository. Treat installed plugin files as read-only context.
    title, suggested category, or example alone.
 8. Unless step 2 established authority to publish an already contract-compliant
    issue draft unchanged, show the final repository, title, body or comment, and
-   requested labels, then wait for confirmation. One confirmation may cover
-   multiple independently shown drafts. Any change to public text after
-   confirmation requires another confirmation.
+   requested labels. If the user requested only a draft, do not publish and
+   report `draft-only` in step 11. Otherwise, wait for confirmation before
+   proceeding to step 9; if the user declines publication, do not publish and
+   report `draft-only` in step 11. One confirmation may cover multiple
+   independently shown drafts. Any change to public text after confirmation
+   requires another confirmation.
 9. Publish each confirmed issue or comment with the corresponding `gh issue`
    operation against the explicit canonical repository. Create an issue before
    separately requesting the `needs-triage` label so a label-permission failure
@@ -111,7 +116,8 @@ repository. Treat installed plugin files as read-only context.
     - `published`: a new open issue exists with verified public text;
     - `existing`: an open or closed issue already covers the proposal;
     - `commented`: a verified incremental comment was published;
-    - `draft-only`: a sanitized draft exists but publication was blocked;
+    - `draft-only`: a sanitized draft exists but publication was not
+      requested, was declined, or was blocked;
     - `no-qualified-contribution`: no reliable publishable candidate remains;
     - `inapplicable`: the source-checkout guard stopped the Skill; or
     - `publication-mismatch`: a published target exists but its verified

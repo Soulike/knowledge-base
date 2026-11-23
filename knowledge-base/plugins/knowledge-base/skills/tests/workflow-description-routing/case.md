@@ -11,19 +11,18 @@
 - [Contribution publication Workflow](../../workflow-contribute-to-knowledge-base/SKILL.md)
 - [Library-adoption Workflow](../../workflow-evaluate-library-adoption/SKILL.md)
 - [Code-review feedback Workflow](../../workflow-handle-code-review-feedback/SKILL.md)
-- [Documentation improvement Workflow](../../workflow-improve-dev-documentation/SKILL.md)
+- [Development-documentation Workflow](../../workflow-maintain-dev-documentation/SKILL.md)
 - [Web usability probe Workflow](../../workflow-probe-web-usability-with-agents/SKILL.md)
 - [npm security remediation Workflow](../../workflow-remediate-npm-security/SKILL.md)
 - [Local proxy retry Workflow](../../workflow-retry-via-local-proxy/SKILL.md)
 - [Test review Workflow](../../workflow-review-and-improve-tests/SKILL.md)
 - [Security review Workflow](../../workflow-review-security/SKILL.md)
 - [Pull-request watch Workflow](../../workflow-watch-pull-request/SKILL.md)
-- [Documentation writing Workflow](../../workflow-write-dev-documentation/SKILL.md)
 - [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
 
 ## Protected behavior
 
-The 13 base `knowledge-base` execution Workflows must remain discoverable from
+The 12 base `knowledge-base` execution Workflows must remain discoverable from
 their complete user tasks after their names and descriptions are shortened.
 Protect broad and direct requests, adjacent exclusions, recovery-only routes,
 and task-stage distinctions while allowing unrelated Handbooks or Workflows to
@@ -96,7 +95,7 @@ candidate bodies or perform the substantive tasks.
 ## Starting state
 
 Build the target-model candidate set from the installed `knowledge-base` base
-plugin Skill entrypoints (including all 13 base Workflows listed in `Covered
+plugin Skill entrypoints (including all 12 base Workflows listed in `Covered
 objects` alongside the base Handbooks; other installed plugins may also be
 present in the session environment when active). Supply all requests and
 candidate names and descriptions without opening candidate bodies. A request
@@ -121,9 +120,9 @@ request must not teach later requests the expected route.
   and 21. Select `workflow-watch-pull-request` for requests 6 and 20, and do not
   substitute one Workflow for the other merely because both may concern a pull
   request.
-- R4 (critical): select `workflow-improve-dev-documentation` for the open-ended
-  audit in request 7 and `workflow-write-dev-documentation` for the accepted
-  Skill-content work in request 2 and known update in request 8.
+- R4 (critical): select `workflow-maintain-dev-documentation` for the accepted
+  Skill-content work in request 2, the open-ended audit in request 7, and the
+  known update in request 8.
 - R5 (critical): select `workflow-probe-web-usability-with-agents` for request 9
   and exclude it for the non-interactive static design in request 10.
 - R6 (critical): select `workflow-remediate-npm-security` for request 11 and
@@ -169,7 +168,7 @@ baseline for the first twelve base Workflows; integration commit `d60172e` is
 the trusted baseline for the remaining two base Workflows added here. Per #303
 and #308, Codex-specific and generative-media Workflows were split into their
 own selection cases (`codex-workflow-description-routing` and
-`generative-media-workflow-negative-boundaries`) so this case protects only the 13 base `knowledge-base` Workflows. Request 26
+`generative-media-workflow-negative-boundaries`) so this case protects only the 12 base `knowledge-base` Workflows. Request 26
 reconstructs an observed failure in which a GitHub information client was
 implemented with custom HTTP requests without first evaluating an established
 SDK or library. Request 27 reconstructs an observed failure during pull request

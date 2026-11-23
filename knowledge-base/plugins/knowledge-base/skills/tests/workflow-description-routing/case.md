@@ -123,18 +123,18 @@ request must not teach later requests the expected route.
 - R7 (critical): select `workflow-review-security` for requests 12 and 19. Do
   not require a pre-existing diagnosis before selecting it for the broad review
   in request 19.
-- R9 (critical): select `workflow-manage-automated-tests` for requests 14, 15,
+- R8 (critical): select `workflow-manage-automated-tests` for requests 14, 15,
   and 24. Exclude it for routine unchanged test execution in request 16.
-- R10 (critical): select `workflow-design-operation-failure-recovery` for
+- R9 (critical): select `workflow-design-operation-failure-recovery` for
   request 20 even though it describes only success, and exclude it for the
   consumer-invisible internal helper in request 21.
-- R11 (critical): select `workflow-contribute-to-knowledge-base` for request 22
+- R10 (critical): select `workflow-contribute-to-knowledge-base` for request 22
   to publish an approved sanitized proposal as an issue from outside the
   canonical checkout.
-- R12: preserve independently applicable additional choices, but do not select
+- R11: preserve independently applicable additional choices, but do not select
   a target Workflow merely because its subject noun appears in a request whose
   user task belongs to the adjacent route above.
-- R13: report metadata choices only, without claiming that a client loaded or
+- R12: report metadata choices only, without claiming that a client loaded or
   read a selected Skill or that any substantive task was completed.
 
 ## Verification
@@ -152,16 +152,16 @@ the corresponding criterion.
 
 GitHub issues #242, #248, and #249 require all execution Workflows to use
 `workflow-` names and concise semantic descriptions without losing established
-broad, direct, adjacent-negative, recovery, or work-stage coverage. The
-pre-rename descriptions at integration commit `e008e1a` remain the trusted
-baseline for the first twelve base Workflows; integration commit `d60172e` is
-the trusted baseline for the remaining two base Workflows added here. Per #303
-and #308, Codex-specific and generative-media Workflows were split into their
-own selection cases (`codex-workflow-description-routing` and
-`generative-media-workflow-negative-boundaries`) so this case protected the
-base `knowledge-base` Workflows, and per #320 and #328 the local-proxy retry
-Workflow was split into `local-proxy-retry-routing` under `utilities` so this
-case protects only the 10 base `knowledge-base` Workflows. Request 23
+broad, direct, adjacent-negative, recovery, or work-stage coverage (with
+`e008e1a` and `d60172e` as the original pre-rename description baselines). Per
+#303 and #308, Codex-specific and generative-media Workflows were split into
+their own selection cases (`codex-workflow-description-routing` and
+`generative-media-workflow-negative-boundaries`). Per #320, #325, #326, and
+#328, the documentation and testing Workflows were consolidated into
+`workflow-maintain-dev-documentation` and `workflow-manage-automated-tests`,
+`workflow-propose-knowledge-base-contribution` was removed, and the local-proxy
+retry Workflow moved into `local-proxy-retry-routing` under `utilities`, leaving
+this case protecting the 10 base `knowledge-base` Workflows. Request 23
 reconstructs an observed failure in which a GitHub information client was
 implemented with custom HTTP requests without first evaluating an established
 SDK or library. Request 24 reconstructs an observed failure during pull request

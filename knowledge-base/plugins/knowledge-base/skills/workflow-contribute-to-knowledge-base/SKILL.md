@@ -37,17 +37,23 @@ canonical repository. Treat installed plugin files as read-only context.
    with the exact blocker.
 4. Before preparing candidates, read
    [Assess contribution scope](../../references/agents/contribution-scope-assessment.md)
-   and apply it to claim scope and comparison with the remotely inspected
-   content. When step 2 established authority to publish an approved public
-   draft unchanged, preserve that text throughout this analysis and publication.
+   and
+   [Classifying Knowledge and Skill material](../../references/agents/knowledge-and-skills.md),
+   and apply them to claim scope, role classification, and comparison with the
+   inspected canonical content. When step 2 established authority to publish an
+   approved public draft unchanged, preserve that text throughout this analysis
+   and publication.
    Prepare one candidate for each reusable lesson that maintainers could
    evaluate independently. Independently verify its factual and causal claims,
    apply the canonical repository's current classification and
    downstream-project-independence rules, and determine whether current
    material already captures it or the new evidence or example materially
-   improves it. State the concrete addition, correction, removal, rule, or
-   workflow behavior maintainers should evaluate; a topic label or an
-   instruction to add documentation is insufficient.
+   improves it (reading plausible concrete canonical Knowledge, Skills, and
+   references directly without scanning any `knowledge/index.md` catalog or
+   treating filenames alone as the conclusion). State the concrete addition,
+   correction, removal, rule, or workflow behavior maintainers should
+   evaluate; a topic label or an instruction to add documentation is
+   insufficient.
    Finish with `no-qualified-contribution` when no evidence-backed,
    project-independent candidate remains.
 5. Sanitize every candidate for a public issue. Remove source-project and

@@ -41,10 +41,15 @@ action observations.
 
 - R1 (critical): choose and read the gh-aw Copilot-model compatibility package.
 - R2 (critical): exclude the Automation primary-work foundation
-  (`workflow-outcome-integrity.md`, `operation-failure-and-recovery.md`,
-  `failure-diagnostic-evidence.md`), Git change comparison, and the GitHub
-  Actions permissions, version-selection, and Agent-run-state packages because
-  this is focused learning without a workflow artifact that activates them.
+  ([Outcome integrity in automated
+  workflows](../../../../knowledge/automation/workflow-outcome-integrity.md),
+  [Failure and recovery in externally observable
+  operations](../../../../knowledge/software-design/operation-failure-and-recovery.md),
+  [Evidence for investigating check findings and
+  failures](../../../../knowledge/software-design/failure-diagnostic-evidence.md)),
+  Git change comparison, and the GitHub Actions permissions, version-selection,
+  and Agent-run-state packages because this is focused learning without a
+  workflow artifact that activates them.
 - R3: distinguish provider entitlement, gh-aw catalog or alias metadata,
   Copilot CLI or SDK capability resolution, AWF runtime discovery and pricing,
   and the actual launched authentication and execution path.

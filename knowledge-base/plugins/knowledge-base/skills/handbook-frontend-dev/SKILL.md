@@ -28,7 +28,12 @@ any other matching package added to this Handbook later.
   in full.
 
 If no current package matches, the Handbook's reading selection is validly
-complete with no package to read. Continue the task without applying unrelated
-narrow material, inventing guidance, or implying that this Handbook documents
-all of React or frontend development. Do not copy or infer rules in place of
-reading the linked canonical material.
+complete with no package to read. User-interface hierarchy, interaction
+clarity, layout resilience, web accessibility semantics, and usability
+evaluation live in their own product-experience domain rather than in this
+Handbook, so evaluate product-experience guidance separately when interface
+usability or accessibility work is present without treating this Handbook as a
+substitute for it. Continue the task without applying unrelated narrow
+material, inventing guidance, or implying that this Handbook documents all of
+React or frontend development. Do not copy or infer rules in place of reading
+the linked canonical material.

@@ -85,10 +85,10 @@ evaluator-only content.
   basis and trustworthy execution before attributing cost, preserve effective
   protection, and do not invent measurements.
 - R5 (critical): phase 4 selects the software-engineering Handbook's
-  external-command guidance (without `handbook-development-tooling`). Establish
-  which executable actually ran, correct lookup at the caller environment,
-  propagate it to wrappers and child processes, preserve or restore the caller
-  environment, and verify actual execution.
+  external-command guidance. Establish which executable actually ran, correct
+  lookup at the caller environment, propagate it to wrappers and child
+  processes, preserve or restore the caller environment, and verify actual
+  execution.
 - R6: select every foundation, conditional package, and Workflow Knowledge
   route required by R1–R5 from the observable work and read it through direct
   canonical routes, without invoking one Handbook through another. This

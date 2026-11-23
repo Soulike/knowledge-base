@@ -343,6 +343,12 @@ test("rejects non-directory knowledge paths and invalid skills directories on Sk
     "plugins",
     "cross-link-skill",
   );
+  const emptySkillsPlugin = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "empty-skills",
+  );
   t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
 
   await Promise.all([
@@ -352,6 +358,9 @@ test("rejects non-directory knowledge paths and invalid skills directories on Sk
     }),
     mkdir(fileSkillsPlugin, { recursive: true }),
     mkdir(join(crossLinkSkillPlugin, "skills", "workflow-bad"), {
+      recursive: true,
+    }),
+    mkdir(join(emptySkillsPlugin, "skills", "incomplete-skill"), {
       recursive: true,
     }),
   ]);
@@ -376,6 +385,10 @@ test("rejects non-directory knowledge paths and invalid skills directories on Sk
           {
             name: "cross-link-skill",
             source: "./knowledge-base/plugins/cross-link-skill",
+          },
+          {
+            name: "empty-skills",
+            source: "./knowledge-base/plugins/empty-skills",
           },
         ],
       }),
@@ -406,7 +419,8 @@ test("rejects non-directory knowledge paths and invalid skills directories on Sk
     "[file-knowledge] knowledge-base/plugins/file-knowledge/knowledge: Knowledge directory is not a directory.\n" +
       "[file-plugin-root] knowledge-base/plugins/file-plugin-root/knowledge: Knowledge directory is not a directory.\n" +
       "[file-skills] knowledge-base/plugins/file-skills/skills: Skills directory is not a directory.\n" +
-      "[cross-link-skill] knowledge-base/plugins/cross-link-skill/skills/workflow-bad/SKILL.md: Route 'skills/workflow-bad/SKILL.md -> ../file-knowledge/skills/valid-skill/SKILL.md' follows '../../../file-knowledge/skills/valid-skill/SKILL.md' from 'skills/workflow-bad/SKILL.md:1' outside the plugin package.\n",
+      "[cross-link-skill] knowledge-base/plugins/cross-link-skill/skills/workflow-bad/SKILL.md: Route 'skills/workflow-bad/SKILL.md -> ../file-knowledge/skills/valid-skill/SKILL.md' follows '../../../file-knowledge/skills/valid-skill/SKILL.md' from 'skills/workflow-bad/SKILL.md:1' outside the plugin package.\n" +
+      "[empty-skills] knowledge-base/plugins/empty-skills/skills: Skills directory must contain at least one Skill entrypoint.\n",
   );
 });
 

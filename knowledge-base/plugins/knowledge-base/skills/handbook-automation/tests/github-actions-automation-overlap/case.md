@@ -56,8 +56,13 @@ interruption, or recovery behavior here.
 - R1 (critical): phase 1 selects `handbook-automation` from the natural request
   before opening its body.
 - R2 (critical): phase 1 reads the complete Automation foundation
-  (`workflow-outcome-integrity.md`, `operation-failure-and-recovery.md`,
-  `failure-diagnostic-evidence.md`) through its direct canonical routes.
+  ([Outcome integrity in automated
+  workflows](../../../../knowledge/automation/workflow-outcome-integrity.md),
+  [Failure and recovery in externally observable
+  operations](../../../../knowledge/software-design/operation-failure-and-recovery.md),
+  [Evidence for investigating check findings and
+  failures](../../../../knowledge/software-design/failure-diagnostic-evidence.md))
+  through its direct canonical routes.
 - R3 (critical): phase 1 selects the GitHub Actions permissions,
   version-selection, and Agent-run-state packages cumulatively. It does not
   assign gh-aw Copilot compatibility before that engine is introduced.

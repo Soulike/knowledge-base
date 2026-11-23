@@ -36,13 +36,13 @@ Skill authors follow the same structure. Specifically, the proposal requires
 checking every new guidance or Skill document against `knowledge-base`'s
 four-role taxonomy (`Knowledge`, `Workflow Skill`, `Handbook Skill`, and
 `Skill reference`) via
-`knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md`, ensuring
-reading-only Skills model a common foundation plus cumulative conditional
-packages without duplicating `Knowledge` leaves, and keeping leaf-to-leaf
-`Related Knowledge` appendices out of `Knowledge` documents. Meanwhile, generic
-craft inside the proposal (such as separating a task-executing Skill from a
-guidance-only Skill without inventing a workflow procedure) remains valid in
-any project.
+[knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md),
+ensuring reading-only Skills model a common foundation plus cumulative
+conditional packages without duplicating `Knowledge` leaves, and keeping
+leaf-to-leaf `Related Knowledge` appendices out of `Knowledge` documents.
+Meanwhile, generic craft inside the proposal (such as separating a
+task-executing Skill from a guidance-only Skill without inventing a workflow
+procedure) remains valid in any project.
 
 Prepare a read-only classification, placement, and isolation assessment that
 evaluates all three options:
@@ -50,8 +50,8 @@ evaluates all three options:
 1. Add the four-role taxonomy route (`knowledge-and-skills.md`), Handbook
    foundation and cumulative-package rules, and `Knowledge`-leaf constraints
    into `workflow-maintain-dev-documentation` and
-   `knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md` so all
-   documentation and Skill-authoring users share one standard;
+   [knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md](../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md)
+   so all documentation and Skill-authoring users share one standard;
 2. Keep `workflow-maintain-dev-documentation` and `skill-authoring.md`
    domain-model-neutral (retaining only generic Skill and documentation craft
    and removing any `knowledge-and-skills.md` route or product-taxonomy rule),

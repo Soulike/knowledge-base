@@ -122,6 +122,77 @@ test("checks every Marketplace-selected plugin when invoked with --marketplace",
   );
 });
 
+test("allows a Marketplace-registered Skill-only plugin with a valid skills directory and no knowledge directory", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const basePlugin = join(temporaryRoot, "knowledge-base", "plugins", "base");
+  const skillOnlyPlugin = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "utilities",
+  );
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(basePlugin, "knowledge", "core"), { recursive: true }),
+    mkdir(join(basePlugin, "skills", "handbook-core"), { recursive: true }),
+    mkdir(join(skillOnlyPlugin, "skills", "workflow-retry"), {
+      recursive: true,
+    }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          { name: "base", source: "./knowledge-base/plugins/base" },
+          { name: "utilities", source: "./knowledge-base/plugins/utilities" },
+        ],
+      }),
+    ),
+    writeFile(
+      join(basePlugin, "knowledge", "index.md"),
+      validCatalog(
+        "| [knowledge/core/guide.md](core/guide.md) | evergreen |\n",
+      ),
+    ),
+    writeFile(join(basePlugin, "knowledge", "core", "guide.md"), validDocument),
+    writeFile(
+      join(basePlugin, "skills", "handbook-core", "SKILL.md"),
+      "Read [Guide](../../knowledge/core/guide.md).\n",
+    ),
+    writeFile(
+      join(skillOnlyPlugin, "skills", "workflow-retry", "SKILL.md"),
+      "# Retry\n\nFollow the retry steps.\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stderr, "");
+  assert.match(
+    result.stdout,
+    /\[base\] Checked 2 knowledge Markdown files\. 1 of 1 Knowledge leaves are reachable from 1 installed Skill entrypoint; 0 are not yet reachable\./,
+  );
+  assert.match(
+    result.stdout,
+    /\[utilities\] Checked 0 knowledge Markdown files\. 0 of 0 Knowledge leaves are reachable from 1 installed Skill entrypoint; 0 are not yet reachable\./,
+  );
+  assert.match(
+    result.stdout,
+    /Checked 2 marketplace plugins \(2 knowledge Markdown files total\)\./,
+  );
+});
+
 test("normalizes redundant slashes in relative Marketplace sources without dropping the root", async (t) => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
   const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
@@ -188,7 +259,7 @@ test("reports per-plugin diagnostics prefixed with plugin name and path across a
     mkdir(join(firstPlugin, "knowledge", "core"), { recursive: true }),
     mkdir(join(secondPlugin, "knowledge", "domain"), { recursive: true }),
     mkdir(join(secondPlugin, "skills", "handbook-beta"), { recursive: true }),
-    mkdir(join(thirdPlugin, "skills", "handbook-gamma"), { recursive: true }),
+    mkdir(thirdPlugin, { recursive: true }),
   ]);
   await Promise.all([
     writeFile(
@@ -240,7 +311,102 @@ test("reports per-plugin diagnostics prefixed with plugin name and path across a
     result.stderr,
     "[alpha] knowledge-base/plugins/alpha/knowledge/core/orphan.md: Knowledge leaf is not reachable from an installed Skill entrypoint through package-local Markdown links.\n" +
       "[beta] knowledge-base/plugins/beta/knowledge/domain/broken.md: The first section after the title must be '## Scope'.\n" +
-      "[gamma] knowledge-base/plugins/gamma/knowledge: Knowledge directory does not exist.\n",
+      "[gamma] knowledge-base/plugins/gamma/skills: Skills directory does not exist.\n",
+  );
+});
+
+test("rejects non-directory knowledge paths and invalid skills directories on Skill-only Marketplace plugins", async (t) => {
+  const temporaryRoot = await mkdtemp(join(tmpdir(), "knowledge-check-"));
+  const marketplaceDirectory = join(temporaryRoot, ".claude-plugin");
+  const marketplaceFile = join(marketplaceDirectory, "marketplace.json");
+  const fileKnowledgePlugin = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "file-knowledge",
+  );
+  const filePluginRoot = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "file-plugin-root",
+  );
+  const fileSkillsPlugin = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "file-skills",
+  );
+  const crossLinkSkillPlugin = join(
+    temporaryRoot,
+    "knowledge-base",
+    "plugins",
+    "cross-link-skill",
+  );
+  t.after(() => rm(temporaryRoot, { force: true, recursive: true }));
+
+  await Promise.all([
+    mkdir(marketplaceDirectory, { recursive: true }),
+    mkdir(join(fileKnowledgePlugin, "skills", "valid-skill"), {
+      recursive: true,
+    }),
+    mkdir(fileSkillsPlugin, { recursive: true }),
+    mkdir(join(crossLinkSkillPlugin, "skills", "workflow-bad"), {
+      recursive: true,
+    }),
+  ]);
+  await Promise.all([
+    writeFile(
+      marketplaceFile,
+      JSON.stringify({
+        name: "knowledge-base",
+        plugins: [
+          {
+            name: "file-knowledge",
+            source: "./knowledge-base/plugins/file-knowledge",
+          },
+          {
+            name: "file-plugin-root",
+            source: "./knowledge-base/plugins/file-plugin-root",
+          },
+          {
+            name: "file-skills",
+            source: "./knowledge-base/plugins/file-skills",
+          },
+          {
+            name: "cross-link-skill",
+            source: "./knowledge-base/plugins/cross-link-skill",
+          },
+        ],
+      }),
+    ),
+    writeFile(join(fileKnowledgePlugin, "knowledge"), "not a directory\n"),
+    writeFile(
+      join(fileKnowledgePlugin, "skills", "valid-skill", "SKILL.md"),
+      "# Valid\n",
+    ),
+    writeFile(filePluginRoot, "not a directory\n"),
+    writeFile(join(fileSkillsPlugin, "skills"), "not a directory\n"),
+    writeFile(
+      join(crossLinkSkillPlugin, "skills", "workflow-bad", "SKILL.md"),
+      "Read [Outside](../../../file-knowledge/skills/valid-skill/SKILL.md).\n",
+    ),
+  ]);
+
+  const result = spawnSync(
+    process.execPath,
+    [checkerPath, "--marketplace", marketplaceFile, "--enforce-reachability"],
+    { encoding: "utf8" },
+  );
+
+  assert.equal(result.status, 1);
+  assert.equal(result.stdout, "");
+  assert.equal(
+    result.stderr,
+    "[file-knowledge] knowledge-base/plugins/file-knowledge/knowledge: Knowledge directory is not a directory.\n" +
+      "[file-plugin-root] knowledge-base/plugins/file-plugin-root/knowledge: Knowledge directory is not a directory.\n" +
+      "[file-skills] knowledge-base/plugins/file-skills/skills: Skills directory is not a directory.\n" +
+      "[cross-link-skill] knowledge-base/plugins/cross-link-skill/skills/workflow-bad/SKILL.md: Route 'skills/workflow-bad/SKILL.md -> ../file-knowledge/skills/valid-skill/SKILL.md' follows '../../../file-knowledge/skills/valid-skill/SKILL.md' from 'skills/workflow-bad/SKILL.md:1' outside the plugin package.\n",
   );
 });
 

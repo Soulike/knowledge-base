@@ -8,22 +8,22 @@
 ## Covered objects
 
 - [Software-engineering Handbook](../../handbook-software-engineering/SKILL.md)
-- [Automated-testing Handbook](../../handbook-automated-testing/SKILL.md)
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
 - [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
 - [Automation Handbook](../../handbook-automation/SKILL.md)
 - [GitHub Actions Handbook](../../handbook-github-actions/SKILL.md)
+- [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
 
 ## Protected behavior
 
-The software-engineering, automated-testing, JavaScript/TypeScript, filesystem,
-and development-tooling Handbooks form the five-engineering-Handbook group.
-They must be discoverable from the user's work or
-current material without naming internal Knowledge. Their descriptions must
-support broad, direct, focused-learning, overlap, and nearby negative requests
-while tolerating wording changes and legitimate selection of unrelated Workflow
-Skills.
+The software-engineering, JavaScript/TypeScript, filesystem, and
+development-tooling Handbooks form the four-engineering-Handbook group (with
+test-writing requests routing to `workflow-write-effective-tests`). They must
+be discoverable from the user's work or current material without naming
+internal Knowledge. Their descriptions must support broad, direct,
+focused-learning, overlap, and nearby negative requests while tolerating
+wording changes and legitimate selection of unrelated Workflow Skills.
 
 ## Task
 
@@ -61,10 +61,12 @@ client loaded the chosen bodies.
 ## Expected behavior
 
 - R1 (critical): request 1 selects `handbook-software-engineering` and excludes
-  the other four engineering Handbooks because the request does not yet establish a
-  language, automated-test, filesystem, or development-tooling task.
-- R2 (critical): request 2 selects `handbook-automated-testing`; selection of
-  `handbook-software-engineering` for the test code is allowed.
+  the other three engineering Handbooks because the request does not yet
+  establish a language, filesystem, or development-tooling task.
+- R2 (critical): request 2 selects `workflow-write-effective-tests` and
+  excludes `handbook-javascript-typescript`, `handbook-filesystems`, and
+  `handbook-development-tooling`; selection of `handbook-software-engineering`
+  for the test code is allowed.
 - R3 (critical): request 3 selects `handbook-javascript-typescript`. It may also
   select `handbook-software-engineering`, but must not select testing,
   filesystems, or development tooling merely because the explanation concerns
@@ -75,7 +77,7 @@ client loaded the chosen bodies.
   `handbook-development-tooling`.
 - R6 (critical): request 6 selects `handbook-development-tooling` without
   requiring JavaScript or TypeScript source work.
-- R7: requests 7 and 8 exclude all five engineering Handbooks. Other applicable
+- R7: requests 7 and 8 exclude all four engineering Handbooks. Other applicable
   installed Handbooks or Workflow Skills are allowed.
 - R8: the choices are based on the semantic task and current material rather
   than literal Handbook names or hidden package contents.
@@ -88,8 +90,8 @@ client loaded the chosen bodies.
   allowed.
 - R10 (critical): requests 12 and 13 select
   `handbook-software-engineering`. Request 13 also selects
-  `handbook-automated-testing`; testing guidance does not replace the software
-  authorization route.
+  `workflow-write-effective-tests`; testing workflow guidance does not replace
+  the software authorization route.
 - R11 (critical): request 15 independently selects both `handbook-automation`
   and `handbook-github-actions`; neither the general automation scene nor the
   platform scene replaces the other.
@@ -100,9 +102,9 @@ Keep every request independent and inspect each recorded choice separately. A
 correct choice on one request does not offset a missed critical route or
 unrelated selection on another.
 
-Controlled faulty observations that omit the only
-required covered Handbook for requests 1, 2, 5, or 6, or that select one of the
-five for requests 7 or 8, must fail the corresponding criterion. Omitting
+Controlled faulty observations that omit the required covered Skill for
+requests 1, 2, 5, or 6, or that select one of the four engineering Handbooks
+for requests 7 or 8, must fail the corresponding critical criterion. Omitting
 software engineering for requests 9 through 13, requiring automation for
 requests 9 through 11, or selecting software engineering for request 14 must
 also fail the corresponding critical criterion.

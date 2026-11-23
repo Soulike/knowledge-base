@@ -8,7 +8,8 @@
 ## Covered objects
 
 - [Software-engineering Handbook](../../handbook-software-engineering/SKILL.md)
-- [Automated-testing Handbook](../../handbook-automated-testing/SKILL.md)
+- [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
+- [Test review Workflow](../../workflow-review-and-improve-tests/SKILL.md)
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
 - [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
@@ -38,12 +39,12 @@ phase.
 
 ## Starting state
 
-Use the exact final installed Skill candidate metadata and current Handbook
-bodies from the tested source. Begin with only message 1 and no expected
-selection. At each phase, record applicable Handbook choices before opening a
-new body, then record every selected and excluded package before opening newly
-required Knowledge. Permit read-only access to direct canonical routes and no
-external effects.
+Use the exact final installed Skill candidate metadata and current Skill bodies
+from the tested source. Begin with only message 1 and no expected selection. At
+each phase, record applicable Skill choices (Handbooks and applicable
+Workflows) before opening a new body, then record every selected and excluded
+package or conditional Knowledge route before opening newly required Knowledge.
+Permit read-only access to direct canonical routes and no external effects.
 
 Record the initial candidate set, each phase message, choices, file and section
 reads, evolving result, and observation limits.
@@ -72,23 +73,26 @@ evaluator-only content.
   foundation, uses one handle for identity-sensitive facts and reads, preserves
   each settled result, and distinguishes per-file failures without inventing
   complete success.
-- R3 (critical): phase 2 adds automated testing for the concrete operation. It
-  reads test effectiveness and trustworthy execution, chooses protection at
-  the owning seams, and explains collection and execution evidence. It does not
-  load test-execution-cost merely because tests now exist.
-- R4 (critical): phase 3 concerns the concrete suite designed in phase 2. Test
-  effectiveness and trustworthy execution remain applicable, and
-  test-execution-cost is additionally required. Establish a comparable
-  measurement basis and trustworthy execution before attributing cost, preserve
-  effective protection, and do not invent measurements.
+- R3 (critical): phase 2 selects `workflow-write-effective-tests` for the
+  concrete automated protection task. It reads test effectiveness and
+  trustworthy execution, chooses protection at the owning seams, and explains
+  collection and execution evidence. It does not load test-execution-cost merely
+  because tests now exist.
+- R4 (critical): phase 3 selects `workflow-review-and-improve-tests` for the
+  slow, memory-heavy suite designed in phase 2. Test effectiveness and
+  trustworthy execution remain applicable, and test-execution-cost is
+  additionally required. Establish a comparable measurement basis and
+  trustworthy execution before attributing cost, preserve effective protection,
+  and do not invent measurements.
 - R5 (critical): phase 4 adds development-tooling and executable-environment
   guidance. Establish which executable actually ran, correct lookup at the
   caller environment, propagate it to wrappers and child processes, preserve or
   restore the caller environment, and verify actual execution.
-- R6: select every foundation and package required by R1–R5 from the observable
-  work and read it through direct canonical routes, without invoking one
-  Handbook through another. This criterion does not require unrelated domain
-  guidance or score generic reading lifecycle behavior.
+- R6: select every foundation, conditional package, and Workflow Knowledge
+  route required by R1–R5 from the observable work and read it through direct
+  canonical routes, without invoking one Handbook through another. This
+  criterion does not require unrelated domain guidance or score generic reading
+  lifecycle behavior.
 
 ## Verification
 

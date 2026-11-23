@@ -77,7 +77,7 @@ routes (including
 [Classification reference](../../knowledge-base/plugins/knowledge-base/references/agents/knowledge-and-skills.md),
 [Skill-maintenance workflow](../../.agents/skills/maintain-knowledge-base/references/maintain-skill.md),
 and
-[Contribution proposal Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-propose-knowledge-base-contribution/SKILL.md))
+[Contribution publication Workflow](../../knowledge-base/plugins/knowledge-base/skills/workflow-contribute-to-knowledge-base/SKILL.md))
 in read-only access to the supplied repository snapshot. Do not supply GitHub
 issue #289, ticket #293, or pull-request history; the maintained guidance alone
 must establish the neutrality, placement, and isolation decisions.

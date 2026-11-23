@@ -36,9 +36,9 @@ Treat these as independent scenarios:
 For each scenario, supply the complete current Software-engineering Handbook,
 its permitted direct canonical routes, the natural request, and read-only access
 to the supplied repository snapshot. For scenario 2, also supply the complete
-current Automated-testing Handbook and its direct routes so independently
-required test guidance is available. Keep the two scenarios isolated from one
-another.
+current [Effective-test writing Workflow](../../../workflow-write-effective-tests/SKILL.md)
+and its direct routes so independently required test guidance is available.
+Keep the two scenarios isolated from one another.
 
 Ask the executor to record every selected and excluded package before opening
 Knowledge, then produce the requested design. Record package choices, files and
@@ -62,9 +62,10 @@ scenario.
   leaves the replacement decision pending, and cannot pass through an
   asynchronous check-then-use gap.
 - R4: apply the software foundation and other genuinely matching packages for
-  primary design or test-code work, and apply the automated-testing foundation
-  in scenario 2. Do not load command, Git-comparison, GitHub API, concurrency,
-  or unrelated packages merely because the flow is consequential.
+  primary design or test-code work, and apply test effectiveness and trustworthy
+  execution from the supplied test-writing workflow in scenario 2. Do not load
+  command, Git-comparison, GitHub API, concurrency, or unrelated packages
+  merely because the flow is consequential.
 - R5: distinguish authentication and permission from the content-bound human
   decision; neither identity nor permission alone authorizes replacement
   content.

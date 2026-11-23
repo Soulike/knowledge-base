@@ -8,7 +8,6 @@
 ## Covered objects
 
 - [Operation failure and recovery Workflow](../../workflow-design-operation-failure-recovery/SKILL.md)
-- [Contribution proposal Workflow](../../workflow-propose-knowledge-base-contribution/SKILL.md)
 - [Contribution publication Workflow](../../workflow-contribute-to-knowledge-base/SKILL.md)
 - [Library-adoption Workflow](../../workflow-evaluate-library-adoption/SKILL.md)
 - [Code-review feedback Workflow](../../workflow-handle-code-review-feedback/SKILL.md)
@@ -24,7 +23,7 @@
 
 ## Protected behavior
 
-The 14 base `knowledge-base` execution Workflows must remain discoverable from
+The 13 base `knowledge-base` execution Workflows must remain discoverable from
 their complete user tasks after their names and descriptions are shortened.
 Protect broad and direct requests, adjacent exclusions, recovery-only routes,
 and task-stage distinctions while allowing unrelated Handbooks or Workflows to
@@ -83,15 +82,12 @@ installed guidance from the current candidate metadata, or choose none:
     download a completed report.
 24. Refactor a private pure helper whose result never crosses its owning module
     and has no externally observable effect.
-25. We have reached a stable stopping point with evidence from a downstream
-    task. Assess whether it supports a reusable knowledge-base contribution and,
-    if so, prepare a sanitized proposal without publishing it.
-26. Publish this already approved sanitized knowledge-base proposal as an issue
+25. Publish this already approved sanitized knowledge-base proposal as an issue
     from outside the canonical source checkout.
-27. Add a TypeScript module that reads GitHub repository issues, pull requests,
+26. Add a TypeScript module that reads GitHub repository issues, pull requests,
     check results, and review threads using the project's existing
     authentication, then expose the results to our release service.
-28. An accepted production behavior change made an existing test fail. Update
+27. An accepted production behavior change made an existing test fail. Update
     the test to match the new behavior.
 
 Return the chosen identifiers and a short reason for each request. Do not open
@@ -100,7 +96,7 @@ candidate bodies or perform the substantive tasks.
 ## Starting state
 
 Build the target-model candidate set from the installed `knowledge-base` base
-plugin Skill entrypoints (including all 14 base Workflows listed in `Covered
+plugin Skill entrypoints (including all 13 base Workflows listed in `Covered
 objects` alongside the base Handbooks; other installed plugins may also be
 present in the session environment when active). Supply all requests and
 candidate names and descriptions without opening candidate bodies. A request
@@ -117,7 +113,7 @@ request must not teach later requests the expected route.
 - R1 (critical): select `workflow-contribute-to-knowledge-base` for request 1
   and exclude it for request 2 because publication from outside the canonical
   checkout and source-checkout implementation are different tasks.
-- R2 (critical): select `workflow-evaluate-library-adoption` for requests 3 and 27. Request 27 must not be excluded merely because its client targets one
+- R2 (critical): select `workflow-evaluate-library-adoption` for requests 3 and 26. Request 26 must not be excluded merely because its client targets one
   external platform. Exclude the Workflow for request 4, whose change is only a
   product-specific business rule and introduces no reusable technical
   functionality or external-system integration.
@@ -139,15 +135,14 @@ request must not teach later requests the expected route.
   and exclude it for the reachable HTTP 403 Git-clone failure in request 15.
 - R9 (critical): select `workflow-write-effective-tests` for request 17 and
   exclude the existing-test review Workflow there; select
-  `workflow-review-and-improve-tests` for requests 18 and 28. Exclude both for
+  `workflow-review-and-improve-tests` for requests 18 and 27. Exclude both for
   routine unchanged test execution in request 19.
 - R10 (critical): select `workflow-design-operation-failure-recovery` for
   request 23 even though it describes only success, and exclude it for the
   consumer-invisible internal helper in request 24.
-- R11 (critical): select `workflow-propose-knowledge-base-contribution` for
-  request 25 and exclude the publication Workflow there. Select
-  `workflow-contribute-to-knowledge-base` for request 26 and do not substitute
-  proposal assessment for the requested publication task.
+- R11 (critical): select `workflow-contribute-to-knowledge-base` for request 25
+  to publish an approved sanitized proposal as an issue from outside the
+  canonical checkout.
 - R12: preserve independently applicable additional choices, but do not select
   a target Workflow merely because its subject noun appears in a request whose
   user task belongs to the adjacent route above.
@@ -174,10 +169,10 @@ baseline for the first twelve base Workflows; integration commit `d60172e` is
 the trusted baseline for the remaining two base Workflows added here. Per #303
 and #308, Codex-specific and generative-media Workflows were split into their
 own selection cases (`codex-workflow-description-routing` and
-`generative-media-workflow-negative-boundaries`) so this case protects only the
-14 base `knowledge-base` Workflows. Request 27 reconstructs an observed failure
-in which a GitHub information client was implemented with custom HTTP requests
-without first evaluating an established SDK or library. Request 28
-reconstructs an observed failure during pull request #270 in which a
-compiler-owned generated-output test was mechanically updated after production
-ownership changed, before the test's continued value was reassessed.
+`generative-media-workflow-negative-boundaries`) so this case protects only the 13 base `knowledge-base` Workflows. Request 26
+reconstructs an observed failure in which a GitHub information client was
+implemented with custom HTTP requests without first evaluating an established
+SDK or library. Request 27 reconstructs an observed failure during pull request
+#270 in which a compiler-owned generated-output test was mechanically updated
+after production ownership changed, before the test's continued value was
+reassessed.

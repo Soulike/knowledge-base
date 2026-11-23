@@ -61,21 +61,17 @@
    remains
    reachable through that plugin's package-local graph
    ([Knowledge](../../../../knowledge-base/AGENTS.md#knowledge)).
-7. Run `pnpm check` and `git diff --check`. Produce the behavioral proof and
-   pull-request or handoff summary required by
+7. Run `pnpm check` and `git diff --check`. Apply risk-based trigger and
+   behavior checks per
    [Prove the behavior](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prove-the-behavior)
    and
-   [Prepare pull-request and handoff evidence](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
-   (together with
-   [Prove Handbook and Workflow behavior](#prove-handbook-and-workflow-behavior)
-   for Knowledge-plugin Workflow and Handbook Skills),
-   and return it to the parent workflow for unified assembly and single-reviewer
-   [final validation](../SKILL.md#final-validation).
+   [Prove Handbook and Workflow behavior](#prove-handbook-and-workflow-behavior),
+   and return the summary to the parent workflow for pull-request assembly.
 
 Finish only when the Skill lives at the boundary required by its dependencies,
 satisfies repository layout, package-isolation, and Catalog-reachability
-contracts, has all repository consumers reconciled, and returns complete
-evidence for parent validation and delivery.
+contracts, has all repository consumers reconciled, and returns a concise
+summary for parent delivery.
 
 ## Choose the Skill responsibility
 
@@ -185,10 +181,9 @@ Apply these Knowledge-plugin taxonomy rules:
 
 ## Prove Handbook and Workflow behavior
 
-Delegate generic composed-bundle review, behavioral proof scenarios,
-execution and postcondition checks, model selection, evaluation isolation and
-attempt retention, cross-model reader-understanding verification, and
-pull-request or handoff evidence formatting one-way to
+Delegate generic composed-bundle review, risk-based probe triggers and
+attribution, blind selection checks, fresh-context isolation, and pull-request
+summary formatting one-way to
 [Review the composed bundle](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#review-the-composed-bundle),
 [Prove the behavior](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prove-the-behavior),
 [Prepare pull-request and handoff evidence](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence),
@@ -196,31 +191,24 @@ pull-request or handoff evidence formatting one-way to
 [Agent behavioral evaluation](../../../../knowledge-base/plugins/knowledge-base/references/agents/behavioral-evaluation.md),
 and
 [Verify reader understanding](../../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md).
-Apply these Knowledge-plugin deltas:
+Apply these Knowledge-plugin deltas when tracing bundles or running warranted
+probes:
 
 - **Product routing and reading separation:** Keep Workflow native
-  selection, Handbook native selection, the Handbook package and routing
-  choices required by
-  [Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references),
-  direct canonical Knowledge reading (both from Handbooks and from Workflow
-  steps that cannot safely depend on Handbook co-selection), and Knowledge
-  application distinct across composed-bundle traces and behavioral evidence.
-  Trace later-stage reassessment, reuse, and recovery at the shared
-  reading-lifecycle owner
+  selection, Handbook native selection, Handbook conditional package choices
+  ([Skills and references](../../../../knowledge-base/AGENTS.md#skills-and-references)),
+  direct canonical Knowledge reading, and Knowledge application distinct across
+  composed-bundle traces and any warranted probes. Trace later-stage
+  reassessment and reuse at the shared reading-lifecycle owner
   ([Keep guidance current](../../../../knowledge-base/plugins/knowledge-base/references/agents/independent-collaboration.md#keep-guidance-current))
   when it governs the scene.
-- **Domain-connection journeys vs shared lifecycle unit:** Keep generic
-  reading-lifecycle policy and its unit-level proof at the authoritative
-  shared owner. Subject behavioral proof exercises its own conditions, direct
-  Knowledge routes, and application. Include a representative journey scenario
-  when a domain transition exposes a distinct realistic connection fault—such
-  as a previously inapplicable foundation becoming required after focused
-  learning, an ongoing Workflow gaining a conditional Knowledge route, or a
-  later artifact requiring a different execution target—because neither
-  independent task checks nor the shared lifecycle unit alone establishes that
-  connection.
-- **Pull-request and handoff summary:** Include Workflow or Handbook
-  responsibility kind and boundary, reading-scene or professional research,
-  owner comparison, and authoritative Knowledge and reference placement
-  alongside the unmodified evidence required by
+- **Domain-connection probes vs shared lifecycle unit:** Keep generic
+  reading-lifecycle checks at the authoritative shared owner. Focus subject
+  probes on the Skill's own conditions, direct Knowledge routes, and domain
+  connections—such as a newly applicable foundation after focused learning or an
+  ongoing Workflow gaining a conditional Knowledge route—when those boundaries
+  create real blind-spot risk.
+- **Pull-request summary:** Include Workflow or Handbook responsibility kind
+  and boundary, owner comparison, and authoritative Knowledge and reference
+  placement alongside the concise summary in
   [Prepare pull-request and handoff evidence](../../../../knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence).

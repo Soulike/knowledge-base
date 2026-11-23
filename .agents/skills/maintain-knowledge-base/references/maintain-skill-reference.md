@@ -44,10 +44,11 @@
    reference, reconcile every affected repository consumer—Skills, manifests,
    `.github/` prompts and workflows, and documentation—and delete obsolete
    routes, files, and unreferenced copies.
-7. Run `pnpm check` and `git diff --check`, and route forward behavioral or
-   cross-model reader-understanding verification through the parent workflow's
-   [final validation](../SKILL.md#final-validation).
+7. Run `pnpm check` and `git diff --check`, and handle any risk-based probe
+   checks per
+   [Verify reader understanding](../../../../knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md)
+   through the parent workflow.
 
 Finish only when the reference has one authoritative home at the smallest valid
 package boundary, a complete and reconciled repository consumer set, resolved
-links, passing repository checks, and required validation evidence.
+links, passing repository checks, and any warranted probe findings resolved.

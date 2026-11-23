@@ -168,123 +168,46 @@ suitability require separate judgments.
 
 ## Prove the behavior
 
-Treat a new Skill or material behavior change as incomplete until behavior is
-demonstrated. Material changes include selection or exclusion, accepted inputs,
-decision authority, professional responsibilities, states or branches, guidance
-or reference selection, tools or effects, output contracts, failure behavior,
-completion, or wording likely to change execution. Mechanical changes may use
-reduced evidence only after semantics are confirmed unchanged.
+Scale behavioral checks to the risk of the change using
+[Verify reader understanding](reader-understanding.md#assess-probe-risk).
+Mechanical or editorial edits, route cleanups, and straightforward single-rule
+updates whose triggers and preconditions are explicit do not require behavioral
+probe runs.
 
-Derive scenarios from the owned responsibility and realistic faults rather than
-satisfying a fixed case count. Cover each applicable kind of evidence below or
-explain concretely why it does not apply:
+When a Skill addition or substantive revision introduces trigger, routing, or
+blind-spot risk, run targeted probes in a fresh context per
+[Agent behavioral evaluation](behavioral-evaluation.md):
 
-- **Native selection evidence:** in a fresh context with the real candidate set,
-  use broad, direct, overlap, focused-learning, and adjacent negative requests
-  as applicable. Record the choice before showing target bodies or expected
-  selections.
-- **Execution evidence:** when the Skill guides a task, exercise underspecified
-  and settled inputs, the principal complex branch, material conflicts or
-  missing evidence, and attempts to skip investigation, action verification, or
-  stopping behavior. When the task has a consequential action with an
-  observable postcondition, include an applicable omitted, partial, interrupted,
-  wrong-target, or unknown-result action and verify that the Skill re-observes,
-  reconciles, or stops instead of advancing as though the action completed.
-- **Conditional routing evidence:** when the Skill selects internal references
-  or conditional guidance, verify internal routing blindly against the current
-  body and task context per
-  [Check selection from requests](selection-triggers.md#check-selection-from-requests),
-  keeping internal routing distinct from native Skill selection.
-- **Reading and application evidence:** observe required file or section reads
-  and their use in the task separately from metadata and routing choices. A
-  link, invocation event, or plausible answer alone does not establish reading
-  and application.
-- **Output evidence:** when the Skill defines an output or completion state,
-  verify the promised result, professional minimum, declared inputs,
-  constraints, format, and completion gate.
+- **Trigger and routing probes:** When adding a Skill or materially changing a
+  description or internal routing condition, run a blind selection check per
+  [Check selection from requests](selection-triggers.md#check-selection-from-requests)
+  with broad, overlap, and adjacent negative requests as applicable before
+  revealing target bodies.
+- **Targeted behavior probes:** When the Skill introduces complex procedures,
+  non-obvious preconditions, consequential postcondition checks, or multi-state
+  stopping/recovery paths, test the risky scenario with a materially weaker
+  model and ask what felt unclear, unstated, or inferred.
 
-Separate independent task scenarios unless a multi-stage transition exposes a
-distinct connection risk—such as an ongoing task gaining a newly applicable
-condition or changing targets. Before running evidence, select the comparison
-model and the materially less capable executor baseline (and mark the result
-incomplete when either cannot be established) using the model-selection rules in
-[Prepare independent observations](reader-understanding.md#prepare-independent-observations),
-and follow [Agent behavioral evaluation](behavioral-evaluation.md) for
-fresh-context isolation, inherited boundary recording, evaluator-only
-withholding, the canonical executor instructions guard, blind selection and
-application dispatch templates, contamination handling, execution recording,
-result classification, and attempt retention.
-
-The lower-capability run must select or exclude the Skill correctly and follow
-the behavior that the Skill owns, or take an explicit supported stop. Invented
-procedure, skipped decisions, omitted mandatory reading, and premature
-completion are failures rather than acceptable model limits. Use a capable
-independent reviewer for professional correctness, final-content suitability,
-semantic change, and reader understanding, applying
-[Verify reader understanding](reader-understanding.md) to verify cross-model
-reader comprehension through actual reader paraphrase, concrete application
-decisions, and reported confusion or ambiguity observations, following
-[its run-reuse and neutral-follow-up rules](reader-understanding.md#prepare-independent-observations).
-Use the lower-capability run to test instruction self-sufficiency, not as the
-sole judgment of professional correctness.
-When the task itself exceeds the lower-capability model, a correct explicit stop
-can demonstrate instruction robustness; the capable reviewer must still
-establish procedure correctness and applicable output evidence.
-
-Record every scenario, expected behavior, actual observation, source snapshot,
-model and configuration, inherited environment, action evidence, and conclusion.
-Include reasoning effort when available and the basis for treating each
-lower-capability model as a suitable comparison, and retain all material
-attempts per
-[Agent behavioral evaluation](behavioral-evaluation.md#judge-and-retain-attempts).
-Static checks establish frontmatter, links, formatting, metadata, packaging, and
-route structure only within their actual boundaries. Compare trusted pre-change
-and final bundles so every changed responsibility is intentional and reachable.
+Attribute probe misses cleanly per
+[Attribute findings and repair](reader-understanding.md#attribute-findings-and-repair):
+repair missing premises, ambiguous boundaries, or unclear triggers directly in
+the Skill and re-probe the affected scenario; treat missed secondary links in
+deep multi-hop chains or general reasoning limits on already explicit prose as
+model capability boundaries rather than Skill defects.
 
 ## Prepare pull-request and handoff evidence
 
-For a pull request or handoff that adds a Skill or materially changes one,
-prepare a concise, directly reviewable summary from the complete evidence
-record established above. Retain every applicable part needed to judge whether
-the change is complete:
+When handing off or opening a pull request for a new or substantively revised
+Skill, provide a concise summary covering:
 
-- user work and starting inputs, Skill boundary, domain or task research,
-  existing-Skill comparison, and authoritative guidance and reference placement;
-- the final source snapshot and each material scenario's expected behavior,
-  each executor and configuration that produced an observation, the actual
-  observation, and conclusion across selection, application, reading, output,
-  and reader understanding as applicable; for reader-understanding entries,
-  preserve the
-  [required observations](reader-understanding.md#required-evidence)—actual
-  reader paraphrase, concrete application decisions, and reported confusion or
-  ambiguity tied to the relevant passages—rather than topic-only notes or an
-  aggregate pass summary;
-- the material author, comparison model, lower-capability executor, and capable
-  reviewer model identities, together with exposed provider and
-  capability-relevant configuration such as reasoning effort and inherited
-  context;
-- the task-relevant capability evidence that establishes why the
-  lower-capability executor is materially less capable than the comparison
-  model while retaining the tools, modalities, and context the task requires;
-  and
-- material failed, contaminated, superseded, or incomplete attempts, the
-  executor and configuration associated with each, their dispositions,
-  independent judgments, unresolved evidence, and remaining limitations per
-  [Agent behavioral evaluation](behavioral-evaluation.md#judge-and-retain-attempts).
+- the affected responsibility, boundary change, and static/composed-bundle
+  checks performed; and
+- the probe decision per
+  [Summarize probe decisions](reader-understanding.md#summarize-probe-decisions):
+  either why the change is low risk and skipped probing, or which risky
+  triggers/scenarios were probed, what blind spot or ambiguity surfaced, and
+  what changed in the Skill.
 
-Concision may remove raw transcripts, repeated procedure, and intermediate
-author reasoning. It must not replace required identities, decision bases,
-observations, attempt outcomes, or limits with an aggregate claim that checks
-passed. A linked evidence record may carry supporting detail only when the
-reviewer can access it and the pull request or handoff still identifies the
-applicable final source, models, scenarios, conclusions, and limitations.
-Within that summary, keep each scenario or attempt's executor and
-capability-relevant configuration adjacent to its observation or outcome. A
-separate model roster or machine-only sibling field does not establish that
-association for a pull-request or handoff reader.
-
-Keep review history in the pull request or handoff; keep lasting rules and
-subject understanding in their authoritative Skill, documentation, or reference.
-State why an evidence kind does not apply instead of silently omitting it.
-Missing applicable design or behavioral evidence makes the change incomplete
-even when the prose appears plausible.
+Omit raw transcripts, model capability justifications, reasoning-effort tables,
+and full attempt rosters unless a specific disputed finding requires them. Keep
+review history in the pull request or handoff and durable rules in the Skill.

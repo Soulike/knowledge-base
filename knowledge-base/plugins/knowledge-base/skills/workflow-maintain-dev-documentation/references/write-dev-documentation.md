@@ -95,28 +95,28 @@ known documentation or Skill need or for software-change impact.
    Confirm that every described claim agrees with its authority in meaning and
    scope, every mandatory mechanism has a basis beyond its desired outcome, and
    examples preserve choices the underlying contract permits.
-3. Apply the loaded documentation guidance's
-   [suitability review](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
-   and risk-proportionate reader validation to the complete final content and
-   required routes. When active project policy, an applicable Skill contract,
-   or document risk requires independent or cross-model reader-understanding
-   verification on new or substantively changed content, follow
-   [Verify reader understanding](../../../references/agents/reader-understanding.md)
-   and record its required observations and any remaining limits; do not force
-   cross-model runs for low-risk edits when active project rules do not require
-   them. Record the reader task, relevant locations, and outcome separately
-   from semantic correctness. Return an unsuitable result to
+3. Perform a thorough self-check of the final content and required routes
+   against the loaded documentation principles
+   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result),
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md),
+   and [Agent Skill authoring](../../../references/agents/skill-authoring.md) when
+   a Skill changed). When a change meets the high-risk criteria in
+   [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
+   run a lightweight probe to uncover hidden prerequisites or trigger
+   ambiguities and repair confirmed gaps in the text. Return an unsuitable
+   result to
    [Decide the response and structure](#decide-the-response-and-structure)
-   before claiming delivery complete. Confirm that no unexplained competing copy
-   or authoring-only material remains.
+   before finishing. Confirm that no unexplained competing copy or
+   authoring-only material remains.
 4. Check every changed route from the reader's starting point. Confirm its label
    or condition lets the reader choose the destination before opening it.
    Search for stale terminology, paths, headings, examples, prompts, and
    superseded prose.
-5. Run the project's formatter, link or anchor checks, Skill validation, and
-   other applicable checks. Treat a failed or unavailable required check as an
-   incomplete result.
+5. Run the project's applicable deterministic checks (such as formatter, link
+   or anchor checks, and Skill validation). Treat a failed or unavailable
+   required check as an incomplete result.
 
-Return the final impact and affected-artifact account, suitability review,
-reader-understanding observations when required, reconciled routes, and check
-results to [Report and complete](../SKILL.md#report-and-complete).
+Return the final impact and affected-artifact account, self-check summary, any
+probe findings and repairs, reconciled routes, and check results to
+[Report and complete](../SKILL.md#report-and-complete), leaving any downstream
+review to the active environment's workflow.

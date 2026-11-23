@@ -133,41 +133,25 @@ Markdown parser and assert against the parsed structure. Treat Markdown source
 text only as parser input; do not infer Markdown structure by matching,
 splitting, or replacing raw text.
 
-## Behavioral and documentation change evidence
+## Behavioral and documentation change summary
 
-A pull request or handoff that adds or substantively revises maintained
-Knowledge, Workflow Skills, Handbook Skills, Skill references, or maintained
-Agent instructions or prompts must include a concise, directly reviewable
-evidence summary in the pull-request description (or in the handoff when
-authoring stops before a pull request exists). Ordinary engineering code,
-tooling, or CI implementation pull requests are excluded from this
-behavioral-prose evidence requirement.
+A pull request (or handoff when authoring stops before a pull request exists)
+that adds or substantively revises maintained Knowledge, Workflow Skills,
+Handbook Skills, Skill references, or maintained Agent instructions or prompts
+should include a concise summary covering:
 
-Assemble the unmodified observations produced by the applicable authorities
-without collapsing them into topic-only notes or aggregate pass claims:
+- affected responsibilities and what changed (including plugin version bumps when
+  applicable);
+- deterministic checks run (`pnpm check`, plugin version checks, etc.); and
+- probe decision per
+  [Verify reader understanding](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#summarize-probe-decisions):
+  either why the change is low risk and skipped probing, or which risky
+  boundary or scenario was probed, what surfaced, and what changed in the text.
 
-- **Skills:** include the evidence required by
-  [Prepare pull-request and handoff evidence](knowledge-base/plugins/knowledge-base/references/agents/skill-authoring.md#prepare-pull-request-and-handoff-evidence)
-  and, for Knowledge-plugin Workflow and Handbook Skills,
-  [Prove Handbook and Workflow behavior](.agents/skills/maintain-knowledge-base/references/maintain-skill.md#prove-handbook-and-workflow-behavior).
-- **Reader understanding:** for Knowledge-plugin Knowledge, Skills, and Skill
-  references requiring cross-model verification, preserve the
-  [required reader-understanding evidence](knowledge-base/plugins/knowledge-base/references/agents/reader-understanding.md#required-evidence).
-- **Other maintained instructions and prompts:** for semantic or structural
-  changes, include affected responsibilities, final-content suitability and
-  independent review conclusions, and remaining limitations.
-
-Top-level repository maintenance
-([maintain-knowledge-base](.agents/skills/maintain-knowledge-base/SKILL.md))
-assembles these unmodified observations into the pull-request description so a
-reviewer can evaluate responsibility boundaries, reader comprehension, and
-observed behavior independently. Concision may remove raw transcripts and
-repeated procedure, but not required identities, configuration, comparison
-basis, observations, attempt outcomes, or limitations. Keep lasting rules and
-subject understanding in their authoritative Knowledge, Skill, or reference
-rather than adding a document that records design history. A purely mechanical
-edit may use reduced evidence only when its summary confirms that meaning,
-structure, and required reader actions are unchanged.
+Keep lasting rules in their authoritative Knowledge, Skill, or reference rather
+than adding design-history files. Raw transcripts, model capability essays,
+reasoning-effort tables, and failed-attempt rosters are not required in pull
+requests.
 
 ## Plugin compatibility
 

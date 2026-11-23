@@ -72,27 +72,22 @@ investigation, or present unverified findings as completed repairs.
 For authorized delivery or revision, stop or leave completion blocked if any
 required project decision remains unresolved, an essential factual or
 instructional claim lacks an authoritative basis (do not invent meaning to
-make a document appear complete), a final-content suitability defect remains
-unresolved, or any required check or review fails or is unavailable.
+make a document appear complete), a self-checked suitability defect remains
+unresolved, or any required project check fails or is unavailable.
 
 Report:
 
 - every change, information need, or agreed finding's disposition and the
   complete affected-artifact account;
 - the updates, resulting structure, and reconciled routes delivered (or
-  evidence-backed no-change conclusions);
-- the final-content suitability conclusion with the examined reader tasks and
-  relevant final locations, separately from semantic correctness, cross-model
-  reader-understanding observations (when required), and project-check results;
-  and
-- every check and review performed and any remaining limitation.
+  evidence-backed no-change conclusions); and
+- the self-check result against the loaded documentation principles, any
+  warranted probe findings and repairs, project checks run, and any remaining
+  limitation.
 
-Finish authorized delivery or revision only when every scoped disposition and
-affected artifact is reconciled, the final content presents one coherent
-current account with justified reader obligations and synchronization
-promises, described claims agree with their authorities, the final-content
-suitability review establishes a usable organization for the reader tasks,
-every required route preserves reader access, the required independent
-original-to-final comparison (for substantive audit revisions) and required
-cross-model reader-understanding verification succeed, and every required
-project check passes.
+Finish authorized delivery or revision once every scoped disposition and
+affected artifact is reconciled, the author self-check confirms a clear current
+account with justified obligations, supported claims, usable organization, and
+reconciled routes, any warranted risk-based probes are resolved, and applicable
+project checks pass; leave any downstream review or merge steps to the active
+environment's own workflow.

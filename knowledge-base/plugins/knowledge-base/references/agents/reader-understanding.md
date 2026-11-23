@@ -2,126 +2,96 @@
 
 ## Scope
 
-Use this procedure to verify reader understanding for new or substantively
-changed maintained documentation, Skills, and supporting references when a
-consuming workflow, project policy, or risk assessment calls for independent or
-cross-model reader validation. Purely mechanical edits require only confirmation
-that meaning, structure, and required reader actions are unchanged.
-Assessment-only work retains the consuming workflow's read-only boundary; this
-verification procedure does not by itself authorize edits.
+Use this reference as the shared risk-based standard for deciding when
+maintained documentation, Skills, or supporting references need a weak-model
+or blind reader probe to expose author blind spots—implicit prerequisites,
+silent reasoning jumps, ambiguous boundaries, or confusing selection
+triggers—and how to run and interpret that probe.
+
+Low-risk edits need no probe. Probes test whether the text supplies enough
+context for an unfamiliar or weaker reader; they do not turn every edit into an
+end-to-end compliance exam or demand that weaker models overcome genuine
+capability limits on already explicit instructions.
 
 ## When to update
 
-Update this reference when verification outcomes reveal missing prerequisites,
-model-comparison rules, observation requirements, or resolution steps for
-testing whether intended readers can understand and apply maintained content.
+Update this reference when authoring or review experience shows that a probe
+trigger criterion, lightweight probe format, or blind-spot attribution rule
+needs adjustment.
 
-## Prepare independent observations
+## Assess probe risk
 
-1. **State the reader task and foundation.** Identify the reader's recurring
-   task and necessary subject foundation, covering humans who know the stated
-   prerequisites without authoring history and Agents with different
-   background knowledge and comprehension abilities. Identify the final
-   artifacts and permitted reading routes; keep authoring history out of the
-   prerequisites.
-2. **Select the comparison and reader models.** Identify the comparison model
-   for the evaluated task: when one or more models materially authored the
-   behavior or explanation, use the most capable of them for that task; for
-   human-only authorship, use the most capable supported model available to the
-   authoring environment. Record the comparison model, the basis for selecting
-   it, and exposed capability-relevant configuration such as reasoning effort.
-   Run cross-model reader verification with a different supported model that is
-   materially less capable for the task while retaining the tools, modalities,
-   and context the task requires. Justify that baseline from task-relevant
-   capability evidence rather than model name or price; a lower reasoning
-   setting on the same model is insufficient. Unavailable required cross-model
-   evidence leaves cross-model verification incomplete.
-3. **Reuse capable review and sufficient runs.** Reuse an independent capable
-   reviewer (such as a consuming workflow's suitability and semantic reviewer)
-   for the capable explanation examination below when it can perform it. A
-   lower-capability behavioral run on the same final content may also supply
-   reader-understanding evidence when it contains every observation required
-   below (a passing final answer alone does not prove understanding); obtain
-   missing observations through a neutral follow-up after the task observation,
-   without supplying author conclusions or expected answers, rather than
-   repeating an otherwise sufficient run.
+Both authors and reviewers apply the same standard to decide whether a probe is
+warranted:
 
-## Examine the explanation
+- **Blind selection or routing probe:** Warranted when adding a Skill, or
+  substantively changing a Skill `description` or internal conditional routing
+  rule where overlap, false positives, or missed triggers among real candidates
+  are plausible.
+- **Weak-model reading probe (maintained documentation and non-trigger
+  references):** Warranted when adding or substantively revising maintained
+  documentation or supporting references that introduce or reshape abstract
+  distinctions, easily confused boundaries, dense causal reasoning, or implicit
+  domain prerequisites where a strong author may silently bridge unstated
+  steps.
+- **Weak-model behavior probe (Skills):** Warranted when adding or substantively
+  revising Workflow or guidance Skills with complex procedures, non-obvious
+  preconditions, multi-state stopping or recovery paths, or subtle branching
+  rules where weaker readers tend to skip checks or guess missing preconditions.
+- **Low risk (skip probing by default):** Mechanical or editorial cleanups,
+  link or route repairs, version or metadata updates, pure deletions or
+  simplifications that introduce no new concepts or boundaries, direct factual
+  or API updates, and self-contained rules whose conditions, actions, and
+  exceptions are already explicit.
 
-4. **Examine prerequisites, abstractions, and reasoning.** Have the capable
-   reviewer actively look for hidden prerequisites, unexplained abstractions,
-   and omitted reasoning. Trace who acts, what they act on, why the action
-   follows, and what decision or result it supports. Check whether terms are
-   explained before use, related or recurring terms are introduced early
-   enough, and definitions avoid relying on other unexplained abstractions.
-5. **Check examples from starting knowledge.** Verify that examples supply the
-   situational context and unfamiliar domain terms needed to understand each
-   choice or result, resolve plausible ambiguity, and preserve intended
-   meaning when clearer wording or organization is proposed.
-6. **Observe a fresh lower-capability reader.** Using the fresh-context
-   isolation, inherited-boundary recording, evaluator-only withholding,
-   canonical executor instructions guard, and application dispatch mechanics in
-   [Agent behavioral evaluation](behavioral-evaluation.md), give the materially
-   less capable reader model the active instructions, reader task, final
-   artifacts (with exact source snapshot identity), and permitted reading
-   routes without author conclusions, review findings, or expected answers.
-   Require the reader to provide all three observations:
-   - **Paraphrase:** explain the central rules and their reasoning in its own
-     words;
-   - **Application:** apply the content to a realistic situation requiring a
-     consequential distinction, stating concrete application decisions; and
-   - **Confusion report:** identify unclear terms, missing premises, ambiguity,
-     uncertainty, or guessed meaning.
-     A statement or claim that the document is understandable is insufficient
-     evidence.
-7. **Record and compare observations.** Record the actual reader paraphrase,
-   concrete application decisions, and reported confusion or ambiguity tied to
-   the passages they concern. Compare them with the artifact's intended meaning
-   and task requirements. Keep reader understanding, semantic correctness, and
-   overall suitability as distinct conclusions. Agent observations provide
-   evidence about these tasks, not proof that all human readers will succeed.
+## Run lightweight probes
 
-## Resolve and repeat
+Follow [Agent behavioral evaluation](behavioral-evaluation.md) to run each
+probe in a fresh context without leaking expected answers, target names (for
+selection), or author conclusions.
 
-8. **Investigate before attributing cause.** Investigate incorrect, incomplete,
-   or hesitant responses before assigning cause. Locate the relevant passage
-   and assess whether it supplies the necessary premises to a reader with the
-   stated foundation, verifying that assumed prerequisites follow from the
-   reader's task. Use targeted, neutral follow-up prompts or another
-   independent observation when one failure cannot distinguish a document gap
-   from task demands beyond the reader model's capabilities.
-9. **Repair authoritative reader-facing content.** Write confirmed document
-   gaps into the authoritative reader-facing content within the authorized
-   scope by adding prerequisites, causal explanations, definitions, or
-   contextual examples, or by reorganizing scattered conditions. An explanation
-   supplied only in a review reply or work note does not repair the document
-   for later readers. Report out-of-scope repairs as a limitation without
-   silently expanding scope or claiming the issue resolved.
-10. **Repeat affected checks and retain attempts.** After repairs, repeat
-    affected observations against the revised artifacts in a fresh context
-    without earlier answers or corrective coaching, retaining all attempts per
-    [Agent behavioral evaluation](behavioral-evaluation.md). Finish cross-model
-    verification only when required cross-model evidence exists and confirmed
-    document gaps are resolved; report unresolved material uncertainty or
-    missing cross-model evidence as incomplete. Retain legitimate explicit
-    capability and stopping paths as robustness observations; those stops do not
-    substitute for missing paraphrase, application, or confusion observations.
+- **Selection or routing probe:** Apply
+  [Check selection from requests](selection-triggers.md#check-selection-from-requests)
+  using real candidate metadata or current body conditions in a fresh context.
+- **Maintained documentation or reference reading probe (single-turn
+  preferred):** Give a fresh, materially weaker model (such as a fast or
+  lightweight tier model available in the environment that still supports any
+  needed tools, rather than merely rewording with the authoring model) the
+  complete target document and ask it to:
+  1. paraphrase the core rules, applicability boundaries, and prerequisites in
+     its own words (catches silent misinterpretation when a model feels
+     confident yet misreads the boundary); and
+  2. report any unexplained terms, causal jumps, missing prerequisites, or
+     exceptions it had to guess.
+     Include 1–2 brief, realistic boundary cases only when the edit specifically
+     distinguishes two easily confused cases and paraphrase alone may not show
+     whether that distinction landed. Do not force open-ended engineering tasks on
+     documentation reading probes.
+- **Skill behavior probe:** Run a targeted risky scenario (or blind selection
+  plus targeted execution) in a fresh context with a materially weaker model,
+  and ask what felt ambiguous, unstated, or inferred.
 
-## Required evidence
+## Attribute findings and repair
 
-Record and preserve the complete observation set in the handoff or pull-request
-evidence without collapsing it into topic-only notes or aggregate pass claims:
+Inspect any probe confusion, misstated boundary, or skipped step against the
+authoritative text before deciding how to act:
 
-- the reader task, stated prerequisites, permitted reading routes, and final
-  source snapshot;
-- the comparison model and lower-capability reader model identities, exposed
-  provider and capability-relevant configuration (such as reasoning effort),
-  inherited context limits, and task-relevant capability-comparison basis;
-- the actual reader paraphrase, concrete application decisions, and reported
-  confusion or ambiguity observations tied to the relevant passages, with the
-  producing executor identity and configuration adjacent to each observation;
-- the capable explanation-review findings and distinct understanding,
-  suitability, and semantic correctness conclusions; and
-- all material failed, contaminated, superseded, or incomplete attempts with
-  their adjacent executor identities, configurations, dispositions, and
-  remaining limitations.
+- **Document blind spot (repair the text):** When the probe fails or guesses
+  because the document omitted a prerequisite, compressed a causal step, left a
+  term undefined, or left a trigger or boundary ambiguous, write the missing
+  premise or distinction directly into the authoritative document and re-probe
+  the affected passage or scenario in a fresh context.
+- **Model capability boundary (stop):** When inspection confirms that the
+  needed prerequisite, distinction, or instruction is already explicitly and
+  unambiguously stated in the document, treat a weaker model's missed
+  secondary link in a deep multi-hop chain or general reasoning failure as a
+  model capability limit rather than a documentation defect.
+
+## Summarize probe decisions
+
+In the pull request or work summary, state concisely either why the change was
+low risk and needed no probe, or which high-risk boundary or scenario was
+probed, what blind spot or trigger ambiguity surfaced (if any), and what
+changed in the document. Omit raw transcripts, model capability essays,
+reasoning-effort tables, and failed-attempt rosters unless specifically needed
+to examine a disputed finding.

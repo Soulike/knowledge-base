@@ -57,9 +57,11 @@ description: Use when deciding whether automated tests are owed, writing new tes
      changes, or intermittent outcomes can affect the result.
    - Read
      [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
-     when the design makes a material runtime, environment, fixture, or resource
-     tradeoff, or when runtime or resource cost is claimed, measured, or
-     changed.
+     when runtime or resource cost is explicitly claimed, measured, analyzed, or
+     changed, or when choosing between competing test designs specifically over
+     a runtime or resource cost tradeoff. The existence of tests, adding normal
+     coverage, or choosing ordinary fixtures or owning seams alone does not match
+     this route.
    - Read
      [Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
      when the target behavior or reviewed tests render or drive a web user

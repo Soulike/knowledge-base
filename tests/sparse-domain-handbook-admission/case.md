@@ -28,8 +28,9 @@ wording, and package phrasing for the accepted sparse entrypoint.
 Suppose the installed Handbook catalog currently includes
 `handbook-javascript-typescript` (covering JavaScript/TypeScript language
 coding principles, module organization, Promise coordination, date/time, and
-TS/ESLint checks), `handbook-software-engineering`, `handbook-product-experience`,
-and `handbook-automated-testing`, and contains **no** React Handbook yet.
+TS/ESLint checks), `handbook-software-engineering`, and
+`handbook-product-experience`, and contains **no** React or frontend Handbook
+yet.
 
 A contributor proposes adding **one** new React Knowledge document covering how
 to isolate non-reactive callbacks from React `useEffect` dependencies across
@@ -54,8 +55,8 @@ their required normative routes (including
 and
 [Selection-trigger reference](../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md)),
 plus the description and package summary of `handbook-javascript-typescript`,
-`handbook-software-engineering`, `handbook-product-experience`, and
-`handbook-automated-testing` from the pre-React baseline stated in the task.
+`handbook-software-engineering`, and `handbook-product-experience` from the
+pre-React baseline stated in the task.
 
 Keep the assessment grounded strictly in the covered authoring guidance and the
 hypothetical pre-React baseline: do not inspect any React Knowledge or

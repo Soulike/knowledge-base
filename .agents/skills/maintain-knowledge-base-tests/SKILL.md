@@ -19,13 +19,13 @@ implementation tests use the repository's applicable testing workflows.
    to the content it tests. Content classification and placement use
    [maintain-knowledge-base](../maintain-knowledge-base/SKILL.md).
 2. Identify the content, live behavior, requested operation, and available
-   evidence. For selecting new protection, read and follow
-   [workflow-write-effective-tests](../../../knowledge-base/plugins/knowledge-base/skills/workflow-write-effective-tests/SKILL.md).
-   For review of proposed or existing cases, coverage, execution, failures,
-   cost, or retirement, read and follow
-   [workflow-review-and-improve-tests](../../../knowledge-base/plugins/knowledge-base/skills/workflow-review-and-improve-tests/SKILL.md).
-   Apply their selected Knowledge and dispositions to Agent behavior as to
-   other tested behavior; these cases have no separate test-quality standard.
+   evidence, then read and follow
+   [workflow-manage-automated-tests](../../../knowledge-base/plugins/knowledge-base/skills/workflow-manage-automated-tests/SKILL.md)
+   (using its new-coverage path when selecting new protection, and its
+   test-review path when reviewing proposed or existing cases, coverage,
+   execution, failures, cost, or retirement). Apply its selected Knowledge and
+   dispositions to Agent behavior as to other tested behavior; these cases have
+   no separate test-quality standard.
 3. Read the shared
    [case format and placement rules](../../references/agent-regression-tests.md#case-assets)
    and [discovery rules](../../references/agent-regression-tests.md#discover-and-select).
@@ -76,8 +76,8 @@ implementation tests use the repository's applicable testing workflows.
    gate. If the triggering operation is unknown, report that missing premise
    and make the review conditional rather than assuming it is required.
 2. When required, include case value and organization explicitly in the
-   [test-review workflow](../../../knowledge-base/plugins/knowledge-base/skills/workflow-review-and-improve-tests/SKILL.md)'s
-   scope. Use its selected Knowledge to assess the affected case group,
+   [automated-testing management workflow](../../../knowledge-base/plugins/knowledge-base/skills/workflow-manage-automated-tests/SKILL.md)'s
+   test-review scope. Use its selected Knowledge to assess the affected case group,
    overlapping protection, and fixtures or test-only support. Record
    evidence-backed dispositions and limit the assessment to affected
    responsibilities and related protection.

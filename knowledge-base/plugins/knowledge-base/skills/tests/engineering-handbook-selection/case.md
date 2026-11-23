@@ -13,14 +13,14 @@
 - [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
 - [Automation Handbook](../../handbook-automation/SKILL.md)
 - [GitHub Actions Handbook](../../handbook-github-actions/SKILL.md)
-- [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
+- [Automated-testing management Workflow](../../workflow-manage-automated-tests/SKILL.md)
 
 ## Protected behavior
 
 The software-engineering, JavaScript/TypeScript, filesystem, and
 development-tooling Handbooks form the four-engineering-Handbook group (with
-test-writing requests routing to `workflow-write-effective-tests`). They must
-be discoverable from the user's work or current material without naming
+automated-testing requests routing to `workflow-manage-automated-tests`). They
+must be discoverable from the user's work or current material without naming
 internal Knowledge. Their descriptions must support broad, direct,
 focused-learning, overlap, and nearby negative requests while tolerating
 wording changes and legitimate selection of unrelated Workflow Skills.
@@ -63,7 +63,7 @@ client loaded the chosen bodies.
 - R1 (critical): request 1 selects `handbook-software-engineering` and excludes
   the other three engineering Handbooks because the request does not yet
   establish a language, filesystem, or development-tooling task.
-- R2 (critical): request 2 selects `workflow-write-effective-tests` and
+- R2 (critical): request 2 selects `workflow-manage-automated-tests` and
   excludes `handbook-javascript-typescript`, `handbook-filesystems`, and
   `handbook-development-tooling`; selection of `handbook-software-engineering`
   for the test code is allowed.
@@ -90,8 +90,8 @@ client loaded the chosen bodies.
   allowed.
 - R10 (critical): requests 12 and 13 select
   `handbook-software-engineering`. Request 13 also selects
-  `workflow-write-effective-tests`; testing workflow guidance does not replace
-  the software authorization route.
+  `workflow-manage-automated-tests`; testing workflow guidance does not
+  replace the software authorization route.
 - R11 (critical): request 15 independently selects both `handbook-automation`
   and `handbook-github-actions`; neither the general automation scene nor the
   platform scene replaces the other.

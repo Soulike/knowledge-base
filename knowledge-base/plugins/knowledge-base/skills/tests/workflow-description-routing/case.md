@@ -15,15 +15,14 @@
 - [Web usability probe Workflow](../../workflow-probe-web-usability-with-agents/SKILL.md)
 - [npm security remediation Workflow](../../workflow-remediate-npm-security/SKILL.md)
 - [Local proxy retry Workflow](../../workflow-retry-via-local-proxy/SKILL.md)
-- [Test review Workflow](../../workflow-review-and-improve-tests/SKILL.md)
 - [Security review Workflow](../../workflow-review-security/SKILL.md)
 - [Pull-request watch Workflow](../../workflow-watch-pull-request/SKILL.md)
 - [Documentation writing Workflow](../../workflow-write-dev-documentation/SKILL.md)
-- [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
+- [Automated-testing management Workflow](../../workflow-manage-automated-tests/SKILL.md)
 
 ## Protected behavior
 
-The 13 base `knowledge-base` execution Workflows must remain discoverable from
+The 12 base `knowledge-base` execution Workflows must remain discoverable from
 their complete user tasks after their names and descriptions are shortened.
 Protect broad and direct requests, adjacent exclusions, recovery-only routes,
 and task-stage distinctions while allowing unrelated Handbooks or Workflows to
@@ -96,7 +95,7 @@ candidate bodies or perform the substantive tasks.
 ## Starting state
 
 Build the target-model candidate set from the installed `knowledge-base` base
-plugin Skill entrypoints (including all 13 base Workflows listed in `Covered
+plugin Skill entrypoints (including all 12 base Workflows listed in `Covered
 objects` alongside the base Handbooks; other installed plugins may also be
 present in the session environment when active). Supply all requests and
 candidate names and descriptions without opening candidate bodies. A request
@@ -133,10 +132,8 @@ request must not teach later requests the expected route.
   in request 22.
 - R8 (critical): select `workflow-retry-via-local-proxy` for requests 14 and 16
   and exclude it for the reachable HTTP 403 Git-clone failure in request 15.
-- R9 (critical): select `workflow-write-effective-tests` for request 17 and
-  exclude the existing-test review Workflow there; select
-  `workflow-review-and-improve-tests` for requests 18 and 27. Exclude both for
-  routine unchanged test execution in request 19.
+- R9 (critical): select `workflow-manage-automated-tests` for requests 17, 18,
+  and 27. Exclude it for routine unchanged test execution in request 19.
 - R10 (critical): select `workflow-design-operation-failure-recovery` for
   request 23 even though it describes only success, and exclude it for the
   consumer-invisible internal helper in request 24.
@@ -156,8 +153,9 @@ request with the trusted pre-rename descriptions from integration commits
 `e008e1a` and `d60172e` and with the final candidate metadata.
 
 A controlled faulty observation that swaps either adjacent documentation,
-testing, pull-request, or security route; applies the web probe to a static
-design; or retries a Git-clone 403 must fail the corresponding criterion.
+pull-request, or security route; selects the testing workflow for routine
+unchanged test execution; applies the web probe to a static design; or retries
+a Git-clone 403 must fail the corresponding criterion.
 
 ## Source
 
@@ -169,7 +167,7 @@ baseline for the first twelve base Workflows; integration commit `d60172e` is
 the trusted baseline for the remaining two base Workflows added here. Per #303
 and #308, Codex-specific and generative-media Workflows were split into their
 own selection cases (`codex-workflow-description-routing` and
-`generative-media-workflow-negative-boundaries`) so this case protects only the 13 base `knowledge-base` Workflows. Request 26
+`generative-media-workflow-negative-boundaries`) so this case protects only the 12 base `knowledge-base` Workflows. Request 26
 reconstructs an observed failure in which a GitHub information client was
 implemented with custom HTTP requests without first evaluating an established
 SDK or library. Request 27 reconstructs an observed failure during pull request

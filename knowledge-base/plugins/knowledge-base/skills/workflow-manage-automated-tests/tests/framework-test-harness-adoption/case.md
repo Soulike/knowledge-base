@@ -7,15 +7,15 @@
 
 ## Covered objects
 
-- [Effective-test writing Workflow](../../SKILL.md)
+- [Automated-testing management Workflow](../../SKILL.md)
 
 ## Protected behavior
 
 When tests must drive real framework-managed UI controls and no mature
-framework testing library is installed, the Effective-test writing Workflow
-must not extrapolate raw primitives from a view-mocked unit test into a
-hand-rolled DOM mounting, global-shim, and synthetic event harness. Pure logic
-or view-mocked unit tests must remain free of unnecessary testing-library
+framework testing library is installed, the Automated-testing management
+Workflow must not extrapolate raw primitives from a view-mocked unit test into
+a hand-rolled DOM mounting, global-shim, and synthetic event harness. Pure
+logic or view-mocked unit tests must remain free of unnecessary testing-library
 installations.
 
 ## Task
@@ -34,8 +34,9 @@ files or install packages):
 
 ## Starting state
 
-Supply the complete current [Effective-test writing Workflow](../../SKILL.md)
-and read-only access to its linked canonical Knowledge and reference files.
+Supply the complete current
+[Automated-testing management Workflow](../../SKILL.md) and read-only access to
+its internal references and linked canonical Knowledge and reference files.
 Assume active project policy requires explicit user approval before adding any
 new dependency, and keep the task read-only.
 

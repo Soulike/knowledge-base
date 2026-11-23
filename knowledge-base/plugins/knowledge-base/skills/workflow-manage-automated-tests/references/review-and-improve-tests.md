@@ -1,75 +1,20 @@
----
-name: workflow-review-and-improve-tests
-description: Use whenever existing automated tests or their execution are reviewed or changed.
----
-
 # Review and improve tests
+
+Use this procedure when [Route by task intent](../SKILL.md#route-by-task-intent)
+selects review, diagnosis, updating, repair, consolidation, or retirement of
+existing or proposed tests, suites, harnesses, runners, or test execution.
+Complete
+[Establish authority, scope, and reading](../SKILL.md#establish-authority-scope-and-reading)
+first so authority rules, scope, evidence mode, and all Knowledge and shared
+references needed by the identified concerns are loaded.
 
 Evaluate and complete every in-scope item independently. A file, suite, or
 change may contain tests with different concerns and dispositions.
 
 Before changing an existing test or its execution, establish the live contract
-it should protect and assign its disposition through this workflow. A requested
+it should protect and assign its disposition through this procedure. A requested
 edit or failing expectation does not establish that the test should be retained
 and rewritten.
-
-## Establish the review subject
-
-1. For current-state diagnosis or improvement, discover and follow instructions,
-   Skills, requirements, and project-specific information from the active
-   working directory when they conflict with this plugin's packaged Knowledge
-   or workflow guidance. For a fixed-point change review, use the rules at the
-   selected comparison base and treat proposed rules as review evidence rather
-   than authority that can redefine their own review.
-2. Define the requested test, file, component, suite, change, harness, runner, or
-   symptom boundary. Discover the production contracts, tests, static gates,
-   project-declared commands, runner configuration, and supplied execution
-   evidence within that scope without silently expanding it.
-3. Choose the evidence mode. Reproduce current behavior when execution is
-   permitted and practical. For fixed-point review, inspect immutable source,
-   diffs, and exact-revision logs without modifying the active working tree to
-   manufacture evidence. State what was directly observed, reproduced, or not
-   established.
-4. Resolve paths relative to this `SKILL.md` and load only the Knowledge needed
-   by the identified concerns:
-   - Read
-     [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
-     when judging coverage, assertions, ownership, doubles, or test value, and
-     before retaining, strengthening, replacing, consolidating, or deleting a
-     reported failing or intermittent test.
-   - Read
-     [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
-     when a test is offered as evidence that production should own a behavior,
-     when the available contract does not establish that behavior's
-     reachability or owning module, when current producer or consumer conventions
-     appear to exclude values representable by a reusable module's call signature
-     or data shape, or when test structure suggests mixed module responsibilities
-     or a missing seam; also read it when reassessing retained code and test
-     support as a migration obligation changes or ends.
-   - Read
-     [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
-     for collection, selection, skips, fixtures, ambient state, cleanup, time,
-     ordering, retries, concurrency, platforms, external processes, timeouts,
-     runner changes, or intermittent outcomes.
-   - Read
-     [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
-     when runtime or resource cost is claimed or changed.
-   - Read
-     [Testing web user interfaces through accessible semantics](../../knowledge/software-testing/accessible-web-ui-testing.md)
-     when reviewing or diagnosing automated component or browser tests for a
-     web user interface.
-5. When the review includes tests or support affected by a changed migration
-   obligation, or forms part of a final migration assessment, read and apply
-   [Migration retirement assessment](../../references/software-design/migration-retirement-assessment.md).
-   Carry its dispositions into the review and apply its verification and
-   completion gate before reporting the result.
-6. Read
-   [Security boundaries and trust transitions](../../references/security/security-boundaries.md)
-   when a test harness creates, stores, or transports credentials or
-   authenticates local peers.
-
-Finish this step when every scoped item, claimed behavior, observed symptom, and
-available evidence path is identified.
 
 ## Evaluate protection and classify the problem
 
@@ -79,16 +24,16 @@ available evidence path is identified.
    and passing history as evidence rather than accepting them as justification.
    Identify its realistic fault, relevant permitted changes, independent oracle,
    observable failure, and competing test or static evidence. Apply
-   [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md)
-   to representation and cross-artifact assertions before
-   deciding their value. Record tests with no established behavior and behaviors
-   with no identified protection instead of dropping either from the review. For
-   a reusable module, compare its established interface contract with protection
-   supplied through current consumers. Distinguish values excluded before the
-   operation by an enforced boundary, invalid values representable by its call
-   signature or data shape that a real supported path can deliver when the module
-   owns validation, and valid values unused by current consumers. Do not treat
-   one caller's convention as an enforced module boundary.
+   [Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
+   to representation and cross-artifact assertions before deciding their value.
+   Record tests with no established behavior and behaviors with no identified
+   protection instead of dropping either from the review. For a reusable
+   module, compare its established interface contract with protection supplied
+   through current consumers. Distinguish values excluded before the operation
+   by an enforced boundary, invalid values representable by its call signature
+   or data shape that a real supported path can deliver when the module owns
+   validation, and valid values unused by current consumers. Do not treat one
+   caller's convention as an enforced module boundary.
 2. For behavior that is stateful or spans an integration boundary, identify the
    independently mutable boundaries represented or omitted by the fixture.
    Check whether assumed consistency, retained derived state, or an unexamined
@@ -99,9 +44,13 @@ available evidence path is identified.
    distinct live fault. Require the smallest bounded deterministic fixture and a
    contract-level invariant or independent oracle. Do not infer a stress-test
    obligation from collection input alone, and apply
-   [Test execution cost](../../knowledge/software-testing/test-execution-cost.md)
+   [Test execution cost](../../../knowledge/software-testing/test-execution-cost.md)
    to runtime or resource claims.
-4. Classify every item by the concerns that actually apply:
+4. When the review includes tests or support affected by a changed migration
+   obligation, or forms part of a final migration assessment, apply
+   [Migration retirement assessment](../../../references/software-design/migration-retirement-assessment.md)
+   and carry its artifact dispositions and completion gate through the review.
+5. Classify every item by the concerns that actually apply:
 
    | Concern                 | Evidence required                                                                                                 |
    | ----------------------- | ----------------------------------------------------------------------------------------------------------------- |
@@ -111,11 +60,11 @@ available evidence path is identified.
    | Collection or selection | Expected and actual identities plus honest run, fail, and legitimate-skip paths                                   |
    | Execution cost          | Comparable baseline and candidate using the same cost basis                                                       |
 
-5. Assign each test or behavior a supported disposition: keep, strengthen,
+6. Assign each test or behavior a supported disposition: keep, strengthen,
    replace, consolidate, delete, add coverage, no test owed, or unresolved.
    Do not infer protection from test count or line coverage, and do not assume a
    failing or flaky test is defective merely because its outcome is disruptive.
-6. Record production seams or module responsibilities that prevent direct,
+7. Record production seams or module responsibilities that prevent direct,
    effective testing as design findings rather than hiding them behind more
    mocks or broader fixtures.
 
@@ -155,6 +104,8 @@ Handle every item according to its own evidence and disposition:
 - Preserve a production defect exposed by a correct test as product evidence;
   repair production rather than weakening the test.
 - Strengthen or replace an ineffective test at the seam that owns the behavior.
+- For an **add coverage** disposition on uncovered live behavior, apply
+  [Write effective tests](write-effective-tests.md).
 - Consolidate or delete only when retained evidence catches the same realistic
   fault or no live contract remains.
 - Repair a retained unreliable or brittle test at the diagnosed owner: test,
@@ -163,7 +114,7 @@ Handle every item according to its own evidence and disposition:
   hand-rolled mounting, interaction simulation, global shims, or cleanup
   harnesses and the project lacks a mature framework testing library, evaluate
   adopting an established testing library under
-  [Dependency and supply-chain security](../../references/security/dependency-supply-chain-security.md)
+  [Dependency and supply-chain security](../../../references/security/dependency-supply-chain-security.md)
   and the active project's dependency and approval policy, then stop and request
   user approval rather than patching custom harness plumbing; do not require
   that library for pure logic or intentionally view-mocked unit tests. Preserve
@@ -182,11 +133,13 @@ change, and validation still required without editing.
 
 1. Confirm affected tests are collected through the relevant project-declared
    entrypoints.
-2. Apply Test effectiveness to every final protection claim. A retained,
-   strengthened, or replacement test must catch its named fault and tolerate
-   relevant permitted changes. A consolidation or deletion must leave equivalent
-   protection or establish that no test is owed. Preserve unresolved protection
-   when its requirement remains uncertain.
+2. Apply
+   [Test effectiveness](../../../knowledge/software-testing/test-effectiveness.md)
+   to every final protection claim. A retained, strengthened, or replacement
+   test must catch its named fault and tolerate relevant permitted changes. A
+   consolidation or deletion must leave equivalent protection or establish that
+   no test is owed. Preserve unresolved protection when its requirement remains
+   uncertain.
 3. For a reliability repair, compare relevant pre- and post-change executions
    under the bounded protocol. Exercise owned cleanup on success and failure and
    state when a pre-change sample could not be obtained. Report the result as
@@ -204,6 +157,7 @@ change, and validation still required without editing.
 Finish only when every item's own disposition is completed or explicitly
 blocked, unauthorized, review-only, or inconclusive; completion of one branch
 does not satisfy another. Report each disposition, diagnosed owner, performed
-and skipped checks, and remaining evidence gaps. When the migration assessment
-was selected, include its artifact dispositions and completion status within
-the accepted task boundary.
+and skipped checks, and remaining evidence gaps. When
+[Migration retirement assessment](../../../references/software-design/migration-retirement-assessment.md)
+was selected, include its artifact dispositions and completion status within the
+accepted task boundary.

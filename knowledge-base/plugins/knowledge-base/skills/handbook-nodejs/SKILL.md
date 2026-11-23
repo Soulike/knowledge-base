@@ -55,3 +55,13 @@ in full. General filesystem and pathname-identity semantics live in their own
 domain rather than in this Handbook, so evaluate general filesystem guidance
 separately when filesystem work is present without treating this Handbook as a
 substitute for it.
+
+### Node.js `file:` URLs and filesystem paths
+
+When Node.js code converts between `file:` URLs and operating-system
+filesystem paths, passes `file:` URLs to filesystem, module, or child-process
+interfaces, or resolves a filesystem or module location from `import.meta.url`,
+or when directly learning or explaining those Node.js conversions and
+primitives, read
+[Node.js file URLs and filesystem paths](../../knowledge/nodejs/file-urls-and-filesystem-paths.md)
+in full.

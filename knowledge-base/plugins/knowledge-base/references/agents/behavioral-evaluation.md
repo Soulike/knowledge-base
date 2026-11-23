@@ -73,7 +73,7 @@ candidate bodies or perform the task yet. Return your chosen identifiers and
 reasons tied to the request, plus any ambiguity.
 ```
 
-**Single-turn reading probe** (Knowledge or Skill reference):
+**Single-turn reading probe** (maintained documentation or Skill reference):
 
 ```text
 <Insert the guard here.>

@@ -2,11 +2,11 @@
 
 ## Scope
 
-Use this reference as the shared risk-based standard for deciding when a
-maintained Knowledge document, Skill, or supporting reference needs a
-weak-model or blind reader probe to expose author blind spots—implicit
-prerequisites, silent reasoning jumps, ambiguous boundaries, or confusing
-selection triggers—and how to run and interpret that probe.
+Use this reference as the shared risk-based standard for deciding when
+maintained documentation, Skills, or supporting references need a weak-model
+or blind reader probe to expose author blind spots—implicit prerequisites,
+silent reasoning jumps, ambiguous boundaries, or confusing selection
+triggers—and how to run and interpret that probe.
 
 Low-risk edits need no probe. Probes test whether the text supplies enough
 context for an unfamiliar or weaker reader; they do not turn every edit into an
@@ -28,11 +28,12 @@ warranted:
   substantively changing a Skill `description` or internal conditional routing
   rule where overlap, false positives, or missed triggers among real candidates
   are plausible.
-- **Weak-model reading probe (Knowledge and Skill references):** Warranted when
-  adding or substantively revising Knowledge or supporting references that
-  introduce or reshape abstract distinctions, easily confused boundaries, dense
-  causal reasoning, or implicit domain prerequisites where a strong author may
-  silently bridge unstated steps.
+- **Weak-model reading probe (maintained documentation and non-trigger
+  references):** Warranted when adding or substantively revising maintained
+  documentation or supporting references that introduce or reshape abstract
+  distinctions, easily confused boundaries, dense causal reasoning, or implicit
+  domain prerequisites where a strong author may silently bridge unstated
+  steps.
 - **Weak-model behavior probe (Skills):** Warranted when adding or substantively
   revising Workflow or guidance Skills with complex procedures, non-obvious
   preconditions, multi-state stopping or recovery paths, or subtle branching
@@ -52,11 +53,11 @@ selection), or author conclusions.
 - **Selection or routing probe:** Apply
   [Check selection from requests](selection-triggers.md#check-selection-from-requests)
   using real candidate metadata or current body conditions in a fresh context.
-- **Knowledge or reference reading probe (single-turn preferred):** Give a
-  fresh, materially weaker model (such as a fast or lightweight tier model
-  available in the environment that still supports any needed tools, rather than
-  merely rewording with the authoring model) the complete target document and
-  ask it to:
+- **Maintained documentation or reference reading probe (single-turn
+  preferred):** Give a fresh, materially weaker model (such as a fast or
+  lightweight tier model available in the environment that still supports any
+  needed tools, rather than merely rewording with the authoring model) the
+  complete target document and ask it to:
   1. paraphrase the core rules, applicability boundaries, and prerequisites in
      its own words (catches silent misinterpretation when a model feels
      confident yet misreads the boundary); and
@@ -65,7 +66,7 @@ selection), or author conclusions.
      Include 1–2 brief, realistic boundary cases only when the edit specifically
      distinguishes two easily confused cases and paraphrase alone may not show
      whether that distinction landed. Do not force open-ended engineering tasks on
-     Knowledge probes.
+     documentation reading probes.
 - **Skill behavior probe:** Run a targeted risky scenario (or blind selection
   plus targeted execution) in a fresh context with a materially weaker model,
   and ask what felt ambiguous, unstated, or inferred.

@@ -124,8 +124,9 @@ installed Handbook and Workflow reading routes:
    a backend-selection cost vs explaining how to grant, expire, and revoke
    permissions after a backend is chosen). Do not infer ownership from shared
    vocabulary, broad `Scope` labels, or shared Handbook/Workflow bundles.
-3. Form natural requests and run blind selection checks against real installed
-   Skill descriptions and Handbook packages using
+3. Form natural requests and evaluate Skill descriptions and Handbook package
+   coverage. Run blind selection probes when placement, new responsibilities,
+   or revised route boundaries create selection risk per
    [Check selection from requests](../../../../knowledge-base/plugins/knowledge-base/references/agents/selection-triggers.md#check-selection-from-requests)
    and
    [Handbook and Workflow selection triggers](maintain-skill.md#handbook-and-workflow-selection-triggers).
@@ -135,11 +136,13 @@ installed Handbook and Workflow reading routes:
 
 Keep a reviewable ownership and retrieval account in the work record: reader
 questions, candidate coverage and gaps with pre-edit source locations, rationale
-for retaining or separating responsibilities, requests and expected vs observed
-Workflow, Handbook, and package selections, and resulting ownership and route
-dispositions. Missing selection observations or unexamined required decisions
-leave fit unresolved (supporting at most an explicitly provisional proposal, not
-a settled owner or no-route-change conclusion).
+for retaining or separating responsibilities, expected Workflow, Handbook, and
+package selections (plus observed probe results when selection risk warranted a
+blind check), and resulting ownership and route dispositions. Unexamined
+required decisions—or missing blind-selection observations when placement or
+route boundaries are genuinely ambiguous—leave fit unresolved (supporting at
+most an explicitly provisional proposal, not a settled owner or no-route-change
+conclusion).
 
 Use trusted pre-edit `Scope`, reading routes, and body as the comparison
 baseline (reassessing per

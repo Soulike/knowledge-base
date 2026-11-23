@@ -12,12 +12,13 @@
 
 ## Protected behavior
 
-The product-experience Handbook and operation Workflow own the complete mobile,
-Web, recovery, and usability reading required by an interactive product task.
-Protect those cumulative conditions and direct routes when the already-running
-operation Workflow later gains a usability-evaluation responsibility. Loading
-its initial interactive recovery routes must not settle its later conditional
-reading. Different prototype implementations and evaluation methods are allowed.
+The product-experience Handbook and operation Workflow jointly supply the
+mobile, Web, recovery, and usability reading required by an interactive product
+task. Protect those cumulative Handbook conditions and direct Workflow recovery
+routes when an already-running task later gains a usability-evaluation
+responsibility. Loading initial interactive recovery routes must not settle
+later conditional usability-evaluation reading. Different prototype
+implementations and evaluation methods are allowed.
 
 ## Task
 
@@ -55,17 +56,17 @@ contacting a real clinic.
   mobile and Web layout/accessibility packages before implementation.
 - P3 (critical): use the Workflow's direct operation failure/recovery,
   user-facing failure communication, test-effectiveness, interaction-clarity,
-  goodwill, mobile, content-resilient layout, and Web-accessibility routes
-  without the Catalog. Interactive recovery alone does not require the two
-  usability-evaluation documents.
+  and user-goodwill routes without the Catalog. Interactive recovery alone does
+  not load the two usability-evaluation documents.
 - P4: exclude home-page and navigation guidance for this isolated product flow.
 - P5: apply the reading to observable layout, feedback, effect certainty, and
   continuation behavior rather than only listing principles.
 - P6 (critical): after request 2, the same Handbook matches the complete
   six-document usability package: its four foundation documents plus task-based
-  observation and Agent-evidence guidance. The running operation Workflow must
-  also follow its newly applicable direct evaluation routes before evaluating
-  the prototype. Earlier interactive reading does not satisfy those new routes.
+  observation and Agent-evidence guidance, while the operation Workflow
+  distinguishes observed usability from automated contract protection during
+  interactive verification. Earlier interactive reading does not satisfy those
+  new evaluation routes.
 - P7: prioritize from task-success observations and distinguish Agent findings,
   operator checks, and evidence about human usability.
 
@@ -74,15 +75,16 @@ contacting a real clinic.
 Capture initial Skill and package choices, direct reads, the prototype, and
 narrow-browser outcome/recovery observations before revealing the evaluation
 request. Then inspect the additional evaluation reading and task-success
-evidence from that prototype. A Workflow that checks conditional routes only on
-initial entry must fail P6. Generic reading counts and recovery after lost
-context are outside this case.
+evidence from that prototype. A Handbook or task-lifecycle check that settles
+conditional evaluation routes at initial entry must fail P6. Generic reading
+counts and recovery after lost context are outside this case.
 
 ## Source
 
 GitHub issues #242 and #247 establish the interface foundation, mobile/Web
 overlap, and full usability package. GitHub issue #249 establishes the
-operation Workflow's direct interactive, mobile, Web, and evaluation routes.
-The maintainer's review of pull request #258 preserves the Workflow's delayed
-evaluation branch as distinct protection, rather than supplying evaluation
-intent at task start.
+operation Workflow's direct interactive recovery routes, and #319 removes
+redundant mobile, Web, and evaluation links from the Workflow where
+`handbook-product-experience` owns those routes. The maintainer's review of
+pull request #258 preserves the delayed evaluation branch as distinct
+protection, rather than supplying evaluation intent at task start.

@@ -1,6 +1,6 @@
 ---
 name: workflow-design-operation-failure-recovery
-description: Use when designing, implementing, substantively changing, or reviewing an operation or workflow whose outcome an external consumer can observe, including background work. Establish non-success outcomes and recovery even when the request only describes success.
+description: Use when designing, implementing, or reviewing consumer recovery or failure-prone, multi-state, or background operations, even if only success is described.
 ---
 
 # Design operation failure and recovery
@@ -22,32 +22,12 @@ use packaged Knowledge as supplemental guidance.
      for background work, also read [Interaction
      clarity](../../knowledge/user-interface/interaction-clarity.md) and [User
      goodwill](../../knowledge/user-interface/user-goodwill.md).
-   - When the interface is used on a small touch screen, also read [Mobile
-     interface usability
-     tradeoffs](../../knowledge/user-interface/mobile-interface-usability.md).
-   - When the consumer uses a browser interface, also read [Content-resilient
-     web layouts](../../knowledge/web-ui/content-resilient-layouts.md) and
-     [Baseline accessibility for web
-     interfaces](../../knowledge/web-ui/web-accessibility-basics.md).
-   - When the task changes a website's home page, overall entry points,
-     multi-page structure, or navigation, also read [Home page purpose and entry
-     points](../../knowledge/web-ui/home-page-purpose-and-entry-points.md) and
-     [Website navigation and
-     orientation](../../knowledge/web-ui/site-navigation.md).
-   - When the task also evaluates product usability, read [Task-based usability
-     observation](../../knowledge/user-interface/task-based-usability-observation.md).
-     When that evaluation uses or interprets Agent trials, also read [Evidence
-     from Agent usability risk
-     probes](../../knowledge/user-interface/agent-usability-evidence.md). Do not
-     load either evaluation document merely because the recovery path is
-     interactive.
 
-   Re-evaluate these observable conditions when the consumer, interface,
-   platform, artifact, or task stage changes. Reuse a reading that remains
-   current and available, and add newly applicable reading before dependent
-   work. If inspection shows no externally observable outcome, continue the
-   original task at its responsible internal boundary without a full consumer
-   recovery map.
+   Re-evaluate these conditions when the consumer, interface, or task stage
+   changes. Reuse a reading that remains current and available, and add newly
+   applicable reading before dependent work. If inspection shows no externally
+   observable outcome, continue the original task at its responsible internal
+   boundary without a full consumer recovery map.
 
 2. Establish the consumer's goal, the operation's actual or proposed effects,
    prerequisites, roles, and completion signal. For existing behavior, inspect

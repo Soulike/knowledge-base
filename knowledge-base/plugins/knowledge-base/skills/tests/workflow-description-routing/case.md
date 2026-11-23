@@ -81,6 +81,10 @@ installed guidance from the current candidate metadata, or choose none:
     authentication, then expose the results to our release service.
 24. An accepted production behavior change made an existing test fail. Update
     the test to match the new behavior.
+25. Rename a button label on the settings page and add a read-only `/healthz`
+    endpoint that returns `200 OK`.
+26. Audit our checkout confirmation and webhook delivery flow for partial
+    failures, unconfirmed payment states, and safe consumer retry.
 
 Return the chosen identifiers and a short reason for each request. Do not open
 candidate bodies or perform the substantive tasks.
@@ -126,8 +130,9 @@ request must not teach later requests the expected route.
 - R8 (critical): select `workflow-manage-automated-tests` for requests 14, 15,
   and 24. Exclude it for routine unchanged test execution in request 16.
 - R9 (critical): select `workflow-design-operation-failure-recovery` for
-  request 20 even though it describes only success, and exclude it for the
-  consumer-invisible internal helper in request 21.
+  request 20 even though it describes only success and for request 26, and
+  exclude it for the consumer-invisible internal helper in request 21 and the
+  routine label and read-only health-check change in request 25.
 - R10 (critical): select `workflow-contribute-to-knowledge-base` for request 22
   to publish an approved sanitized proposal as an issue from outside the
   canonical checkout.
@@ -161,7 +166,10 @@ their own selection cases (`codex-workflow-description-routing` and
 `workflow-maintain-dev-documentation` and `workflow-manage-automated-tests`,
 `workflow-propose-knowledge-base-contribution` was removed, and the local-proxy
 retry Workflow moved into `local-proxy-retry-routing` under `utilities`, leaving
-this case protecting the 10 base `knowledge-base` Workflows. Request 23
+this case protecting the 10 base `knowledge-base` Workflows. Per #319,
+`workflow-design-operation-failure-recovery` was narrowed to failure-prone,
+multi-state, background, or explicit recovery work while excluding routine
+non-recovery changes (requests 25 and 26). Request 23
 reconstructs an observed failure in which a GitHub information client was
 implemented with custom HTTP requests without first evaluating an established
 SDK or library. Request 24 reconstructs an observed failure during pull request

@@ -135,9 +135,10 @@ splitting, or replacing raw text.
 
 ## Behavioral and documentation change summary
 
-A pull request that adds or substantively revises maintained Knowledge,
-Workflow Skills, Handbook Skills, Skill references, or maintained Agent
-instructions or prompts should include a concise summary covering:
+A pull request (or handoff when authoring stops before a pull request exists)
+that adds or substantively revises maintained Knowledge, Workflow Skills,
+Handbook Skills, Skill references, or maintained Agent instructions or prompts
+should include a concise summary covering:
 
 - affected responsibilities and what changed (including plugin version bumps when
   applicable);

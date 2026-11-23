@@ -157,12 +157,13 @@ independent behavior.
     selection probes when warranted, repair any exposed document blind spots
     in the authoritative content, and re-probe the affected passage or
     scenario.
-14. Assemble a concise pull-request summary per
+14. Assemble a concise pull-request summary (or handoff summary when authoring
+    stops before a pull request exists) per
     [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-summary)
     covering classification, affected responsibility units, structural
     rationale for substantive revisions, changed routes/consumers, generated
     plugin version(s), deterministic checks, and the probe decision (low-risk
-    skip rationale, or probed target, surfaced blind spot, and fix). Leave
+    skip rationale, or probed target, surfaced blind spot, and fix), leaving
     final semantic, suitability, and probe-coverage review to pull-request AI
     review.
 
@@ -199,5 +200,6 @@ For authorized delivery, finish only when:
   changed, the PR-scoped plugin version(s) and their validation are
   current
   ([update-knowledge-base-version.md](references/update-knowledge-base-version.md)).
-- The pull-request description includes the concise summary required by
+- The pull-request description (or handoff when authoring stops before a pull
+  request exists) includes the concise summary required by
   [`AGENTS.md`](../../../AGENTS.md#behavioral-and-documentation-change-summary).

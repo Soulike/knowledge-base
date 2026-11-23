@@ -12,7 +12,7 @@
 - [Test review Workflow](../../workflow-review-and-improve-tests/SKILL.md)
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
-- [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
+- [Node.js Handbook](../../handbook-nodejs/SKILL.md)
 
 ## Protected behavior
 
@@ -65,10 +65,11 @@ evaluator-only content.
 ## Expected behavior
 
 - R1 (critical): phase 1 selects software engineering, JavaScript and
-  TypeScript, and filesystems. It reads their applicable foundations; adds the
-  software reliability and asynchronous/concurrent packages, the Promise and
-  date-time packages, and the Node.js filesystem package; and applies every
-  match cumulatively.
+  TypeScript, and filesystems, and selects or allows Node.js (`handbook-nodejs`)
+  for the Node.js filesystem APIs. It reads their applicable foundations; adds
+  the software reliability and asynchronous/concurrent packages, the Promise and
+  date-time packages, and the Node.js filesystem packages alongside the general
+  filesystem foundation; and applies every match cumulatively.
 - R2: phase 1 keeps the Node.js primitives together with the general filesystem
   foundation, uses one handle for identity-sensitive facts and reads, preserves
   each settled result, and distinguishes per-file failures without inventing
@@ -84,10 +85,11 @@ evaluator-only content.
   additionally required. Establish a comparable measurement basis and
   trustworthy execution before attributing cost, preserve effective protection,
   and do not invent measurements.
-- R5 (critical): phase 4 adds development-tooling and executable-environment
-  guidance. Establish which executable actually ran, correct lookup at the
-  caller environment, propagate it to wrappers and child processes, preserve or
-  restore the caller environment, and verify actual execution.
+- R5 (critical): phase 4 selects the software-engineering Handbook's
+  external-command guidance (without `handbook-development-tooling`). Establish
+  which executable actually ran, correct lookup at the caller environment,
+  propagate it to wrappers and child processes, preserve or restore the caller
+  environment, and verify actual execution.
 - R6: select every foundation, conditional package, and Workflow Knowledge
   route required by R1–R5 from the observable work and read it through direct
   canonical routes, without invoking one Handbook through another. This

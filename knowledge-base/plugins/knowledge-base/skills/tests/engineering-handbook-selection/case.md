@@ -10,20 +10,20 @@
 - [Software-engineering Handbook](../../handbook-software-engineering/SKILL.md)
 - [JavaScript and TypeScript Handbook](../../handbook-javascript-typescript/SKILL.md)
 - [Filesystems Handbook](../../handbook-filesystems/SKILL.md)
-- [Development-tooling Handbook](../../handbook-development-tooling/SKILL.md)
+- [Node.js Handbook](../../handbook-nodejs/SKILL.md)
 - [Automation Handbook](../../handbook-automation/SKILL.md)
 - [GitHub Actions Handbook](../../handbook-github-actions/SKILL.md)
 - [Effective-test writing Workflow](../../workflow-write-effective-tests/SKILL.md)
 
 ## Protected behavior
 
-The software-engineering, JavaScript/TypeScript, filesystem, and
-development-tooling Handbooks form the four-engineering-Handbook group (with
-test-writing requests routing to `workflow-write-effective-tests`). They must
-be discoverable from the user's work or current material without naming
-internal Knowledge. Their descriptions must support broad, direct,
-focused-learning, overlap, and nearby negative requests while tolerating
-wording changes and legitimate selection of unrelated Workflow Skills.
+The software-engineering, JavaScript/TypeScript, filesystem, and Node.js
+Handbooks form the four-engineering-Handbook group (with test-writing requests
+routing to `workflow-write-effective-tests`). They must be discoverable from the
+user's work or current material without naming internal Knowledge. Their
+descriptions must support broad, direct, focused-learning, overlap, and nearby
+negative requests while tolerating wording changes and legitimate selection of
+unrelated Workflow Skills.
 
 ## Task
 
@@ -62,21 +62,20 @@ client loaded the chosen bodies.
 
 - R1 (critical): request 1 selects `handbook-software-engineering` and excludes
   the other three engineering Handbooks because the request does not yet
-  establish a language, filesystem, or development-tooling task.
+  establish a language, filesystem, or Node.js/npm task.
 - R2 (critical): request 2 selects `workflow-write-effective-tests` and
   excludes `handbook-javascript-typescript`, `handbook-filesystems`, and
-  `handbook-development-tooling`; selection of `handbook-software-engineering`
-  for the test code is allowed.
+  `handbook-nodejs`; selection of `handbook-software-engineering` for the test
+  code is allowed.
 - R3 (critical): request 3 selects `handbook-javascript-typescript`. It may also
   select `handbook-software-engineering`, but must not select testing,
-  filesystems, or development tooling merely because the explanation concerns
-  code.
+  filesystems, or Node.js merely because the explanation concerns code.
 - R4 (critical): request 4 selects `handbook-software-engineering`,
-  `handbook-javascript-typescript`, and `handbook-filesystems`.
-- R5 (critical): request 5 selects `handbook-javascript-typescript` and
-  `handbook-development-tooling`.
-- R6 (critical): request 6 selects `handbook-development-tooling` without
-  requiring JavaScript or TypeScript source work.
+  `handbook-javascript-typescript`, `handbook-filesystems`, and
+  `handbook-nodejs`.
+- R5 (critical): request 5 selects `handbook-javascript-typescript`.
+- R6 (critical): request 6 selects `handbook-nodejs` without requiring
+  JavaScript or TypeScript source work.
 - R7: requests 7 and 8 exclude all four engineering Handbooks. Other applicable
   installed Handbooks or Workflow Skills are allowed.
 - R8: the choices are based on the semantic task and current material rather
@@ -103,7 +102,7 @@ correct choice on one request does not offset a missed critical route or
 unrelated selection on another.
 
 Controlled faulty observations that omit the required covered Skill for
-requests 1, 2, 5, or 6, or that select one of the four engineering Handbooks
+requests 1, 2, 4, 5, or 6, or that select one of the four engineering Handbooks
 for requests 7 or 8, must fail the corresponding critical criterion. Omitting
 software engineering for requests 9 through 13, requiring automation for
 requests 9 through 11, or selecting software engineering for request 14 must

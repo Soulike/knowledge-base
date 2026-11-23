@@ -7,15 +7,16 @@
 
 ## Covered objects
 
-- [GitHub Actions Handbook](../../SKILL.md)
+- [Automation Handbook](../../SKILL.md)
 
 ## Protected behavior
 
 A focused request to understand gh-aw Copilot model compatibility must route
 directly to that package without forcing the Handbook's primary workflow-work
-foundation or unrelated platform packages. Protect the distinction among
-provider availability, gh-aw metadata, Copilot client capability resolution,
-and runtime evidence while allowing different examples and explanation order.
+foundation or unrelated platform or automation packages. Protect the distinction
+among provider availability, gh-aw metadata, Copilot client capability
+resolution, and runtime evidence while allowing different examples and
+explanation order.
 
 ## Task
 
@@ -27,8 +28,8 @@ that model and its requested reasoning and context settings as compatible.
 
 ## Starting state
 
-Supply the complete current GitHub Actions Handbook, its permitted direct
-reading routes, the natural task request, and read-only access to the supplied
+Supply the complete current Automation Handbook, its permitted direct reading
+routes, the natural task request, and read-only access to the supplied
 repository snapshot.
 
 Ask the executor to record its package choices before reading the selected
@@ -39,9 +40,11 @@ action observations.
 ## Expected behavior
 
 - R1 (critical): choose and read the gh-aw Copilot-model compatibility package.
-- R2 (critical): exclude the GitHub Actions primary-work foundation and the
-  permissions, version-selection, and Agent-run-state packages because this is
-  focused learning without a workflow artifact that activates them.
+- R2 (critical): exclude the Automation primary-work foundation
+  (`workflow-outcome-integrity.md`, `operation-failure-and-recovery.md`,
+  `failure-diagnostic-evidence.md`), Git change comparison, and the GitHub
+  Actions permissions, version-selection, and Agent-run-state packages because
+  this is focused learning without a workflow artifact that activates them.
 - R3: distinguish provider entitlement, gh-aw catalog or alias metadata,
   Copilot CLI or SDK capability resolution, AWF runtime discovery and pricing,
   and the actual launched authentication and execution path.
@@ -66,5 +69,5 @@ proves the requested context budget must fail the corresponding criterion.
 
 GitHub issues #242 and #246 require focused-learning routes, gh-aw Copilot
 model-configuration coverage, cumulative but precise package selection, and
-separate reading and application evidence. This reconstructed case requires a
-fresh replay against the completed Handbook.
+separate reading and application evidence. Relocated under `handbook-automation`
+per #320 and #322; requires a fresh replay against the consolidated Handbook.

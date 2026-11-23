@@ -245,4 +245,52 @@ describe("createVerificationManifest", () => {
       maintained,
     );
   });
+
+  it("derives valid manifests when a Skill-only plugin coexists with Knowledge-bearing plugins", () => {
+    const revision = "c".repeat(40);
+    const tracked = [
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/a.md",
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+      "knowledge-base/plugins/knowledge-base/skills/handbook-base/SKILL.md",
+      "knowledge-base/plugins/utilities/plugin.json",
+      "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md",
+    ];
+    const catalogs = {
+      "knowledge-base/plugins/knowledge-base/knowledge/index.md": catalog,
+    };
+
+    const evergreen = createVerificationManifest({
+      scope: "evergreen-knowledge",
+      revision,
+      trackedPaths: tracked,
+      catalogs,
+    });
+    assert.deepEqual(evergreen.reviewTargetIds, [
+      "knowledge-base/plugins/knowledge-base/knowledge/b.md",
+    ]);
+    assert.deepEqual(
+      parseVerificationManifest(evergreen, revision, "evergreen-knowledge"),
+      evergreen,
+    );
+
+    const maintained = createVerificationManifest({
+      scope: "maintained-agent-content",
+      revision,
+      trackedPaths: tracked,
+      catalogs,
+    });
+    assert.deepEqual(maintained.reviewTargetIds, [
+      "knowledge-base/plugins/knowledge-base/skills/handbook-base/SKILL.md",
+      "knowledge-base/plugins/utilities/skills/workflow-retry-via-local-proxy/SKILL.md",
+    ]);
+    assert.deepEqual(
+      parseVerificationManifest(
+        maintained,
+        revision,
+        "maintained-agent-content",
+      ),
+      maintained,
+    );
+  });
 });

@@ -316,6 +316,7 @@ export async function checkMarketplaceKnowledge(
   let hasDiagnostics = false;
 
   for (const plugin of plugins) {
+    let hasKnowledgeDirectory = true;
     let knowledgeDirectoryError: string | undefined;
     try {
       const knowledgeStats = await stat(plugin.knowledgeDirectory);
@@ -325,7 +326,7 @@ export async function checkMarketplaceKnowledge(
     } catch (error) {
       const code = errorCode(error);
       if (code === "ENOENT") {
-        knowledgeDirectoryError = "Knowledge directory does not exist.";
+        hasKnowledgeDirectory = false;
       } else if (code === "ENOTDIR") {
         knowledgeDirectoryError = "Knowledge directory is not a directory.";
       } else {
@@ -333,24 +334,75 @@ export async function checkMarketplaceKnowledge(
       }
     }
 
-    const result: KnowledgeFormatCheckResult =
-      knowledgeDirectoryError !== undefined
-        ? {
-            checkedFileCount: 0,
-            diagnostics: [
-              {
-                filePath: "knowledge",
-                message: knowledgeDirectoryError,
-              },
-            ],
-            reachability: {
-              diagnostics: [],
-              entrypointCount: 0,
-              reachableKnowledgeFilePaths: [],
-              unreachableKnowledgeFilePaths: [],
+    let result: KnowledgeFormatCheckResult;
+    if (knowledgeDirectoryError !== undefined) {
+      result = {
+        checkedFileCount: 0,
+        diagnostics: [
+          {
+            filePath: "knowledge",
+            message: knowledgeDirectoryError,
+          },
+        ],
+        reachability: {
+          diagnostics: [],
+          entrypointCount: 0,
+          reachableKnowledgeFilePaths: [],
+          unreachableKnowledgeFilePaths: [],
+        },
+      };
+    } else if (hasKnowledgeDirectory) {
+      result = await checkKnowledgeDirectory(
+        plugin.knowledgeDirectory,
+        options,
+      );
+    } else {
+      const skillsDirectory = join(plugin.pluginDirectory, "skills");
+      let skillsDirectoryError: string | undefined;
+      try {
+        const skillsStats = await stat(skillsDirectory);
+        if (!skillsStats.isDirectory()) {
+          skillsDirectoryError = "Skills directory is not a directory.";
+        }
+      } catch (error) {
+        const code = errorCode(error);
+        if (code === "ENOENT") {
+          skillsDirectoryError = "Skills directory does not exist.";
+        } else if (code === "ENOTDIR") {
+          skillsDirectoryError = "Skills directory is not a directory.";
+        } else {
+          throw error;
+        }
+      }
+
+      if (skillsDirectoryError !== undefined) {
+        result = {
+          checkedFileCount: 0,
+          diagnostics: [
+            {
+              filePath: "skills",
+              message: skillsDirectoryError,
             },
-          }
-        : await checkKnowledgeDirectory(plugin.knowledgeDirectory, options);
+          ],
+          reachability: {
+            diagnostics: [],
+            entrypointCount: 0,
+            reachableKnowledgeFilePaths: [],
+            unreachableKnowledgeFilePaths: [],
+          },
+        };
+      } else {
+        const reachability = await checkKnowledgeReachability(
+          plugin.pluginDirectory,
+          [],
+        );
+        result = {
+          checkedFileCount: 0,
+          diagnostics: reachability.diagnostics,
+          reachability,
+        };
+      }
+    }
 
     totalCheckedFileCount += result.checkedFileCount;
     if (result.diagnostics.length > 0) {

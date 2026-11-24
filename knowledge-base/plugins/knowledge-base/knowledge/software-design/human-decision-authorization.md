@@ -85,6 +85,25 @@ the applicable fence to the mutation boundary and prevent that work's later
 effects from violating the replacement's authority. Rejecting new stale
 commands alone does not stop work already in progress.
 
+## Verify authorization binding
+
+Apply [Test effectiveness](../software-testing/test-effectiveness.md#select-fault-revealing-scenarios)
+with a supersession fixture: create decision A, replace it with B under the
+same stable request and logical action identifiers with changed
+approval-relevant content (different request IDs miss the substitution fault),
+submit a schema-valid stale command for A through the supported path, and assert
+rejection at the decision owner before protected callbacks, persistence,
+effects, or consumption while B remains current and unchanged—then prove a
+valid response for B proceeds.
+
+Exercise each independently implemented admission or execution path that can
+omit the freshness comparison, keeping detailed checks at the owner and a
+representative composed check when transport can drop or substitute the
+identity, and assert that a stale value changes the semantic outcome at the
+owner rather than merely passing schema parsing or dismissal. Keep
+stale-command rejection tests distinct from tests holding old in-flight work to
+prove late completion cannot overwrite a replacement.
+
 ## Example: a stable request with replacement content
 
 A person reviews request X, generation 10, for an update. Before they respond,

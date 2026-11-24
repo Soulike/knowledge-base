@@ -78,8 +78,9 @@ behavior.
 10. Resume the branch workflows from step 7 to apply operations (mixed order:
     Knowledge first, then Workflow/Handbook before references), and maintain
     other repository artifacts under step 6 and project standards. Separate
-    authoring evidence from reader-facing content (step 6, Establish authority
-    and evidence) before finalizing, and follow
+    authoring evidence from reader-facing content (step 6,
+    [Establish authority and evidence](../../../knowledge-base/plugins/knowledge-base/knowledge/documentation/maintained-document-quality.md#establish-authority-and-evidence))
+    before finalizing, and follow
     [`workflow-manage-automated-tests`](../../../knowledge-base/plugins/knowledge-base/skills/workflow-manage-automated-tests/SKILL.md)
     before editing automated tests.
 11. Self-check the composed result using

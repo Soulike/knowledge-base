@@ -31,13 +31,13 @@ guarantees, and re-verify when target clients release updates.
 
 ## Client limits overview
 
-| Client             | Surface                               | Limit                                                    | Unit            | Observable failure mode                                  |
-| ------------------ | ------------------------------------- | -------------------------------------------------------- | --------------- | -------------------------------------------------------- |
-| GitHub Copilot CLI | Unranged file view (`view`)           | `20,480` B (`20 KiB`)                                    | UTF-8 bytes     | Read refused with zero file content returned             |
-| OpenAI Codex CLI   | Explicit Skill prompt injection       | `8,000` B                                                | UTF-8 bytes     | Prefix slice only; no inline marker in injected content  |
-| OpenAI Codex CLI   | Shell / tool output (standard models) | `~40,000` B (`10,000` approx. tokens at `4` bytes/token) | Approx. UTF-8 B | Middle truncation (`…N tokens truncated…`)               |
-| OpenAI Codex CLI   | Shell / tool output (fallback models) | `10,000` B                                               | UTF-8 bytes     | Middle truncation (`…N bytes truncated…`)                |
-| OpenAI Codex CLI   | Project instructions (`AGENTS.md`)    | `32,768` B (`32 KiB`)                                    | UTF-8 bytes     | Host-configured byte cap on loaded project documentation |
+| Client             | Surface                                  | Limit                                                    | Unit            | Observable failure mode                                 |
+| ------------------ | ---------------------------------------- | -------------------------------------------------------- | --------------- | ------------------------------------------------------- |
+| GitHub Copilot CLI | Unranged file view (`view`)              | `20,480` B (`20 KiB`)                                    | UTF-8 bytes     | Read refused with zero file content returned            |
+| OpenAI Codex CLI   | Explicit Skill prompt injection          | `8,000` B                                                | UTF-8 bytes     | Prefix slice only; no inline marker in injected content |
+| OpenAI Codex CLI   | Shell / tool output (standard models)    | `~40,000` B (`10,000` approx. tokens at `4` bytes/token) | Approx. UTF-8 B | Middle truncation (`…N tokens truncated…`)              |
+| OpenAI Codex CLI   | Shell / tool output (fallback models)    | `10,000` B                                               | UTF-8 bytes     | Middle truncation (`…N bytes truncated…`)               |
+| OpenAI Codex CLI   | Project instructions (`AGENTS.md` chain) | `32,768` B (`32 KiB`) combined                           | UTF-8 bytes     | Combined chain truncated/skipped past budget            |
 
 ## GitHub Copilot CLI single-file reading
 
@@ -101,10 +101,17 @@ shell-based file inspection, and project instructions:
   (Executor/cloud `skills.read` paginates separately up to
   `min(512 KiB, truncation_policy * 1.2)` with a `1 MiB` resource limit, but
   ordinary workspace and plugin document reads go through shell output.)
-- **Project instruction cap (`32 KiB`):**
+- **Aggregate project-instruction budget (`32 KiB` combined):**
   [`DEFAULT_PROJECT_DOC_MAX_BYTES`](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/config/src/config_toml.rs#L76)
   caps loaded `AGENTS.md` project instructions at `32 * 1024` bytes (`32,768`
-  bytes).
+  bytes) via `project_doc_max_bytes`. In
+  [`agents_md.rs`](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/core/src/agents_md.rs#L69-L165),
+  Codex walks from the project root down to the current working directory and
+  subtracts each loaded file from one shared `project_doc_max_bytes` budget
+  (across the root-to-working-directory chain and active environments). This is
+  an **aggregate chain cap**, not a per-file allowance: once the combined
+  budget is exhausted, later nested files are truncated or skipped with only a
+  warning, discarding directory-specific constraints.
 
 ## Practical sizing implications for portable documentation and Skills
 
@@ -130,10 +137,17 @@ workarounds or host-event warnings:
   CLI's `~40,000`-byte standard shell output limit. When workflows also target
   fallback models with a `10,000`-byte shell cap, keep high-frequency single-read
   references under `10,000` bytes or chunked cleanly.
-- **Keep `AGENTS.md` project instructions comfortably under `32,768` UTF-8 bytes
-  (`32 KiB`).** Keeping root and nested `AGENTS.md` files concise avoids Codex
-  CLI's default project-document cap (and keeps them within `20,480` UTF-8 bytes
-  when an Agent also inspects them via Copilot CLI's `view` tool).
+- **Budget the complete `AGENTS.md` instruction chain under `32,768` UTF-8 bytes
+  (`32 KiB`), while keeping each file at or below `20,480` UTF-8 bytes.** In
+  Codex CLI, the combined UTF-8 byte total of every `AGENTS.md` loaded along
+  the path from the repository root to the deepest working directory must fit
+  within `project_doc_max_bytes` (`32,768` bytes by default)—for example, two
+  `18,000`-byte files individually pass per-file checks yet still exceed the
+  `32 KiB` chain budget and lose tail content in the nested file. Distinct from
+  that aggregate chain budget, GitHub Copilot CLI enforces its `20,480`-byte
+  per-file `view` ceiling when an Agent reads any individual `AGENTS.md` file
+  directly, so keep each file within `20,480` bytes and keep the full
+  root-to-leaf chain comfortably below `32,768` bytes.
 - **Measure in UTF-8 bytes and split by responsibility rather than dropping
   constraints.** Check UTF-8 byte length directly (`wc -c`,
   `Buffer.byteLength(text, "utf8")`, or `len(text.encode("utf-8"))`) rather than
@@ -149,4 +163,4 @@ workarounds or host-event warnings:
 - [`github/copilot-cli#5003`: Large tool output is spilled to an OS temp file without a stable session artifact or paging interface](https://github.com/github/copilot-cli/issues/5003)
 - [`openai/codex` commit `7ce4437`: Skill prompt truncation (`MAX_SKILL_PROMPT_BYTES`)](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/ext/skills/src/render.rs#L25)
 - [`openai/codex` commit `7ce4437`: Fallback model truncation policy (`model_info.rs`)](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/models-manager/src/model_info.rs#L126)
-- [`openai/codex` commit `7ce4437`: Project doc byte cap (`DEFAULT_PROJECT_DOC_MAX_BYTES`)](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/config/src/config_toml.rs#L76)
+- [`openai/codex` commit `7ce4437`: Project doc byte cap (`DEFAULT_PROJECT_DOC_MAX_BYTES`)](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/config/src/config_toml.rs#L76) and [cumulative `AGENTS.md` chain loading (`agents_md.rs`)](https://github.com/openai/codex/blob/7ce4437488c69950fe87f1d8ab4b00bdb4bbd193/codex-rs/core/src/agents_md.rs#L69-L165)

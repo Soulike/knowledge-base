@@ -38,23 +38,7 @@ code or developer-facing APIs, read these complete documents:
 - [Source-code layout for reading](../../knowledge/programming/source-code-layout.md)
 - [Exhaustive branching over finite variants](../../knowledge/programming/exhaustive-branching.md)
 - [Failure signals and handling in code](../../knowledge/programming/failure-signals-and-handling.md)
-
-From the module-responsibility document, read the Scope and each complete
-section below, including all of their subsections:
-
-- [Scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#scope)
-- [Organize a module around owned meaning](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#organize-a-module-around-owned-meaning)
-- [Distinguish the module, interface, seam, and adapter](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#distinguish-the-module-interface-seam-and-adapter)
-- [Diagnose cohesion before splitting](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#diagnose-cohesion-before-splitting)
-- [Choose what an interface exposes](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#choose-what-an-interface-exposes)
-- [Design for local change, testability, and replacement](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#design-for-local-change-testability-and-replacement)
-- [Measure depth by caller leverage](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#measure-depth-by-caller-leverage)
-
-Treat the Scope and the six following sections as two noncontiguous reading
-units: the module document's intervening `When to update` section is outside
-this foundation. Every section after `Measure depth by caller leverage` is also
-outside the foundation. Read those excluded sections only when another
-applicable package requires the complete file.
+- [Module responsibility and interfaces](../../knowledge/software-design/module-responsibility-and-interfaces.md)
 
 ## Conditional required-reading packages
 
@@ -64,11 +48,9 @@ When planning, evaluating, or restructuring software components and their
 composition, or directly learning or explaining that subject, read these
 complete documents:
 
-- [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+- [Module responsibility and interfaces](../../knowledge/software-design/module-responsibility-and-interfaces.md)
+- [Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md)
 - [Application composition](../../knowledge/software-design/application-composition.md)
-
-The complete module document also satisfies the foundation's section-level
-reading.
 
 ### Features and externally observable operations
 

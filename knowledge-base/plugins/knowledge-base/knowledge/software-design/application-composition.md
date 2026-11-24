@@ -67,7 +67,7 @@ around selected calls. These arrangements change how execution reaches a compone
 they do not make the mechanism's effects disappear from the application's contract.
 
 Keep the governing decision at its
-[semantic owner](module-responsibility-and-defensive-scope.md#organize-a-module-around-owned-meaning):
+[semantic owner](module-responsibility-and-interfaces.md#organize-a-module-around-owned-meaning):
 the module whose contract and consumers determine the rule. Composition attaches
 the chosen implementation where that rule must hold. Centralizing a mechanism does
 not establish that all operations need the same policy or that a rule may move into

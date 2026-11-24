@@ -41,7 +41,7 @@ handling of later feedback.
    for a source change and the current task's responsibility to make it.
 2. Apply its scope and remedy criteria and record the complete pre-mutation
    disposition for every proposed change. Read
-   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+   [Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md)
    when those criteria require it.
 3. When the feedback concerns retained code after a migration obligation changes
    or ends, or the accepted task includes a final migration assessment, read

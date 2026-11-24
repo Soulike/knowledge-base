@@ -26,7 +26,7 @@ separately exported operations spread among file-level helpers and mutable
 variables.
 
 Establish the unit using
-[Module responsibility and defensive scope](../software-design/module-responsibility-and-defensive-scope.md):
+[Module responsibility and interfaces](../software-design/module-responsibility-and-interfaces.md):
 one responsibility means one owned semantic decision, not one method or verb.
 Enqueueing, taking, and cancelling tasks can belong to one queue. An
 independently changing product rule can belong to another module even when the

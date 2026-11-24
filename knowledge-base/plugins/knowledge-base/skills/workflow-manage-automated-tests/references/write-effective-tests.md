@@ -14,7 +14,7 @@ paths, project-declared commands, and
 1. Treat a request or plan to add a test as a proposal to evaluate, not evidence
    that a test is required.
 2. For each target behavior that required
-   [Module responsibility and defensive scope](../../../knowledge/software-design/module-responsibility-and-defensive-scope.md),
+   [Defensive scope and boundary ownership](../../../knowledge/software-design/defensive-scope-and-boundary-ownership.md),
    apply it before treating current code as a production contract. Establish an
    accepted requirement, supported execution path, and semantic owner
    independently of the implementation and proposed test.

@@ -14,6 +14,8 @@ classified under a different Knowledge Type.
 
 ## Documents
 
-| File Path                                                                    | Knowledge Type |
-| ---------------------------------------------------------------------------- | -------------- |
-| [knowledge/chromium/ios-ui-architecture.md](chromium/ios-ui-architecture.md) | time-sensitive |
+| File Path                                                                                  | Knowledge Type |
+| ------------------------------------------------------------------------------------------ | -------------- |
+| [knowledge/chromium/ios-feature-layout.md](chromium/ios-feature-layout.md)                 | time-sensitive |
+| [knowledge/chromium/ios-ui-architecture.md](chromium/ios-ui-architecture.md)               | time-sensitive |
+| [knowledge/chromium/ios-ui-frameworks-and-sync.md](chromium/ios-ui-frameworks-and-sync.md) | time-sensitive |

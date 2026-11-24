@@ -6,9 +6,10 @@
     "node": ">=24"
   },
   "scripts": {
+    "agent-doc-size:check": "node .github/scripts/check-agent-doc-size/check.ts .",
     "agentic:check": "node .github/scripts/agentic-workflows/check.ts",
     "agentic:compile": "node .github/scripts/agentic-workflows/compile.ts",
-    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm test && pnpm knowledge:check",
+    "check": "pnpm typecheck && pnpm lint && pnpm format:check && pnpm links:check && pnpm prompt-links:check && pnpm test && pnpm knowledge:check && pnpm agent-doc-size:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "knowledge:check": "node knowledge-base/tools/check-knowledge-format/check.ts --marketplace .claude-plugin/marketplace.json --enforce-reachability",

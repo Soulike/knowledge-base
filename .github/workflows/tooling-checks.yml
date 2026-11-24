@@ -59,5 +59,8 @@ jobs:
       - name: Check knowledge document format
         run: pnpm knowledge:check
 
+      - name: Check Agent document sizes
+        run: pnpm agent-doc-size:check
+
       - name: Test
         run: pnpm test

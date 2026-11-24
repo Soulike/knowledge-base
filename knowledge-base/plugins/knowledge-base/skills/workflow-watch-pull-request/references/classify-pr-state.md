@@ -27,7 +27,7 @@ After recording dispositions, derive the currently executable set. Include an
 autonomous operation only when its dependencies are satisfied and neither a
 local stop nor a PR-wide freeze withholds it. Keep an admitted but withheld
 operation recorded as deferred, together with the dependency or freeze that
-prevents execution; do not let it select the main workflow's execution row or
+prevents execution; do not let it select the main workflow's execution branch or
 block normal completion after relevant automation settles.
 
 ## Apply the autonomy gate

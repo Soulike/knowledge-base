@@ -39,16 +39,19 @@ description: Use when deciding whether automated tests are owed, writing new tes
      or before retaining, strengthening, replacing, consolidating, or deleting
      a reported failing or intermittent test.
    - Read
-     [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+     [Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md)
      when a test or request is offered as evidence that production should own
      defensive, compatibility, migration, trust, presentation, or
      future-consumer behavior; when the available contract does not establish
      the accepted requirement, supported execution path, reachability, or
      semantic owner; when producer or consumer conventions appear to exclude an
      input representable by a reusable module's call signature or data shape;
-     when test structure suggests mixed module responsibilities or a missing
-     seam; or when reassessing retained code and test support as a migration
+     or when reassessing retained code and test support as a migration
      obligation changes or ends.
+   - Read
+     [Module responsibility and interfaces](../../knowledge/software-design/module-responsibility-and-interfaces.md)
+     when test structure suggests mixed module responsibilities or a missing
+     seam.
    - Read
      [Trustworthy test execution](../../knowledge/software-testing/trustworthy-test-execution.md)
      when test discovery, collection, selection, skips, asynchronous behavior,

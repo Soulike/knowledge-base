@@ -112,11 +112,14 @@ independent of work already spent.
 
 After selecting a suitable installed package or reaching an explicit choice,
 read
-[Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
-when the selected approach uses or proposes an adapter, requires deciding
-whether one is justified, or must place validation, compatibility, migration,
-trust, presentation, or other policy between an external solution and project
-code. Then return the approach and its evidence to the original task:
+[Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md)
+(and
+[Module responsibility and interfaces](../../knowledge/software-design/module-responsibility-and-interfaces.md)
+when evaluating seam placement, interface exposure, or caller leverage) when the
+selected approach uses or proposes an adapter, requires deciding whether one is
+justified, or must place validation, compatibility, migration, trust,
+presentation, or other policy between an external solution and project code.
+Then return the approach and its evidence to the original task:
 
 - When an established solution is selected, use its supported interface and
   apply the loaded module-responsibility guidance to the adapter decision and

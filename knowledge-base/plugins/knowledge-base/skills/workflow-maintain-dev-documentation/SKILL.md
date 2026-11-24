@@ -30,6 +30,9 @@ description: Use when creating, updating, auditing, or improving maintained soft
    a Skill is being created, reviewed, or changed. When writing or reviewing an
    invocation or internal routing condition, also read
    [Design selection triggers](../../references/agents/selection-triggers.md).
+   When creating, updating, reviewing, or auditing a Skill or Agent-consumed
+   guidance, also read
+   [Client document size limits for AI agents](../../knowledge/agents/client-document-size-limits.md).
 6. Maintain the complete set of affected artifacts. Whenever that set expands,
    load the active project's matching instructions and standards for each newly
    affected artifact.

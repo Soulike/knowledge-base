@@ -107,7 +107,7 @@ Classify candidate inputs before treating them as coverage obligations:
    caller demand alone.
 
 Apply
-[Module responsibility and defensive scope](../software-design/module-responsibility-and-defensive-scope.md)
+[Defensive scope and boundary ownership](../software-design/defensive-scope-and-boundary-ownership.md)
 before this classification when the producer, supported path, invariant,
 validation responsibility, or effect-owning boundary is not independently
 established. Tests follow production ownership; they do not create it.

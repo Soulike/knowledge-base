@@ -60,7 +60,7 @@ preserving causes and relevant details for investigation. Keep separate signals
 when the safe response differs. For instance, a caller that can correct an
 invalid input needs that distinction from a dependency outage; several vendor
 outage codes can share one local failure when they require the same response.
-[Module responsibility](../software-design/module-responsibility-and-defensive-scope.md#keep-translation-and-policy-with-their-owners)
+[Boundary ownership](../software-design/defensive-scope-and-boundary-ownership.md#keep-translation-and-policy-with-their-owners)
 places external translation at its seam and domain policy at the module whose
 contract owns that policy. A cleaner error type does not grant an adapter the
 right to invent retries or business defaults.

@@ -21,7 +21,7 @@ be established within a consuming workflow.
    account for obligations ended across the migration rather than only the
    last diff.
 2. Apply
-   [Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md#justify-responsibilities-throughout-staged-changes)
+   [Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md#justify-responsibilities-throughout-staged-changes)
    to judge whether affected code and its arrangement remain justified.
    Apply
    [Test effectiveness](../../knowledge/software-testing/test-effectiveness.md#remove-spent-migration-scaffolding)

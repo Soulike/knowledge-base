@@ -106,7 +106,7 @@ implement the remedy. Evaluate alternatives when the reviewer's proposal is
 outside scope but another remedy can satisfy the current contract.
 
 Apply
-[Module responsibility and defensive scope](../../knowledge/software-design/module-responsibility-and-defensive-scope.md)
+[Defensive scope and boundary ownership](../../knowledge/software-design/defensive-scope-and-boundary-ownership.md)
 when deciding whether an approved stage owns behavior before a consumer exists,
 using a test as evidence that production owns behavior, or deciding whether a
 module owns a proposed boundary, defensive, compatibility, migration, trust,

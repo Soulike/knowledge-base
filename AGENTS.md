@@ -133,6 +133,22 @@ Markdown parser and assert against the parsed structure. Treat Markdown source
 text only as parser input; do not infer Markdown structure by matching,
 splitting, or replacing raw text.
 
+## Agent document size limits
+
+`pnpm agent-doc-size:check` (included in `pnpm check`) enforces UTF-8 byte
+ceilings across every marketplace-registered plugin's `knowledge/**/*.md`,
+`references/**/*.md`, and `skills/**/*.md`, plus `.agents/**/*.md`:
+
+- `<= 8,000` UTF-8 bytes for Skill entrypoints (`skills/<skill-name>/SKILL.md`
+  under plugins and `.agents/skills/<skill-name>/SKILL.md`); and
+- `<= 20,480` UTF-8 bytes for all other checked Agent-read Markdown documents.
+
+Keep this file concisely bounded well below Codex CLI's `32,768`-byte (32 KiB)
+project-instruction cap. See
+[Client document size limits for AI agents](knowledge-base/plugins/knowledge-base/knowledge/agents/client-document-size-limits.md)
+for the underlying client limits and progressive-disclosure or splitting
+guidance.
+
 ## Behavioral and documentation change summary
 
 A pull request (or handoff when authoring stops before a pull request exists)

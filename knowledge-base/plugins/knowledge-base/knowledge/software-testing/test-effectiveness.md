@@ -48,332 +48,272 @@ database, file, or deserializer is not runtime validation. Parsing,
 normalization, compatibility handling, and rejection at those seams are
 behavior and can require tests.
 
-Consider a fault-revealing scenario and how to exercise it while establishing
-the production interface. Discovering that inputs cannot be controlled or
-effects cannot be observed at the owning seam can improve the design before
-dependencies become difficult to change. Test-first development can supply
-this early feedback by writing a test that initially fails before implementing
-the behavior that makes it pass. Its timing alone does not make the scenario
-realistic or the oracle independent.
-Choose the protection from the contract and existing evidence.
+Consider a fault-revealing scenario while establishing the production
+interface; discovering uncontrollable inputs or unobservable effects at the
+owning seam guides design before dependencies harden. Test-first development
+supplies that early feedback, though writing a test first does not make its
+scenario realistic or its oracle independent. Choose protection from the
+contract and existing evidence.
 
 ## Establish the owned behavior
 
-A project test must exercise behavior owned by code that the project's declared
-test environment can execute and must observe that behavior's effect. File type
-does not decide ownership: configuration interpreted by a local executable can
-participate in local behavior, while source whose relevant effect occurs only
-inside an unavailable external system does not provide a local test seam.
+A project test must execute behavior owned by code that the project's declared
+test environment can run and observe its effect. File type does not decide
+ownership: configuration interpreted locally participates in local behavior,
+whereas declarations consumed only by an unavailable external system lack a
+local test seam. Parsing an external declaration locally to assert a selected
+literal restates the source without exercising external behavior; apply the
+platform's syntax or schema validation and verify the real integration when
+practical and proportionate. Test local interpretation, transformation,
+validation, or transmission through the owning code's interface; otherwise use
+non-test validation rather than manufacturing a test.
 
-Treat a declaration consumed only by an external platform as input to that
-platform. Parsing the file locally and asserting that it contains a selected
-literal restates the source; it does not exercise the external behavior or
-supply an independent oracle. Apply the platform's syntax or schema validation
-and verify the real integration when practical and proportionate.
+Execute local executable artifacts—scripts, CLI tools, or hooks—and assert
+outputs, exit status, or side effects rather than matching source text, which
+can pass when behavior breaks. Assert source form only when form itself is the
+contract (such as compatibility with a parser that cannot run locally), using a
+structural parser when structure matters.
 
-When local code interprets, transforms, validates, or transmits the input, test
-the owned effect through that code's interface; otherwise use the applicable
-non-test validation instead of manufacturing a test.
-
-For a local executable artifact such as a script, command-line tool, or hook,
-execute it and assert its outputs, exit status, or side effects. Matching its
-source text proves only that text exists and can stay green when behavior
-breaks. Use source-level assertions only when source form is itself the contract (such as
-compatibility with a parser that cannot run locally), using a structural parser
-when structure matters.
-
-For a reusable module, evaluate protection from its established interface
-contract separately from current caller conventions. A consumer test proves one
-caller's integration; it neither narrows the module's contract nor establishes
-which inputs can reach it. Examine the complete interface, enforced gates, and
-real supported producers and execution paths without forcing a separate test
-file or layer when existing coverage exercises the owning seam.
+Evaluate a reusable module's protection from its established interface contract
+separately from current caller conventions; a consumer test proves one caller's
+integration without narrowing the contract or proving which inputs can reach
+it. Inspect the complete interface, enforced gates, and real supported
+producers and paths without forcing a separate test file or layer when existing
+tests exercise the owning seam.
 
 Classify candidate inputs before treating them as coverage obligations:
 
-1. A value that an enforced static gate, opaque constructor, schema, or
-   non-bypassable runtime boundary prevents from reaching the operation through
-   every supported path does not become supported because a cast, private
-   mutation, or impossible fixture can construct it.
-2. The operation's call signature or input representation can carry a value that
-   violates an invariant the module owns enforcing. It earns rejection coverage
-   only when a real supported producer or execution path can deliver it and the
-   module owns interpreting the value or admitting its side effects. Protect
-   both the failure and the absence of callbacks, persistence, or other effects
-   that rejection must prevent.
-3. A value accepted by the complete interface but unused by current consumers
-   remains governed by the module's contract. Decide its coverage from a
-   distinct realistic fault and competing protection rather than from present
-   caller demand alone.
+1. Values blocked on every supported path by an enforced static gate, opaque
+   constructor, schema, or non-bypassable runtime boundary do not become
+   supported merely because a cast, private mutation, or impossible fixture
+   constructs them.
+2. Values representable by the signature or input shape that violate an
+   invariant the module owns enforcing earn rejection coverage only when a real
+   supported producer or path can deliver them and the module owns interpreting
+   them or admitting their side effects; protect both the failure and the
+   absence of callbacks, persistence, or other prevented effects.
+3. Values accepted by the complete interface but unused by current consumers
+   remain governed by the contract; judge coverage by a distinct realistic
+   fault and competing protection rather than current caller demand alone.
 
 Apply
 [Defensive scope and boundary ownership](../software-design/defensive-scope-and-boundary-ownership.md)
-before this classification when the producer, supported path, invariant,
-validation responsibility, or effect-owning boundary is not independently
-established. Tests follow production ownership; they do not create it.
+first whenever the producer, supported path, invariant, validation owner, or
+effect-owning boundary is unestablished. Tests follow production ownership; they
+do not create it.
 
 ## Find marginal protection
 
 Several common test shapes add little or no independent protection:
 
 - A test repeats a guarantee whose complete accept-or-reject shape is directly
-  readable from a declaration. Non-obvious refinements, transformations,
+  readable from a declaration; non-obvious refinements, transformations,
   security boundaries, and unchecked runtime seams remain behavior worth
   exercising.
 - A test retests an upstream framework mechanism without asserting the local
-  transformation, arguments, side effects, failure propagation, or wiring that
-  the project owns.
-- More inputs reach the same already-covered branch without exposing a distinct
+  transformation, arguments, side effects, failure propagation, or wiring the
+  project owns.
+- More inputs hit an already-covered branch without exposing a distinct
   boundary, failure mode, or reachable state dimension.
-- The same result is asserted at several layers even though only one layer owns
-  the decision.
-- A runtime assertion repeats a property enforced for all relevant code by a
-  compiler, linter, schema generator, or equivalent static gate.
+- The same result is asserted across layers when only one layer owns it.
+- A runtime assertion repeats a property already enforced across relevant code
+  by a compiler, linter, schema generator, or equivalent static gate.
 
-When a broadly expressible static property has no gate, prefer adding the gate
-over protecting one example. Static analysis does not replace runtime coverage
-for unchecked inputs.
-
-Redundancy is about independent failure, not textual similarity. Similar tests
-can protect separately implemented branches, while differently written tests
-can be redundant when they only fail for the same reason.
+When a broadly expressible static property lacks a gate, prefer adding the gate
+over testing one example; static analysis still does not replace runtime
+coverage for unchecked inputs. Redundancy depends on independent failure, not
+textual similarity: similar tests can guard separate branches, while differently
+written tests can be redundant when they fail only for the same reason.
 
 ## Select fault-revealing scenarios
 
-After naming the live contract and realistic defect, identify the states that
-can vary independently and affect that defect. Depending on the behavior, these
-can include an authority, derived store, persistence record, immutable artifact,
-cache, external dependency, or asynchronous step. Model only dimensions that
-participate in the contract; a fixture that leaves every input healthy and
-mutually consistent can exercise the ordinary path while hiding the named fault.
+After naming the live contract and realistic defect, identify states that can
+vary independently and affect that defect—such as an authority, derived store,
+persistence record, immutable artifact, cache, external dependency, or
+asynchronous step. Model only dimensions that participate in the contract; a
+fixture with uniformly healthy, consistent inputs can miss the named fault.
 
-Choose degraded, partial, stale, absent, or contradictory combinations that are
-reachable and expose distinct live faults. Do not brute-force a Cartesian
-product or construct combinations that the actual producers, protocol, or
-operation cannot create. A state combination earns coverage when it can occur
-and changes an owned decision, capability, failure, or side effect.
+Choose reachable degraded, partial, stale, absent, or contradictory
+combinations that expose distinct live faults rather than brute-forcing a
+Cartesian product or constructing impossible combinations. A combination earns
+coverage when it can occur and changes an owned decision, capability, failure,
+or side effect.
 
-Control every independently meaningful input in the selected scenario. When a
-fallback, cache, or retained derived value remains available, establish whether
-using it is permitted or forbidden rather than letting fixture defaults decide.
-When one contract requires both a retained capability and the absence of a
-secondary authority, fallback, mutation, or side effect, assert both and keep a
-positive control that proves the fixture can exercise the capability.
+Control every independently meaningful input in the scenario. When a fallback,
+cache, or retained derived value remains present, establish whether using it is
+permitted or forbidden rather than leaving it to fixture defaults. When a
+contract requires both a retained capability and the absence of a secondary
+authority, fallback, mutation, or side effect, assert both alongside a positive
+control proving the fixture can exercise the capability.
 
-For orchestration that forwards values returned by collaborators, a call
-assertion proves the interaction but not that the returned value reached the
-downstream decision. For each independently meaningful forwarded value, name a
-plausible wiring fault such as omission, substitution with another snapshot or
-context, or swapping two results. Choose fixture values for which correct and
-faulty forwarding produce different outcomes at the seam that owns the
-decision, and assert that semantic outcome. Treat call and argument assertions
-as supplemental unless the interaction itself is the owned contract. Use
-separate focused scenarios when one fixture cannot distinguish every forwarded
-value, and apply [controlled mutation evidence](#prove-the-test-has-teeth) when
-the protection remains uncertain.
+For orchestration forwarding collaborator results, a call assertion proves the
+interaction but not that the returned value reached the downstream decision.
+For each forwarded value, name a plausible wiring fault—omission, substitution
+with another snapshot or context, or swapped results—choose fixture values
+where correct and faulty forwarding produce different outcomes at the
+decision-owning seam, and assert that semantic outcome. Treat call assertions as
+supplemental unless the interaction itself is the contract, use separate
+focused scenarios when one fixture cannot distinguish forwarded values, and
+apply [controlled mutation evidence](#prove-the-test-has-teeth) when uncertainty
+remains.
 
-For example, current configuration can leave an input unclassified while
-historical configuration explicitly selects no action. Correctly forwarding
-the historical result selects no action, while omitting it produces the
-unclassified-input failure. If current and historical fixtures instead produce
-the same decision, the expected result cannot establish which value was
-forwarded.
+For example, if current configuration leaves an input unclassified while
+historical configuration explicitly selects no action, forwarding the historical
+result yields no action whereas omitting it produces the unclassified-input
+failure; fixtures where both produce the same decision cannot prove forwarding.
 
-For [human decision authorization](../software-design/human-decision-authorization.md)
-binding a later command to reviewed content, use a supersession fixture: create
-decision A, replace it with B under the same stable request and logical action
-identifiers with changed approval-relevant content (different request IDs avoid
-the substitution fault), submit a schema-valid stale command for A through the
-supported path, and assert rejection at the decision owner before protected
-callbacks, persistence, effects, or consumption while B remains current and
-unchanged, then prove a valid response for B proceeds.
-
-Schema parsing and stale dismissal do not prove freshness checks elsewhere.
-Exercise each independently implemented admission or execution path that can
-omit the comparison—keeping detailed checks at the owner and a representative
-composed check when transport can drop or substitute the identity—asserting
-that a stale value changes the semantic outcome at the owner rather than merely
-being accepted or forwarded. Keep stale-command rejection distinct from a test
-holding old in-flight work to prove its late completion cannot overwrite a
-replacement.
+Schema parsing and dismissal checks do not prove freshness, identity, or
+precondition comparisons elsewhere. Exercise each independently implemented
+admission or execution path that can omit a required check—keeping detailed
+cases at the owner and a representative composed check when transport can drop
+or substitute the value—and assert that a stale or mismatched input changes the
+semantic outcome at the owner rather than merely being accepted or forwarded.
 
 Cover detailed state combinations at the narrowest owning seam, adding a
-representative composed scenario when the fault depends on cross-boundary wiring
-(selecting the highest-risk user-observable state supported by the evidence
-rather than defaulting to the happy path). For example, pair a healthy baseline
-(authority reports the resource available, current metadata, matching prepared
-artifact) with a fault case where the authority still reports the resource
-available and metadata current while the recorded artifact is removed and a
-general cache remains—asserting both the required outcome and that the cache is
-not consulted when fallback is forbidden, since a generic "unavailable" fixture
-that leaves the cache unexamined proves neither claim. Test a separate reachable
-contradiction where derived data survives after the authority no longer reports
-the resource and must not become a second authority.
+representative composed scenario at the highest-risk user-observable state
+supported by the evidence rather than defaulting to the happy path when
+cross-boundary wiring can fail. Avoid generic "unavailable" fixtures that leave
+a forbidden fallback or general cache unexamined: test the reachable partial
+failure (such as an available resource whose prepared artifact is missing while
+a cache remains) and assert both the required outcome and that fallback did not
+run, plus a separate reachable contradiction where surviving derived data must
+not act as a second authority.
 
 ### Treat scale and input shape as fault dimensions
 
-When a module's contract admits materially varying input size or shape, identify
-dimensions that can change reachable correctness state—such as size, depth and
-execution waves, breadth and fan-out, density, ordering, contention, early or
-late failure, cancellation position, and combinations of successful, satisfied,
-failed, blocked, and pending work—only when they can expose a named fault (such
-as stack exhaustion, incomplete propagation, order dependence, starvation, or
+When a contract admits materially varying input size or shape, identify
+dimensions that change reachable correctness state—size, depth and execution
+waves, breadth and fan-out, density, ordering, contention, early or late
+failure, cancellation position, and combinations of successful, satisfied,
+failed, blocked, and pending work—only when they expose a named fault (such as
+stack exhaustion, incomplete propagation, order dependence, starvation, or
 resource conflicts) that small fixtures miss. Accepting a collection alone does
 not create a stress-test obligation.
 
-Use the smallest bounded deterministic fixture reaching the selected dimension
-(generated when clearer) and assert contract invariants—such as prerequisite
-ordering, concurrency and conflict limits, order independence, one outcome per
-admitted item, transitive failure propagation, cancellation policy, and state
-release—rather than copying a large trace or production algorithm. Do not
-multiply fixtures for the same fault and dimension. Keep correctness fixtures
-stable across supported environments; elapsed time, throughput, memory use,
-operation growth, and other performance or resource claims require their own
-established contract and observable metric under
-[Test execution cost](test-execution-cost.md) rather than using diagnostic
-timeouts as oracles.
+Use the smallest bounded deterministic fixture reaching the dimension (generated
+when clearer) and assert contract invariants—prerequisite ordering, concurrency
+and conflict limits, order independence, one outcome per admitted item,
+transitive failure propagation, cancellation policy, and state release—rather
+than copying a large trace or production algorithm. Avoid multiplying fixtures
+for the same fault and dimension, and keep correctness fixtures stable across
+environments; elapsed time, throughput, memory, and operation growth require
+their own contract and observable metric under
+[Test execution cost](test-execution-cost.md) rather than diagnostic timeouts.
 
 ## Use an independent oracle
 
-Derive expected results independently from the implementation under test.
-Calling the production builder on both sides of an assertion, importing the
-decision constant and asserting the same constant, or reimplementing the full
-algorithm in the test creates a mirror that can preserve the same defect.
-Comparing two artifacts can likewise preserve a defect shared by both.
+Derive expected results independently from the implementation under test;
+calling the production builder on both sides, importing the tested constant, or
+reimplementing the algorithm creates a mirror that shares defects, as can
+comparing two unverified artifacts.
 
-For snapshots, structural equality, and source or text matching, establish
-why a supported consumer or accepted project purpose needs the fixed
-representation or synchronization relationship. A statement that artifacts
-match is itself a claim to evaluate; it does not by itself establish that
-enforcing their equality serves that purpose. A committed generated artifact
-may be promised to match current generation; equality then protects against
-missed regeneration, while separate evidence establishes generator correctness.
-The assertion's inability to detect shared defects limits its claim rather than
-invalidating justified synchronization protection.
+For snapshots, structural equality, and text matching, establish why a
+supported consumer or project commitment requires the fixed representation or
+synchronization; asserting that artifacts match does not prove that equality
+protects a contract. A committed generated artifact promised to match current
+generation needs equality protection against missed regeneration, with separate
+evidence for generator correctness; shared-defect blindness limits the claim
+without invalidating synchronization protection.
 
 When a justified parity or output-equivalence contract requires artifacts or
-outputs to agree everywhere except a bounded set of documented differences or
-volatile fields, avoid checking only a fixed allowlist of shared fields,
-because newly added fields edited on one side silently bypass it. Instead,
-validate expected exclusions where required so renamed or removed difference
-paths do not remain silently unused, remove or mask only those explicitly
-justified paths, and assert structural equality across the remaining governed
-fields and any covered surrounding content. Limit subset-only checks to
-contracts where only those named fields are coupled while other fields may vary
-independently.
+outputs to agree except for bounded documented differences or volatile fields,
+do not check only a fixed allowlist of shared fields, which silently misses
+unmatched newly added fields. Instead, validate expected exclusions where
+required so renamed or removed difference paths do not stay silently unused,
+mask or remove only those justified paths, and assert structural equality across
+the remaining governed fields and covered context; restrict subset-only checks
+to contracts where only those named fields are coupled.
 
-Use hand-derived outcomes, externally visible contracts, invariants, or a simpler
-independent model on the smallest fault-revealing fixture. Observe the effect a
-contract requires: a retry test should observe attempts and outcome, not merely
-assert the configured retry count.
-Check a relevant permitted variation and a realistic violation when judging
-whether an assertion constrains too much or protects too little. This is a
-reasoning requirement, not a demand to execute mutations for every test.
-
-Exercise each reachable short-circuit outcome in compound guards. Pair a
-negative assertion with a positive control so an empty or broken setup cannot
-satisfy it accidentally. For persisted-shape migrations, assert both the
-replacement behavior and the absence of consumed legacy fields.
+Use hand-derived outcomes, external contracts, invariants, or a simpler model on
+the smallest fault-revealing fixture, observing contract-required effects (such
+as retry attempts and outcome, not only configured retry count). Check a
+relevant permitted variation and realistic violation when judging assertion
+strength—a reasoning check, not a mandate to mutate every test. Exercise each
+reachable short-circuit outcome in compound guards, pair negative assertions
+with positive controls, and for persisted-shape migrations assert both the
+replacement behavior and absence of consumed legacy fields.
 
 ## Test at the owning seam
 
-One test should diagnose one behavior. Keep multiple assertions together when
-they jointly define one contract, but split unrelated contracts whose failures
-would have different owners.
+One test should diagnose one behavior: group assertions that jointly define one
+contract, and split unrelated contracts with different failure owners.
 
-Large setup is often a design signal. Before hiding it in a helper, consider
-whether a narrower interface or different owning layer would make the behavior
-directly testable. Several co-located test groups organized around independent
-responsibilities of one module can likewise reveal a missing production seam;
-the grouping is a reason to investigate, not an automatic split rule.
+Large setup is often a design signal; before hiding it in a helper, check
+whether a narrower interface or different owning layer makes the behavior
+directly testable. Co-located test groups around independent module
+responsibilities can likewise signal a missing production seam—an investigation
+prompt, not an automatic split rule.
 
 Place doubles at slow, nondeterministic, or external seams while keeping the
-behavior under review real. A double above a side effect that the test depends
-on removes its own subject. Make doubles reject unexpected inputs and represent
-the response shapes and failure branches relevant to the integration.
-
-When mock setup is larger or more volatile than the behavior it isolates, use a
-real collaborator at the next stable seam; remove mocks without a concrete seam,
-cost, or nondeterminism justification. Apply
-[Trustworthy test execution](trustworthy-test-execution.md) when fixture
+reviewed behavior real; a double above a depended-on side effect removes its own
+subject. Reject unexpected inputs in doubles and model the response shapes and
+failure branches relevant to the integration. When mock setup exceeds or is
+more volatile than the isolated behavior, use a real collaborator at the next
+stable seam and drop mocks lacking a seam, cost, or nondeterminism reason.
+Apply [Trustworthy test execution](trustworthy-test-execution.md) when fixture
 ownership, ambient state, time, ordering, or cleanup affects the result.
 
 ### Stay within external dependencies' public contracts
 
-When a test crosses an external dependency—such as a UI component library, ORM,
-router, or SDK—to verify application-owned behavior, keep interactions and
-assertions within the behavioral and semantic contracts the dependency documents
-for callers or users. Avoid coupling to private markup, styling hooks or CSS
-classes, internal listener attachment nodes, generated query aliases, or
-undocumented internal state, which can change across compatible dependency
-updates without breaking the dependency's contract or the application; assert
-application-owned outcomes, wired inputs, and documented contract effects
-instead.
+When tests cross an external dependency—such as a UI library, ORM, router, or
+SDK—to verify application behavior, interact and assert only through
+contracts the dependency documents for callers or users. Avoid private markup,
+styling hooks or CSS classes, internal listener nodes, generated query aliases,
+or undocumented internal state that can change across compatible updates; assert
+application outcomes, wired inputs, and documented contract effects instead.
 
-For example, clicking a UI library's internal wrapper class or asserting a visual
-state class can break when a patch release moves the click listener or renames
-styling wrappers; driving the control through its documented interface or
-accessible semantics and asserting application state, wired inputs, and standard
-contract state preserves coverage across valid updates. Likewise, asserting an
-ORM-backed repository's documented outputs or persisted state tolerates internal
-query-generation changes across minor updates.
+For example, drive a UI control through its documented interface or accessible
+semantics and assert application state, wired inputs, and standard contract
+state rather than internal wrapper or visual-state classes, and assert an
+ORM-backed repository's documented outputs or persisted state rather than
+internal query aliases.
 
 ## Make the protected behavior readable
 
-Maintained tests are software that later readers must understand and change.
-Keep the situation, operation under test, and expected consequence recognizable
-so readers can tell which contract is protected and which fixture facts matter.
+Maintained tests are software future readers must understand and modify. Keep
+the situation, operation under test, and expected consequence clear so readers
+see which contract is protected and which fixture facts matter.
 
-Keep setup, action, and checking distinguishable without imposing rigid labelled
-blocks. Name helpers after meaningful test operations to remove incidental
-construction or transport noise without burying independently meaningful
-inputs, hidden mutable state, or the expected-result rationale (and investigate
-large setup as a [missing-seam signal](#test-at-the-owning-seam) before hiding
-it).
+Separate setup, action, and checking visually without rigid labelled blocks.
+Name helpers after meaningful test operations to hide construction or transport
+noise without burying meaningful inputs, mutable state, or oracle rationale
+(and investigate large setup as a [missing-seam signal](#test-at-the-owning-seam)
+before wrapping it). Multiple named expectations can clarify failures better
+than one compact string, and checking both rejection and absence of a write can
+jointly define one contract without duplicating setup—while keeping independent
+operations separate.
 
-Make required state and mismatches easy to recognize. Multiple named
-expectations can be clearer than one compact string; for a rejected update,
-checking both rejection and absence of a write can jointly define one contract
-without repeating setup just to isolate one assertion per test, while keeping
-independent operations with distinct consequences separate.
-
-Refactor helpers and fixtures as behavior evolves while preserving independent
-expectations and fault sensitivity. Test code may use simpler construction than
-production code when it aids clarity within suite resource limits, provided it
-remains correct, isolated, reliable, and protective.
+Refactor helpers and fixtures as behavior evolves without losing independent
+expectations or fault sensitivity. Simpler construction than production code is
+fine for clarity within resource limits when isolation, reliability, and
+protection hold.
 
 ## Remove spent migration scaffolding
 
-Migration comparison tests, fixtures, and test-only adapters can establish that
-a cutover is safe without earning a permanent place in the target system.
-Reassess their protection as the comparison obligation ends. A fixture that
-reconstructs an obsolete entry path solely to compare old and new behavior can
-retire together with its adapter when no supported contract needs that path.
-Retain effective protection for the current contract, including any supported
-older clients or persisted formats; the comparison itself is not a substitute
-for that protection. Preserve scaffolding whose potentially live obligation
-remains unresolved.
+Migration comparison tests, fixtures, and test-only adapters can verify a
+cutover without earning permanent residence. Reassess them as the comparison
+obligation ends: retire fixtures and adapters that reconstruct obsolete entry
+paths solely for old-vs-new comparison once no supported contract needs them,
+while preserving protection for current contracts, supported older clients,
+persisted formats, and unresolved obligations.
 
-A temporary test proving that old behavior is gone can expose an incomplete
-migration. It should not automatically become permanent. Remove it when retained
-new-contract protection strictly implies the old behavior is absent and no live
-input, compatibility path, shared default, or security boundary can restore it.
-Keep it when reintroduction remains a realistic standing risk.
+Temporary tests proving old behavior is gone can catch incomplete migrations
+without belonging permanently. Remove them when retained new-contract tests
+strictly imply the old behavior is absent and no live input, compatibility
+path, shared default, or security boundary can restore it; keep them while
+reintroduction remains a standing risk.
 
 ## Prove the test has teeth
 
-Mutation analysis asks whether coverage turns red when the implementation
-acquires a plausible defect. Representative mutations include a wrong argument
-or constant, the wrong branch handler, an omitted state change or side effect,
-an empty return, and missing validation at a boundary.
+Mutation analysis asks whether coverage fails when a plausible defect—wrong
+argument or constant, wrong branch, omitted state change or side effect, empty
+return, or missing boundary check—is introduced.
 
-A controlled temporary mutation is stronger than a mental exercise when it is
-safe, reversible, and needed to resolve uncertainty. It is not universally
-required: copied production logic, the same branch and observable, declaration
-restatement, or the absence of a live contract can establish redundancy
-directly. When retained coverage is claimed to catch the same fault, a realistic
-mutation can prove it. A surviving mutation identifies either an unprotected
-behavior or an assertion without teeth.
+A safe, reversible temporary mutation beats mental analysis when uncertainty
+remains, though copied logic, identical branches and observables, declaration
+restatement, or absent contracts establish redundancy directly. When retained
+coverage is claimed to catch the same fault, a realistic mutation can prove it;
+a surviving mutation exposes unprotected behavior or a toothless assertion.
 
 ## Source for early feedback and test readability
 

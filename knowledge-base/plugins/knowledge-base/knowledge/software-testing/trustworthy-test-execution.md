@@ -27,44 +27,35 @@ necessarily about the behavior it was intended to protect.
 
 ## Prove intended validation ran
 
-Discovery should follow stable project conventions rather than a hand-maintained
-list that must change for every new location. An unexpectedly empty target must
-fail closed; an intentionally empty target needs an explicit, reviewable
-exception.
-
-The same rule applies to compilers, linters, coverage tools, and other supporting
-gates. Verify collection at each relevant boundary rather than inferring it from
-a filename or directory.
+Discovery should follow stable project conventions rather than a
+hand-maintained list updated per location. An unexpectedly empty target must
+fail closed; an intentionally empty target requires an explicit, reviewable
+exception. Apply the same rule to compilers, linters, coverage tools, and other
+supporting gates, verifying collection at each relevant boundary rather than
+inferring it from filenames or directories.
 
 When discovery changes, use reported test identities or a temporary failing
-sentinel to distinguish "not run" from "passed." Remove the sentinel after the
-check. A runner or discovery migration must compare expected and collected
-identities in both directions. Equal counts are insufficient because one
-omission and one accidental inclusion can cancel each other.
-
-Collection equivalence alone does not establish migration equivalence. Result
-and skip outcomes, lifecycle hooks, cleanup, environment restoration,
-scheduling, concurrency, isolation, and every affected project-declared
-entrypoint can also change semantics.
+sentinel (removed afterward) to distinguish "not run" from "passed." Compare
+expected and collected identities in both directions—equal counts miss
+canceling omissions and accidental inclusions—and verify result/skip outcomes,
+lifecycle hooks, cleanup, environment restoration, scheduling, concurrency,
+isolation, and all project-declared entrypoints.
 
 ## Keep pass, fail, and skip honest
 
-An applicability guard may skip coverage only while a declared optional
-prerequisite is genuinely absent. Once the suite applies, failure to start,
-query, authenticate with, or health-check a present dependency is a failure, not
-an unsupported environment. Keep applicability detection separate from
-execution so a probe cannot convert a broken dependency into a skip.
+An applicability guard may skip coverage only while an optional prerequisite is
+genuinely absent. Keep applicability detection separate from execution so a
+failing probe never converts a broken present dependency (failing to start,
+query, authenticate, or health-check) into a skip.
 
-A selector that maps changed inputs to tests, shards, platforms, or validation
-must broaden to conservative validation when its comparison base is incomplete
-or an input is unknown. Represent classifier failure separately from an
-intentional empty selection, and do not let an aggregator collapse either into
-the same successful skip.
+A selector mapping changed inputs to tests, shards, platforms, or gates must
+broaden to conservative validation when its comparison base is incomplete or an
+input is unknown, and keep classifier failures distinct from intentional empty
+selections without collapsing either into a successful skip.
 
-Retries can reduce transient disruption, but they do not make a nondeterministic
-test correct. Diagnose with retries disabled when supported. When retries cannot
-be disabled, retain every attempt's outcome; an aggregate pass can conceal the
-same failure before and after a proposed repair.
+Retries can mask transient disruption without fixing nondeterminism; diagnose
+with retries disabled when supported, or retain every attempt's outcome so an
+aggregate pass cannot hide repeated failures before and after a repair.
 
 ## Synchronize on evidence
 
@@ -80,98 +71,75 @@ establishes the awaited fact:
 | A coarse timestamp or version                    | Establish a deterministic older precondition, reread the baseline, then perform the action.                  |
 | The delay itself is the contract                 | Observe the trigger, then measure from it with an explicit interval rationale and adequate diagnostic bound. |
 
-Before each wait, poll, follow-up action, or assertion, name the exact fact the
-next step requires and accept a barrier only when observing it implies that
-fact. Evidence for one completion phase does not establish a later or unrelated
-phase. A response establishes that a reply was observed, while a URL assertion
-establishes only the asserted address condition. A rendered or accessible-state
-assertion establishes its asserted view condition at that observation point; it
-does not by itself establish unrelated hydration, effects, persistence, or
-background work. A local state change does not establish persistence, and a
-process-start signal does not establish service readiness. Observe an
-acknowledgement owned by the required phase, such as the persistence result, a
-read through the persistence owner, or the process's declared readiness
-interface. Treat exit before readiness as failure. Do not bridge phases with a
-fixed delay or an unrelated request.
+Before each wait, poll, follow-up action, or assertion, name the exact fact
+required and accept a barrier only when observing it implies that fact. One
+phase does not establish a later or unrelated phase: a response, URL assertion,
+rendered or accessible state, local state change, or process-start signal does
+not by itself establish hydration, persistence, background work, or service
+readiness. Observe an acknowledgement owned by the required phase (such as the
+persistence result, a read through its owner, or the process's declared
+readiness interface), treat exit before readiness as failure, and never bridge
+phases with a fixed delay or unrelated request.
 
-Before replacing a fixed wait or eventual-condition poll, identify the
-production completion path that the existing test actually reaches. The same
-observable end state can result from a primary event and a timeout, polling,
-watchdog, or compatibility fallback. A new synchronization mechanism that
-forces a different path can preserve the final assertion while discarding the
-old path's protection. Apply
+Before replacing a fixed wait or eventual poll, identify the production
+completion path the existing test actually reaches, since a primary event,
+timeout, polling loop, watchdog, or fallback can reach the same end state.
+Changing synchronization to force another path can keep the assertion green
+while discarding the old path's protection; apply
 [Test effectiveness](test-effectiveness.md) to give independently implemented
-completion paths separate coverage dispositions, retaining each only when it
-catches a distinct live fault.
+completion paths separate coverage dispositions.
 
-Synchronize a retained path on evidence specific to that path. When a timer's
-logical threshold is contractual and its clock can be controlled safely,
-advance that clock and observe the state immediately before and at the boundary;
-use a path-specific temporary mutation when the protected branch remains
-ambiguous. For example, an eventual-removal test
-in a harness that never emits `animationend` can be exercising a 400 ms timeout
-fallback. Dispatching `animationend` makes the test faster but stops protecting
-that fallback, while a controlled-clock test that observes presence through
-399 ms and removal at 400 ms preserves the boundary without paying real elapsed
+Synchronize each retained path on path-specific evidence: for contractual timer
+thresholds under safe clock control, advance the clock across the boundary; use
+a path-specific temporary mutation when the protected branch remains ambiguous.
+For example, if an eventual-removal test in a harness without `animationend`
+exercises a 400 ms timeout fallback, dispatching `animationend` speeds the run
+but stops protecting that fallback, whereas a controlled clock checking presence
+at 399 ms and removal at 400 ms preserves the boundary without waiting in real
 time.
 
-A polling condition must imply the assertion that follows. Waiting for one call
-before asserting exactly three races an intermediate state. Negative assertions
-need an ordering guarantee, acknowledgement, queue drain, lifecycle event, or
-other barrier proving that an incorrect event would already have occurred.
+A polling condition must imply the following assertion (waiting for one call
+before asserting three races intermediate state), and negative assertions
+require an ordering guarantee, acknowledgement, queue drain, or lifecycle
+barrier proving an incorrect event would already have occurred.
 
 ### Choose time control for the protected contract
 
 Distinguish a contractual timer threshold or elapsed duration, an operation's
-timeout completion path, and a diagnostic deadline that bounds test execution.
-A logical timer threshold can be protected with controlled time. An actual
-elapsed-time or performance guarantee needs measurement from the observed
-trigger with a real monotonic clock and the relevant production work; advancing
-simulated time cannot establish it. When only the timeout path is protected,
-the production duration can instead be operational policy; exercising that
-path need not pay the default interval.
+timeout completion path, and a diagnostic deadline bounding test execution.
+Logical timer thresholds can use controlled time; real elapsed-time or
+performance claims require real monotonic measurement from the observed trigger;
+and timeout-path tests where production duration is operational policy need not
+pay the default interval.
 
-Use a controlled clock when it can safely drive the relevant production timer.
-Flush asynchronous work between clock steps, and establish the real I/O phase
-on which the timeout depends before advancing time. Real sockets, streams,
-processes, and framework polling can depend on real time even when an
-application timer is controlled. Advancing one clock does not establish
-progress on another. Mixed clocks are usable only when the intended path,
-required phase barriers, and resource settlement remain observable without
-clock interference.
+Use a controlled clock when it can safely drive the production timer, flushing
+async work between steps and establishing any real I/O phase the timeout
+depends on before advancing time. Real sockets, streams, processes, and polling
+can still depend on real time; mixed clocks work only when the intended path,
+barriers, and settlement remain observable without interference.
 
-When controlled time cannot safely exercise a retained real-I/O timeout path,
-use a shorter nonzero duration at the boundary that owns the timeout policy.
-Reuse an existing configuration or construction seam where possible; expose a
+When controlled time cannot safely exercise a real-I/O timeout path, pass a
+shorter nonzero duration at the seam owning the timeout policy (exposing a
 missing policy seam at its owner rather than adding test-only switches across
-callers. Keep the production default unchanged and execute the real operation
-and timeout handler. Protect default selection or the original duration
-separately when either is a requirement; a short-policy case does not establish
-them.
+callers). Keep the production default unchanged, execute the real operation and
+timeout handler, and protect default selection or the original duration
+separately when required. Pick the shorter duration via bounded focused and
+aggregate runs under realistic concurrency and load with margin for the I/O
+phase, propagation, settlement, and cleanup; no single duration fits all
+suites. Apply [Test execution cost](test-execution-cost.md) to comparable
+duration claims—shortening one case does not establish a suite-wide wall-clock
+speedup.
 
-Select the shorter value through bounded focused executions and the owning
-aggregate under relevant concurrency and load. Leave enough margin to establish
-the intended I/O phase reliably, and keep the governing diagnostic deadline
-large enough for timeout propagation, settlement, and applicable cleanup. No
-duration is universally suitable. Apply [Test execution cost](test-execution-cost.md)
-to comparable measurements; reducing one case's wait does not establish a
-reduction in the complete suite's wall-clock duration.
-
-Assert evidence specific to the timeout path, its outcome, the contract-required
-attempt count, and any forbidden retry or side effect. A timeout result or
-cancellation request does not establish that owned work stopped. Observe the
-operation's true completion and resource-settlement boundaries before cleanup
-or asserting that no later effect can occur. Use a path-specific temporary
-mutation when the same outcome could conceal a different completion path.
-
-For example, a client has a long production response timeout and must return an
-unconfirmed result without retrying when its peer remains silent. Keep a real
-loopback server that receives the request and sends no response. Use a shorter
-request policy, prove receipt occurred before timeout, observe the real timeout
-outcome and one attempt, and confirm request and server resources have settled
-before cleanup. An immediate synthetic error bypasses the silent-peer path;
-timeout before receipt can instead test connection establishment. Neither
-establishes the intended response-timeout protection.
+Assert evidence specific to the timeout path, outcome, required attempt count,
+and forbidden retries or side effects. Neither a timeout result nor a
+cancellation request proves owned work stopped: confirm true completion and
+resource settlement before cleanup or asserting no later effect occurs, using a
+temporary path-specific mutation when the branch remains ambiguous. For
+example, to test a silent-peer response timeout without retries, use a real
+loopback server that receives the request and stays silent, pass a shorter
+timeout policy, prove receipt before timeout, assert the timeout outcome and
+single attempt, and await request and server settlement before cleanup; an
+immediate synthetic error or pre-receipt timeout tests the wrong path.
 
 ## Own execution inputs
 

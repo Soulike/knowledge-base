@@ -1,8 +1,8 @@
-# Write or update from a known need or software change
+# Write or update from a known need or change
 
 Use this procedure when selected by
 [Select the maintenance path](../SKILL.md#select-the-maintenance-path) for a
-known documentation need or for software-change impact.
+known documentation need or for change impact.
 
 ## Account for documentation impact
 
@@ -96,10 +96,11 @@ known documentation need or for software-change impact.
    scope, every mandatory mechanism has a basis beyond its desired outcome, and
    examples preserve choices the underlying contract permits.
 3. Perform a thorough self-check of the final content and required routes
-   against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
-   and
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md)).
+   against
+   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and, when covering software behavior, interfaces, operations, decisions, or
+   source commentary,
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
    When a change meets the high-risk criteria in
    [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
    run a lightweight probe to uncover hidden prerequisites or trigger

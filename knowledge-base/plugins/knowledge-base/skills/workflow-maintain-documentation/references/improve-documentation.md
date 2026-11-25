@@ -84,10 +84,11 @@ placement in that order before deciding whether to edit:
    strength, scope, conditions, rationale, or exceptions, and that moves and
    source indexes preserve access from each original reader starting point.
 2. Perform a thorough self-check of the final content and required routes
-   against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
-   and
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md)).
+   against
+   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and, when covering software behavior, interfaces, operations, decisions, or
+   source commentary,
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
    Check factual pointers against their authoritative sources and search for
    stale terminology, competing explanations, broken routes, and authoring-only
    material. When a revision meets the high-risk criteria in

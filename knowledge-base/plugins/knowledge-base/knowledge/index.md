@@ -15,7 +15,6 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/agents/client-document-size-limits.md](agents/client-document-size-limits.md)                                         | time-sensitive |
 | [knowledge/agents/tool-interface-design.md](agents/tool-interface-design.md)                                                     | time-sensitive |
 | [knowledge/automation/workflow-outcome-integrity.md](automation/workflow-outcome-integrity.md)                                   | evergreen      |
-| [knowledge/documentation/engineering-accomplishment-reports.md](documentation/engineering-accomplishment-reports.md)             | evergreen      |
 | [knowledge/documentation/maintained-document-quality.md](documentation/maintained-document-quality.md)                           | evergreen      |
 | [knowledge/documentation/software-development-documentation.md](documentation/software-development-documentation.md)             | evergreen      |
 | [knowledge/eslint/composable-policy-rules.md](eslint/composable-policy-rules.md)                                                 | time-sensitive |

@@ -1,6 +1,6 @@
 ---
 name: workflow-maintain-dev-documentation
-description: Use when creating, updating, auditing, or improving maintained software-development documentation, Skills, or Agent guidance, or assessing or addressing documentation impact from software changes.
+description: Use when creating, updating, auditing, or improving maintained software-development documentation or source commentary, or assessing or addressing documentation impact from software changes.
 ---
 
 # Maintain development documentation
@@ -25,18 +25,10 @@ description: Use when creating, updating, auditing, or improving maintained soft
    documentation as a whole, the sources that establish its factual claims,
    and the links or navigation by which readers find it. Identify the intended
    readers, their recurring tasks, and the information or routes they need.
-5. Read
-   [Agent Skill authoring](../../references/agents/skill-authoring.md) whenever
-   a Skill is being created, reviewed, or changed. When writing or reviewing an
-   invocation or internal routing condition, also read
-   [Design selection triggers](../../references/agents/selection-triggers.md).
-   When creating, updating, reviewing, or auditing a Skill or Agent-consumed
-   guidance, also read
-   [Client document size limits for AI agents](../../knowledge/agents/client-document-size-limits.md).
-6. Maintain the complete set of affected artifacts. Whenever that set expands,
+5. Maintain the complete set of affected artifacts. Whenever that set expands,
    load the active project's matching instructions and standards for each newly
    affected artifact.
-7. Establish whether the requested result is an assessment-only review or an
+6. Establish whether the requested result is an assessment-only review or an
    authorized delivery or revision. Keep assessment-only work read-only. For
    authorized edits, resolve required project decisions (or keep edits within
    agreed findings) before modifying maintained content, and stop to report
@@ -47,14 +39,14 @@ description: Use when creating, updating, auditing, or improving maintained soft
 Select every matching path from the observable work and user intent:
 
 - **Known information need or software-change impact.** When a known need calls
-  for creating or updating maintained software-development documentation,
-  Skills, or Agent guidance, or when a software or engineering change requires
-  documentation impact to be assessed and addressed, read and follow
+  for creating or updating maintained software-development documentation, or
+  when a software or engineering change requires documentation impact to be
+  assessed and addressed, read and follow
   [Write or update from a known need or software change](references/write-dev-documentation.md).
 - **Open-ended audit or quality improvement.** When an open-ended concern,
   accumulated defect, or quality goal calls for auditing and improving existing
-  maintained software-development documentation, source commentary, Skills, or
-  Agent guidance, read and follow
+  maintained software-development documentation or source commentary, read and
+  follow
   [Audit and improve existing documentation](references/improve-dev-documentation.md).
 
 When a task both addresses a software-change or known update and exposes

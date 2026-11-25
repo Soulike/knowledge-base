@@ -2,7 +2,7 @@
 
 Use this procedure when selected by
 [Select the maintenance path](../SKILL.md#select-the-maintenance-path) for a
-known documentation or Skill need or for software-change impact.
+known documentation need or for software-change impact.
 
 ## Account for documentation impact
 
@@ -97,10 +97,10 @@ known documentation or Skill need or for software-change impact.
    examples preserve choices the underlying contract permits.
 3. Perform a thorough self-check of the final content and required routes
    against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result),
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md),
-   and [Agent Skill authoring](../../../references/agents/skill-authoring.md) when
-   a Skill changed). When a change meets the high-risk criteria in
+   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md)).
+   When a change meets the high-risk criteria in
    [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
    run a lightweight probe to uncover hidden prerequisites or trigger
    ambiguities and repair confirmed gaps in the text. Return an unsuitable
@@ -113,8 +113,8 @@ known documentation or Skill need or for software-change impact.
    Search for stale terminology, paths, headings, examples, prompts, and
    superseded prose.
 5. Run the project's applicable deterministic checks (such as formatter, link
-   or anchor checks, and Skill validation). Treat a failed or unavailable
-   required check as an incomplete result.
+   or anchor checks, and documentation validation). Treat a failed or
+   unavailable required check as an incomplete result.
 
 Return the final impact and affected-artifact account, self-check summary, any
 probe findings and repairs, reconciled routes, and check results to

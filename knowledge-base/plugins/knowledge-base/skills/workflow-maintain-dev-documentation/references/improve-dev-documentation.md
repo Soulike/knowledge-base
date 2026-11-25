@@ -85,12 +85,12 @@ placement in that order before deciding whether to edit:
    source indexes preserve access from each original reader starting point.
 2. Perform a thorough self-check of the final content and required routes
    against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result),
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md),
-   and [Agent Skill authoring](../../../references/agents/skill-authoring.md) when
-   a Skill changed). Check factual pointers against their authoritative sources
-   and search for stale terminology, competing explanations, broken routes, and
-   authoring-only material. When a revision meets the high-risk criteria in
+   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md)).
+   Check factual pointers against their authoritative sources and search for
+   stale terminology, competing explanations, broken routes, and authoring-only
+   material. When a revision meets the high-risk criteria in
    [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
    run a lightweight probe to uncover hidden prerequisites or trigger
    ambiguities and repair confirmed gaps in the text. Return an unsuitable
@@ -98,8 +98,8 @@ placement in that order before deciding whether to edit:
    [Assess the content and structure](#assess-the-content-and-structure)
    before finishing.
 3. Run the project's applicable deterministic checks (such as formatter, link
-   or anchor checks, and Skill validation). Treat a failed or unavailable
-   required check as an incomplete result.
+   or anchor checks, and documentation validation). Treat a failed or
+   unavailable required check as an incomplete result.
 
 Return the reconciled findings, affected-artifact account, self-check summary,
 any probe findings and repairs, and check results to

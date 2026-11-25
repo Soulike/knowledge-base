@@ -73,7 +73,7 @@ system's existence as the command's justification.
 Keep command translation at the seam that owns the external contract. Use an
 existing suitable boundary; introduce an adapter when it isolates a live
 translation or source of change, following
-[Module responsibility and defensive scope](module-responsibility-and-defensive-scope.md#keep-translation-and-policy-with-their-owners).
+[Defensive scope and boundary ownership](defensive-scope-and-boundary-ownership.md#keep-translation-and-policy-with-their-owners).
 A separate wrapper for each invocation is not evidence of useful isolation.
 
 Make executable availability, supported versions and hosts, argument and output

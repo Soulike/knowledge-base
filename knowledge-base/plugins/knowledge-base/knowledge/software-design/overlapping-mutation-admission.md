@@ -45,7 +45,7 @@ All ingresses for one conflict domain must converge on coordination or
 conditional mutation enforced by the same effect-owning boundary. When the
 selected admission outcome depends on existing active work, those ingresses
 must observe the same active ownership. Apply
-[Module responsibility and defensive scope](module-responsibility-and-defensive-scope.md)
+[Module responsibility and interfaces](module-responsibility-and-interfaces.md)
 to place admission with the module or service that owns the conflicting effect
 and its contract.
 

@@ -50,6 +50,8 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0
 
+  .github/scripts/check-agent-doc-size: {}
+
   .github/scripts/check-prompt-links:
     dependencies:
       github-slugger:

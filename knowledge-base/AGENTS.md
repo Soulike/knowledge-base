@@ -137,6 +137,25 @@ inside that Skill's own `references/` directory. Select each reference at the
 Skill step that needs it; reuse does not turn step-selected material into
 Knowledge.
 
+## Agent document size limits
+
+Every installed Skill entrypoint (`plugins/<plugin-name>/skills/<skill-name>/SKILL.md`)
+must stay at or below `8,000` UTF-8 bytes, and every Knowledge leaf and Skill
+reference (`plugins/<plugin-name>/knowledge/**/*.md`,
+`plugins/<plugin-name>/references/**/*.md`, and non-entrypoint
+`plugins/<plugin-name>/skills/**/*.md`) must stay at or below `20,480` UTF-8
+bytes. `pnpm agent-doc-size:check` (included in `pnpm check`) enforces these
+ceilings; see [Agent document size limits](../AGENTS.md#agent-document-size-limits)
+for the repository-wide scope (including repository-maintenance workflows and
+references).
+
+When a document approaches or exceeds its ceiling, keep `SKILL.md` concise via
+progressive disclosure into Skill-local references, and tighten or split
+oversized Knowledge by independent reader responsibility rather than dropping
+rules or edge cases. See
+[Client document size limits for AI agents](plugins/knowledge-base/knowledge/agents/client-document-size-limits.md)
+for the client read and truncation limits behind these thresholds.
+
 ## Development support
 
 [lib/](lib/) contains source-only modules consumed through imports.

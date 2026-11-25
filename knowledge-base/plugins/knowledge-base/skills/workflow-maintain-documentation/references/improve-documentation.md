@@ -31,8 +31,9 @@ placement in that order before deciding whether to edit:
 2. **Correct.** Check every surviving factual claim and reader obligation
    against its authority, intended scope, and reader need. Evaluate the basis
    of existing requirements before preserving them, including promises that
-   examples or other artifacts stay synchronized. Distinguish interface
-   obligations from recommendations and recipe-specific choices. Classify each
+   examples or other artifacts stay synchronized. Distinguish binding or
+   interface obligations from recommendations and example-specific choices.
+   Classify each
    claim as **Keep**, **Correct**, **Delete**, or **Unverified**, and establish
    the intended meaning of each correction or deletion. Keep uncertain claims
    unresolved. When confusion exposes a design problem, report it within scope;
@@ -70,8 +71,9 @@ placement in that order before deciding whether to edit:
    meaning outside the accepted semantic change.
 2. Update the affected-artifact set (loading matching active-project
    instructions and standards for any newly added artifact) and reconcile every
-   affected heading, link, index, prompt, example, comment, document, Agent
-   instruction, Skill, and navigation entry.
+   affected heading, link, index, prompt, example, document, Agent
+   instruction, Skill, and navigation entry (and source commentary when
+   software is in scope).
 3. When the composed result, new requirements, or feedback invalidate the
    structural judgment, return to
    [Assess the content and structure](#assess-the-content-and-structure) and

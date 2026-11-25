@@ -5,108 +5,84 @@ description: Use when drafting, reviewing, or revising an engineering accomplish
 
 # Prepare engineering report
 
-Draft, review, or revise engineering accomplishment reports through concise,
-attributable claims grounded in verified evidence and bounded by what the
-records actually support.
+Draft, review, or revise engineering accomplishment reports grounded in
+verified primary records and bounded by what the evidence supports.
 
-## Establish authority, audience, and scope
+## Establish authority, reading, and scope
 
 1. Follow instructions, requirements, and reporting conventions from the active
-   working directory first; treat this Skill's guidance as supplemental.
-2. Treat draft reports, self-reviews, and activity summaries opened for the task
-   as claims to verify against primary evidence rather than proof of impact.
-3. Identify:
+   working directory first; treat this plugin's packaged guidance as
+   supplemental whenever an active-project source conflicts.
+2. Resolve linked paths relative to this `SKILL.md`, then read
+   [Engineering accomplishment reports](../../knowledge/documentation/engineering-accomplishment-reports.md)
+   in full before verifying claims, drafting, or reviewing.
+3. Treat opened draft reports, self-reviews, and activity summaries as claims
+   to verify against primary records rather than proof of impact.
+4. Establish:
    - the decision-maker audience and the judgment they need to make;
    - the contributor, time window, and beneficiary work, goal, or risk;
    - whether the task is assessment-only review (keep read-only without editing
      files) or authorized drafting/revision; and
-   - every inspectable evidence source available (commits, merged changes,
-     issues, catalogs or registries, release or deployment records, run logs,
-     attributable user feedback, comparable baseline and follow-up metrics, and
-     explicit user-supplied context).
+   - every inspectable primary source available (commits, merged changes and
+     diffs, issues, catalogs or registries, release or deployment records,
+     access checks, run logs, attributable user feedback, comparable baseline
+     and follow-up metrics, and user-supplied off-repo context).
 
-## Gather first-hand evidence and verify claims
+## Gather primary evidence and bound claims
 
-Inspect available primary records directly rather than extrapolating impact from
-PR titles, activity counts, or desired outcomes. Check every accomplishment
-claim against this evidence ladder and keep each claim within its verified
-boundary:
-
-| Claim                                      | Evidence that can support it                                                                             | Boundary                                                                                   |
-| ------------------------------------------ | -------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| A change entered the codebase              | Merged change records and the diffs themselves                                                           | Check the contributor's actual part; a merge does not establish release, use, or benefit.  |
-| A capability is listed in a catalog        | A current entry visible in that catalog                                                                  | Listing does not establish access to or successful execution of the underlying capability. |
-| A capability is accessible to stated users | Release or deployment records, or access checks, for those users in the reported version and environment | Access within that scope does not establish use or benefit.                                |
-| A capability was used                      | Run records or attributable feedback describing a concrete use                                           | Observed cases do not establish broad adoption or an improved outcome.                     |
-| A measured outcome improved                | Comparable baseline and follow-up measurements for the stated population, period, and measure            | A measured difference alone does not attribute the change to one contribution.             |
-
-Apply these additional evidence rules:
-
-- Give every metric its unit, population or scope, time window, and comparison
-  basis. Investigate alternative explanations and confounding changes before
-  making a causal claim; when causality is not established, report the observed
-  change without attributing its cause.
-- Treat activity counts and rankings as measuring only what their counting rule
-  captures, never as proof of beneficiary value.
-- Do not cite an absence of follow-up bug reports as proof that a defect was
-  resolved or that reliability improved.
-- When primary records conflict, reconcile them against authoritative logs or
-  state the conflict rather than picking the more favorable claim. When an
-  off-repo fact rests solely on user-supplied context, attribute it explicitly
-  as user-reported context rather than independently verified record evidence.
-
-## Attribute shared work and bound gaps
-
-1. Separate infrastructure, tooling, or enablement built by the contributor
-   from features, integrations, or content built on top of it by collaborators.
-   For example, building a shared integration registry supports claiming that
-   the contributor built the registry listing collaborators' integrations; claiming
-   authorship of those integrations, team adoption, or faster delivery still
-   requires separate evidence for each assertion.
-2. Describe joint work and dependencies at the exact granularity records
-   support. Enabling other work is a valuable contribution without transferring
-   authorship of downstream work or proving that collaborators used it.
-3. When a claim lacks deployment, usage, or outcome evidence:
-   - never invent outcomes, adoption numbers, or causal improvements;
-   - bound the drafted claim strictly to the highest verified scope (such as the
-     implemented and verified capability available in the reported version); and
-   - surface missing evidence gaps explicitly so the user can supply primary
-     records or accept the bounded wording.
+1. Inspect available primary records directly rather than extrapolating impact
+   from PR titles, activity counts, or desired outcomes. Check the
+   contributor's actual changes in diffs when verifying merged work.
+2. Map every material claim to its inspected evidence using
+   [Match each claim to its evidence](../../knowledge/documentation/engineering-accomplishment-reports.md#match-each-claim-to-its-evidence)
+   and
+   [Attribute shared work](../../knowledge/documentation/engineering-accomplishment-reports.md#attribute-shared-work):
+   - bound each claim strictly to the highest verified scope rather than
+     inferring release, access, usage, broad adoption, or causal improvement;
+   - verify every metric carries its unit, population or scope, time window,
+     and comparison basis, and check alternative explanations before making any
+     causal claim;
+   - separate infrastructure or enablement built by the contributor from
+     collaborators' downstream features, integrations, or adoption.
+3. Reconcile conflicting primary records against authoritative logs, or report
+   the conflict explicitly rather than picking the more favorable claim. When
+   an off-repo fact rests solely on user-supplied context, attribute it
+   explicitly as user-reported context rather than independently verified
+   record evidence.
+4. When deployment, usage, or outcome evidence is missing, never invent
+   outcomes or adoption numbers; state the verified capability scope and
+   surface each evidence gap explicitly so the user can supply primary records
+   or accept the bounded wording.
 
 ## Draft or review the report
 
-- **Drafting or revising (authorized):**
-  1. Start with the decision-maker's judgment and the beneficiary's work, goal,
-     or risk. Include an initial obstacle only when known; preventive,
-     reliability, testing, or documentation work may sustain a capability or
-     mitigate a credible risk without a prior incident or measured outcome.
-  2. Connect that beneficiary context to the contributor's own intervention and
-     verified change. Group supporting engineering work (infrastructure,
-     reliability, testing, documentation) by the capability it enables or
-     sustains, keeping implementation detail only when it explains the
-     contribution or supports a claim.
-  3. Preserve choices left open by the audience format rather than imposing a
-     rigid template unless the active project specifies one.
-- **Reviewing (assessment-only or pre-revision critique):**
-  Evaluate every material claim in the supplied draft against inspected records
-  and the evidence ladder above. Report supported claims, overclaims or
-  unsupported causal leaps, shared-work misattributions, and missing metric
-  qualifiers or evidence gaps without rewriting files unless authorized.
+- **Authorized drafting or revision:** apply
+  [Start with the beneficiary's work or risk](../../knowledge/documentation/engineering-accomplishment-reports.md#start-with-the-beneficiarys-work-or-risk)
+  to frame the report around the decision-maker's judgment, beneficiary
+  context, and the contributor's verified intervention, grouping supporting
+  work by the capability enabled or sustained. Preserve choices left open by
+  the audience format rather than imposing a fixed template unless the active
+  project specifies one.
+- **Assessment-only review:** evaluate every material claim in the supplied
+  draft against inspected primary records and the loaded reporting principles.
+  Report supported claims, overclaims or unsupported causal leaps, shared-work
+  misattributions, missing metric qualifiers, and evidence gaps without
+  modifying files.
 
 ## Verify and complete
 
 Do not complete until directly verified against the final report text or review
 output:
 
-1. Every material claim matches inspected records or explicitly attributed user
-   input and stays within its supported evidence level.
-2. Every metric includes unit, population or scope, time window, and comparison
-   basis, with causal claims supported by checked comparisons or omitted.
+1. Every material claim matches inspected primary records (or explicitly
+   attributed user-reported context) and stays within its supported evidence
+   level.
+2. Every metric includes its unit, population or scope, time window, and
+   comparison basis, with unsupported causal claims removed.
 3. Shared infrastructure and collaborator outcomes are cleanly attributed.
-4. Unobserved usage, adoption, or benefit gaps are explicitly disclosed rather
-   than filled with speculation.
+4. Missing deployment, usage, or outcome evidence is explicitly disclosed
+   rather than filled with speculation.
 5. Any applicable workspace formatting or validation checks pass.
 
-Report the delivered draft or review findings, verified primary sources
-inspected, shared-attribution boundaries applied, and any remaining evidence
-gaps.
+Report the delivered draft or review findings, primary sources inspected,
+attribution boundaries applied, and any remaining evidence gaps.

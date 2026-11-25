@@ -1,18 +1,20 @@
-# Write or update from a known need or software change
+# Write or update from a known need or change
 
 Use this procedure when selected by
 [Select the maintenance path](../SKILL.md#select-the-maintenance-path) for a
-known documentation or Skill need or for software-change impact.
+known documentation need or for change impact.
 
 ## Account for documentation impact
 
-1. For a change-driven task, inventory every changed file. Identify the meaning
-   changed by each file, or record that it has no documentation impact.
+1. For a change-driven task, inventory every changed file or changed
+   requirement. Identify the meaning changed by each item, or record that it
+   has no documentation impact.
 2. For every changed meaning or identified information need:
    - record the current meaning and the recurring tasks that depend on it;
    - locate the source that defines or enforces it;
-   - trace it into every affected document, comment, example, index, prompt,
-     Agent instruction, Skill, enforcement mechanism, and item of evidence; and
+   - trace it into every affected document, example, index, prompt, Agent
+     instruction, Skill, item of evidence, and—when software or code is in
+     scope—source commentary or enforcement mechanism; and
    - record the required update or a concrete no-impact conclusion.
 3. Maintain the complete set of affected artifacts. Whenever the set expands,
    load the active project's matching instructions and standards for each new
@@ -64,9 +66,10 @@ known documentation or Skill need or for software-change impact.
    review evidence, rejected alternatives, drafts, and task history as working
    inputs; carry them into a maintained target only when they serve its
    reader-facing responsibility.
-3. Reconcile every affected document, comment, example, index, prompt, Agent
-   instruction, Skill, link, and navigation entry. When a documented invariant
-   changes, reconcile its enforcement and evidence as well.
+3. Reconcile every affected document, example, index, prompt, Agent
+   instruction, Skill, link, and navigation entry (and associated source
+   commentary, enforcement, and publication synchronization when software is in
+   scope).
 4. When the composed result, new requirements, or feedback invalidate the
    structural judgment under the loaded documentation guidance's criteria,
    return to [Decide the response and structure](#decide-the-response-and-structure)
@@ -79,28 +82,36 @@ known documentation or Skill need or for software-change impact.
    disposition.
 2. For every new or changed claim, record the assertion, its owning source and
    location, and the meaning and scope that source establishes in the work
-   record. Distinguish intended contract, observed implementation behavior, and
-   inference; for an inference, identify the evidence and reasoning that
-   support its substance. Names or observed value propagation alone do not
-   establish undeclared behavior or intent. Declarations and passing examples
-   establish only the facets they actually define or exercise. Compare the
-   final wording, including what it teaches a reader to do or expect, with that
-   source-based account. Retain a claim only when evidence supports its
-   substance and scope; qualifiers may express supported uncertainty but cannot
-   supply missing evidence or turn an unsupported assertion into a valid
-   interpretation. Omit unsupported factual or instructional claims and report
-   the evidence gap, validation limit, or required project decision. Do not
-   invent meaning to make the document appear complete. Leave delivery
-   incomplete when the remaining gap prevents the promised reader result.
-   Confirm that every described claim agrees with its authority in meaning and
-   scope, every mandatory mechanism has a basis beyond its desired outcome, and
-   examples preserve choices the underlying contract permits.
+   record. Distinguish explicit commitments or rules from observed current
+   practice and inference; for an inference, identify the evidence and reasoning
+   that support its substance. Compare the final wording, including what it
+   teaches a reader to do or expect, with that source-based account. Retain a
+   claim only when evidence supports its substance and scope; qualifiers may
+   express supported uncertainty but cannot supply missing evidence or turn an
+   unsupported assertion into a valid interpretation. Omit unsupported factual
+   or instructional claims and report the evidence gap, validation limit, or
+   required project decision. Do not invent meaning to make the document appear
+   complete. Leave delivery incomplete when the remaining gap prevents the
+   promised reader result. Confirm that every described claim agrees with its
+   authority in meaning and scope, every mandatory requirement has a basis
+   beyond its desired outcome, and examples preserve choices the underlying
+   authority permits.
+
+   When documenting executable, versioned, or operated software or source
+   commentary, also apply
+   [Assign authority by claim facet](../../../knowledge/documentation/software-development-documentation.md#assign-authority-by-claim-facet):
+   distinguish caller-visible contracts from observed single-version runtime
+   behavior, do not infer undeclared intent from names or observed value
+   propagation alone, and treat declarations and passing examples as
+   establishing only the facets they actually define or exercise.
+
 3. Perform a thorough self-check of the final content and required routes
-   against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result),
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md),
-   and [Agent Skill authoring](../../../references/agents/skill-authoring.md) when
-   a Skill changed). When a change meets the high-risk criteria in
+   against
+   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and, when covering software behavior, interfaces, operations, decisions, or
+   source commentary,
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
+   When a change meets the high-risk criteria in
    [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
    run a lightweight probe to uncover hidden prerequisites or trigger
    ambiguities and repair confirmed gaps in the text. Return an unsuitable
@@ -113,8 +124,8 @@ known documentation or Skill need or for software-change impact.
    Search for stale terminology, paths, headings, examples, prompts, and
    superseded prose.
 5. Run the project's applicable deterministic checks (such as formatter, link
-   or anchor checks, and Skill validation). Treat a failed or unavailable
-   required check as an incomplete result.
+   or anchor checks, and documentation validation). Treat a failed or
+   unavailable required check as an incomplete result.
 
 Return the final impact and affected-artifact account, self-check summary, any
 probe findings and repairs, reconciled routes, and check results to

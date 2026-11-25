@@ -31,8 +31,9 @@ placement in that order before deciding whether to edit:
 2. **Correct.** Check every surviving factual claim and reader obligation
    against its authority, intended scope, and reader need. Evaluate the basis
    of existing requirements before preserving them, including promises that
-   examples or other artifacts stay synchronized. Distinguish interface
-   obligations from recommendations and recipe-specific choices. Classify each
+   examples or other artifacts stay synchronized. Distinguish binding or
+   interface obligations from recommendations and example-specific choices.
+   Classify each
    claim as **Keep**, **Correct**, **Delete**, or **Unverified**, and establish
    the intended meaning of each correction or deletion. Keep uncertain claims
    unresolved. When confusion exposes a design problem, report it within scope;
@@ -70,8 +71,9 @@ placement in that order before deciding whether to edit:
    meaning outside the accepted semantic change.
 2. Update the affected-artifact set (loading matching active-project
    instructions and standards for any newly added artifact) and reconcile every
-   affected heading, link, index, prompt, example, comment, document, Agent
-   instruction, Skill, and navigation entry.
+   affected heading, link, index, prompt, example, document, Agent
+   instruction, Skill, and navigation entry (and source commentary when
+   software is in scope).
 3. When the composed result, new requirements, or feedback invalidate the
    structural judgment, return to
    [Assess the content and structure](#assess-the-content-and-structure) and
@@ -84,13 +86,14 @@ placement in that order before deciding whether to edit:
    strength, scope, conditions, rationale, or exceptions, and that moves and
    source indexes preserve access from each original reader starting point.
 2. Perform a thorough self-check of the final content and required routes
-   against the loaded documentation principles
-   ([Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result),
-   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md),
-   and [Agent Skill authoring](../../../references/agents/skill-authoring.md) when
-   a Skill changed). Check factual pointers against their authoritative sources
-   and search for stale terminology, competing explanations, broken routes, and
-   authoring-only material. When a revision meets the high-risk criteria in
+   against
+   [Maintained document quality](../../../knowledge/documentation/maintained-document-quality.md#validate-the-result)
+   and, when covering software behavior, interfaces, operations, decisions, or
+   source commentary,
+   [Software-development documentation](../../../knowledge/documentation/software-development-documentation.md).
+   Check factual pointers against their authoritative sources and search for
+   stale terminology, competing explanations, broken routes, and authoring-only
+   material. When a revision meets the high-risk criteria in
    [Verify reader understanding](../../../references/agents/reader-understanding.md#assess-probe-risk),
    run a lightweight probe to uncover hidden prerequisites or trigger
    ambiguities and repair confirmed gaps in the text. Return an unsuitable
@@ -98,8 +101,8 @@ placement in that order before deciding whether to edit:
    [Assess the content and structure](#assess-the-content-and-structure)
    before finishing.
 3. Run the project's applicable deterministic checks (such as formatter, link
-   or anchor checks, and Skill validation). Treat a failed or unavailable
-   required check as an incomplete result.
+   or anchor checks, and documentation validation). Treat a failed or
+   unavailable required check as an incomplete result.
 
 Return the reconciled findings, affected-artifact account, self-check summary,
 any probe findings and repairs, and check results to

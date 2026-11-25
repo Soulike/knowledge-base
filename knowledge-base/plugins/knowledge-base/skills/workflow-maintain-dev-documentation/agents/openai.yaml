@@ -1,4 +1,0 @@
-interface:
-  display_name: "Maintain Dev Documentation"
-  short_description: "Write, audit, and improve dev docs and Skills"
-  default_prompt: "Use $workflow-maintain-dev-documentation to assess, write, audit, or improve maintained software-development documentation, Skills, or Agent guidance."

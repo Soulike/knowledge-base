@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintain Documentation"
+  short_description: "Write, audit, and improve maintained docs"
+  default_prompt: "Use $workflow-maintain-documentation to assess, write, audit, or improve maintained documentation or source commentary."

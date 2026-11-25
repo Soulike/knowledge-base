@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prepare Engineering Report"
+  short_description: "Draft and review evidence-backed engineering reports"
+  default_prompt: "Use $workflow-prepare-engineering-report to draft, review, or revise an evidence-backed engineering accomplishment report for decision-makers."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintain Agent Guidance"
+  short_description: "Author, audit, and refactor Agent Skills and prompts"
+  default_prompt: "Use $workflow-maintain-agent-guidance to create, update, audit, or refactor Agent Skills, project Agent instructions (such as AGENTS.md or CLAUDE.md), or Agent system and workflow prompts."

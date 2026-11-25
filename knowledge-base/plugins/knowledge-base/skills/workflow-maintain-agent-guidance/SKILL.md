@@ -90,11 +90,11 @@ every condition below is directly observed on the final files:
    original-to-final comparison confirms no intended invariant, exception, or
    stopping rule was silently dropped during refactoring.
 2. **Client byte budgets and pointer graph:** measure final UTF-8 byte sizes
-   directly (`SKILL.md <= 8,000` bytes; each standalone reference or guide
-   `<= 20,480` bytes; full root-to-deepest-directory `AGENTS.md` chain well
-   within `32,768` bytes) and confirm every linked file and heading resolves
-   with no orphaned supporting files inside the maintained bundle or instruction
-   set.
+   directly against the limits in
+   [Client document size limits for AI agents](../../knowledge/agents/client-document-size-limits.md#client-limits-overview)
+   (keeping cumulative `AGENTS.md` chains comfortably within the client project
+   instruction budget) and confirm every linked file and heading resolves with
+   no orphaned supporting files inside the maintained bundle or instruction set.
 3. **Suitability and composed-bundle review:** verify the complete resulting
    content from realistic starting inputs using
    [validate the result](../../knowledge/documentation/maintained-document-quality.md#validate-the-result)

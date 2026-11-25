@@ -53,9 +53,10 @@ triggers and behavioral reliability, then size and disclosure:
      fuzzy completion gates that tempt premature skipping, and bare `"don't"`
      prohibitions that prime the unwanted behavior without a positive target.
 4. **Resolve size pressure and split by responsibility.**
-   - Flag any `SKILL.md` near or over `8,000` UTF-8 bytes, any reference near or
-     over `20,480` UTF-8 bytes, and any `AGENTS.md` chain approaching
-     `32,768` UTF-8 bytes.
+   - Flag any Skill entrypoint, reference, or cumulative `AGENTS.md` chain
+     approaching or exceeding the thresholds in
+     [Client limits overview](../../../knowledge/agents/client-document-size-limits.md#client-limits-overview)
+     (including fallback-model output caps when relevant).
    - Plan progressive disclosure or responsibility splits (by branch, sequence
      with distinct completion boundaries, or independent topic) rather than
      silently deleting edge cases, failure rules, or completion gates to fit.

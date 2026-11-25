@@ -50,14 +50,14 @@ existing one for a settled requirement.
    [Practical sizing implications](../../../knowledge/agents/client-document-size-limits.md#practical-sizing-implications-for-portable-documentation-and-skills):
    - Keep invocation boundaries, core sequence, explicit reference/pointer
      selectors, failure/stopping rules, output contracts, and completion gates in
-     `SKILL.md` (comfortably below `8,000` UTF-8 bytes so tail gates are never
-     silently truncated).
+     `SKILL.md` comfortably within the client Skill-injection cap so tail gates
+     are never silently truncated.
    - Push branch-only procedures, dense checklists, templates, and worked
-     examples into Skill-local or pointer-reached references (`<= 20,480` UTF-8
-     bytes each) with clear selection conditions at the point of need.
-   - Keep aggregate `AGENTS.md` chains comfortably below `32,768` UTF-8 bytes by
-     linking out domain- or directory-specific details rather than piling
-     always-loaded prose into root instructions.
+     examples into Skill-local or pointer-reached references within the
+     single-file read cap, with clear selection conditions at the point of need.
+   - Keep cumulative `AGENTS.md` chains comfortably within the aggregate
+     project-instruction budget by linking out domain- or directory-specific
+     details rather than piling always-loaded prose into root instructions.
 
 ## Draft and bind postconditions
 

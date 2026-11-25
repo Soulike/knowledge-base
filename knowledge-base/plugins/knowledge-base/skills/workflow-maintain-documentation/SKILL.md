@@ -1,6 +1,6 @@
 ---
 name: workflow-maintain-documentation
-description: Use when creating, updating, auditing, or improving maintained factual, instructional, operational, or software documentation and source commentary, or assessing documentation impact from changes.
+description: Use when creating, updating, auditing, or improving maintained documentation or source commentary, or assessing documentation impact from changes.
 ---
 
 # Maintain documentation
@@ -43,9 +43,9 @@ description: Use when creating, updating, auditing, or improving maintained fact
 Select every matching path from the observable work and user intent:
 
 - **Known information need or change impact.** When a known need calls for
-  creating or updating maintained factual, instructional, operational, or
-  software documentation, or when a software, operational, or project change
-  requires documentation impact to be assessed and addressed, read and follow
+  creating or updating maintained documentation or source commentary, or when a
+  software, operational, or project change requires documentation impact to be
+  assessed and addressed, read and follow
   [Write or update from a known need or change](references/write-documentation.md).
 - **Open-ended audit or quality improvement.** When an open-ended concern,
   accumulated defect, or quality goal calls for auditing and improving existing

@@ -16,8 +16,8 @@ decisions in the active working directory.
 2. For work on JavaScript or TypeScript code, read the complete foundation
    before making dependent design, implementation, diagnosis, or review
    decisions. A direct learning or explanation request about one foundation
-   subject may read its matching unit without loading the other one when no
-   code artifact work is present.
+   subject may read its matching unit without loading the rest of the
+   foundation when no code artifact work is present.
 3. Evaluate every conditional package from the observable work and current
    materials. Read every matching package cumulatively; do not choose only the
    closest match. A direct learning or explanation request about a package's
@@ -34,6 +34,7 @@ For developing, maintaining, reviewing, or diagnosing JavaScript or TypeScript
 code, read these complete documents:
 
 - [TypeScript and JavaScript coding principles](../../knowledge/typescript/coding-principles.md)
+- [Modeling optionality and variants in TypeScript](../../knowledge/typescript/optionality-and-variant-modeling.md)
 - [Cohesive JavaScript and TypeScript module organization](../../knowledge/javascript/cohesive-module-organization.md)
 
 ## Conditional required-reading packages

@@ -243,7 +243,13 @@ tuples (`[number] | [number, number, number]` or
 ### Avoid optional generic parameters when keys dictate requirement
 
 When a generic key determines whether an accompanying payload is required or
-absent, marking the parameter optional lets callers omit required payloads:
+absent, marking the parameter optional lets callers omit required payloads.
+Keeping `event: K` outside a conditional rest parameter
+(`...args: Events[K] extends void ? [] : [payload: Events[K]]`) also breaks
+when `K` is a union such as `keyof Events`, because `Events[K]` becomes
+`void | Payload` and lets callers pair `"ping"` with a payload or `"created"`
+with `undefined`. Model the entire argument list as a discriminated union of
+tuples instead:
 
 ```ts
 type Events = { ping: void; created: { id: string } };
@@ -253,11 +259,14 @@ function emitBad<K extends keyof Events>(event: K, payload?: Events[K]): void {
   // ...
 }
 
-// Prefer: requires payload only when Events[K] is not void
-function emit<K extends keyof Events>(
-  event: K,
-  ...args: Events[K] extends void ? [] : [payload: Events[K]]
-): void {
+type EventArgs = {
+  [K in keyof Events]: Events[K] extends void
+    ? [event: K]
+    : [event: K, payload: Events[K]];
+}[keyof Events];
+
+// Prefer: keeps event and payload coupled across literal and union keys
+function emit(...args: EventArgs): void {
   // ...
 }
 ```

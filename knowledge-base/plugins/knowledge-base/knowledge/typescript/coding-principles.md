@@ -6,7 +6,7 @@ This document defines project-independent correctness principles for writing, mo
 
 ## When to update
 
-Update this document when language semantics change the behavior of narrowing, assertions, optional properties, initialization, control flow, or Promises, or when recurring failures reveal a missing distinction, safer modeling technique, or exception boundary.
+Update this document when language semantics change the behavior of narrowing, assertions, optional properties, function overloads, initialization, control flow, or Promises, or when recurring failures reveal a missing distinction, safer modeling technique, or exception boundary.
 
 ## Principles shared with JavaScript
 
@@ -159,6 +159,66 @@ Each member now declares that state's required fields, and narrowing exposes onl
 
 `exactOptionalPropertyTypes` preserves this assignment distinction: an optional property accepts an explicitly assigned `undefined` only when its value type includes it. The domain distinction matters even when the compiler does not enforce it.
 
+### Use optional parameters only for independent arguments
+
+Use an optional parameter (`param?: T`, or a default value when omission substitutes a valid independent value) only when omitting that argument remains valid independently of the function's other parameters and return contract. Do not make a parameter optional merely to satisfy a call site, share an implementation signature across distinct shapes, or silence a type error.
+
+When one parameter controls whether another is required or valid, or when distinct parameter shapes produce different return types, optional parameters erase those rules:
+
+```ts
+// Avoid: permits publish("apply") without target and publish("dry", "prod"),
+// and forces every caller to narrow DryReport | PublishResult
+function publish(
+  mode: "dry" | "apply",
+  target?: string,
+): DryReport | PublishResult {
+  // ...
+}
+```
+
+Model distinct or coupled parameter shapes with the simplest mechanism that preserves those invariants:
+
+- **Separate named functions** when different parameter shapes correspond to distinct operations or caller intents (such as `previewPublish()` and `applyPublish(target)` instead of one mode-switched function).
+- **A discriminated union parameter** when one operation's inputs fit in a single object whose fields depend on one another.
+- **Function overloads** when one conceptual operation needs distinct positional arities (for example, accepting 1 or 3 arguments, never 2), coupled positional arguments, or argument shapes that determine different return types.
+
+When callers pass an options object with a shared return contract, prefer a discriminated union parameter over function overloads: callers can also hold and forward a variable typed as `PublishRequest` without failing overload resolution:
+
+```ts
+type PublishRequest = { mode: "dry" } | { mode: "apply"; target: string };
+
+function publish(request: PublishRequest): DryReport | PublishResult {
+  // ...
+}
+```
+
+Use function overloads when one function keeps positional parameters or returns a narrower result type per input shape:
+
+```ts
+function publish(mode: "dry"): DryReport;
+function publish(mode: "apply", target: string): PublishResult;
+function publish(
+  mode: "dry" | "apply",
+  target?: string,
+): DryReport | PublishResult {
+  if (mode === "dry") {
+    return buildDryReport();
+  }
+  if (target === undefined) {
+    throw new Error("Expected target when publishing in apply mode");
+  }
+  return applyPublish(target);
+}
+```
+
+When using function overloads, account for TypeScript's resolution rules:
+
+- **Write at least two overload signatures above the implementation signature.** External callers see only the overload signatures, never the implementation signature. Inside the implementation body, narrow combined optional or union parameters safely (as with the `target === undefined` guard above) rather than asserting them non-null.
+- **Collapse single-position unions and trailing optionals into one signature.** Do not write separate overloads that differ only in trailing optional parameters with the same return type (replace `diff(a: string): number; diff(a: string, b: string): number;` with `diff(a: string, b?: string): number`), or only in one parameter's type with the same return type (replace `formatId(id: string): string; formatId(id: number): string;` with `formatId(id: string | number): string`), unless separate object-type overloads are specifically required for excess property checking. TypeScript resolves each call to a single overload and will not distribute a union argument across separate overloads.
+- **Order specific overloads before general ones.** TypeScript picks the first overload signature whose parameters match the call.
+
+Checked JavaScript using JSDoc type annotations follows the same principle: do not mark coupled JSDoc `[param]` tags optional to pass type checking; use separate functions, union `@typedef` parameter objects, or `/** @overload */` blocks instead.
+
 ## Diagnostic suppressions require explicit user approval
 
 Suppression mechanisms are available but strongly discouraged. An Agent must not add `eslint-disable`, `@ts-ignore`, `@ts-nocheck`, `@ts-expect-error`, bulk suppression entries, or equivalent diagnostic bypasses on its own. This includes negative type tests: a legitimate testing purpose does not itself authorize a directive.
@@ -173,6 +233,9 @@ An approved exception must stay as narrow as agreed and include a concrete reaso
 - [TypeScript: Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 - [TypeScript: Assertion functions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions)
 - [TypeScript: Optional properties](https://www.typescriptlang.org/docs/handbook/2/objects.html#optional-properties)
+- [TypeScript: Function overloads](https://www.typescriptlang.org/docs/handbook/2/functions.html#function-overloads)
+- [TypeScript: Overloads, optional parameters, and union types](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html#function-overloads)
 - [TypeScript: `satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html#the-satisfies-operator)
 - [TypeScript: JavaScript checking and JSDoc](https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html)
+- [TypeScript: `@overload` in JSDoc](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-0.html#overload-support-in-jsdoc)
 - [typescript-eslint: `return-await`](https://typescript-eslint.io/rules/return-await/)

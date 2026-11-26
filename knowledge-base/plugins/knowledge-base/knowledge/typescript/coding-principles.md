@@ -6,7 +6,7 @@ This document defines project-independent correctness principles for writing, mo
 
 ## When to update
 
-Update this document when language semantics change the behavior of narrowing, assertions, optional properties, initialization, control flow, or Promises, or when recurring failures reveal a missing distinction, safer modeling technique, or exception boundary.
+Update this document when language semantics change the behavior of narrowing, assertions, initialization, control flow, or Promises, or when recurring failures reveal a missing distinction, safer modeling technique, or exception boundary.
 
 ## Principles shared with JavaScript
 
@@ -124,41 +124,6 @@ A test or comment makes the safety argument reviewable; it does not make an asse
 
 `as const` retains literal information and readonly structure; it does not claim that a runtime value has an unrelated shape. `satisfies` also performs no runtime validation, so neither substitutes for validating external data.
 
-### Use optional only for independently optional fields
-
-Use an optional property when omitting that field remains valid independently of the object's other fields:
-
-```ts
-interface SearchOptions {
-  caseSensitive?: boolean;
-}
-```
-
-When another field determines whether a property must exist, an optional property erases that relationship:
-
-```ts
-interface LoadState<T> {
-  status: "loading" | "ready" | "failed";
-  value?: T;
-  error?: Error;
-}
-```
-
-This permits a ready state without a value and a loading state with a result. Represent mutually exclusive states with a discriminated union:
-
-```ts
-type LoadState<T> =
-  | { status: "loading" }
-  | { status: "ready"; value: T }
-  | { status: "failed"; error: Error };
-```
-
-Each member now declares that state's required fields, and narrowing exposes only fields available in the selected state. Do not make a required property optional to defer initialization or silence an assignment error.
-
-`property?: T` allows the property to be absent. `property: T | undefined` requires its presence while allowing an undefined value. Property presence is observable through the `in` operator, `Object.keys()`, and object spread. A serializer preserves the distinction only if its format records presence: `JSON.stringify` omits undefined object properties, so it produces the same output for those two absence cases.
-
-`exactOptionalPropertyTypes` preserves this assignment distinction: an optional property accepts an explicitly assigned `undefined` only when its value type includes it. The domain distinction matters even when the compiler does not enforce it.
-
 ## Diagnostic suppressions require explicit user approval
 
 Suppression mechanisms are available but strongly discouraged. An Agent must not add `eslint-disable`, `@ts-ignore`, `@ts-nocheck`, `@ts-expect-error`, bulk suppression entries, or equivalent diagnostic bypasses on its own. This includes negative type tests: a legitimate testing purpose does not itself authorize a directive.
@@ -172,7 +137,6 @@ An approved exception must stay as narrow as agreed and include a concrete reaso
 - [TypeScript: Type assertions and non-null assertions](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#type-assertions)
 - [TypeScript: Narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html)
 - [TypeScript: Assertion functions](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#assertion-functions)
-- [TypeScript: Optional properties](https://www.typescriptlang.org/docs/handbook/2/objects.html#optional-properties)
 - [TypeScript: `satisfies`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html#the-satisfies-operator)
 - [TypeScript: JavaScript checking and JSDoc](https://www.typescriptlang.org/docs/handbook/type-checking-javascript-files.html)
 - [typescript-eslint: `return-await`](https://typescript-eslint.io/rules/return-await/)

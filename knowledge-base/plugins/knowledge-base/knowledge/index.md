@@ -62,6 +62,7 @@ Update this catalog when a leaf Knowledge document is added, removed, renamed, m
 | [knowledge/software-testing/trustworthy-test-execution.md](software-testing/trustworthy-test-execution.md)                       | evergreen      |
 | [knowledge/typescript/coding-principles.md](typescript/coding-principles.md)                                                     | time-sensitive |
 | [knowledge/typescript/enforcing-coding-principles.md](typescript/enforcing-coding-principles.md)                                 | time-sensitive |
+| [knowledge/typescript/optionality-and-variant-modeling.md](typescript/optionality-and-variant-modeling.md)                       | time-sensitive |
 | [knowledge/user-interface/agent-usability-evidence.md](user-interface/agent-usability-evidence.md)                               | time-sensitive |
 | [knowledge/user-interface/interaction-clarity.md](user-interface/interaction-clarity.md)                                         | evergreen      |
 | [knowledge/user-interface/layout-resilience.md](user-interface/layout-resilience.md)                                             | evergreen      |

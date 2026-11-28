@@ -16,9 +16,16 @@ directory.
 
 ## Read the required material
 
-Evaluate every condition below. Every match is required and cumulative with
-any other matching package added to this Handbook later.
+Evaluate every condition below. Every match is required and cumulative across
+all matching packages.
 
+- When designing, writing, reviewing, refactoring, or diagnosing React
+  components or custom Hooks that manage state, respond to prop changes or user
+  interactions, synchronize with external systems, or use Effects (`useEffect`,
+  `useLayoutEffect`), or when directly learning or explaining when a React
+  Effect is needed and what alternatives replace unnecessary Effects, read
+  [Avoiding unnecessary React Effects](../../knowledge/react/avoiding-unnecessary-effects.md)
+  in full.
 - When writing, reviewing, diagnosing, or testing React components or custom
   Hooks that invoke callbacks or non-reactive logic inside React Effects
   (`useEffect`, `useLayoutEffect`), or when directly learning or explaining how

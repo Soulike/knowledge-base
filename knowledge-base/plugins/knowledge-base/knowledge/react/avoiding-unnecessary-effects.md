@@ -328,14 +328,14 @@ with `AbortController`), you can also pass `controller.signal` and call
 aborted or stale completions:
 
 ```tsx
-function useData<T>(url: string): T | null {
-  const [data, setData] = useState<T | null>(null);
+function useData(url: string): unknown {
+  const [data, setData] = useState<unknown>(null);
 
   useEffect(() => {
     let ignore = false;
     fetch(url)
       .then((response) => response.json())
-      .then((json: T) => {
+      .then((json: unknown) => {
         if (!ignore) {
           setData(json);
         }
